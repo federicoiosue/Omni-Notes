@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -145,6 +145,7 @@ import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
+import rx.Observable;
 
 import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 import static java.lang.Integer.parseInt;
@@ -741,7 +742,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 				attachmentIntent = new Intent(Intent.ACTION_VIEW);
 				attachmentIntent.setDataAndType(uri, StorageHelper.getMimeType(mainActivity,
-						attachment.getUri()));
+						FileProviderHelper.getShareableUri(attachment)));
 				attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
 						.FLAG_GRANT_WRITE_URI_PERMISSION);
 				if (IntentChecker.isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
@@ -1049,6 +1050,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+
+		if (isOptionsItemFastClick()) return true;
+
 		switch (item.getItemId()) {
 			case R.id.menu_attachment:
 				showAttachmentsPopup();
@@ -1216,10 +1220,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	 * Categorize note choosing from a list of previously created categories
 	 */
 	private void categorizeNote() {
-		// Retrieves all available categories
-		final ArrayList<Category> categories = DbHelper.getInstance().getCategories();
 
 		String currentCategory = noteTmp.getCategory() != null ? String.valueOf(noteTmp.getCategory().getId()) : null;
+        final List<Category> categories = Observable.from(DbHelper.getInstance().getCategories()).map(category -> {
+            if (String.valueOf(category.getId()).equals(currentCategory)) {
+                category.setCount(category.getCount() + 1);
+            }
+            return category;
+        }).toList().toBlocking().single();
+
 
 		final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
 				.title(R.string.categorize_as)

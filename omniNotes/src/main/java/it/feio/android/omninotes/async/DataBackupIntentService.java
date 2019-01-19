@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,10 +69,15 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
         // Creates an indeterminate processing notification until the work is complete
-        mNotificationsHelper = new NotificationsHelper(this)
-                .createNotification(NotificationChannels.NotificationChannelNames.Backups,
-                        R.drawable.ic_content_save_white_24dp, getString(R.string.working), null)
-                .setIndeterminate().setOngoing().show();
+//        mNotificationsHelper = new NotificationsHelper(this)
+//                .createNotification(NotificationChannels.NotificationChannelNames.Backups,
+//                        R.drawable.ic_content_save_white_24dp, getString(R.string.working),
+//                        null)
+//                .setIndeterminate().setOngoing();
+
+                mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannels.NotificationChannelNames.Backups,
+                        R.drawable.ic_content_save_white_24dp, getString(R.string.working));
+
 
         // If an alarm has been fired a notification must be generated
         if (ACTION_DATA_EXPORT.equals(intent.getAction())) {
@@ -116,7 +121,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         }
 
         String notificationMessage = result ? getString(R.string.data_export_completed) : getString(R.string.data_export_failed);
-        createNotification(intent, this, notificationMessage, backupDir.getPath(), backupDir);
+        mNotificationsHelper.finish(intent, notificationMessage);
     }
 
 
@@ -128,20 +133,19 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
 		File backupDir = importLegacy ? new File(backupName) : StorageHelper.getBackupDir(backupName);
 
-        // Database restore
+        BackupHelper.importSettings(backupDir);
+
 		if (importLegacy) {
 			BackupHelper.importDB(this, backupDir);
 		} else {
 			BackupHelper.importNotes(backupDir);
 		}
 
-        // Attachments restore
 		BackupHelper.importAttachments(backupDir, mNotificationsHelper);
 
-		// Settings restore
-		BackupHelper.importSettings(backupDir);
-
 		resetReminders();
+
+		mNotificationsHelper.cancel();
 
         createNotification(intent, this, getString(R.string.data_import_completed), getString(R.string.click_to_refresh_application), backupDir);
 

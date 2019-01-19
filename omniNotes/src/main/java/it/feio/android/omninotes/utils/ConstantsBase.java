@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -116,6 +116,8 @@ public interface ConstantsBase {
 
 	String TIMESTAMP_UNIX_EPOCH = "0";
 	String TIMESTAMP_UNIX_EPOCH_FAR = "18464193800000";
+
+	String TAG_SPECIAL_CHARS_TO_REMOVE = "[<>\\[\\],-\\.\\(\\)\\[\\]\\{\\}\\!\\?]";
 
 	int MENU_SORT_GROUP_ID = 11998811;
 

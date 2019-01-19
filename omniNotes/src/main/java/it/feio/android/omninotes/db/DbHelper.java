@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,17 +25,32 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import android.util.Log;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
-import it.feio.android.omninotes.helpers.NotesHelper;
-import it.feio.android.omninotes.models.*;
-import it.feio.android.omninotes.utils.*;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
+import it.feio.android.omninotes.helpers.NotesHelper;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Stats;
+import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.utils.AssetUtils;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.Security;
+import it.feio.android.omninotes.utils.TagsHelper;
 
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -187,12 +202,9 @@ public class DbHelper extends SQLiteOpenHelper {
     public Note updateNote(Note note, boolean updateLastModification) {
         SQLiteDatabase db = getDatabase(true);
 
-        String content;
-        if (note.isLocked()) {
-            content = Security.encrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, ""));
-        } else {
-            content = note.getContent();
-        }
+        String content = note.isLocked()
+                ? Security.encrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, ""))
+                : note.getContent();
 
         // To ensure note and attachments insertions are atomical and boost performances transaction are used
         db.beginTransaction();
@@ -545,7 +557,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * @return Notes list
      */
     public List<Note> getNotesByPattern(String pattern) {
-    	String escapedPattern = StringEscapeUtils.escapeSql(pattern);
+    	String escapedPattern = escapeSql(pattern);
         int navigation = Navigation.getNavigation();
         String whereCondition = " WHERE "
                 + KEY_TRASHED + (navigation == Navigation.TRASH ? " IS 1" : " IS NOT 1")
@@ -555,11 +567,15 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " == 0) " : "")
                 + (Navigation.checkNavigation(Navigation.REMINDERS) ? " AND " + KEY_REMINDER + " IS NOT NULL" : "")
                 + " AND ("
-                + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + escapedPattern + "%' " + " OR " +
-                KEY_CONTENT + " LIKE '%" + escapedPattern + "%' ))"
-                + " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + escapedPattern + "%' )"
+                + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + escapedPattern + "%' ESCAPE '\\' " + " OR " +
+                KEY_CONTENT + " LIKE '%" + escapedPattern + "%' ESCAPE '\\' ))"
+                + " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + escapedPattern + "%' ESCAPE '\\' )"
                 + ")";
         return getNotes(whereCondition, true);
+    }
+
+    static String escapeSql(String pattern) {
+        return StringEscapeUtils.escapeSql(pattern).replace("%", "\\%").replace("_", "\\_");
     }
 
 

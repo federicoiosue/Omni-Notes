@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -148,6 +148,7 @@
         <item>日本語 (Japanese)</item>
         <item>ສ​ປ​ປ​ລາວ (Lao)</item>
         <item>Latviešu valoda (Latvian)</item>
+        <item>فارسی (Persian)</item>
         <item>Polszczyzna (Polish)</item>
         <item>Português (Portuguese Brazil)</item>
         <item>Português (Portuguese Portugal)</item>
@@ -185,6 +186,7 @@
         <item>ja_JP</item>
         <item>lo_LA</item>
         <item>lv_LV</item>
+        <item>fa_IR</item>
         <item>pl_PL</item>
         <item>pt_BR</item>
         <item>pt_PT</item>

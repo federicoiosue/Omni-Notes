@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -345,7 +345,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     @Override
     public void onResume() {
         super.onResume();
-        if (Intent.ACTION_SEARCH.equals(mainActivity.getIntent().getAction())) {
+        if (mainActivity.prefsChanged) {
+            mainActivity.prefsChanged = false;
+            init();
+        } else if (Intent.ACTION_SEARCH.equals(mainActivity.getIntent().getAction())) {
             initNotesList(mainActivity.getIntent());
         }
     }
@@ -746,7 +749,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     /**
      * Performs one of the ActionBar button's actions after checked notes protection
      */
-    public boolean performAction(MenuItem item, ActionMode actionMode) {
+    public void performAction(MenuItem item, ActionMode actionMode) {
+
+        if (isOptionsItemFastClick()) return;
+
         if (actionMode == null) {
             switch (item.getItemId()) {
                 case android.R.id.home:
@@ -767,6 +773,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 					break;
 				case R.id.menu_filter_category_remove:
 					filterCategoryArchived(false);
+                    break;
 				case R.id.menu_uncomplete_checklists:
 					filterByUncompleteChecklists();
 					break;
@@ -826,12 +833,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 //                case R.id.menu_synchronize:
 //                    synchronizeSelectedNotes();
 //                    break;
+                default:
+                    Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
             }
         }
 
         checkSortActionPerformed(item);
-
-        return super.onOptionsItemSelected(item);
     }
 
 

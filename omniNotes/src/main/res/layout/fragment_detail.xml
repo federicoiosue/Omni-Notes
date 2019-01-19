@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -72,8 +72,10 @@
                             android:paddingBottom="6dp"
                             paddingStart="6dp"
                             android:paddingLeft="6dp"
+                            android:paddingStart="6dp"
                             paddingEnd="16dp"
                             android:paddingRight="16dp"
+                            android:paddingEnd="16dp"
                             android:paddingTop="6dp"
                             android:textAppearance="@style/Text.Big"
                             android:textColorHint="@color/text_color_lighter"
@@ -131,7 +133,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:gravity="left|start"
+                        android:gravity="start"
                         android:padding="0dp"
                         android:textAppearance="@style/Text.Small"
                         pixlui:typeface="Roboto-Regular.ttf"/>

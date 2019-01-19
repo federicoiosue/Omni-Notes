@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,6 +16,39 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <changelog bulletedList="true">
+
+    <changelogversion
+        changeDate="Jan 13, 2019"
+        versionName="6.0.0 Beta 6">
+        <changelogtext>[i]Improved![/i] Merging notes result will keep archived status and category of first note selected</changelogtext>
+    </changelogversion>
+
+    <changelogversion
+        changeDate="Jan 6, 2019"
+        versionName="6.0.0 Beta 5">
+        <changelogtext>[i]Improved![/i] RTL compatibility</changelogtext>
+        <changelogtext>[u]Fix[/u] Touching repeatedly menu items will trigger them just once in a second</changelogtext>
+        <changelogtext>[u]Fix[/u] Searching for notes containing "#" and "_" symbols</changelogtext>
+        <changelogtext>[u]Fix[/u] Removing tags with common prefix from notes</changelogtext>
+        <changelogtext>[u]Fix[/u] Excluded wrongly recognized hashtag words</changelogtext>
+    </changelogversion>
+
+    <changelogversion
+        changeDate="Dec 6, 2018"
+        versionName="6.0.0 Beta 4">
+        <changelogtext>[i]Improved![/i] Reversed backups list into restore setting to be in descendant order</changelogtext>
+        <changelogtext>[u]Fix[/u] Doubled notification on backup restore finish</changelogtext>
+        <changelogtext>[u]Fix[/u] Issue when importing backups with locked notes</changelogtext>
+    </changelogversion>
+
+    <changelogversion
+        changeDate="Nov 23, 2018"
+        versionName="6.0.0 Beta 3">
+        <changelogtext>[u]Fix[/u] Stats and Info sections of settings are now correctly working</changelogtext>
+        <changelogtext>[u]Fix[/u] Preferences are effective as soon as settings screen is closed</changelogtext>
+        <changelogtext>[u]Fix[/u] Categories count updated when adding/removing note from its detail</changelogtext>
+        <changelogtext>[u]Fix[/u] Crash when opening generic files attached to notes on Android 8+</changelogtext>
+    </changelogversion>
 
     <changelogversion
         changeDate="Nov 20, 2018"

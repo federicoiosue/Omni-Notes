@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +52,6 @@ public class OmniNotes extends MultiDexApplication {
 	private static Context mContext;
 	private AnalyticsHelper analyticsHelper;
 
-	@NonNull
 	public static boolean isDebugBuild() {
 		return BuildConfig.BUILD_TYPE.equals("debug");
 	}
@@ -80,6 +79,11 @@ public class OmniNotes extends MultiDexApplication {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		if (initLeakCanary()) {
+			return;
+		}
+
 		mContext = getApplicationContext();
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
@@ -87,15 +91,19 @@ public class OmniNotes extends MultiDexApplication {
 			StrictMode.enableDefaults();
 		}
 
-		initLeakCanary();
-
 		new NotificationsHelper(this).initNotificationChannels();
 	}
 
-	private void initLeakCanary() {
+	/**
+	 * Returns true if the process dedicated to LeakCanary for heap analysis is running
+	 * and app's init must be skipped
+	 */
+	private boolean initLeakCanary() {
 		if (!LeakCanary.isInAnalyzerProcess(this)) {
 			LeakCanary.install(this);
+			return false;
 		}
+		return true;
 	}
 
 	@Override

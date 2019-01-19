@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,11 +20,13 @@ package it.feio.android.omninotes;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -71,7 +73,8 @@ import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
 
-public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
+
+public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private static boolean isPasswordAccepted = false;
     public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
@@ -85,6 +88,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     Toolbar toolbar;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
+    boolean prefsChanged = false;
     private FragmentManager mFragmentManager;
 
     @Override
@@ -93,6 +97,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		setTheme(R.style.OmniNotesTheme_ApiSpec);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+		EventBus.getDefault().register(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
         initUI();
 
@@ -552,41 +558,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         }
     }
 
-
-	/**
-	 * Performs auto-backup into file of a modified note
-	 * @param notesUpdatedEvent Event containing updated note
-	 */
-	public void onEventAsync(NotesUpdatedEvent notesUpdatedEvent) {
-        autobackupUpdate(notesUpdatedEvent.notes);
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        prefsChanged = true;
     }
 
-    private void autobackupUpdate(List<Note> updatedNotes) {
-        if (prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
-            File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
-            for (Note note : updatedNotes) {
-                BackupHelper.exportNote(autoBackupDir, note);
-                BackupHelper.exportAttachments(null, new File(autoBackupDir, StorageHelper.getAttachmentDir().getName()),
-                        note.getAttachmentsList(), note.getAttachmentsListOld());
-            }
-        }
-    }
-
-
-    /**
-	 * Performs deletion from auto-backup folder of a permanently deleted note
-	 * @param notesDeletedEvent Event containing deleted note
-	 */
-	public void onEventAsync(NotesDeletedEvent notesDeletedEvent) {
-        autobackupDeletion(notesDeletedEvent.notes);
-    }
-
-    private void autobackupDeletion(List<Note> deletedNotes) {
-        if (prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
-            File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
-            for (Note note : deletedNotes) {
-                BackupHelper.deleteNoteBackup(autoBackupDir, note);
-            }
-        }
-    }
 }

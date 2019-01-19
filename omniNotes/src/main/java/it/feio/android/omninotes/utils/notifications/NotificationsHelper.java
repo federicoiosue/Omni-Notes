@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -157,4 +157,35 @@ public class NotificationsHelper {
         return this;
     }
 
+    public NotificationsHelper start(NotificationChannels.NotificationChannelNames channelId, int
+            smallIcon, String title) {
+        createNotification(channelId, smallIcon, title, null).setIndeterminate().setOngoing();
+        mNotificationManager.notify(0, mBuilder.setOnlyAlertOnce(true).build());
+        return this;
+    }
+
+    public void updateMessage(String message) {
+        updateMessage(0, message);
+    }
+
+    public void updateMessage(int id, String message) {
+        mNotificationManager.notify(id, mBuilder.setContentText(message).build());
+    }
+
+    public void finish(Intent intent, String message) {
+        finish(0, intent, message);
+    }
+
+    public void finish(int id, Intent intent, String message) {
+        mBuilder.setContentTitle(message).setProgress(0,0,false).setOngoing(false);
+        mNotificationManager.notify(id, mBuilder.build());
+    }
+
+    public void cancel() {
+        mNotificationManager.cancel(0);
+    }
+
+    public void cancel(int id) {
+        mNotificationManager.cancel(id);
+    }
 }
