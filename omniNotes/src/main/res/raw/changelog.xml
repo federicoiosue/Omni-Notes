@@ -18,9 +18,10 @@
 <changelog bulletedList="true">
 
     <changelogversion
-        changeDate="Jan 19, 2019"
+        changeDate="Jan 22, 2019"
         versionName="6.0.0 Beta 7">
         <changelogtext>[i]Improved![/i] Backup notification contains now missing attachments number</changelogtext>
+        <changelogtext>[i]Improved![/i] When their reminder is fired notes are pulled out of the archive</changelogtext>
     </changelogversion>
 
     <changelogversion
