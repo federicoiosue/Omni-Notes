@@ -189,7 +189,7 @@
 
         <!-- Reboot broadcast receiver -->
         <receiver
-            android:name="it.feio.android.omninotes.receiver.BootCompleteReceiver"
+            android:name=".receiver.BootCompleteReceiver"
             android:enabled="true"
             android:exported="false"
             android:label="BootCompleteReceiver"
@@ -200,7 +200,9 @@
         </receiver>
 
         <!-- Restore on reboot alarm service -->
-        <service android:name="it.feio.android.omninotes.async.AlarmRestoreOnRebootService" />
+        <service
+            android:name=".async.AlarmRestoreOnRebootService"
+            android:permission="android.permission.BIND_JOB_SERVICE"/>
 
         <!-- Notification listener service -->
         <service

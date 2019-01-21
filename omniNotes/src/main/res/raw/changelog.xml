@@ -22,6 +22,7 @@
         versionName="6.0.0 Beta 7">
         <changelogtext>[i]Improved![/i] Backup notification contains now missing attachments number</changelogtext>
         <changelogtext>[i]Improved![/i] When their reminder is fired notes are pulled out of the archive</changelogtext>
+        <changelogtext>[u]Fix[/u] Reminders restore after reboot starting from Oreo</changelogtext>
     </changelogversion>
 
     <changelogversion
