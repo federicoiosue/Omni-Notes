@@ -392,6 +392,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onPause() {
 		super.onPause();
 
+		//to prevent memory leak fragment keep refernce of event but until deregister
+		EventBus.getDefault().unregister(this);
+
 		activityPausing = true;
 
 		// Checks "goBack" value to avoid performing a double saving
