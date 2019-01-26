@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -54,6 +55,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
@@ -971,27 +973,27 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         new MaterialDialog.Builder(mainActivity)
                 .content(R.string.empty_trash_confirmation)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.ButtonCallback() {
-					@Override
-					public void onPositive(MaterialDialog materialDialog) {
-
-						boolean mustDeleteLockedNotes = false;
-						for (int i = 0; i < listAdapter.getCount(); i++) {
-							selectedNotes.add(listAdapter.getItem(i));
-							mustDeleteLockedNotes = mustDeleteLockedNotes || listAdapter.getItem(i).isLocked();
-						}
-						if (mustDeleteLockedNotes) {
-							mainActivity.requestPassword(mainActivity, getSelectedNotes(),
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(
+                            @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        boolean mustDeleteLockedNotes = false;
+                        for (int i = 0; i < listAdapter.getCount(); i++) {
+                            selectedNotes.add(listAdapter.getItem(i));
+                            mustDeleteLockedNotes = mustDeleteLockedNotes || listAdapter.getItem(i).isLocked();
+                        }
+                        if (mustDeleteLockedNotes) {
+                            mainActivity.requestPassword(mainActivity, getSelectedNotes(),
                                     passwordConfirmed -> {
                                         if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)  ) {
                                             deleteNotesExecute();
-										}
-									});
-						} else {
-							deleteNotesExecute();
-						}
-					}
-				}).build().show();
+                                        }
+                                    });
+                        } else {
+                            deleteNotesExecute();
+                        }
+                    }
+                }).build().show();
     }
 
 
@@ -1427,18 +1429,18 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 .positiveColorRes(R.color.colorPrimary)
                 .negativeText(R.string.remove_category)
                 .negativeColorRes(R.color.colorAccent)
-                .callback(new MaterialDialog.ButtonCallback() {
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onPositive(MaterialDialog dialog) {
+                    public void onClick(
+                            @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         keepActionMode = true;
                         Intent intent = new Intent(mainActivity, CategoryActivity.class);
                         intent.putExtra("noHome", true);
                         startActivityForResult(intent, REQUEST_CODE_CATEGORY_NOTES);
                     }
-
-
+                }).onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onNegative(MaterialDialog dialog) {
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         categorizeNotesExecute(null);
                     }
                 }).build();
@@ -1694,17 +1696,18 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 .title(R.string.delete_merged)
                 .positiveText(R.string.ok)
                 .negativeText(R.string.no)
-                .callback(new MaterialDialog.ButtonCallback() {
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onPositive(MaterialDialog dialog) {
+                    public void onClick(
+                            @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         EventBus.getDefault().post(new NotesMergeEvent(false));
                     }
-
-
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onNegative(MaterialDialog dialog) {
-						EventBus.getDefault().post(new NotesMergeEvent(true));
-					}
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        EventBus.getDefault().post(new NotesMergeEvent(true));
+                    }
                 }).build().show();
     }
 

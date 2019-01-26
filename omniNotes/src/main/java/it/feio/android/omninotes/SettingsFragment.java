@@ -27,6 +27,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.*;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -40,6 +41,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 
@@ -507,20 +510,16 @@ public class SettingsFragment extends PreferenceFragment {
 				new MaterialDialog.Builder(activity)
 						.content(R.string.reset_all_data_confirmation)
 						.positiveText(R.string.confirm)
-						.callback(new MaterialDialog.ButtonCallback() {
-							@Override
-							public void onPositive(MaterialDialog dialog) {
-								prefs.edit().clear().commit();
-								File db = getActivity().getDatabasePath(Constants.DATABASE_NAME);
-								StorageHelper.delete(getActivity(), db.getAbsolutePath());
-								File attachmentsDir = StorageHelper.getAttachmentDir();
-								StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
-								File cacheDir = StorageHelper.getCacheDir(getActivity());
-								StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
-								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
-							}
-						})
-						.build().show();
+						.onPositive((dialog, which) -> {
+                            prefs.edit().clear().commit();
+                            File db = getActivity().getDatabasePath(Constants.DATABASE_NAME);
+                            StorageHelper.delete(getActivity(), db.getAbsolutePath());
+                            File attachmentsDir = StorageHelper.getAttachmentDir();
+                            StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
+                            File cacheDir = StorageHelper.getCacheDir(getActivity());
+                            StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
+                            SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+                        }).build().show();
 
 				return false;
 			});
@@ -534,10 +533,9 @@ public class SettingsFragment extends PreferenceFragment {
 				new MaterialDialog.Builder(getActivity())
 						.content(getString(R.string.settings_tour_show_again_summary) + "?")
 						.positiveText(R.string.confirm)
-						.callback(new MaterialDialog.ButtonCallback() {
+						.onPositive(new MaterialDialog.SingleButtonCallback() {
 							@Override
-							public void onPositive(MaterialDialog materialDialog) {
-
+							public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 								((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
 
 								prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).commit();
@@ -605,9 +603,9 @@ public class SettingsFragment extends PreferenceFragment {
 					.title(R.string.data_import_message)
 					.items(backups)
 					.positiveText(R.string.confirm)
-					.callback(new MaterialDialog.ButtonCallback() {
+					.onPositive(new MaterialDialog.SingleButtonCallback() {
 						@Override
-						public void onPositive(MaterialDialog materialDialog) {
+						public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 
 						}
 					}).build();
@@ -637,10 +635,9 @@ public class SettingsFragment extends PreferenceFragment {
 							.title(R.string.confirm_restoring_backup)
 							.content(message)
 							.positiveText(R.string.confirm)
-							.callback(new MaterialDialog.ButtonCallback() {
+							.onPositive(new MaterialDialog.SingleButtonCallback() {
 								@Override
-								public void onPositive(MaterialDialog materialDialog) {
-
+								public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 									((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
 											"settings_import_data");
 
@@ -669,9 +666,9 @@ public class SettingsFragment extends PreferenceFragment {
 							.title(R.string.confirm_removing_backup)
 							.content(backups.get(position) + "" + " (" + sizeString + ")")
 							.positiveText(R.string.confirm)
-							.callback(new MaterialDialog.ButtonCallback() {
+							.onPositive(new MaterialDialog.SingleButtonCallback() {
 								@Override
-								public void onPositive(MaterialDialog materialDialog) {
+								public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 									importDialog.dismiss();
 									// An IntentService will be launched to accomplish the deletion task
 									Intent service = new Intent(getActivity(),
@@ -729,9 +726,9 @@ public class SettingsFragment extends PreferenceFragment {
 				.title(R.string.data_export_message)
 				.customView(v, false)
 				.positiveText(R.string.confirm)
-				.callback(new MaterialDialog.ButtonCallback() {
+				.onPositive(new MaterialDialog.SingleButtonCallback() {
 					@Override
-					public void onPositive(MaterialDialog materialDialog) {
+					public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 						((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
 						String backupName = StringUtils.isEmpty(fileNameEditText.getText().toString()) ?
 								fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();

@@ -25,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 
@@ -110,9 +111,9 @@ public class SettingsActivity extends AppCompatActivity implements FolderChooser
 				.title(R.string.data_import_message_warning)
 				.content(folder.getName())
 				.positiveText(R.string.confirm)
-				.callback(new MaterialDialog.ButtonCallback() {
+				.onPositive(new MaterialDialog.SingleButtonCallback() {
 					@Override
-					public void onPositive(MaterialDialog materialDialog) {
+					public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 						((OmniNotes)getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
 								"settings_import_data");
 						Intent service = new Intent(getApplicationContext(), DataBackupIntentService.class);
