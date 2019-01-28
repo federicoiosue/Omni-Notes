@@ -24,6 +24,7 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -35,6 +36,8 @@ import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import de.greenrobot.event.EventBus;
@@ -157,9 +160,10 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
                 .content(R.string.delete_category_confirmation)
                 .positiveText(R.string.confirm)
                 .positiveColorRes(R.color.colorAccent)
-                .callback(new MaterialDialog.ButtonCallback() {
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onPositive(MaterialDialog dialog) {
+                    public void onClick(
+                            @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         // Changes navigation if actually are shown notes associated with this category
                         SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
                         String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
