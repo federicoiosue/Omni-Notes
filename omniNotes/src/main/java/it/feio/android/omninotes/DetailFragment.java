@@ -309,7 +309,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onAttach(Context context) {
 		super.onAttach(context);
 		EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
-		EventBus.getDefault().register(this);
 	}
 
 	@Override
@@ -322,6 +321,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onResume() {
 		super.onResume();
 		activityPausing = false;
+		EventBus.getDefault().register(this);
 	}
 
 	@Override
