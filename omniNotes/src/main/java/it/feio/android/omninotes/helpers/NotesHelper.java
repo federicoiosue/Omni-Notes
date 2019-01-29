@@ -17,20 +17,20 @@
 
 package it.feio.android.omninotes.helpers;
 
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.StatsSingleNote;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.StorageHelper;
-import it.feio.android.omninotes.utils.TagsHelper;
 import org.apache.commons.lang.ObjectUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.helpers.count.CountFactory;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.StatsSingleNote;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.TagsHelper;
 
 
 public class NotesHelper {
@@ -164,47 +164,14 @@ public class NotesHelper {
 	 * Counts words in a note
 	 */
 	public static int getWords(Note note) {
-		int count = 0;
-		String[] fields = {note.getTitle(), note.getContent()};
-		for (String field : fields) {
-			field = sanitizeTextForWordsAndCharsCount(note, field);
-			boolean word = false;
-			int endOfLine = field.length() - 1;
-			for (int i = 0; i < field.length(); i++) {
-				// if the char is a letter, word = true.
-				if (Character.isLetter(field.charAt(i)) && i != endOfLine) {
-					word = true;
-					// if char isn't a letter and there have been letters before,
-					// counter goes up.
-				} else if (!Character.isLetter(field.charAt(i)) && word) {
-					count++;
-					word = false;
-					// last word of String; if it doesn't end with a non letter, it
-					// wouldn't count without this.
-				} else if (Character.isLetter(field.charAt(i)) && i == endOfLine) {
-					count++;
-				}
-			}
-		}
-		return count;
-	}
-
-	private static String sanitizeTextForWordsAndCharsCount(Note note, String field) {
-		if (note.isChecklist()) {
-			String regex = "(" + Pattern.quote(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM) + "|"
-					+ Pattern.quote(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM) + ")";
-			field = field.replaceAll(regex, "");
-		}
-		return field;
+		return CountFactory.getWordCounter().countWords(note);
 	}
 
 	/**
 	 * Counts chars in a note
 	 */
 	public static int getChars(Note note) {
-		int count = sanitizeTextForWordsAndCharsCount(note, note.getTitle()).length();
-		count += sanitizeTextForWordsAndCharsCount(note, note.getContent()).length();
-		return count;
+		return CountFactory.getWordCounter().countChars(note);
 	}
 
 }
