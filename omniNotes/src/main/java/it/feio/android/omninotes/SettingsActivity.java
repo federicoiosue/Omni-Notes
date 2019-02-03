@@ -25,7 +25,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ViewGroup;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 
@@ -86,7 +85,7 @@ public class SettingsActivity extends AppCompatActivity implements FolderChooser
 
 	@Override
 	public void onBackPressed() {
-		if (backStack.size() > 0) {
+		if (!backStack.isEmpty()) {
 			replaceFragment(backStack.remove(backStack.size() - 1));
 		} else {
 			super.onBackPressed();
@@ -111,16 +110,13 @@ public class SettingsActivity extends AppCompatActivity implements FolderChooser
 				.title(R.string.data_import_message_warning)
 				.content(folder.getName())
 				.positiveText(R.string.confirm)
-				.onPositive(new MaterialDialog.SingleButtonCallback() {
-					@Override
-					public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-						((OmniNotes)getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
-								"settings_import_data");
-						Intent service = new Intent(getApplicationContext(), DataBackupIntentService.class);
-						service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_LEGACY);
-						service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, folder.getAbsolutePath());
-						startService(service);
-					}
+				.onPositive((dialog1, which) -> {
+					((OmniNotes)getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+							"settings_import_data");
+					Intent service = new Intent(getApplicationContext(), DataBackupIntentService.class);
+					service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_LEGACY);
+					service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, folder.getAbsolutePath());
+					startService(service);
 				}).build().show();
 	}
 }

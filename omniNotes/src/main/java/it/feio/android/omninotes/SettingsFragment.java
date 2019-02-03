@@ -26,7 +26,12 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.*;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -36,7 +41,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,23 +50,29 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-import it.feio.android.analitica.AnalyticsHelper;
-import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.helpers.*;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.StringUtils;
-import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
-import rx.Observable;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
+
+import it.feio.android.analitica.AnalyticsHelper;
+import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.helpers.AppVersionHelper;
+import it.feio.android.omninotes.helpers.BackupHelper;
+import it.feio.android.omninotes.helpers.LanguageHelper;
+import it.feio.android.omninotes.helpers.PermissionsHelper;
+import it.feio.android.omninotes.helpers.SpringImportHelper;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.FileHelper;
+import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.ResourcesUtils;
+import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.SystemHelper;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.reverse;
@@ -72,9 +82,9 @@ public class SettingsFragment extends PreferenceFragment {
 
 	private SharedPreferences prefs;
 
-	private final int SPRINGPAD_IMPORT = 0;
-	private final int RINGTONE_REQUEST_CODE = 100;
-	public final static String XML_NAME = "xmlName";
+	private static final int SPRINGPAD_IMPORT = 0;
+	private static final int RINGTONE_REQUEST_CODE = 100;
+	public static final String XML_NAME = "xmlName";
 	private Activity activity;
 	private SettingsFragment pf;
 
@@ -111,19 +121,17 @@ public class SettingsFragment extends PreferenceFragment {
 				title = stringResourceId != 0 ? getString(stringResourceId) : title;
 			}
 		}
-		Toolbar toolbar = ((Toolbar) getActivity().findViewById(R.id.toolbar));
+		Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
 		if (toolbar != null) toolbar.setTitle(title);
 	}
 
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				getActivity().onBackPressed();
-				break;
-			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+		if (item.getItemId() == android.R.id.home) {
+			getActivity().onBackPressed();
+		} else {
+			Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -139,7 +147,6 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -246,7 +253,6 @@ public class SettingsFragment extends PreferenceFragment {
 //		}
 
 
-		// Import notes from Springpad export zip file
 		Preference importFromSpringpad = findPreference("settings_import_from_springpad");
 		if (importFromSpringpad != null) {
 			importFromSpringpad.setOnPreferenceClickListener(arg0 -> {
@@ -309,31 +315,26 @@ public class SettingsFragment extends PreferenceFragment {
 		final SwitchPreference showUncategorized = (SwitchPreference) findPreference(Constants
 				.PREF_SHOW_UNCATEGORIZED);
 		if (showUncategorized != null) {
-			showUncategorized.setOnPreferenceChangeListener((preference, newValue) -> {
-				return true;
-			});
+			showUncategorized.setOnPreferenceChangeListener((preference, newValue) -> true);
 		}
 
 
 		// Show Automatically adds location to new notes
 		final SwitchPreference autoLocation = (SwitchPreference) findPreference(Constants.PREF_AUTO_LOCATION);
 		if (autoLocation != null) {
-			autoLocation.setOnPreferenceChangeListener((preference, newValue) -> {
-				return true;
-			});
+			autoLocation.setOnPreferenceChangeListener((preference, newValue) -> true);
 		}
 
 
 		// Maximum video attachment size
 		final EditTextPreference maxVideoSize = (EditTextPreference) findPreference("settings_max_video_size");
 		if (maxVideoSize != null) {
-			String maxVideoSizeValue = prefs.getString("settings_max_video_size", getString(R.string.not_set));
-			maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String.valueOf
-					(maxVideoSizeValue));
+			maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": "
+					+ prefs.getString("settings_max_video_size", getString(R.string.not_set)));
 			maxVideoSize.setOnPreferenceChangeListener((preference, newValue) -> {
 				maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String
 						.valueOf(newValue));
-				prefs.edit().putString("settings_max_video_size", newValue.toString()).commit();
+				prefs.edit().putString("settings_max_video_size", newValue.toString()).apply();
 				return false;
 			});
 		}
@@ -394,7 +395,7 @@ public class SettingsFragment extends PreferenceFragment {
 				int textSizeIndex1 = textSize.findIndexOfValue(newValue.toString());
 				String checklistString = getResources().getStringArray(R.array.text_size)[textSizeIndex1];
 				textSize.setSummary(checklistString);
-				prefs.edit().putString("settings_text_size", newValue.toString()).commit();
+				prefs.edit().putString("settings_text_size", newValue.toString()).apply();
 				textSize.setValueIndex(textSizeIndex1);
 				return false;
 			});
@@ -412,7 +413,7 @@ public class SettingsFragment extends PreferenceFragment {
 				int colorsAppIndex1 = colorsApp.findIndexOfValue(newValue.toString());
 				String colorsAppString1 = getResources().getStringArray(R.array.colors_app)[colorsAppIndex1];
 				colorsApp.setSummary(colorsAppString1);
-				prefs.edit().putString("settings_colors_app", newValue.toString()).commit();
+				prefs.edit().putString("settings_colors_app", newValue.toString()).apply();
 				colorsApp.setValueIndex(colorsAppIndex1);
 				return false;
 			});
@@ -430,7 +431,7 @@ public class SettingsFragment extends PreferenceFragment {
 				String checklistString1 = getResources().getStringArray(R.array.checked_items_behavior)
 						[checklistIndex1];
 				checklist.setSummary(checklistString1);
-				prefs.edit().putString("settings_checked_items_behavior", newValue.toString()).commit();
+				prefs.edit().putString("settings_checked_items_behavior", newValue.toString()).apply();
 				checklist.setValueIndex(checklistIndex1);
 				return false;
 			});
@@ -448,7 +449,7 @@ public class SettingsFragment extends PreferenceFragment {
 				int colorsWidgetIndex1 = colorsWidget.findIndexOfValue(newValue.toString());
 				String colorsWidgetString1 = getResources().getStringArray(R.array.colors_widget)[colorsWidgetIndex1];
 				colorsWidget.setSummary(colorsWidgetString1);
-				prefs.edit().putString("settings_colors_widget", newValue.toString()).commit();
+				prefs.edit().putString("settings_colors_widget", newValue.toString()).apply();
 				colorsWidget.setValueIndex(colorsWidgetIndex1);
 				return false;
 			});
@@ -474,10 +475,8 @@ public class SettingsFragment extends PreferenceFragment {
 		// NotificationServiceListener shortcut
 		final Preference norificationServiceListenerPreference = findPreference
 				("settings_notification_service_listener");
-		if (norificationServiceListenerPreference != null) {
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-				getPreferenceScreen().removePreference(norificationServiceListenerPreference);
-			}
+		if (norificationServiceListenerPreference != null && Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+			getPreferenceScreen().removePreference(norificationServiceListenerPreference);
 		}
 
 
@@ -511,7 +510,7 @@ public class SettingsFragment extends PreferenceFragment {
 						.content(R.string.reset_all_data_confirmation)
 						.positiveText(R.string.confirm)
 						.onPositive((dialog, which) -> {
-                            prefs.edit().clear().commit();
+                            prefs.edit().clear().apply();
                             File db = getActivity().getDatabasePath(Constants.DATABASE_NAME);
                             StorageHelper.delete(getActivity(), db.getAbsolutePath());
                             File attachmentsDir = StorageHelper.getAttachmentDir();
@@ -533,14 +532,10 @@ public class SettingsFragment extends PreferenceFragment {
 				new MaterialDialog.Builder(getActivity())
 						.content(getString(R.string.settings_tour_show_again_summary) + "?")
 						.positiveText(R.string.confirm)
-						.onPositive(new MaterialDialog.SingleButtonCallback() {
-							@Override
-							public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-								((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
-
-								prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).commit();
-								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
-							}
+						.onPositive((dialog, which) -> {
+							((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
+							prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).apply();
+							SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 						}).build().show();
 				return false;
 			});
@@ -595,7 +590,7 @@ public class SettingsFragment extends PreferenceFragment {
 		final List<String> backups = asList(StorageHelper.getExternalStoragePublicDir().list());
 		reverse(backups);
 
-		if (backups.size() == 0) {
+		if (backups.isEmpty()) {
 			((SettingsActivity)getActivity()).showMessage(R.string.no_backups_available, ONStyle.WARN);
 		} else {
 
@@ -603,11 +598,8 @@ public class SettingsFragment extends PreferenceFragment {
 					.title(R.string.data_import_message)
 					.items(backups)
 					.positiveText(R.string.confirm)
-					.onPositive(new MaterialDialog.SingleButtonCallback() {
-						@Override
-						public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+					.onPositive((dialog, which) -> {
 
-						}
 					}).build();
 
 			// OnShow is overridden to allow long-click on item so user can remove them
@@ -635,22 +627,19 @@ public class SettingsFragment extends PreferenceFragment {
 							.title(R.string.confirm_restoring_backup)
 							.content(message)
 							.positiveText(R.string.confirm)
-							.onPositive(new MaterialDialog.SingleButtonCallback() {
-								@Override
-								public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-									((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
-											"settings_import_data");
+							.onPositive((dialog1, which) -> {
+								((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+										"settings_import_data");
 
-									importDialog.dismiss();
+								importDialog.dismiss();
 
-									// An IntentService will be launched to accomplish the import task
-									Intent service = new Intent(getActivity(),
-											DataBackupIntentService.class);
-									service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
-									service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-											backups.get(position));
-									getActivity().startService(service);
-								}
+								// An IntentService will be launched to accomplish the import task
+								Intent service = new Intent(getActivity(),
+										DataBackupIntentService.class);
+								service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
+								service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
+										backups.get(position));
+								getActivity().startService(service);
 							}).build().show();
 				});
 
@@ -666,18 +655,15 @@ public class SettingsFragment extends PreferenceFragment {
 							.title(R.string.confirm_removing_backup)
 							.content(backups.get(position) + "" + " (" + sizeString + ")")
 							.positiveText(R.string.confirm)
-							.onPositive(new MaterialDialog.SingleButtonCallback() {
-								@Override
-								public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-									importDialog.dismiss();
-									// An IntentService will be launched to accomplish the deletion task
-									Intent service = new Intent(getActivity(),
-											DataBackupIntentService.class);
-									service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
-									service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-											backups.get(position));
-									getActivity().startService(service);
-								}
+							.onPositive((dialog12, which) -> {
+								importDialog.dismiss();
+								// An IntentService will be launched to accomplish the deletion task
+								Intent service = new Intent(getActivity(),
+										DataBackupIntentService.class);
+								service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
+								service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
+										backups.get(position));
+								getActivity().startService(service);
 							}).build().show();
 
 					return true;
@@ -726,14 +712,11 @@ public class SettingsFragment extends PreferenceFragment {
 				.title(R.string.data_export_message)
 				.customView(v, false)
 				.positiveText(R.string.confirm)
-				.onPositive(new MaterialDialog.SingleButtonCallback() {
-					@Override
-					public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-						((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
-						String backupName = StringUtils.isEmpty(fileNameEditText.getText().toString()) ?
-								fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();
-						BackupHelper.startBackupService(backupName);
-					}
+				.onPositive((dialog, which) -> {
+					((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
+					String backupName = StringUtils.isEmpty(fileNameEditText.getText().toString()) ?
+							fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();
+					BackupHelper.startBackupService(backupName);
 				}).build().show();
 	}
 
