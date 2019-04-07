@@ -20,10 +20,10 @@
 
     <string name="logo">Logo</string>
     <string name="version_postfix"></string>
-    <string name="copyleft">Copyleft Feio 2015</string>
+    <string name="copyleft">Copyleft Feio 2015-2019</string>
     <string name="dev_site">http://www.iosue.it/federico</string>
     <string name="dev_github">https://github.com/federicoiosue</string>
-    <string name="beta_link">http://goo.gl/zBZQLr</string>
+    <string name="beta_link">https://play.google.com/apps/testing/it.feio.android.omninotes</string>
     <string name="paypal">Paypal</string>
     <string name="paypal_url">http://goo.gl/ZXgBhz</string>
     <string name="bitcoin">Bitcoin</string>
@@ -291,7 +291,7 @@
     <string name="settings_category_preferences">Preferences</string>
     <string name="settings_category_beta">Beta</string>
     <string name="settings_category_about">About</string>
-    <string name="settings_beta">Google+</string>
+    <string name="settings_beta">Opt-In</string>
     <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
     <string name="donate">Donate</string>
     <string name="donate_summary">Support the development of this app with a non-profit donation</string>
