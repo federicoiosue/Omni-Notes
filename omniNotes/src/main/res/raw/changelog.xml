@@ -18,6 +18,12 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="Apr 7, 2019"
+        versionName="6.0.0 Beta 9">
+        <changelogtext>[u]Fix[/u] Removed references to Google+, long life to Google+</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="Feb 3, 2019"
         versionName="6.0.0 Beta 8">
         <changelogtext>[u]Fix[/u] Chars and word count when using ideogram-based languages</changelogtext>
