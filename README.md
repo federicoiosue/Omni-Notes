@@ -86,7 +86,7 @@ Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as cod
 
 There are many features/improvements that are not on **my** roadmap but someone else could decide to work on them anyway: hunt for issues tagged as [Help Wanted](https://github.com/federicoiosue/Omni-Notes/issues?utf8=✓&q=label%3A"Help+wanted") to find them!
 
-Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/Omni-Notes/blob/develop/contributors.md) file.
+Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/Omni-Notes/blob/develop/CONTRIBUTORS.md) file.
 
 ### New feature or improvements contributions
 
@@ -149,7 +149,7 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 
 
 * Federico Iosue - [Website](https://federico.iosue.it)
-* [Other contributors](https://github.com/federicoiosue/Omni-Notes/blob/master/https://github.com/federicoiosue/Omni-Notes/blob/master/CONTRIBUTORS.md)
+* [Other contributors](https://github.com/federicoiosue/Omni-Notes/blob/master/CONTRIBUTORS.md)
 
 
 
