@@ -269,7 +269,7 @@
   <string name="settings_category_preferences">Hobespenak</string>
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">Honi buruz</string>
-  <string name="settings_beta">Google+</string>
+  <string name="settings_beta">Opt-in</string>
   <string name="settings_beta_summary">Harpidetu beta programara azken ezaugarriak eskuratzeko</string>
   <string name="donate">Dohaintza</string>
   <string name="donate_summary">Babestu aplikazio honen garapena irabazi asmorik gabeko dohaintza batekin</string>

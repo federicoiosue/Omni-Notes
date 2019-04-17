@@ -14,26 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.feio.android.omninotes.receiver;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
+package it.feio.android.omninotes.helpers.count;
 
-import it.feio.android.omninotes.async.AlarmRestoreOnRebootService;
-import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.models.Note;
+import rx.Observable;
 
-
-public class BootCompleteReceiver extends BroadcastReceiver {
+public class IdeogramsWordCounter implements WordCounter {
 
     @Override
-    public void onReceive(Context ctx, Intent intent) {
-        Log.i(Constants.TAG, "System rebooted: refreshing reminders");
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            AlarmRestoreOnRebootService.enqueueWork(ctx, intent);
-        }
+    public int countWords(Note note) {
+        return countChars(note);
     }
 
-
+    @Override
+    public int countChars(Note note) {
+        String titleAndContent = note.getTitle() + "\n" + note.getContent();
+        return Observable
+                .from(sanitizeTextForWordsAndCharsCount(note, titleAndContent).split(""))
+                .filter(s -> !s.matches("\\s"))
+                .count().toBlocking().single();
+    }
 }

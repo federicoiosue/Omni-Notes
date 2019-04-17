@@ -53,11 +53,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     private SharedPreferences prefs;
     private NotificationsHelper mNotificationsHelper;
 
-    {
-        File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
-        BackupHelper.exportNotes(autoBackupDir);
-        BackupHelper.exportAttachments(autoBackupDir);
-    }
+//    {
+//        File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+//        BackupHelper.exportNotes(autoBackupDir);
+//        BackupHelper.exportAttachments(autoBackupDir);
+//    }
 
 
     public DataBackupIntentService() {
@@ -75,8 +75,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 //                        null)
 //                .setIndeterminate().setOngoing();
 
-                mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannels.NotificationChannelNames.Backups,
-                        R.drawable.ic_content_save_white_24dp, getString(R.string.working));
+        mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannels.NotificationChannelNames.Backups,
+                R.drawable.ic_content_save_white_24dp, getString(R.string.working));
 
 
         // If an alarm has been fired a notification must be generated
@@ -150,11 +150,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         createNotification(intent, this, getString(R.string.data_import_completed), getString(R.string.click_to_refresh_application), backupDir);
 
         // Performs auto-backup filling after backup restore
-        if (prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
-            File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
-            BackupHelper.exportNotes(autoBackupDir);
-            BackupHelper.exportAttachments(autoBackupDir);
-        }
+//        if (prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
+//            File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+//            BackupHelper.exportNotes(autoBackupDir);
+//            BackupHelper.exportAttachments(autoBackupDir);
+//        }
 	}
 
     synchronized private void deleteData(Intent intent) {

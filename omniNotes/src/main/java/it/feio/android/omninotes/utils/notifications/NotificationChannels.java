@@ -31,7 +31,7 @@ import it.feio.android.omninotes.R;
 public class NotificationChannels {
 
     private static List<NotificationChannel> channels = new ArrayList<NotificationChannel>() {{
-        add(new NotificationChannel(NotificationManager.IMPORTANCE_HIGH, OmniNotes.getAppContext().getString(R.string
+        add(new NotificationChannel(NotificationManager.IMPORTANCE_DEFAULT, OmniNotes.getAppContext().getString(R.string
                 .channel_backups_name), OmniNotes.getAppContext().getString(R.string
                 .channel_backups_description)));
         add(new NotificationChannel(NotificationManager.IMPORTANCE_DEFAULT, OmniNotes.getAppContext().getString(R.string

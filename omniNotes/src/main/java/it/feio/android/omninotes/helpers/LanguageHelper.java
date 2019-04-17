@@ -66,7 +66,7 @@ public class LanguageHelper {
 	/**
 	 * Checks country AND region
 	 */
-	public static Locale getLocale(String lang) {
+	private static Locale getLocale(String lang) {
 		if (lang.contains("_")) {
 			return new Locale(lang.split("_")[0], lang.split("_")[1]);
 		} else {
@@ -76,23 +76,23 @@ public class LanguageHelper {
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@NonNull
-	public static String getLocalizedString(Context context, String desiredLocale, int resourceId) {
-		String currentLocale;
-		if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-			currentLocale = context.getResources().getConfiguration().getLocales().get(0).toString();
-		} else {
-			currentLocale = context.getResources().getConfiguration().locale.toString();
-		}
-
-		if (desiredLocale.equals(currentLocale)) {
+	static String getLocalizedString(Context context, String desiredLocale, int resourceId) {
+		if (desiredLocale.equals(getCurrentLocale(context))) {
 			return context.getResources().getString(resourceId);
 		}
-
 		Configuration conf = context.getResources().getConfiguration();
 		conf = new Configuration(conf);
 		conf.setLocale(getLocale(desiredLocale));
 		Context localizedContext = context.createConfigurationContext(conf);
 		return localizedContext.getResources().getString(resourceId);
+	}
+
+	public static String getCurrentLocale(Context context) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			return context.getResources().getConfiguration().getLocales().get(0).toString();
+		} else {
+			return context.getResources().getConfiguration().locale.toString();
+		}
 	}
 
 }

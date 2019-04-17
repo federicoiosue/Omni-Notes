@@ -76,10 +76,8 @@ public class NotificationListener extends NotificationListenerService {
 
 
 	public static boolean isRunning() {
-
 		ContentResolver contentResolver = OmniNotes.getAppContext().getContentResolver();
-		String enabledNotificationListeners = Settings.Secure.getString(contentResolver,
-				"enabled_notification_listeners");
+		String enabledNotificationListeners = Settings.Secure.getString(contentResolver, "enabled_notification_listeners");
 		return enabledNotificationListeners != null && enabledNotificationListeners.contains(NotificationListener
 				.class.getSimpleName());
 	}

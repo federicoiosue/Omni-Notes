@@ -269,7 +269,7 @@
   <string name="settings_category_preferences">Параметры</string>
   <string name="settings_category_beta">Бета-тестирование</string>
   <string name="settings_category_about">О приложении</string>
-  <string name="settings_beta">Google+</string>
+  <string name="settings_beta">Opt-in</string>
   <string name="settings_beta_summary">Участвуйте в программе бета-тестирования и получайте новые возможности первыми</string>
   <string name="donate">Пожертвования</string>
   <string name="donate_summary">Поддержать развитие приложения бескорыстным пожертвованием</string>

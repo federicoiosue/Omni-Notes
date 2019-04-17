@@ -17,11 +17,14 @@
 
 package it.feio.android.omninotes.async;
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 import android.util.Log;
+
+import java.util.List;
+
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
@@ -29,17 +32,17 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
 
-import java.util.List;
 
+public class AlarmRestoreOnRebootService extends JobIntentService {
 
-public class AlarmRestoreOnRebootService extends IntentService {
+	public static final int JOB_ID = 0x01;
 
-	public AlarmRestoreOnRebootService() {
-		super("AlarmRestoreOnRebootService");
+	public static void enqueueWork(Context context, Intent work) {
+		enqueueWork(context, AlarmRestoreOnRebootService.class, JOB_ID, work);
 	}
 
 	@Override
-	protected void onHandleIntent(@Nullable Intent intent) {
+	protected void onHandleWork(@NonNull Intent intent) {
 		Log.i(Constants.TAG, "System rebooted: service refreshing reminders");
 		Context mContext = getApplicationContext();
 

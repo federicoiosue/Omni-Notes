@@ -43,6 +43,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -248,44 +249,45 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					.negativeColorRes(R.color.colorPrimary)
 					.positiveText(R.string.open)
 					.negativeText(R.string.copy)
-					.callback(new MaterialDialog.ButtonCallback() {
-						@Override
-						public void onPositive(MaterialDialog dialog) {
-							boolean error = false;
-							Intent intent = null;
-							try {
-								intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-								intent.addCategory(Intent.CATEGORY_BROWSABLE);
-								intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-							} catch (NullPointerException e) {
-								error = true;
-							}
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            boolean error = false;
+                            Intent intent = null;
+                            try {
+                                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            } catch (NullPointerException e) {
+                                error = true;
+                            }
 
-							if (intent == null
-									|| error
-									|| !IntentChecker
-									.isAvailable(
-											mainActivity,
-											intent,
-											new String[]{PackageManager.FEATURE_CAMERA})) {
-								mainActivity.showMessage(R.string.no_application_can_perform_this_action,
-										ONStyle.ALERT);
+                            if (intent == null
+                                    || error
+                                    || !IntentChecker
+                                    .isAvailable(
+                                            mainActivity,
+                                            intent,
+                                            new String[]{PackageManager.FEATURE_CAMERA})) {
+                                mainActivity.showMessage(R.string.no_application_can_perform_this_action,
+                                        ONStyle.ALERT);
 
-							} else {
-								startActivity(intent);
-							}
-						}
-
-						@Override
-						public void onNegative(MaterialDialog dialog) {
-							android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
-									mainActivity
-											.getSystemService(Activity.CLIPBOARD_SERVICE);
-							android.content.ClipData clip = android.content.ClipData.newPlainText("text label",
-									clickedString);
-							clipboard.setPrimaryClip(clip);
-						}
-					}).build().show();
+                            } else {
+                                startActivity(intent);
+                            }
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
+                                    mainActivity
+                                            .getSystemService(Activity.CLIPBOARD_SERVICE);
+                            android.content.ClipData clip = android.content.ClipData.newPlainText("text label",
+                                    clickedString);
+                            clipboard.setPrimaryClip(clip);
+                        }
+                    }).build().show();
 			View clickedView = noteTmp.isChecklist() ? toggleChecklistView : content;
 			clickedView.clearFocus();
 			KeyboardUtils.hideKeyboard(clickedView);
@@ -307,7 +309,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onAttach(Context context) {
 		super.onAttach(context);
 		EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
-		EventBus.getDefault().register(this);
 	}
 
 	@Override
@@ -320,6 +321,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onResume() {
 		super.onResume();
 		activityPausing = false;
+		EventBus.getDefault().register(this);
 	}
 
 	@Override
@@ -391,6 +393,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	@Override
 	public void onPause() {
 		super.onPause();
+
+		//to prevent memory leak fragment keep refernce of event but until deregister
+		EventBus.getDefault().unregister(this);
 
 		activityPausing = true;
 
@@ -641,15 +646,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
 					.content(R.string.remove_reminder)
 					.positiveText(R.string.ok)
-					.callback(new MaterialDialog.ButtonCallback() {
-						@Override
-						public void onPositive(MaterialDialog materialDialog) {
-							ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
-							noteTmp.setAlarm(null);
-							reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
-							datetime.setText("");
-						}
-					}).build();
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(
+                                @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
+                            noteTmp.setAlarm(null);
+                            reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
+                            datetime.setText("");
+                        }
+                    }).build();
 			dialog.show();
 			return true;
 		});
@@ -696,14 +702,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			MaterialDialog.Builder builder = new MaterialDialog.Builder(mainActivity);
 			builder.content(R.string.remove_location);
 			builder.positiveText(R.string.ok);
-			builder.callback(new MaterialDialog.ButtonCallback() {
-				@Override
-				public void onPositive(MaterialDialog materialDialog) {
-					noteTmp.setLatitude("");
-					noteTmp.setLongitude("");
-					fade(locationTextView, false);
-				}
-			});
+			builder.onPositive(new MaterialDialog.SingleButtonCallback() {
+                @Override
+                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    noteTmp.setLatitude("");
+                    noteTmp.setLongitude("");
+                    fade(locationTextView, false);
+                }
+            });
 			MaterialDialog dialog = builder.build();
 			dialog.show();
 			return true;
@@ -1159,16 +1165,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		new MaterialDialog.Builder(mainActivity)
 				.customView(layout, false)
 				.positiveText(R.string.ok)
-				.callback(new MaterialDialog.ButtonCallback() {
-					@Override
-					public void onPositive(MaterialDialog materialDialog) {
-						prefs.edit()
-								.putBoolean(Constants.PREF_KEEP_CHECKED, keepChecked.isChecked())
-								.putBoolean(Constants.PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
-								.apply();
-						toggleChecklist2();
-					}
-				}).build().show();
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        prefs.edit()
+                                .putBoolean(Constants.PREF_KEEP_CHECKED, keepChecked.isChecked())
+                                .putBoolean(Constants.PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
+                                .apply();
+                        toggleChecklist2();
+                    }
+                }).build().show();
 	}
 
 	/**
@@ -1237,21 +1243,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				.positiveColorRes(R.color.colorPrimary)
 				.negativeText(R.string.remove_category)
 				.negativeColorRes(R.color.colorAccent)
-				.callback(new MaterialDialog.ButtonCallback() {
-					@Override
-					public void onPositive(MaterialDialog dialog) {
-						Intent intent = new Intent(mainActivity, CategoryActivity.class);
-						intent.putExtra("noHome", true);
-						startActivityForResult(intent, CATEGORY);
-					}
-
-					@Override
-					public void onNegative(MaterialDialog dialog) {
-						noteTmp.setCategory(null);
-						setTagMarkerColor(null);
-					}
+                .onPositive((dialog1, which) -> {
+					Intent intent = new Intent(mainActivity, CategoryActivity.class);
+					intent.putExtra("noHome", true);
+					startActivityForResult(intent, CATEGORY);
 				})
-				.build();
+                .onNegative((dialog12, which) -> {
+					noteTmp.setCategory(null);
+					setTagMarkerColor(null);
+				}).build();
 
 		dialog.getListView().setOnItemClickListener((parent, view, position, id) -> {
 			noteTmp.setCategory(categories.get(position));
@@ -1520,15 +1520,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		new MaterialDialog.Builder(mainActivity)
 				.content(R.string.delete_note_confirmation)
 				.positiveText(R.string.ok)
-				.callback(new MaterialDialog.ButtonCallback() {
-					@Override
-					public void onPositive(MaterialDialog materialDialog) {
-						mainActivity.deleteNote(noteTmp);
-						Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
-						mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
-						goHome();
-					}
-				}).build().show();
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        mainActivity.deleteNote(noteTmp);
+                        Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
+                        mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
+                        goHome();
+                    }
+                }).build().show();
 	}
 
 	public void saveAndExit(OnNoteSaved mOnNoteSaved) {
@@ -1603,7 +1603,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(noteSaved)));
 			deleteMergedNotes(mergedNotesIds);
 			if (noteTmp.getAlarm() != null && !noteTmp.getAlarm().equals(note.getAlarm())) {
-				ReminderHelper.showReminderMessage(noteTmp.getAlarm());
+				ReminderHelper.showReminderMessage(String.valueOf(noteTmp.getAlarm()));
 			}
 		}
 		note = new Note(noteSaved);
@@ -1712,7 +1712,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (noteTmp.getAlarm() == null) {
 			return "";
 		}
-		long reminder = parseLong(note.getAlarm());
+		long reminder = note.getAlarm();
 		String rrule = note.getRecurrenceRule();
 		if (!TextUtils.isEmpty(rrule)) {
 			return DateHelper.getNoteRecurrentReminderText(reminder, rrule);
@@ -1989,8 +1989,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		noteTmp.setRecurrenceRule(recurrenceRule);
 		if (!TextUtils.isEmpty(recurrenceRule)) {
 			Log.d(Constants.TAG, "Recurrent reminder set: " + recurrenceRule);
-			datetime.setText(DateHelper.getNoteRecurrentReminderText(parseLong(noteTmp
-					.getAlarm()), recurrenceRule));
+			datetime.setText(DateHelper.getNoteRecurrentReminderText(noteTmp.getAlarm(), recurrenceRule));
 		}
 	}
 
@@ -2205,19 +2204,19 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			final MaterialDialog dialog = new MaterialDialog.Builder(mainActivityWeakReference.get())
 					.customView(autoCompView, false)
 					.positiveText(R.string.use_current_location)
-					.callback(new MaterialDialog.ButtonCallback() {
-						@Override
-						public void onPositive(MaterialDialog materialDialog) {
-							if (TextUtils.isEmpty(autoCompView.getText().toString())) {
-								noteTmpWeakReference.get().setLatitude(location.getLatitude());
-								noteTmpWeakReference.get().setLongitude(location.getLongitude());
-								GeocodeHelper.getAddressFromCoordinates(location, detailFragmentWeakReference.get());
-							} else {
-								GeocodeHelper.getCoordinatesFromAddress(autoCompView.getText().toString(),
-										detailFragmentWeakReference.get());
-							}
-						}
-					})
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            if (TextUtils.isEmpty(autoCompView.getText().toString())) {
+                                noteTmpWeakReference.get().setLatitude(location.getLatitude());
+                                noteTmpWeakReference.get().setLongitude(location.getLongitude());
+                                GeocodeHelper.getAddressFromCoordinates(location, detailFragmentWeakReference.get());
+                            } else {
+                                GeocodeHelper.getCoordinatesFromAddress(autoCompView.getText().toString(),
+                                        detailFragmentWeakReference.get());
+                            }
+                        }
+                    })
 					.build();
 			autoCompView.addTextChangedListener(new TextWatcher() {
 				@Override

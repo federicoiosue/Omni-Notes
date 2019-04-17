@@ -274,7 +274,7 @@
   <string name="settings_category_preferences">Параметри</string>
   <string name="settings_category_beta">Бета-тестування</string>
   <string name="settings_category_about">Про програму</string>
-  <string name="settings_beta">Google+</string>
+  <string name="settings_beta">Opt-in</string>
   <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">Підтримати</string>
   <string name="donate_summary">Підтримайте розробку цієї програми некомерційною пожертвою</string>

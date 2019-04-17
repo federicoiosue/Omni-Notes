@@ -269,7 +269,7 @@
   <string name="settings_category_preferences">プリファレンス</string>
   <string name="settings_category_beta">ベータ</string>
   <string name="settings_category_about">...について</string>
-  <string name="settings_beta">Google+</string>
+  <string name="settings_beta">Opt-in</string>
   <string name="settings_beta_summary">最新の機能に保つためにベータプログラムに登録します</string>
   <string name="donate">寄付</string>
   <string name="donate_summary">非営利の寄付でこのアプリの開発をサポートします</string>

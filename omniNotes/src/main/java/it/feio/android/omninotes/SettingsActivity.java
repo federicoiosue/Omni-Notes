@@ -85,7 +85,7 @@ public class SettingsActivity extends AppCompatActivity implements FolderChooser
 
 	@Override
 	public void onBackPressed() {
-		if (backStack.size() > 0) {
+		if (!backStack.isEmpty()) {
 			replaceFragment(backStack.remove(backStack.size() - 1));
 		} else {
 			super.onBackPressed();
@@ -110,16 +110,13 @@ public class SettingsActivity extends AppCompatActivity implements FolderChooser
 				.title(R.string.data_import_message_warning)
 				.content(folder.getName())
 				.positiveText(R.string.confirm)
-				.callback(new MaterialDialog.ButtonCallback() {
-					@Override
-					public void onPositive(MaterialDialog materialDialog) {
-						((OmniNotes)getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
-								"settings_import_data");
-						Intent service = new Intent(getApplicationContext(), DataBackupIntentService.class);
-						service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_LEGACY);
-						service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, folder.getAbsolutePath());
-						startService(service);
-					}
+				.onPositive((dialog1, which) -> {
+					((OmniNotes)getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+							"settings_import_data");
+					Intent service = new Intent(getApplicationContext(), DataBackupIntentService.class);
+					service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_LEGACY);
+					service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, folder.getAbsolutePath());
+					startService(service);
 				}).build().show();
 	}
 }

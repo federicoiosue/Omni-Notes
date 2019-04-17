@@ -269,7 +269,7 @@
   <string name="settings_category_preferences">ການອ້າງອີງ</string>
   <string name="settings_category_beta">ເວີຊັນທົດລອງ</string>
   <string name="settings_category_about">ກ່ຽວກັບ</string>
-  <string name="settings_beta">Google+</string>
+  <string name="settings_beta">Opt-in</string>
   <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
   <string name="donate">ບໍລິຈາກ</string>
   <string name="donate_summary">Support the development of this app with a non-profit donation</string>

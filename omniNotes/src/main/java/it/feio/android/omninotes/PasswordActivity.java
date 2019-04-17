@@ -19,9 +19,12 @@ package it.feio.android.omninotes;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import de.greenrobot.event.EventBus;
@@ -160,9 +163,9 @@ public class PasswordActivity extends BaseActivity {
 			new MaterialDialog.Builder(mActivity)
 					.content(R.string.agree_unlocking_all_notes)
 					.positiveText(R.string.ok)
-					.callback(new MaterialDialog.ButtonCallback() {
+					.onPositive(new MaterialDialog.SingleButtonCallback() {
 						@Override
-						public void onPositive(MaterialDialog materialDialog) {
+						public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
 							PasswordHelper.removePassword();
 						}
 					}).build().show();
