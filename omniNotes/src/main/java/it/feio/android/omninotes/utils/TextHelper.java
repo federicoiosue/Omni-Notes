@@ -132,12 +132,11 @@ public class TextHelper {
 						(), prefs.getBoolean(Constants.PREF_PRETTIFIED_DATES, true));
 				break;
             case DbHelper.KEY_REMINDER:
-				String noteReminder = note.getAlarm();
-				if (TextUtils.isEmpty(noteReminder)) {
+				if (note.getAlarm() == null) {
 					dateText = mContext.getString(R.string.no_reminder_set);
 				} else {
 					dateText = mContext.getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(mContext,
-							Long.parseLong(noteReminder));
+                            note.getAlarm());
 				}
 				break;
             default:

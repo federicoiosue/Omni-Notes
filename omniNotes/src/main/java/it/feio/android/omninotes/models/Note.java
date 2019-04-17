@@ -53,9 +53,9 @@ public class Note extends BaseNote implements Parcelable {
     }
 
 
-    public Note(Long creation, Long lastModification, String title, String content, Integer archived,
-				Integer trashed, String alarm, String recurrenceRule, Integer reminderFired, String latitude, String longitude, Category
-                        category, Integer locked, Integer checklist) {
+    public Note(Long creation, Long lastModification, String title, String content, boolean archived,
+                boolean trashed, long alarm, String recurrenceRule, boolean reminderFired, String latitude, String longitude, Category
+                        category, boolean locked, boolean checklist) {
         super(creation, lastModification, title, content, archived, trashed, alarm, reminderFired, recurrenceRule,
 				latitude,
 				longitude, category, locked, checklist);
@@ -69,21 +69,21 @@ public class Note extends BaseNote implements Parcelable {
 
 
     private Note(Parcel in) {
-        setCreation(in.readString());
-        setLastModification(in.readString());
+        setCreation(in.readLong());
+        setLastModification(in.readLong());
         setTitle(in.readString());
         setContent(in.readString());
-        setArchived(in.readInt());
-        setTrashed(in.readInt());
-		setAlarm(in.readString());
-		setReminderFired(in.readInt());
+        setArchived(in.readInt() != 0);
+        setTrashed(in.readInt() != 0);
+		setAlarm(in.readLong());
+		setReminderFired(in.readInt() != 0);
         setRecurrenceRule(in.readString());
         setLatitude(in.readString());
         setLongitude(in.readString());
         setAddress(in.readString());
         super.setCategory(in.readParcelable(Category.class.getClassLoader()));
-        setLocked(in.readInt());
-        setChecklist(in.readInt());
+        setLocked(in.readInt() != 0);
+        setChecklist(in.readInt() != 0);
         in.readList(getAttachmentsList(), Attachment.class.getClassLoader());
     }
 
@@ -172,7 +172,7 @@ public class Note extends BaseNote implements Parcelable {
         parcel.writeString(getContent());
         parcel.writeInt(isArchived() ? 1 : 0);
         parcel.writeInt(isTrashed() ? 1 : 0);
-		parcel.writeString(getAlarm());
+		parcel.writeLong(getAlarm());
 		parcel.writeInt(isReminderFired() ? 1 : 0);
         parcel.writeString(getRecurrenceRule());
         parcel.writeString(String.valueOf(getLatitude()));

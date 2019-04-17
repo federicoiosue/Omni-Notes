@@ -39,7 +39,7 @@ public class ReminderHelper {
 
 	public static void addReminder(Context context, Note note) {
 		if (note.getAlarm() != null) {
-			addReminder(context, note, Long.parseLong(note.getAlarm()));
+			addReminder(context, note, note.getAlarm());
 		}
 	}
 
@@ -70,13 +70,13 @@ public class ReminderHelper {
 
 
 	static int getRequestCode(Note note) {
-		Long longCode = note.getCreation() != null ? note.getCreation() : Calendar.getInstance().getTimeInMillis() / 1000L;
+		Long longCode = note.getCreation() > 0 ? note.getCreation() : Calendar.getInstance().getTimeInMillis() / 1000L;
 		return longCode.intValue();
 	}
 
 
 	public static void removeReminder(Context context, Note note) {
-		if (!TextUtils.isEmpty(note.getAlarm())) {
+		if (note.getAlarm() != null) {
 			AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, AlarmReceiver.class);
 			PendingIntent p = PendingIntent.getBroadcast(context, getRequestCode(note), intent, 0);

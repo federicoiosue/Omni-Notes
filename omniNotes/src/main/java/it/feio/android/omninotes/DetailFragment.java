@@ -1243,21 +1243,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				.positiveColorRes(R.color.colorPrimary)
 				.negativeText(R.string.remove_category)
 				.negativeColorRes(R.color.colorAccent)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        Intent intent = new Intent(mainActivity, CategoryActivity.class);
-                        intent.putExtra("noHome", true);
-                        startActivityForResult(intent, CATEGORY);
-                    }
-                })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        noteTmp.setCategory(null);
-                        setTagMarkerColor(null);
-                    }
-                }).build();
+                .onPositive((dialog1, which) -> {
+					Intent intent = new Intent(mainActivity, CategoryActivity.class);
+					intent.putExtra("noHome", true);
+					startActivityForResult(intent, CATEGORY);
+				})
+                .onNegative((dialog12, which) -> {
+					noteTmp.setCategory(null);
+					setTagMarkerColor(null);
+				}).build();
 
 		dialog.getListView().setOnItemClickListener((parent, view, position, id) -> {
 			noteTmp.setCategory(categories.get(position));
@@ -1609,7 +1603,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(noteSaved)));
 			deleteMergedNotes(mergedNotesIds);
 			if (noteTmp.getAlarm() != null && !noteTmp.getAlarm().equals(note.getAlarm())) {
-				ReminderHelper.showReminderMessage(noteTmp.getAlarm());
+				ReminderHelper.showReminderMessage(String.valueOf(noteTmp.getAlarm()));
 			}
 		}
 		note = new Note(noteSaved);
@@ -1718,7 +1712,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (noteTmp.getAlarm() == null) {
 			return "";
 		}
-		long reminder = parseLong(note.getAlarm());
+		long reminder = note.getAlarm();
 		String rrule = note.getRecurrenceRule();
 		if (!TextUtils.isEmpty(rrule)) {
 			return DateHelper.getNoteRecurrentReminderText(reminder, rrule);
@@ -1995,8 +1989,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		noteTmp.setRecurrenceRule(recurrenceRule);
 		if (!TextUtils.isEmpty(recurrenceRule)) {
 			Log.d(Constants.TAG, "Recurrent reminder set: " + recurrenceRule);
-			datetime.setText(DateHelper.getNoteRecurrentReminderText(parseLong(noteTmp
-					.getAlarm()), recurrenceRule));
+			datetime.setText(DateHelper.getNoteRecurrentReminderText(noteTmp.getAlarm(), recurrenceRule));
 		}
 	}
 

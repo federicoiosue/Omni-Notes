@@ -198,7 +198,6 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    // Inserting or updating single note
     public Note updateNote(Note note, boolean updateLastModification) {
         SQLiteDatabase db = getDatabase(true);
 
@@ -206,18 +205,18 @@ public class DbHelper extends SQLiteOpenHelper {
                 ? Security.encrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, ""))
                 : note.getContent();
 
-        // To ensure note and attachments insertions are atomical and boost performances transaction are used
+        // To ensure note and attachments insertions are atomic and boost performances transaction are used
         db.beginTransaction();
 
         ContentValues values = new ContentValues();
         values.put(KEY_TITLE, note.getTitle());
         values.put(KEY_CONTENT, content);
-        values.put(KEY_CREATION, note.getCreation() != null ? note.getCreation() : Calendar.getInstance()
+        values.put(KEY_CREATION, note.getCreation() > 0 ? note.getCreation() : Calendar.getInstance()
                 .getTimeInMillis());
-        values.put(KEY_LAST_MODIFICATION, updateLastModification ? Calendar
-                .getInstance().getTimeInMillis() : (note.getLastModification() != null ? note.getLastModification() :
-                Calendar
-                        .getInstance().getTimeInMillis()));
+        long lastModification = note.getLastModification() > 0 && !updateLastModification
+                ? note.getLastModification()
+                : Calendar.getInstance().getTimeInMillis();
+        values.put(KEY_LAST_MODIFICATION, lastModification);
         values.put(KEY_ARCHIVED, note.isArchived());
         values.put(KEY_TRASHED, note.isTrashed());
         values.put(KEY_REMINDER, note.getAlarm());
@@ -227,10 +226,8 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_LONGITUDE, note.getLongitude());
         values.put(KEY_ADDRESS, note.getAddress());
         values.put(KEY_CATEGORY, note.getCategory() != null ? note.getCategory().getId() : null);
-        boolean locked = note.isLocked() != null ? note.isLocked() : false;
-        values.put(KEY_LOCKED, locked);
-        boolean checklist = note.isChecklist() != null ? note.isChecklist() : false;
-        values.put(KEY_CHECKLIST, checklist);
+        values.put(KEY_LOCKED, note.isLocked());
+        values.put(KEY_CHECKLIST, note.isChecklist());
 
 		db.insertWithOnConflict(TABLE_NOTES, KEY_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
 		Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
@@ -252,7 +249,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		db.close();
 
         // Fill the note with correct data before returning it
-        note.setCreation(note.getCreation() != null ? note.getCreation() : values.getAsLong(KEY_CREATION));
+        note.setCreation(note.getCreation() > 0 ? note.getCreation() : values.getAsLong(KEY_CREATION));
         note.setLastModification(values.getAsLong(KEY_LAST_MODIFICATION));
 
         return note;
@@ -451,8 +448,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     note.setContent(cursor.getString(i++));
                     note.setArchived("1".equals(cursor.getString(i++)));
                     note.setTrashed("1".equals(cursor.getString(i++)));
-                    note.setAlarm(cursor.getString(i++));
-                    note.setReminderFired(cursor.getInt(i++));
+                    note.setAlarm(cursor.getLong(i++));
+                    note.setReminderFired(cursor.getInt(i++) != 0);
                     note.setRecurrenceRule(cursor.getString(i++));
                     note.setLatitude(cursor.getString(i++));
                     note.setLongitude(cursor.getString(i++));
@@ -982,8 +979,8 @@ public class DbHelper extends SQLiteOpenHelper {
             } else {
                 notesActive++;
             }
-            if (note.getAlarm() != null && Long.parseLong(note.getAlarm()) > 0) {
-                if (Long.parseLong(note.getAlarm()) > Calendar.getInstance().getTimeInMillis()) {
+            if (note.getAlarm() != null && note.getAlarm() > 0) {
+                if (note.getAlarm() > Calendar.getInstance().getTimeInMillis()) {
                     remindersFuture++;
                 } else {
                     reminders++;

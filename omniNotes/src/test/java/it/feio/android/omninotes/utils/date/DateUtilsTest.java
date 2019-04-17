@@ -76,6 +76,12 @@ public class DateUtilsTest {
 	}
 
 	@Test
+	public void isFutureManagesNullValues() {
+    	Long longValue = null;
+		assertFalse(DateUtils.isFuture(longValue));
+	}
+
+	@Test
 	public void isSameDay() {
 		long today = Calendar.getInstance().getTimeInMillis();
 		long tomorrow = today + (1000 * 60 * 60 * 24);
