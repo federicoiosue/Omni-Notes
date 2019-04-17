@@ -154,9 +154,9 @@ public class DateUtils {
 	 * @param currentReminder
 	 * @return
 	 */
-	public static long getPresetReminder(long currentReminder) {
+	public static long getPresetReminder(Long currentReminder) {
 		long now = Calendar.getInstance().getTimeInMillis();
-		return now > currentReminder ? getNextMinute() : currentReminder;
+		return currentReminder != null && currentReminder > now ? currentReminder : getNextMinute();
 	}
 
     public static Long getPresetReminder(String alarm) {

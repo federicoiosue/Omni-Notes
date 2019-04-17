@@ -298,18 +298,8 @@ public class DbHelper extends SQLiteOpenHelper {
      * Getting single note
      */
     public Note getNote(long id) {
-
-        String whereCondition = " WHERE "
-                + KEY_ID + " = " + id;
-
-        List<Note> notes = getNotes(whereCondition, true);
-        Note note;
-        if (notes.size() > 0) {
-            note = notes.get(0);
-        } else {
-            note = null;
-        }
-        return note;
+        List<Note> notes = getNotes(" WHERE " + KEY_ID + " = " + id, true);
+        return notes.isEmpty() ? null : notes.get(0);
     }
 
 
