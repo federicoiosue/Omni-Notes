@@ -8,6 +8,7 @@ import org.apache.commons.io.FileUtils;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -37,7 +38,7 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
-
+@Ignore("Ignored until merging autobackup feature branch")
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class AutoBackupTest extends BaseEspressoTest {
