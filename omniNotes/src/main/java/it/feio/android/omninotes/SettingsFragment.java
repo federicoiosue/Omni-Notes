@@ -39,6 +39,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -48,10 +49,12 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 
 import org.apache.commons.lang.StringUtils;
+import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.LinkedList;
 import java.util.List;
 
 import it.feio.android.analitica.AnalyticsHelper;
@@ -65,12 +68,14 @@ import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.ConstantsBase;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.ResourcesUtils;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
+import rx.Observable;
 
 import static java.util.Arrays.asList;
 import static java.util.Collections.reverse;
@@ -192,64 +197,62 @@ public class SettingsFragment extends PreferenceFragment {
 			});
 		}
 
+		// Autobackup feature integrity check
+		Preference backupIntegrityCheck = findPreference("settings_backup_integrity_check");
+		if (backupIntegrityCheck != null) {
+			backupIntegrityCheck.setOnPreferenceClickListener(arg0 -> {
+				List<LinkedList<DiffMatchPatch.Diff>> errors = BackupHelper.integrityCheck(StorageHelper
+						.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
+				if (errors.isEmpty()) {
+					new MaterialDialog.Builder(activity)
+							.content("Everything is ok")
+							.positiveText(R.string.ok)
+							.build().show();
+				} else {
+					DiffMatchPatch diffMatchPatch = new DiffMatchPatch();
+					String content = Observable.from(errors).map(diffs -> diffMatchPatch.diffPrettyHtml(diffs) +
+							"<br/>").toList().toBlocking().first().toString();
+					View v = getActivity().getLayoutInflater().inflate(R.layout.webview, null);
+					((WebView) v.findViewById(R.id.webview)).loadData(content, "text/html", null);
+					new MaterialDialog.Builder(activity)
+							.customView(v, true)
+							.positiveText(R.string.ok)
+							.negativeText("Copy to clipboard")
+							.onNegative((dialog, which) -> {
+								SystemHelper.copyToClipboard(activity, content);
+								Toast.makeText(activity, "Copied to clipboard", Toast.LENGTH_SHORT).show();
+							})
+							.build().show();
+				}
+				return false;
+			});
+		}
 
-//		// Autobackup feature integrity check
-//		Preference backupIntegrityCheck = findPreference("settings_backup_integrity_check");
-//		if (backupIntegrityCheck != null) {
-//			backupIntegrityCheck.setOnPreferenceClickListener(arg0 -> {
-//				List<LinkedList<DiffMatchPatch.Diff>> errors = BackupHelper.integrityCheck(StorageHelper
-//						.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
-//				if (errors.isEmpty()) {
-//					new MaterialDialog.Builder(activity)
-//							.content("Everything is ok")
-//							.positiveText(R.string.ok)
-//							.build().show();
-//				} else {
-//					DiffMatchPatch diffMatchPatch = new DiffMatchPatch();
-//					String content = Observable.from(errors).map(diffs -> diffMatchPatch.diffPrettyHtml(diffs) +
-//							"<br/>").toList().toBlocking().first().toString();
-//					View v = getActivity().getLayoutInflater().inflate(R.layout.webview, null);
-//					((WebView) v.findViewById(R.id.webview)).loadData(content, "text/html", null);
-//					new MaterialDialog.Builder(activity)
-//							.customView(v, true)
-//							.positiveText(R.string.ok)
-//							.negativeText("Copy to clipboard")
-//							.onNegative((dialog, which) -> {
-//								SystemHelper.copyToClipboard(activity, content);
-//								Toast.makeText(activity, "Copied to clipboard", Toast.LENGTH_SHORT).show();
-//							})
-//							.build().show();
-//				}
-//				return false;
-//			});
-//		}
-//
-//		// Autobackup
-//		final SwitchPreference enableAutobackup = (SwitchPreference) findPreference("settings_enable_autobackup");
-//		if (enableAutobackup != null) {
-//			enableAutobackup.setOnPreferenceChangeListener((preference, newValue) -> {
-//				if ((Boolean) newValue) {
-//					new MaterialDialog.Builder(activity)
-//							.content(R.string.settings_enable_automatic_backup_dialog)
-//							.positiveText(R.string.confirm)
-//							.negativeText(R.string.cancel)
-//							.onPositive((dialog, which) -> {
-//								PermissionsHelper.requestPermission(getActivity(), Manifest.permission
-//										.WRITE_EXTERNAL_STORAGE, R
-//										.string.permission_external_storage, activity.findViewById(R.id
-//										.crouton_handle), () -> {
-//									BackupHelper.startBackupService(Constants.AUTO_BACKUP_DIR);
-//									enableAutobackup.setChecked(true);
-//								});
-//							})
-//							.build().show();
-//				} else {
-//					enableAutobackup.setChecked(false);
-//				}
-//				return false;
-//			});
-//		}
-
+		// Autobackup
+		final SwitchPreference enableAutobackup = (SwitchPreference) findPreference("settings_enable_autobackup");
+		if (enableAutobackup != null) {
+			enableAutobackup.setOnPreferenceChangeListener((preference, newValue) -> {
+				if ((Boolean) newValue) {
+					new MaterialDialog.Builder(activity)
+							.content(R.string.settings_enable_automatic_backup_dialog)
+							.positiveText(R.string.confirm)
+							.negativeText(R.string.cancel)
+							.onPositive((dialog, which) -> {
+								PermissionsHelper.requestPermission(getActivity(), Manifest.permission
+										.WRITE_EXTERNAL_STORAGE, R
+										.string.permission_external_storage, activity.findViewById(R.id
+										.crouton_handle), () -> {
+									BackupHelper.startBackupService(Constants.AUTO_BACKUP_DIR);
+									enableAutobackup.setChecked(true);
+								});
+							})
+							.build().show();
+				} else {
+					enableAutobackup.setChecked(false);
+				}
+				return false;
+			});
+		}
 
 		Preference importFromSpringpad = findPreference("settings_import_from_springpad");
 		if (importFromSpringpad != null) {

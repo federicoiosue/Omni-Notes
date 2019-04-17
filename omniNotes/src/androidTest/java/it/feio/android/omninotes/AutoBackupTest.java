@@ -25,7 +25,6 @@ import org.apache.commons.io.FileUtils;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -58,7 +57,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-@Ignore("Ignored until merging autobackup feature branch")
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class AutoBackupTest extends BaseEspressoTest {
@@ -90,7 +88,7 @@ public class AutoBackupTest extends BaseEspressoTest {
         createNote("B Title", "B content");
 
         // Waiting a little to ensure background service completes auto backup
-        Thread.sleep(1200);
+        Thread.sleep(2000);
 
         List<Note> currentNotes = dbHelper.getAllNotes(false);
         assertEquals(2, currentNotes.size());
@@ -231,7 +229,7 @@ public class AutoBackupTest extends BaseEspressoTest {
     private void assertAutobackupIsCorrect() {
         List<LinkedList<DiffMatchPatch.Diff>> autobackupDifferences = BackupHelper
                 .integrityCheck(StorageHelper.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
-        assertTrue(autobackupDifferences.size() == 0);
+        assertEquals(0, autobackupDifferences.size());
 
     }
 
