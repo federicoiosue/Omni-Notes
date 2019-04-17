@@ -199,7 +199,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     public Note updateNote(Note note, boolean updateLastModification) {
-        SQLiteDatabase db = getDatabase(true);
+	    db = getDatabase(true);
 
         String content = note.isLocked()
                 ? Security.encrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, ""))
@@ -246,7 +246,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
         db.setTransactionSuccessful();
         db.endTransaction();
-		db.close();
 
         // Fill the note with correct data before returning it
         note.setCreation(note.getCreation() > 0 ? note.getCreation() : values.getAsLong(KEY_CREATION));
