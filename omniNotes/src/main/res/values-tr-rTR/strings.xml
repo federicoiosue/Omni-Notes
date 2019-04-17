@@ -269,7 +269,7 @@
   <string name="settings_category_preferences">Tercihler</string>
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">Hakkında</string>
-  <string name="settings_beta">Google+</string>
+  <string name="settings_beta">Opt-in</string>
   <string name="settings_beta_summary">En son özellikleri ile güncel tutmak için beta programına abone ol</string>
   <string name="donate">Bağış Yap</string>
   <string name="donate_summary">Kar amacı gütmeyen bu uygulamayı bağış ile gelişimini destekle</string>

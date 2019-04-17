@@ -269,7 +269,7 @@
   <string name="settings_category_preferences">首选项</string>
   <string name="settings_category_beta">测试版</string>
   <string name="settings_category_about">关于 </string>
-  <string name="settings_beta">Google+</string>
+  <string name="settings_beta">Opt-in</string>
   <string name="settings_beta_summary">参与Beta测试以便及早获取最新功能</string>
   <string name="donate">捐赠</string>
   <string name="donate_summary">请考虑为我们提供非盈利性捐赠以支持本应用后续开发</string>

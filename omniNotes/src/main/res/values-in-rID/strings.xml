@@ -269,7 +269,7 @@
     <string name="settings_category_preferences">Pengaturan</string>
     <string name="settings_category_beta">Beta</string>
     <string name="settings_category_about">Tentang</string>
-    <string name="settings_beta">Google+</string>
+    <string name="settings_beta">Opt-in</string>
     <string name="settings_beta_summary">Berlangganan ke program beta agar tetap update dengan fitur-fitur terbaru</string>
     <string name="donate">Donasi</string>
     <string name="donate_summary">Dukung pengembangan aplikasi ini dengan donasi non-profit</string>

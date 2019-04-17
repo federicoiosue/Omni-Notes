@@ -269,7 +269,7 @@
   <string name="settings_category_preferences">Beállítások</string>
   <string name="settings_category_beta">Béta</string>
   <string name="settings_category_about">Névjegy</string>
-  <string name="settings_beta">Google+</string>
+  <string name="settings_beta">Opt-in</string>
   <string name="settings_beta_summary">Iratkozzon fel a bétára, hogy naprakész legyen a legújabb funkciókkal</string>
   <string name="donate">Támogatás</string>
   <string name="donate_summary">Támogassa ennek az alkalmazásnak a fejlesztését egy non-profit adománnyal</string>

@@ -269,7 +269,7 @@
   <string name="settings_category_preferences">Nastavitve</string>
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">O aplikaciji</string>
-  <string name="settings_beta">Google+</string>
+  <string name="settings_beta">Opt-in</string>
   <string name="settings_beta_summary">Naročite se na beta program za uporabo najnovejših funkcij</string>
   <string name="donate">Doniraj</string>
   <string name="donate_summary">Podpirati razvoj te vloge z neprofitno darovanja</string>

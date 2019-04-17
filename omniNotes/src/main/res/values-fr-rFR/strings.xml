@@ -269,7 +269,7 @@
   <string name="settings_category_preferences">Préférences</string>
   <string name="settings_category_beta">Bêta</string>
   <string name="settings_category_about">À propos</string>
-  <string name="settings_beta">Google+</string>
+  <string name="settings_beta">Opt-in</string>
   <string name="settings_beta_summary">Rejoindre le programme bêta pour être à jour avec les dernières fonctionnalités</string>
   <string name="donate">Donation</string>
   <string name="donate_summary">Soutenir le développement de cette application avec un don à but non lucratif</string>

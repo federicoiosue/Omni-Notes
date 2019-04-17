@@ -269,7 +269,7 @@
     <string name="settings_category_preferences">偏好設定</string>
     <string name="settings_category_beta">測試版</string>
     <string name="settings_category_about">關於</string>
-    <string name="settings_beta">Google+</string>
+    <string name="settings_beta">Opt-in</string>
     <string name="settings_beta_summary">參與Beta測試以便獲得最新功能</string>
     <string name="donate">捐款</string>
     <string name="donate_summary">通過非營利性捐贈來支持此程式的開發</string>
