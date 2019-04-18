@@ -19,10 +19,11 @@ package it.feio.android.omninotes.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 
 import java.io.Closeable;
 import java.io.IOException;
+
+import it.feio.android.omninotes.helpers.LogDelegate;
 
 /**
  * Various utility methods
@@ -56,7 +57,7 @@ public class SystemHelper {
                 try {
                     closeable.close();
                 } catch (IOException e) {
-                    Log.w(Constants.TAG, "Can't close " + closeable, e);
+                    LogDelegate.w("Can't close " + closeable, e);
                 }
             }
         }

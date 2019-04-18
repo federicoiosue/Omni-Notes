@@ -54,7 +54,6 @@ import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -112,6 +111,7 @@ import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -249,45 +249,39 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					.negativeColorRes(R.color.colorPrimary)
 					.positiveText(R.string.open)
 					.negativeText(R.string.copy)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            boolean error = false;
-                            Intent intent = null;
-                            try {
-                                intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                                intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            } catch (NullPointerException e) {
-                                error = true;
-                            }
+                    .onPositive((dialog, which) -> {
+						boolean error = false;
+						Intent intent = null;
+						try {
+							intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+							intent.addCategory(Intent.CATEGORY_BROWSABLE);
+							intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						} catch (NullPointerException e) {
+							error = true;
+						}
 
-                            if (intent == null
-                                    || error
-                                    || !IntentChecker
-                                    .isAvailable(
-                                            mainActivity,
-                                            intent,
-                                            new String[]{PackageManager.FEATURE_CAMERA})) {
-                                mainActivity.showMessage(R.string.no_application_can_perform_this_action,
-                                        ONStyle.ALERT);
+						if (intent == null
+								|| error
+								|| !IntentChecker
+								.isAvailable(
+										mainActivity,
+										intent,
+										new String[]{PackageManager.FEATURE_CAMERA})) {
+							mainActivity.showMessage(R.string.no_application_can_perform_this_action,
+									ONStyle.ALERT);
 
-                            } else {
-                                startActivity(intent);
-                            }
-                        }
-                    })
-                    .onNegative(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
-                                    mainActivity
-                                            .getSystemService(Activity.CLIPBOARD_SERVICE);
-                            android.content.ClipData clip = android.content.ClipData.newPlainText("text label",
-                                    clickedString);
-                            clipboard.setPrimaryClip(clip);
-                        }
-                    }).build().show();
+						} else {
+							startActivity(intent);
+						}
+					})
+                    .onNegative((dialog, which) -> {
+						android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
+								mainActivity
+										.getSystemService(Activity.CLIPBOARD_SERVICE);
+						android.content.ClipData clip = android.content.ClipData.newPlainText("text label",
+								clickedString);
+						clipboard.setPrimaryClip(clip);
+					}).build().show();
 			View clickedView = noteTmp.isChecklist() ? toggleChecklistView : content;
 			clickedView.clearFocus();
 			KeyboardUtils.hideKeyboard(clickedView);
@@ -519,7 +513,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 							noteTmp = new Note();
 							noteTmp.setCategory(category);
 						} catch (NumberFormatException e) {
-							Log.e(Constants.TAG, "Category with not-numeric value!", e);
+							LogDelegate.e("Category with not-numeric value!", e);
 						}
 					}
 				}
@@ -725,7 +719,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	private void initViewAttachments() {
 
 		// Attachments position based on preferences
-		if (prefs.getBoolean(Constants.PREF_ATTANCHEMENTS_ON_BOTTOM, false)) {
+		if (prefs.getBoolean(Constants.PREF_ATTACHMENTS_ON_BOTTOM, false)) {
 			attachmentsBelow.inflate();
 		} else {
 			attachmentsAbove.inflate();
@@ -847,7 +841,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				takeSketch(mAttachmentAdapter.getItem(attachmentPosition));
 				break;
 			default:
-				Log.w(Constants.TAG, "No action available");
+				LogDelegate.w("No action available");
 		}
 	}
 
@@ -1109,7 +1103,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				showNoteInfo();
 				break;
 			default:
-				Log.w(Constants.TAG, "Invalid menu option selected");
+				LogDelegate.w("Invalid menu option selected");
 		}
 
 		((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackActionFromResourceId(getActivity(),
@@ -1210,7 +1204,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		try {
 			newView = mChecklistManager.convert(toggleChecklistView);
 		} catch (ViewNotSupportedException e) {
-			Log.e(Constants.TAG, "Error switching checklist view", e);
+			LogDelegate.e("Error switching checklist view", e);
 		}
 
 		// Switches the views
@@ -1431,7 +1425,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 					mainActivity.showMessage(R.string.note_updated, ONStyle.CONFIRM);
 					break;
 				default:
-					Log.e(Constants.TAG, "Wrong element choosen: " + requestCode);
+					LogDelegate.e("Wrong element choosen: " + requestCode);
 			}
 		}
 	}
@@ -1524,7 +1518,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         mainActivity.deleteNote(noteTmp);
-                        Log.d(Constants.TAG, "Deleted note with id '" + noteTmp.get_id() + "'");
+                        LogDelegate.d("Deleted note with id '" + noteTmp.get_id() + "'");
                         mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
                         goHome();
                     }
@@ -1552,7 +1546,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Check if some text or attachments of any type have been inserted or is an empty note
 		if (goBack && TextUtils.isEmpty(noteTmp.getTitle()) && TextUtils.isEmpty(noteTmp.getContent())
 				&& noteTmp.getAttachmentsList().size() == 0) {
-			Log.d(Constants.TAG, "Empty note not saved");
+			LogDelegate.d("Empty note not saved");
 			exitMessage = getString(R.string.empty_note_not_saved);
 			exitCroutonStyle = ONStyle.INFO;
 			goHome();
@@ -1666,7 +1660,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	 * Notes locking with security password to avoid viewing, editing or deleting from unauthorized
 	 */
 	private void lockNote() {
-		Log.d(Constants.TAG, "Locking or unlocking note " + note.get_id());
+		LogDelegate.d("Locking or unlocking note " + note.get_id());
 
 		// If security password is not set yes will be set right now
 		if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
@@ -1775,7 +1769,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				}
 			});
 		} catch (IOException e) {
-			Log.e(Constants.TAG, "prepare() failed", e);
+			LogDelegate.e("prepare() failed", e);
 			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
 		}
 	}
@@ -1820,7 +1814,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 						mRecorder.prepare();
 						mRecorder.start();
 					} catch (IOException | IllegalStateException e) {
-						Log.e(Constants.TAG, "prepare() failed", e);
+						LogDelegate.e("prepare() failed", e);
 						mainActivity.showMessage(R.string.error, ONStyle.ALERT);
 					}
 				});
@@ -1895,7 +1889,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		switch (event.getAction()) {
 
 			case MotionEvent.ACTION_DOWN:
-				Log.v(Constants.TAG, "MotionEvent.ACTION_DOWN");
+				LogDelegate.v("MotionEvent.ACTION_DOWN");
 				int w;
 
 				Point displaySize = Display.getUsableSize(mainActivity);
@@ -1909,14 +1903,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				break;
 
 			case MotionEvent.ACTION_UP:
-				Log.v(Constants.TAG, "MotionEvent.ACTION_UP");
+				LogDelegate.v("MotionEvent.ACTION_UP");
 				if (swiping)
 					swiping = false;
 				break;
 
 			case MotionEvent.ACTION_MOVE:
 				if (swiping) {
-					Log.v(Constants.TAG, "MotionEvent.ACTION_MOVE at position " + x + ", " + y);
+					LogDelegate.v("MotionEvent.ACTION_MOVE at position " + x + ", " + y);
 					if (Math.abs(x - startSwipeX) > Constants.SWIPE_OFFSET) {
 						swiping = false;
 						FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
@@ -1933,7 +1927,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				break;
 
 			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + event.getAction());
+				LogDelegate.e("Wrong element choosen: " + event.getAction());
 		}
 
 		return true;
@@ -1988,7 +1982,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	public void onRecurrenceReminderPicked(String recurrenceRule) {
 		noteTmp.setRecurrenceRule(recurrenceRule);
 		if (!TextUtils.isEmpty(recurrenceRule)) {
-			Log.d(Constants.TAG, "Recurrent reminder set: " + recurrenceRule);
+			LogDelegate.d("Recurrent reminder set: " + recurrenceRule);
 			datetime.setText(DateHelper.getNoteRecurrentReminderText(noteTmp.getAlarm(), recurrenceRule));
 		}
 	}
@@ -2303,7 +2297,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 							null, 0);
 					break;
 				default:
-					Log.e(Constants.TAG, "Wrong element choosen: " + v.getId());
+					LogDelegate.e("Wrong element choosen: " + v.getId());
 			}
 			if (!isRecording) attachmentDialog.dismiss();
 		}

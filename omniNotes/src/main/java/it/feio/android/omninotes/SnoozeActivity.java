@@ -29,6 +29,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
+
+import java.util.Arrays;
+import java.util.Calendar;
+
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
@@ -37,9 +41,6 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
-
-import java.util.Arrays;
-import java.util.Calendar;
 
 
 public class SnoozeActivity extends AppCompatActivity implements OnReminderPickedListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {

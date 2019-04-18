@@ -75,7 +75,7 @@ public class Note extends BaseNote implements Parcelable {
         setContent(in.readString());
         setArchived(in.readInt() != 0);
         setTrashed(in.readInt() != 0);
-		setAlarm(in.readLong());
+		setAlarm(Long.valueOf(in.readString()));
 		setReminderFired(in.readInt() != 0);
         setRecurrenceRule(in.readString());
         setLatitude(in.readString());
@@ -172,7 +172,7 @@ public class Note extends BaseNote implements Parcelable {
         parcel.writeString(getContent());
         parcel.writeInt(isArchived() ? 1 : 0);
         parcel.writeInt(isTrashed() ? 1 : 0);
-		parcel.writeLong(getAlarm());
+		parcel.writeString(String.valueOf(getAlarm()));
 		parcel.writeInt(isReminderFired() ? 1 : 0);
         parcel.writeString(getRecurrenceRule());
         parcel.writeString(String.valueOf(getLatitude()));

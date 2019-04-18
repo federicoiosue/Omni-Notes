@@ -22,7 +22,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,6 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
@@ -88,7 +88,7 @@ public class GalleryActivity extends AppCompatActivity {
                 float dx = Math.abs(x - ev.getX());
                 float dy = Math.abs(y - ev.getY());
                 double dxy = Math.sqrt(dx * dx + dy * dy);
-                Log.d(Constants.TAG, "Moved of " + dxy);
+                LogDelegate.d("Moved of " + dxy);
                 if (dxy >= MOVING_THRESHOLD) {
                     status_pressed = false;
                 }
@@ -200,7 +200,7 @@ public class GalleryActivity extends AppCompatActivity {
                 viewMedia();
                 break;
 			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+				LogDelegate.e("Wrong element choosen: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
     }

@@ -22,7 +22,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import java.io.File;
 
@@ -31,6 +30,7 @@ import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
@@ -206,7 +206,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 	 * Schedules reminders
 	 */
 	private void resetReminders() {
-		Log.d(Constants.TAG, "Resettings reminders");
+		LogDelegate.d("Resettings reminders");
 		for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
 			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
 		}

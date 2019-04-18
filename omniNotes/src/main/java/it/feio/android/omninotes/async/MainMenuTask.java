@@ -23,7 +23,6 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -35,6 +34,7 @@ import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
 import it.feio.android.omninotes.models.misc.DynamicNavigationLookupTable;
@@ -141,7 +141,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
                     skippable = true;
                 break;
 			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + i);
+				LogDelegate.e("Wrong element choosen: " + i);
         }
         return skippable;
     }

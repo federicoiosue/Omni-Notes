@@ -18,8 +18,11 @@
 <changelog bulletedList="true">
 
     <changelogversion
-        changeDate="Apr 7, 2019"
+        changeDate="Apr 18, 2019"
         versionName="6.0.0 Beta 9">
+        <changelogtext>[b]New![/b] Added an option to create logs on backups directory to share them
+            with developer to investigate possible problems
+        </changelogtext>
         <changelogtext>[u]Fix[/u] Removed references to Google+, long life to Google+</changelogtext>
     </changelogversion>
 

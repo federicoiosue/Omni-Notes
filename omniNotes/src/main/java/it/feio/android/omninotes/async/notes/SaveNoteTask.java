@@ -19,18 +19,18 @@ package it.feio.android.omninotes.async.notes;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
+
+import java.util.List;
+
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
-
-import java.util.List;
 
 
 public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
@@ -83,7 +83,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 		// Remove from database deleted attachments
 		for (Attachment deletedAttachment : deletedAttachments) {
 			StorageHelper.delete(context, deletedAttachment.getUri().getPath());
-			Log.d(Constants.TAG, "Removed attachment " + deletedAttachment.getUri());
+			LogDelegate.d("Removed attachment " + deletedAttachment.getUri());
 		}
 	}
 

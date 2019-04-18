@@ -176,6 +176,7 @@ dependencies {
     implementation 'com.tbruyelle.rxpermissions:rxpermissions:0.4.2@aar'
     implementation 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
     implementation 'org.bitbucket.cowwoc:diff-match-patch:1.1'
+    implementation 'com.github.bosphere.android-filelogger:filelogger:1.0.7'
 
     implementation('com.github.federicoiosue:simplegallery:3.0.1') {
         exclude group: 'com.android.support'

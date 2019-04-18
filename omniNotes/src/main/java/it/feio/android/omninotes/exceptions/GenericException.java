@@ -15,17 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.async.bus;
+package it.feio.android.omninotes.exceptions;
 
-import it.feio.android.omninotes.helpers.LogDelegate;
+public class GenericException extends RuntimeException {
 
-public class NotesMergeEvent {
+    public GenericException(String message) {
+        super(message);
+    }
 
-	public final boolean keepMergedNotes;
-
-
-	public NotesMergeEvent(boolean keepMergedNotes) {
-		LogDelegate.d(this.getClass().getName());
-		this.keepMergedNotes = keepMergedNotes;
-	}
 }

@@ -17,9 +17,7 @@
 package it.feio.android.omninotes.utils.date;
 
 import android.content.Context;
-import android.util.Log;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.utils.Constants;
+
 import org.apache.commons.lang.StringUtils;
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -28,6 +26,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.utils.Constants;
 
 
 /**
@@ -57,10 +59,10 @@ public class DateUtils {
         try {
             cal.setTime(sdf.parse(str));
         } catch (ParseException e) {
-            Log.e(Constants.TAG, "Malformed datetime string" + e.getMessage());
+            LogDelegate.e("Malformed datetime string" + e.getMessage());
 
         } catch (NullPointerException e) {
-            Log.e(Constants.TAG, "Date or time not set");
+            LogDelegate.e("Date or time not set");
         }
         return cal;
     }
@@ -76,7 +78,7 @@ public class DateUtils {
             cDate.setTime(sdfDate.parse(date));
             cTime.setTime(sdfTime.parse(time));
         } catch (ParseException e) {
-            Log.e(Constants.TAG, "Date or time parsing error: " + e.getMessage());
+            LogDelegate.e("Date or time parsing error: " + e.getMessage());
         }
         cal.set(Calendar.YEAR, cDate.get(Calendar.YEAR));
         cal.set(Calendar.MONTH, cDate.get(Calendar.MONTH));
@@ -109,7 +111,7 @@ public class DateUtils {
             try {
                 date = sdf.parse(dateString);
             } catch (ParseException e1) {
-                Log.e(Constants.TAG, "String is not formattable into date");
+                LogDelegate.e("String is not formattable into date");
             }
         }
 

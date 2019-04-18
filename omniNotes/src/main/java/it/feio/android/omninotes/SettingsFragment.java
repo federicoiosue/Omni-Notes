@@ -32,12 +32,10 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.preference.SwitchPreference;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,7 +44,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 
@@ -62,6 +59,7 @@ import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.AppVersionHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.helpers.LanguageHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.models.ONStyle;
@@ -131,7 +129,7 @@ public class SettingsFragment extends PreferenceFragment {
 		if (item.getItemId() == android.R.id.home) {
 			getActivity().onBackPressed();
 		} else {
-			Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+			LogDelegate.e("Wrong element choosen: " + item.getItemId());
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -496,7 +494,7 @@ public class SettingsFragment extends PreferenceFragment {
 			try {
 				changelog.setSummary(AppVersionHelper.getCurrentAppVersionName(getActivity()));
 			} catch (NameNotFoundException e) {
-				Log.e(Constants.TAG, "Error retrieving version", e);
+				LogDelegate.e("Error retrieving version", e);
 			}
 		}
 
@@ -749,7 +747,7 @@ public class SettingsFragment extends PreferenceFragment {
 					break;
 
 				default:
-					Log.e(Constants.TAG, "Wrong element choosen: " + requestCode);
+					LogDelegate.e("Wrong element choosen: " + requestCode);
 			}
 		}
 	}

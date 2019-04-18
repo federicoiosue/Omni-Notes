@@ -24,13 +24,11 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.util.Log;
 
 import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -40,6 +38,7 @@ import java.util.regex.Pattern;
 
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
@@ -164,7 +163,7 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            Log.i(Constants.TAG, "Database creation");
+            LogDelegate.i("Database creation");
             execSqlFile(CREATE_QUERY, db);
         } catch (IOException exception) {
             throw new RuntimeException("Database creation failed", exception);
@@ -175,7 +174,7 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		this.db = db;
-        Log.i(Constants.TAG, "Upgrading database version from " + oldVersion + " to " + newVersion);
+        LogDelegate.i("Upgrading database version from " + oldVersion + " to " + newVersion);
 
         try {
 
@@ -190,7 +189,7 @@ public class DbHelper extends SQLiteOpenHelper {
                     }
                 }
             }
-            Log.i(Constants.TAG, "Database upgrade successful");
+            LogDelegate.i("Database upgrade successful");
 
         } catch (IOException |InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException("Database upgrade failed", e);
@@ -230,7 +229,7 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_CHECKLIST, note.isChecklist());
 
 		db.insertWithOnConflict(TABLE_NOTES, KEY_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
-		Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
+		LogDelegate.d("Updated note titled '" + note.getTitle() + "'");
 
         // Updating attachments
         List<Attachment> deletedAttachments = note.getAttachmentsListOld();
@@ -256,13 +255,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     protected void execSqlFile(String sqlFile, SQLiteDatabase db) throws SQLException, IOException {
-        Log.i(Constants.TAG, "  exec sql file: {}" + sqlFile);
+        LogDelegate.i("  exec sql file: {}" + sqlFile);
         for (String sqlInstruction : SqlParser.parseSqlFile(SQL_DIR + "/" + sqlFile, mContext.getAssets())) {
-            Log.v(Constants.TAG, "    sql: {}" + sqlInstruction);
+            LogDelegate.v("    sql: {}" + sqlInstruction);
             try {
                 db.execSQL(sqlInstruction);
             } catch (Exception e) {
-                Log.e(Constants.TAG, "Error executing command: " + sqlInstruction, e);
+                LogDelegate.e("Error executing command: " + sqlInstruction, e);
             }
         }
     }
@@ -420,7 +419,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 + whereCondition
                 + (order ? " ORDER BY " + sort_column + " COLLATE NOCASE " + sort_order : "");
 
-        Log.v(Constants.TAG, "Query: " + query);
+        LogDelegate.v("Query: " + query);
 
         Cursor cursor = null;
         try {
@@ -474,7 +473,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 cursor.close();
         }
 
-        Log.v(Constants.TAG, "Query: Retrieval finished!");
+        LogDelegate.v("Query: Retrieval finished!");
         return noteList;
     }
 

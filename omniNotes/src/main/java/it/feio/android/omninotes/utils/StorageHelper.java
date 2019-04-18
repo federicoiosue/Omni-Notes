@@ -24,14 +24,10 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
-import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.models.Attachment;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -50,6 +46,7 @@ import java.util.Locale;
 
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 
 
@@ -136,11 +133,11 @@ public class StorageHelper {
                 try {
                     FileUtils.copyFile(new File(uri.getPath()), file);
                 } catch (IOException e2) {
-                    Log.e(Constants.TAG, "Error writing " + file, e2);
+                    LogDelegate.e("Error writing " + file, e2);
                     file = null;
                 }
             } catch (IOException e2) {
-                Log.e(Constants.TAG, "Error writing " + file, e2);
+                LogDelegate.e("Error writing " + file, e2);
                 file = null;
             }
         } finally {
@@ -152,7 +149,7 @@ public class StorageHelper {
                     contentResolverOutputStream.close();
                 }
             } catch (IOException e) {
-                Log.e(Constants.TAG, "Error closing streams", e);
+                LogDelegate.e("Error closing streams", e);
             }
 
         }
@@ -167,7 +164,7 @@ public class StorageHelper {
             os = new FileOutputStream(destination);
             return copyFile(is, os);
         } catch (FileNotFoundException e) {
-            Log.e(Constants.TAG, "Error copying file", e);
+            LogDelegate.e("Error copying file", e);
             return false;
         } finally {
             try {
@@ -178,7 +175,7 @@ public class StorageHelper {
                     os.close();
                 }
             } catch (IOException e) {
-                Log.e(Constants.TAG, "Error closing streams", e);
+                LogDelegate.e("Error closing streams", e);
             }
         }
     }
@@ -196,7 +193,7 @@ public class StorageHelper {
             IOUtils.copy(is, os);
             return true;
         } catch (IOException e) {
-            Log.e(StorageHelper.class.getName(), "Error copying file", e);
+            LogDelegate.e("Error copying file", e);
             return false;
         }
     }
@@ -221,7 +218,7 @@ public class StorageHelper {
         try {
             FileUtils.forceDelete(new File(path));
         } catch (IOException e) {
-            Log.w(StorageHelper.class.getSimpleName(), "Can't delete '" + path + "': " + e.getMessage());
+            LogDelegate.e("Can't delete '" + path + "': " + e.getMessage());
             return false;
         }
         return true;
@@ -314,7 +311,7 @@ public class StorageHelper {
         try {
             new File(folder, ".nomedia").createNewFile();
         } catch (IOException e) {
-            Log.w(StorageHelper.class.getSimpleName(), "Error creating .nomedia file into backup folder");
+            LogDelegate.e("Error creating .nomedia file into backup folder");
         }
     }
 
@@ -346,7 +343,7 @@ public class StorageHelper {
             }
             // Can't understand why on some devices this fails
         } catch (NoSuchMethodError e) {
-            Log.e(StorageHelper.class.getName(), "Mysterious error", e);
+            LogDelegate.e("Mysterious error", e);
         }
         return getSize(directory, blockSize);
     }
@@ -494,7 +491,7 @@ public class StorageHelper {
             try {
                 FileUtils.moveFile(new File(uri.getPath()), f);
             } catch (IOException e) {
-                Log.e(StorageHelper.class.getName(), "Can't move file " + uri.getPath());
+                LogDelegate.e("Can't move file " + uri.getPath());
             }
         } else {
             f = StorageHelper.createExternalStoragePrivateFile(mContext, uri, extension);

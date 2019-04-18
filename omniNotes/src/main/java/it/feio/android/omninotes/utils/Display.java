@@ -27,9 +27,10 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+
+import it.feio.android.omninotes.helpers.LogDelegate;
 
 
 public class Display {
@@ -53,7 +54,7 @@ public class Display {
 				}
             }
         } catch (Exception e) {
-            Log.e(Constants.TAG , "Error checking display sizes", e);
+            LogDelegate.e("Error checking display sizes", e);
         }
         return displaySize;
     }
