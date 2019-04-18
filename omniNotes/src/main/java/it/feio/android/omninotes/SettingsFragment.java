@@ -330,8 +330,7 @@ public class SettingsFragment extends PreferenceFragment {
 			maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": "
 					+ prefs.getString("settings_max_video_size", getString(R.string.not_set)));
 			maxVideoSize.setOnPreferenceChangeListener((preference, newValue) -> {
-				maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String
-						.valueOf(newValue));
+				maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + newValue);
 				prefs.edit().putString("settings_max_video_size", newValue.toString()).apply();
 				return false;
 			});
@@ -522,6 +521,20 @@ public class SettingsFragment extends PreferenceFragment {
 			});
 		}
 
+		// Logs on files activation
+		final SwitchPreference enableFileLogging = (SwitchPreference) findPreference(Constants
+				.PREF_ENABLE_FILE_LOGGING);
+		if (enableFileLogging != null) {
+			enableFileLogging.setOnPreferenceChangeListener((preference, newValue) -> {
+				if ((Boolean) newValue) {
+					PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+							.string.permission_external_storage, activity.findViewById(R.id.crouton_handle), () -> enableFileLogging.setChecked(true));
+				} else {
+					enableFileLogging.setChecked(false);
+				}
+				return false;
+			});
+		}
 
 		// Instructions
 		Preference instructions = findPreference("settings_tour_show_again");

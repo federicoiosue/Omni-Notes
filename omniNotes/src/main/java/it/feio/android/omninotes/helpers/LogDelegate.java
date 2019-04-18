@@ -20,9 +20,14 @@ package it.feio.android.omninotes.helpers;
 import android.util.Log;
 
 import com.bosphere.filelogger.FL;
+import com.bosphere.filelogger.FLConfig;
+import com.bosphere.filelogger.FLConst;
+
+import java.io.File;
 
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.exceptions.GenericException;
+import it.feio.android.omninotes.utils.StorageHelper;
 
 import static it.feio.android.checklistview.interfaces.Constants.TAG;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_ENABLE_FILE_LOGGING;
@@ -90,6 +95,15 @@ public class LogDelegate {
     private static boolean isFileLoggingEnabled() {
         if (fileLoggingEnabled == null) {
             fileLoggingEnabled = OmniNotes.getSharedPreferences().getBoolean(PREF_ENABLE_FILE_LOGGING, false);
+            if (fileLoggingEnabled) {
+                FL.init(new FLConfig.Builder(OmniNotes.getAppContext())
+                        .minLevel(FLConst.Level.V)
+                        .logToFile(true)
+                        .dir(new File(StorageHelper.getExternalStoragePublicDir(), "logs"))
+                        .retentionPolicy(FLConst.RetentionPolicy.FILE_COUNT)
+                        .build());
+                FL.setEnabled(true);
+            }
         }
         return fileLoggingEnabled;
     }

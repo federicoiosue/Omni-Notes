@@ -96,21 +96,7 @@ public class OmniNotes extends MultiDexApplication {
 
 		enableStrictMode();
 
-		enableFileLogging();
-
 		new NotificationsHelper(this).initNotificationChannels();
-	}
-
-	private void enableFileLogging() {
-		if (prefs.getBoolean(PREF_ENABLE_FILE_LOGGING, false)) {
-			FL.init(new FLConfig.Builder(this)
-					.minLevel(FLConst.Level.V)
-					.logToFile(true)
-					.dir(new File(StorageHelper.getExternalStoragePublicDir(), "logs"))
-					.retentionPolicy(FLConst.RetentionPolicy.FILE_COUNT)
-					.build());
-			FL.setEnabled(true);
-		}
 	}
 
 	private void enableStrictMode() {
