@@ -36,7 +36,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,6 +62,7 @@ import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.AppVersionHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.helpers.LanguageHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.models.ONStyle;
@@ -134,7 +134,7 @@ public class SettingsFragment extends PreferenceFragment {
 		if (item.getItemId() == android.R.id.home) {
 			getActivity().onBackPressed();
 		} else {
-			Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+			LogDelegate.e("Wrong element choosen: " + item.getItemId());
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -333,8 +333,7 @@ public class SettingsFragment extends PreferenceFragment {
 			maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": "
 					+ prefs.getString("settings_max_video_size", getString(R.string.not_set)));
 			maxVideoSize.setOnPreferenceChangeListener((preference, newValue) -> {
-				maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String
-						.valueOf(newValue));
+				maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + newValue);
 				prefs.edit().putString("settings_max_video_size", newValue.toString()).apply();
 				return false;
 			});
@@ -497,7 +496,7 @@ public class SettingsFragment extends PreferenceFragment {
 			try {
 				changelog.setSummary(AppVersionHelper.getCurrentAppVersionName(getActivity()));
 			} catch (NameNotFoundException e) {
-				Log.e(Constants.TAG, "Error retrieving version", e);
+				LogDelegate.e("Error retrieving version", e);
 			}
 		}
 
@@ -525,6 +524,20 @@ public class SettingsFragment extends PreferenceFragment {
 			});
 		}
 
+		// Logs on files activation
+		final SwitchPreference enableFileLogging = (SwitchPreference) findPreference(Constants
+				.PREF_ENABLE_FILE_LOGGING);
+		if (enableFileLogging != null) {
+			enableFileLogging.setOnPreferenceChangeListener((preference, newValue) -> {
+				if ((Boolean) newValue) {
+					PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+							.string.permission_external_storage, activity.findViewById(R.id.crouton_handle), () -> enableFileLogging.setChecked(true));
+				} else {
+					enableFileLogging.setChecked(false);
+				}
+				return false;
+			});
+		}
 
 		// Instructions
 		Preference instructions = findPreference("settings_tour_show_again");
@@ -750,7 +763,7 @@ public class SettingsFragment extends PreferenceFragment {
 					break;
 
 				default:
-					Log.e(Constants.TAG, "Wrong element choosen: " + requestCode);
+					LogDelegate.e("Wrong element choosen: " + requestCode);
 			}
 		}
 	}

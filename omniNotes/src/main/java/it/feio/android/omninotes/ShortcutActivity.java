@@ -20,6 +20,7 @@ package it.feio.android.omninotes;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+
 import it.feio.android.omninotes.utils.Constants;
 
 

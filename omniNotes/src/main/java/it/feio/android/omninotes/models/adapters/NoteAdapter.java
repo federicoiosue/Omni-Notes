@@ -23,7 +23,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.text.Spanned;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,6 +40,7 @@ import java.util.concurrent.RejectedExecutionException;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.TextWorkerTask;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
@@ -182,7 +182,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
                 }
             }
         } catch (RejectedExecutionException e) {
-            Log.w(Constants.TAG, "Oversized tasks pool to load texts!", e);
+            LogDelegate.w("Oversized tasks pool to load texts!", e);
         }
     }
 

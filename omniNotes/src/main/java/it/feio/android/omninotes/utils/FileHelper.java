@@ -26,12 +26,13 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.text.TextUtils;
-import android.util.Log;
-import it.feio.android.omninotes.factory.MediaStoreFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+
+import it.feio.android.omninotes.factory.MediaStoreFactory;
+import it.feio.android.omninotes.helpers.LogDelegate;
 
 import static java.lang.Long.parseLong;
 
@@ -125,7 +126,7 @@ public class FileHelper {
                 return cursor.getString(column_index);
             }
         } catch (Exception e) {
-            Log.e(Constants.TAG, "Error retrieving uri path", e);
+            LogDelegate.e("Error retrieving uri path", e);
         } finally {
             if (cursor != null)
                 cursor.close();
@@ -188,7 +189,7 @@ public class FileHelper {
                     }
 
                 } catch (Exception e) {
-                    Log.e(Constants.TAG, "Error managing diskk cache", e);
+                    LogDelegate.e("Error managing diskk cache", e);
                 }
             } else {
                 fileName = uri.getLastPathSegment();

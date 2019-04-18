@@ -23,6 +23,9 @@ import android.content.res.Configuration;
 import android.os.StrictMode;
 import android.support.multidex.MultiDexApplication;
 
+import com.bosphere.filelogger.FL;
+import com.bosphere.filelogger.FLConfig;
+import com.bosphere.filelogger.FLConst;
 import com.squareup.leakcanary.LeakCanary;
 
 import org.acra.ACRA;
@@ -31,6 +34,8 @@ import org.acra.annotation.AcraHttpSender;
 import org.acra.annotation.AcraToast;
 import org.acra.sender.HttpSender;
 
+import java.io.File;
+
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.analitica.AnalyticsHelperFactory;
 import it.feio.android.analitica.MockAnalyticsHelper;
@@ -38,7 +43,10 @@ import it.feio.android.analitica.exceptions.AnalyticsInstantiationException;
 import it.feio.android.analitica.exceptions.InvalidIdentifierException;
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
+
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_ENABLE_FILE_LOGGING;
 
 
 @AcraCore(buildConfigClass = BuildConfig.class)
@@ -86,11 +94,15 @@ public class OmniNotes extends MultiDexApplication {
 		mContext = getApplicationContext();
 		prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
 
+		enableStrictMode();
+
+		new NotificationsHelper(this).initNotificationChannels();
+	}
+
+	private void enableStrictMode() {
 		if (isDebugBuild()) {
 			StrictMode.enableDefaults();
 		}
-
-		new NotificationsHelper(this).initNotificationChannels();
 	}
 
 	/**

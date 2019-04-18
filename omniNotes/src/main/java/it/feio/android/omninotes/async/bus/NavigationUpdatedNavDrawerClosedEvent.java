@@ -17,9 +17,7 @@
 
 package it.feio.android.omninotes.async.bus;
 
-import android.util.Log;
-import it.feio.android.omninotes.utils.Constants;
-
+import it.feio.android.omninotes.helpers.LogDelegate;
 
 public class NavigationUpdatedNavDrawerClosedEvent {
 
@@ -27,7 +25,7 @@ public class NavigationUpdatedNavDrawerClosedEvent {
 
 
 	public NavigationUpdatedNavDrawerClosedEvent(Object navigationItem) {
-		Log.d(Constants.TAG, this.getClass().getName());
+		LogDelegate.d(this.getClass().getName());
 		this.navigationItem = navigationItem;
 	}
 }

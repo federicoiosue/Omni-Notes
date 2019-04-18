@@ -23,6 +23,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
+
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Stats;
 

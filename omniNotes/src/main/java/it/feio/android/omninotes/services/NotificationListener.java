@@ -23,13 +23,13 @@ import android.os.Build;
 import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
+
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.async.bus.NotificationRemovedEvent;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateUtils;
 
 
@@ -53,7 +53,7 @@ public class NotificationListener extends NotificationListenerService {
 
 	@Override
 	public void onNotificationPosted(StatusBarNotification sbn) {
-		Log.d(Constants.TAG, "Notification posted for note: " + sbn.getId());
+		LogDelegate.d("Notification posted for note: " + sbn.getId());
 	}
 
 
@@ -61,7 +61,7 @@ public class NotificationListener extends NotificationListenerService {
 	public void onNotificationRemoved(StatusBarNotification sbn) {
 		if (sbn.getPackageName().equals(getPackageName())) {
 			EventBus.getDefault().post(new NotificationRemovedEvent(sbn));
-			Log.d(Constants.TAG, "Notification removed for note: " + sbn.getId());
+			LogDelegate.d("Notification removed for note: " + sbn.getId());
 		}
 	}
 

@@ -18,15 +18,22 @@
 package it.feio.android.omninotes.utils;
 
 import android.util.Base64;
-import android.util.Log;
 
-import javax.crypto.*;
-import javax.crypto.spec.DESKeySpec;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+
+import it.feio.android.omninotes.helpers.LogDelegate;
 
 
 public class Security {
@@ -46,7 +53,7 @@ public class Security {
             return hexString.toString();
 
         } catch (NoSuchAlgorithmException e) {
-            Log.d(Constants.TAG, "Something is gone wrong calculating MD5", e);
+            LogDelegate.w("Something is gone wrong calculating MD5", e);
         }
         return "";
     }
@@ -66,7 +73,7 @@ public class Security {
             return encrypedValue;
 		} catch (InvalidKeyException | NoSuchPaddingException | InvalidKeySpecException | BadPaddingException |
 				IllegalBlockSizeException | NoSuchAlgorithmException | UnsupportedEncodingException e) {
-			Log.d(Constants.TAG, "Something is gone wrong encrypting", e);
+			LogDelegate.w("Something is gone wrong encrypting", e);
         }
         return encrypedValue;
     }
@@ -89,11 +96,11 @@ public class Security {
 		} catch (InvalidKeyException | UnsupportedEncodingException | InvalidKeySpecException |
 				NoSuchAlgorithmException | BadPaddingException | NoSuchPaddingException | IllegalBlockSizeException
 				e) {
-			Log.e(Constants.TAG, "Error decrypting");
+			LogDelegate.e("Error decrypting");
             return value;
             // try-catch ensure compatibility with old masked (without encryption) values
         } catch (IllegalArgumentException e) {
-            Log.e(Constants.TAG, "Error decrypting: old notes were not encrypted but just masked to users");
+            LogDelegate.e("Error decrypting: old notes were not encrypted but just masked to users");
             return value;
         }
         return decryptedValue;

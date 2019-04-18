@@ -28,7 +28,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -54,10 +53,10 @@ import java.io.FileOutputStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.feio.android.checklistview.utils.AlphaManager;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
 import it.feio.android.omninotes.models.views.SketchView;
-import it.feio.android.omninotes.utils.Constants;
 
 
 public class SketchFragment extends Fragment implements OnDrawChangedListener {
@@ -115,7 +114,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 bmp = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(baseUri));
                 mSketchView.setBackgroundBitmap(getActivity(), bmp);
             } catch (FileNotFoundException e) {
-                Log.e(Constants.TAG, "Error replacing sketch bitmap background", e);
+                LogDelegate.e("Error replacing sketch bitmap background", e);
             }
         }
 
@@ -205,7 +204,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 getActivity().onBackPressed();
                 break;
 			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+				LogDelegate.e("Wrong element choosen: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
     }
@@ -228,7 +227,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 }
 
             } catch (Exception e) {
-                Log.e(Constants.TAG, "Error writing sketch image data", e);
+                LogDelegate.e("Error writing sketch image data", e);
             }
         }
     }
@@ -296,7 +295,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
         int newSize = Math.round((size / 100f) * calcProgress);
         int offset = (size - newSize) / 2;
-        Log.v(Constants.TAG, "Stroke size " + newSize + " (" + calcProgress + "%)");
+        LogDelegate.v("Stroke size " + newSize + " (" + calcProgress + "%)");
 
         LayoutParams lp = new LayoutParams(newSize, newSize);
         lp.setMargins(offset, offset, offset, offset);

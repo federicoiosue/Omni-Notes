@@ -17,9 +17,7 @@
 
 package it.feio.android.omninotes.async.bus;
 
-import android.util.Log;
-import it.feio.android.omninotes.utils.Constants;
-
+import it.feio.android.omninotes.helpers.LogDelegate;
 
 public class SwitchFragmentEvent {
 
@@ -32,7 +30,7 @@ public class SwitchFragmentEvent {
 
 
 	public SwitchFragmentEvent(Direction direction) {
-		Log.d(Constants.TAG, this.getClass().getName());
+		LogDelegate.d(this.getClass().getName());
 		this.direction = direction;
 	}
 }

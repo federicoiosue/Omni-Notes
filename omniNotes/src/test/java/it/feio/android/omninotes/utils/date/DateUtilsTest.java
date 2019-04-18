@@ -63,8 +63,9 @@ public class DateUtilsTest {
 	@Test
 	public void getPresetReminder() {
 		long mockedNextMinute = 1497315847L;
+		Long testReminder = null;
 		PowerMockito.stub(PowerMockito.method(DateUtils.class, "getNextMinute")).toReturn(mockedNextMinute);
-		assertTrue(mockedNextMinute == DateUtils.getPresetReminder(null));
+		junit.framework.Assert.assertEquals(mockedNextMinute, DateUtils.getPresetReminder(testReminder));
 	}
 
 	@Test

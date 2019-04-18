@@ -19,7 +19,6 @@ package it.feio.android.omninotes;
 
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import android.view.MenuItem;
 
 import com.squareup.leakcanary.LeakCanary;
 

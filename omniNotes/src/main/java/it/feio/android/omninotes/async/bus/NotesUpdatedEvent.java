@@ -17,11 +17,10 @@
 
 package it.feio.android.omninotes.async.bus;
 
-import android.util.Log;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
-
 import java.util.List;
+
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.models.Note;
 
 
 public class NotesUpdatedEvent {
@@ -30,7 +29,7 @@ public class NotesUpdatedEvent {
 
 
 	public NotesUpdatedEvent(List<Note> notes) {
-		Log.d(Constants.TAG, this.getClass().getName());
+		LogDelegate.d(this.getClass().getName());
 		this.notes = notes;
 	}
 }

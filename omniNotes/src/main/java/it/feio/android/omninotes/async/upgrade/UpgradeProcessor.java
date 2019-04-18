@@ -20,7 +20,6 @@ package it.feio.android.omninotes.async.upgrade;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.apache.commons.io.FilenameUtils;
 
@@ -32,6 +31,7 @@ import java.util.List;
 
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
@@ -68,11 +68,11 @@ public class UpgradeProcessor {
         try {
             List<Method> methodsToLaunch = getInstance().getMethodsToLaunch(dbOldVersion, dbNewVersion);
             for (Method methodToLaunch : methodsToLaunch) {
-				Log.d(Constants.TAG, "Running upgrade processing method: " + methodToLaunch.getName());
+				LogDelegate.d("Running upgrade processing method: " + methodToLaunch.getName());
                 methodToLaunch.invoke(getInstance());
             }
         } catch (SecurityException | IllegalAccessException | InvocationTargetException e) {
-            Log.e(Constants.TAG, "Explosion processing upgrade!", e);
+            LogDelegate.e("Explosion processing upgrade!", e);
 			throw e;
         }
     }

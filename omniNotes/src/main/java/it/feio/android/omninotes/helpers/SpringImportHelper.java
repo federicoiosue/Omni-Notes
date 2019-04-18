@@ -23,7 +23,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.Toast;
 
 import java.io.File;
@@ -38,7 +37,6 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
@@ -225,7 +223,7 @@ public class SpringImportHelper {
 					note.setLatitude(coords[0]);
 					note.setLongitude(coords[1]);
 				} catch (IOException e) {
-					Log.e(Constants.TAG, "An error occurred trying to resolve address to coords during Springpad " +
+					LogDelegate.e("An error occurred trying to resolve address to coords during Springpad " +
 							"import");
 				}
 				note.setAddress(address);
@@ -252,7 +250,7 @@ public class SpringImportHelper {
 					uri = Uri.parse(importer.getWorkingPath() + image);
 					mAttachment = StorageHelper.createAttachmentFromUri(context, uri, true);
 				} catch (IOException e) {
-					Log.e(Constants.TAG, "Error retrieving Springpad online image");
+					LogDelegate.e("Error retrieving Springpad online image");
 				}
 				if (mAttachment != null) {
 					note.addAttachment(mAttachment);
@@ -279,7 +277,7 @@ public class SpringImportHelper {
 					uri = Uri.parse(importer.getWorkingPath() + springpadAttachment.getUrl());
 					mAttachment = StorageHelper.createAttachmentFromUri(context, uri, true);
 				} catch (IOException e) {
-					Log.e(Constants.TAG, "Error retrieving Springpad online image");
+					LogDelegate.e("Error retrieving Springpad online image");
 				}
 				if (mAttachment != null) {
 					note.addAttachment(mAttachment);
@@ -307,7 +305,7 @@ public class SpringImportHelper {
 		try {
 			importer.clean();
 		} catch (IOException e) {
-			Log.w(Constants.TAG, "Springpad import temp files not deleted");
+			LogDelegate.w("Springpad import temp files not deleted");
 		}
 	}
 

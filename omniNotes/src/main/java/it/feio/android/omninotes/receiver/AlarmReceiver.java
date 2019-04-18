@@ -25,13 +25,13 @@ import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Spanned;
-import android.util.Log;
 
 import java.util.List;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.services.NotificationListener;
@@ -54,7 +54,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 			SnoozeActivity.setNextRecurrentReminder(note);
 			updateNote(note);
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Error on receiving reminder", e);
+			LogDelegate.e("Error on receiving reminder", e);
 		}
 	}
 

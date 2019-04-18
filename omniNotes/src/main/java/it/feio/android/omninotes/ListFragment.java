@@ -41,7 +41,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -61,9 +60,6 @@ import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
-import it.feio.android.omninotes.async.bus.*;
-import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.ObjectUtils;
 
 import java.util.ArrayList;
@@ -79,16 +75,23 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.NavigationUpdatedNavDrawerClosedEvent;
+import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
+import it.feio.android.omninotes.async.bus.NotesMergeEvent;
+import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.notes.NoteLoaderTask;
 import it.feio.android.omninotes.async.notes.NoteProcessorArchive;
 import it.feio.android.omninotes.async.notes.NoteProcessorCategorize;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.NoteProcessorTrash;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.UndoBarController;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
@@ -97,6 +100,15 @@ import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
+import it.feio.android.omninotes.utils.AnimationsHelper;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.KeyboardUtils;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.TagsHelper;
+import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
 import it.feio.android.simplegallery.util.BitmapUtils;
 
@@ -394,7 +406,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             }
 
             actionMode = null;
-            Log.d(Constants.TAG, "Closed multiselection contextual menu");
+            LogDelegate.d("Closed multiselection contextual menu");
         }
 
 
@@ -529,7 +541,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     @Override
     public void onViewTouchOccurred(MotionEvent ev) {
-        Log.v(Constants.TAG, "Notes list: onViewTouchOccurred " + ev.getAction());
+        LogDelegate.v("Notes list: onViewTouchOccurred " + ev.getAction());
         commitPending();
     }
 
@@ -795,7 +807,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                     emptyTrash();
                     break;
 				default:
-					Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+					LogDelegate.e("Wrong element choosen: " + item.getItemId());
             }
         } else {
             switch (item.getItemId()) {
@@ -836,7 +848,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 //                    synchronizeSelectedNotes();
 //                    break;
                 default:
-                    Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+                    LogDelegate.e("Wrong element choosen: " + item.getItemId());
             }
         }
 
@@ -881,7 +893,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 	void editNote2(Note note) {
         if (note.get_id() == null) {
-            Log.d(Constants.TAG, "Adding new note");
+            LogDelegate.d("Adding new note");
             // if navigation is a category it will be set into note
             try {
                 if (Navigation.checkNavigation(Navigation.CATEGORY) || !TextUtils.isEmpty(mainActivity.navigationTmp)) {
@@ -890,10 +902,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 					note.setCategory(DbHelper.getInstance().getCategory(Long.parseLong(categoryId)));
                 }
             } catch (NumberFormatException e) {
-                Log.v(Constants.TAG, "Maybe was not a category!");
+                LogDelegate.v("Maybe was not a category!");
             }
         } else {
-            Log.d(Constants.TAG, "Editing note with id: " + note.get_id());
+            LogDelegate.d("Editing note with id: " + note.get_id());
         }
 
         // Current list scrolling position is saved to be restored later
@@ -1002,7 +1014,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 	 * @FIXME: This method is a divine opprobrium and MUST be refactored. I'm ashamed by myself.
      */
     void initNotesList(Intent intent) {
-        Log.d(Constants.TAG, "initNotesList intent: " + intent.getAction());
+        LogDelegate.d("initNotesList intent: " + intent.getAction());
 
         progress_wheel.setAlpha(1);
         list.setAlpha(0);
@@ -1138,7 +1150,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                     try {
                         note = listAdapter.getItem(position);
                     } catch (IndexOutOfBoundsException e) {
-                        Log.d(Constants.TAG, "Please stop swiping in the zone beneath the last card");
+                        LogDelegate.d("Please stop swiping in the zone beneath the last card");
                         continue;
                     }
 
@@ -1401,7 +1413,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         if (!Navigation.checkNavigation(Navigation.CATEGORY)) {
             listAdapter.remove(notes);
         }
-        Log.d(Constants.TAG, "Notes" + (archive ? "archived" : "restored from archive"));
+        LogDelegate.d("Notes" + (archive ? "archived" : "restored from archive"));
     }
 
 
@@ -1669,7 +1681,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             ubc.hideUndoBar(false);
             fab.showFab();
 
-            Log.d(Constants.TAG, "Changes committed");
+            LogDelegate.d("Changes committed");
         }
         mainActivity.updateWidgets();
     }

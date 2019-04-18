@@ -28,29 +28,30 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
-import de.greenrobot.event.EventBus;
-import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.simplegallery.util.BitmapUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.Random;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.simplegallery.util.BitmapUtils;
 
 import static java.lang.Integer.parseInt;
 
@@ -76,11 +77,11 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
         category = getIntent().getParcelableExtra(Constants.INTENT_CATEGORY);
 
         if (category == null) {
-            Log.d(Constants.TAG, "Adding new category");
+            LogDelegate.d("Adding new category");
             category = new Category();
             category.setColor(String.valueOf(getRandomPaletteColor()));
         } else {
-            Log.d(Constants.TAG, "Editing category " + category.getName());
+            LogDelegate.d("Editing category " + category.getName());
         }
         selectedColor = parseInt(category.getColor());
         populateViews();
@@ -217,7 +218,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
             super.finish();
 
         } catch (Exception e) {
-            Log.d(Constants.TAG, "Bitmap not found", e);
+            LogDelegate.w("Bitmap not found", e);
         }
     }
 }

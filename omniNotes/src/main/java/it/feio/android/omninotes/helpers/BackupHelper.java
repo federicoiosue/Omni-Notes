@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.util.Log;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -70,7 +69,7 @@ public class BackupHelper {
 		try {
 			FileUtils.write(noteFile, note.toJSON());
 		} catch (IOException e) {
-			Log.e(Constants.TAG, "Error backupping note: " + note.get_id());
+			LogDelegate.e("Error backupping note: " + note.get_id());
 		}
 	}
 
@@ -116,7 +115,7 @@ public class BackupHelper {
 				StorageHelper.copyToBackupDir(destinationattachmentsDir, FilenameUtils.getName(attachment.getUriPath()), OmniNotes.getAppContext().getContentResolver().openInputStream(attachment.getUri()));
 				++exported;
 			} catch (FileNotFoundException e) {
-				Log.w(Constants.TAG, "Attachment not found during backup: " + attachment.getUriPath());
+				LogDelegate.w("Attachment not found during backup: " + attachment.getUriPath());
 				++failed;
 				result = false;
 			}
@@ -181,7 +180,7 @@ public class BackupHelper {
 			}
 			return note;
 		} catch (IOException e) {
-			Log.e(Constants.TAG, "Error parsing note json");
+			LogDelegate.e("Error parsing note json");
 			return new Note();
 		}
 	}
@@ -220,7 +219,7 @@ public class BackupHelper {
 				}
 			} catch (IOException e) {
 				result = false;
-				Log.e(Constants.TAG, "Error importing the attachment " + file.getName());
+				LogDelegate.e("Error importing the attachment " + file.getName());
 			}
 		}
 		return result;
@@ -240,7 +239,7 @@ public class BackupHelper {
 			if (attachmentFile.exists()) {
 				FileUtils.copyFileToDirectory(attachmentFile, StorageHelper.getAttachmentDir(), true);
 			} else {
-				Log.e(Constants.TAG, "Attachment file not found: " + attachmentFileName);
+				LogDelegate.e("Attachment file not found: " + attachmentFileName);
 			}
 		}
 	}
@@ -295,7 +294,7 @@ public class BackupHelper {
 			note.buildFromJson(FileUtils.readFileToString(file));
 			DbHelper.getInstance().deleteNote(note);
 		} catch (IOException e) {
-			Log.e(Constants.TAG, "Error parsing note json");
+			LogDelegate.e("Error parsing note json");
 		}
 	}
 
@@ -334,7 +333,7 @@ public class BackupHelper {
 					errors.add(new DiffMatchPatch().diffMain(noteString, noteFileString));
 				}
 			} catch (IOException e) {
-				Log.e(TAG, e.getMessage(), e);
+				LogDelegate.e(e.getMessage(), e);
 				addIntegrityCheckError(errors, e);
 			}
 		}

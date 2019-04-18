@@ -18,8 +18,8 @@
 package it.feio.android.omninotes.async.bus;
 
 import android.service.notification.StatusBarNotification;
-import android.util.Log;
-import it.feio.android.omninotes.utils.Constants;
+
+import it.feio.android.omninotes.helpers.LogDelegate;
 
 
 public class NotificationRemovedEvent {
@@ -28,7 +28,7 @@ public class NotificationRemovedEvent {
 
 
 	public NotificationRemovedEvent(StatusBarNotification statusBarNotification) {
-		Log.d(Constants.TAG, this.getClass().getName());
+		LogDelegate.d(this.getClass().getName());
 		this.statusBarNotification = statusBarNotification;
 	}
 }

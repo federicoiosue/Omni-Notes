@@ -21,15 +21,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.app.JobIntentService;
-import android.util.Log;
 
 import java.util.List;
 
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
 
 
@@ -43,13 +42,13 @@ public class AlarmRestoreOnRebootService extends JobIntentService {
 
 	@Override
 	protected void onHandleWork(@NonNull Intent intent) {
-		Log.i(Constants.TAG, "System rebooted: service refreshing reminders");
+		LogDelegate.i("System rebooted: service refreshing reminders");
 		Context mContext = getApplicationContext();
 
 		BaseActivity.notifyAppWidgets(mContext);
 
 		List<Note> notes = DbHelper.getInstance().getNotesWithReminderNotFired();
-		Log.d(Constants.TAG, "Found " + notes.size() + " reminders");
+		LogDelegate.d("Found " + notes.size() + " reminders");
 		for (Note note : notes) {
 			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
 		}

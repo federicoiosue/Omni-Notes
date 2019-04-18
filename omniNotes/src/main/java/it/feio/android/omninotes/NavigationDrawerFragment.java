@@ -18,7 +18,6 @@
 package it.feio.android.omninotes;
 
 import android.animation.ValueAnimator;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,18 +26,24 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.CategoryMenuTask;
 import it.feio.android.omninotes.async.MainMenuTask;
-import it.feio.android.omninotes.async.bus.*;
+import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.DynamicNavigationReadyEvent;
+import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
+import it.feio.android.omninotes.async.bus.NavigationUpdatedNavDrawerClosedEvent;
+import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.NavigationItem;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 
 
@@ -154,9 +159,9 @@ public class NavigationDrawerFragment extends Fragment {
 
 
     public void init() {
-        Log.v(Constants.TAG, "Started navigation drawer initialization");
+        LogDelegate.v("Started navigation drawer initialization");
 
-        mDrawerLayout = (DrawerLayout) mActivity.findViewById(R.id.drawer_layout);
+        mDrawerLayout = mActivity.findViewById(R.id.drawer_layout);
         mDrawerLayout.setFocusableInTouchMode(false);
 
         // Setting specific bottom margin for Kitkat with translucent nav bar
@@ -195,15 +200,15 @@ public class NavigationDrawerFragment extends Fragment {
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
 
-        Log.v(Constants.TAG, "Finished navigation drawer initialization");
+        LogDelegate.v("Finished navigation drawer initialization");
     }
 
 
     private void refreshMenus() {
         buildMainMenu();
-        Log.v(Constants.TAG, "Finished main menu initialization");
+        LogDelegate.v("Finished main menu initialization");
         buildCategoriesMenu();
-        Log.v(Constants.TAG, "Finished categories menu initialization");
+        LogDelegate.v("Finished categories menu initialization");
         mDrawerToggle.syncState();
     }
 

@@ -33,7 +33,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -59,7 +58,7 @@ import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.helpers.BackupHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
@@ -199,7 +198,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         super.onNewIntent(intent);
         setIntent(intent);
         handleIntents();
-        Log.d(Constants.TAG, "onNewIntent");
+        LogDelegate.d("onNewIntent");
     }
 
 
@@ -512,7 +511,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public void deleteNote(Note note) {
         new NoteProcessorDelete(Arrays.asList(new Note[]{note})).process();
         BaseActivity.notifyAppWidgets(this);
-        Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
+        LogDelegate.d("Deleted permanently note with id '" + note.get_id() + "'");
     }
 
 
