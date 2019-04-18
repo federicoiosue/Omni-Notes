@@ -141,7 +141,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
                     skippable = true;
                 break;
 			default:
-				LogDelegate.e("Wrong element choosen: " + i);
+				skippable = false;
         }
         return skippable;
     }
