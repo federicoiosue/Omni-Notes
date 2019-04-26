@@ -135,6 +135,7 @@
         <item>Čeština (Czech)</item>
         <item>Nederlands (Dutch)</item>
         <item>English (English)</item>
+        <item>Suomi (Finnish)</item>
         <item>Français (French)</item>
         <item>ភាសាខ្មែរ (Khmer)</item>
         <item>Deutsch (German)</item>
@@ -173,6 +174,7 @@
         <item>cs_CZ</item>
         <item>nl_NL</item>
         <item>en_US</item>
+        <item>fi_FI</item>
         <item>fr_FR</item>
         <item>km_KH</item>
         <item>de_DE</item>
