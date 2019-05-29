@@ -194,7 +194,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
         if (navigation == Navigation.REMINDERS) {
             for (int i = 0; i < notes.size(); i++) {
                 long now = Calendar.getInstance().getTimeInMillis();
-                long reminder = notes.get(i).getAlarm();
+                long reminder = Long.parseLong(notes.get(i).getAlarm());
                 if (now < reminder && reminder < closestNoteReminder) {
                     closestNotePosition = i;
                     closestNoteReminder = reminder;

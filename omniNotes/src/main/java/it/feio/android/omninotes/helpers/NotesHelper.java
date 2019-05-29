@@ -75,7 +75,7 @@ public class NotesHelper {
 	public static Note mergeNotes(List<Note> notes, boolean keepMergedNotes) {
 		boolean locked = false;
 		ArrayList<Attachment> attachments = new ArrayList<>();
-		Long reminder = null;
+		String reminder = null;
 		String reminderRecurrenceRule = null;
 		Double latitude = null;
 		Double longitude = null;
@@ -91,8 +91,8 @@ public class NotesHelper {
 		for (Note note : notes) {
 			appendContent(note, content, includeTitle);
 			locked = locked || note.isLocked();
-			Long currentReminder = note.getAlarm();
-			if (reminder == null && currentReminder != null) {
+			String currentReminder = note.getAlarm();
+			if (!StringUtils.isEmpty(currentReminder) && reminder == null) {
 				reminder = currentReminder;
 				reminderRecurrenceRule = note.getRecurrenceRule();
 			}

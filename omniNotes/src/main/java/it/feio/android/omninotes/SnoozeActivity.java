@@ -76,7 +76,7 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
             updateNoteReminder(newReminder, note);
             finish();
         } else if (Constants.ACTION_POSTPONE.equals(getIntent().getAction())) {
-            postpone(prefs, note.getAlarm(), note.getRecurrenceRule());
+            postpone(prefs, Long.parseLong(note.getAlarm()), note.getRecurrenceRule());
         } else {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra(Constants.INTENT_KEY, note.get_id());
@@ -133,7 +133,7 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
 
     public static void setNextRecurrentReminder(Note note) {
         if (!TextUtils.isEmpty(note.getRecurrenceRule())) {
-            long nextReminder = DateHelper.nextReminderFromRecurrenceRule(note.getAlarm(), note
+            long nextReminder = DateHelper.nextReminderFromRecurrenceRule(Long.parseLong(note.getAlarm()), note
 					.getRecurrenceRule());
             if (nextReminder > 0) {
                 updateNoteReminder(nextReminder, note, true);

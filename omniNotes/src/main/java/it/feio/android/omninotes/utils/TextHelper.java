@@ -136,7 +136,7 @@ public class TextHelper {
 					dateText = mContext.getString(R.string.no_reminder_set);
 				} else {
 					dateText = mContext.getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(mContext,
-                            note.getAlarm());
+                            Long.parseLong(note.getAlarm()));
 				}
 				break;
             default:

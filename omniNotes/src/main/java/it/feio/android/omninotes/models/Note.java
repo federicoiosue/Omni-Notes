@@ -53,12 +53,12 @@ public class Note extends BaseNote implements Parcelable {
     }
 
 
-    public Note(Long creation, Long lastModification, String title, String content, boolean archived,
-                boolean trashed, long alarm, String recurrenceRule, boolean reminderFired, String latitude, String longitude, Category
-                        category, boolean locked, boolean checklist) {
+    public Note(Long creation, Long lastModification, String title, String content, Integer archived,
+                Integer trashed, String alarm, String recurrenceRule, Integer reminderFired, String latitude, String longitude, Category
+                        category, Integer locked, Integer checklist) {
         super(creation, lastModification, title, content, archived, trashed, alarm, reminderFired, recurrenceRule,
-				latitude,
-				longitude, category, locked, checklist);
+                latitude,
+                longitude, category, locked, checklist);
     }
 
 
@@ -69,21 +69,21 @@ public class Note extends BaseNote implements Parcelable {
 
 
     private Note(Parcel in) {
-        setCreation(in.readLong());
-        setLastModification(in.readLong());
+        setCreation(in.readString());
+        setLastModification(in.readString());
         setTitle(in.readString());
         setContent(in.readString());
-        setArchived(in.readInt() != 0);
-        setTrashed(in.readInt() != 0);
-		setAlarm(Long.valueOf(in.readString()));
-		setReminderFired(in.readInt() != 0);
+        setArchived(in.readInt());
+        setTrashed(in.readInt());
+        setAlarm(in.readString());
+        setReminderFired(in.readInt());
         setRecurrenceRule(in.readString());
         setLatitude(in.readString());
         setLongitude(in.readString());
         setAddress(in.readString());
         super.setCategory(in.readParcelable(Category.class.getClassLoader()));
-        setLocked(in.readInt() != 0);
-        setChecklist(in.readInt() != 0);
+        setLocked(in.readInt());
+        setChecklist(in.readInt());
         in.readList(getAttachmentsList(), Attachment.class.getClassLoader());
     }
 
@@ -105,17 +105,17 @@ public class Note extends BaseNote implements Parcelable {
         super.setAttachmentsList(attachmentsList);
     }
 
-	public void addAttachment(Attachment attachment) {
-		List<Attachment> attachmentsList = ((List<Attachment>) super.getAttachmentsList());
-		attachmentsList.add(attachment);
-		setAttachmentsList(attachmentsList);
-	}
+    public void addAttachment(Attachment attachment) {
+        List<Attachment> attachmentsList = ((List<Attachment>) super.getAttachmentsList());
+        attachmentsList.add(attachment);
+        setAttachmentsList(attachmentsList);
+    }
 
-	public void removeAttachment(Attachment attachment) {
-		List<Attachment> attachmentsList = ((List<Attachment>) super.getAttachmentsList());
-		attachmentsList.remove(attachment);
-		setAttachmentsList(attachmentsList);
-	}
+    public void removeAttachment(Attachment attachment) {
+        List<Attachment> attachmentsList = ((List<Attachment>) super.getAttachmentsList());
+        attachmentsList.remove(attachment);
+        setAttachmentsList(attachmentsList);
+    }
 
     public List<Attachment> getAttachmentsListOld() {
         return (List<Attachment>) super.getAttachmentsListOld();
@@ -135,31 +135,31 @@ public class Note extends BaseNote implements Parcelable {
 
     @Override
     public Category getCategory() {
-		try {
-			return (Category) super.getCategory();
-		} catch (ClassCastException e) {
-			return new Category(super.getCategory());
-		}
+        try {
+            return (Category) super.getCategory();
+        } catch (ClassCastException e) {
+            return new Category(super.getCategory());
+        }
     }
 
-	public void setCategory(Category category) {
-		if (category != null && category.getClass().equals(BaseCategory.class)) {
-			setCategory(new Category(category));
-		}
-		super.setCategory(category);
-	}
+    public void setCategory(Category category) {
+        if (category != null && category.getClass().equals(BaseCategory.class)) {
+            setCategory(new Category(category));
+        }
+        super.setCategory(category);
+    }
 
-	@Override
-	public void buildFromJson(String jsonNote) {
-		super.buildFromJson(jsonNote);
-		List<Attachment> attachments = new ArrayList<>();
-		for (BaseAttachment attachment : getAttachmentsList()) {
-			attachments.add(new Attachment(attachment));
-		}
+    @Override
+    public void buildFromJson(String jsonNote) {
+        super.buildFromJson(jsonNote);
+        List<Attachment> attachments = new ArrayList<>();
+        for (BaseAttachment attachment : getAttachmentsList()) {
+            attachments.add(new Attachment(attachment));
+        }
         setAttachmentsList(attachments);
-	}
+    }
 
-	@Override
+    @Override
     public int describeContents() {
         return 0;
     }
@@ -172,8 +172,8 @@ public class Note extends BaseNote implements Parcelable {
         parcel.writeString(getContent());
         parcel.writeInt(isArchived() ? 1 : 0);
         parcel.writeInt(isTrashed() ? 1 : 0);
-		parcel.writeString(String.valueOf(getAlarm()));
-		parcel.writeInt(isReminderFired() ? 1 : 0);
+        parcel.writeString(getAlarm());
+        parcel.writeInt(isReminderFired() ? 1 : 0);
         parcel.writeString(getRecurrenceRule());
         parcel.writeString(String.valueOf(getLatitude()));
         parcel.writeString(String.valueOf(getLongitude()));

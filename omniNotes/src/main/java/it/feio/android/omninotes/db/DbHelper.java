@@ -210,9 +210,8 @@ public class DbHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_TITLE, note.getTitle());
         values.put(KEY_CONTENT, content);
-        values.put(KEY_CREATION, note.getCreation() > 0 ? note.getCreation() : Calendar.getInstance()
-                .getTimeInMillis());
-        long lastModification = note.getLastModification() > 0 && !updateLastModification
+        values.put(KEY_CREATION, note.getCreation() != null ? note.getCreation() : Calendar.getInstance().getTimeInMillis());
+        long lastModification = note.getLastModification() != null && !updateLastModification
                 ? note.getLastModification()
                 : Calendar.getInstance().getTimeInMillis();
         values.put(KEY_LAST_MODIFICATION, lastModification);
@@ -225,8 +224,8 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_LONGITUDE, note.getLongitude());
         values.put(KEY_ADDRESS, note.getAddress());
         values.put(KEY_CATEGORY, note.getCategory() != null ? note.getCategory().getId() : null);
-        values.put(KEY_LOCKED, note.isLocked());
-        values.put(KEY_CHECKLIST, note.isChecklist());
+        values.put(KEY_LOCKED, note.isLocked() != null && note.isLocked());
+        values.put(KEY_CHECKLIST, note.isChecklist() != null && note.isChecklist());
 
 		db.insertWithOnConflict(TABLE_NOTES, KEY_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
 		LogDelegate.d("Updated note titled '" + note.getTitle() + "'");
@@ -247,7 +246,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.endTransaction();
 
         // Fill the note with correct data before returning it
-        note.setCreation(note.getCreation() > 0 ? note.getCreation() : values.getAsLong(KEY_CREATION));
+        note.setCreation(note.getCreation() != null ? note.getCreation() : values.getAsLong(KEY_CREATION));
         note.setLastModification(values.getAsLong(KEY_LAST_MODIFICATION));
 
         return note;
@@ -436,8 +435,8 @@ public class DbHelper extends SQLiteOpenHelper {
                     note.setContent(cursor.getString(i++));
                     note.setArchived("1".equals(cursor.getString(i++)));
                     note.setTrashed("1".equals(cursor.getString(i++)));
-                    note.setAlarm(cursor.getLong(i++));
-                    note.setReminderFired(cursor.getInt(i++) != 0);
+                    note.setAlarm(cursor.getString(i++));
+                    note.setReminderFired(cursor.getInt(i++));
                     note.setRecurrenceRule(cursor.getString(i++));
                     note.setLatitude(cursor.getString(i++));
                     note.setLongitude(cursor.getString(i++));
@@ -967,8 +966,8 @@ public class DbHelper extends SQLiteOpenHelper {
             } else {
                 notesActive++;
             }
-            if (note.getAlarm() != null && note.getAlarm() > 0) {
-                if (note.getAlarm() > Calendar.getInstance().getTimeInMillis()) {
+            if (note.getAlarm() != null && Long.parseLong(note.getAlarm()) > 0) {
+                if (Long.parseLong(note.getAlarm()) > Calendar.getInstance().getTimeInMillis()) {
                     remindersFuture++;
                 } else {
                     reminders++;

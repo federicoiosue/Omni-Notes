@@ -1706,7 +1706,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		if (noteTmp.getAlarm() == null) {
 			return "";
 		}
-		long reminder = note.getAlarm();
+		long reminder = parseLong(note.getAlarm());
 		String rrule = note.getRecurrenceRule();
 		if (!TextUtils.isEmpty(rrule)) {
 			return DateHelper.getNoteRecurrentReminderText(reminder, rrule);
@@ -1983,7 +1983,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		noteTmp.setRecurrenceRule(recurrenceRule);
 		if (!TextUtils.isEmpty(recurrenceRule)) {
 			LogDelegate.d("Recurrent reminder set: " + recurrenceRule);
-			datetime.setText(DateHelper.getNoteRecurrentReminderText(noteTmp.getAlarm(), recurrenceRule));
+			datetime.setText(DateHelper.getNoteRecurrentReminderText(Long.parseLong(noteTmp.getAlarm()), recurrenceRule));
 		}
 	}
 
