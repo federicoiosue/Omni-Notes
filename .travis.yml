@@ -33,6 +33,6 @@ android:
 before_install:
   - yes | sdkmanager "platforms;android-27"
 script: 
-  - ./gradlew clean build jacocoTestReport sonarqube
+  - ./gradlew -S clean build jacocoTestReport sonarqube
 after_success:
   - bash <(curl -s https://codecov.io/bash)
