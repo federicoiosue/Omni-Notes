@@ -531,13 +531,22 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     /**
      * Import database from backup folder
      */
-    private boolean importDB(File backupDir) {
-        File database = getDatabasePath(Constants.DATABASE_NAME);
-        if (database.exists()) {
-            database.delete();
-        }
-        return (StorageHelper.copyFile(new File(backupDir, Constants.DATABASE_NAME), database));
+private boolean importDB(File backupDir) {
+    File database = getDatabasePath(Constants.DATABASE_NAME);
+
+    // Close the current database
+    DbHelper.getInstance().close();
+
+    if (database.exists()) {
+        database.delete();
     }
+
+    StorageHelper.copyFile(new File(backupDir, Constants.DATABASE_NAME), database);
+
+    SystemHelper.restartApp(this.getApplicationContext(), MainActivity.class);
+
+    return true;
+}
 
 
     private void importNotes(File backupDir) {
