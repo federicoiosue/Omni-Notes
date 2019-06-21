@@ -48,8 +48,6 @@ import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import it.feio.android.omninotes.utils.SystemHelper;
-import it.feio.android.omninotes.MainActivity;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -151,8 +149,11 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		resetReminders();
 
         String title = getString(R.string.data_import_completed);
-        String text = getString(R.string.click_to_refresh_application);
+        String text = getString(R.string.click_to_refreesh_application);
         createNotification(intent, this, title, text, backupDir);
+	
+	    SystemHelper.restartApp(this.getApplicationContext(), MainActivity.class);
+
     }
 
 
@@ -464,6 +465,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
      */
     private boolean exportDB(File backupDir) {
         File database = getDatabasePath(Constants.DATABASE_NAME);
+		// Close the current database
+		DbHelper.getInstance().close();
+
         return (StorageHelper.copyFile(database, new File(backupDir, Constants.DATABASE_NAME)));
     }
 
@@ -545,8 +549,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		}
 
 		StorageHelper.copyFile(new File(backupDir, Constants.DATABASE_NAME), database);
-
-		SystemHelper.restartApp(this.getApplicationContext(), MainActivity.class);
 
 		return true;
 	}
