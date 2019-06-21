@@ -148,8 +148,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 		// Reminders restore
 		resetReminders();
 
-        String title = getString(R.string.data_import_completed);
-        String text = getString(R.string.click_to_refreesh_application);
+        String title = this.getString(R.string.data_import_completed);
+        String text = this.getString(R.string.click_to_refreesh_application);
         createNotification(intent, this, title, text, backupDir);
 	
 	    SystemHelper.restartApp(this.getApplicationContext(), MainActivity.class);
