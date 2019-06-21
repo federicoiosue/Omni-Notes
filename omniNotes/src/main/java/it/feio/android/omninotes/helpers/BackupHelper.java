@@ -307,6 +307,10 @@ public class BackupHelper {
 	@Deprecated
 	public static boolean importDB(Context context, File backupDir) {
 		File database = context.getDatabasePath(Constants.DATABASE_NAME);
+		
+		// Close the current database
+		DbHelper.getInstance().close();
+
 		if (database.exists()) {
 			database.delete();
 		}
