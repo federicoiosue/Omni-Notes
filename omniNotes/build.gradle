@@ -45,7 +45,7 @@ android {
         versionCode Integer.parseInt(project.VERSION_CODE)
         vectorDrawables.useSupportLibrary = true
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-        multiDexEnabled true
+        multiDexEnabled false
     }
 
     packagingOptions {
