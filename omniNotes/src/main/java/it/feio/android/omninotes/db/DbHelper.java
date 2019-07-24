@@ -138,8 +138,12 @@ public class DbHelper extends SQLiteOpenHelper {
 		}
 	}
 
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        db.disableWriteAheadLogging();
+        super.onOpen(db);
+    }
 
-    // Creating Tables
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
