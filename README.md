@@ -95,7 +95,7 @@ This kind of contributions **must** have screenshots or screencast as demonstrat
 ### Test your code contributions!
 
 All code changes and additions **must** be tested.
-See the [related section](#test) about this.
+See the [related section](#test) for more informations or this two pull requests comments: [one](https://github.com/federicoiosue/Omni-Notes/pull/646#pullrequestreview-187973443) and [two](https://github.com/federicoiosue/Omni-Notes/pull/683#issuecomment-506206689)
 
 ### Forking project
 
