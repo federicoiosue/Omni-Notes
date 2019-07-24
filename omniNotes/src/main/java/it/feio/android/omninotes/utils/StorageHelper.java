@@ -24,10 +24,13 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
+
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Attachment;
 import org.apache.commons.io.FileUtils;
@@ -546,4 +549,7 @@ public class StorageHelper {
     }
 
 
+    public static Uri getFileProvider(File file) {
+        return FileProvider.getUriForFile(OmniNotes.getAppContext(), OmniNotes.getAppContext().getPackageName() + ".authority", file);
+    }
 }

@@ -1301,8 +1301,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
 			return;
 		}
-		// Launches intent
-		attachmentUri = Uri.fromFile(f);
+		attachmentUri = StorageHelper.getFileProvider(f);
+		intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		startActivityForResult(intent, TAKE_PHOTO);
 	}
@@ -1320,7 +1320,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			mainActivity.showMessage(R.string.error, ONStyle.ALERT);
 			return;
 		}
-		attachmentUri = Uri.fromFile(f);
+		attachmentUri = StorageHelper.getFileProvider(f);
+		takeVideoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 		takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
 		String maxVideoSizeStr = "".equals(prefs.getString("settings_max_video_size",
 				"")) ? "0" : prefs.getString("settings_max_video_size", "");
