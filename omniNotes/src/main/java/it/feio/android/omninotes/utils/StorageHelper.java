@@ -533,23 +533,8 @@ public class StorageHelper {
      */
     public static File getFromHttp(String url, File file) throws IOException {
         URL imageUrl = new URL(url);
-        // HttpURLConnection conn = (HttpURLConnection)imageUrl.openConnection();
-        // conn.setConnectTimeout(30000);
-        // conn.setReadTimeout(30000);
-        // conn.setInstanceFollowRedirects(true);
-        // InputStream is=conn.getInputStream();
-        // OutputStream os = new FileOutputStream(f);
-        // Utils.CopyStream(is, os);
-
-        // File file = File.createTempFile("img", ".jpg");
-
         FileUtils.copyURLToFile(imageUrl, file);
-        // os.close();
         return file;
     }
 
-
-    public static Uri getFileProvider(File file) {
-        return FileProvider.getUriForFile(OmniNotes.getAppContext(), OmniNotes.getAppContext().getPackageName() + ".authority", file);
-    }
 }
