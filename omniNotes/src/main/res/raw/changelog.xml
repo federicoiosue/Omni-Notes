@@ -18,8 +18,15 @@
 <changelog bulletedList="true">
 
     <changelogversion
-        changeDate="May 29, 2019"
-        versionName="6.0.0 Beta 10">
+      changeDate="Aug 9, 2019"
+      versionName="6.0.0 Beta 11">
+        <changelogtext>[u]Fix[/u] Opening of PDF attachments</changelogtext>
+        <changelogtext>[u]Fix[/u] Removed obsolete version update check</changelogtext>
+    </changelogversion>
+
+    <changelogversion
+      changeDate="May 29, 2019"
+      versionName="6.0.0 Beta 10">
         <changelogtext>[u]Fix[/u] Reminders work again</changelogtext>
     </changelogversion>
 
