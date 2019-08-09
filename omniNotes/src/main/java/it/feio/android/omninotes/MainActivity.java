@@ -99,7 +99,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             startActivity(new Intent(getApplicationContext(), IntroActivity.class));
 		}
 
-		new UpdaterTask(this).execute();
+//		new UpdaterTask(this).execute(); Removed due to missing backend
 	}
 
 	@Override
