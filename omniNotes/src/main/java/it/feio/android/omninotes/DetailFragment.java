@@ -45,6 +45,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.util.Pair;
@@ -185,8 +186,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	TextView locationTextView;
 	@BindView(R.id.detail_timestamps)
 	View timestampsView;
-	@BindView(R.id.reminder_layout)
-	LinearLayout reminder_layout;
+//	@BindView(R.id.reminder_layout)
+//	LinearLayout reminder_layout;
+
+	@BindView(R.id.floatingActionButton)
+	FloatingActionButton reminder_layout;
+
 	@BindView(R.id.reminder_icon)
 	ImageView reminderIcon;
 	@BindView(R.id.datetime)

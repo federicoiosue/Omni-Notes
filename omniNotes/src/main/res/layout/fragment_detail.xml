@@ -15,9 +15,12 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+
+
 
     <LinearLayout
             android:id="@+id/detail_root"
@@ -158,4 +161,20 @@
             android:id="@+id/snackbar_placeholder"
             android:layout_alignParentBottom="true"/>
 
+<!--New Fab Here -->
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/floatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="20dp"
+        android:src="@drawable/ic_alarm_add_black_18dp"
+        />
 </RelativeLayout>
+
+
+
+
