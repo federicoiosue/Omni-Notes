@@ -21,13 +21,16 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
-        classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6"
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.1'
+        classpath Libs.com_android_tools_build_gradle
+        classpath Libs.lombok_ast
+        classpath Libs.sonarqube_gradle_plugin
+        classpath Libs.jacoco_android
     }
     // Exclude the version that the android plugin depends on.
     configurations.classpath.exclude group: 'com.android.tools.external.lombok'
+}
+plugins {
+    id("de.fayard.buildSrcVersions").version("0.4.2")
 }
 
 allprojects {
@@ -52,3 +55,6 @@ sonarqube {
     }
 }
 
+buildSrcVersions {
+    indent = "    "
+}

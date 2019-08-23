@@ -119,16 +119,16 @@ android {
 }
 
 dependencies {
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'org.mockito:mockito-all:1.9.5'
-    testImplementation 'org.powermock:powermock:1.6.5'
-    testImplementation 'org.powermock:powermock-module-junit4:1.6.5'
-    testImplementation 'org.powermock:powermock-api-mockito:1.6.5'
+    testImplementation(Libs.junit)
+    testImplementation(Libs.mockito_all)
+    testImplementation(Libs.powermock)
+    testImplementation(Libs.powermock_module_junit4)
+    testImplementation(Libs.powermock_api_mockito)
 
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test:rules:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    androidTestImplementation ('com.android.support.test.espresso:espresso-intents:3.0.2') {
+    androidTestImplementation(Libs.com_android_support_test_runner)
+    androidTestImplementation(Libs.com_android_support_test_rules)
+    androidTestImplementation(Libs.espresso_core)
+    androidTestImplementation (Libs.espresso_intents) {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
