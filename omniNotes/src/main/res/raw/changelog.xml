@@ -17,6 +17,12 @@
   -->
 <changelog bulletedList="true">
 
+    <changelogversion versionName="5.5.4" changeDate="Sep 24, 2019">
+        <changelogtext>[u]Fix[/u] Sharing notes with attachments</changelogtext>
+        <changelogtext>[u]Fix[/u] Location retrieval on some devices</changelogtext>
+        <changelogtext>[u]Fix[/u] Categories list build on navigation panel</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="5.5.3" changeDate="Jul 23, 2019">
         <changelogtext>[u]Fix[/u] Taking pictures from camera</changelogtext>
         <changelogtext>[u]Fix[/u] Fixed backup/restore on Android Pie</changelogtext>
