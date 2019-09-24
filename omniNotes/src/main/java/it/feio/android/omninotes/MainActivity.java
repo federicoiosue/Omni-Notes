@@ -38,6 +38,7 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import it.feio.android.omninotes.utils.FileProviderHelper;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -460,8 +461,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             // Intent with single image attachment
         } else if (note.getAttachmentsList().size() == 1) {
             shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.setType(note.getAttachmentsList().get(0).getMime_type());
-            shareIntent.putExtra(Intent.EXTRA_STREAM, note.getAttachmentsList().get(0).getUri());
+            Attachment attachment = note.getAttachmentsList().get(0);
+            shareIntent.setType(attachment.getMime_type());
+            shareIntent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
 
             // Intent with multiple images
         } else if (note.getAttachmentsList().size() > 1) {
@@ -470,7 +472,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             // A check to decide the mime type of attachments to share is done here
             HashMap<String, Boolean> mimeTypes = new HashMap<>();
             for (Attachment attachment : note.getAttachmentsList()) {
-                uris.add(attachment.getUri());
+                uris.add(FileProviderHelper.getShareableUri(attachment));
                 mimeTypes.put(attachment.getMime_type(), true);
             }
             // If many mime types are present a general type is assigned to intent

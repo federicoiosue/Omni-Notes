@@ -611,7 +611,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	}
 
 	private void getLocation(OnGeoUtilResultListener onGeoUtilResultListener) {
-		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION, R.string
+		PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION, R.string
 				.permission_coarse_location, snackBarPlaceholder, () -> GeocodeHelper.getLocation
 				(onGeoUtilResultListener));
 	}
@@ -642,7 +642,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 				attachmentIntent = new Intent(Intent.ACTION_VIEW);
 				attachmentIntent.setDataAndType(uri, StorageHelper.getMimeType(mainActivity,
-						attachment.getUri()));
+						FileProviderHelper.getShareableUri(attachment)));
 				attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
 						.FLAG_GRANT_WRITE_URI_PERMISSION);
 				if (IntentChecker.isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
@@ -717,7 +717,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 				Intent shareIntent = new Intent(Intent.ACTION_SEND);
 				Attachment attachment = mAttachmentAdapter.getItem(attachmentPosition);
 				shareIntent.setType(StorageHelper.getMimeType(OmniNotes.getAppContext(), attachment.getUri()));
-				shareIntent.putExtra(Intent.EXTRA_STREAM, attachment.getUri());
+				shareIntent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
 				if (IntentChecker.isAvailable(OmniNotes.getAppContext(), shareIntent, null)) {
 					startActivity(shareIntent);
 				} else {
