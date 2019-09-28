@@ -103,10 +103,10 @@
     <string name="categorize_as">Categorize as</string>
     <string name="title_activity_category">Edit category</string>
     <string name="delete_unused_category_confirmation">Confirm category deletion?</string>
-    <string name="delete_category_confirmation">This category is used by some notes.\nConfirm un-categorization of the notes and deletion of the category?</string>
+    <string name="delete_category_confirmation">This category is used by some notes.\nConfirm notes un-categorization and category deletion?</string>
     <string name="discard">Discard</string>
     <string name="remove_category">Remove category</string>
-    <string name="no_tags_created">No tags available yet\nCreate some by writing hashtags into your notes</string>
+    <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
     <string name="no_categories_created">No categories have been created yet</string>
     <string name="notes_category_removed">Category removed from notes</string>
     <string name="notes_categorized_as">Notes categorized as</string>
@@ -128,7 +128,7 @@
     <string name="sketch">Sketch</string>
     <string name="crash_dialog_text">Something went wrong in Omni Notes\nSend automatic report to developer?</string>
     <string name="crash_dialog_comment_prompt">Insert comment here (optional):</string>
-    <string name="crash_toast">Something went wrong in Omni Notes\nA report has been sent to the developer!</string>
+    <string name="crash_toast">Something went wrong in Omni Notes\nA report has been sent report to the developer!</string>
     <string name="new_update_available">A new version of Omni Notes is available, would you like to update?</string>
     <string name="update">Update and rate!</string>
     <string name="not_now">Not now</string>
@@ -194,7 +194,7 @@
     <string name="remove_filter_archived">Show archived notes</string>
     <string name="permission_external_storage">Permission to write on external storage is needed to allow backups on public folders</string>
     <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
-    <string name="permission_audio_recording">Permission to use microphone is needed to record audio notes</string>
+    <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
     <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
     <string name="permission_not_granted">Permission not granted</string>
     <string name="checklist">Checklist</string>
@@ -223,7 +223,7 @@
     <string name="export_fail">File export failed</string>
     <string name="import_success">File imported successfully</string>
     <string name="import_fail">File import failed</string>
-    <string name="file_not_exists">File to be imported doesn\'t exists</string>
+    <string name="file_not_exists">File to be imported doesn\'t exist</string>
     <string name="import_warning">Importing data could overwrite current notes. Proceed?</string>
     <string name="export_warning">Exported file will overwrite existing one. Proceed?</string>
     <string name="settings_category_gestures">Gestures</string>
@@ -234,7 +234,7 @@
     <string name="settings_screen_notifications">Notifications</string>
     <string name="settings_enable_vibration">Vibration</string>
     <string name="settings_notification_enable_boot_persistence">Enable notifications persistence</string>
-    <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make them survive to reboots</string>
+    <string name="settings_notification_enable_boot_persistence_summary">Allow the app to access notifications to make they survive to reboots</string>
     <string name="settings_screen_navigation">Navigation</string>
     <string name="settings_changelog">Changelog</string>
     <string name="settings_enable_editor_links">Links recognition</string>
@@ -326,10 +326,10 @@
     <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
     <string name="settings_screen_privacy">Privacy</string>
     <string name="settings_error_reporting">Error reporting</string>
-    <string name="settings_error_reporting_summary_on">When the app crashes, a report will be sent to the developer, to help him fix the problem causing the crash</string>
+    <string name="settings_error_reporting_summary_on">When app crashes developer will be informed to help you</string>
     <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
     <string name="settings_send_analytics">Share anonymous data</string>
-    <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data is used only to improve the open-source app.</string>
+    <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
     <string name="settings_statistics">Statistics</string>
     <!-- Stats -->
     <string name="stats_total_notes">Total notes</string>
@@ -370,7 +370,7 @@
     <string name="tour_detailactivity_action_title">Do more</string>
     <string name="tour_detailactivity_action_detail">Share, tag, archive, protect, and more&#8230;</string>
     <string name="tour_detailactivity_reminder_title">Just press</string>
-    <string name="tour_detailactivity_reminder_detail">Long presses have different effects on an object (attachment, location, reminder) than short ones!</string>
+    <string name="tour_detailactivity_reminder_detail">Long pression have different effects on an object (attachment, location, reminder) than short pression!</string>
     <string name="tour_detailactivity_links_title">Links</string>
     <string name="tour_detailactivity_links_detail">URL, e-mail addresses and telephone numbers recognition</string>
     <string name="tour_detailactivity_swipe_title">Swipe</string>
@@ -379,7 +379,7 @@
     <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
     <string name="tour_listactivity_final_title">Enjoy</string>
     <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-    <string name="tour_community">Don\'t forget to subscribe our community!</string>
+    <string name="tour_community">Subscribe to the community to participate!</string>
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>
     <string name="drawer_close">drawer closed</string>
