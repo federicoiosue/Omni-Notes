@@ -736,13 +736,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Click events for images in gridview (zooms image)
 		mGridView.setOnItemClickListener((parent, v, position, id) -> {
 			Attachment attachment = (Attachment) parent.getAdapter().getItem(position);
-			Uri uri = attachment.getUri();
+			Uri sharableUri = FileProviderHelper.getShareableUri(attachment);
 			Intent attachmentIntent;
 			if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
 
 				attachmentIntent = new Intent(Intent.ACTION_VIEW);
-				attachmentIntent.setDataAndType(uri, StorageHelper.getMimeType(mainActivity,
-						FileProviderHelper.getShareableUri(attachment)));
+				attachmentIntent.setDataAndType(sharableUri, StorageHelper.getMimeType(mainActivity,
+						sharableUri));
 				attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
 						.FLAG_GRANT_WRITE_URI_PERMISSION);
 				if (IntentChecker.isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
