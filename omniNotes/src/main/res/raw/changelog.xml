@@ -23,7 +23,7 @@
         <changelogtext>[b]New![/b] New backup mode using JSON - [b]WARNING:[/b] older backups can still be restored with "legacy" restore option
         </changelogtext>
         <changelogtext>[b]New![/b] Moved to SDK 27 to include framework fixed and improvements</changelogtext>
-        <changelogtext>[b]New![/b] Added finnish translation (thanks to Arttu Ylhävuori) </changelogtext>
+        <changelogtext>[b]New![/b] Added finnish translation (thanks to Arttu Ylhävuori) and Romanian (thanks to Alexandru Balmus)</changelogtext>
         <changelogtext>[i]Improved![/i] Much faster images loading</changelogtext>
         <changelogtext>[i]Improved![/i] Easily recognizable shortcut widget</changelogtext>
         <changelogtext>[i]Improved![/i] Translations additions</changelogtext>
