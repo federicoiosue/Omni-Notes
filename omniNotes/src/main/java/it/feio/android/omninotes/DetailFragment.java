@@ -1450,7 +1450,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	 * Discards changes done to the note and eventually delete new attachments
 	 */
 	private void discard() {
-		// Checks if some new files have been attached and must be removed
 		if (!noteTmp.getAttachmentsList().equals(note.getAttachmentsList())) {
 			for (Attachment newAttachment : noteTmp.getAttachmentsList()) {
 				if (!note.getAttachmentsList().contains(newAttachment)) {
@@ -1462,11 +1461,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		goBack = true;
 
 		if (!noteTmp.equals(noteOriginal)) {
-			// Restore original status of the note
-			if (noteOriginal.get_id() == null) {
-				mainActivity.deleteNote(noteTmp);
-				goHome();
-			} else {
+			if (noteOriginal.get_id() != null) {
 				new SaveNoteTask(this, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
 			}
 			MainActivity.notifyAppWidgets(mainActivity);
