@@ -1007,7 +1007,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			menu.findItem(R.id.menu_delete).setVisible(true);
 			// Otherwise all other actions will be available
 		} else {
-			menu.findItem(R.id.menu_add_shortcut).setVisible(!newNote);
+			// Temporary removed until fixed on Oreo and following
+//			menu.findItem(R.id.menu_add_shortcut).setVisible(!newNote);
 			menu.findItem(R.id.menu_archive).setVisible(!newNote && !noteTmp.isArchived());
 			menu.findItem(R.id.menu_unarchive).setVisible(!newNote && noteTmp.isArchived());
 			menu.findItem(R.id.menu_trash).setVisible(!newNote);
