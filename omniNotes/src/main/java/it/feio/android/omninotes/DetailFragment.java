@@ -640,16 +640,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
 					.content(R.string.remove_reminder)
 					.positiveText(R.string.ok)
-                    .onPositive(new MaterialDialog.SingleButtonCallback() {
-                        @Override
-                        public void onClick(
-                                @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
-                            noteTmp.setAlarm(null);
-                            reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
-                            datetime.setText("");
-                        }
-                    }).build();
+                    .onPositive((dialog1, which) -> {
+						ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
+						noteTmp.setAlarm(null);
+						reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
+						datetime.setText("");
+					}).build();
 			dialog.show();
 			return true;
 		});

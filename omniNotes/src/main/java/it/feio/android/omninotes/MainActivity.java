@@ -39,8 +39,10 @@ import android.widget.DatePicker;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,10 +52,13 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import edu.emory.mathcs.backport.java.util.Arrays;
 import it.feio.android.omninotes.async.UpdateWidgetsTask;
 import it.feio.android.omninotes.async.UpdaterTask;
+import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.intro.IntroActivity;
@@ -64,6 +69,7 @@ import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileProviderHelper;
 import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
 
 
@@ -548,6 +554,42 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         prefsChanged = true;
+    }
+
+    /**
+     * Performs auto-backup into file of a modified note
+     * @param notesUpdatedEvent Event containing updated note
+     */
+    public void onEventAsync(NotesUpdatedEvent notesUpdatedEvent) {
+        autobackupUpdate(notesUpdatedEvent.notes);
+    }
+
+    private void autobackupUpdate(List<Note> updatedNotes) {
+        if (prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
+            File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+            for (Note note : updatedNotes) {
+                BackupHelper.exportNote(autoBackupDir, note);
+                BackupHelper.exportAttachments(null, new File(autoBackupDir, StorageHelper.getAttachmentDir().getName()),
+                        note.getAttachmentsList(), note.getAttachmentsListOld());
+            }
+        }
+    }
+
+    /**
+     * Performs deletion from auto-backup folder of a permanently deleted note
+     * @param notesDeletedEvent Event containing deleted note
+     */
+    public void onEventAsync(NotesDeletedEvent notesDeletedEvent) {
+        autobackupDeletion(notesDeletedEvent.notes);
+    }
+
+    private void autobackupDeletion(List<Note> deletedNotes) {
+        if (prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
+            File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+            for (Note note : deletedNotes) {
+                BackupHelper.deleteNoteBackup(autoBackupDir, note);
+            }
+        }
     }
 
 }
