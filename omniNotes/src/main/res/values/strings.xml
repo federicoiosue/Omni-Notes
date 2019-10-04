@@ -398,7 +398,7 @@
     <string name="tour_detailactivity_action_title">Do more</string>
     <string name="tour_detailactivity_action_detail">Share, tag, archive, protect, and more&#8230;</string>
     <string name="tour_detailactivity_reminder_title">Just press</string>
-    <string name="tour_detailactivity_reminder_detail">Long pression have different effects on an object (attachment, location, reminder) than short pression!</string>
+    <string name="tour_detailactivity_reminder_detail">Long presses have different effects on an object (attachment, location, reminder) than short presses!</string>
     <string name="tour_detailactivity_links_title">Links</string>
     <string name="tour_detailactivity_links_detail">URL, e-mail addresses and telephone numbers recognition</string>
     <string name="tour_detailactivity_swipe_title">Swipe</string>

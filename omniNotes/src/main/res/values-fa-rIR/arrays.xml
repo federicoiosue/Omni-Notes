@@ -18,45 +18,45 @@
   -->
 <resources>
     <string-array name="navigation_list">
-        <item>\"یادداشت‌ها\"</item>
-        <item>آرشیو</item>
+        <item>یادداشت‌ها</item>
+        <item>بایگانی</item>
         <item>یادآورها</item>
         <item>سطل زباله</item>
-        <item>دسته بندی نشده</item>
+        <item>دسته‌بندی نشده</item>
     </string-array>
     <string-array name="sortable_columns_human_readable">
         <item>عنوان</item>
         <item>تاریخ ایجاد</item>
-        <item>آخرین تغییرات</item>
-        <item>تاریخ یادآور</item>
+        <item>تاریخ آخرین تغییرات</item>
+        <item>تاریخ یادآوری</item>
     </string-array>
     <string-array name="checked_items_behavior">
         <item>حفظ موقعیت</item>
-        <item>انتقال به انتهای فهرست</item>
+        <item>انتقال به انتهای سیاهه</item>
         <item>انتقال به انتهای موارد انتخاب نشده</item>
     </string-array>
     <string-array name="colors_app">
         <item>غیر فعال</item>
         <item>فقط نوار</item>
-        <item>فقط لیست یادداشت ها</item>
+        <item>فقط سیاهه یادداشت‌ها</item>
         <item>تکمیل شد</item>
     </string-array>
     <string-array name="colors_widget">
         <item>غیر فعال</item>
         <item>فقط نوار</item>
-        <item>فهرست یادداشتها</item>
+        <item>سیاههٔ یادداشت‌ها</item>
     </string-array>
     <string-array name="text_size">
-        <item>کوچکترین</item>
+        <item>بسیار کوچک</item>
         <item>کوچک</item>
         <item>پیش‌فرض</item>
         <item>بزرگ</item>
-        <item>بزرگترین</item>
+        <item>بسیار بزرگ</item>
     </string-array>
     <string-array name="attachments_actions">
-        <item>اشتراک</item>
-        <item>زدودن</item>
-        <item>زدودن همه</item>
+        <item>هم‌رسانی</item>
+        <item>حذف</item>
+        <item>حذف همه</item>
         <item>ویرایش</item>
     </string-array>
 </resources>

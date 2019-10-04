@@ -30,22 +30,6 @@
         <item>ពេលដែលកែចុងក្រោយ</item>
         <item>ពេលវេលារំលឹក</item>
     </string-array>
-    <string-array name="checked_items_behavior">
-        <item>Keep position</item>
-        <item>Move to the end of the list</item>
-        <item>Move to the end of unchecked items</item>
-    </string-array>
-    <string-array name="colors_app">
-        <item>Disabled</item>
-        <item>Strip only</item>
-        <item>Notes list only</item>
-        <item>Complete</item>
-    </string-array>
-    <string-array name="colors_widget">
-        <item>Disabled</item>
-        <item>Strip only</item>
-        <item>Notes list</item>
-    </string-array>
     <string-array name="text_size">
         <item>តូចបំផុត</item>
         <item>តូច</item>

@@ -46,13 +46,6 @@
         <item>ແຖບເທົ່ານັ້ນ</item>
         <item>ລາຍການບັນທຶກ</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Smallest</item>
-        <item>Small</item>
-        <item>Default</item>
-        <item>Large</item>
-        <item>Largest</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>ແບ່ງປັນ</item>
         <item>ລຶບ</item>
