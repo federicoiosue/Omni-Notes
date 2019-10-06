@@ -82,7 +82,6 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
 
     @Before
     public void setUp() throws Exception {
-        super.setUp();
         activityRule.launchActivity(null);
     }
 

@@ -17,6 +17,9 @@
 
 package it.feio.android.omninotes.helpers;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import android.net.Uri;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
@@ -53,7 +56,6 @@ public class BackupHelperTest extends BaseAndroidTestCase {
 
 	@Before
 	public void setUp() throws Exception {
-		super.setUp();
 		targetDir = new File(StorageHelper.getCacheDir(InstrumentationRegistry.getTargetContext()), "_autobackupTest");
 		if (targetDir.exists()) {
 			FileUtils.forceDelete(targetDir);
@@ -114,7 +116,6 @@ public class BackupHelperTest extends BaseAndroidTestCase {
 
 	@After
 	public void tearDown() throws Exception {
-		super.tearDown();
 		FileUtils.forceDelete(targetDir);
 	}
 }
