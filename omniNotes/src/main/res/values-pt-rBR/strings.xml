@@ -44,6 +44,7 @@
     <string name="confirm">Confirmar</string>
     <string name="ok">Ok</string>
     <string name="no">Não</string>
+    <string name="failed">falhou</string>
     <string name="cancel">Cancelar</string>
     <string name="note_updated">Nota atualizada</string>
     <string name="empty_note_not_saved">Nota vazia não salva</string>
@@ -66,6 +67,7 @@
     <string name="delete_all_attachments">Excluir todos os anexos?</string>
     <string name="gallery">Galeria</string>
     <string name="location">Localização</string>
+    <string name="timestamp">Data e Hora</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Remover localização?</string>
     <string name="remove_reminder">Remover lembrete?</string>
@@ -83,6 +85,7 @@
     <string name="data_import_message">Toque -&gt; restaurar\nToque longo -&gt; excluir</string>
     <string name="data_import_message_warning">AVISO: isto irá substituir todos os dados atuais!</string>
     <string name="data_export_completed">Backup de dados concluído</string>
+    <string name="data_export_failed">O backup de dados falhou: verifique o logcat para detalhes</string>
     <string name="data_import_completed">Importação de dados concluída</string>
     <string name="click_to_refresh_application">Toque para atualizar o aplicativo</string>
     <string name="backup_existing">Backup já existe, será sobrescrevido</string>

@@ -44,6 +44,7 @@
     <string name="confirm">Ho confirmo</string>
     <string name="ok">D\'acord</string>
     <string name="no">No</string>
+    <string name="failed">ha fallat</string>
     <string name="cancel">Cancel·la</string>
     <string name="note_updated">S\'ha actualitzat la nota</string>
     <string name="empty_note_not_saved">No es pot desar una nota buida</string>
@@ -66,6 +67,7 @@
     <string name="delete_all_attachments">Voleu suprimir tots els fitxers adjunts?</string>
     <string name="gallery">Galeria</string>
     <string name="location">Ubicació</string>
+    <string name="timestamp">Marca de temps</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Voleu treure la ubicació?</string>
     <string name="remove_reminder">Voleu treure el recordatori?</string>
@@ -83,6 +85,7 @@
     <string name="data_import_message">Feu clic per a-&gt; restaura\nFeu clic llarg per a-&gt; suprimeix</string>
     <string name="data_import_message_warning">ATENCIÓ: això substituirà totes les dades actuals!</string>
     <string name="data_export_completed">La còpia de seguretat ha finaltizat</string>
+    <string name="data_export_failed">Ha fallat la còpia de seguretat. Veieu el registre amb logcat per a més detalls</string>
     <string name="data_import_completed">La restauració de dades ha finalitzat</string>
     <string name="click_to_refresh_application">Feu clic per a actualitzar l\'aplicació</string>
     <string name="backup_existing">Ja existeix una còpia de seguretat. Se sobreescriurà</string>
@@ -216,6 +219,7 @@
     <string name="settings_export">Còpia de seguretat</string>
     <string name="settings_sync_import_export">Sincronització i còpies de seguretat</string>
     <string name="settings_import">Restaura o suprimeix còpies de seguretat</string>
+    <string name="settings_import_legacy_summary">Permet restaurar còpies antigues realitzades amb versions anteriors a la 6 de l\'Omni Notes</string>
     <string name="settings_import_from_springpad">Importa les notes des de l\'Springpad</string>
     <string name="settings_import_from_springpad_summary">Seleccioneu l\'arxiu exportat de l\'Springpad i assegureu-vos d\'estar connectat a internet</string>
     <string name="settings_sync_drive">Sincronitza amb el Google Drive</string>
@@ -242,6 +246,8 @@
     <string name="settings_max_video_size">Vídeos adjunts</string>
     <string name="settings_screen_data">Dades</string>
     <string name="settings_backup">Còpia de seguretat</string>
+    <string name="settings_enable_automatic_backup">Habilita la còpia de seguretat automàtica</string>
+    <string name="settings_enable_automatic_backup_summary">Les notes s\'emmagatzemaran a la carpeta \"_autobackup\"</string>
     <string name="settings_password">Contrasenya</string>
     <string name="settings_password_access">Sol·licita una contrasenya en accedir</string>
     <string name="settings_password_instructions">La contrasenya assegura que les notes no es podran veure ni modificar per altres persones.\n\nEn establir una contrasenya, se us demanarà la contrasenya anterior.</string>

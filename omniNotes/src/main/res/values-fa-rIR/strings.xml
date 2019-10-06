@@ -44,6 +44,7 @@
     <string name="confirm">تایید</string>
     <string name="ok">باشه</string>
     <string name="no">نه</string>
+    <string name="failed">ناموفق بودند</string>
     <string name="cancel">لغو</string>
     <string name="note_updated">یادداشت به‌روز شد</string>
     <string name="empty_note_not_saved">نمی‌توان یک یادداشت خالی را ذخیره کرد</string>
@@ -66,6 +67,7 @@
     <string name="delete_all_attachments">همه پیوست‌ها حذف شوند؟</string>
     <string name="gallery">نگارخانه</string>
     <string name="location">مکان</string>
+    <string name="timestamp">برچسب زمان</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">مکان حذف شود؟</string>
     <string name="remove_reminder">یادآوری حذف شود؟</string>
@@ -83,6 +85,7 @@
     <string name="data_import_message">لمس -&gt; بازیابی\nلمس طولانی -&gt; حذف</string>
     <string name="data_import_message_warning">هشدار: این کار باعث جایگزینی همه داده کنونی می‌شود!</string>
     <string name="data_export_completed">پشتیبان‌گیری کامل شد</string>
+    <string name="data_export_failed">تهیه نسخه پشتیبان از داده‌ها با شکست مواجه شد: لطفا لاگ را برای جزئیات بررسی کنید</string>
     <string name="data_import_completed">بازیابی داده کامل شد</string>
     <string name="click_to_refresh_application">برای تازه‌سازی برنامه، لمس کنید</string>
     <string name="backup_existing">درحال حاضر نسخه پشتیبان موجود است. روی آن بازنویسی می‌شود</string>
@@ -120,10 +123,10 @@
     <string name="title_activity_about">اطلاعات</string>
     <string name="deleted">حذف شده</string>
     <string name="no_items_in_list">اینجا چیزی نیست!</string>
-    <string name="checklist_on">فعال کردن سیاههٔ انتخاب</string>
-    <string name="checklist_off">غیر فعال کردن سیاههٔ انتخاب</string>
+    <string name="checklist_on">فعال کردن چک‌لیست</string>
+    <string name="checklist_off">غیر فعال کردن چک‌لیست</string>
     <string name="checklist_item_hint">مورد جدید</string>
-    <string name="remove_checklist">سیاههٔ انتخاب حذف شود؟</string>
+    <string name="remove_checklist">چک‌لیست حذف شود؟</string>
     <string name="checklist_keep_checked">نگه داشتن موارد انتخاب شده</string>
     <string name="checklist_keep_symbols">نگه داشتن علامت‌دارها</string>
     <string name="sketch">حالت طراحی</string>
@@ -198,10 +201,10 @@
     <string name="permission_audio_recording">برای ضبط یادداشت‌های صوتی، اجازه استفاده از میکروفون نیاز است</string>
     <string name="permission_coarse_location">برای امکان افزودن اطلاعات موقعیت به یادداشت، مجوز دسترسی به موقعیت مکانی لازم است</string>
     <string name="permission_not_granted">مجوز اعطا نشده است</string>
-    <string name="checklist">چک لیست</string>
+    <string name="checklist">چک‌لیست</string>
     <string name="text_note">یادداشت متنی</string>
     <string name="photo">عکس</string>
-    <string name="uncompleted_checklists">چک لیست‌های کامل نشده</string>
+    <string name="uncompleted_checklists">چک‌لیست‌های کامل نشده</string>
     <string name="info">اطلاعات</string>
     <string name="completed">کامل شدند</string>
     <!-- Settings -->
@@ -216,6 +219,8 @@
     <string name="settings_export">نسخه پشتیبان</string>
     <string name="settings_sync_import_export">همگام‌سازی و نسخه‌های پشتیبان</string>
     <string name="settings_import">بازیابی یا حذف نسخه‌های پشتیبان</string>
+    <string name="settings_import_legacy">بازیابی نسخه پشتیبان قدیمی</string>
+    <string name="settings_import_legacy_summary">اجازه می‌دهد نسخه‌های پشتیبان قدیمی که توسط نسخه‌های قدیمی‌تر از ۶ Omni Notes گرفته شده‌اند، بازیابی شوند</string>
     <string name="settings_import_from_springpad">وارد کردن یادداشت‌ها از Springpad</string>
     <string name="settings_import_from_springpad_summary">بایگانی خروجی Springpad را انتخاب کنید و مطمئن شوید به اینترنت وصل هستید</string>
     <string name="settings_sync_drive">همگام‌سازی با گوگل درایو</string>
@@ -242,6 +247,9 @@
     <string name="settings_max_video_size">پیوست‌های ویدئویی</string>
     <string name="settings_screen_data">داده‌</string>
     <string name="settings_backup">پشتیبان‌گیری</string>
+    <string name="settings_enable_automatic_backup">فعال‌سازی تهیه خودکار نسخه پشتیبان</string>
+    <string name="settings_enable_automatic_backup_summary">نسخه پشتیبان یادداشت‌ها در پوشه «‎_‎autobackup» ذخیره خواهد شد</string>
+    <string name="settings_enable_automatic_backup_dialog">با فعال کردن این ویژگی، نسخه پشتیبان کاملی از داده‌ها گرفته خواهد شد</string>
     <string name="settings_password">گذرواژه</string>
     <string name="settings_password_access">درخواست گذرواژه برای دسترسی</string>
     <string name="settings_password_instructions">گذرواژه تضمین می‌کند که یادداشت‌ها توسط شخص دیگری دیده یا ویرایش نمی‌شوند.\n\nزمان تنظیم گذرواژه جدید، گذرواژه قبلی درخواست می‌شود.</string>
@@ -263,11 +271,12 @@
     <string name="confirm_removing_backup">واقعا نسخه پشتیبان حذف شود؟</string>
     <string name="confirm_restoring_backup">واقعا نسخه پشتیبان بازیابی شود؟</string>
     <string name="data_deletion_completed">پاک کردن اطلاعات کامل شد</string>
-    <string name="settings_checked_items_behavior">چک لیست</string>
+    <string name="settings_checked_items_behavior">چک‌لیست‌ها</string>
     <string name="settings_checked_items_behavior_summary">چه اتفاقی با علامت زدن یک مورد رخ دهد؟</string>
     <string name="settings_category_preferences">ترجیحات</string>
     <string name="settings_category_beta">بتا</string>
     <string name="settings_category_about">درباره</string>
+    <string name="settings_beta">موافقم</string>
     <string name="settings_beta_summary">مشترک شدن در برنامه بتا برای بروز بودن با آخرین امکانات</string>
     <string name="donate">کمک مالی</string>
     <string name="donate_summary">حمایت از توسعه این برنامه با کمک مالی غیر انتفاعی</string>
@@ -330,6 +339,8 @@
     <string name="settings_error_reporting_summary_off">هیچ گزارشی از خطاهای برنامه فرستاده نمی‌شود. اگر مشکلی پیش می‌آید، گلایه نکنید!</string>
     <string name="settings_send_analytics">هم‌رسانی داده به صورت ناشناس</string>
     <string name="settings_send_analytics_summary">با فرستادن اطلاعات غیر حساس مانند مدل دستگاه، زبان و امکانتی در برنامه که اغلب استفاده می‌شود، به توسعه‌دهنده کمک کنید. این داده‌ها فقط برای بهبود این برنامهٔ آزاد و متن‌باز استفاده می‌شوند.</string>
+    <string name="settings_enable_file_logging">ذخیره لاگ‌ها در یک پرونده</string>
+    <string name="settings_enable_file_logging_summary">لاگ‌های برنامه در پرونده‌ای ذخیره می‌شود که می‌توانید آن را به منظور بررسی مشکلات احتمالی با توسعه‌دهنده هم‌رسانی کنید (نیازمند راه‌اندازی مجدد)</string>
     <string name="settings_statistics">آمار</string>
     <!-- Stats -->
     <string name="stats_total_notes">کل یادداشت‌ها</string>
@@ -370,6 +381,7 @@
     <string name="tour_detailactivity_action_title">بیشتر</string>
     <string name="tour_detailactivity_action_detail">هم‌رسانی، برچسب، بایگانی، حفاظت، و بیشتر&#8230;</string>
     <string name="tour_detailactivity_reminder_title">فقط بفشارید</string>
+    <string name="tour_detailactivity_reminder_detail">در قیاس با لمس کوتاه، لمس طولانی تاثیر متفاوتی روی هر جزء (پیوست، مکان، یادآور) دارد!</string>
     <string name="tour_detailactivity_links_title">پیوند‌ها</string>
     <string name="tour_detailactivity_links_detail">تشخیص نشانی سایت، شماره تلفن و رایانامه</string>
     <string name="tour_detailactivity_swipe_title">کشیدن</string>
@@ -378,6 +390,7 @@
     <string name="tour_detailactivity_save_detail">برای بازگشت، دکمه ناوبری «بالا» و یا دکمه مربوطه در دستگاه خود را بفشارید</string>
     <string name="tour_listactivity_final_title">لذت ببرید</string>
     <string name="tour_listactivity_final_detail">با تشکر برای استفاده از / n Omni Notesجایگزینی آزاد و متن‌باز برای بهره‌وری لذت بردن از یادداشت‌برداری!</string>
+    <string name="tour_community">برای مشارکت، عضو جامعه شوید!</string>
     <!-- Accessibility -->
     <string name="drawer_open">کشو باز است</string>
     <string name="drawer_close">کشو بسته شد</string>
@@ -388,5 +401,8 @@
     <string name="navigation_drawer_open">بازکردن کشو ناوبری</string>
     <string name="navigation_drawer_close">بستن کشوی ناوبری</string>
     <!-- Various -->
+    <string name="channel_backups_name">نسخه‌های پشتیبان</string>
+    <string name="channel_backups_description">اعلان‌ها برای نتایج و وضعیت نسخه‌های پشتیبان</string>
     <string name="channel_reminders_name">یادآورها</string>
+    <string name="channel_reminders_description">اعلان‌ها برای یادآوری‌های یادداشت‌ها</string>
 </resources>

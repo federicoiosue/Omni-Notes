@@ -44,6 +44,7 @@
     <string name="confirm">確認</string>
     <string name="ok">OK</string>
     <string name="no">いいえ</string>
+    <string name="failed">失敗しました</string>
     <string name="cancel">キャンセル</string>
     <string name="note_updated">ノートを更新しました</string>
     <string name="empty_note_not_saved">空のノートを保存できません</string>
@@ -66,6 +67,7 @@
     <string name="delete_all_attachments">すべての添付ファイルを削除しますか?</string>
     <string name="gallery">ギャラリー</string>
     <string name="location">場所</string>
+    <string name="timestamp">タイムスタンプ</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">場所を削除しますか?</string>
     <string name="remove_reminder">アラームを削除しますか?</string>
@@ -83,6 +85,7 @@
     <string name="data_import_message">クリック -&gt; 復元\n長押し -&gt; 削除</string>
     <string name="data_import_message_warning">警告: これは現在のデータをすべて置き換えます!</string>
     <string name="data_export_completed">データのバックアップが完了しました</string>
+    <string name="data_export_failed">データのバックアップに失敗しました: 詳細は logcat を確認してください</string>
     <string name="data_import_completed">データの復元が完了しました</string>
     <string name="click_to_refresh_application">クリックするとアプリケーションを更新します</string>
     <string name="backup_existing">バックアップは既に存在します。上書きされます</string>
@@ -216,6 +219,8 @@
     <string name="settings_export">バックアップ</string>
     <string name="settings_sync_import_export">同期とバックアップ</string>
     <string name="settings_import">バックアップを復元または削除</string>
+    <string name="settings_import_legacy">従来のバックアップを復元</string>
+    <string name="settings_import_legacy_summary">Omni Notes のバージョン 6 より前のバージョンで作成された、古いバックアップを復元することができます</string>
     <string name="settings_import_from_springpad">Springpad からノートをインポート</string>
     <string name="settings_import_from_springpad_summary">Springpad でエクスポートしたアーカイブを選択して、インターネットに接続されていることを確認してください</string>
     <string name="settings_sync_drive">Google ドライブと同期</string>
@@ -242,6 +247,9 @@
     <string name="settings_max_video_size">ビデオの添付</string>
     <string name="settings_screen_data">データ</string>
     <string name="settings_backup">バックアップ</string>
+    <string name="settings_enable_automatic_backup">自動バックアップを有効にする</string>
+    <string name="settings_enable_automatic_backup_summary">ノートは \"_autobackup\" バックアップフォルダーに格納されます</string>
+    <string name="settings_enable_automatic_backup_dialog">この機能を有効にすると全てのデータのバックアップが実行されます</string>
     <string name="settings_password">パスワード</string>
     <string name="settings_password_access">アクセス時にパスワードを要求</string>
     <string name="settings_password_instructions">パスワードにより、他の人がノートを表示または更新できないようにします。 \n\n新しいパスワードを設定する時に、以前のパスワードが要求されます。</string>
@@ -268,6 +276,7 @@
     <string name="settings_category_preferences">プリファレンス</string>
     <string name="settings_category_beta">ベータ</string>
     <string name="settings_category_about">...について</string>
+    <string name="settings_beta">オプトイン</string>
     <string name="settings_beta_summary">最新の機能に保つためにベータプログラムに登録します</string>
     <string name="donate">寄付</string>
     <string name="donate_summary">非営利の寄付でこのアプリの開発をサポートします</string>
@@ -330,6 +339,8 @@
     <string name="settings_error_reporting_summary_off">クラッシュ レポートは送信されません。何か問題があっても文句を言わないでくださいね!</string>
     <string name="settings_send_analytics">匿名データを共有</string>
     <string name="settings_send_analytics_summary">デバイスのモデル、言語、よく使われるアプリの機能など、機密ではないデータを送信することで開発者を支援します。このデータはオープンソース アプリの改善にのみ使用されます。</string>
+    <string name="settings_enable_file_logging">ログをファイルに保存</string>
+    <string name="settings_enable_file_logging_summary">アプリのログがファイルに保存され、開発者と共有して、問題の可能性を調査できます (再起動が必要です)</string>
     <string name="settings_statistics">統計情報</string>
     <!-- Stats -->
     <string name="stats_total_notes">合計ノート</string>
@@ -370,6 +381,7 @@
     <string name="tour_detailactivity_action_title">さらに</string>
     <string name="tour_detailactivity_action_detail">共有、タグ、アーカイブ、保護、その他&#8230;</string>
     <string name="tour_detailactivity_reminder_title">押すだけで</string>
+    <string name="tour_detailactivity_reminder_detail">オブジェクト (添付、場所、アラーム) を長押しすると、短く押した時とは異なる効果があります!</string>
     <string name="tour_detailactivity_links_title">リンク</string>
     <string name="tour_detailactivity_links_detail">URL、メールアドレス、電話番号の認識</string>
     <string name="tour_detailactivity_swipe_title">スワイプ</string>
@@ -378,6 +390,7 @@
     <string name="tour_detailactivity_save_detail">\"上\" のナビゲーション アイコン、またはデバイスのボタンを押すと、戻ることができます</string>
     <string name="tour_listactivity_final_title">お楽しみください</string>
     <string name="tour_listactivity_final_detail">Omni Notes をご利用ありがとうございます \n効率的かつ快適にノートをとることができるオープン ソースです!</string>
+    <string name="tour_community">コミュニティに登録して、参加します!</string>
     <!-- Accessibility -->
     <string name="drawer_open">ドロワーを開く</string>
     <string name="drawer_close">ドロワーを閉じる</string>
@@ -388,5 +401,8 @@
     <string name="navigation_drawer_open">ナビゲーション ドロワーを開く</string>
     <string name="navigation_drawer_close">ナビゲーション ドロワーを閉じる</string>
     <!-- Various -->
+    <string name="channel_backups_name">バックアップ</string>
+    <string name="channel_backups_description">バックアップの状態と結果の通知</string>
     <string name="channel_reminders_name">アラーム</string>
+    <string name="channel_reminders_description">ノートのアラームの通知</string>
 </resources>

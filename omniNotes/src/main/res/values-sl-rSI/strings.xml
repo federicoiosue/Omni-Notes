@@ -44,6 +44,7 @@
     <string name="confirm">Potrdi</string>
     <string name="ok">V redu</string>
     <string name="no">Ne</string>
+    <string name="failed">neuspešno</string>
     <string name="cancel">Prekliči</string>
     <string name="note_updated">Beležka je posodobljena</string>
     <string name="empty_note_not_saved">Prazna beležka ni bila shranjena</string>
@@ -66,6 +67,7 @@
     <string name="delete_all_attachments">Ali želite izbrisati vse priloge?</string>
     <string name="gallery">Galerija</string>
     <string name="location">Lokacija</string>
+    <string name="timestamp">Časovni žig</string>
     <string name="pushbullet">Pushbullet (aplikacija)</string>
     <string name="remove_location">Odstranim lokacijo?</string>
     <string name="remove_reminder">Odstranim opomnik?</string>
