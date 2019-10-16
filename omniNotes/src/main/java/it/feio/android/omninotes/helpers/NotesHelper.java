@@ -36,9 +36,9 @@ import it.feio.android.omninotes.utils.TagsHelper;
 public class NotesHelper {
 
     public static boolean haveSameId(Note note, Note currentNote) {
-            return currentNote != null
-            && currentNote.get_id() != null
-            && currentNote.get_id().equals(note.get_id());
+        return currentNote != null
+                && currentNote.get_id() != null
+                && currentNote.get_id().equals(note.get_id());
 
     }
 
@@ -72,35 +72,35 @@ public class NotesHelper {
         }
     }
 
-	public static Note mergeNotes(List<Note> notes, boolean keepMergedNotes) {
-		boolean locked = false;
-		ArrayList<Attachment> attachments = new ArrayList<>();
-		String reminder = null;
-		String reminderRecurrenceRule = null;
-		Double latitude = null;
-		Double longitude = null;
+    public static Note mergeNotes(List<Note> notes, boolean keepMergedNotes) {
+        boolean locked = false;
+        ArrayList<Attachment> attachments = new ArrayList<>();
+        String reminder = null;
+        String reminderRecurrenceRule = null;
+        Double latitude = null;
+        Double longitude = null;
 
-		Note mergedNote = new Note();
-		mergedNote.setTitle(notes.get(0).getTitle());
-		mergedNote.setArchived(notes.get(0).isArchived());
-		mergedNote.setCategory(notes.get(0).getCategory());
-		StringBuilder content = new StringBuilder();
-		// Just first note title must not be included into the content
-		boolean includeTitle = false;
+        Note mergedNote = new Note();
+        mergedNote.setTitle(notes.get(0).getTitle());
+        mergedNote.setArchived(notes.get(0).isArchived());
+        mergedNote.setCategory(notes.get(0).getCategory());
+        StringBuilder content = new StringBuilder();
+        // Just first note title must not be included into the content
+        boolean includeTitle = false;
 
-		for (Note note : notes) {
-			appendContent(note, content, includeTitle);
-			locked = locked || note.isLocked();
-			String currentReminder = note.getAlarm();
-			if (!StringUtils.isEmpty(currentReminder) && reminder == null) {
-				reminder = currentReminder;
-				reminderRecurrenceRule = note.getRecurrenceRule();
-			}
-			latitude = (Double) ObjectUtils.defaultIfNull(latitude, note.getLatitude());
-			longitude = (Double) ObjectUtils.defaultIfNull(longitude, note.getLongitude());
-			addAttachments(keepMergedNotes, note, attachments);
-			includeTitle = true;
-		}
+        for (Note note : notes) {
+            appendContent(note, content, includeTitle);
+            locked = locked || note.isLocked();
+            String currentReminder = note.getAlarm();
+            if (!StringUtils.isEmpty(currentReminder) && reminder == null) {
+                reminder = currentReminder;
+                reminderRecurrenceRule = note.getRecurrenceRule();
+            }
+            latitude = (Double) ObjectUtils.defaultIfNull(latitude, note.getLatitude());
+            longitude = (Double) ObjectUtils.defaultIfNull(longitude, note.getLongitude());
+            addAttachments(keepMergedNotes, note, attachments);
+            includeTitle = true;
+        }
 
         mergedNote.setContent(content.toString());
         mergedNote.setLocked(locked);
@@ -111,67 +111,67 @@ public class NotesHelper {
         mergedNote.setAttachmentsList(attachments);
 
         return mergedNote;
-	}
+    }
 
-	/**
-	 * Retrieves statistics data for a single note
-	 */
-	public static StatsSingleNote getNoteInfos(Note note) {
-		StatsSingleNote infos = new StatsSingleNote();
+    /**
+     * Retrieves statistics data for a single note
+     */
+    public static StatsSingleNote getNoteInfos(Note note) {
+        StatsSingleNote infos = new StatsSingleNote();
 
-		int words, chars;
-		if (note.isChecklist()) {
-			infos.setChecklistCompletedItemsNumber(StringUtils.countMatches(note.getContent(), it.feio.android.checklistview
-					.interfaces.Constants.CHECKED_SYM));
-			infos.setChecklistItemsNumber(infos.getChecklistCompletedItemsNumber() +
-					StringUtils.countMatches(note.getContent(), it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM));
-		}
-		infos.setTags(TagsHelper.retrieveTags(note).size());
-		words = getWords(note);
-		chars = getChars(note);
-		infos.setWords(words);
-		infos.setChars(chars);
+        int words, chars;
+        if (note.isChecklist()) {
+            infos.setChecklistCompletedItemsNumber(StringUtils.countMatches(note.getContent(), it.feio.android.checklistview
+                    .interfaces.Constants.CHECKED_SYM));
+            infos.setChecklistItemsNumber(infos.getChecklistCompletedItemsNumber() +
+                    StringUtils.countMatches(note.getContent(), it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM));
+        }
+        infos.setTags(TagsHelper.retrieveTags(note).size());
+        words = getWords(note);
+        chars = getChars(note);
+        infos.setWords(words);
+        infos.setChars(chars);
 
-		int attachmentsAll = 0, images = 0, videos = 0, audioRecordings = 0, sketches = 0, files = 0;
-		for (Attachment attachment : note.getAttachmentsList()) {
-			if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
-				images++;
-			} else if (Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
-				videos++;
-			} else if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
-				audioRecordings++;
-			} else if (Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())) {
-				sketches++;
-			} else if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
-				files++;
-			}
-		}
-		infos.setAttachments(attachmentsAll);
-		infos.setImages(images);
-		infos.setVideos(videos);
-		infos.setAudioRecordings(audioRecordings);
-		infos.setSketches(sketches);
-		infos.setFiles(files);
+        int attachmentsAll = 0, images = 0, videos = 0, audioRecordings = 0, sketches = 0, files = 0;
+        for (Attachment attachment : note.getAttachmentsList()) {
+            if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
+                images++;
+            } else if (Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
+                videos++;
+            } else if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
+                audioRecordings++;
+            } else if (Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())) {
+                sketches++;
+            } else if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
+                files++;
+            }
+        }
+        infos.setAttachments(attachmentsAll);
+        infos.setImages(images);
+        infos.setVideos(videos);
+        infos.setAudioRecordings(audioRecordings);
+        infos.setSketches(sketches);
+        infos.setFiles(files);
 
-		if (note.getCategory() != null) {
-			infos.setCategoryName(note.getCategory().getName());
-		}
+        if (note.getCategory() != null) {
+            infos.setCategoryName(note.getCategory().getName());
+        }
 
-		return infos;
-	}
+        return infos;
+    }
 
-	/**
-	 * Counts words in a note
-	 */
-	public static int getWords(Note note) {
-		return CountFactory.getWordCounter().countWords(note);
-	}
+    /**
+     * Counts words in a note
+     */
+    public static int getWords(Note note) {
+        return CountFactory.getWordCounter().countWords(note);
+    }
 
-	/**
-	 * Counts chars in a note
-	 */
-	public static int getChars(Note note) {
-		return CountFactory.getWordCounter().countChars(note);
-	}
+    /**
+     * Counts chars in a note
+     */
+    public static int getChars(Note note) {
+        return CountFactory.getWordCounter().countChars(note);
+    }
 
 }

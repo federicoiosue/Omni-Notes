@@ -61,12 +61,18 @@ import it.feio.android.omninotes.models.views.SketchView;
 
 public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
-    @BindView(R.id.sketch_stroke) ImageView stroke;
-    @BindView(R.id.sketch_eraser) ImageView eraser;
-    @BindView(R.id.drawing) SketchView mSketchView;
-    @BindView(R.id.sketch_undo) ImageView undo;
-    @BindView(R.id.sketch_redo) ImageView redo;
-    @BindView(R.id.sketch_erase) ImageView erase;
+    @BindView(R.id.sketch_stroke)
+    ImageView stroke;
+    @BindView(R.id.sketch_eraser)
+    ImageView eraser;
+    @BindView(R.id.drawing)
+    SketchView mSketchView;
+    @BindView(R.id.sketch_undo)
+    ImageView undo;
+    @BindView(R.id.sketch_redo)
+    ImageView redo;
+    @BindView(R.id.sketch_erase)
+    ImageView erase;
     private int seekBarStrokeProgress, seekBarEraserProgress;
     private View popupLayout, popupEraserLayout;
     private ImageView strokeImageView, eraserImageView;
@@ -85,9 +91,9 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
     @Override
     public void onStart() {
-		((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+        ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
 
-		super.onStart();
+        super.onStart();
     }
 
 
@@ -137,14 +143,14 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
         AlphaManager.setAlpha(eraser, 0.4f);
         eraser.setOnClickListener(v -> {
-			if (mSketchView.getMode() == SketchView.ERASER) {
-				showPopup(v, SketchView.ERASER);
-			} else {
-				mSketchView.setMode(SketchView.ERASER);
-				AlphaManager.setAlpha(stroke, 0.4f);
-				AlphaManager.setAlpha(eraser, 1f);
-			}
-		});
+            if (mSketchView.getMode() == SketchView.ERASER) {
+                showPopup(v, SketchView.ERASER);
+            } else {
+                mSketchView.setMode(SketchView.ERASER);
+                AlphaManager.setAlpha(stroke, 0.4f);
+                AlphaManager.setAlpha(eraser, 1f);
+            }
+        });
 
         undo.setOnClickListener(v -> mSketchView.undo());
 
@@ -156,18 +162,18 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 askForErase();
             }
 
-			private void askForErase() {
-				new MaterialDialog.Builder(getActivity())
-						.content(R.string.erase_sketch)
-						.positiveText(R.string.confirm)
+            private void askForErase() {
+                new MaterialDialog.Builder(getActivity())
+                        .content(R.string.erase_sketch)
+                        .positiveText(R.string.confirm)
                         .onPositive(new MaterialDialog.SingleButtonCallback() {
                             @Override
                             public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                                 mSketchView.erase();
                             }
                         }).build().show();
-			}
-		});
+            }
+        });
 
 
         // Inflate the popup_layout.xml
@@ -203,8 +209,8 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
             case android.R.id.home:
                 getActivity().onBackPressed();
                 break;
-			default:
-				LogDelegate.e("Wrong element choosen: " + item.getItemId());
+            default:
+                LogDelegate.e("Wrong element choosen: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
     }
@@ -250,9 +256,9 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         popup.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         popup.setFocusable(true);
         popup.setOnDismissListener(() -> {
-			if (mColorPicker.getColor() != oldColor)
-				mColorPicker.setOldCenterColor(oldColor);
-		});
+            if (mColorPicker.getColor() != oldColor)
+                mColorPicker.setOldCenterColor(oldColor);
+        });
 
         // Clear the default translucent background
         popup.setBackgroundDrawable(new BitmapDrawable());

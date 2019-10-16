@@ -119,10 +119,10 @@ public class NavigationDrawerFragment extends Fragment {
 
     public void onEvent(NotesLoadedEvent event) {
         if (mDrawerLayout != null) {
-			if (!isDoublePanelActive()) {
-				mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-			}
-		}
+            if (!isDoublePanelActive()) {
+                mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+            }
+        }
         if (getMainActivity().getSupportFragmentManager().getBackStackEntryCount() == 0) {
             init();
         }
@@ -149,9 +149,9 @@ public class NavigationDrawerFragment extends Fragment {
             mActivity.getSupportActionBar().setTitle(((Category) navigationUpdatedEvent.navigationItem).getName());
         }
         if (mDrawerLayout != null) {
-			if (!isDoublePanelActive()) {
-				mDrawerLayout.closeDrawer(GravityCompat.START);
-			}
+            if (!isDoublePanelActive()) {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+            }
             new Handler().postDelayed(() -> EventBus.getDefault().post(new NavigationUpdatedNavDrawerClosedEvent
                     (navigationUpdatedEvent.navigationItem)), 400);
         }
@@ -197,7 +197,7 @@ public class NavigationDrawerFragment extends Fragment {
 
         // Styling options
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.setDrawerIndicatorEnabled(true);
 
         LogDelegate.v("Finished navigation drawer initialization");
@@ -241,11 +241,11 @@ public class NavigationDrawerFragment extends Fragment {
     }
 
 
-	public static boolean isDoublePanelActive() {
+    public static boolean isDoublePanelActive() {
 //		Resources resources = OmniNotes.getAppContext().getResources();
 //		return resources.getDimension(R.dimen.navigation_drawer_width) == resources.getDimension(R.dimen
 //				.navigation_drawer_reserved_space);
-		return false;
-	}
+        return false;
+    }
 
 }

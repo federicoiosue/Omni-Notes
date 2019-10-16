@@ -91,14 +91,14 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         }
     }
 
-	private void importDataFromSpringpad(Intent intent, NotificationsHelper mNotificationsHelper) {
-		new SpringImportHelper(OmniNotes.getAppContext()).importDataFromSpringpad(intent, mNotificationsHelper);
-		String title = getString(R.string.data_import_completed);
-		String text = getString(R.string.click_to_refresh_application);
-		createNotification(intent, this, title, text, null);
-	}
+    private void importDataFromSpringpad(Intent intent, NotificationsHelper mNotificationsHelper) {
+        new SpringImportHelper(OmniNotes.getAppContext()).importDataFromSpringpad(intent, mNotificationsHelper);
+        String title = getString(R.string.data_import_completed);
+        String text = getString(R.string.click_to_refresh_application);
+        createNotification(intent, this, title, text, null);
+    }
 
-	synchronized private void exportData(Intent intent) {
+    synchronized private void exportData(Intent intent) {
 
         boolean result = true;
 
@@ -112,12 +112,12 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         // Directory is re-created in case of previously used backup name (removed above)
         backupDir = StorageHelper.getBackupDir(backupName);
 
-		BackupHelper.exportNotes(backupDir);
+        BackupHelper.exportNotes(backupDir);
 
         result = BackupHelper.exportAttachments(backupDir, mNotificationsHelper);
 
         if (intent.getBooleanExtra(INTENT_BACKUP_INCLUDE_SETTINGS, true)) {
-			BackupHelper.exportSettings(backupDir);
+            BackupHelper.exportSettings(backupDir);
         }
 
         String notificationMessage = result ? getString(R.string.data_export_completed) : getString(R.string.data_export_failed);
@@ -127,25 +127,25 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     synchronized private void importData(Intent intent) {
 
-		boolean importLegacy = ACTION_DATA_IMPORT_LEGACY.equals(intent.getAction());
+        boolean importLegacy = ACTION_DATA_IMPORT_LEGACY.equals(intent.getAction());
 
         // Gets backup folder
         String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-		File backupDir = importLegacy ? new File(backupName) : StorageHelper.getBackupDir(backupName);
+        File backupDir = importLegacy ? new File(backupName) : StorageHelper.getBackupDir(backupName);
 
         BackupHelper.importSettings(backupDir);
 
-		if (importLegacy) {
-			BackupHelper.importDB(this, backupDir);
-		} else {
-			BackupHelper.importNotes(backupDir);
-		}
+        if (importLegacy) {
+            BackupHelper.importDB(this, backupDir);
+        } else {
+            BackupHelper.importNotes(backupDir);
+        }
 
-		BackupHelper.importAttachments(backupDir, mNotificationsHelper);
+        BackupHelper.importAttachments(backupDir, mNotificationsHelper);
 
-		resetReminders();
+        resetReminders();
 
-		mNotificationsHelper.cancel();
+        mNotificationsHelper.cancel();
 
         createNotification(intent, this, getString(R.string.data_import_completed), getString(R.string.click_to_refresh_application), backupDir);
 
@@ -155,7 +155,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 //            BackupHelper.exportNotes(autoBackupDir);
 //            BackupHelper.exportAttachments(autoBackupDir);
 //        }
-	}
+    }
 
     synchronized private void deleteData(Intent intent) {
 
@@ -181,8 +181,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         Intent intentLaunch;
         if (DataBackupIntentService.ACTION_DATA_IMPORT.equals(intent.getAction())
                 || SpringImportHelper.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
-			intentLaunch = new Intent(mContext, MainActivity.class);
-			intentLaunch.setAction(Constants.ACTION_RESTART_APP);
+            intentLaunch = new Intent(mContext, MainActivity.class);
+            intentLaunch.setAction(Constants.ACTION_RESTART_APP);
         } else {
             intentLaunch = new Intent();
         }
@@ -197,20 +197,21 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         mNotificationsHelper.createNotification(NotificationChannels.NotificationChannelNames.Backups, R.drawable.ic_content_save_white_24dp, title, notifyIntent)
                 .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null))
                 .setLedActive();
-        if (prefs.getBoolean("settings_notification_vibration", true)) mNotificationsHelper.setVibration();
+        if (prefs.getBoolean("settings_notification_vibration", true))
+            mNotificationsHelper.setVibration();
         mNotificationsHelper.show();
     }
 
 
-	/**
-	 * Schedules reminders
-	 */
-	private void resetReminders() {
-		LogDelegate.d("Resettings reminders");
-		for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
-			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
-		}
-	}
+    /**
+     * Schedules reminders
+     */
+    private void resetReminders() {
+        LogDelegate.d("Resettings reminders");
+        for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
+            ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+        }
+    }
 
 
     @Override

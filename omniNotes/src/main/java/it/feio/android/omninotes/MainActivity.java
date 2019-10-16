@@ -87,52 +87,52 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		setTheme(R.style.OmniNotesTheme_ApiSpec);
+        setTheme(R.style.OmniNotesTheme_ApiSpec);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-		EventBus.getDefault().register(this);
+        EventBus.getDefault().register(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
 
         initUI();
 
-		if (IntroActivity.mustRun()) {
+        if (IntroActivity.mustRun()) {
             startActivity(new Intent(getApplicationContext(), IntroActivity.class));
-		}
+        }
 
 //		new UpdaterTask(this).execute(); Removed due to missing backend
-	}
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		if (isPasswordAccepted) {
-			init();
-		} else {
-			checkPassword();
-		}
-	}
-
-
-	@Override
-	protected void onStop() {
-		super.onStop();
-		EventBus.getDefault().unregister(this);
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isPasswordAccepted) {
+            init();
+        } else {
+            checkPassword();
+        }
+    }
 
 
-	private void initUI() {
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+
+    private void initUI() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
     }
 
 
-	/**
-	 * This method starts the bootstrap chain.
-	 */
-	private void checkPassword() {
-		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
-				&& prefs.getBoolean("settings_password_access", false)) {
+    /**
+     * This method starts the bootstrap chain.
+     */
+    private void checkPassword() {
+        if (prefs.getString(Constants.PREF_PASSWORD, null) != null
+                && prefs.getBoolean("settings_password_access", false)) {
             PasswordHelper.requestPassword(this, passwordConfirmed -> {
                 switch (passwordConfirmed) {
                     case SUCCEED:
@@ -144,29 +144,29 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
                     case RESTORE:
                         PasswordHelper.resetPassword(this);
                 }
-			});
+            });
         } else {
             init();
-		}
-	}
+        }
+    }
 
 
-	public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
-		showMessage(R.string.password_successfully_removed, ONStyle.ALERT);
-		init();
-	}
+    public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
+        showMessage(R.string.password_successfully_removed, ONStyle.ALERT);
+        init();
+    }
 
 
-	private void init() {
+    private void init() {
         isPasswordAccepted = true;
 
-		getFragmentManagerInstance();
+        getFragmentManagerInstance();
 
-		NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManagerInstance()
+        NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManagerInstance()
                 .findFragmentById(R.id.navigation_drawer);
         if (mNavigationDrawerFragment == null) {
             FragmentTransaction fragmentTransaction = getFragmentManagerInstance().beginTransaction();
-            fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment(), 
+            fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment(),
                     FRAGMENT_DRAWER_TAG).commit();
         }
 
@@ -178,14 +178,14 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         handleIntents();
     }
 
-	private FragmentManager getFragmentManagerInstance() {
-		if (mFragmentManager == null) {
-			mFragmentManager = getSupportFragmentManager();
-		}
-		return mFragmentManager;
-	}
+    private FragmentManager getFragmentManagerInstance() {
+        if (mFragmentManager == null) {
+            mFragmentManager = getSupportFragmentManager();
+        }
+        return mFragmentManager;
+    }
 
-	@Override
+    @Override
     protected void onNewIntent(Intent intent) {
         if (intent.getAction() == null) {
             intent.setAction(Constants.ACTION_START_APP);
@@ -218,10 +218,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public void initNotesList(Intent intent) {
         Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
         if (f != null) {
-			new Handler(getMainLooper()).post(() -> {
-				((ListFragment) f).toggleSearchLabel(false);
-				((ListFragment) f).initNotesList(intent);
-			});
+            new Handler(getMainLooper()).post(() -> {
+                ((ListFragment) f).toggleSearchLabel(false);
+                ((ListFragment) f).initNotesList(intent);
+            });
         }
     }
 
@@ -239,10 +239,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
      */
     private Fragment checkFragmentInstance(int id, Object instanceClass) {
         Fragment result = null;
-		Fragment fragment = getFragmentManagerInstance().findFragmentById(id);
-		if (fragment!= null && instanceClass.equals(fragment.getClass())) {
-			result = fragment;
-		}
+        Fragment fragment = getFragmentManagerInstance().findFragmentById(id);
+        if (fragment != null && instanceClass.equals(fragment.getClass())) {
+            result = fragment;
+        }
         return result;
     }
 
@@ -250,7 +250,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public void onBackPressed() {
 
         // SketchFragment
-		Fragment f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
+        Fragment f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
         if (f != null) {
             ((SketchFragment) f).save();
 
@@ -274,16 +274,16 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
         if (f != null) {
             // Before exiting from app the navigation drawer is opened
-            if (prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null && 
+            if (prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
                     !getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
                 getDrawerLayout().openDrawer(GravityCompat.START);
-            } else if (!prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null && 
+            } else if (!prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
                     getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
                 getDrawerLayout().closeDrawer(GravityCompat.START);
             } else {
-                if (!((ListFragment)f).closeFab()) {
-					isPasswordAccepted = false;
-					super.onBackPressed();
+                if (!((ListFragment) f).closeFab()) {
+                    isPasswordAccepted = false;
+                    super.onBackPressed();
                 }
             }
             return;
@@ -422,7 +422,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         if (getDrawerToggle() != null) {
             getDrawerToggle().setDrawerIndicatorEnabled(false);
         }
-		getFragmentManagerInstance().getFragments();
+        getFragmentManagerInstance().getFragments();
         EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
     }
 
@@ -439,7 +439,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
                     .addToBackStack(FRAGMENT_LIST_TAG)
                     .commitAllowingStateLoss();
         } else {
-			getFragmentManagerInstance().popBackStackImmediate();
+            getFragmentManagerInstance().popBackStackImmediate();
             transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
                     .addToBackStack(FRAGMENT_DETAIL_TAG)
                     .commitAllowingStateLoss();
@@ -523,7 +523,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
     public void showMessage(String message, Style style) {
         // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
-		runOnUiThread(() -> Crouton.makeText(this, message, style, croutonViewContainer).show());
+        runOnUiThread(() -> Crouton.makeText(this, message, style, croutonViewContainer).show());
     }
 
 

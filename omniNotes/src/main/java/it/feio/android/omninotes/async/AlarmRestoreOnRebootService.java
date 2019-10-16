@@ -34,24 +34,24 @@ import it.feio.android.omninotes.utils.ReminderHelper;
 
 public class AlarmRestoreOnRebootService extends JobIntentService {
 
-	public static final int JOB_ID = 0x01;
+    public static final int JOB_ID = 0x01;
 
-	public static void enqueueWork(Context context, Intent work) {
-		enqueueWork(context, AlarmRestoreOnRebootService.class, JOB_ID, work);
-	}
+    public static void enqueueWork(Context context, Intent work) {
+        enqueueWork(context, AlarmRestoreOnRebootService.class, JOB_ID, work);
+    }
 
-	@Override
-	protected void onHandleWork(@NonNull Intent intent) {
-		LogDelegate.i("System rebooted: service refreshing reminders");
-		Context mContext = getApplicationContext();
+    @Override
+    protected void onHandleWork(@NonNull Intent intent) {
+        LogDelegate.i("System rebooted: service refreshing reminders");
+        Context mContext = getApplicationContext();
 
-		BaseActivity.notifyAppWidgets(mContext);
+        BaseActivity.notifyAppWidgets(mContext);
 
-		List<Note> notes = DbHelper.getInstance().getNotesWithReminderNotFired();
-		LogDelegate.d("Found " + notes.size() + " reminders");
-		for (Note note : notes) {
-			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
-		}
-	}
+        List<Note> notes = DbHelper.getInstance().getNotesWithReminderNotFired();
+        LogDelegate.d("Found " + notes.size() + " reminders");
+        for (Note note : notes) {
+            ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+        }
+    }
 
 }

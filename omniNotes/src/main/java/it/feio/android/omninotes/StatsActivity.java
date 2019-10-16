@@ -62,7 +62,7 @@ public class StatsActivity extends Activity {
             }
         }
 
-		new StatsTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+        new StatsTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
     }
 
 

@@ -47,8 +47,10 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
     private final WeakReference<Fragment> mFragmentWeakReference;
     private final MainActivity mainActivity;
-    @BindView(R.id.drawer_nav_list) NonScrollableListView mDrawerList;
-    @BindView(R.id.drawer_tag_list) NonScrollableListView mDrawerCategoriesList;
+    @BindView(R.id.drawer_nav_list)
+    NonScrollableListView mDrawerList;
+    @BindView(R.id.drawer_tag_list)
+    NonScrollableListView mDrawerCategoriesList;
 
 
     public MainMenuTask(Fragment mFragment) {
@@ -69,16 +71,16 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         if (isAlive()) {
             mDrawerList.setAdapter(new NavDrawerAdapter(mainActivity, items));
             mDrawerList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
-				String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
-						.navigation_list_codes)[items.get(position).getArrayIndex()];
-				if (mainActivity.updateNavigation(navigation)) {
-					mDrawerList.setItemChecked(position, true);
-					if (mDrawerCategoriesList != null)
-						mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
-					mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
-					EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
-				}
-			});
+                String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
+                        .navigation_list_codes)[items.get(position).getArrayIndex()];
+                if (mainActivity.updateNavigation(navigation)) {
+                    mDrawerList.setItemChecked(position, true);
+                    if (mDrawerCategoriesList != null)
+                        mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
+                    mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
+                    EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
+                }
+            });
             mDrawerList.justifyListViewHeightBasedOnChildren();
         }
     }
@@ -140,8 +142,8 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
                 if (dynamicMenu && dynamicNavigationLookupTable.getTrashed() == 0)
                     skippable = true;
                 break;
-			default:
-				skippable = false;
+            default:
+                skippable = false;
         }
         return skippable;
     }

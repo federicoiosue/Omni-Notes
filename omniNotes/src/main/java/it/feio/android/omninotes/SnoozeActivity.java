@@ -90,7 +90,7 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
 
     private void postpone(SharedPreferences prefs, Long alarm, String recurrenceRule) {
         int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
-				ReminderPickers.TYPE_GOOGLE;
+                ReminderPickers.TYPE_GOOGLE;
         ReminderPickers reminderPicker = new ReminderPickers(this, this, pickerType);
         reminderPicker.pick(alarm, recurrenceRule);
         onDateSetListener = reminderPicker;
@@ -134,7 +134,7 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
     public static void setNextRecurrentReminder(Note note) {
         if (!TextUtils.isEmpty(note.getRecurrenceRule())) {
             long nextReminder = DateHelper.nextReminderFromRecurrenceRule(Long.parseLong(note.getAlarm()), note
-					.getRecurrenceRule());
+                    .getRecurrenceRule());
             if (nextReminder > 0) {
                 updateNoteReminder(nextReminder, note, true);
             }
@@ -155,7 +155,7 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
             new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteToUpdate);
         } else {
             ReminderHelper.addReminder(OmniNotes.getAppContext(), noteToUpdate, reminder);
-			ReminderHelper.showReminderMessage(String.valueOf(noteToUpdate.getAlarm()));
+            ReminderHelper.showReminderMessage(String.valueOf(noteToUpdate.getAlarm()));
         }
     }
 

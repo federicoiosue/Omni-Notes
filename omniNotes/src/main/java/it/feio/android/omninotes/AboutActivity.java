@@ -34,11 +34,11 @@ public class AboutActivity extends BaseActivity {
     }
 
 
-	@Override
-	public void onStart() {
-		((OmniNotes)getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
-		super.onStart();
-	}
+    @Override
+    public void onStart() {
+        ((OmniNotes) getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+        super.onStart();
+    }
 
 
     @Override

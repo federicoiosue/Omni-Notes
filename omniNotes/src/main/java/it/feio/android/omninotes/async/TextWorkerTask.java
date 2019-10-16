@@ -22,6 +22,7 @@ import android.os.AsyncTask;
 import android.text.Spanned;
 import android.view.View;
 import android.widget.TextView;
+
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.TextHelper;
 

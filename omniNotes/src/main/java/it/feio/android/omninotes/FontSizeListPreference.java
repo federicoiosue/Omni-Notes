@@ -45,7 +45,7 @@ public class FontSizeListPreference extends ListPreference {
     protected void onBindView(View view) {
         super.onBindView(view);
         TextView summary = (TextView) view.findViewById(android.R.id.summary);
-        Fonts.overrideTextSize(getContext(),getSharedPreferences(),summary);
+        Fonts.overrideTextSize(getContext(), getSharedPreferences(), summary);
     }
 
     @Override

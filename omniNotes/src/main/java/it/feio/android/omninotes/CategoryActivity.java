@@ -56,13 +56,18 @@ import it.feio.android.simplegallery.util.BitmapUtils;
 import static java.lang.Integer.parseInt;
 
 
-public class CategoryActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback{
+public class CategoryActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback {
 
-    @BindView(R.id.category_title) EditText title;
-    @BindView(R.id.category_description) EditText description;
-    @BindView(R.id.delete) Button deleteBtn;
-    @BindView(R.id.save) Button saveBtn;
-    @BindView(R.id.color_chooser) ImageView colorChooser;
+    @BindView(R.id.category_title)
+    EditText title;
+    @BindView(R.id.category_description)
+    EditText description;
+    @BindView(R.id.delete)
+    Button deleteBtn;
+    @BindView(R.id.save)
+    Button saveBtn;
+    @BindView(R.id.color_chooser)
+    ImageView colorChooser;
 
     Category category;
     private int selectedColor;
@@ -134,8 +139,8 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
             return;
         }
 
-		Long id = category.getId() != null ? category.getId() : Calendar.getInstance().getTimeInMillis();
-		category.setId(id);
+        Long id = category.getId() != null ? category.getId() : Calendar.getInstance().getTimeInMillis();
+        category.setId(id);
         category.setName(title.getText().toString());
         category.setDescription(description.getText().toString());
         if (selectedColor != 0 || category.getColor() == null) {
@@ -157,7 +162,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     public void deleteCategory() {
 
         new MaterialDialog.Builder(this)
-				.title(R.string.delete_unused_category_confirmation)
+                .title(R.string.delete_unused_category_confirmation)
                 .content(R.string.delete_category_confirmation)
                 .positiveText(R.string.confirm)
                 .positiveColorRes(R.color.colorAccent)

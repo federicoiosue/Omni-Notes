@@ -42,7 +42,7 @@ public class BaseFragment extends Fragment {
     }
 
     protected boolean isOptionsItemFastClick() {
-        if (SystemClock.elapsedRealtime() - mLastClickTime < OPTIONS_ITEM_CLICK_DELAY_TIME){
+        if (SystemClock.elapsedRealtime() - mLastClickTime < OPTIONS_ITEM_CLICK_DELAY_TIME) {
             return true;
         }
         mLastClickTime = SystemClock.elapsedRealtime();

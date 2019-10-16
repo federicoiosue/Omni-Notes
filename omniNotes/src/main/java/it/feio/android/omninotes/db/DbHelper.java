@@ -110,15 +110,15 @@ public class DbHelper extends SQLiteOpenHelper {
     private final SharedPreferences prefs;
 
     private static DbHelper instance = null;
-	private SQLiteDatabase db;
+    private SQLiteDatabase db;
 
 
-	public static synchronized DbHelper getInstance() {
-		return getInstance(OmniNotes.getAppContext());
-	}
-	
+    public static synchronized DbHelper getInstance() {
+        return getInstance(OmniNotes.getAppContext());
+    }
 
-	public static synchronized DbHelper getInstance(Context context) {
+
+    public static synchronized DbHelper getInstance(Context context) {
         if (instance == null) {
             instance = new DbHelper(context);
         }
@@ -126,13 +126,13 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-	public static synchronized DbHelper getInstance(boolean forcedNewInstance) {
-		if (instance == null || forcedNewInstance) {
+    public static synchronized DbHelper getInstance(boolean forcedNewInstance) {
+        if (instance == null || forcedNewInstance) {
             Context context = instance.mContext == null ? OmniNotes.getAppContext() : instance.mContext;
-			instance = new DbHelper(context);
-		}
-		return instance;
-	}
+            instance = new DbHelper(context);
+        }
+        return instance;
+    }
 
 
     private DbHelper(Context mContext) {
@@ -146,18 +146,18 @@ public class DbHelper extends SQLiteOpenHelper {
         return DATABASE_NAME;
     }
 
-	public SQLiteDatabase getDatabase() {
-		return getDatabase(false);
-	}
+    public SQLiteDatabase getDatabase() {
+        return getDatabase(false);
+    }
 
 
-	public SQLiteDatabase getDatabase(boolean forceWritable) {
-		try {
-			return forceWritable ? getWritableDatabase() : getReadableDatabase();
-		} catch (IllegalStateException e) {
-			return this.db;
-		}
-	}
+    public SQLiteDatabase getDatabase(boolean forceWritable) {
+        try {
+            return forceWritable ? getWritableDatabase() : getReadableDatabase();
+        } catch (IllegalStateException e) {
+            return this.db;
+        }
+    }
 
 
     @Override
@@ -173,7 +173,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		this.db = db;
+        this.db = db;
         LogDelegate.i("Upgrading database version from " + oldVersion + " to " + newVersion);
 
         try {
@@ -191,14 +191,14 @@ public class DbHelper extends SQLiteOpenHelper {
             }
             LogDelegate.i("Database upgrade successful");
 
-        } catch (IOException |InvocationTargetException | IllegalAccessException e) {
+        } catch (IOException | InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException("Database upgrade failed", e);
         }
     }
 
 
     public Note updateNote(Note note, boolean updateLastModification) {
-	    db = getDatabase(true);
+        db = getDatabase(true);
 
         String content = note.isLocked()
                 ? Security.encrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, ""))
@@ -227,14 +227,14 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_LOCKED, note.isLocked() != null && note.isLocked());
         values.put(KEY_CHECKLIST, note.isChecklist() != null && note.isChecklist());
 
-		db.insertWithOnConflict(TABLE_NOTES, KEY_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
-		LogDelegate.d("Updated note titled '" + note.getTitle() + "'");
+        db.insertWithOnConflict(TABLE_NOTES, KEY_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
+        LogDelegate.d("Updated note titled '" + note.getTitle() + "'");
 
         // Updating attachments
         List<Attachment> deletedAttachments = note.getAttachmentsListOld();
         for (Attachment attachment : note.getAttachmentsList()) {
-			updateAttachment(note.get_id() != null ? note.get_id() : values.getAsLong(KEY_CREATION), attachment, db);
-			deletedAttachments.remove(attachment);
+            updateAttachment(note.get_id() != null ? note.get_id() : values.getAsLong(KEY_CREATION), attachment, db);
+            deletedAttachments.remove(attachment);
         }
         // Remove from database deleted attachments
         for (Attachment attachmentDeleted : deletedAttachments) {
@@ -268,7 +268,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * Attachments update
-     * */
+     */
     public Attachment updateAttachment(Attachment attachment) {
         return updateAttachment(-1, attachment, getDatabase(true));
     }
@@ -276,18 +276,18 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * New attachment insertion
-     * */
+     */
     public Attachment updateAttachment(long noteId, Attachment attachment, SQLiteDatabase db) {
         ContentValues valuesAttachments = new ContentValues();
-		valuesAttachments.put(KEY_ATTACHMENT_ID, attachment.getId() != null ? attachment.getId() : Calendar
-				.getInstance().getTimeInMillis());
-		valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, noteId);
+        valuesAttachments.put(KEY_ATTACHMENT_ID, attachment.getId() != null ? attachment.getId() : Calendar
+                .getInstance().getTimeInMillis());
+        valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, noteId);
         valuesAttachments.put(KEY_ATTACHMENT_URI, attachment.getUri().toString());
         valuesAttachments.put(KEY_ATTACHMENT_MIME_TYPE, attachment.getMime_type());
         valuesAttachments.put(KEY_ATTACHMENT_NAME, attachment.getName());
         valuesAttachments.put(KEY_ATTACHMENT_SIZE, attachment.getSize());
         valuesAttachments.put(KEY_ATTACHMENT_LENGTH, attachment.getLength());
-		db.insertWithOnConflict(TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID, valuesAttachments, SQLiteDatabase.CONFLICT_REPLACE);
+        db.insertWithOnConflict(TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID, valuesAttachments, SQLiteDatabase.CONFLICT_REPLACE);
         return attachment;
     }
 
@@ -451,12 +451,12 @@ public class DbHelper extends SQLiteOpenHelper {
                     }
 
                     // Set category
-					long categoryId = cursor.getLong(i++);
-					if (categoryId != 0) {
-						Category category = new Category(categoryId, cursor.getString(i++),
-								cursor.getString(i++), cursor.getString(i++));
-						note.setCategory(category);
-					}
+                    long categoryId = cursor.getLong(i++);
+                    if (categoryId != 0) {
+                        Category category = new Category(categoryId, cursor.getString(i++),
+                                cursor.getString(i++), cursor.getString(i++));
+                        note.setCategory(category);
+                    }
 
                     // Add eventual attachments uri
                     note.setAttachmentsList(getNoteAttachments(note));
@@ -503,25 +503,25 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-	/**
-	 * Deleting single note, eventually keeping attachments
-	 */
-	public boolean deleteNote(Note note, boolean keepAttachments) {
-		return deleteNote(note.get_id(), keepAttachments);
-	}
+    /**
+     * Deleting single note, eventually keeping attachments
+     */
+    public boolean deleteNote(Note note, boolean keepAttachments) {
+        return deleteNote(note.get_id(), keepAttachments);
+    }
 
 
-	/**
-	 * Deleting single note by its id
-	 */
-	public boolean deleteNote(long noteId, boolean keepAttachments) {
-		SQLiteDatabase db = getDatabase(true);
-		db.delete(TABLE_NOTES, KEY_ID + " = ?", new String[]{String.valueOf(noteId)});
-		if (!keepAttachments) {
-			db.delete(TABLE_ATTACHMENTS, KEY_ATTACHMENT_NOTE_ID + " = ?", new String[]{String.valueOf(noteId)});
-		}
-		return true;
-	}
+    /**
+     * Deleting single note by its id
+     */
+    public boolean deleteNote(long noteId, boolean keepAttachments) {
+        SQLiteDatabase db = getDatabase(true);
+        db.delete(TABLE_NOTES, KEY_ID + " = ?", new String[]{String.valueOf(noteId)});
+        if (!keepAttachments) {
+            db.delete(TABLE_ATTACHMENTS, KEY_ATTACHMENT_NOTE_ID + " = ?", new String[]{String.valueOf(noteId)});
+        }
+        return true;
+    }
 
 
     /**
@@ -541,7 +541,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * @return Notes list
      */
     public List<Note> getNotesByPattern(String pattern) {
-    	String escapedPattern = escapeSql(pattern);
+        String escapedPattern = escapeSql(pattern);
         int navigation = Navigation.getNavigation();
         String whereCondition = " WHERE "
                 + KEY_TRASHED + (navigation == Navigation.TRASH ? " IS 1" : " IS NOT 1")
@@ -583,11 +583,11 @@ public class DbHelper extends SQLiteOpenHelper {
      *
      * @return Notes list
      */
-    public List<Note> getNotesWithReminderNotFired () {
+    public List<Note> getNotesWithReminderNotFired() {
         String whereCondition = " WHERE " + KEY_REMINDER + " IS NOT NULL"
-                                + " AND " + KEY_REMINDER_FIRED + " IS NOT 1"
-                                + " AND " + KEY_ARCHIVED + " IS NOT 1"
-                                + " AND " + KEY_TRASHED + " IS NOT 1";
+                + " AND " + KEY_REMINDER_FIRED + " IS NOT 1"
+                + " AND " + KEY_ARCHIVED + " IS NOT 1"
+                + " AND " + KEY_TRASHED + " IS NOT 1";
         return getNotes(whereCondition, true);
     }
 
@@ -642,13 +642,13 @@ public class DbHelper extends SQLiteOpenHelper {
      */
     public List<Note> getNotesByCategory(Long categoryId) {
         List<Note> notes;
-		boolean filterArchived = prefs.getBoolean(Constants.PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
+        boolean filterArchived = prefs.getBoolean(Constants.PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
         try {
             String whereCondition = " WHERE "
                     + KEY_CATEGORY_ID + " = " + categoryId
-					+ " AND " + KEY_TRASHED + " IS NOT 1"
-					+ (filterArchived ? " AND " + KEY_ARCHIVED + " IS NOT 1" : "");
-			notes = getNotes(whereCondition, true);
+                    + " AND " + KEY_TRASHED + " IS NOT 1"
+                    + (filterArchived ? " AND " + KEY_ARCHIVED + " IS NOT 1" : "");
+            notes = getNotes(whereCondition, true);
         } catch (NumberFormatException e) {
             notes = getAllNotes(true);
         }
@@ -717,35 +717,35 @@ public class DbHelper extends SQLiteOpenHelper {
             if (i != 0) {
                 whereCondition.append(" AND ");
             }
-			whereCondition.append("(" + KEY_CONTENT + " LIKE '%").append(tags[i]).append("%' OR ").append(KEY_TITLE)
-					.append(" LIKE '%").append(tags[i]).append("%')");
+            whereCondition.append("(" + KEY_CONTENT + " LIKE '%").append(tags[i]).append("%' OR ").append(KEY_TITLE)
+                    .append(" LIKE '%").append(tags[i]).append("%')");
         }
         // Trashed notes must be included in search results only if search if performed from trash
         whereCondition.append(" AND " + KEY_TRASHED + " IS ").append(Navigation.checkNavigation(Navigation.TRASH) ?
                 "" : "" +
                 " NOT ").append(" 1");
 
-		return rx.Observable.from(getNotes(whereCondition.toString(), true))
-				.map(note -> {
-					boolean matches = rx.Observable.from(tags)
-							.all(tag -> {
-								Pattern p = Pattern.compile(".*(\\s|^)" + tag + "(\\s|$).*", Pattern.MULTILINE);
-								return p.matcher((note.getTitle() + " " + note.getContent())).find();
-							}).toBlocking().single();
-					return matches ? note : null;
-				})
-				.filter(note -> note != null)
-				.toList().toBlocking().single();
-	}
+        return rx.Observable.from(getNotes(whereCondition.toString(), true))
+                .map(note -> {
+                    boolean matches = rx.Observable.from(tags)
+                            .all(tag -> {
+                                Pattern p = Pattern.compile(".*(\\s|^)" + tag + "(\\s|$).*", Pattern.MULTILINE);
+                                return p.matcher((note.getTitle() + " " + note.getContent())).find();
+                            }).toBlocking().single();
+                    return matches ? note : null;
+                })
+                .filter(note -> note != null)
+                .toList().toBlocking().single();
+    }
 
     /**
      * Retrieves all uncompleted checklists
      */
     public List<Note> getNotesByUncompleteChecklist() {
-		String whereCondition = " WHERE " + KEY_CHECKLIST + " = 1 AND " + KEY_CONTENT + " LIKE '%" + it.feio.android
-				.checklistview.interfaces.Constants.UNCHECKED_SYM + "%'";
-		return getNotes(whereCondition, true);
-	}
+        String whereCondition = " WHERE " + KEY_CHECKLIST + " = 1 AND " + KEY_CONTENT + " LIKE '%" + it.feio.android
+                .checklistview.interfaces.Constants.UNCHECKED_SYM + "%'";
+        return getNotes(whereCondition, true);
+    }
 
 
     /**
@@ -853,14 +853,14 @@ public class DbHelper extends SQLiteOpenHelper {
      */
     public Category updateCategory(Category category) {
         ContentValues values = new ContentValues();
-		values.put(KEY_CATEGORY_ID, category.getId() != null ? category.getId() : Calendar.getInstance()
-				.getTimeInMillis());
-		values.put(KEY_CATEGORY_NAME, category.getName());
+        values.put(KEY_CATEGORY_ID, category.getId() != null ? category.getId() : Calendar.getInstance()
+                .getTimeInMillis());
+        values.put(KEY_CATEGORY_NAME, category.getName());
         values.put(KEY_CATEGORY_DESCRIPTION, category.getDescription());
         values.put(KEY_CATEGORY_COLOR, category.getColor());
-		getDatabase(true).insertWithOnConflict(TABLE_CATEGORY, KEY_CATEGORY_ID, values, SQLiteDatabase
-				.CONFLICT_REPLACE);
-		return category;
+        getDatabase(true).insertWithOnConflict(TABLE_CATEGORY, KEY_CATEGORY_ID, values, SQLiteDatabase
+                .CONFLICT_REPLACE);
+        return category;
     }
 
 
@@ -1004,7 +1004,7 @@ public class DbHelper extends SQLiteOpenHelper {
         mStats.setTags(tags);
         mStats.setLocation(locations);
         avgWords = totalWords / (notes.size() != 0 ? notes.size() : 1);
-		avgChars = totalChars / (notes.size() != 0 ? notes.size() : 1);
+        avgChars = totalChars / (notes.size() != 0 ? notes.size() : 1);
 
         mStats.setWords(totalWords);
         mStats.setWordsMax(maxWords);

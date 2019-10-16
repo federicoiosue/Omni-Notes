@@ -67,18 +67,18 @@ public class PasswordActivity extends BaseActivity {
     }
 
 
-	@Override
-	protected void onStart() {
-		super.onStart();
-		EventBus.getDefault().register(this, 1);
-	}
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this, 1);
+    }
 
 
-	@Override
-	public void onStop() {
-		super.onStop();
-		EventBus.getDefault().unregister(this);
-	}
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
 
 
     private void initViews() {
@@ -90,118 +90,117 @@ public class PasswordActivity extends BaseActivity {
         answerCheck = findViewById(R.id.answer_check);
 
         findViewById(R.id.password_remove).setOnClickListener(v -> {
-			if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
-				PasswordHelper.requestPassword(mActivity, passwordConfirmed -> {
-					if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
-						updatePassword(null, null, null);
-					}
-				});
-			} else {
-				Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
-			}
-		});
+            if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
+                PasswordHelper.requestPassword(mActivity, passwordConfirmed -> {
+                    if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
+                        updatePassword(null, null, null);
+                    }
+                });
+            } else {
+                Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
+            }
+        });
 
         findViewById(R.id.password_confirm).setOnClickListener(v -> {
-			if (checkData()) {
-				final String passwordText = password.getText().toString();
-				final String questionText = question.getText().toString();
-				final String answerText = answer.getText().toString();
-				if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
-					PasswordHelper.requestPassword(mActivity, passwordConfirmed -> {
-						if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
-							updatePassword(passwordText, questionText, answerText);
-						}
-					});
-				} else {
-					updatePassword(passwordText, questionText, answerText);
-				}
-			}
-		});
+            if (checkData()) {
+                final String passwordText = password.getText().toString();
+                final String questionText = question.getText().toString();
+                final String answerText = answer.getText().toString();
+                if (prefs.getString(Constants.PREF_PASSWORD, null) != null) {
+                    PasswordHelper.requestPassword(mActivity, passwordConfirmed -> {
+                        if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
+                            updatePassword(passwordText, questionText, answerText);
+                        }
+                    });
+                } else {
+                    updatePassword(passwordText, questionText, answerText);
+                }
+            }
+        });
 
         findViewById(R.id.password_forgotten).setOnClickListener(v -> {
-			if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
-				Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
-				return;
-			}
-			PasswordHelper.resetPassword(this);
-		});
+            if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
+                Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
+                return;
+            }
+            PasswordHelper.resetPassword(this);
+        });
     }
 
 
-
-	public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
-			passwordCheck.setText("");
-			password.setText("");
-			question.setText("");
-			answer.setText("");
-			answerCheck.setText("");
-			Crouton crouton = Crouton.makeText(mActivity, R.string.password_successfully_removed,
-					ONStyle.ALERT, crouton_handle);
-			crouton.setLifecycleCallback(new LifecycleCallback() {
-				@Override
-				public void onDisplayed() {
-					// Does nothing!
-				}
-
-
-				@Override
-				public void onRemoved() {
-					onBackPressed();
-				}
-			});
-			crouton.show();
-	}
+    public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
+        passwordCheck.setText("");
+        password.setText("");
+        question.setText("");
+        answer.setText("");
+        answerCheck.setText("");
+        Crouton crouton = Crouton.makeText(mActivity, R.string.password_successfully_removed,
+                ONStyle.ALERT, crouton_handle);
+        crouton.setLifecycleCallback(new LifecycleCallback() {
+            @Override
+            public void onDisplayed() {
+                // Does nothing!
+            }
 
 
-	@SuppressLint("CommitPrefEdits")
-	private void updatePassword(String passwordText, String questionText, String answerText) {
-		if (passwordText == null) {
-			if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
-				Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
-				return;
-			}
-			new MaterialDialog.Builder(mActivity)
-					.content(R.string.agree_unlocking_all_notes)
-					.positiveText(R.string.ok)
-					.onPositive(new MaterialDialog.SingleButtonCallback() {
-						@Override
-						public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-							PasswordHelper.removePassword();
-						}
-					}).build().show();
-		} else if (passwordText.length() == 0) {
-			Crouton.makeText(mActivity, R.string.empty_password, ONStyle.WARN, crouton_handle).show();
-		} else {
-			Observable
-					.from(DbHelper.getInstance().getNotesWithLock(true))
-					.subscribeOn(Schedulers.newThread())
-					.observeOn(AndroidSchedulers.mainThread())
-					.doOnSubscribe(() -> prefs.edit()
-							.putString(Constants.PREF_PASSWORD, Security.md5(passwordText))
-							.putString(Constants.PREF_PASSWORD_QUESTION, questionText)
-							.putString(Constants.PREF_PASSWORD_ANSWER, Security.md5(answerText))
-							.commit())
-					.doOnNext(note -> DbHelper.getInstance().updateNote(note, false))
-					.doOnCompleted(() -> {
-						Crouton crouton = Crouton.makeText(mActivity, R.string.password_successfully_changed, ONStyle
-										.CONFIRM, crouton_handle);
-						crouton.setLifecycleCallback(new LifecycleCallback() {
-							@Override
-							public void onDisplayed() {
-								// Does nothing!
-							}
+            @Override
+            public void onRemoved() {
+                onBackPressed();
+            }
+        });
+        crouton.show();
+    }
 
 
-							@Override
-							public void onRemoved() {
-								onBackPressed();
-							}
-						});
-						crouton.show();
-					})
-					.subscribe();
-		}
-	}
+    @SuppressLint("CommitPrefEdits")
+    private void updatePassword(String passwordText, String questionText, String answerText) {
+        if (passwordText == null) {
+            if (prefs.getString(Constants.PREF_PASSWORD, "").length() == 0) {
+                Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, crouton_handle).show();
+                return;
+            }
+            new MaterialDialog.Builder(mActivity)
+                    .content(R.string.agree_unlocking_all_notes)
+                    .positiveText(R.string.ok)
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            PasswordHelper.removePassword();
+                        }
+                    }).build().show();
+        } else if (passwordText.length() == 0) {
+            Crouton.makeText(mActivity, R.string.empty_password, ONStyle.WARN, crouton_handle).show();
+        } else {
+            Observable
+                    .from(DbHelper.getInstance().getNotesWithLock(true))
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe(() -> prefs.edit()
+                            .putString(Constants.PREF_PASSWORD, Security.md5(passwordText))
+                            .putString(Constants.PREF_PASSWORD_QUESTION, questionText)
+                            .putString(Constants.PREF_PASSWORD_ANSWER, Security.md5(answerText))
+                            .commit())
+                    .doOnNext(note -> DbHelper.getInstance().updateNote(note, false))
+                    .doOnCompleted(() -> {
+                        Crouton crouton = Crouton.makeText(mActivity, R.string.password_successfully_changed, ONStyle
+                                .CONFIRM, crouton_handle);
+                        crouton.setLifecycleCallback(new LifecycleCallback() {
+                            @Override
+                            public void onDisplayed() {
+                                // Does nothing!
+                            }
+
+
+                            @Override
+                            public void onRemoved() {
+                                onBackPressed();
+                            }
+                        });
+                        crouton.show();
+                    })
+                    .subscribe();
+        }
+    }
 
 
     /**

@@ -67,11 +67,11 @@ public class BaseActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-	@Override
-	protected void attachBaseContext(Context newBase) {
-		Context context = LanguageHelper.updateLanguage(newBase, null);
-		super.attachBaseContext(context);
-	}
+    @Override
+    protected void attachBaseContext(Context newBase) {
+        Context context = LanguageHelper.updateLanguage(newBase, null);
+        super.attachBaseContext(context);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,42 +107,42 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-	/**
-	 * Method to validate security password to protect a list of notes.
-	 * When "Request password on access" in switched on this check not required all the times.
-	 * It uses an interface callback.
-	 */
-	public void requestPassword(final Activity mActivity, List<Note> notes,
-								final PasswordValidator mPasswordValidator) {
-		if (prefs.getBoolean("settings_password_access", false)) {
-			mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
-			return;
-		}
+    /**
+     * Method to validate security password to protect a list of notes.
+     * When "Request password on access" in switched on this check not required all the times.
+     * It uses an interface callback.
+     */
+    public void requestPassword(final Activity mActivity, List<Note> notes,
+                                final PasswordValidator mPasswordValidator) {
+        if (prefs.getBoolean("settings_password_access", false)) {
+            mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
+            return;
+        }
 
-		boolean askForPassword = false;
-		for (Note note : notes) {
-			if (note.isLocked()) {
-				askForPassword = true;
-				break;
-			}
-		}
-		if (askForPassword) {
-			PasswordHelper.requestPassword(mActivity, mPasswordValidator);
-		} else {
-			mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
-		}
-	}
+        boolean askForPassword = false;
+        for (Note note : notes) {
+            if (note.isLocked()) {
+                askForPassword = true;
+                break;
+            }
+        }
+        if (askForPassword) {
+            PasswordHelper.requestPassword(mActivity, mPasswordValidator);
+        } else {
+            mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
+        }
+    }
 
 
-	public boolean updateNavigation(String nav) {
-		if (nav.equals(navigationTmp) || (navigationTmp == null && Navigation.getNavigationText().equals(nav))) {
-			return false;
-		}
-		prefs.edit().putString(Constants.PREF_NAVIGATION, nav).apply();
-		navigation = nav;
-		navigationTmp = null;
-		return true;
-	}
+    public boolean updateNavigation(String nav) {
+        if (nav.equals(navigationTmp) || (navigationTmp == null && Navigation.getNavigationText().equals(nav))) {
+            return false;
+        }
+        prefs.edit().putString(Constants.PREF_NAVIGATION, nav).apply();
+        navigation = nav;
+        navigationTmp = null;
+        return true;
+    }
 
 
     /**

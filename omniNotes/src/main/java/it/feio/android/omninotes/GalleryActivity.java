@@ -44,7 +44,7 @@ import it.feio.android.simplegallery.views.GalleryViewPager;
 
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e. status bar and navigation/system bar) 
+ * An example full-screen activity that shows and hides the system UI (i.e. status bar and navigation/system bar)
  * * with user interaction.
  */
 public class GalleryActivity extends AppCompatActivity {
@@ -55,19 +55,21 @@ public class GalleryActivity extends AppCompatActivity {
     private static final boolean AUTO_HIDE = false;
 
     /**
-     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after user interaction before hiding the 
+     * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after user interaction before hiding the
      * * system UI.
      */
     private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
 
     /**
-     * If set, will toggle the system UI visibility upon interaction. Otherwise, will show the system UI visibility 
+     * If set, will toggle the system UI visibility upon interaction. Otherwise, will show the system UI visibility
      * * upon interaction.
      */
     private static final boolean TOGGLE_ON_CLICK = true;
 
-    @BindView(R.id.gallery_root) InterceptorFrameLayout galleryRootView;
-    @BindView(R.id.fullscreen_content)  GalleryViewPager mViewPager;
+    @BindView(R.id.gallery_root)
+    InterceptorFrameLayout galleryRootView;
+    @BindView(R.id.fullscreen_content)
+    GalleryViewPager mViewPager;
 
     private List<Attachment> images;
     OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
@@ -122,7 +124,7 @@ public class GalleryActivity extends AppCompatActivity {
 
     @Override
     public void onStart() {
-		((OmniNotes)getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+        ((OmniNotes) getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
         super.onStart();
     }
 
@@ -173,7 +175,7 @@ public class GalleryActivity extends AppCompatActivity {
             imageUris.add(mAttachment.getUri());
         }
 
-		GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this, imageUris);
+        GalleryPagerAdapter pagerAdapter = new GalleryPagerAdapter(this, imageUris);
         mViewPager.setOffscreenPageLimit(3);
         mViewPager.setAdapter(pagerAdapter);
         mViewPager.setCurrentItem(clickedImage);
@@ -199,8 +201,8 @@ public class GalleryActivity extends AppCompatActivity {
             case R.id.menu_gallery:
                 viewMedia();
                 break;
-			default:
-				LogDelegate.e("Wrong element choosen: " + item.getItemId());
+            default:
+                LogDelegate.e("Wrong element choosen: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
     }
