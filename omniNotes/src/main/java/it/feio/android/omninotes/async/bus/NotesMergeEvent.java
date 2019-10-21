@@ -21,11 +21,11 @@ import it.feio.android.omninotes.helpers.LogDelegate;
 
 public class NotesMergeEvent {
 
-	public final boolean keepMergedNotes;
+  public final boolean keepMergedNotes;
 
 
-	public NotesMergeEvent(boolean keepMergedNotes) {
-		LogDelegate.d(this.getClass().getName());
-		this.keepMergedNotes = keepMergedNotes;
-	}
+  public NotesMergeEvent (boolean keepMergedNotes) {
+    LogDelegate.d(this.getClass().getName());
+    this.keepMergedNotes = keepMergedNotes;
+  }
 }

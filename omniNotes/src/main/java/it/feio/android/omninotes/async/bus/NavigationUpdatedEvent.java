@@ -24,11 +24,11 @@ import it.feio.android.omninotes.helpers.LogDelegate;
  */
 public class NavigationUpdatedEvent {
 
-	public final Object navigationItem;
+  public final Object navigationItem;
 
 
-	public NavigationUpdatedEvent(Object navigationItem) {
-		LogDelegate.d(this.getClass().getName());
-		this.navigationItem = navigationItem;
-	}
+  public NavigationUpdatedEvent (Object navigationItem) {
+    LogDelegate.d(this.getClass().getName());
+    this.navigationItem = navigationItem;
+  }
 }

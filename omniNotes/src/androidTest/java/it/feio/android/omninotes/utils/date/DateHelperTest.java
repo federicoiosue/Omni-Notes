@@ -18,33 +18,32 @@
 package it.feio.android.omninotes.utils.date;
 
 import it.feio.android.omninotes.helpers.date.DateHelper;
-import org.junit.Assert;
-
 import java.util.Calendar;
+import org.junit.Assert;
 
 
 public class DateHelperTest {
 
-	private int TEN_MINUTES = 10 * 60 * 1000;
-	private int MILLISEC_TO_HOURS_RATIO = 60 * 60 * 1000;
+  private int TEN_MINUTES = 10 * 60 * 1000;
+  private int MILLISEC_TO_HOURS_RATIO = 60 * 60 * 1000;
 
-	public void testNextReminderFromRecurrenceRule() {
-		long currentTime = Calendar.getInstance().getTimeInMillis();
-		long reminder = Calendar.getInstance().getTimeInMillis() + TEN_MINUTES;
+  public void testNextReminderFromRecurrenceRule () {
+    long currentTime = Calendar.getInstance().getTimeInMillis();
+    long reminder = Calendar.getInstance().getTimeInMillis() + TEN_MINUTES;
 
-		// Daily test
-		String rruleDaily = "FREQ=DAILY;COUNT=30;WKST=MO";
-		long nextReminder = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily);
-		Assert.assertNotEquals(0, nextReminder);
-		Assert.assertEquals(24-1, (nextReminder - reminder) / MILLISEC_TO_HOURS_RATIO);
+    // Daily test
+    String rruleDaily = "FREQ=DAILY;COUNT=30;WKST=MO";
+    long nextReminder = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily);
+    Assert.assertNotEquals(0, nextReminder);
+    Assert.assertEquals(24 - 1, (nextReminder - reminder) / MILLISEC_TO_HOURS_RATIO);
 
-		// 3-Daily test
-		String rruleDaily2 = "FREQ=DAILY;COUNT=30;INTERVAL=3";
-		long nextReminder2 = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily2);
-		Assert.assertNotEquals(0, nextReminder2);
-		long delta = (nextReminder2 - reminder) / MILLISEC_TO_HOURS_RATIO;
-		Assert.assertTrue(delta == 3*24-2 || delta == 3*24-1); // The results depends on the day of week
+    // 3-Daily test
+    String rruleDaily2 = "FREQ=DAILY;COUNT=30;INTERVAL=3";
+    long nextReminder2 = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily2);
+    Assert.assertNotEquals(0, nextReminder2);
+    long delta = (nextReminder2 - reminder) / MILLISEC_TO_HOURS_RATIO;
+    Assert.assertTrue(delta == 3 * 24 - 2 || delta == 3 * 24 - 1); // The results depends on the day of week
 
-	}
+  }
 
 }

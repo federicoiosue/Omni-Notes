@@ -34,7 +34,7 @@ public class GeocodeHelperTest extends BaseAndroidTestCase {
 
   @Test
   @Suppress
-  public void testGetAddressFromCoordinates() throws IOException {
+  public void testGetAddressFromCoordinates () throws IOException {
     if (ConnectionManager.internetAvailable(OmniNotes.getAppContext())) {
       Double LAT = 43.799328;
       Double LON = 11.171552;

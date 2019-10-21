@@ -18,17 +18,16 @@
 package it.feio.android.omninotes.async.bus;
 
 import android.service.notification.StatusBarNotification;
-
 import it.feio.android.omninotes.helpers.LogDelegate;
 
 
 public class NotificationRemovedEvent {
 
-	public StatusBarNotification statusBarNotification;
+  public StatusBarNotification statusBarNotification;
 
 
-	public NotificationRemovedEvent(StatusBarNotification statusBarNotification) {
-		LogDelegate.d(this.getClass().getName());
-		this.statusBarNotification = statusBarNotification;
-	}
+  public NotificationRemovedEvent (StatusBarNotification statusBarNotification) {
+    LogDelegate.d(this.getClass().getName());
+    this.statusBarNotification = statusBarNotification;
+  }
 }

@@ -17,11 +17,6 @@
 
 package it.feio.android.omninotes.helpers;
 
-import android.content.Context;
-
-import io.nlopez.smartlocation.location.LocationProvider;
-
-
 public class GeocodeProviderFactory extends GeocodeProviderBaseFactory {
 
 }

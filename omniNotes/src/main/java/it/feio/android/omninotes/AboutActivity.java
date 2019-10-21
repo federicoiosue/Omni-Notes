@@ -23,37 +23,37 @@ import android.webkit.WebView;
 
 public class AboutActivity extends BaseActivity {
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+  protected void onCreate (Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_about);
 
-        WebView webview = findViewById(R.id.webview);
-        webview.loadUrl("file:///android_asset/html/about.html");
+    WebView webview = findViewById(R.id.webview);
+    webview.loadUrl("file:///android_asset/html/about.html");
 
-        initUI();
-    }
-
-
-	@Override
-	public void onStart() {
-		((OmniNotes)getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
-		super.onStart();
-	}
+    initUI();
+  }
 
 
-    @Override
-    public boolean onNavigateUp() {
-        onBackPressed();
-        return true;
-    }
+  @Override
+  public void onStart () {
+    ((OmniNotes) getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+    super.onStart();
+  }
 
 
-    private void initUI() {
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> onNavigateUp());
-    }
+  @Override
+  public boolean onNavigateUp () {
+    onBackPressed();
+    return true;
+  }
+
+
+  private void initUI () {
+    Toolbar toolbar = findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setHomeButtonEnabled(true);
+    toolbar.setNavigationOnClickListener(v -> onNavigateUp());
+  }
 
 }

@@ -24,42 +24,41 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.StorageHelper;
-
 import java.util.List;
 
 
 public class NoteProcessorDelete extends NoteProcessor {
 
 
-	private final boolean keepAttachments;
+  private final boolean keepAttachments;
 
 
-	public NoteProcessorDelete(List<Note> notes) {
-		this(notes, false);
-	}
+  public NoteProcessorDelete (List<Note> notes) {
+    this(notes, false);
+  }
 
 
-	public NoteProcessorDelete(List<Note> notes, boolean keepAttachments) {
-		super(notes);
-		this.keepAttachments = keepAttachments;
-	}
+  public NoteProcessorDelete (List<Note> notes, boolean keepAttachments) {
+    super(notes);
+    this.keepAttachments = keepAttachments;
+  }
 
 
-	@Override
-	protected void processNote(Note note) {
-		DbHelper db = DbHelper.getInstance();
-		if (db.deleteNote(note) && !keepAttachments) {
-			for (Attachment mAttachment : note.getAttachmentsList()) {
-				StorageHelper.deleteExternalStoragePrivateFile(OmniNotes.getAppContext(), mAttachment.getUri()
-						.getLastPathSegment());
-			}
-		}
-	}
+  @Override
+  protected void processNote (Note note) {
+    DbHelper db = DbHelper.getInstance();
+    if (db.deleteNote(note) && !keepAttachments) {
+      for (Attachment mAttachment : note.getAttachmentsList()) {
+        StorageHelper.deleteExternalStoragePrivateFile(OmniNotes.getAppContext(), mAttachment.getUri()
+                                                                                             .getLastPathSegment());
+      }
+    }
+  }
 
 
-	@Override
-	protected void afterProcess(List<Note> notes) {
-		EventBus.getDefault().post(new NotesDeletedEvent(notes));
-	}
+  @Override
+  protected void afterProcess (List<Note> notes) {
+    EventBus.getDefault().post(new NotesDeletedEvent(notes));
+  }
 
 }

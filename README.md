@@ -90,6 +90,11 @@ Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/
 
 This kind of contributions **must** have screenshots or screencast as demonstration of the new additions.
 
+### Code style
+
+If you plan to manipulate the code then you'll have to do it by following a [specific code style](https://gist.github.com/federicoiosue/dee53e882b3c70d544f8608769eb02fc).
+Also pay attention if you're using any plugin that automatically formats/cleans/rearrange your code and set it to only change that code that you touched and not the whole files.
+
 ### Test your code contributions!
 
 All code changes and additions **must** be tested.

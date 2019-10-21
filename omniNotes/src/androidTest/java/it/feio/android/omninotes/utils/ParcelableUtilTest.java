@@ -17,41 +17,39 @@
 
 package it.feio.android.omninotes.utils;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+
 import android.net.Uri;
 import android.support.test.runner.AndroidJUnit4;
-
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-
 import edu.emory.mathcs.backport.java.util.Collections;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class ParcelableUtilTest extends BaseAndroidTestCase {
 
-    Note testNote;
-    private byte[] marshalledNote;
+  Note testNote;
+  private byte[] marshalledNote;
 
-    @Before
-    public void setUp() {
-        testNote = new Note();
-        testNote.setAttachmentsList(Collections.singletonList(new Attachment(Uri.EMPTY, "")));
-        marshalledNote = ParcelableUtil.marshall(testNote);
-    }
+  @Before
+  public void setUp () {
+    testNote = new Note();
+    testNote.setAttachmentsList(Collections.singletonList(new Attachment(Uri.EMPTY, "")));
+    marshalledNote = ParcelableUtil.marshall(testNote);
+  }
 
-    @Test
-    public void unmarshall() {
-        assertEquals(testNote, ParcelableUtil.unmarshall(marshalledNote, Note.CREATOR));
-    }
+  @Test
+  public void unmarshall () {
+    assertEquals(testNote, ParcelableUtil.unmarshall(marshalledNote, Note.CREATOR));
+  }
 
-    @Test
-    public void marshall() {
-        assertArrayEquals(marshalledNote, ParcelableUtil.marshall(testNote));
-    }
+  @Test
+  public void marshall () {
+    assertArrayEquals(marshalledNote, ParcelableUtil.marshall(testNote));
+  }
 }

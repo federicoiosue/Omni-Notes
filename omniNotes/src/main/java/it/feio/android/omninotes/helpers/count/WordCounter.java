@@ -17,22 +17,21 @@
 
 package it.feio.android.omninotes.helpers.count;
 
-import java.util.regex.Pattern;
-
 import it.feio.android.omninotes.models.Note;
+import java.util.regex.Pattern;
 
 public interface WordCounter {
 
-    int countWords(Note note);
+  int countWords (Note note);
 
-    int countChars(Note note);
+  int countChars (Note note);
 
-    default String sanitizeTextForWordsAndCharsCount(Note note, String field) {
-        if (note.isChecklist()) {
-            String regex = "(" + Pattern.quote(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM) + "|"
-                    + Pattern.quote(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM) + ")";
-            field = field.replaceAll(regex, "");
-        }
-        return field;
+  default String sanitizeTextForWordsAndCharsCount (Note note, String field) {
+    if (note.isChecklist()) {
+      String regex = "(" + Pattern.quote(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM) + "|"
+          + Pattern.quote(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM) + ")";
+      field = field.replaceAll(regex, "");
     }
+    return field;
+  }
 }
