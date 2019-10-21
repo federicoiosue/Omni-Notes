@@ -147,6 +147,11 @@ public class DbHelper extends SQLiteOpenHelper {
     return getDatabase(false);
   }
 
+    @Override
+    public void onOpen(SQLiteDatabase db) {
+        db.disableWriteAheadLogging();
+        super.onOpen(db);
+    }
 
   public SQLiteDatabase getDatabase (boolean forceWritable) {
     try {
