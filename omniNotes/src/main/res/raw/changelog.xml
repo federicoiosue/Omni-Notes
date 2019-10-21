@@ -21,7 +21,9 @@
       changeDate="Oct 22, 2019"
       versionName="6.0.1">
         <changelogtext>[b]New![/b] Added Burmese language</changelogtext>
+        <changelogtext>[i]Improved![/i] Translations updated: Basco, Chinese traditional, Romanian, Spanish, Italian</changelogtext>
     </changelogversion>
+
     <changelogversion
       changeDate="Oct 4, 2019"
       versionName="6.0.0">
