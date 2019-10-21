@@ -18,13 +18,18 @@
 <changelog bulletedList="true">
 
     <changelogversion
+      changeDate="Oct 22, 2019"
+      versionName="6.0.1">
+        <changelogtext>[b]New![/b] Added Burmese language</changelogtext>
+    </changelogversion>
+    <changelogversion
       changeDate="Oct 4, 2019"
       versionName="6.0.0">
         <changelogtext>[b]New![/b] New backup mode using JSON - [b]WARNING:[/b] older backups can still be restored with "legacy" restore option
         </changelogtext>
         <changelogtext>[b]New![/b] Added an option to create logs on backups directory to share them
-        with developer to investigate possible problems</changelogtext>
-        <changelogtext>[b]New![/b] Moved to SDK 27 to include framework fixed and improvements</changelogtext>
+            with developer to investigate possible problems</changelogtext>
+        <changelogtext>[b]New![/b] Moved to SDK 28 to include framework fixed and improvements</changelogtext>
         <changelogtext>[b]New![/b] Added finnish translation (thanks to Arttu Ylhävuori) and Romanian (thanks to Alexandru Balmus)</changelogtext>
         <changelogtext>[i]Improved![/i] Much faster images loading</changelogtext>
         <changelogtext>[i]Improved![/i] Easily recognizable shortcut widget</changelogtext>
