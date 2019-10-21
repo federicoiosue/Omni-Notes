@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
@@ -40,7 +41,6 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.SearchView.OnQueryTextListener;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -54,13 +54,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.textview.TextView;
 import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
-import it.feio.android.omninotes.async.bus.*;
-import it.feio.android.omninotes.utils.*;
 import org.apache.commons.lang.ObjectUtils;
 
 import java.util.ArrayList;
@@ -76,16 +75,23 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.NavigationUpdatedNavDrawerClosedEvent;
+import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
+import it.feio.android.omninotes.async.bus.NotesMergeEvent;
+import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.notes.NoteLoaderTask;
 import it.feio.android.omninotes.async.notes.NoteProcessorArchive;
 import it.feio.android.omninotes.async.notes.NoteProcessorCategorize;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.NoteProcessorTrash;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.UndoBarController;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
@@ -94,6 +100,15 @@ import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
+import it.feio.android.omninotes.utils.AnimationsHelper;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.KeyboardUtils;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.TagsHelper;
+import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
 import it.feio.android.simplegallery.util.BitmapUtils;
 
@@ -164,19 +179,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         mFragment = this;
         setHasOptionsMenu(true);
         setRetainInstance(false);
-    }
-
-
-    @Override
-    public void onStart() {
-		super.onStart();
         EventBus.getDefault().register(this, 1);
     }
 
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
 
@@ -350,7 +359,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     @Override
     public void onResume() {
         super.onResume();
-        if (Intent.ACTION_SEARCH.equals(mainActivity.getIntent().getAction())) {
+        if (mainActivity.prefsChanged) {
+            mainActivity.prefsChanged = false;
+            init();
+        } else if (Intent.ACTION_SEARCH.equals(mainActivity.getIntent().getAction())) {
             initNotesList(mainActivity.getIntent());
         }
     }
@@ -394,7 +406,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             }
 
             actionMode = null;
-            Log.d(Constants.TAG, "Closed multiselection contextual menu");
+            LogDelegate.d("Closed multiselection contextual menu");
         }
 
 
@@ -411,7 +423,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             if (!Arrays.asList(protectedActions).contains(item.getItemId())) {
                 mainActivity.requestPassword(mainActivity, getSelectedNotes(),
                         passwordConfirmed -> {
-                            if (passwordConfirmed) {
+                            if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
                                 performAction(item, mode);
                             }
                         });
@@ -529,7 +541,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     @Override
     public void onViewTouchOccurred(MotionEvent ev) {
-        Log.v(Constants.TAG, "Notes list: onViewTouchOccurred " + ev.getAction());
+        LogDelegate.v("Notes list: onViewTouchOccurred " + ev.getAction());
         commitPending();
     }
 
@@ -737,7 +749,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         Integer[] protectedActions = {R.id.menu_empty_trash};
         if (Arrays.asList(protectedActions).contains(item.getItemId())) {
             mainActivity.requestPassword(mainActivity, getSelectedNotes(), passwordConfirmed -> {
-                if (passwordConfirmed) {
+                if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)  ) {
                     performAction(item, null);
                 }
             });
@@ -751,7 +763,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     /**
      * Performs one of the ActionBar button's actions after checked notes protection
      */
-    public boolean performAction(MenuItem item, ActionMode actionMode) {
+    public void performAction(MenuItem item, ActionMode actionMode) {
+
+        if (isOptionsItemFastClick()) return;
+
         if (actionMode == null) {
             switch (item.getItemId()) {
                 case android.R.id.home:
@@ -772,6 +787,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 					break;
 				case R.id.menu_filter_category_remove:
 					filterCategoryArchived(false);
+                    break;
 				case R.id.menu_uncomplete_checklists:
 					filterByUncompleteChecklists();
 					break;
@@ -791,7 +807,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                     emptyTrash();
                     break;
 				default:
-					Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+					LogDelegate.e("Wrong element choosen: " + item.getItemId());
             }
         } else {
             switch (item.getItemId()) {
@@ -831,12 +847,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 //                case R.id.menu_synchronize:
 //                    synchronizeSelectedNotes();
 //                    break;
+                default:
+                    LogDelegate.e("Wrong element choosen: " + item.getItemId());
             }
         }
 
         checkSortActionPerformed(item);
-
-        return super.onOptionsItemSelected(item);
     }
 
 
@@ -862,7 +878,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     void editNote(final Note note, final View view) {
         if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
             PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
-				if (passwordConfirmed) {
+                if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 					note.setPasswordChecked(true);
 					AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
 							listRoot, buildAnimatorListenerAdapter(note));
@@ -877,7 +893,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 	void editNote2(Note note) {
         if (note.get_id() == null) {
-            Log.d(Constants.TAG, "Adding new note");
+            LogDelegate.d("Adding new note");
             // if navigation is a category it will be set into note
             try {
                 if (Navigation.checkNavigation(Navigation.CATEGORY) || !TextUtils.isEmpty(mainActivity.navigationTmp)) {
@@ -886,10 +902,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 					note.setCategory(DbHelper.getInstance().getCategory(Long.parseLong(categoryId)));
                 }
             } catch (NumberFormatException e) {
-                Log.v(Constants.TAG, "Maybe was not a category!");
+                LogDelegate.v("Maybe was not a category!");
             }
         } else {
-            Log.d(Constants.TAG, "Editing note with id: " + note.get_id());
+            LogDelegate.d("Editing note with id: " + note.get_id());
         }
 
         // Current list scrolling position is saved to be restored later
@@ -969,27 +985,27 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         new MaterialDialog.Builder(mainActivity)
                 .content(R.string.empty_trash_confirmation)
                 .positiveText(R.string.ok)
-                .callback(new MaterialDialog.ButtonCallback() {
-					@Override
-					public void onPositive(MaterialDialog materialDialog) {
-
-						boolean mustDeleteLockedNotes = false;
-						for (int i = 0; i < listAdapter.getCount(); i++) {
-							selectedNotes.add(listAdapter.getItem(i));
-							mustDeleteLockedNotes = mustDeleteLockedNotes || listAdapter.getItem(i).isLocked();
-						}
-						if (mustDeleteLockedNotes) {
-							mainActivity.requestPassword(mainActivity, getSelectedNotes(),
-									passwordConfirmed -> {
-										if (passwordConfirmed) {
-											deleteNotesExecute();
-										}
-									});
-						} else {
-							deleteNotesExecute();
-						}
-					}
-				}).build().show();
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(
+                            @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        boolean mustDeleteLockedNotes = false;
+                        for (int i = 0; i < listAdapter.getCount(); i++) {
+                            selectedNotes.add(listAdapter.getItem(i));
+                            mustDeleteLockedNotes = mustDeleteLockedNotes || listAdapter.getItem(i).isLocked();
+                        }
+                        if (mustDeleteLockedNotes) {
+                            mainActivity.requestPassword(mainActivity, getSelectedNotes(),
+                                    passwordConfirmed -> {
+                                        if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)  ) {
+                                            deleteNotesExecute();
+                                        }
+                                    });
+                        } else {
+                            deleteNotesExecute();
+                        }
+                    }
+                }).build().show();
     }
 
 
@@ -998,7 +1014,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 	 * @FIXME: This method is a divine opprobrium and MUST be refactored. I'm ashamed by myself.
      */
     void initNotesList(Intent intent) {
-        Log.d(Constants.TAG, "initNotesList intent: " + intent.getAction());
+        LogDelegate.d("initNotesList intent: " + intent.getAction());
 
         progress_wheel.setAlpha(1);
         list.setAlpha(0);
@@ -1134,13 +1150,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                     try {
                         note = listAdapter.getItem(position);
                     } catch (IndexOutOfBoundsException e) {
-                        Log.d(Constants.TAG, "Please stop swiping in the zone beneath the last card");
+                        LogDelegate.d("Please stop swiping in the zone beneath the last card");
                         continue;
                     }
 
 					if (note != null && note.isLocked()) {
 						PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
-							if (!passwordConfirmed) {
+                            if (!passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 								onUndo(null);
 							}
 						});
@@ -1301,8 +1317,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 				.content(R.string.delete_note_confirmation)
 				.positiveText(R.string.ok)
 				.onPositive((dialog, which) -> mainActivity.requestPassword(mainActivity, getSelectedNotes(),
-						passwordConfirmed -> {
-							if (passwordConfirmed) {
+                        passwordConfirmed -> {
+							if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)  ) {
 								deleteNotesExecute();
 							}
 						}))
@@ -1397,7 +1413,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         if (!Navigation.checkNavigation(Navigation.CATEGORY)) {
             listAdapter.remove(notes);
         }
-        Log.d(Constants.TAG, "Notes" + (archive ? "archived" : "restored from archive"));
+        LogDelegate.d("Notes" + (archive ? "archived" : "restored from archive"));
     }
 
 
@@ -1425,18 +1441,18 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 .positiveColorRes(R.color.colorPrimary)
                 .negativeText(R.string.remove_category)
                 .negativeColorRes(R.color.colorAccent)
-                .callback(new MaterialDialog.ButtonCallback() {
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onPositive(MaterialDialog dialog) {
+                    public void onClick(
+                            @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         keepActionMode = true;
                         Intent intent = new Intent(mainActivity, CategoryActivity.class);
                         intent.putExtra("noHome", true);
                         startActivityForResult(intent, REQUEST_CODE_CATEGORY_NOTES);
                     }
-
-
+                }).onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onNegative(MaterialDialog dialog) {
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         categorizeNotesExecute(null);
                     }
                 }).build();
@@ -1665,7 +1681,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             ubc.hideUndoBar(false);
             fab.showFab();
 
-            Log.d(Constants.TAG, "Changes committed");
+            LogDelegate.d("Changes committed");
         }
         mainActivity.updateWidgets();
     }
@@ -1692,17 +1708,18 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                 .title(R.string.delete_merged)
                 .positiveText(R.string.ok)
                 .negativeText(R.string.no)
-                .callback(new MaterialDialog.ButtonCallback() {
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onPositive(MaterialDialog dialog) {
+                    public void onClick(
+                            @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         EventBus.getDefault().post(new NotesMergeEvent(false));
                     }
-
-
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onNegative(MaterialDialog dialog) {
-						EventBus.getDefault().post(new NotesMergeEvent(true));
-					}
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        EventBus.getDefault().post(new NotesMergeEvent(true));
+                    }
                 }).build().show();
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,23 +20,23 @@ package it.feio.android.omninotes.async.upgrade;
 import android.content.ContentValues;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.ReminderHelper;
-import it.feio.android.omninotes.utils.StorageHelper;
+
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.StorageHelper;
 
 
 /**
@@ -64,14 +64,16 @@ public class UpgradeProcessor {
     }
 
 
-    public static void process(int dbOldVersion, int dbNewVersion) {
+    public static void process(int dbOldVersion, int dbNewVersion) throws InvocationTargetException, IllegalAccessException {
         try {
             List<Method> methodsToLaunch = getInstance().getMethodsToLaunch(dbOldVersion, dbNewVersion);
             for (Method methodToLaunch : methodsToLaunch) {
+				LogDelegate.d("Running upgrade processing method: " + methodToLaunch.getName());
                 methodToLaunch.invoke(getInstance());
             }
         } catch (SecurityException | IllegalAccessException | InvocationTargetException e) {
-            Log.d(Constants.TAG, "Explosion processing upgrade!", e);
+            LogDelegate.e("Explosion processing upgrade!", e);
+			throw e;
         }
     }
 

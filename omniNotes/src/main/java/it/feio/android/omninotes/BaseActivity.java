@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,14 +28,19 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.LocalBroadcastManager;
-import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.List;
+
 import it.feio.android.omninotes.helpers.LanguageHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.utils.Constants;
@@ -43,12 +48,8 @@ import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
-
 @SuppressLint("Registered")
-public class BaseActivity extends ActionBarActivity {
+public class BaseActivity extends AppCompatActivity {
 
     protected final int TRANSITION_VERTICAL = 0;
     protected final int TRANSITION_HORIZONTAL = 1;
@@ -84,7 +85,7 @@ public class BaseActivity extends ActionBarActivity {
                 menuKeyField.setBoolean(config, false);
             }
         } catch (Exception e) {
-            Log.d(Constants.TAG, "Just a little issue in physical menu button management", e);
+            LogDelegate.w("Just a little issue in physical menu button management", e);
         }
         super.onCreate(savedInstanceState);
     }
@@ -95,7 +96,7 @@ public class BaseActivity extends ActionBarActivity {
         super.onResume();
         String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
         navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
-        Log.d(Constants.TAG, prefs.getAll().toString());
+        LogDelegate.d(prefs.getAll().toString());
     }
 
 
@@ -114,7 +115,7 @@ public class BaseActivity extends ActionBarActivity {
 	public void requestPassword(final Activity mActivity, List<Note> notes,
 								final PasswordValidator mPasswordValidator) {
 		if (prefs.getBoolean("settings_password_access", false)) {
-			mPasswordValidator.onPasswordValidated(true);
+			mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
 			return;
 		}
 
@@ -128,7 +129,7 @@ public class BaseActivity extends ActionBarActivity {
 		if (askForPassword) {
 			PasswordHelper.requestPassword(mActivity, mPasswordValidator);
 		} else {
-			mPasswordValidator.onPasswordValidated(true);
+			mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
 		}
 	}
 
@@ -164,7 +165,7 @@ public class BaseActivity extends ActionBarActivity {
         // Home widgets
         AppWidgetManager mgr = AppWidgetManager.getInstance(context);
         int[] ids = mgr.getAppWidgetIds(new ComponentName(context, ListWidgetProvider.class));
-        Log.d(Constants.TAG, "Notifies AppWidget data changed for widgets " + Arrays.toString(ids));
+        LogDelegate.d("Notifies AppWidget data changed for widgets " + Arrays.toString(ids));
         mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 
         // Dashclock

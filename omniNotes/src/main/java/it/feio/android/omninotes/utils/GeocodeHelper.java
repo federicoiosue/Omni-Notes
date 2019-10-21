@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,22 +18,17 @@
 package it.feio.android.omninotes.utils;
 
 import android.content.Context;
-import android.location.*;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
-import io.nlopez.smartlocation.SmartLocation;
-import io.nlopez.smartlocation.location.config.LocationParams;
-import io.nlopez.smartlocation.rx.ObservableFactory;
-import it.feio.android.omninotes.BuildConfig;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.helpers.GeoCodeProviderFactory;
-import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import rx.Observable;
-import rx.Subscriber;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -48,6 +43,17 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import io.nlopez.smartlocation.SmartLocation;
+import io.nlopez.smartlocation.location.config.LocationParams;
+import io.nlopez.smartlocation.rx.ObservableFactory;
+import it.feio.android.omninotes.BuildConfig;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.helpers.GeocodeProviderFactory;
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
+import rx.Observable;
+import rx.Subscriber;
 
 
 public class GeocodeHelper implements LocationListener {
@@ -89,7 +95,7 @@ public class GeocodeHelper implements LocationListener {
 
 	public static void getLocation(OnGeoUtilResultListener onGeoUtilResultListener) {
 		SmartLocation.LocationControl bod = SmartLocation.with(OmniNotes.getAppContext())
-				.location(GeoCodeProviderFactory.getProvider(OmniNotes.getAppContext()))
+				.location(GeocodeProviderFactory.getProvider(OmniNotes.getAppContext()))
 				.config(LocationParams.NAVIGATION).oneFix();
 
 		Observable<Location> locations = ObservableFactory.from(bod).timeout(2, TimeUnit.SECONDS);
@@ -196,10 +202,10 @@ public class GeocodeHelper implements LocationListener {
 				jsonResults.append(buff, 0, read);
 			}
 		} catch (MalformedURLException e) {
-			Log.e(Constants.TAG, "Error processing Places API URL");
+			LogDelegate.e("Error processing Places API URL");
 			return null;
 		} catch (IOException e) {
-			Log.e(Constants.TAG, "Error connecting to Places API");
+			LogDelegate.e("Error connecting to Places API");
 			return null;
 		} finally {
 			if (conn != null) {
@@ -209,7 +215,7 @@ public class GeocodeHelper implements LocationListener {
 				try {
 					in.close();
 				} catch (IOException e) {
-					Log.e(Constants.TAG, "Error closing address autocompletion InputStream");
+					LogDelegate.e("Error closing address autocompletion InputStream");
 				}
 			}
 		}
@@ -224,7 +230,7 @@ public class GeocodeHelper implements LocationListener {
 				resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
 			}
 		} catch (JSONException e) {
-			Log.e(Constants.TAG, "Cannot process JSON results", e);
+			LogDelegate.e("Cannot process JSON results", e);
 		} finally {
 			if (conn != null) {
 				conn.disconnect();

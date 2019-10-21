@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,16 +25,18 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
+
+import com.bumptech.glide.request.target.AppWidgetTarget;
 
 import java.util.List;
 
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.BitmapHelper;
@@ -45,16 +47,17 @@ import it.feio.android.omninotes.utils.TextHelper;
 
 public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
-    private final int WIDTH = 80;
-    private final int HEIGHT = 80;
-
     private static boolean showThumbnails = true;
     private static boolean showTimestamps = true;
-
+    private final int WIDTH = 80;
+    private final int HEIGHT = 80;
     private OmniNotes app;
     private int appWidgetId;
     private List<Note> notes;
     private int navigation;
+
+    private AppWidgetTarget appWidgetTarget;
+
 
 
     public ListRemoteViewsFactory(Application app, Intent intent) {
@@ -62,30 +65,36 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
+    public static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition,
+                                           boolean thumbnails, boolean timestamps) {
+        LogDelegate.d("Widget configuration updated");
+        mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
+                .putString(Constants.PREF_WIDGET_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).commit();
+        showThumbnails = thumbnails;
+        showTimestamps = timestamps;
+    }
 
     @Override
     public void onCreate() {
-        Log.d(Constants.TAG, "Created widget " + appWidgetId);
+        LogDelegate.d("Created widget " + appWidgetId);
         String condition = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
                 .getString(
                         Constants.PREF_WIDGET_PREFIX
                                 + String.valueOf(appWidgetId), "");
         notes = DbHelper.getInstance().getNotes(condition, true);
     }
-
 
     @Override
     public void onDataSetChanged() {
-        Log.d(Constants.TAG, "onDataSetChanged widget " + appWidgetId);
+        LogDelegate.d("onDataSetChanged widget " + appWidgetId);
         navigation = Navigation.getNavigation();
-        
+
         String condition = app.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
                 .getString(
                         Constants.PREF_WIDGET_PREFIX
                                 + String.valueOf(appWidgetId), "");
         notes = DbHelper.getInstance().getNotes(condition, true);
     }
-
 
     @Override
     public void onDestroy() {
@@ -95,12 +104,10 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
                         + String.valueOf(appWidgetId)).commit();
     }
 
-
     @Override
     public int getCount() {
         return notes.size();
     }
-
 
     @Override
     public RemoteViews getViewAt(int position) {
@@ -142,40 +149,25 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
         return row;
     }
 
-
     @Override
     public RemoteViews getLoadingView() {
         return null;
     }
-
 
     @Override
     public int getViewTypeCount() {
         return 1;
     }
 
-
     @Override
     public long getItemId(int position) {
         return position;
     }
 
-
     @Override
     public boolean hasStableIds() {
         return false;
     }
-
-
-    public static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition,
-                                           boolean thumbnails, boolean timestamps) {
-        Log.d(Constants.TAG, "Widget configuration updated");
-        mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
-                .putString(Constants.PREF_WIDGET_PREFIX + String.valueOf(mAppWidgetId), sqlCondition).commit();
-        showThumbnails = thumbnails;
-        showTimestamps = timestamps;
-    }
-
 
     private void color(Note note, RemoteViews row) {
 

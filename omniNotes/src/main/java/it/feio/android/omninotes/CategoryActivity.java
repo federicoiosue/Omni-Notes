@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,15 +24,16 @@ import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 
@@ -47,6 +48,7 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.simplegallery.util.BitmapUtils;
@@ -75,11 +77,11 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
         category = getIntent().getParcelableExtra(Constants.INTENT_CATEGORY);
 
         if (category == null) {
-            Log.d(Constants.TAG, "Adding new category");
+            LogDelegate.d("Adding new category");
             category = new Category();
             category.setColor(String.valueOf(getRandomPaletteColor()));
         } else {
-            Log.d(Constants.TAG, "Editing category " + category.getName());
+            LogDelegate.d("Editing category " + category.getName());
         }
         selectedColor = parseInt(category.getColor());
         populateViews();
@@ -159,9 +161,10 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
                 .content(R.string.delete_category_confirmation)
                 .positiveText(R.string.confirm)
                 .positiveColorRes(R.color.colorAccent)
-                .callback(new MaterialDialog.ButtonCallback() {
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onPositive(MaterialDialog dialog) {
+                    public void onClick(
+                            @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         // Changes navigation if actually are shown notes associated with this category
                         SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
                         String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
@@ -215,7 +218,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
             super.finish();
 
         } catch (Exception e) {
-            Log.d(Constants.TAG, "Bitmap not found", e);
+            LogDelegate.w("Bitmap not found", e);
         }
     }
 }

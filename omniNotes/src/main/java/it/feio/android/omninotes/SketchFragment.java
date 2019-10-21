@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,10 +24,10 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +40,7 @@ import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import com.larswerkman.holocolorpicker.OpacityBar;
@@ -52,10 +53,10 @@ import java.io.FileOutputStream;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import it.feio.android.checklistview.utils.AlphaManager;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
 import it.feio.android.omninotes.models.views.SketchView;
-import it.feio.android.omninotes.utils.Constants;
 
 
 public class SketchFragment extends Fragment implements OnDrawChangedListener {
@@ -113,7 +114,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 bmp = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(baseUri));
                 mSketchView.setBackgroundBitmap(getActivity(), bmp);
             } catch (FileNotFoundException e) {
-                Log.e(Constants.TAG, "Error replacing sketch bitmap background", e);
+                LogDelegate.e("Error replacing sketch bitmap background", e);
             }
         }
 
@@ -159,24 +160,21 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 				new MaterialDialog.Builder(getActivity())
 						.content(R.string.erase_sketch)
 						.positiveText(R.string.confirm)
-						.callback(new MaterialDialog.ButtonCallback() {
-							@Override
-							public void onPositive(MaterialDialog dialog) {
-								mSketchView.erase();
-							}
-						})
-						.build().show();
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                mSketchView.erase();
+                            }
+                        }).build().show();
 			}
 		});
 
 
         // Inflate the popup_layout.xml
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(ActionBarActivity
-                .LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE);
         popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, null);
         // And the one for eraser
-        LayoutInflater inflaterEraser = (LayoutInflater) getActivity().getSystemService(ActionBarActivity
-                .LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflaterEraser = (LayoutInflater) getActivity().getSystemService(AppCompatActivity.LAYOUT_INFLATER_SERVICE);
         popupEraserLayout = inflaterEraser.inflate(R.layout.popup_sketch_eraser, null);
 
         // Actual stroke shape size is retrieved
@@ -206,7 +204,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 getActivity().onBackPressed();
                 break;
 			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+				LogDelegate.e("Wrong element choosen: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
     }
@@ -229,7 +227,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
                 }
 
             } catch (Exception e) {
-                Log.e(Constants.TAG, "Error writing sketch image data", e);
+                LogDelegate.e("Error writing sketch image data", e);
             }
         }
     }
@@ -297,7 +295,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
         int newSize = Math.round((size / 100f) * calcProgress);
         int offset = (size - newSize) / 2;
-        Log.v(Constants.TAG, "Stroke size " + newSize + " (" + calcProgress + "%)");
+        LogDelegate.v("Stroke size " + newSize + " (" + calcProgress + "%)");
 
         LayoutParams lp = new LayoutParams(newSize, newSize);
         lp.setMargins(offset, offset, offset, offset);

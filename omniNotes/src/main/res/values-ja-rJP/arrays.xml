@@ -17,46 +17,46 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string-array name="navigation_list">
-    <item>ノート</item>
-    <item>アーカイブ</item>
-    <item>アラーム</item>
-    <item>ごみ箱</item>
-    <item>未分類</item>
-  </string-array>
-  <string-array name="sortable_columns_human_readable">
-    <item>タイトル</item>
-    <item>作成日</item>
-    <item>最終更新日</item>
-    <item>アラーム日付</item>
-  </string-array>
-  <string-array name="checked_items_behavior">
-    <item>位置を保持</item>
-    <item>リストの末尾に移動</item>
-    <item>チェックされていない項目の末尾に移動</item>
-  </string-array>
-  <string-array name="colors_app">
-    <item>無効</item>
-    <item>ストリップのみ</item>
-    <item>ノートのリストのみ</item>
-    <item>全て</item>
-  </string-array>
-  <string-array name="colors_widget">
-    <item>無効</item>
-    <item>ストリップのみ</item>
-    <item>ノートのリスト</item>
-  </string-array>
-  <string-array name="text_size">
-    <item>最小</item>
-    <item>小</item>
-    <item>デフォルト</item>
-    <item>大</item>
-    <item>最大</item>
-  </string-array>
-  <string-array name="attachments_actions">
-    <item>共有</item>
-    <item>削除</item>
-    <item>すべて削除</item>
-    <item>編集</item>
-  </string-array>
+    <string-array name="navigation_list">
+        <item>ノート</item>
+        <item>アーカイブ</item>
+        <item>アラーム</item>
+        <item>ごみ箱</item>
+        <item>未分類</item>
+    </string-array>
+    <string-array name="sortable_columns_human_readable">
+        <item>タイトル</item>
+        <item>作成日</item>
+        <item>最終更新日</item>
+        <item>アラーム日付</item>
+    </string-array>
+    <string-array name="checked_items_behavior">
+        <item>位置を保持</item>
+        <item>リストの末尾に移動</item>
+        <item>チェックされていない項目の末尾に移動</item>
+    </string-array>
+    <string-array name="colors_app">
+        <item>無効</item>
+        <item>ストリップのみ</item>
+        <item>ノートのリストのみ</item>
+        <item>全て</item>
+    </string-array>
+    <string-array name="colors_widget">
+        <item>無効</item>
+        <item>ストリップのみ</item>
+        <item>ノートのリスト</item>
+    </string-array>
+    <string-array name="text_size">
+        <item>最小</item>
+        <item>小</item>
+        <item>デフォルト</item>
+        <item>大</item>
+        <item>最大</item>
+    </string-array>
+    <string-array name="attachments_actions">
+        <item>共有</item>
+        <item>削除</item>
+        <item>すべて削除</item>
+        <item>編集</item>
+    </string-array>
 </resources>

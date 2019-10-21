@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -94,12 +94,14 @@ public interface ConstantsBase {
 	String PREF_DYNAMIC_MENU = "settings_dynamic_menu";
 	String PREF_CURRENT_APP_VERSION = "settings_current_app_version";
 	String PREF_FAB_EXPANSION_BEHAVIOR = "settings_fab_expansion_behavior";
-	String PREF_ATTANCHEMENTS_ON_BOTTOM = "settings_attachments_on_bottom";
+	String PREF_ATTACHMENTS_ON_BOTTOM = "settings_attachments_on_bottom";
 	String PREF_SNOOZE_DEFAULT = "10";
 	String PREF_TOUR_COMPLETE = "pref_tour_complete";
 	String PREF_ENABLE_SWIPE = "settings_enable_swipe";
 	String PREF_SEND_ANALYTICS = "settings_send_analytics";
 	String PREF_PRETTIFIED_DATES = "settings_prettified_dates";
+	String PREF_ENABLE_AUTOBACKUP = "settings_enable_autobackup";
+	String PREF_ENABLE_FILE_LOGGING = "settings_enable_file_logging";
 
 	String MIME_TYPE_IMAGE = "image/jpeg";
 	String MIME_TYPE_AUDIO = "audio/amr";
@@ -116,8 +118,12 @@ public interface ConstantsBase {
 	String TIMESTAMP_UNIX_EPOCH = "0";
 	String TIMESTAMP_UNIX_EPOCH_FAR = "18464193800000";
 
+	String TAG_SPECIAL_CHARS_TO_REMOVE = "[<>\\[\\],-\\.\\(\\)\\[\\]\\{\\}\\!\\?]";
+
 	int MENU_SORT_GROUP_ID = 11998811;
 
 	String MERGED_NOTES_SEPARATOR = "----------------------";
 	String PROPERTIES_PARAMS_SEPARATOR = ",";
+
+	String AUTO_BACKUP_DIR = "_autobackup";
 }

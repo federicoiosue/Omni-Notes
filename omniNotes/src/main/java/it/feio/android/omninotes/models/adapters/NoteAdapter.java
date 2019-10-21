@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,25 +23,34 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.text.Spanned;
-import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.nhaarman.listviewanimations.util.Insertable;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.async.TextWorkerTask;
-import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.holders.NoteViewHolder;
-import it.feio.android.omninotes.utils.*;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
+
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.async.TextWorkerTask;
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.holders.NoteViewHolder;
+import it.feio.android.omninotes.utils.BitmapHelper;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Fonts;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.TextHelper;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 
 public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
@@ -59,7 +68,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 
     public NoteAdapter(Activity activity, int layout, List<Note> notes) {
         super(activity, R.layout.note_layout_expanded, notes);
-        this.mActivity = activity;
+        mActivity = activity;
         this.notes = notes;
         this.layout = layout;
 
@@ -104,23 +113,22 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 
 
     private void initThumbnail(Note note, NoteViewHolder holder) {
-        // Attachment thumbnail
-        if (expandedView) {
+
+        if (expandedView && holder.attachmentThumbnail != null) {
             // If note is locked or without attachments nothing is shown
             if ((note.isLocked() && !mActivity.getSharedPreferences(Constants.PREFS_NAME,
                     Context.MODE_MULTI_PROCESS).getBoolean("settings_password_access", false))
                     || note.getAttachmentsList().size() == 0) {
                 holder.attachmentThumbnail.setVisibility(View.GONE);
-            }
-            // Otherwise...
-            else {
+            } else {
                 holder.attachmentThumbnail.setVisibility(View.VISIBLE);
                 Attachment mAttachment = note.getAttachmentsList().get(0);
                 Uri thumbnailUri = BitmapHelper.getThumbnailUri(mActivity, mAttachment);
+
                 Glide.with(mActivity)
                         .load(thumbnailUri)
-                        .centerCrop()
-                        .crossFade()
+                        .apply(new RequestOptions().centerCrop())
+                        .transition(withCrossFade())
                         .into(holder.attachmentThumbnail);
             }
         }
@@ -174,7 +182,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
                 }
             }
         } catch (RejectedExecutionException e) {
-            Log.w(Constants.TAG, "Oversized tasks pool to load texts!", e);
+            LogDelegate.w("Oversized tasks pool to load texts!", e);
         }
     }
 
@@ -211,17 +219,17 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 
 
     public void addSelectedItem(Integer selectedItem) {
-        this.selectedItems.put(selectedItem, true);
+        selectedItems.put(selectedItem, true);
     }
 
 
     public void removeSelectedItem(Integer selectedItem) {
-        this.selectedItems.delete(selectedItem);
+        selectedItems.delete(selectedItem);
     }
 
 
     public void clearSelectedItems() {
-        this.selectedItems.clear();
+        selectedItems.clear();
     }
 
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,12 +25,12 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.SparseArray;
 import android.widget.RemoteViews;
 
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.utils.Constants;
 
 
@@ -47,7 +47,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
         ComponentName thisWidget = new ComponentName(context, getClass());
         int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
         for (int appWidgetId : allWidgetIds) {
-            Log.d(Constants.TAG, "WidgetProvider onUpdate() widget " + appWidgetId);
+            LogDelegate.d("WidgetProvider onUpdate() widget " + appWidgetId);
             // Get the layout for and attach an on-click listener to views
             setLayout(context, appWidgetManager, appWidgetId);
         }
@@ -58,7 +58,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
     @Override
     public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId,
                                           Bundle newOptions) {
-        Log.d(Constants.TAG, "Widget size changed");
+        LogDelegate.d("Widget size changed");
         setLayout(context, appWidgetManager, appWidgetId);
     }
 

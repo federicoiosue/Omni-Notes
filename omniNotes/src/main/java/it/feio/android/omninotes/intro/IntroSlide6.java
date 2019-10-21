@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,53 +21,22 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 
 
-public class IntroSlide6 extends Fragment {
-
-	@BindView(R.id.intro_background)
-	View background;
-
-	@BindView(R.id.intro_title)
-	TextView title;
-
-	@BindView(R.id.intro_image_community_googleplus)
-	ImageView image_gplus;
-
-	@BindView(R.id.intro_image_community_facebook)
-	ImageView image_facebook;
-
-	@BindView(R.id.intro_description)
-	TextView description;
-
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.intro_slide_communities, container, false);
-		ButterKnife.bind(this, v);
-		return v;
-	}
+public class IntroSlide6 extends IntroFragment {
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		background.setBackgroundColor(Color.parseColor("#222222"));
 		title.setText(R.string.tour_listactivity_final_title);
-		image_gplus.setOnClickListener(v -> {
-			Intent intent = new Intent(Intent.ACTION_VIEW);
-			intent.setData(Uri.parse(Constants.GOOGLE_PLUS_COMMUNITY));
-			startActivity(intent);
-		});
-		image_facebook.setOnClickListener(v -> {
+		image.setVisibility(View.GONE);
+		image_small.setImageResource(R.drawable.facebook);
+		image_small.setVisibility(View.VISIBLE);
+		image_small.setOnClickListener(v -> {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.setData(Uri.parse(Constants.FACEBOOK_COMMUNITY));
 			startActivity(intent);

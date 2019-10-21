@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,14 +17,13 @@
 
 package it.feio.android.omninotes.utils.date;
 
-import android.test.InstrumentationTestCase;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import org.junit.Assert;
 
 import java.util.Calendar;
 
 
-public class DateHelperTest extends InstrumentationTestCase {
+public class DateHelperTest {
 
 	private int TEN_MINUTES = 10 * 60 * 1000;
 	private int MILLISEC_TO_HOURS_RATIO = 60 * 60 * 1000;
@@ -45,7 +44,6 @@ public class DateHelperTest extends InstrumentationTestCase {
 		Assert.assertNotEquals(0, nextReminder2);
 		long delta = (nextReminder2 - reminder) / MILLISEC_TO_HOURS_RATIO;
 		Assert.assertTrue(delta == 3*24-2 || delta == 3*24-1); // The results depends on the day of week
-
 
 	}
 

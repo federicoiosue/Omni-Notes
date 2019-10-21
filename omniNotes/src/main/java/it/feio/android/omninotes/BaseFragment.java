@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,25 +17,35 @@
 
 package it.feio.android.omninotes;
 
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
-import com.squareup.leakcanary.RefWatcher;
+
+import com.squareup.leakcanary.LeakCanary;
 
 
 public class BaseFragment extends Fragment {
 
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
-	}
+    private static final long OPTIONS_ITEM_CLICK_DELAY_TIME = 1000;
+    private long mLastClickTime;
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+    }
 
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		RefWatcher refWatcher = OmniNotes.getRefWatcher();
-		refWatcher.watch(this);
-	}
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LeakCanary.installedRefWatcher().watch(this);
+    }
 
+    protected boolean isOptionsItemFastClick() {
+        if (SystemClock.elapsedRealtime() - mLastClickTime < OPTIONS_ITEM_CLICK_DELAY_TIME){
+            return true;
+        }
+        mLastClickTime = SystemClock.elapsedRealtime();
+        return false;
+    }
 }

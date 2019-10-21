@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,21 +58,15 @@ public class LanguageHelper {
 
 	private static Context setLocale(Context context, Locale locale) {
 		Configuration configuration = context.getResources().getConfiguration();
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-			configuration.setLocale(locale);
-			context.createConfigurationContext(configuration);
-
-		} else {
-			configuration.locale = locale;
-			context.getResources().updateConfiguration(configuration, context.getResources().getDisplayMetrics());
-		}
+		configuration.locale = locale;
+		context.getResources().updateConfiguration(configuration, null);
 		return context;
 	}
 
 	/**
 	 * Checks country AND region
 	 */
-	public static Locale getLocale(String lang) {
+	private static Locale getLocale(String lang) {
 		if (lang.contains("_")) {
 			return new Locale(lang.split("_")[0], lang.split("_")[1]);
 		} else {
@@ -82,12 +76,23 @@ public class LanguageHelper {
 
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 	@NonNull
-	public static String getLocalizedString(Context context, String desiredLocale, int resourceId) {
+	static String getLocalizedString(Context context, String desiredLocale, int resourceId) {
+		if (desiredLocale.equals(getCurrentLocale(context))) {
+			return context.getResources().getString(resourceId);
+		}
 		Configuration conf = context.getResources().getConfiguration();
 		conf = new Configuration(conf);
 		conf.setLocale(getLocale(desiredLocale));
 		Context localizedContext = context.createConfigurationContext(conf);
 		return localizedContext.getResources().getString(resourceId);
+	}
+
+	public static String getCurrentLocale(Context context) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+			return context.getResources().getConfiguration().getLocales().get(0).toString();
+		} else {
+			return context.getResources().getConfiguration().locale.toString();
+		}
 	}
 
 }

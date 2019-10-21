@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,14 +19,15 @@ package it.feio.android.omninotes.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import it.feio.android.checklistview.utils.DensityUtil;
-import it.feio.android.omninotes.R;
 
 import java.util.Arrays;
+
+import it.feio.android.checklistview.utils.DensityUtil;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.LogDelegate;
 
 
 public class Fonts {
@@ -56,7 +57,7 @@ public class Fonts {
                 ((TextView) v).setTextSize(currentSize + offset);
             }
         } catch (Exception e) {
-            Log.e(Constants.TAG, "Error setting font size", e);
+            LogDelegate.e("Error setting font size", e);
         }
     }
 }

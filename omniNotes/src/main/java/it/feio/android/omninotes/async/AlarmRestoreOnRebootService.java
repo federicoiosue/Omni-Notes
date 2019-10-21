@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,36 +17,38 @@
 
 package it.feio.android.omninotes.async;
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import it.feio.android.omninotes.BaseActivity;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.ReminderHelper;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 
 import java.util.List;
 
+import it.feio.android.omninotes.BaseActivity;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.ReminderHelper;
 
-public class AlarmRestoreOnRebootService extends IntentService {
 
-	public AlarmRestoreOnRebootService() {
-		super("AlarmRestoreOnRebootService");
+public class AlarmRestoreOnRebootService extends JobIntentService {
+
+	public static final int JOB_ID = 0x01;
+
+	public static void enqueueWork(Context context, Intent work) {
+		enqueueWork(context, AlarmRestoreOnRebootService.class, JOB_ID, work);
 	}
 
 	@Override
-	protected void onHandleIntent(@Nullable Intent intent) {
-		Log.i(Constants.TAG, "System rebooted: service refreshing reminders");
+	protected void onHandleWork(@NonNull Intent intent) {
+		LogDelegate.i("System rebooted: service refreshing reminders");
 		Context mContext = getApplicationContext();
 
 		BaseActivity.notifyAppWidgets(mContext);
 
 		List<Note> notes = DbHelper.getInstance().getNotesWithReminderNotFired();
-		Log.d(Constants.TAG, "Found " + notes.size() + " reminders");
+		LogDelegate.d("Found " + notes.size() + " reminders");
 		for (Note note : notes) {
 			ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
 		}

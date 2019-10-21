@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,18 +24,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.util.Log;
+import android.support.annotation.NonNull;
+
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
-import it.feio.android.analitica.AnalyticsHelper;
-import it.feio.android.omninotes.BuildConfig;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.helpers.AppVersionHelper;
-import it.feio.android.omninotes.models.misc.PlayStoreMetadataFetcherResult;
-import it.feio.android.omninotes.utils.ConnectionManager;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.SystemHelper;
+
 import org.json.JSONException;
 
 import java.io.BufferedReader;
@@ -45,6 +39,18 @@ import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.net.URLConnection;
+
+import it.feio.android.analitica.AnalyticsHelper;
+import it.feio.android.omninotes.BuildConfig;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.AppVersionHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.models.misc.PlayStoreMetadataFetcherResult;
+import it.feio.android.omninotes.utils.ConnectionManager;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.MiscUtils;
+import it.feio.android.omninotes.utils.SystemHelper;
 
 
 
@@ -80,12 +86,14 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 	protected Void doInBackground(String... params) {
 		if (!isCancelled()) {
 			try {
-				promptUpdate = isVersionUpdated(getAppData());
+				// Temporary disabled untill MetadataFetcher will work again
+				// promptUpdate = isVersionUpdated(getAppData());
+				promptUpdate = false;
 				if (promptUpdate) {
 					prefs.edit().putLong(Constants.PREF_LAST_UPDATE_CHECK, now).apply();
 				}
 			} catch (Exception e) {
-				Log.w(Constants.TAG, "Error fetching app metadata", e);
+				LogDelegate.w("Error fetching app metadata", e);
 			}
 		}
 		return null;
@@ -99,10 +107,10 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 				.positiveText(R.string.update)
 				.negativeText(R.string.not_now)
 				.negativeColorRes(R.color.colorPrimary)
-				.callback(new MaterialDialog.ButtonCallback() {
+				.onPositive(new MaterialDialog.SingleButtonCallback() {
 					@Override
-					public void onPositive(MaterialDialog materialDialog) {
-						if (isGooglePlayAvailable()) {
+					public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+						if (MiscUtils.isGooglePlayAvailable(mActivity)) {
 							((OmniNotes)mActivity.getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.UPDATE, "Play Store");
 							mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
 									("market://details?id=" + mActivity.getPackageName())));
@@ -130,7 +138,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 						AppVersionHelper.updateAppVersionInPreferences(mActivity);
 					}
 				} catch (NameNotFoundException e) {
-					Log.e(Constants.TAG, "Error retrieving app version", e);
+					LogDelegate.e("Error retrieving app version", e);
 				}
 			}
 		}
@@ -209,17 +217,5 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 				&& playStoreVersion.split("b").length == 1 && installedVersion.split("b").length == 2;
 
 		return playStoreHasMoreRecentVersion || outOfBeta;
-	}
-
-
-	private boolean isGooglePlayAvailable() {
-		boolean available = true;
-		try {
-			mActivity.getPackageManager().getPackageInfo("com.android.vending", 0);
-		} catch (NameNotFoundException e) {
-			Log.d(getClass().getName(), "Google Play app not available on device");
-			available = false;
-		}
-		return available;
 	}
 }

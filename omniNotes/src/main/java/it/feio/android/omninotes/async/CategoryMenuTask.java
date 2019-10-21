@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,10 @@ import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+
+import java.lang.ref.WeakReference;
+import java.util.List;
+
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
@@ -33,8 +37,6 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
 import it.feio.android.omninotes.models.views.NonScrollableListView;
-import java.lang.ref.WeakReference;
-import java.util.List;
 
 
 public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
@@ -142,7 +144,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
                     if (mDrawerList != null) {
                         mDrawerList.setItemChecked(0, false);
                         EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
-                            (position)));
+                                (position)));
                     }
                 }
             });

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,9 @@
 
 package it.feio.android.omninotes.async.notes;
 
+import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
@@ -53,4 +55,11 @@ public class NoteProcessorDelete extends NoteProcessor {
 			}
 		}
 	}
+
+
+	@Override
+	protected void afterProcess(List<Note> notes) {
+		EventBus.getDefault().post(new NotesDeletedEvent(notes));
+	}
+
 }

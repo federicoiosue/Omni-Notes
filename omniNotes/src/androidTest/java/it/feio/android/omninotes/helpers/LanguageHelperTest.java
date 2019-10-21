@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,17 +17,25 @@
 
 package it.feio.android.omninotes.helpers;
 
+import static org.junit.Assert.assertEquals;
+
 import android.content.SharedPreferences;
+import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 
 import java.util.Locale;
 
-
+@RunWith(AndroidJUnit4.class)
 public class LanguageHelperTest extends BaseAndroidTestCase {
 
-	public void testShouldChangeSharedPrefrencesLanguage() {
+	@Test
+	public void shouldChangeSharedPrefrencesLanguage() {
 		LanguageHelper.updateLanguage(testContext, Locale.ITALY.toString());
 		SharedPreferences prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, testContext
 				.MODE_MULTI_PROCESS);
@@ -35,12 +43,14 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
 		assertEquals(Locale.ITALY.toString(), language);
 	}
 
-	public void testShouldChangeAppLanguage() {
+	@Test
+	public void shouldChangeAppLanguage() {
 		LanguageHelper.updateLanguage(testContext, Locale.ITALY.toString());
 		assertTranslationMatches(Locale.ITALY.toString(), R.string.add_note);
 	}
 
-	public void testSameStaticStringToEnsureTranslationsAreCorrect() {
+	@Test
+	public void sameStaticStringToEnsureTranslationsAreCorrect() {
 		assertTranslationMatches("ar_SA", R.string.add_note, "إضافة نقطة");
 		assertTranslationMatches("es_XA", R.string.add_note, "Amestar Nota");
 		assertTranslationMatches("ca_ES", R.string.add_note, "Afegeix una nota");

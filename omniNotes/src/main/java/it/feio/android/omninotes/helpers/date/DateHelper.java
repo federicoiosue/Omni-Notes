@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,18 +20,20 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Time;
-import android.util.Log;
-import be.billington.calendar.recurrencepicker.EventRecurrence;
-import be.billington.calendar.recurrencepicker.EventRecurrenceFormatter;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.utils.Constants;
+
 import net.fortuna.ical4j.model.property.RRule;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import be.billington.calendar.recurrencepicker.EventRecurrence;
+import be.billington.calendar.recurrencepicker.EventRecurrenceFormatter;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.utils.Constants;
 
 
 /**
@@ -170,7 +172,7 @@ public class DateHelper {
             Date nextDate = rule.getRecur().getNextDate(seed, start);
             return nextDate == null ? 0L : nextDate.getTime();
         } catch (ParseException e) {
-            Log.e(Constants.TAG, "Error parsing rrule");
+            LogDelegate.e("Error parsing rrule");
         }
         return 0L;
     }

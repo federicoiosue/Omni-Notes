@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,10 +20,12 @@ package it.feio.android.omninotes;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -31,7 +33,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
@@ -54,6 +55,7 @@ import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
@@ -61,24 +63,27 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.FileProviderHelper;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
 
 
-public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener {
+public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
-    @BindView(R.id.crouton_handle) ViewGroup croutonViewContainer;
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
-
+    private static boolean isPasswordAccepted = false;
     public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
     public final String FRAGMENT_LIST_TAG = "fragment_list";
     public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
     public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
-    private static boolean isPasswordAccepted = false;
-    private FragmentManager mFragmentManager;
     public Uri sketchUri;
-
+    @BindView(R.id.crouton_handle)
+    ViewGroup croutonViewContainer;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
+    boolean prefsChanged = false;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,15 +92,16 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 		EventBus.getDefault().register(this);
+        prefs.registerOnSharedPreferenceChangeListener(this);
 
         initUI();
 
 		if (IntroActivity.mustRun()) {
-			startActivity(new Intent(this.getApplicationContext(), IntroActivity.class));
+            startActivity(new Intent(getApplicationContext(), IntroActivity.class));
 		}
 
-        new UpdaterTask(this).execute();
-    }
+//		new UpdaterTask(this).execute(); Removed due to missing backend
+	}
 
 	@Override
 	protected void onResume() {
@@ -106,6 +112,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 			checkPassword();
 		}
 	}
+
 
 	@Override
 	protected void onStop() {
@@ -128,11 +135,16 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 		if (prefs.getString(Constants.PREF_PASSWORD, null) != null
 				&& prefs.getBoolean("settings_password_access", false)) {
             PasswordHelper.requestPassword(this, passwordConfirmed -> {
-				if (passwordConfirmed) {
-					init();
-				} else {
-					finish();
-				}
+                switch (passwordConfirmed) {
+                    case SUCCEED:
+                        init();
+                        break;
+                    case FAIL:
+                        finish();
+                        break;
+                    case RESTORE:
+                        PasswordHelper.resetPassword(this);
+                }
 			});
         } else {
             init();
@@ -182,7 +194,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
         super.onNewIntent(intent);
         setIntent(intent);
         handleIntents();
-        Log.d(Constants.TAG, "onNewIntent");
+        LogDelegate.d("onNewIntent");
     }
 
 
@@ -207,8 +219,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public void initNotesList(Intent intent) {
         Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
         if (f != null) {
-            ((ListFragment) f).toggleSearchLabel(false);
-            ((ListFragment) f).initNotesList(intent);
+			new Handler(getMainLooper()).post(() -> {
+				((ListFragment) f).toggleSearchLabel(false);
+				((ListFragment) f).initNotesList(intent);
+			});
         }
     }
 
@@ -227,19 +241,13 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     private Fragment checkFragmentInstance(int id, Object instanceClass) {
         Fragment result = null;
 		Fragment fragment = getFragmentManagerInstance().findFragmentById(id);
-		if (instanceClass.equals(fragment.getClass())) {
+		if (fragment!= null && instanceClass.equals(fragment.getClass())) {
 			result = fragment;
 		}
         return result;
     }
 
 
-    /*
-     * (non-Javadoc)
-     * @see android.support.v7.app.ActionBarActivity#onBackPressed()
-     *
-     * Overrides the onBackPressed behavior for the attached fragments
-     */
     public void onBackPressed() {
 
         // SketchFragment
@@ -325,7 +333,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
     Toolbar getToolbar() {
-        return this.toolbar;
+        return toolbar;
     }
 
 
@@ -499,7 +507,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     public void deleteNote(Note note) {
         new NoteProcessorDelete(Arrays.asList(new Note[]{note})).process();
         BaseActivity.notifyAppWidgets(this);
-        Log.d(Constants.TAG, "Deleted permanently note with id '" + note.get_id() + "'");
+        LogDelegate.d("Deleted permanently note with id '" + note.get_id() + "'");
     }
 
 
@@ -537,4 +545,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
             f.onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
         }
     }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        prefsChanged = true;
+    }
+
 }

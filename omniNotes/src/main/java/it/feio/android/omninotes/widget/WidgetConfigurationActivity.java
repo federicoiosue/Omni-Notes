@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,7 +21,6 @@ import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -32,9 +31,9 @@ import java.util.ArrayList;
 
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
-import it.feio.android.omninotes.utils.Constants;
 
 
 public class WidgetConfigurationActivity extends Activity {
@@ -65,7 +64,7 @@ public class WidgetConfigurationActivity extends Activity {
                         break;
 
 					default:
-						Log.e(Constants.TAG, "Wrong element choosen: " + checkedId);
+						LogDelegate.e("Wrong element choosen: " + checkedId);
                 }
         });
 

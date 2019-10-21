@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,14 +17,19 @@
 
 package it.feio.android.omninotes.utils;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ShortcutInfo;
+import android.content.pm.ShortcutManager;
+import android.graphics.drawable.Icon;
+import android.os.Build;
+
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.date.DateUtils;
 
 
 public class ShortcutHelper {
@@ -34,21 +39,43 @@ public class ShortcutHelper {
      * Adding shortcut on Home screen
      */
     public static void addShortcut(Context context, Note note) {
-        Intent shortcutIntent = new Intent(context, MainActivity.class);
-        shortcutIntent.putExtra(Constants.INTENT_KEY, note.get_id());
-        shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
 
-        Intent addIntent = new Intent();
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
         String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
-				.getCreation(), OmniNotes.getSharedPreferences().getBoolean(Constants
-				.PREF_PRETTIFIED_DATES, true));
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
-        addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
-                Intent.ShortcutIconResource.fromContext(context, R.drawable.ic_shortcut));
-        addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+                .getCreation(), OmniNotes.getSharedPreferences().getBoolean(Constants
+                .PREF_PRETTIFIED_DATES, true));
 
-        context.sendBroadcast(addIntent);
+        if(Build.VERSION.SDK_INT < 26) {
+            Intent shortcutIntent = new Intent(context, MainActivity.class);
+            shortcutIntent.putExtra(Constants.INTENT_KEY, note.get_id());
+            shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
+
+            Intent addIntent = new Intent();
+            addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+            addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
+            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                    Intent.ShortcutIconResource.fromContext(context, R.drawable.ic_shortcut));
+            addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+
+            context.sendBroadcast(addIntent);
+        }
+        else {
+            ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
+            if (shortcutManager.isRequestPinShortcutSupported()) {
+                Intent intent = new Intent(context.getApplicationContext(), context.getClass());
+                intent.setAction(Intent.ACTION_MAIN);
+                ShortcutInfo pinShortcutInfo = new ShortcutInfo
+                        .Builder(context,"pinned-shortcut")
+                        .setIcon(Icon.createWithResource(context, R.drawable.ic_shortcut))
+                        .setIntent(intent)
+                        .setShortLabel(shortcutTitle)
+                        .build();
+                Intent pinnedShortcutCallbackIntent = shortcutManager.createShortcutResultIntent(pinShortcutInfo);
+                //Get notified when a shortcut is pinned successfully//
+                PendingIntent successCallback = PendingIntent.getBroadcast(context, 0, pinnedShortcutCallbackIntent, 0);
+                shortcutManager.requestPinShortcut(pinShortcutInfo, successCallback.getIntentSender()
+                );
+            }
+        }
     }
 
     /**

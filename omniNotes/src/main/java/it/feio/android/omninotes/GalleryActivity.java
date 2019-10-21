@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,6 +32,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
@@ -70,7 +70,45 @@ public class GalleryActivity extends AppCompatActivity {
     @BindView(R.id.fullscreen_content)  GalleryViewPager mViewPager;
 
     private List<Attachment> images;
+    OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
+        private final int MOVING_THRESHOLD = 30;
+        float x;
+        float y;
+        private boolean status_pressed = false;
 
+
+        @Override
+        public void onViewTouchOccurred(MotionEvent ev) {
+            if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
+                x = ev.getX();
+                y = ev.getY();
+                status_pressed = true;
+            }
+            if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_MOVE) {
+                float dx = Math.abs(x - ev.getX());
+                float dy = Math.abs(y - ev.getY());
+                double dxy = Math.sqrt(dx * dx + dy * dy);
+                LogDelegate.d("Moved of " + dxy);
+                if (dxy >= MOVING_THRESHOLD) {
+                    status_pressed = false;
+                }
+            }
+            if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+                if (status_pressed) {
+                    click();
+                    status_pressed = false;
+                }
+            }
+        }
+
+
+        private void click() {
+            Attachment attachment = images.get(mViewPager.getCurrentItem());
+            if (attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO)) {
+                viewMedia();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,13 +120,11 @@ public class GalleryActivity extends AppCompatActivity {
         initData();
     }
 
-
     @Override
     public void onStart() {
 		((OmniNotes)getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
         super.onStart();
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -96,7 +132,6 @@ public class GalleryActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu_gallery, menu);
         return true;
     }
-
 
     private void initViews() {
         // Show the Up button in the action bar.
@@ -125,7 +160,6 @@ public class GalleryActivity extends AppCompatActivity {
         });
     }
 
-
     /**
      * Initializes data received from note detail screen
      */
@@ -153,7 +187,6 @@ public class GalleryActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -167,11 +200,10 @@ public class GalleryActivity extends AppCompatActivity {
                 viewMedia();
                 break;
 			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+				LogDelegate.e("Wrong element choosen: " + item.getItemId());
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     private void viewMedia() {
         Attachment attachment = images.get(mViewPager.getCurrentItem());
@@ -182,7 +214,6 @@ public class GalleryActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-
     private void shareMedia() {
         Attachment attachment = images.get(mViewPager.getCurrentItem());
         Intent intent = new Intent(Intent.ACTION_SEND);
@@ -190,45 +221,4 @@ public class GalleryActivity extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
         startActivity(intent);
     }
-
-
-    OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
-        private final int MOVING_THRESHOLD = 30;
-        float x;
-        float y;
-        private boolean status_pressed = false;
-
-
-        @Override
-        public void onViewTouchOccurred(MotionEvent ev) {
-            if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
-                x = ev.getX();
-                y = ev.getY();
-                status_pressed = true;
-            }
-            if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_MOVE) {
-                float dx = Math.abs(x - ev.getX());
-                float dy = Math.abs(y - ev.getY());
-                double dxy = Math.sqrt(dx * dx + dy * dy);
-                Log.d(Constants.TAG, "Moved of " + dxy);
-                if (dxy >= MOVING_THRESHOLD) {
-                    status_pressed = false;
-                }
-            }
-            if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-                if (status_pressed) {
-                    click();
-                    status_pressed = false;
-                }
-            }
-        }
-
-
-        private void click() {
-            Attachment attachment = images.get(mViewPager.getCurrentItem());
-            if (attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO)) {
-                viewMedia();
-            }
-        }
-    };
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,16 +21,26 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Spanned;
-import android.util.Log;
+
+import java.util.List;
+
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.services.NotificationListener;
-import it.feio.android.omninotes.utils.*;
+import it.feio.android.omninotes.utils.BitmapHelper;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.ParcelableUtil;
+import it.feio.android.omninotes.utils.TextHelper;
+import it.feio.android.omninotes.utils.notifications.NotificationChannels;
+import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -42,14 +52,19 @@ public class AlarmReceiver extends BroadcastReceiver {
 					.CREATOR);
 			createNotification(mContext, note);
 			SnoozeActivity.setNextRecurrentReminder(note);
-			if (Build.VERSION.SDK_INT >= 18 && !NotificationListener.isRunning()) {
-				DbHelper.getInstance().setReminderFired(note.get_id(), true);
-			}
+			updateNote(note);
 		} catch (Exception e) {
-			Log.e(Constants.TAG, "Error on receiving reminder", e);
+			LogDelegate.e("Error on receiving reminder", e);
 		}
 	}
 
+	private void updateNote(Note note) {
+		note.setArchived(false);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2 && !NotificationListener.isRunning()) {
+			note.setReminderFired(true);
+		}
+		DbHelper.getInstance().updateNote(note, false);
+	}
 
 	private void createNotification(Context mContext, Note note) {
 
@@ -92,24 +107,21 @@ public class AlarmReceiver extends BroadcastReceiver {
 				PendingIntent.FLAG_UPDATE_CURRENT);
 
 		NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
-		notificationsHelper.createNotification(R.drawable.ic_stat_notification, title, notifyIntent).setLedActive()
+        notificationsHelper.createNotification(NotificationChannels.NotificationChannelNames.Reminders, R.drawable.ic_stat_notification, title, notifyIntent).setLedActive()
 				.setMessage(text);
 
-		if (note.getAttachmentsList().size() > 0 && !note.getAttachmentsList().get(0).getMime_type().equals(Constants
-				.MIME_TYPE_FILES)) {
-			notificationsHelper.setLargeIcon(BitmapHelper.getBitmapFromAttachment(mContext, note.getAttachmentsList()
-					.get(0), 128, 128));
+        List<Attachment> attachments = note.getAttachmentsList();
+		if (!attachments.isEmpty() && !attachments.get(0).getMime_type().equals(Constants.MIME_TYPE_FILES)) {
+			Bitmap notificationIcon = BitmapHelper.getBitmapFromAttachment(mContext, note.getAttachmentsList().get(0), 128, 128);
+			notificationsHelper.setLargeIcon(notificationIcon);
 		}
 
 		notificationsHelper.getBuilder()
-				.addAction(R.drawable.ic_material_reminder_time_light, it.feio.android.omninotes.utils.TextHelper
-						.capitalize(mContext.getString(R.string.snooze)) + ": " + snoozeDelay, piSnooze)
-				.addAction(R.drawable.ic_remind_later_light,
-						it.feio.android.omninotes.utils.TextHelper.capitalize(mContext.getString(R.string
+				.addAction(R.drawable.ic_material_reminder_time_light, TextHelper.capitalize(mContext.getString(R.string.snooze)) + ": " + snoozeDelay, piSnooze)
+				.addAction(R.drawable.ic_remind_later_light, TextHelper.capitalize(mContext.getString(R.string
 								.add_reminder)), piPostpone);
 
 		setRingtone(prefs, notificationsHelper);
-
 		setVibrate(prefs, notificationsHelper);
 
 		notificationsHelper.show(note.get_id());

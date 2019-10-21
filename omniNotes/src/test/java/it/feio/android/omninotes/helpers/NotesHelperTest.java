@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,17 +17,18 @@
 
 package it.feio.android.omninotes.helpers;
 
-import it.feio.android.checklistview.models.ChecklistManager;
-import it.feio.android.omninotes.utils.Constants;
 import junit.framework.Assert;
+
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
-
-import it.feio.android.omninotes.models.Note;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import it.feio.android.omninotes.BaseUnitTest;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.Constants;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
@@ -35,7 +36,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 
-public class NotesHelperTest {
+public class NotesHelperTest extends BaseUnitTest {
 
     @Test
     public void haveSameIdShouldFail() {
@@ -73,50 +74,10 @@ public class NotesHelperTest {
 		Note mergeNote = NotesHelper.mergeNotes(notes, false);
 
 		assertNotNull(mergeNote);
-		Assert.assertTrue(mergeNote.getTitle().equals("Merged note 0 title"));
+		Assert.assertEquals("Merged note 0 title", mergeNote.getTitle());
 		Assert.assertTrue(mergeNote.getContent().contains("Merged note 0 content"));
 		Assert.assertTrue(mergeNote.getContent().contains("Merged note 1 content"));
 		Assert.assertTrue(mergeNote.getContent().contains("Merged note 2 content"));
 		assertEquals(StringUtils.countMatches(mergeNote.getContent(), Constants.MERGED_NOTES_SEPARATOR), 2);
 	}
-
-	@Test
-	public void getChars() {
-		Note note = getNote(1L, "one two", "three four five\nAnother line");
-		assertEquals(35, NotesHelper.getChars(note));
-	}
-
-	@Test
-	public void getChecklistChars() {
-		String content = it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM + "done\n" + it.feio.android
-				.checklistview.interfaces.Constants.UNCHECKED_SYM + "undone yet";
-		Note note = getNote(1L, "checklist", content);
-		note.setChecklist(true);
-		assertEquals(24, NotesHelper.getChars(note));
-	}
-
-	@Test
-	public void getWords() {
-		Note note = getNote(1L, "one two", "three four five");
-		assertEquals(5, NotesHelper.getWords(note));
-		note.setTitle("singleword");
-		assertEquals(4, NotesHelper.getWords(note));
-	}
-
-	@Test
-	public void getChecklistWords() {
-    	String content = it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM + "done\n" + it.feio.android
-				.checklistview.interfaces.Constants.UNCHECKED_SYM + "undone yet";
-		Note note = getNote(1L, "checklist", content);
-		note.setChecklist(true);
-		assertEquals(4, NotesHelper.getWords(note));
-	}
-
-    private Note getNote(Long id, String title, String content) {
-        Note note = new Note();
-        note.set_id(id);
-        note.setTitle(title);
-        note.setContent(content);
-        return note;
-    }
 }

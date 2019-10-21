@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,7 +46,9 @@ public class PermissionsHelper {
 				requestPermissionExecute(activity, permission, onPermissionRequestedListener, messageView);
 			}
 		} else {
-			onPermissionRequestedListener.onPermissionGranted();
+			if (onPermissionRequestedListener != null) {
+				onPermissionRequestedListener.onPermissionGranted();
+			}
 		}
 	}
 
@@ -57,7 +59,9 @@ public class PermissionsHelper {
 				.request(permission)
 				.subscribe(granted -> {
 					if (granted) {
-						onPermissionRequestedListener.onPermissionGranted();
+						if (onPermissionRequestedListener != null) {
+							onPermissionRequestedListener.onPermissionGranted();
+						}
 					} else {
 						String msg = activity.getString(R.string.permission_not_granted) + ": " + permission;
 						Snackbar.make(messageView, msg, Snackbar.LENGTH_LONG).show();

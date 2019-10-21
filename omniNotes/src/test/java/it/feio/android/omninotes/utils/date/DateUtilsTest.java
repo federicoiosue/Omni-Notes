@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,13 +24,9 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Locale;
 
-import static android.test.MoreAsserts.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -63,8 +59,9 @@ public class DateUtilsTest {
 	@Test
 	public void getPresetReminder() {
 		long mockedNextMinute = 1497315847L;
+		Long testReminder = null;
 		PowerMockito.stub(PowerMockito.method(DateUtils.class, "getNextMinute")).toReturn(mockedNextMinute);
-		assertTrue(mockedNextMinute == DateUtils.getPresetReminder(null));
+		junit.framework.Assert.assertEquals(mockedNextMinute, DateUtils.getPresetReminder(testReminder));
 	}
 
 	@Test
@@ -73,6 +70,12 @@ public class DateUtilsTest {
 		String previousMinute = String.valueOf(Calendar.getInstance().getTimeInMillis() - 60000);
 		assertTrue(DateUtils.isFuture(nextMinute));
 		assertFalse(DateUtils.isFuture(previousMinute));
+	}
+
+	@Test
+	public void isFutureManagesNullValues() {
+    	Long longValue = null;
+		assertFalse(DateUtils.isFuture(longValue));
 	}
 
 	@Test

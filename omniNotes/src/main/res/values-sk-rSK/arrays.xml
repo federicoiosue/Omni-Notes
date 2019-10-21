@@ -17,46 +17,46 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string-array name="navigation_list">
-    <item>Poznámky</item>
-    <item>Archív</item>
-    <item>Pripomienky</item>
-    <item>Kôš</item>
-    <item>Nekategorizované</item>
-  </string-array>
-  <string-array name="sortable_columns_human_readable">
-    <item>Názov</item>
-    <item>Dátum vytvorenia</item>
-    <item>Dátum poslednej zmeny</item>
-    <item>Dátum pripomenky</item>
-  </string-array>
-  <string-array name="checked_items_behavior">
-    <item>Podržať pozíciu</item>
-    <item>Presunúť na koniec všetkých položiek</item>
-    <item>Presunúť navrch nezaškrtnutých</item>
-  </string-array>
-  <string-array name="colors_app">
-    <item>Zakázané</item>
-    <item>Iba pás</item>
-    <item>Iba zoznam poznámok</item>
-    <item>Kompletné</item>
-  </string-array>
-  <string-array name="colors_widget">
-    <item>Zakázané</item>
-    <item>Iba pás</item>
-    <item>Zoznam poznámok</item>
-  </string-array>
-  <string-array name="text_size">
-    <item>Najmenšie</item>
-    <item>Malé</item>
-    <item>Predvolené</item>
-    <item>Veľké</item>
-    <item>Najväčšie</item>
-  </string-array>
-  <string-array name="attachments_actions">
-    <item>Zdieľať</item>
-    <item>Vymazať</item>
-    <item>Vymazať všetky</item>
-    <item>Upraviť</item>
-  </string-array>
+    <string-array name="navigation_list">
+        <item>Poznámky</item>
+        <item>Archív</item>
+        <item>Pripomienky</item>
+        <item>Kôš</item>
+        <item>Nekategorizované</item>
+    </string-array>
+    <string-array name="sortable_columns_human_readable">
+        <item>Názov</item>
+        <item>Dátum vytvorenia</item>
+        <item>Dátum poslednej zmeny</item>
+        <item>Dátum pripomenky</item>
+    </string-array>
+    <string-array name="checked_items_behavior">
+        <item>Podržať pozíciu</item>
+        <item>Presunúť na koniec všetkých položiek</item>
+        <item>Presunúť navrch nezaškrtnutých</item>
+    </string-array>
+    <string-array name="colors_app">
+        <item>Zakázané</item>
+        <item>Iba pás</item>
+        <item>Iba zoznam poznámok</item>
+        <item>Kompletné</item>
+    </string-array>
+    <string-array name="colors_widget">
+        <item>Zakázané</item>
+        <item>Iba pás</item>
+        <item>Zoznam poznámok</item>
+    </string-array>
+    <string-array name="text_size">
+        <item>Najmenšie</item>
+        <item>Malé</item>
+        <item>Predvolené</item>
+        <item>Veľké</item>
+        <item>Najväčšie</item>
+    </string-array>
+    <string-array name="attachments_actions">
+        <item>Zdieľať</item>
+        <item>Vymazať</item>
+        <item>Vymazať všetky</item>
+        <item>Upraviť</item>
+    </string-array>
 </resources>

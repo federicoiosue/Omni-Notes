@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,17 +19,21 @@ package it.feio.android.omninotes.models.views;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.*;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Path;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
-import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
-import it.feio.android.omninotes.utils.Constants;
 
 import java.util.ArrayList;
+
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
 
 
 public class SketchView extends View implements OnTouchListener {
@@ -156,7 +160,7 @@ public class SketchView extends View implements OnTouchListener {
                 invalidate();
                 break;
 			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + event.getAction());
+				LogDelegate.e("Wrong element choosen: " + event.getAction());
         }
         return true;
     }
@@ -284,7 +288,7 @@ public class SketchView extends View implements OnTouchListener {
                 eraserSize = size;
                 break;
 			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + eraserOrStroke);
+				LogDelegate.e("Wrong element choosen: " + eraserOrStroke);
         }
 
     }

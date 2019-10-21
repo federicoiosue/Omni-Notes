@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,17 +24,32 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
-import android.util.Log;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
-import it.feio.android.omninotes.helpers.NotesHelper;
-import it.feio.android.omninotes.models.*;
-import it.feio.android.omninotes.utils.*;
+
 import org.apache.commons.lang.StringEscapeUtils;
 
 import java.io.IOException;
-import java.util.*;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Pattern;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.helpers.NotesHelper;
+import it.feio.android.omninotes.models.Attachment;
+import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.Stats;
+import it.feio.android.omninotes.models.Tag;
+import it.feio.android.omninotes.utils.AssetUtils;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Navigation;
+import it.feio.android.omninotes.utils.Security;
+import it.feio.android.omninotes.utils.TagsHelper;
 
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -42,7 +57,7 @@ public class DbHelper extends SQLiteOpenHelper {
     // Database name
     private static final String DATABASE_NAME = Constants.DATABASE_NAME;
     // Database version aligned if possible to software version
-    private static final int DATABASE_VERSION = 501;
+    private static final int DATABASE_VERSION = 560;
     // Sql query file directory
     private static final String SQL_DIR = "sql";
 
@@ -101,6 +116,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	public static synchronized DbHelper getInstance() {
 		return getInstance(OmniNotes.getAppContext());
 	}
+	
 
 	public static synchronized DbHelper getInstance(Context context) {
         if (instance == null) {
@@ -108,6 +124,15 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return instance;
     }
+
+
+	public static synchronized DbHelper getInstance(boolean forcedNewInstance) {
+		if (instance == null || forcedNewInstance) {
+            Context context = instance.mContext == null ? OmniNotes.getAppContext() : instance.mContext;
+			instance = new DbHelper(context);
+		}
+		return instance;
+	}
 
 
     private DbHelper(Context mContext) {
@@ -128,11 +153,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	public SQLiteDatabase getDatabase(boolean forceWritable) {
 		try {
-			SQLiteDatabase db = getReadableDatabase();
-			if (db.isReadOnly() && forceWritable) {
-				db = getWritableDatabase();
-			}
-			return db;
+			return forceWritable ? getWritableDatabase() : getReadableDatabase();
 		} catch (IllegalStateException e) {
 			return this.db;
 		}
@@ -147,7 +168,7 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            Log.i(Constants.TAG, "Database creation");
+            LogDelegate.i("Database creation");
             execSqlFile(CREATE_QUERY, db);
         } catch (IOException exception) {
             throw new RuntimeException("Database creation failed", exception);
@@ -158,11 +179,12 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		this.db = db;
-        Log.i(Constants.TAG, "Upgrading database version from " + oldVersion + " to " + newVersion);
-
-        UpgradeProcessor.process(oldVersion, newVersion);
+        LogDelegate.i("Upgrading database version from " + oldVersion + " to " + newVersion);
 
         try {
+
+            UpgradeProcessor.process(oldVersion, newVersion);
+
             for (String sqlFile : AssetUtils.list(SQL_DIR, mContext.getAssets())) {
                 if (sqlFile.startsWith(UPGRADE_QUERY_PREFIX)) {
                     int fileVersion = Integer.parseInt(sqlFile.substring(UPGRADE_QUERY_PREFIX.length(),
@@ -172,37 +194,32 @@ public class DbHelper extends SQLiteOpenHelper {
                     }
                 }
             }
-            Log.i(Constants.TAG, "Database upgrade successful");
+            LogDelegate.i("Database upgrade successful");
 
-        } catch (IOException e) {
+        } catch (IOException |InvocationTargetException | IllegalAccessException e) {
             throw new RuntimeException("Database upgrade failed", e);
         }
     }
 
 
-    // Inserting or updating single note
     public Note updateNote(Note note, boolean updateLastModification) {
-        SQLiteDatabase db = getDatabase(true);
+	    db = getDatabase(true);
 
-        String content;
-        if (note.isLocked()) {
-            content = Security.encrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, ""));
-        } else {
-            content = note.getContent();
-        }
+        String content = note.isLocked()
+                ? Security.encrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, ""))
+                : note.getContent();
 
-        // To ensure note and attachments insertions are atomical and boost performances transaction are used
+        // To ensure note and attachments insertions are atomic and boost performances transaction are used
         db.beginTransaction();
 
         ContentValues values = new ContentValues();
         values.put(KEY_TITLE, note.getTitle());
         values.put(KEY_CONTENT, content);
-        values.put(KEY_CREATION, note.getCreation() != null ? note.getCreation() : Calendar.getInstance()
-                .getTimeInMillis());
-        values.put(KEY_LAST_MODIFICATION, updateLastModification ? Calendar
-                .getInstance().getTimeInMillis() : (note.getLastModification() != null ? note.getLastModification() :
-                Calendar
-                        .getInstance().getTimeInMillis()));
+        values.put(KEY_CREATION, note.getCreation() != null ? note.getCreation() : Calendar.getInstance().getTimeInMillis());
+        long lastModification = note.getLastModification() != null && !updateLastModification
+                ? note.getLastModification()
+                : Calendar.getInstance().getTimeInMillis();
+        values.put(KEY_LAST_MODIFICATION, lastModification);
         values.put(KEY_ARCHIVED, note.isArchived());
         values.put(KEY_TRASHED, note.isTrashed());
         values.put(KEY_REMINDER, note.getAlarm());
@@ -212,13 +229,11 @@ public class DbHelper extends SQLiteOpenHelper {
         values.put(KEY_LONGITUDE, note.getLongitude());
         values.put(KEY_ADDRESS, note.getAddress());
         values.put(KEY_CATEGORY, note.getCategory() != null ? note.getCategory().getId() : null);
-        boolean locked = note.isLocked() != null ? note.isLocked() : false;
-        values.put(KEY_LOCKED, locked);
-        boolean checklist = note.isChecklist() != null ? note.isChecklist() : false;
-        values.put(KEY_CHECKLIST, checklist);
+        values.put(KEY_LOCKED, note.isLocked() != null && note.isLocked());
+        values.put(KEY_CHECKLIST, note.isChecklist() != null && note.isChecklist());
 
 		db.insertWithOnConflict(TABLE_NOTES, KEY_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
-		Log.d(Constants.TAG, "Updated note titled '" + note.getTitle() + "'");
+		LogDelegate.d("Updated note titled '" + note.getTitle() + "'");
 
         // Updating attachments
         List<Attachment> deletedAttachments = note.getAttachmentsListOld();
@@ -244,13 +259,13 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
     protected void execSqlFile(String sqlFile, SQLiteDatabase db) throws SQLException, IOException {
-        Log.i(Constants.TAG, "  exec sql file: {}" + sqlFile);
+        LogDelegate.i("  exec sql file: {}" + sqlFile);
         for (String sqlInstruction : SqlParser.parseSqlFile(SQL_DIR + "/" + sqlFile, mContext.getAssets())) {
-            Log.v(Constants.TAG, "    sql: {}" + sqlInstruction);
+            LogDelegate.v("    sql: {}" + sqlInstruction);
             try {
                 db.execSQL(sqlInstruction);
             } catch (Exception e) {
-                Log.e(Constants.TAG, "Error executing command: " + sqlInstruction, e);
+                LogDelegate.e("Error executing command: " + sqlInstruction, e);
             }
         }
     }
@@ -286,18 +301,8 @@ public class DbHelper extends SQLiteOpenHelper {
      * Getting single note
      */
     public Note getNote(long id) {
-
-        String whereCondition = " WHERE "
-                + KEY_ID + " = " + id;
-
-        List<Note> notes = getNotes(whereCondition, true);
-        Note note;
-        if (notes.size() > 0) {
-            note = notes.get(0);
-        } else {
-            note = null;
-        }
-        return note;
+        List<Note> notes = getNotes(" WHERE " + KEY_ID + " = " + id, true);
+        return notes.isEmpty() ? null : notes.get(0);
     }
 
 
@@ -416,9 +421,9 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " FROM " + TABLE_NOTES
                 + " LEFT JOIN " + TABLE_CATEGORY + " USING( " + KEY_CATEGORY + ") "
                 + whereCondition
-                + (order ? " ORDER BY " + sort_column + sort_order : "");
+                + (order ? " ORDER BY " + sort_column + " COLLATE NOCASE " + sort_order : "");
 
-        Log.v(Constants.TAG, "Query: " + query);
+        LogDelegate.v("Query: " + query);
 
         Cursor cursor = null;
         try {
@@ -472,7 +477,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 cursor.close();
         }
 
-        Log.v(Constants.TAG, "Query: Retrieval finished!");
+        LogDelegate.v("Query: Retrieval finished!");
         return noteList;
     }
 
@@ -503,25 +508,25 @@ public class DbHelper extends SQLiteOpenHelper {
     }
 
 
-    /**
-     * Deleting single note but keeping attachments
-     */
-    public boolean deleteNote(Note note, boolean keepAttachments) {
-        int deletedNotes;
-        boolean result = true;
-        SQLiteDatabase db = getDatabase(true);
-        // Delete notes
-        deletedNotes = db.delete(TABLE_NOTES, KEY_ID + " = ?", new String[]{String.valueOf(note.get_id())});
-        if (!keepAttachments) {
-            // Delete note's attachments
-            int deletedAttachments = db.delete(TABLE_ATTACHMENTS, KEY_ATTACHMENT_NOTE_ID + " = ?",
-                    new String[]{String.valueOf(note.get_id())});
-            result = result && deletedAttachments == note.getAttachmentsList().size();
-        }
-        // Check on correct and complete deletion
-        result = result && deletedNotes == 1;
-        return result;
-    }
+	/**
+	 * Deleting single note, eventually keeping attachments
+	 */
+	public boolean deleteNote(Note note, boolean keepAttachments) {
+		return deleteNote(note.get_id(), keepAttachments);
+	}
+
+
+	/**
+	 * Deleting single note by its id
+	 */
+	public boolean deleteNote(long noteId, boolean keepAttachments) {
+		SQLiteDatabase db = getDatabase(true);
+		db.delete(TABLE_NOTES, KEY_ID + " = ?", new String[]{String.valueOf(noteId)});
+		if (!keepAttachments) {
+			db.delete(TABLE_ATTACHMENTS, KEY_ATTACHMENT_NOTE_ID + " = ?", new String[]{String.valueOf(noteId)});
+		}
+		return true;
+	}
 
 
     /**
@@ -541,7 +546,7 @@ public class DbHelper extends SQLiteOpenHelper {
      * @return Notes list
      */
     public List<Note> getNotesByPattern(String pattern) {
-    	String escapedPattern = StringEscapeUtils.escapeSql(pattern);
+    	String escapedPattern = escapeSql(pattern);
         int navigation = Navigation.getNavigation();
         String whereCondition = " WHERE "
                 + KEY_TRASHED + (navigation == Navigation.TRASH ? " IS 1" : " IS NOT 1")
@@ -551,11 +556,15 @@ public class DbHelper extends SQLiteOpenHelper {
                 + " == 0) " : "")
                 + (Navigation.checkNavigation(Navigation.REMINDERS) ? " AND " + KEY_REMINDER + " IS NOT NULL" : "")
                 + " AND ("
-                + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + escapedPattern + "%' " + " OR " +
-                KEY_CONTENT + " LIKE '%" + escapedPattern + "%' ))"
-                + " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + escapedPattern + "%' )"
+                + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + escapedPattern + "%' ESCAPE '\\' " + " OR " +
+                KEY_CONTENT + " LIKE '%" + escapedPattern + "%' ESCAPE '\\' ))"
+                + " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + escapedPattern + "%' ESCAPE '\\' )"
                 + ")";
         return getNotes(whereCondition, true);
+    }
+
+    static String escapeSql(String pattern) {
+        return StringEscapeUtils.escapeSql(pattern).replace("%", "\\%").replace("_", "\\_");
     }
 
 

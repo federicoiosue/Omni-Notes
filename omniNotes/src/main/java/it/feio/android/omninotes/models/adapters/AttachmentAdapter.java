@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,14 +19,19 @@ package it.feio.android.omninotes.models.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
 import com.bumptech.glide.Glide;
+
+import java.util.Collections;
+import java.util.List;
+
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
@@ -35,9 +40,6 @@ import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.date.DateUtils;
-
-import java.util.Collections;
-import java.util.List;
 
 
 public class AttachmentAdapter extends BaseAdapter {
@@ -53,7 +55,7 @@ public class AttachmentAdapter extends BaseAdapter {
 			attachmentsList = Collections.emptyList();
 		}
 		this.attachmentsList = attachmentsList;
-        this.inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
 
@@ -74,7 +76,7 @@ public class AttachmentAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        Log.v(Constants.TAG, "GridView called for position " + position);
+        LogDelegate.v("GridView called for position " + position);
 
         Attachment mAttachment = attachmentsList.get(position);
 
@@ -127,8 +129,8 @@ public class AttachmentAdapter extends BaseAdapter {
         Uri thumbnailUri = BitmapHelper.getThumbnailUri(mActivity, mAttachment);
         Glide.with(mActivity.getApplicationContext())
                 .load(thumbnailUri)
-                .centerCrop()
-                .crossFade()
+//                .centerCrop()
+//                .crossFade()
                 .into(holder.image);
 
         return convertView;
@@ -136,7 +138,7 @@ public class AttachmentAdapter extends BaseAdapter {
 
 
 	public List<Attachment> getAttachmentsList() {
-		return this.attachmentsList;
+        return attachmentsList;
 	}
 
 

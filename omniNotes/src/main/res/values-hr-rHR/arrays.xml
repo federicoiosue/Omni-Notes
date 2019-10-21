@@ -17,46 +17,46 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string-array name="navigation_list">
-    <item>Bilješke</item>
-    <item>Arhiva</item>
-    <item>Podsjetnici</item>
-    <item>Obriši</item>
-    <item>Nekategorizirano</item>
-  </string-array>
-  <string-array name="sortable_columns_human_readable">
-    <item>Naslov</item>
-    <item>Datum nastanka</item>
-    <item>Datum zadnje izmjene</item>
-    <item>Datum podsjetnika</item>
-  </string-array>
-  <string-array name="checked_items_behavior">
-    <item>Zadrži poziciju</item>
-    <item>Premjesti na kraj popisa</item>
-    <item>Premjesti na kraj stavki bez oznake</item>
-  </string-array>
-  <string-array name="colors_app">
-    <item>Onemogućeno</item>
-    <item>Samo crta</item>
-    <item>Samo popis bilješki</item>
-    <item>Završeno</item>
-  </string-array>
-  <string-array name="colors_widget">
-    <item>Onemogućeno</item>
-    <item>Samo crta</item>
-    <item>Samo bilješke</item>
-  </string-array>
-  <string-array name="text_size">
-    <item>Najmanje</item>
-    <item>Malo</item>
-    <item>Zadano</item>
-    <item>Veliko</item>
-    <item>Najveće</item>
-  </string-array>
-  <string-array name="attachments_actions">
-    <item>Podijeli</item>
-    <item>Obriši</item>
-    <item>Obriši sve</item>
-    <item>Uredi</item>
-  </string-array>
+    <string-array name="navigation_list">
+        <item>Bilješke</item>
+        <item>Arhiva</item>
+        <item>Podsjetnici</item>
+        <item>Obriši</item>
+        <item>Nekategorizirano</item>
+    </string-array>
+    <string-array name="sortable_columns_human_readable">
+        <item>Naslov</item>
+        <item>Datum nastanka</item>
+        <item>Datum zadnje izmjene</item>
+        <item>Datum podsjetnika</item>
+    </string-array>
+    <string-array name="checked_items_behavior">
+        <item>Zadrži poziciju</item>
+        <item>Premjesti na kraj popisa</item>
+        <item>Premjesti na kraj stavki bez oznake</item>
+    </string-array>
+    <string-array name="colors_app">
+        <item>Onemogućeno</item>
+        <item>Samo crta</item>
+        <item>Samo popis bilješki</item>
+        <item>Završeno</item>
+    </string-array>
+    <string-array name="colors_widget">
+        <item>Onemogućeno</item>
+        <item>Samo crta</item>
+        <item>Samo bilješke</item>
+    </string-array>
+    <string-array name="text_size">
+        <item>Najmanje</item>
+        <item>Malo</item>
+        <item>Zadano</item>
+        <item>Veliko</item>
+        <item>Najveće</item>
+    </string-array>
+    <string-array name="attachments_actions">
+        <item>Podijeli</item>
+        <item>Obriši</item>
+        <item>Obriši sve</item>
+        <item>Uredi</item>
+    </string-array>
 </resources>

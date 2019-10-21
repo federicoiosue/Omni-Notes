@@ -1,0 +1,14 @@
+---
+---
+
+@import "{{ site.theme }}";
+.page-header {
+	height: 255px;
+    background-image: url(https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/ON_banner_site.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #f44336;
+}
+.page-header h1, .page-header h2, .page-header a.btn {
+	display: none;
+}

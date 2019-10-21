@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,18 +21,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.*;
+import android.preference.EditTextPreference;
+import android.preference.ListPreference;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceScreen;
+import android.preference.SwitchPreference;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,35 +43,53 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.afollestad.materialdialogs.MaterialDialog;
-import it.feio.android.analitica.AnalyticsHelper;
-import it.feio.android.omninotes.async.DataBackupIntentService;
-import it.feio.android.omninotes.helpers.AppVersionHelper;
-import it.feio.android.omninotes.helpers.LanguageHelper;
-import it.feio.android.omninotes.helpers.PermissionsHelper;
-import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.utils.*;
+import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
+
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
+import it.feio.android.analitica.AnalyticsHelper;
+import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.helpers.AppVersionHelper;
+import it.feio.android.omninotes.helpers.BackupHelper;
+import it.feio.android.omninotes.helpers.LanguageHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.helpers.PermissionsHelper;
+import it.feio.android.omninotes.helpers.SpringImportHelper;
+import it.feio.android.omninotes.models.ONStyle;
+import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.FileHelper;
+import it.feio.android.omninotes.utils.IntentChecker;
+import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.ResourcesUtils;
+import it.feio.android.omninotes.utils.StorageHelper;
+import it.feio.android.omninotes.utils.SystemHelper;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.reverse;
 
 
 public class SettingsFragment extends PreferenceFragment {
 
 	private SharedPreferences prefs;
 
-	private final int SPRINGPAD_IMPORT = 0;
-	private final int RINGTONE_REQUEST_CODE = 100;
-	public final static String XML_NAME = "xmlName";
+	private static final int SPRINGPAD_IMPORT = 0;
+	private static final int RINGTONE_REQUEST_CODE = 100;
+	public static final String XML_NAME = "xmlName";
 	private Activity activity;
+	private SettingsFragment pf;
 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		pf = this;
 		super.onCreate(savedInstanceState);
 		int xmlId = R.xml.settings;
 		if (getArguments() != null && getArguments().containsKey(XML_NAME)) {
@@ -98,19 +119,17 @@ public class SettingsFragment extends PreferenceFragment {
 				title = stringResourceId != 0 ? getString(stringResourceId) : title;
 			}
 		}
-		Toolbar toolbar = ((Toolbar) getActivity().findViewById(R.id.toolbar));
+		Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
 		if (toolbar != null) toolbar.setTitle(title);
 	}
 
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case android.R.id.home:
-				getActivity().onBackPressed();
-				break;
-			default:
-				Log.e(Constants.TAG, "Wrong element choosen: " + item.getItemId());
+		if (item.getItemId() == android.R.id.home) {
+			getActivity().onBackPressed();
+		} else {
+			LogDelegate.e("Wrong element choosen: " + item.getItemId());
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -126,7 +145,6 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 
-	@SuppressWarnings("deprecation")
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -159,8 +177,80 @@ public class SettingsFragment extends PreferenceFragment {
 			});
 		}
 
+		// Import legacy notes
+		Preference importLegacyData = findPreference("settings_import_data_legacy");
+		if (importLegacyData != null) {
+			importLegacyData.setOnPreferenceClickListener(arg0 -> {
 
-		// Import notes from Springpad export zip file
+				// Finds actually saved backups names
+				PermissionsHelper.requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE, R
+						.string.permission_external_storage, activity.findViewById(R.id.crouton_handle), () -> new
+						FolderChooserDialog.Builder((SettingsActivity) getActivity())
+						.chooseButton(R.string.md_choose_label)
+						.show());
+				return false;
+			});
+		}
+
+
+//		// Autobackup feature integrity check
+//		Preference backupIntegrityCheck = findPreference("settings_backup_integrity_check");
+//		if (backupIntegrityCheck != null) {
+//			backupIntegrityCheck.setOnPreferenceClickListener(arg0 -> {
+//				List<LinkedList<DiffMatchPatch.Diff>> errors = BackupHelper.integrityCheck(StorageHelper
+//						.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
+//				if (errors.isEmpty()) {
+//					new MaterialDialog.Builder(activity)
+//							.content("Everything is ok")
+//							.positiveText(R.string.ok)
+//							.build().show();
+//				} else {
+//					DiffMatchPatch diffMatchPatch = new DiffMatchPatch();
+//					String content = Observable.from(errors).map(diffs -> diffMatchPatch.diffPrettyHtml(diffs) +
+//							"<br/>").toList().toBlocking().first().toString();
+//					View v = getActivity().getLayoutInflater().inflate(R.layout.webview, null);
+//					((WebView) v.findViewById(R.id.webview)).loadData(content, "text/html", null);
+//					new MaterialDialog.Builder(activity)
+//							.customView(v, true)
+//							.positiveText(R.string.ok)
+//							.negativeText("Copy to clipboard")
+//							.onNegative((dialog, which) -> {
+//								SystemHelper.copyToClipboard(activity, content);
+//								Toast.makeText(activity, "Copied to clipboard", Toast.LENGTH_SHORT).show();
+//							})
+//							.build().show();
+//				}
+//				return false;
+//			});
+//		}
+//
+//		// Autobackup
+//		final SwitchPreference enableAutobackup = (SwitchPreference) findPreference("settings_enable_autobackup");
+//		if (enableAutobackup != null) {
+//			enableAutobackup.setOnPreferenceChangeListener((preference, newValue) -> {
+//				if ((Boolean) newValue) {
+//					new MaterialDialog.Builder(activity)
+//							.content(R.string.settings_enable_automatic_backup_dialog)
+//							.positiveText(R.string.confirm)
+//							.negativeText(R.string.cancel)
+//							.onPositive((dialog, which) -> {
+//								PermissionsHelper.requestPermission(getActivity(), Manifest.permission
+//										.WRITE_EXTERNAL_STORAGE, R
+//										.string.permission_external_storage, activity.findViewById(R.id
+//										.crouton_handle), () -> {
+//									BackupHelper.startBackupService(Constants.AUTO_BACKUP_DIR);
+//									enableAutobackup.setChecked(true);
+//								});
+//							})
+//							.build().show();
+//				} else {
+//					enableAutobackup.setChecked(false);
+//				}
+//				return false;
+//			});
+//		}
+
+
 		Preference importFromSpringpad = findPreference("settings_import_from_springpad");
 		if (importFromSpringpad != null) {
 			importFromSpringpad.setOnPreferenceClickListener(arg0 -> {
@@ -223,31 +313,25 @@ public class SettingsFragment extends PreferenceFragment {
 		final SwitchPreference showUncategorized = (SwitchPreference) findPreference(Constants
 				.PREF_SHOW_UNCATEGORIZED);
 		if (showUncategorized != null) {
-			showUncategorized.setOnPreferenceChangeListener((preference, newValue) -> {
-				return true;
-			});
+			showUncategorized.setOnPreferenceChangeListener((preference, newValue) -> true);
 		}
 
 
 		// Show Automatically adds location to new notes
 		final SwitchPreference autoLocation = (SwitchPreference) findPreference(Constants.PREF_AUTO_LOCATION);
 		if (autoLocation != null) {
-			autoLocation.setOnPreferenceChangeListener((preference, newValue) -> {
-				return true;
-			});
+			autoLocation.setOnPreferenceChangeListener((preference, newValue) -> true);
 		}
 
 
 		// Maximum video attachment size
 		final EditTextPreference maxVideoSize = (EditTextPreference) findPreference("settings_max_video_size");
 		if (maxVideoSize != null) {
-			String maxVideoSizeValue = prefs.getString("settings_max_video_size", getString(R.string.not_set));
-			maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String.valueOf
-					(maxVideoSizeValue));
+			maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": "
+					+ prefs.getString("settings_max_video_size", getString(R.string.not_set)));
 			maxVideoSize.setOnPreferenceChangeListener((preference, newValue) -> {
-				maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + String
-						.valueOf(newValue));
-				prefs.edit().putString("settings_max_video_size", newValue.toString()).commit();
+				maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + newValue);
+				prefs.edit().putString("settings_max_video_size", newValue.toString()).apply();
 				return false;
 			});
 		}
@@ -275,7 +359,7 @@ public class SettingsFragment extends PreferenceFragment {
 			}
 			passwordAccess.setOnPreferenceChangeListener((preference, newValue) -> {
 				PasswordHelper.requestPassword(getActivity(), passwordConfirmed -> {
-					if (passwordConfirmed) {
+					if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 						passwordAccess.setChecked((Boolean) newValue);
 					}
 				});
@@ -308,7 +392,7 @@ public class SettingsFragment extends PreferenceFragment {
 				int textSizeIndex1 = textSize.findIndexOfValue(newValue.toString());
 				String checklistString = getResources().getStringArray(R.array.text_size)[textSizeIndex1];
 				textSize.setSummary(checklistString);
-				prefs.edit().putString("settings_text_size", newValue.toString()).commit();
+				prefs.edit().putString("settings_text_size", newValue.toString()).apply();
 				textSize.setValueIndex(textSizeIndex1);
 				return false;
 			});
@@ -326,7 +410,7 @@ public class SettingsFragment extends PreferenceFragment {
 				int colorsAppIndex1 = colorsApp.findIndexOfValue(newValue.toString());
 				String colorsAppString1 = getResources().getStringArray(R.array.colors_app)[colorsAppIndex1];
 				colorsApp.setSummary(colorsAppString1);
-				prefs.edit().putString("settings_colors_app", newValue.toString()).commit();
+				prefs.edit().putString("settings_colors_app", newValue.toString()).apply();
 				colorsApp.setValueIndex(colorsAppIndex1);
 				return false;
 			});
@@ -344,7 +428,7 @@ public class SettingsFragment extends PreferenceFragment {
 				String checklistString1 = getResources().getStringArray(R.array.checked_items_behavior)
 						[checklistIndex1];
 				checklist.setSummary(checklistString1);
-				prefs.edit().putString("settings_checked_items_behavior", newValue.toString()).commit();
+				prefs.edit().putString("settings_checked_items_behavior", newValue.toString()).apply();
 				checklist.setValueIndex(checklistIndex1);
 				return false;
 			});
@@ -362,7 +446,7 @@ public class SettingsFragment extends PreferenceFragment {
 				int colorsWidgetIndex1 = colorsWidget.findIndexOfValue(newValue.toString());
 				String colorsWidgetString1 = getResources().getStringArray(R.array.colors_widget)[colorsWidgetIndex1];
 				colorsWidget.setSummary(colorsWidgetString1);
-				prefs.edit().putString("settings_colors_widget", newValue.toString()).commit();
+				prefs.edit().putString("settings_colors_widget", newValue.toString()).apply();
 				colorsWidget.setValueIndex(colorsWidgetIndex1);
 				return false;
 			});
@@ -386,11 +470,10 @@ public class SettingsFragment extends PreferenceFragment {
 
 
 		// NotificationServiceListener shortcut
-		final Preference norificationServiceListenerPreference = findPreference("settings_notification_service_listener");
-		if (norificationServiceListenerPreference != null) {
-			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-				getPreferenceScreen().removePreference(norificationServiceListenerPreference);
-			}
+		final Preference norificationServiceListenerPreference = findPreference
+				("settings_notification_service_listener");
+		if (norificationServiceListenerPreference != null && Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+			getPreferenceScreen().removePreference(norificationServiceListenerPreference);
 		}
 
 
@@ -410,7 +493,7 @@ public class SettingsFragment extends PreferenceFragment {
 			try {
 				changelog.setSummary(AppVersionHelper.getCurrentAppVersionName(getActivity()));
 			} catch (NameNotFoundException e) {
-				Log.e(Constants.TAG, "Error retrieving version", e);
+				LogDelegate.e("Error retrieving version", e);
 			}
 		}
 
@@ -423,25 +506,35 @@ public class SettingsFragment extends PreferenceFragment {
 				new MaterialDialog.Builder(activity)
 						.content(R.string.reset_all_data_confirmation)
 						.positiveText(R.string.confirm)
-						.callback(new MaterialDialog.ButtonCallback() {
-							@Override
-							public void onPositive(MaterialDialog dialog) {
-								prefs.edit().clear().commit();
-								File db = getActivity().getDatabasePath(Constants.DATABASE_NAME);
-								StorageHelper.delete(getActivity(), db.getAbsolutePath());
-								File attachmentsDir = StorageHelper.getAttachmentDir(getActivity());
-								StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
-								File cacheDir = StorageHelper.getCacheDir(getActivity());
-								StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
-								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
-							}
-						})
-						.build().show();
+						.onPositive((dialog, which) -> {
+                            prefs.edit().clear().apply();
+                            File db = getActivity().getDatabasePath(Constants.DATABASE_NAME);
+                            StorageHelper.delete(getActivity(), db.getAbsolutePath());
+                            File attachmentsDir = StorageHelper.getAttachmentDir();
+                            StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
+                            File cacheDir = StorageHelper.getCacheDir(getActivity());
+                            StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
+                            SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+                        }).build().show();
 
 				return false;
 			});
 		}
 
+		// Logs on files activation
+		final SwitchPreference enableFileLogging = (SwitchPreference) findPreference(Constants
+				.PREF_ENABLE_FILE_LOGGING);
+		if (enableFileLogging != null) {
+			enableFileLogging.setOnPreferenceChangeListener((preference, newValue) -> {
+				if ((Boolean) newValue) {
+					PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+							.string.permission_external_storage, activity.findViewById(R.id.crouton_handle), () -> enableFileLogging.setChecked(true));
+				} else {
+					enableFileLogging.setChecked(false);
+				}
+				return false;
+			});
+		}
 
 		// Instructions
 		Preference instructions = findPreference("settings_tour_show_again");
@@ -450,15 +543,10 @@ public class SettingsFragment extends PreferenceFragment {
 				new MaterialDialog.Builder(getActivity())
 						.content(getString(R.string.settings_tour_show_again_summary) + "?")
 						.positiveText(R.string.confirm)
-						.callback(new MaterialDialog.ButtonCallback() {
-							@Override
-							public void onPositive(MaterialDialog materialDialog) {
-
-								((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
-
-								prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).commit();
-								SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
-							}
+						.onPositive((dialog, which) -> {
+							((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
+							prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).apply();
+							SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
 						}).build().show();
 				return false;
 			});
@@ -510,9 +598,10 @@ public class SettingsFragment extends PreferenceFragment {
 
 
 	private void importNotes() {
-		final CharSequence[] backups = StorageHelper.getExternalStoragePublicDir().list();
+		final List<String> backups = asList(StorageHelper.getExternalStoragePublicDir().list());
+		reverse(backups);
 
-		if (backups != null && backups.length == 0) {
+		if (backups.isEmpty()) {
 			((SettingsActivity)getActivity()).showMessage(R.string.no_backups_available, ONStyle.WARN);
 		} else {
 
@@ -520,11 +609,8 @@ public class SettingsFragment extends PreferenceFragment {
 					.title(R.string.data_import_message)
 					.items(backups)
 					.positiveText(R.string.confirm)
-					.callback(new MaterialDialog.ButtonCallback() {
-						@Override
-						public void onPositive(MaterialDialog materialDialog) {
+					.onPositive((dialog, which) -> {
 
-						}
 					}).build();
 
 			// OnShow is overridden to allow long-click on item so user can remove them
@@ -535,7 +621,7 @@ public class SettingsFragment extends PreferenceFragment {
 				lv.setOnItemClickListener((parent, view, position, id) -> {
 
 					// Retrieves backup size
-					File backupDir = StorageHelper.getBackupDir(backups[position].toString());
+					File backupDir = StorageHelper.getBackupDir(backups.get(position));
 					long size = StorageHelper.getSize(backupDir) / 1024;
 					String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
@@ -543,7 +629,7 @@ public class SettingsFragment extends PreferenceFragment {
 					String prefName = StorageHelper.getSharedPreferencesFile(getActivity()).getName();
 					boolean hasPreferences = (new File(backupDir, prefName)).exists();
 
-					String message = backups[position]
+					String message = backups.get(position)
 							+ " (" + sizeString
 							+ (hasPreferences ? " " + getString(R.string.settings_included) : "")
 							+ ")";
@@ -552,23 +638,19 @@ public class SettingsFragment extends PreferenceFragment {
 							.title(R.string.confirm_restoring_backup)
 							.content(message)
 							.positiveText(R.string.confirm)
-							.callback(new MaterialDialog.ButtonCallback() {
-								@Override
-								public void onPositive(MaterialDialog materialDialog) {
+							.onPositive((dialog1, which) -> {
+								((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+										"settings_import_data");
 
-									((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
-											"settings_import_data");
+								importDialog.dismiss();
 
-									importDialog.dismiss();
-
-									// An IntentService will be launched to accomplish the import task
-									Intent service = new Intent(getActivity(),
-											DataBackupIntentService.class);
-									service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
-									service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-											backups[position]);
-									getActivity().startService(service);
-								}
+								// An IntentService will be launched to accomplish the import task
+								Intent service = new Intent(getActivity(),
+										DataBackupIntentService.class);
+								service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
+								service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
+										backups.get(position));
+								getActivity().startService(service);
 							}).build().show();
 				});
 
@@ -576,26 +658,23 @@ public class SettingsFragment extends PreferenceFragment {
 				lv.setOnItemLongClickListener((parent, view, position, id) -> {
 
 					// Retrieves backup size
-					File backupDir = StorageHelper.getBackupDir(backups[position].toString());
+					File backupDir = StorageHelper.getBackupDir(backups.get(position));
 					long size = StorageHelper.getSize(backupDir) / 1024;
 					String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
 					new MaterialDialog.Builder(getActivity())
 							.title(R.string.confirm_removing_backup)
-							.content(backups[position] + "" + " (" + sizeString + ")")
+							.content(backups.get(position) + "" + " (" + sizeString + ")")
 							.positiveText(R.string.confirm)
-							.callback(new MaterialDialog.ButtonCallback() {
-								@Override
-								public void onPositive(MaterialDialog materialDialog) {
-									importDialog.dismiss();
-									// An IntentService will be launched to accomplish the deletion task
-									Intent service = new Intent(getActivity(),
-											DataBackupIntentService.class);
-									service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
-									service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-											backups[position]);
-									getActivity().startService(service);
-								}
+							.onPositive((dialog12, which) -> {
+								importDialog.dismiss();
+								// An IntentService will be launched to accomplish the deletion task
+								Intent service = new Intent(getActivity(),
+										DataBackupIntentService.class);
+								service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
+								service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
+										backups.get(position));
+								getActivity().startService(service);
 							}).build().show();
 
 					return true;
@@ -608,21 +687,30 @@ public class SettingsFragment extends PreferenceFragment {
 
 
 	private void export(View v) {
-		final List<String> backups = Arrays.asList(StorageHelper.getExternalStoragePublicDir().list());
+		final List<String> backups = asList(StorageHelper.getExternalStoragePublicDir().list());
 
 		// Sets default export file name
 		SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EXPORT);
 		String fileName = sdf.format(Calendar.getInstance().getTime());
-		final EditText fileNameEditText = (EditText) v.findViewById(R.id.export_file_name);
-		final TextView backupExistingTextView = (TextView) v.findViewById(R.id.backup_existing);
+		final EditText fileNameEditText = v.findViewById(R.id.export_file_name);
+		final TextView backupExistingTextView = v.findViewById(R.id.backup_existing);
 		fileNameEditText.setHint(fileName);
 		fileNameEditText.addTextChangedListener(new TextWatcher() {
 			@Override
-			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+			public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+			}
+
+
 			@Override
-			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {}
+			public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+
+			}
+
+
 			@Override
 			public void afterTextChanged(Editable arg0) {
+
 				if (backups.contains(arg0.toString())) {
 					backupExistingTextView.setText(R.string.backup_existing);
 				} else {
@@ -635,18 +723,11 @@ public class SettingsFragment extends PreferenceFragment {
 				.title(R.string.data_export_message)
 				.customView(v, false)
 				.positiveText(R.string.confirm)
-				.callback(new MaterialDialog.ButtonCallback() {
-					@Override
-					public void onPositive(MaterialDialog materialDialog) {
-						((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
-						// An IntentService will be launched to accomplish the export task
-						Intent service = new Intent(getActivity(), DataBackupIntentService.class);
-						service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
-						String backupName = StringUtils.isEmpty(fileNameEditText.getText().toString()) ?
-								fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();
-						service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupName);
-						getActivity().startService(service);
-					}
+				.onPositive((dialog, which) -> {
+					((OmniNotes)getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
+					String backupName = StringUtils.isEmpty(fileNameEditText.getText().toString()) ?
+							fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();
+					BackupHelper.startBackupService(backupName);
 				}).build().show();
 	}
 
@@ -667,8 +748,8 @@ public class SettingsFragment extends PreferenceFragment {
 					String path = FileHelper.getPath(getActivity(), filesUri);
 					// An IntentService will be launched to accomplish the import task
 					Intent service = new Intent(getActivity(), DataBackupIntentService.class);
-					service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_SPRINGPAD);
-					service.putExtra(DataBackupIntentService.EXTRA_SPRINGPAD_BACKUP, path);
+					service.setAction(SpringImportHelper.ACTION_DATA_IMPORT_SPRINGPAD);
+					service.putExtra(SpringImportHelper.EXTRA_SPRINGPAD_BACKUP, path);
 					getActivity().startService(service);
 					break;
 
@@ -679,7 +760,7 @@ public class SettingsFragment extends PreferenceFragment {
 					break;
 
 				default:
-					Log.e(Constants.TAG, "Wrong element choosen: " + requestCode);
+					LogDelegate.e("Wrong element choosen: " + requestCode);
 			}
 		}
 	}

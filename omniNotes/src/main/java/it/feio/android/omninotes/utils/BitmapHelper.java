@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,12 +20,20 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
-import android.provider.MediaStore.Images.Thumbnails;
 import android.text.TextUtils;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+import org.apache.commons.io.FilenameUtils;
+
+import java.util.concurrent.ExecutionException;
+
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.simplegallery.util.BitmapUtils;
-import org.apache.commons.io.FilenameUtils;
 
 
 public class BitmapHelper {
@@ -38,31 +46,20 @@ public class BitmapHelper {
         String path;
         mAttachment.getUri().getPath();
 
-        // Video
-        if (Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
-            // Tries to retrieve full path from ContentResolver if is a new video
-            path = StorageHelper.getRealPathFromURI(mContext, mAttachment.getUri());
-            // .. or directly from local directory otherwise
-            if (path == null) {
-                path = FileHelper.getPath(mContext, mAttachment.getUri());
-            }
-            bmp = ThumbnailUtils.createVideoThumbnail(path, Thumbnails.MINI_KIND);
-            if (bmp == null) {
-                return null;
-            } else {
-                bmp = BitmapUtils.createVideoThumbnail(mContext, bmp, width, height);
-            }
+		// Video or image
+		if (AttachmentsHelper.typeOf(mAttachment, Constants.MIME_TYPE_VIDEO, Constants.MIME_TYPE_IMAGE, Constants.MIME_TYPE_SKETCH)) {
+			try {
+				bmp = Glide.with(OmniNotes.getAppContext()).asBitmap()
+						.apply(new RequestOptions()
+								.centerCrop()
+								.error(R.drawable.attachment_broken))
+						.load(mAttachment.getUri())
+						.submit(width, height).get();
+			} catch (NullPointerException | InterruptedException | ExecutionException e) {
+				bmp = null;
+			}
 
-		// Image
-        } else if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
-                || Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())) {
-            try {
-                bmp = BitmapUtils.getThumbnail(mContext, mAttachment.getUri(), width, height);
-            } catch (NullPointerException e) {
-                bmp = null;
-            }
-
-		// Audio
+			// Audio
         } else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
             bmp = ThumbnailUtils.extractThumbnail(
                     BitmapUtils.decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R

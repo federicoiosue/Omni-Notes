@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,9 +17,7 @@
 package it.feio.android.omninotes.utils.date;
 
 import android.content.Context;
-import android.util.Log;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.utils.Constants;
+
 import org.apache.commons.lang.StringUtils;
 import org.ocpsoft.prettytime.PrettyTime;
 
@@ -28,6 +26,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.utils.Constants;
 
 
 /**
@@ -57,10 +59,10 @@ public class DateUtils {
         try {
             cal.setTime(sdf.parse(str));
         } catch (ParseException e) {
-            Log.e(Constants.TAG, "Malformed datetime string" + e.getMessage());
+            LogDelegate.e("Malformed datetime string" + e.getMessage());
 
         } catch (NullPointerException e) {
-            Log.e(Constants.TAG, "Date or time not set");
+            LogDelegate.e("Date or time not set");
         }
         return cal;
     }
@@ -76,7 +78,7 @@ public class DateUtils {
             cDate.setTime(sdfDate.parse(date));
             cTime.setTime(sdfTime.parse(time));
         } catch (ParseException e) {
-            Log.e(Constants.TAG, "Date or time parsing error: " + e.getMessage());
+            LogDelegate.e("Date or time parsing error: " + e.getMessage());
         }
         cal.set(Calendar.YEAR, cDate.get(Calendar.YEAR));
         cal.set(Calendar.MONTH, cDate.get(Calendar.MONTH));
@@ -109,7 +111,7 @@ public class DateUtils {
             try {
                 date = sdf.parse(dateString);
             } catch (ParseException e1) {
-                Log.e(Constants.TAG, "String is not formattable into date");
+                LogDelegate.e("String is not formattable into date");
             }
         }
 
@@ -154,9 +156,9 @@ public class DateUtils {
 	 * @param currentReminder
 	 * @return
 	 */
-	public static long getPresetReminder(long currentReminder) {
+	public static long getPresetReminder(Long currentReminder) {
 		long now = Calendar.getInstance().getTimeInMillis();
-		return now > currentReminder ? getNextMinute() : currentReminder;
+		return currentReminder != null && currentReminder > now ? currentReminder : getNextMinute();
 	}
 
     public static Long getPresetReminder(String alarm) {
@@ -174,12 +176,8 @@ public class DateUtils {
     /**
      * Checks if a epoch-date timestamp is in the future
      */
-    public static boolean isFuture(long timestamp) {
-        try {
-            return timestamp >  Calendar.getInstance().getTimeInMillis();
-        } catch (Exception e) {
-            return false;
-        }
+    public static boolean isFuture(Long timestamp) {
+        return timestamp != null && timestamp >  Calendar.getInstance().getTimeInMillis();
     }
 
 	public static String prettyTime(String timeInMillisec) {

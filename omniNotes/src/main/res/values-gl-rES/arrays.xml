@@ -17,46 +17,46 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string-array name="navigation_list">
-    <item>Notas</item>
-    <item>Arquivo</item>
-    <item>Recordatorios</item>
-    <item>Papeleira</item>
-    <item>Sen categoría</item>
-  </string-array>
-  <string-array name="sortable_columns_human_readable">
-    <item>Título</item>
-    <item>Data de creación</item>
-    <item>Data da última modificación</item>
-    <item>Data de recordatorio</item>
-  </string-array>
-  <string-array name="checked_items_behavior">
-    <item>Manter a posición</item>
-    <item>Mover ao final de todos os ítems</item>
-    <item>Mover aos inmediatemente despois dos non marcados</item>
-  </string-array>
-  <string-array name="colors_app">
-    <item>Desactivado</item>
-    <item>Só uns pequenos marcadores</item>
-    <item>Só listaxe de notas</item>
-    <item>Completo</item>
-  </string-array>
-  <string-array name="colors_widget">
-    <item>Desactivado</item>
-    <item>Só uns pequenos marcadores</item>
-    <item>Listaxe de notas</item>
-  </string-array>
-  <string-array name="text_size">
-    <item>Moi pequeno</item>
-    <item>Pequeno</item>
-    <item>Predefinido</item>
-    <item>Grande</item>
-    <item>Moi grande</item>
-  </string-array>
-  <string-array name="attachments_actions">
-    <item>Compartir</item>
-    <item>Eliminar</item>
-    <item>Eliminar todo</item>
-    <item>Editar</item>
-  </string-array>
+    <string-array name="navigation_list">
+        <item>Notas</item>
+        <item>Arquivo</item>
+        <item>Recordatorios</item>
+        <item>Papeleira</item>
+        <item>Sen categoría</item>
+    </string-array>
+    <string-array name="sortable_columns_human_readable">
+        <item>Título</item>
+        <item>Data de creación</item>
+        <item>Data da última modificación</item>
+        <item>Data de recordatorio</item>
+    </string-array>
+    <string-array name="checked_items_behavior">
+        <item>Manter a posición</item>
+        <item>Mover ao final de todos os ítems</item>
+        <item>Mover aos inmediatemente despois dos non marcados</item>
+    </string-array>
+    <string-array name="colors_app">
+        <item>Desactivado</item>
+        <item>Só uns pequenos marcadores</item>
+        <item>Só listaxe de notas</item>
+        <item>Completo</item>
+    </string-array>
+    <string-array name="colors_widget">
+        <item>Desactivado</item>
+        <item>Só uns pequenos marcadores</item>
+        <item>Listaxe de notas</item>
+    </string-array>
+    <string-array name="text_size">
+        <item>Moi pequeno</item>
+        <item>Pequeno</item>
+        <item>Predefinido</item>
+        <item>Grande</item>
+        <item>Moi grande</item>
+    </string-array>
+    <string-array name="attachments_actions">
+        <item>Compartir</item>
+        <item>Eliminar</item>
+        <item>Eliminar todo</item>
+        <item>Editar</item>
+    </string-array>
 </resources>

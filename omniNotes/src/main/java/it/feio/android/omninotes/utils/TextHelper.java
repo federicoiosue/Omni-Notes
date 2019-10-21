@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -132,12 +132,11 @@ public class TextHelper {
 						(), prefs.getBoolean(Constants.PREF_PRETTIFIED_DATES, true));
 				break;
             case DbHelper.KEY_REMINDER:
-				String noteReminder = note.getAlarm();
-				if (TextUtils.isEmpty(noteReminder)) {
+				if (note.getAlarm() == null) {
 					dateText = mContext.getString(R.string.no_reminder_set);
 				} else {
 					dateText = mContext.getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(mContext,
-							Long.parseLong(noteReminder));
+                            Long.parseLong(note.getAlarm()));
 				}
 				break;
             default:

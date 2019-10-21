@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,22 +19,19 @@ package it.feio.android.omninotes.receiver;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+
 import it.feio.android.omninotes.async.AlarmRestoreOnRebootService;
-import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.helpers.LogDelegate;
 
 
 public class BootCompleteReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context ctx, Intent intent) {
-        Log.i(Constants.TAG, "System rebooted: refreshing reminders");
-
-        if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
-            Intent service = new Intent(ctx, AlarmRestoreOnRebootService.class);
-            ctx.startService(service);
+        LogDelegate.i("System rebooted: refreshing reminders");
+        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
+            AlarmRestoreOnRebootService.enqueueWork(ctx, intent);
         }
-
     }
 
 
