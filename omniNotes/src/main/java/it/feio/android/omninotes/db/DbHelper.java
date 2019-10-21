@@ -125,7 +125,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
   public static synchronized DbHelper getInstance (boolean forcedNewInstance) {
     if (instance == null || forcedNewInstance) {
-      Context context = instance.mContext == null ? OmniNotes.getAppContext() : instance.mContext;
+      Context context = (instance == null || instance.mContext == null) ? OmniNotes.getAppContext() : instance.mContext;
       instance = new DbHelper(context);
     }
     return instance;
@@ -202,7 +202,7 @@ public class DbHelper extends SQLiteOpenHelper {
   public Note updateNote (Note note, boolean updateLastModification) {
     db = getDatabase(true);
 
-    String content = note.isLocked()
+    String content = Boolean.TRUE.equals(note.isLocked())
         ? Security.encrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, ""))
         : note.getContent();
 
@@ -256,7 +256,7 @@ public class DbHelper extends SQLiteOpenHelper {
   }
 
 
-  protected void execSqlFile (String sqlFile, SQLiteDatabase db) throws SQLException, IOException {
+  private void execSqlFile (String sqlFile, SQLiteDatabase db) throws SQLException, IOException {
     LogDelegate.i("  exec sql file: {}" + sqlFile);
     for (String sqlInstruction : SqlParser.parseSqlFile(SQL_DIR + "/" + sqlFile, mContext.getAssets())) {
       LogDelegate.v("    sql: {}" + sqlInstruction);
@@ -313,7 +313,7 @@ public class DbHelper extends SQLiteOpenHelper {
    */
   public List<Note> getAllNotes (Boolean checkNavigation) {
     String whereCondition = "";
-    if (checkNavigation) {
+    if (Boolean.TRUE.equals(checkNavigation)) {
       int navigation = Navigation.getNavigation();
       switch (navigation) {
         case Navigation.NOTES:
@@ -377,24 +377,25 @@ public class DbHelper extends SQLiteOpenHelper {
   public List<Note> getNotes (String whereCondition, boolean order) {
     List<Note> noteList = new ArrayList<>();
 
-    String sort_column, sort_order = "";
+    String sortColumn = "";
+    String sortOrder = "";
 
     // Getting sorting criteria from preferences. Reminder screen forces sorting.
     if (Navigation.checkNavigation(Navigation.REMINDERS)) {
-      sort_column = KEY_REMINDER;
+      sortColumn = KEY_REMINDER;
     } else {
-      sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, KEY_TITLE);
+      sortColumn = prefs.getString(Constants.PREF_SORTING_COLUMN, KEY_TITLE);
     }
     if (order) {
-      sort_order = KEY_TITLE.equals(sort_column) || KEY_REMINDER.equals(sort_column) ? " ASC " : " DESC ";
+      sortOrder = KEY_TITLE.equals(sortColumn) || KEY_REMINDER.equals(sortColumn) ? " ASC " : " DESC ";
     }
 
     // In case of title sorting criteria it must be handled empty title by concatenating content
-    sort_column = KEY_TITLE.equals(sort_column) ? KEY_TITLE + "||" + KEY_CONTENT : sort_column;
+    sortColumn = KEY_TITLE.equals(sortColumn) ? KEY_TITLE + "||" + KEY_CONTENT : sortColumn;
 
     // In case of reminder sorting criteria the empty reminder notes must be moved on bottom of results
-    sort_column = KEY_REMINDER.equals(sort_column) ? "IFNULL(" + KEY_REMINDER + ", " +
-        "" + Constants.TIMESTAMP_UNIX_EPOCH + ")" : sort_column;
+    sortColumn = KEY_REMINDER.equals(sortColumn) ? "IFNULL(" + KEY_REMINDER + ", " +
+        "" + Constants.TIMESTAMP_UNIX_EPOCH + ")" : sortColumn;
 
     // Generic query to be specialized with conditions passed as parameter
     String query = "SELECT "
@@ -419,15 +420,12 @@ public class DbHelper extends SQLiteOpenHelper {
         + " FROM " + TABLE_NOTES
         + " LEFT JOIN " + TABLE_CATEGORY + " USING( " + KEY_CATEGORY + ") "
         + whereCondition
-        + (order ? " ORDER BY " + sort_column + " COLLATE NOCASE " + sort_order : "");
+        + (order ? " ORDER BY " + sortColumn + " COLLATE NOCASE " + sortOrder : "");
 
     LogDelegate.v("Query: " + query);
 
-    Cursor cursor = null;
-    try {
-      cursor = getDatabase().rawQuery(query, null);
+    try (Cursor cursor = getDatabase().rawQuery(query, null)) {
 
-      // Looping through all rows and adding to list
       if (cursor.moveToFirst()) {
         do {
           int i = 0;
@@ -448,9 +446,8 @@ public class DbHelper extends SQLiteOpenHelper {
           note.setChecklist("1".equals(cursor.getString(i++)));
 
           // Eventual decryption of content
-          if (note.isLocked()) {
-            note.setContent(Security.decrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD,
-                "")));
+          if (Boolean.TRUE.equals(note.isLocked())) {
+            note.setContent(Security.decrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, "")));
           }
 
           // Set category
@@ -470,10 +467,6 @@ public class DbHelper extends SQLiteOpenHelper {
         } while (cursor.moveToNext());
       }
 
-    } finally {
-      if (cursor != null) {
-        cursor.close();
-      }
     }
 
     LogDelegate.v("Query: Retrieval finished!");
@@ -913,20 +906,13 @@ public class DbHelper extends SQLiteOpenHelper {
         + " FROM " + TABLE_CATEGORY
         + " WHERE " + KEY_CATEGORY_ID + " = " + id;
 
-    Cursor cursor = null;
-    try {
-      cursor = getDatabase().rawQuery(sql, null);
+    try (Cursor cursor = getDatabase().rawQuery(sql, null)) {
 
-      // Looping through all rows and adding to list
       if (cursor.moveToFirst()) {
         category = new Category(cursor.getLong(0), cursor.getString(1),
             cursor.getString(2), cursor.getString(3));
       }
 
-    } finally {
-      if (cursor != null) {
-        cursor.close();
-      }
     }
     return category;
   }
@@ -938,18 +924,9 @@ public class DbHelper extends SQLiteOpenHelper {
         + " FROM " + TABLE_NOTES
         + " WHERE " + KEY_CATEGORY + " = " + category.getId();
 
-    Cursor cursor = null;
-    try {
-      cursor = getDatabase().rawQuery(sql, null);
-
-      // Looping through all rows and adding to list
+    try (Cursor cursor = getDatabase().rawQuery(sql, null)) {
       if (cursor.moveToFirst()) {
         count = cursor.getInt(0);
-      }
-
-    } finally {
-      if (cursor != null) {
-        cursor.close();
       }
     }
     return count;
@@ -966,10 +943,23 @@ public class DbHelper extends SQLiteOpenHelper {
     mStats.setCategories(getCategories().size());
 
     // Everything about notes and their text stats
-    int notesActive = 0, notesArchived = 0, notesTrashed = 0, reminders = 0, remindersFuture = 0, checklists = 0,
-        notesMasked = 0, tags = 0, locations = 0;
-    int totalWords = 0, totalChars = 0, maxWords = 0, maxChars = 0, avgWords = 0, avgChars = 0;
-    int words, chars;
+    int notesActive = 0;
+    int notesArchived = 0;
+    int notesTrashed = 0;
+    int reminders = 0;
+    int remindersFuture = 0;
+    int checklists = 0;
+    int notesMasked = 0;
+    int tags = 0;
+    int locations = 0;
+    int totalWords = 0;
+    int totalChars = 0;
+    int maxWords = 0;
+    int maxChars = 0;
+    int avgWords;
+    int avgChars;
+    int words;
+    int chars;
     List<Note> notes = getAllNotes(false);
     for (Note note : notes) {
       if (note.isTrashed()) {
@@ -1016,8 +1006,8 @@ public class DbHelper extends SQLiteOpenHelper {
     mStats.setNotesMasked(notesMasked);
     mStats.setTags(tags);
     mStats.setLocation(locations);
-    avgWords = totalWords / (notes.size() != 0 ? notes.size() : 1);
-    avgChars = totalChars / (notes.size() != 0 ? notes.size() : 1);
+    avgWords = totalWords / (!notes.isEmpty() ? notes.size() : 1);
+    avgChars = totalChars / (!notes.isEmpty() ? notes.size() : 1);
 
     mStats.setWords(totalWords);
     mStats.setWordsMax(maxWords);
@@ -1027,7 +1017,13 @@ public class DbHelper extends SQLiteOpenHelper {
     mStats.setCharsAvg(avgChars);
 
     // Everything about attachments
-    int attachmentsAll = 0, images = 0, videos = 0, audioRecordings = 0, sketches = 0, files = 0;
+    int attachmentsAll = 0;
+    int images = 0;
+    int videos = 0;
+    int audioRecordings = 0;
+    int sketches = 0;
+    int files = 0;
+
     List<Attachment> attachments = getAllAttachments();
     for (Attachment attachment : attachments) {
       if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
