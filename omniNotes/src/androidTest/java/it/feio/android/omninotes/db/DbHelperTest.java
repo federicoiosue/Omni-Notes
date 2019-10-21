@@ -17,6 +17,8 @@
 
 package it.feio.android.omninotes.db;
 
+import static org.junit.Assert.assertEquals;
+
 import android.support.test.runner.AndroidJUnit4;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.models.Note;

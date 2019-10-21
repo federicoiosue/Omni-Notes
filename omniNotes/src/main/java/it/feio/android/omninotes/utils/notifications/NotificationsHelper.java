@@ -54,14 +54,13 @@ public class NotificationsHelper {
      */
     @TargetApi(Build.VERSION_CODES.O)
     public void initNotificationChannels() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return;
-        }
-        for (it.feio.android.omninotes.utils.notifications.NotificationChannel notificationChannel : NotificationChannels.getChannels()) {
-            NotificationChannel channel = new NotificationChannel(notificationChannel.name, notificationChannel
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            for (it.feio.android.omninotes.utils.notifications.NotificationChannel notificationChannel : NotificationChannels.getChannels()) {
+                NotificationChannel channel = new NotificationChannel(notificationChannel.name, notificationChannel
                     .name, notificationChannel.importance);
-            channel.setDescription(notificationChannel.description);
-            mNotificationManager.createNotificationChannel(channel);
+                channel.setDescription(notificationChannel.description);
+                mNotificationManager.createNotificationChannel(channel);
+            }
         }
     }
 

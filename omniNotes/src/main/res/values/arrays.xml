@@ -153,6 +153,7 @@
         <item>Polszczyzna (Polish)</item>
         <item>Português (Portuguese Brazil)</item>
         <item>Português (Portuguese Portugal)</item>
+        <item>Românește (Romanian)</item>
         <item>Русский (Russian)</item>
         <item>Српски (Serbian Cyrillic)</item>
         <item>Slovenčina (Slovak)</item>
@@ -192,6 +193,7 @@
         <item>pl_PL</item>
         <item>pt_BR</item>
         <item>pt_PT</item>
+        <item>ro_RO</item>
         <item>ru_RU</item>
         <item>sr_SP</item>
         <item>sk_SK</item>

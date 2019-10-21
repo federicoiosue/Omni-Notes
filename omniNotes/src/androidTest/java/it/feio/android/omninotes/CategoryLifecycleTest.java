@@ -25,9 +25,9 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Build;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 import android.support.v7.widget.AppCompatImageView;
-import android.test.suitebuilder.annotation.LargeTest;
 import android.view.View;
 
 import org.hamcrest.Description;

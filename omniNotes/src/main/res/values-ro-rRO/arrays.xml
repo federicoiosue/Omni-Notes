@@ -18,45 +18,45 @@
   -->
 <resources>
     <string-array name="navigation_list">
-        <item>Notas</item>
-        <item>Arquivo</item>
-        <item>Recordatorios</item>
-        <item>Papeleira</item>
-        <item>Sen categoría</item>
+        <item>Note</item>
+        <item>Arhivă</item>
+        <item>Mementouri</item>
+        <item>Coş de gunoi</item>
+        <item>Necategorisite</item>
     </string-array>
     <string-array name="sortable_columns_human_readable">
-        <item>Título</item>
-        <item>Data de creación</item>
-        <item>Data da última modificación</item>
-        <item>Data de recordatorio</item>
+        <item>Titlu</item>
+        <item>Data creării</item>
+        <item>Data ultimei modificări</item>
+        <item>Dată memento</item>
     </string-array>
     <string-array name="checked_items_behavior">
-        <item>Manter a posición</item>
-        <item>Mover ao final de todos os ítems</item>
-        <item>Mover aos inmediatemente despois dos non marcados</item>
+        <item>Menține poziția</item>
+        <item>Mută la sfârșitul listei</item>
+        <item>Mută la sfârșitul elementelor nemarcate ca finalizate</item>
     </string-array>
     <string-array name="colors_app">
-        <item>Desactivado</item>
-        <item>Só uns pequenos marcadores</item>
-        <item>Só listaxe de notas</item>
-        <item>Completo</item>
+        <item>Dezactivate</item>
+        <item>Doar bandă colorata</item>
+        <item>Doar lista de note</item>
+        <item>Complete</item>
     </string-array>
     <string-array name="colors_widget">
-        <item>Desactivado</item>
-        <item>Só uns pequenos marcadores</item>
-        <item>Listaxe de notas</item>
+        <item>Dezactivate</item>
+        <item>Doar bandă colorata</item>
+        <item>Listă de note</item>
     </string-array>
     <string-array name="text_size">
-        <item>Moi pequeno</item>
-        <item>Pequeno</item>
-        <item>Predefinido</item>
-        <item>Grande</item>
-        <item>Moi grande</item>
+        <item>Cel mai mic</item>
+        <item>Mic</item>
+        <item>Implicit</item>
+        <item>Mare</item>
+        <item>Cel mai mare</item>
     </string-array>
     <string-array name="attachments_actions">
-        <item>Compartir</item>
-        <item>Eliminar</item>
-        <item>Eliminar todo</item>
-        <item>Editar</item>
+        <item>Distribuie</item>
+        <item>Șterge</item>
+        <item>Șterge toate</item>
+        <item>Editează</item>
     </string-array>
 </resources>

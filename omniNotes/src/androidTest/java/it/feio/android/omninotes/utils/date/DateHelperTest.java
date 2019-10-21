@@ -17,14 +17,13 @@
 
 package it.feio.android.omninotes.utils.date;
 
-import android.test.InstrumentationTestCase;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import org.junit.Assert;
 
 import java.util.Calendar;
 
 
-public class DateHelperTest extends InstrumentationTestCase {
+public class DateHelperTest {
 
 	private int TEN_MINUTES = 10 * 60 * 1000;
 	private int MILLISEC_TO_HOURS_RATIO = 60 * 60 * 1000;

@@ -17,29 +17,29 @@
 
 package it.feio.android.omninotes.utils;
 
-import android.test.InstrumentationTestCase;
-import android.test.suitebuilder.annotation.Suppress;
-
+import android.support.test.filters.Suppress;
+import android.support.test.runner.AndroidJUnit4;
+import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.OmniNotes;
+import java.io.IOException;
 import org.junit.Assert;
 import org.junit.Ignore;
 import org.junit.Test;
-
-import java.io.IOException;
-
-import it.feio.android.omninotes.OmniNotes;
+import org.junit.runner.RunWith;
 
 
 @Ignore("Unreliable Genymotion emulator results")
-public class GeocodeHelperTest extends InstrumentationTestCase {
+@RunWith(AndroidJUnit4.class)
+public class GeocodeHelperTest extends BaseAndroidTestCase {
 
-    @Test
-	@Suppress
-    public void testGetAddressFromCoordinates() throws IOException {
-        if (ConnectionManager.internetAvailable(OmniNotes.getAppContext())) {
-            Double LAT = 43.799328;
-            Double LON = 11.171552;
-            String address = GeocodeHelper.getAddressFromCoordinates(OmniNotes.getAppContext(), LAT, LON);
-            Assert.assertTrue(address.length() > 0);
-        }
+  @Test
+  @Suppress
+  public void testGetAddressFromCoordinates() throws IOException {
+    if (ConnectionManager.internetAvailable(OmniNotes.getAppContext())) {
+      Double LAT = 43.799328;
+      Double LON = 11.171552;
+      String address = GeocodeHelper.getAddressFromCoordinates(OmniNotes.getAppContext(), LAT, LON);
+      Assert.assertTrue(address.length() > 0);
     }
+  }
 }

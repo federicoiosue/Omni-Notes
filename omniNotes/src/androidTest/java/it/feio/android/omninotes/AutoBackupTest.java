@@ -1,8 +1,8 @@
 package it.feio.android.omninotes;
 
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
 
 import org.apache.commons.io.FileUtils;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
@@ -37,6 +37,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @Ignore("Ignored until merging autobackup feature branch")
 @LargeTest
@@ -51,9 +54,7 @@ public class AutoBackupTest extends BaseEspressoTest {
     }
 
     @After
-    @Override
     public void tearDown() throws Exception {
-        super.tearDown();
         File backupFolder = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
         FileUtils.deleteDirectory(backupFolder);
     }

@@ -18,6 +18,25 @@
 <changelog bulletedList="true">
 
     <changelogversion
+      changeDate="Oct 4, 2019"
+      versionName="6.0.0">
+        <changelogtext>[b]New![/b] New backup mode using JSON - [b]WARNING:[/b] older backups can still be restored with "legacy" restore option
+        </changelogtext>
+        <changelogtext>[b]New![/b] Added an option to create logs on backups directory to share them
+        with developer to investigate possible problems</changelogtext>
+        <changelogtext>[b]New![/b] Moved to SDK 27 to include framework fixed and improvements</changelogtext>
+        <changelogtext>[b]New![/b] Added finnish translation (thanks to Arttu Ylhävuori) and Romanian (thanks to Alexandru Balmus)</changelogtext>
+        <changelogtext>[i]Improved![/i] Much faster images loading</changelogtext>
+        <changelogtext>[i]Improved![/i] Easily recognizable shortcut widget</changelogtext>
+        <changelogtext>[i]Improved![/i] Translations additions</changelogtext>
+        <changelogtext>[i]Improved![/i] Backup notification contains now missing attachments number</changelogtext>
+        <changelogtext>[i]Improved![/i] When their reminder is fired notes are pulled out of the archive</changelogtext>
+        <changelogtext>[i]Improved![/i] Merging notes result will keep archived status and category of first note selected</changelogtext>
+        <changelogtext>[i]Improved![/i] Reversed backups list into restore setting to be in descendant order</changelogtext>
+        <changelogtext>[u]Fix[/u] Tons of fixes</changelogtext>
+    </changelogversion>
+
+    <changelogversion
       changeDate="Aug 9, 2019"
       versionName="6.0.0 Beta 11">
         <changelogtext>[u]Fix[/u] Opening of PDF attachments</changelogtext>
@@ -105,15 +124,22 @@
         <changelogtext>[u]Fix[/u] Broken notifications on Android Oreo and following</changelogtext>
     </changelogversion>
 
-    <changelogversion
-        changeDate="May 25, 2018"
-        versionName="5.5.2">
+    <changelogversion versionName="5.5.4" changeDate="Sep 24, 2019">
+        <changelogtext>[u]Fix[/u] Sharing notes with attachments</changelogtext>
+        <changelogtext>[u]Fix[/u] Location retrieval on some devices</changelogtext>
+        <changelogtext>[u]Fix[/u] Categories list build on navigation panel</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="5.5.3" changeDate="Jul 23, 2019">
+        <changelogtext>[u]Fix[/u] Taking pictures from camera</changelogtext>
+        <changelogtext>[u]Fix[/u] Fixed backup/restore on Android Pie</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="5.5.2" changeDate="May 25, 2018">
         <changelogtext>[u]Fix[/u] Various minor fixes</changelogtext>
     </changelogversion>
 
-    <changelogversion
-        changeDate="May 11, 2018"
-        versionName="5.5.1">
+    <changelogversion versionName="5.5.1" changeDate="May 11, 2018">
         <changelogtext>[i]Improved![/i] Updated translations</changelogtext>
         <changelogtext>[u]Fix[/u] Attachments' dialog opening on Kitkat</changelogtext>
     </changelogversion>

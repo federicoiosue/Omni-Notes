@@ -736,13 +736,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		// Click events for images in gridview (zooms image)
 		mGridView.setOnItemClickListener((parent, v, position, id) -> {
 			Attachment attachment = (Attachment) parent.getAdapter().getItem(position);
-			Uri uri = attachment.getUri();
+			Uri sharableUri = FileProviderHelper.getShareableUri(attachment);
 			Intent attachmentIntent;
 			if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
 
 				attachmentIntent = new Intent(Intent.ACTION_VIEW);
-				attachmentIntent.setDataAndType(uri, StorageHelper.getMimeType(mainActivity,
-						FileProviderHelper.getShareableUri(attachment)));
+				attachmentIntent.setDataAndType(sharableUri, StorageHelper.getMimeType(mainActivity,
+						sharableUri));
 				attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
 						.FLAG_GRANT_WRITE_URI_PERMISSION);
 				if (IntentChecker.isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
@@ -1007,7 +1007,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 			menu.findItem(R.id.menu_delete).setVisible(true);
 			// Otherwise all other actions will be available
 		} else {
-			menu.findItem(R.id.menu_add_shortcut).setVisible(!newNote);
+			// Temporary removed until fixed on Oreo and following
+//			menu.findItem(R.id.menu_add_shortcut).setVisible(!newNote);
 			menu.findItem(R.id.menu_archive).setVisible(!newNote && !noteTmp.isArchived());
 			menu.findItem(R.id.menu_unarchive).setVisible(!newNote && noteTmp.isArchived());
 			menu.findItem(R.id.menu_trash).setVisible(!newNote);
@@ -1449,7 +1450,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 	 * Discards changes done to the note and eventually delete new attachments
 	 */
 	private void discard() {
-		// Checks if some new files have been attached and must be removed
 		if (!noteTmp.getAttachmentsList().equals(note.getAttachmentsList())) {
 			for (Attachment newAttachment : noteTmp.getAttachmentsList()) {
 				if (!note.getAttachmentsList().contains(newAttachment)) {
@@ -1461,11 +1461,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 		goBack = true;
 
 		if (!noteTmp.equals(noteOriginal)) {
-			// Restore original status of the note
-			if (noteOriginal.get_id() == null) {
-				mainActivity.deleteNote(noteTmp);
-				goHome();
-			} else {
+			if (noteOriginal.get_id() != null) {
 				new SaveNoteTask(this, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
 			}
 			MainActivity.notifyAppWidgets(mainActivity);

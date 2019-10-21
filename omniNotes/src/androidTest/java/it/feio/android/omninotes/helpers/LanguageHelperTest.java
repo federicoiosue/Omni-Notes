@@ -17,6 +17,8 @@
 
 package it.feio.android.omninotes.helpers;
 
+import static org.junit.Assert.assertEquals;
+
 import android.content.SharedPreferences;
 import android.support.test.runner.AndroidJUnit4;
 

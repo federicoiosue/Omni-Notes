@@ -17,6 +17,8 @@
 
 package it.feio.android.omninotes.helpers.count;
 
+import static org.junit.Assert.assertEquals;
+
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
