@@ -13,9 +13,9 @@ Note taking <b>open-source</b> application aimed to have both a <b>simple interf
 
 The project was inspired by the absence of such applications compatible with old phones and old versions of Android. It aims to provide an attractive look and follow the most recent design guidelines of the Google operating system.
 
-**Follow the developments and post your comments and advice on Google+ Beta Community at http://goo.gl/eF6qqF**
+**Follow the developments and post your comments and advice on Facebook Community at https://www.facebook.com/OmniNotes**
 
-*Help to keep translations updated is always welcome, if you want give a hand checkout the translation project at [Crowdin][2].*
+*Help to keep translations updated is always welcome, if you want give a hand checkout the translation project on **https://translate.omninotes.app.** *
 
 <a href="https://f-droid.org/repository/browse/?fdid=it.feio.android.omninotes.foss" target="_blank">
 <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"/></a>
@@ -174,6 +174,3 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-[2]: https://crowdin.net/project/omni-notes/
-[2]: https://crowdin.net/project/omni-notes/
