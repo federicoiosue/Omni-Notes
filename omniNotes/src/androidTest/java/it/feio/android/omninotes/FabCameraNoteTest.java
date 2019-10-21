@@ -17,6 +17,18 @@
 
 package it.feio.android.omninotes;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.Espresso.pressBack;
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.intent.Intents.intending;
+import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
@@ -25,68 +37,58 @@ import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.intent.Intents;
-import android.support.test.runner.AndroidJUnit4;
 import android.support.test.filters.LargeTest;
+import android.support.test.runner.AndroidJUnit4;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.utils.Constants;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.Espresso.pressBack;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.intent.Intents.intending;
-import static android.support.test.espresso.intent.matcher.IntentMatchers.hasAction;
-import static android.support.test.espresso.matcher.ViewMatchers.*;
-import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class FabCameraNoteTest extends BaseEspressoTest {
 
-	@Test
-	public void fabCameraNoteTest() {
-		EventBus.getDefault().register(this);
-		Intents.init();
-		Bitmap icon = BitmapFactory.decodeResource(
-				InstrumentationRegistry.getTargetContext().getResources(),
-				R.mipmap.ic_launcher);
+  @Test
+  public void fabCameraNoteTest () {
+    EventBus.getDefault().register(this);
+    Intents.init();
+    Bitmap icon = BitmapFactory.decodeResource(
+        InstrumentationRegistry.getTargetContext().getResources(),
+        R.mipmap.ic_launcher);
 
-		Intent resultData = new Intent();
-		resultData.putExtra("data", icon);
-		Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
+    Intent resultData = new Intent();
+    resultData.putExtra("data", icon);
+    Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
 
-		intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(result);
+    intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(result);
 
-		onView(allOf(withId(R.id.fab_expand_menu_button),
-				childAtPosition(
-						allOf(withId(R.id.fab),
-								childAtPosition(
-										withClassName(is("android.widget.FrameLayout")),
-										2)),
-						3),
-				isDisplayed())).perform(click());
+    onView(allOf(withId(R.id.fab_expand_menu_button),
+        childAtPosition(
+            allOf(withId(R.id.fab),
+                childAtPosition(
+                    withClassName(is("android.widget.FrameLayout")),
+                    2)),
+            3),
+        isDisplayed())).perform(click());
 
-		onView(allOf(withId(R.id.fab_camera),
-				childAtPosition(
-						allOf(withId(R.id.fab),
-								childAtPosition(
-										withClassName(is("android.widget.FrameLayout")),
-										2)),
-						0),
-				isDisplayed())).perform(click());
+    onView(allOf(withId(R.id.fab_camera),
+        childAtPosition(
+            allOf(withId(R.id.fab),
+                childAtPosition(
+                    withClassName(is("android.widget.FrameLayout")),
+                    2)),
+            0),
+        isDisplayed())).perform(click());
 
-		pressBack();
+    pressBack();
 
-	}
+  }
 
-	public void onEvent(NotesUpdatedEvent notesUpdatedEvent) {
-		assertEquals(0, notesUpdatedEvent.notes.get(0).getAttachmentsList().size());
-		assertEquals(Constants.MIME_TYPE_IMAGE, notesUpdatedEvent.notes.get(0).getAttachmentsList().get(0).getMime_type());
-	}
+  public void onEvent (NotesUpdatedEvent notesUpdatedEvent) {
+    assertEquals(0, notesUpdatedEvent.notes.get(0).getAttachmentsList().size());
+    assertEquals(Constants.MIME_TYPE_IMAGE, notesUpdatedEvent.notes.get(0).getAttachmentsList().get(0).getMime_type());
+  }
 
 }

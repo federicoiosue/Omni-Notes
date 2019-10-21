@@ -26,56 +26,56 @@ import it.feio.android.omninotes.R;
 
 public class ONStyle {
 
-    public static final int DURATION_INFINITE = -1;
-    public static final int DURATION_SHORT = 950;
-    public static final int DURATION_MEDIUM = 1650;
-    public static final int DURATION_LONG = 2300;
+  public static final int DURATION_INFINITE = -1;
+  public static final int DURATION_SHORT = 950;
+  public static final int DURATION_MEDIUM = 1650;
+  public static final int DURATION_LONG = 2300;
 
-    public static final Configuration CONFIGURATION;
-    public static final Style ALERT;
-    public static final Style WARN;
-    public static final Style CONFIRM;
-    public static final Style INFO;
+  public static final Configuration CONFIGURATION;
+  public static final Style ALERT;
+  public static final Style WARN;
+  public static final Style CONFIRM;
+  public static final Style INFO;
 
-    public static final int ALERT_COLOR = R.color.alert;
-    public static final int WARN_COLOR = R.color.warning;
-    public static final int CONFIRM_COLOR = R.color.confirm;
-    public static final int INFO_COLOR = R.color.info;
+  public static final int ALERT_COLOR = R.color.alert;
+  public static final int WARN_COLOR = R.color.warning;
+  public static final int CONFIRM_COLOR = R.color.confirm;
+  public static final int INFO_COLOR = R.color.info;
 
 
-    static {
-        CONFIGURATION = new Configuration.Builder()
-                .setDuration(DURATION_SHORT)
-                .setInAnimation(R.animator.fade_in_support)
-                .setOutAnimation(R.animator.fade_out_support)
-                .build();
-        ALERT = new Style.Builder()
-                .setBackgroundColor(ALERT_COLOR)
-                .setHeight(LayoutParams.MATCH_PARENT)
-                .setGravity(Gravity.CENTER)
-                .setTextAppearance(R.style.crouton_text)
-                .setConfiguration(CONFIGURATION)
-                .build();
-        WARN = new Style.Builder()
-                .setBackgroundColor(WARN_COLOR)
-                .setHeight(LayoutParams.MATCH_PARENT)
-                .setGravity(Gravity.CENTER)
-                .setTextAppearance(R.style.crouton_text)
-                .setConfiguration(CONFIGURATION)
-                .build();
-        CONFIRM = new Style.Builder()
-                .setBackgroundColor(CONFIRM_COLOR)
-                .setHeight(LayoutParams.MATCH_PARENT)
-                .setGravity(Gravity.CENTER)
-                .setTextAppearance(R.style.crouton_text)
-                .setConfiguration(CONFIGURATION)
-                .build();
-        INFO = new Style.Builder()
-                .setBackgroundColor(INFO_COLOR)
-                .setHeight(LayoutParams.MATCH_PARENT)
-                .setGravity(Gravity.CENTER)
-                .setTextAppearance(R.style.crouton_text)
-                .setConfiguration(CONFIGURATION)
-                .build();
-    }
+  static {
+    CONFIGURATION = new Configuration.Builder()
+        .setDuration(DURATION_SHORT)
+        .setInAnimation(R.animator.fade_in_support)
+        .setOutAnimation(R.animator.fade_out_support)
+        .build();
+    ALERT = new Style.Builder()
+        .setBackgroundColor(ALERT_COLOR)
+        .setHeight(LayoutParams.MATCH_PARENT)
+        .setGravity(Gravity.CENTER)
+        .setTextAppearance(R.style.crouton_text)
+        .setConfiguration(CONFIGURATION)
+        .build();
+    WARN = new Style.Builder()
+        .setBackgroundColor(WARN_COLOR)
+        .setHeight(LayoutParams.MATCH_PARENT)
+        .setGravity(Gravity.CENTER)
+        .setTextAppearance(R.style.crouton_text)
+        .setConfiguration(CONFIGURATION)
+        .build();
+    CONFIRM = new Style.Builder()
+        .setBackgroundColor(CONFIRM_COLOR)
+        .setHeight(LayoutParams.MATCH_PARENT)
+        .setGravity(Gravity.CENTER)
+        .setTextAppearance(R.style.crouton_text)
+        .setConfiguration(CONFIGURATION)
+        .build();
+    INFO = new Style.Builder()
+        .setBackgroundColor(INFO_COLOR)
+        .setHeight(LayoutParams.MATCH_PARENT)
+        .setGravity(Gravity.CENTER)
+        .setTextAppearance(R.style.crouton_text)
+        .setConfiguration(CONFIGURATION)
+        .build();
+  }
 }

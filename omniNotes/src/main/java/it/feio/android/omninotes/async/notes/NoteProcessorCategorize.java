@@ -17,27 +17,26 @@
 
 package it.feio.android.omninotes.async.notes;
 
-import java.util.List;
-
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
+import java.util.List;
 
 
 public class NoteProcessorCategorize extends NoteProcessor {
 
-    Category category;
+  Category category;
 
 
-    public NoteProcessorCategorize(List<Note> notes, Category category) {
-        super(notes);
-        this.category = category;
-    }
+  public NoteProcessorCategorize (List<Note> notes, Category category) {
+    super(notes);
+    this.category = category;
+  }
 
 
-    @Override
-    protected void processNote(Note note) {
-        note.setCategory(category);
-        DbHelper.getInstance().updateNote(note, false);
-    }
+  @Override
+  protected void processNote (Note note) {
+    note.setCategory(category);
+    DbHelper.getInstance().updateNote(note, false);
+  }
 }

@@ -22,11 +22,11 @@ import it.feio.android.omninotes.models.Note;
 
 public class BaseUnitTest {
 
-    protected Note getNote(Long id, String title, String content) {
-        Note note = new Note();
-        note.set_id(id);
-        note.setTitle(title);
-        note.setContent(content);
-        return note;
-    }
+  protected Note getNote (Long id, String title, String content) {
+    Note note = new Note();
+    note.set_id(id);
+    note.setTitle(title);
+    note.setContent(content);
+    return note;
+  }
 }

@@ -18,21 +18,6 @@
 package it.feio.android.omninotes;
 
 
-import android.Manifest;
-import android.support.test.espresso.ViewInteraction;
-import android.support.test.rule.ActivityTestRule;
-import android.support.test.rule.GrantPermissionRule;
-import android.support.v4.view.GravityCompat;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
-
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
-import org.junit.Before;
-import org.junit.Rule;
-
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -46,90 +31,104 @@ import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
+import android.Manifest;
+import android.support.test.espresso.ViewInteraction;
+import android.support.test.rule.ActivityTestRule;
+import android.support.test.rule.GrantPermissionRule;
+import android.support.v4.view.GravityCompat;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
+import org.junit.Before;
+import org.junit.Rule;
+
 
 public class BaseEspressoTest extends BaseAndroidTestCase {
 
-    @Rule
-    public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.RECORD_AUDIO
-    );
+  @Rule
+  public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
+      Manifest.permission.ACCESS_COARSE_LOCATION,
+      Manifest.permission.READ_EXTERNAL_STORAGE,
+      Manifest.permission.WRITE_EXTERNAL_STORAGE,
+      Manifest.permission.RECORD_AUDIO
+  );
 
-    @Rule
-    public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class, false, false);
+  @Rule
+  public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class, false, false);
 
-    static Matcher<View> childAtPosition(
-            final Matcher<View> parentMatcher, final int position) {
+  static Matcher<View> childAtPosition (
+      final Matcher<View> parentMatcher, final int position) {
 
-        return new TypeSafeMatcher<View>() {
-            @Override
-            public void describeTo(Description description) {
-                description.appendText("Child at position " + position + " in parent ");
-                parentMatcher.describeTo(description);
-            }
+    return new TypeSafeMatcher<View>() {
+      @Override
+      public void describeTo (Description description) {
+        description.appendText("Child at position " + position + " in parent ");
+        parentMatcher.describeTo(description);
+      }
 
 
-            @Override
-            public boolean matchesSafely(View view) {
-                ViewParent parent = view.getParent();
-                return parent instanceof ViewGroup && parentMatcher.matches(parent)
-                        && view.equals(((ViewGroup) parent).getChildAt(position));
-            }
-        };
+      @Override
+      public boolean matchesSafely (View view) {
+        ViewParent parent = view.getParent();
+        return parent instanceof ViewGroup && parentMatcher.matches(parent)
+            && view.equals(((ViewGroup) parent).getChildAt(position));
+      }
+    };
+  }
+
+  @Before
+  public void setUp () throws Exception {
+    activityRule.launchActivity(null);
+  }
+
+  void createNote (String title, String content) {
+    ViewInteraction viewInteraction = onView(
+        allOf(withId(R.id.fab_expand_menu_button),
+            withParent(withId(R.id.fab)),
+            isDisplayed()));
+
+    if (activityRule.getActivity().getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+      viewInteraction.perform(click());
     }
+    viewInteraction.perform(click());
 
-    @Before
-    public void setUp() throws Exception {
-        activityRule.launchActivity(null);
-    }
+    ViewInteraction floatingActionButton = onView(
+        allOf(withId(R.id.fab_note),
+            withParent(withId(R.id.fab)),
+            isDisplayed()));
+    floatingActionButton.perform(click());
 
-    void createNote(String title, String content) {
-        ViewInteraction viewInteraction = onView(
-                allOf(withId(R.id.fab_expand_menu_button),
-                        withParent(withId(R.id.fab)),
-                        isDisplayed()));
+    ViewInteraction editText = onView(
+        allOf(withId(R.id.detail_title),
+            withParent(allOf(withId(R.id.title_wrapper),
+                withParent(withId(R.id.detail_tile_card)))),
+            isDisplayed()));
+    editText.perform(click());
 
-        if (activityRule.getActivity().getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
-            viewInteraction.perform(click());
-        }
-        viewInteraction.perform(click());
+    onView(allOf(withId(R.id.detail_title),
+        withParent(allOf(withId(R.id.title_wrapper),
+            withParent(withId(R.id.detail_tile_card)))),
+        isDisplayed())).perform(replaceText(title), closeSoftKeyboard());
 
-        ViewInteraction floatingActionButton = onView(
-                allOf(withId(R.id.fab_note),
-                        withParent(withId(R.id.fab)),
-                        isDisplayed()));
-        floatingActionButton.perform(click());
+    onView(withId(R.id.detail_content)).perform(scrollTo(), replaceText(content), closeSoftKeyboard());
 
-        ViewInteraction editText = onView(
-                allOf(withId(R.id.detail_title),
-                        withParent(allOf(withId(R.id.title_wrapper),
-                                withParent(withId(R.id.detail_tile_card)))),
-                        isDisplayed()));
-        editText.perform(click());
+    navigateUp();
+  }
 
-        onView(allOf(withId(R.id.detail_title),
-                withParent(allOf(withId(R.id.title_wrapper),
-                        withParent(withId(R.id.detail_tile_card)))),
-                isDisplayed())).perform(replaceText(title), closeSoftKeyboard());
+  void navigateUp () {
+    onView(allOf(childAtPosition(allOf(withId(R.id.toolbar),
+        childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)
+    ), 0), isDisplayed())).perform(click());
+  }
 
-        onView(withId(R.id.detail_content)).perform(scrollTo(), replaceText(content), closeSoftKeyboard());
-
-        navigateUp();
-    }
-
-    void navigateUp() {
-        onView(allOf(childAtPosition(allOf(withId(R.id.toolbar),
-                childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)
-        ), 0), isDisplayed())).perform(click());
-    }
-
-    void navigateUpSettings() {
-        onView(allOf(withContentDescription(R.string.abc_action_bar_up_description),
-                childAtPosition(allOf(withId(R.id.toolbar),
-                        childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)),
-                        1), isDisplayed())).perform(click());
-    }
+  void navigateUpSettings () {
+    onView(allOf(withContentDescription(R.string.abc_action_bar_up_description),
+        childAtPosition(allOf(withId(R.id.toolbar),
+            childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)),
+            1), isDisplayed())).perform(click());
+  }
 
 }

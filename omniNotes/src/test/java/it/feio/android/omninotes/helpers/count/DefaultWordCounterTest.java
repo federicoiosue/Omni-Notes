@@ -17,45 +17,44 @@
 
 package it.feio.android.omninotes.helpers.count;
 
-import org.junit.Test;
+import static junit.framework.Assert.assertEquals;
 
 import it.feio.android.omninotes.BaseUnitTest;
 import it.feio.android.omninotes.models.Note;
-
-import static junit.framework.Assert.assertEquals;
+import org.junit.Test;
 
 public class DefaultWordCounterTest extends BaseUnitTest {
 
-    private final String CHECKED_SYM = it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM;
-    private final String UNCHECKED_SYM = it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
+  private final String CHECKED_SYM = it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM;
+  private final String UNCHECKED_SYM = it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
 
-    @Test
-    public void countChars() {
-        Note note = getNote(1L, "one two", "three four five\nAnother line");
-        assertEquals(30, new DefaultWordCounter().countChars(note));
-    }
+  @Test
+  public void countChars () {
+    Note note = getNote(1L, "one two", "three four five\nAnother line");
+    assertEquals(30, new DefaultWordCounter().countChars(note));
+  }
 
-    @Test
-    public void countChecklistChars() {
-        String content = CHECKED_SYM + "done\n" + UNCHECKED_SYM + "undone yet";
-        Note note = getNote(1L, "checklist", content);
-        note.setChecklist(true);
-        assertEquals(22, new DefaultWordCounter().countChars(note));
-    }
+  @Test
+  public void countChecklistChars () {
+    String content = CHECKED_SYM + "done\n" + UNCHECKED_SYM + "undone yet";
+    Note note = getNote(1L, "checklist", content);
+    note.setChecklist(true);
+    assertEquals(22, new DefaultWordCounter().countChars(note));
+  }
 
-    @Test
-    public void getWords() {
-        Note note = getNote(1L, "one two", "three\n four five");
-        assertEquals(5, new DefaultWordCounter().countWords(note));
-        note.setTitle("singleword");
-        assertEquals(4, new DefaultWordCounter().countWords(note));
-    }
+  @Test
+  public void getWords () {
+    Note note = getNote(1L, "one two", "three\n four five");
+    assertEquals(5, new DefaultWordCounter().countWords(note));
+    note.setTitle("singleword");
+    assertEquals(4, new DefaultWordCounter().countWords(note));
+  }
 
-    @Test
-    public void getChecklistWords() {
-        String content = CHECKED_SYM + "done\n" + UNCHECKED_SYM + "undone yet";
-        Note note = getNote(1L, "checklist", content);
-        note.setChecklist(true);
-        assertEquals(4, new DefaultWordCounter().countWords(note));
-    }
+  @Test
+  public void getChecklistWords () {
+    String content = CHECKED_SYM + "done\n" + UNCHECKED_SYM + "undone yet";
+    Note note = getNote(1L, "checklist", content);
+    note.setChecklist(true);
+    assertEquals(4, new DefaultWordCounter().countWords(note));
+  }
 }
