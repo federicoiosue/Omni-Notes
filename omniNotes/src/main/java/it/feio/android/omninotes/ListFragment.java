@@ -108,7 +108,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import org.apache.commons.lang.ObjectUtils;
+import org.apache.commons.lang3.ObjectUtils;
 
 
 public class ListFragment extends BaseFragment implements OnViewTouchedListener, UndoBarController.UndoListener {
@@ -912,7 +912,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       // if navigation is a category it will be set into note
       try {
         if (Navigation.checkNavigation(Navigation.CATEGORY) || !TextUtils.isEmpty(mainActivity.navigationTmp)) {
-          String categoryId = (String) ObjectUtils.defaultIfNull(mainActivity.navigationTmp,
+          String categoryId = ObjectUtils.defaultIfNull(mainActivity.navigationTmp,
               Navigation.getCategory().toString());
           note.setCategory(DbHelper.getInstance().getCategory(Long.parseLong(categoryId)));
         }

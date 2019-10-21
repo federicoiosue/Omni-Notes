@@ -22,10 +22,10 @@ import static org.junit.Assert.assertEquals;
 
 import android.net.Uri;
 import android.support.test.runner.AndroidJUnit4;
-import edu.emory.mathcs.backport.java.util.Collections;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import java.util.Collections;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

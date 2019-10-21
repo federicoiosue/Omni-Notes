@@ -22,6 +22,7 @@
       versionName="6.0.1">
         <changelogtext>[b]New![/b] Added Burmese language</changelogtext>
         <changelogtext>[i]Improved![/i] Translations updated: Basco, Chinese traditional, Romanian, Spanish, Italian</changelogtext>
+        <changelogtext>[u]Fix[/u] Crash on recurrent reminder fired</changelogtext>
     </changelogversion>
 
     <changelogversion

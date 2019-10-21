@@ -20,6 +20,7 @@ package it.feio.android.omninotes.utils.date;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import java.util.Calendar;
 import org.junit.Assert;
+import org.junit.Test;
 
 
 public class DateHelperTest {
@@ -27,7 +28,8 @@ public class DateHelperTest {
   private int TEN_MINUTES = 10 * 60 * 1000;
   private int MILLISEC_TO_HOURS_RATIO = 60 * 60 * 1000;
 
-  public void testNextReminderFromRecurrenceRule () {
+  @Test
+  public void nextReminderFromRecurrenceRule () {
     long currentTime = Calendar.getInstance().getTimeInMillis();
     long reminder = Calendar.getInstance().getTimeInMillis() + TEN_MINUTES;
 

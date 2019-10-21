@@ -160,12 +160,13 @@ dependencies {
     implementation ('com.jakewharton:butterknife:8.5.1'){
         exclude group: 'com.android.support'
     }
-    implementation('org.mnode.ical4j:ical4j:1.0.6') {
+    implementation('org.mnode.ical4j:ical4j:3.0.11') {
         exclude group: 'commons.io'
     }
     debugImplementation ('com.squareup.leakcanary:leakcanary-android:1.6.2') {
         exclude group: "com.android.support"
     }
+    implementation 'org.apache.commons:commons-lang3:3.9'
     releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     testImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.2'
     implementation 'com.pnikosis:materialish-progress:1.5'

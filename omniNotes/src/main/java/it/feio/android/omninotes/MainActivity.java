@@ -43,7 +43,6 @@ import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import edu.emory.mathcs.backport.java.util.Arrays;
 import it.feio.android.omninotes.async.UpdateWidgetsTask;
 import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
@@ -61,6 +60,8 @@ import it.feio.android.omninotes.utils.FileProviderHelper;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 
 
@@ -505,7 +506,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
    * @param note Note to be deleted
    */
   public void deleteNote (Note note) {
-    new NoteProcessorDelete(Arrays.asList(new Note[]{note})).process();
+    new NoteProcessorDelete(Collections.singletonList(note)).process();
     BaseActivity.notifyAppWidgets(this);
     LogDelegate.d("Deleted permanently note with id '" + note.get_id() + "'");
   }

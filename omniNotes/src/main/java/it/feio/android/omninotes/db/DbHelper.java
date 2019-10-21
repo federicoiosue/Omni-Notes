@@ -46,7 +46,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Pattern;
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringUtils;
 
 
 public class DbHelper extends SQLiteOpenHelper {
@@ -559,7 +559,9 @@ public class DbHelper extends SQLiteOpenHelper {
   }
 
   static String escapeSql (String pattern) {
-    return StringEscapeUtils.escapeSql(pattern).replace("%", "\\%").replace("_", "\\_");
+    return StringUtils.replace(pattern, "'", "''")
+                      .replace("%", "\\%")
+                      .replace("_", "\\_");
   }
 
 

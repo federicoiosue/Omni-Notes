@@ -27,8 +27,8 @@ import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TagsHelper;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 
 public class NotesHelper {

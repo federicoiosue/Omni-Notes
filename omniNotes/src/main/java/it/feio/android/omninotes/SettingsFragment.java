@@ -69,7 +69,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 
 
 public class SettingsFragment extends PreferenceFragment {
@@ -710,7 +709,7 @@ public class SettingsFragment extends PreferenceFragment {
         .onPositive((dialog, which) -> {
           ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
               AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
-          String backupName = StringUtils.isEmpty(fileNameEditText.getText().toString()) ?
+          String backupName = TextUtils.isEmpty(fileNameEditText.getText().toString()) ?
               fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();
           BackupHelper.startBackupService(backupName);
         }).build().show();

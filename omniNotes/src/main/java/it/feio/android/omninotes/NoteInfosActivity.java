@@ -19,6 +19,7 @@ package it.feio.android.omninotes;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -28,7 +29,6 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.StatsSingleNote;
 import it.feio.android.omninotes.utils.Constants;
 import java.util.Objects;
-import org.apache.commons.lang.StringUtils;
 
 
 public class NoteInfosActivity extends Activity {
@@ -86,7 +86,7 @@ public class NoteInfosActivity extends Activity {
   }
 
   private void populateView (TextView textView, String value) {
-    if (!StringUtils.isEmpty(value)) {
+    if (!TextUtils.isEmpty(value)) {
       textView.setText(value);
     } else {
       ((View) textView.getParent()).setVisibility(View.GONE);

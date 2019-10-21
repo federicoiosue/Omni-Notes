@@ -145,7 +145,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import org.apache.commons.lang.StringUtils;
 import rx.Observable;
 
 
@@ -658,7 +657,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     // Reminder
     String reminderString = initReminder(noteTmp);
-    if (!StringUtils.isEmpty(reminderString)) {
+    if (!TextUtils.isEmpty(reminderString)) {
       reminderIcon.setImageResource(R.drawable.ic_alarm_add_black_18dp);
       datetime.setText(reminderString);
     }
