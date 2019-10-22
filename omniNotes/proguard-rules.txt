@@ -34,7 +34,10 @@
 -keep class it.feio.android.omninotes.db.DbHelper { *; }
 -keep class it.feio.android.omninotes.async.upgrade.UpgradeProcessor { *; }
 
-## ical4j also contains groovy code which is not used in android
+###############
+# ical4j
+
+# Groovy code which is not used in android
 -dontwarn groovy.**
 -dontwarn org.codehaus.groovy.**
 -dontwarn org.apache.commons.logging.**
@@ -43,7 +46,6 @@
 -dontnote com.google.vending.**
 -dontnote com.android.vending.licensing.**
 
-###################
 # Get rid of #can't find referenced method in library class java.lang.Object# warnings for clone() and finalize()
 # Warning: net.fortuna.ical4j.model.CalendarFactory: can't find referenced method 'void finalize()' in library class java.lang.Object
 # Warning: net.fortuna.ical4j.model.ContentBuilder: can't find referenced method 'java.lang.Object clone()' in library class java.lang.Object
@@ -56,6 +58,14 @@
 -keepnames class ** { *; }
 -keepnames interface ** { *; }
 -keepnames enum ** { *; }
+
+-dontwarn java.awt.**
+-dontwarn javax.security.**
+-dontwarn javax.cache.**
+-dontwarn com.sun.activation.**
+-dontwarn org.slf4j.impl.**
+-dontwarn javax.activation.ActivationDataFlavor
+-dontwarn java.beans.Beans
 
 ###############
 # Retrolambda
