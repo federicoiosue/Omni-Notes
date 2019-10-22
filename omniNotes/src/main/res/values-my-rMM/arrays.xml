@@ -20,9 +20,9 @@
     <string-array name="navigation_list">
         <item>မှတ်စုများ</item>
         <item>သိမ်းဆည်း</item>
-        <item>အသိပေးချက်များ</item>
+        <item>သတိပေးချက်များ</item>
         <item>အမှိုက်ပုံး</item>
-        <item>အမျိုးအစားမခွဲ</item>
+        <item>အမျိုးအစားမပါ</item>
     </string-array>
     <string-array name="sortable_columns_human_readable">
         <item>ခေါင်းစဉ်</item>
@@ -32,7 +32,7 @@
     </string-array>
     <string-array name="checked_items_behavior">
         <item>မူလနေရာမှာ ဆက်ထားမည်။</item>
-        <item>စာရင်း နောက်ဆုံးသို့ ရွှေ့မည်။</item>
+        <item>စာရင်း၏နောက်ဆုံးသို့ ရွှေ့မည်။</item>
         <item>မစစ်ဆေးရသေးသောအမျိုး
 အမည်များ၏နောက်ဆုံးသို့ရွှေ့
 မည်။</item>
