@@ -44,6 +44,7 @@
     <string name="confirm">Berretsi</string>
     <string name="ok">Ados</string>
     <string name="no">Ez</string>
+    <string name="failed">huts eginda</string>
     <string name="cancel">Utzi</string>
     <string name="note_updated">Oharra eguneratuta</string>
     <string name="empty_note_not_saved">Ezin da ohar huts bat gorde</string>
@@ -66,6 +67,7 @@
     <string name="delete_all_attachments">Ezabatu hautatutako eranskinak?</string>
     <string name="gallery">Galeria</string>
     <string name="location">Kokalekua</string>
+    <string name="timestamp">Denbora-zigilua</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Kendu kokalekua?</string>
     <string name="remove_reminder">Kendu oroigarria?</string>
@@ -83,6 +85,7 @@
     <string name="data_import_message">Sakatu -&gt; berrezarri\nLuze sakatu -&gt; ezabatu</string>
     <string name="data_import_message_warning">ABISUA: Honek uneko datu guztiak ordezkatuko ditu!</string>
     <string name="data_export_completed">Datuen babeskopia burutu da</string>
+    <string name="data_export_failed">Datuen babes-kopiak huts egin du: egiaztatu logcat egunkaria xehetasunetarako</string>
     <string name="data_import_completed">Datuen berrezartzea burutu da</string>
     <string name="click_to_refresh_application">Sakatu aplikazioa freskatzeko</string>
     <string name="backup_existing">Babeskopia badago aurretik. Gainidatziko da</string>
@@ -216,6 +219,8 @@
     <string name="settings_export">Babeskopia</string>
     <string name="settings_sync_import_export">Sinkronizazioa eta babeskopia</string>
     <string name="settings_import">Berrezarri edo ezabatu babeskopiak</string>
+    <string name="settings_import_legacy">Berrezarri babes-kopia zaharra</string>
+    <string name="settings_import_legacy_summary">Omni Notes 6. bertsioaren aurretik egindako babes-kopia zaharrak berrezartzea ahalbidetzen du</string>
     <string name="settings_import_from_springpad">Inportatu oharrak Springpad-etik</string>
     <string name="settings_import_from_springpad_summary">Hautatu Springpad-etik esportatu duzun artxiboa eta baieztatu Internetera konektatuta zaudela</string>
     <string name="settings_sync_drive">Sinkronizatu Google Drive-ekin</string>
@@ -242,6 +247,9 @@
     <string name="settings_max_video_size">Bideo-eranskinak</string>
     <string name="settings_screen_data">Datuak</string>
     <string name="settings_backup">Babeskopia</string>
+    <string name="settings_enable_automatic_backup">Gaitu babes-kopia automatikoa</string>
+    <string name="settings_enable_automatic_backup_summary">Oharrak \"_autobackup\" babeskopia karpetan gordeko dira</string>
+    <string name="settings_enable_automatic_backup_dialog">Ezaugarri hau aktibatuz datuen babeskopia oso bat egingo da</string>
     <string name="settings_password">Pasahitza</string>
     <string name="settings_password_access">Eskatu pasahitza sartzeko</string>
     <string name="settings_password_instructions">Oharrak beste inork ez ikusi edo aldatzea bermatzen du pasahitzak.\n\nPasahitza berria ezartzean, aurrekoa eskatuko da.</string>
@@ -268,6 +276,7 @@
     <string name="settings_category_preferences">Hobespenak</string>
     <string name="settings_category_beta">Beta</string>
     <string name="settings_category_about">Honi buruz</string>
+    <string name="settings_beta">Onartu</string>
     <string name="settings_beta_summary">Harpidetu beta programara azken ezaugarriak eskuratzeko</string>
     <string name="donate">Dohaintza</string>
     <string name="donate_summary">Babestu aplikazio honen garapena irabazi asmorik gabeko dohaintza batekin</string>
@@ -330,6 +339,8 @@
     <string name="settings_error_reporting_summary_off">Ez da kraskatze txostenik bidaliko. Ez kexatu zerbait gaizki badabil gero!</string>
     <string name="settings_send_analytics">Partekatu datu anonimoak</string>
     <string name="settings_send_analytics_summary">Lagundu garatzailea kontuzkoa ez den informazioa bidaliz, adibidez gailuaren modeloa, hizkuntza, maiz erabilitako aplikazioaren ezaugarriak. Datu hauek kode irekiko aplikazioa hobetzeko besterik ez dira erabiltzen.</string>
+    <string name="settings_enable_file_logging">Gorde egunkariak fitxategian</string>
+    <string name="settings_enable_file_logging_summary">Aplikazioaren egunkariak arazoak ikertzeko garatzailearekin partekatu ahal izango duzun fitxategi batean gordeko dira (berrabiarazi behar da)</string>
     <string name="settings_statistics">Estatistikak</string>
     <!-- Stats -->
     <string name="stats_total_notes">Oharrak guztira</string>
@@ -370,6 +381,7 @@
     <string name="tour_detailactivity_action_title">Egin gehiago</string>
     <string name="tour_detailactivity_action_detail">Partekatu, etiketatu, artxibatu, babestu eta gehiago&#8230;</string>
     <string name="tour_detailactivity_reminder_title">Sakatu besterik gabe</string>
+    <string name="tour_detailactivity_reminder_detail">Objektu batean (eranskina, kokalekua, oroigarria) luze sakatzeak eta labur sakatzeak emaitza desberdinak dute!</string>
     <string name="tour_detailactivity_links_title">Estekak</string>
     <string name="tour_detailactivity_links_detail">URL, e-mail helbideak eta telefono zenbakiak antzematea</string>
     <string name="tour_detailactivity_swipe_title">Pasatu hatza</string>
@@ -378,6 +390,7 @@
     <string name="tour_detailactivity_save_detail">Atzera egiteko, sakatu \"gora\" nabigazio ikonoa, edo zure gailuko botoia</string>
     <string name="tour_listactivity_final_title">Gozatu</string>
     <string name="tour_listactivity_final_detail">Eskerrik asko Omni Notes erabiltzeagatik \n Produktibitatea zein aisialdirako oharrak hartzeko kode irekiko aplikazioa!</string>
+    <string name="tour_community">Harpidetu komunitateetara parte hartzeko!</string>
     <!-- Accessibility -->
     <string name="drawer_open">tiradera irekita</string>
     <string name="drawer_close">tiradera itxita</string>
@@ -388,5 +401,8 @@
     <string name="navigation_drawer_open">Ireki nabigazio-tiradera</string>
     <string name="navigation_drawer_close">Itxi nabigazio-tiradera</string>
     <!-- Various -->
+    <string name="channel_backups_name">Babeskopiak</string>
+    <string name="channel_backups_description">Babeskopiaren egoeraren jakinarazpenak eta emaitzak</string>
     <string name="channel_reminders_name">Oroigarriak</string>
+    <string name="channel_reminders_description">Oharren oroigarrien jakinarazpenak</string>
 </resources>

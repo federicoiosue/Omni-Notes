@@ -21,11 +21,11 @@ import it.feio.android.omninotes.helpers.LogDelegate;
 
 public class NavigationUpdatedNavDrawerClosedEvent {
 
-	public final Object navigationItem;
+  public final Object navigationItem;
 
 
-	public NavigationUpdatedNavDrawerClosedEvent(Object navigationItem) {
-		LogDelegate.d(this.getClass().getName());
-		this.navigationItem = navigationItem;
-	}
+  public NavigationUpdatedNavDrawerClosedEvent (Object navigationItem) {
+    LogDelegate.d(this.getClass().getName());
+    this.navigationItem = navigationItem;
+  }
 }

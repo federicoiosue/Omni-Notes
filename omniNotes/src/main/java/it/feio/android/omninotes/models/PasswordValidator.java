@@ -19,9 +19,9 @@ package it.feio.android.omninotes.models;
 
 public interface PasswordValidator {
 
-    enum Result {
-        SUCCEED, FAIL, RESTORE
-    }
+  enum Result {
+    SUCCEED, FAIL, RESTORE
+  }
 
-    void onPasswordValidated(Result result);
+  void onPasswordValidated (Result result);
 }

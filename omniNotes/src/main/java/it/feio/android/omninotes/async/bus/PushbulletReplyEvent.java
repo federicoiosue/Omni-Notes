@@ -22,10 +22,10 @@ import it.feio.android.omninotes.helpers.LogDelegate;
 
 public class PushbulletReplyEvent {
 
-	public String message;
+  public String message;
 
-	public PushbulletReplyEvent(String message) {
-		LogDelegate.d(this.getClass().getName());
-		this.message = message;
-	}
+  public PushbulletReplyEvent (String message) {
+    LogDelegate.d(this.getClass().getName());
+    this.message = message;
+  }
 }

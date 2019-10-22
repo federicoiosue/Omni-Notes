@@ -44,6 +44,7 @@
     <string name="confirm">Confirmar</string>
     <string name="ok">Ok</string>
     <string name="no">No</string>
+    <string name="failed">error</string>
     <string name="cancel">Cancelar</string>
     <string name="note_updated">Nota actualizada</string>
     <string name="empty_note_not_saved">La nota estaba vacía, por lo que no se ha guardado</string>
@@ -200,6 +201,7 @@
     <string name="text_note">Nota de texto</string>
     <string name="photo">Foto</string>
     <string name="info">Información</string>
+    <string name="completed">Completado</string>
     <!-- Settings -->
     <string name="dashclock_description">Muestra algunas estadísticas y recordatorios cercanos de Omni Notes</string>
     <string name="settings">Configuración</string>

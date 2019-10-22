@@ -388,5 +388,6 @@
     <string name="navigation_drawer_open">開啟導覽側邊欄</string>
     <string name="navigation_drawer_close">關閉導覽側邊欄</string>
     <!-- Various -->
+    <string name="channel_backups_name">備份</string>
     <string name="channel_reminders_name">提醒</string>
 </resources>

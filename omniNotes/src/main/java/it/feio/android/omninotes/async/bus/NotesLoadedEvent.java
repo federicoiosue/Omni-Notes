@@ -17,19 +17,18 @@
 
 package it.feio.android.omninotes.async.bus;
 
-import java.util.ArrayList;
-
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Note;
+import java.util.ArrayList;
 
 
 public class NotesLoadedEvent {
 
-	public ArrayList<Note> notes;
+  public ArrayList<Note> notes;
 
 
-	public NotesLoadedEvent(ArrayList<Note> notes) {
-		LogDelegate.d(this.getClass().getName());
-		this.notes = notes;
-	}
+  public NotesLoadedEvent (ArrayList<Note> notes) {
+    LogDelegate.d(this.getClass().getName());
+    this.notes = notes;
+  }
 }

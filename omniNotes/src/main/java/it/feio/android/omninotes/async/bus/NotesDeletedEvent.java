@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2015 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,19 +17,18 @@
 
 package it.feio.android.omninotes.async.bus;
 
-import java.util.List;
-
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Note;
+import java.util.List;
 
 
 public class NotesDeletedEvent {
 
-	public List<Note> notes;
+  public List<Note> notes;
 
 
-	public NotesDeletedEvent(List<Note> notes) {
-		LogDelegate.d(this.getClass().getName());
-		this.notes = notes;
-	}
+  public NotesDeletedEvent (List<Note> notes) {
+    LogDelegate.d(this.getClass().getName());
+    this.notes = notes;
+  }
 }

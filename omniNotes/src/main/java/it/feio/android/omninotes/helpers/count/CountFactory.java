@@ -22,24 +22,24 @@ import it.feio.android.omninotes.helpers.LanguageHelper;
 
 public class CountFactory {
 
-    private CountFactory() {
-    }
+  private CountFactory () {
+  }
 
-    public static WordCounter getWordCounter() {
-        String locale = LanguageHelper.getCurrentLocale(OmniNotes.getAppContext());
-        return getCounterInstanceByLocale(locale);
-    }
+  public static WordCounter getWordCounter () {
+    String locale = LanguageHelper.getCurrentLocale(OmniNotes.getAppContext());
+    return getCounterInstanceByLocale(locale);
+  }
 
-    static WordCounter getCounterInstanceByLocale(String locale) {
-        switch (locale) {
-            case "ja_JP":
-                return new IdeogramsWordCounter();
-            case "zh_CN":
-                return new IdeogramsWordCounter();
-            case "zh_TW":
-                return new IdeogramsWordCounter();
-            default:
-                return new DefaultWordCounter();
-        }
+  static WordCounter getCounterInstanceByLocale (String locale) {
+    switch (locale) {
+      case "ja_JP":
+        return new IdeogramsWordCounter();
+      case "zh_CN":
+        return new IdeogramsWordCounter();
+      case "zh_TW":
+        return new IdeogramsWordCounter();
+      default:
+        return new DefaultWordCounter();
     }
+  }
 }
