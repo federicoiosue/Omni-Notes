@@ -21,8 +21,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.net.Uri;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
@@ -53,7 +53,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
 
   @Before
   public void setUp () throws Exception {
-    targetDir = new File(StorageHelper.getCacheDir(InstrumentationRegistry.getTargetContext()), "_autobackupTest");
+    targetDir = new File(StorageHelper.getCacheDir(InstrumentationRegistry.getInstrumentation().getTargetContext()), "_autobackupTest");
     if (targetDir.exists()) {
       FileUtils.forceDelete(targetDir);
     }

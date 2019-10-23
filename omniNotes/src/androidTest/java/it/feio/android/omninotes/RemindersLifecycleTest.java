@@ -30,8 +30,8 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.startsWith;
 
 import androidx.test.espresso.ViewInteraction;
-import android.support.test.filters.LargeTest;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -69,15 +69,15 @@ public class RemindersLifecycleTest {
     linearLayout.perform(scrollTo(), click());
 
     ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.done), withText(R.string.done_label), isDisplayed()));
+        allOf(withId(R.id.done), withText(R.string.md_done_label), isDisplayed()));
     appCompatButton.perform(click());
 
     ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.done_button), withText(R.string.done_label), isDisplayed()));
+        allOf(withId(R.id.done), withText(R.string.md_done_label), isDisplayed()));
     appCompatButton2.perform(click());
 
     ViewInteraction appCompatButton3 = onView(
-        allOf(withId(R.id.done), withText(R.string.save_label), isDisplayed()));
+        allOf(withId(R.id.done), withText(R.string.save), isDisplayed()));
     appCompatButton3.perform(click());
 
     ViewInteraction textView = onView(withId(R.id.datetime));

@@ -18,17 +18,17 @@
 package it.feio.android.omninotes;
 
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertNotNull;
 
 import androidx.test.espresso.ViewInteraction;
-import android.support.test.filters.LargeTest;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import java.io.IOException;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
@@ -54,7 +54,7 @@ public class FabLifecycleTest extends BaseEspressoTest {
   }
 
   @Test
-  public void fabActionsTest () throws IOException {
+  public void fabActionsTest () {
 
     ViewInteraction viewInteraction = onView(
         allOf(withId(R.id.fab_expand_menu_button),

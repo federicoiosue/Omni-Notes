@@ -22,8 +22,7 @@ import static org.junit.Assert.assertFalse;
 import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.rule.GrantPermissionRule;
+import androidx.test.platform.app.InstrumentationRegistry;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
 import org.junit.AfterClass;
@@ -50,7 +49,7 @@ public class BaseAndroidTestCase {
 
   @BeforeClass
   public static void setUpBeforeClass () {
-    testContext = InstrumentationRegistry.getTargetContext();
+    testContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
     prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
     dbHelper = DbHelper.getInstance(testContext);
     prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
