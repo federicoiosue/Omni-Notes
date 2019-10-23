@@ -24,7 +24,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -41,11 +40,8 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.OpacityBar;
-import com.larswerkman.holocolorpicker.SVBar;
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.ONStyle;
@@ -70,12 +66,14 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
   ImageView redo;
   @BindView(R.id.sketch_erase)
   ImageView erase;
-  private int seekBarStrokeProgress, seekBarEraserProgress;
-  private View popupLayout, popupEraserLayout;
-  private ImageView strokeImageView, eraserImageView;
+  private int seekBarStrokeProgress;
+  private int seekBarEraserProgress;
+  private View popupLayout;
+  private View popupEraserLayout;
+  private ImageView strokeImageView;
+  private ImageView eraserImageView;
   private int size;
   private ColorPicker mColorPicker;
-  private int oldColor;
 
 
   @Override
@@ -163,12 +161,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         new MaterialDialog.Builder(getActivity())
             .content(R.string.erase_sketch)
             .positiveText(R.string.confirm)
-            .onPositive(new MaterialDialog.SingleButtonCallback() {
-              @Override
-              public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                mSketchView.erase();
-              }
-            }).build().show();
+            .onPositive((dialog, which) -> mSketchView.erase()).build().show();
       }
     });
 
@@ -203,11 +196,9 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
   @Override
   public boolean onOptionsItemSelected (MenuItem item) {
-    switch (item.getItemId()) {
-      case android.R.id.home:
-        getActivity().onBackPressed();
-        break;
-      default:
+    if (item.getItemId() == android.R.id.home) {
+      getActivity().onBackPressed();
+    } else {
         LogDelegate.e("Wrong element choosen: " + item.getItemId());
     }
     return super.onOptionsItemSelected(item);
@@ -237,12 +228,11 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
   }
 
 
-  // The method that displays the popup.
   private void showPopup (View anchor, final int eraserOrStroke) {
 
     boolean isErasing = eraserOrStroke == SketchView.ERASER;
 
-    oldColor = mColorPicker.getColor();
+    int oldColor = mColorPicker.getColor();
 
     DisplayMetrics metrics = new DisplayMetrics();
     getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -274,11 +264,13 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
       @Override
       public void onStopTrackingTouch (SeekBar seekBar) {
+        // Nothing to do
       }
 
 
       @Override
       public void onStartTrackingTouch (SeekBar seekBar) {
+        // Nothing to do
       }
 
 
@@ -319,7 +311,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
   @Override
   public void onDrawChanged () {
     // Undo
-    if (mSketchView.getPaths().size() > 0) {
+    if (mSketchView.getPaths().isEmpty()) {
       AlphaManager.setAlpha(undo, 1f);
     } else {
       AlphaManager.setAlpha(undo, 0.4f);

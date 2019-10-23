@@ -17,10 +17,18 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_DISMISS;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_POSTPONE;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SNOOZE;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_KEY;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SNOOZE_DEFAULT;
+
 import android.app.DatePickerDialog;
 import android.app.NotificationManager;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -33,7 +41,6 @@ import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
@@ -54,32 +61,32 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
   protected void onCreate (Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    if (getIntent().getParcelableExtra(Constants.INTENT_NOTE) != null) {
-      note = getIntent().getParcelableExtra(Constants.INTENT_NOTE);
-      manageNotification(getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS));
+    if (getIntent().getParcelableExtra(INTENT_NOTE) != null) {
+      note = getIntent().getParcelableExtra(INTENT_NOTE);
+      manageNotification(getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS));
     } else {
-      Object[] notesObjs = (Object[]) getIntent().getExtras().get(Constants.INTENT_NOTE);
+      Object[] notesObjs = (Object[]) getIntent().getExtras().get(INTENT_NOTE);
       notes = Arrays.copyOf(notesObjs, notesObjs.length, Note[].class);
-      postpone(getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS), DateUtils.getNextMinute(), null);
+      postpone(getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS), DateUtils.getNextMinute(), null);
     }
   }
 
 
   private void manageNotification (SharedPreferences prefs) {
-    if (Constants.ACTION_DISMISS.equals(getIntent().getAction())) {
+    if (ACTION_DISMISS.equals(getIntent().getAction())) {
       setNextRecurrentReminder(note);
       finish();
-    } else if (Constants.ACTION_SNOOZE.equals(getIntent().getAction())) {
-      String snoozeDelay = prefs.getString("settings_notification_snooze_delay", Constants.PREF_SNOOZE_DEFAULT);
+    } else if (ACTION_SNOOZE.equals(getIntent().getAction())) {
+      String snoozeDelay = prefs.getString("settings_notification_snooze_delay", PREF_SNOOZE_DEFAULT);
       long newReminder = Calendar.getInstance().getTimeInMillis() + Integer.parseInt(snoozeDelay) * 60 * 1000;
       updateNoteReminder(newReminder, note);
       finish();
-    } else if (Constants.ACTION_POSTPONE.equals(getIntent().getAction())) {
+    } else if (ACTION_POSTPONE.equals(getIntent().getAction())) {
       postpone(prefs, Long.parseLong(note.getAlarm()), note.getRecurrenceRule());
     } else {
       Intent intent = new Intent(this, MainActivity.class);
-      intent.putExtra(Constants.INTENT_KEY, note.get_id());
-      intent.setAction(Constants.ACTION_NOTIFICATION_CLICK);
+      intent.putExtra(INTENT_KEY, note.get_id());
+      intent.setAction(ACTION_NOTIFICATION_CLICK);
       startActivity(intent);
       finish();
     }
@@ -98,7 +105,7 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
 
 
   private void removeNotification (Note note) {
-    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     manager.cancel(String.valueOf(note.get_id()), 0);
   }
 
@@ -108,8 +115,8 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
     if (this.note != null) {
       this.note.setAlarm(reminder);
     } else {
-      for (Note note : this.notes) {
-        note.setAlarm(reminder);
+      for (Note noteToSet : this.notes) {
+        noteToSet.setAlarm(reminder);
       }
     }
   }

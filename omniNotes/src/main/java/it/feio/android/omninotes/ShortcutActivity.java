@@ -17,10 +17,11 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import it.feio.android.omninotes.utils.Constants;
 
 
 public class ShortcutActivity extends Activity {
@@ -30,7 +31,7 @@ public class ShortcutActivity extends Activity {
     super.onCreate(savedInstanceState);
 
     Intent shortcutIntent = new Intent(this, MainActivity.class);
-    shortcutIntent.setAction(Constants.ACTION_SHORTCUT_WIDGET);
+    shortcutIntent.setAction(ACTION_SHORTCUT_WIDGET);
     Intent.ShortcutIconResource iconResource = Intent.ShortcutIconResource.fromContext(this, R.drawable
         .shortcut_icon);
 

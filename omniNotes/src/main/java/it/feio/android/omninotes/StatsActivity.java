@@ -19,7 +19,6 @@ package it.feio.android.omninotes;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -41,14 +40,6 @@ public class StatsActivity extends Activity {
   private void initData () {
     class StatsTask extends AsyncTask<Void, Void, Stats> {
 
-      private Context mContext;
-
-
-      public StatsTask (Context mContext) {
-        this.mContext = mContext;
-      }
-
-
       @Override
       protected Stats doInBackground (Void... params) {
         return (DbHelper.getInstance()).getStats();
@@ -61,7 +52,7 @@ public class StatsActivity extends Activity {
       }
     }
 
-    new StatsTask(this).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
+    new StatsTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
 
 
