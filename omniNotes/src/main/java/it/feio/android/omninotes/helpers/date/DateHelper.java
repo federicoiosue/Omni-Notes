@@ -20,8 +20,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.text.format.Time;
-import be.billington.calendar.recurrencepicker.EventRecurrence;
-import be.billington.calendar.recurrencepicker.EventRecurrenceFormatter;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.LogDelegate;
@@ -120,11 +118,14 @@ public class DateHelper {
 
   public static String formatRecurrence (Context mContext, String recurrenceRule) {
     if (!TextUtils.isEmpty(recurrenceRule)) {
-      EventRecurrence recurrenceEvent = new EventRecurrence();
-      recurrenceEvent.setStartDate(new Time("" + new Date().getTime()));
-      recurrenceEvent.parse(recurrenceRule);
-      return EventRecurrenceFormatter.getRepeatString(mContext.getApplicationContext(),
-          mContext.getResources(), recurrenceEvent, true);
+//      EventRecurrence recurrenceEvent = new EventRecurrence();
+//      recurrenceEvent.setStartDate(new Time("" + new Date().getTime()));
+//      recurrenceEvent.parse(recurrenceRule);
+//      return EventRecurrenceFormatter.getRepeatString(mContext.getApplicationContext(),
+//          mContext.getResources(), recurrenceEvent, true);
+
+      return null; //FIXME
+
     } else {
       return "";
     }

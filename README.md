@@ -120,7 +120,6 @@ Pull requests will be automatically analyzed and rejected if they'll rise the co
 They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni-Notes/blob/develop/omniNotes/build.gradle) file but due to the fact that many of the dependences have been customized by me I'd like to say thanks here to the original developers of these great libraries:
 
 * https://github.com/RobotiumTech/robotium
-* https://github.com/flavienlaurent/datetimepicker
 * https://github.com/LarsWerkman/HoloColorPicker
 * https://github.com/keyboardsurfer/Crouton
 * https://github.com/romannurik/dashclock/wiki/API

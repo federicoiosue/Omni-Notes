@@ -20,19 +20,19 @@ package it.feio.android.omninotes.utils.date;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
+import android.widget.DatePicker;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
-import android.widget.DatePicker;
-import be.billington.calendar.recurrencepicker.RecurrencePickerDialog;
-import com.fourmob.datetimepicker.date.DatePickerDialog;
-import com.sleepbot.datetimepicker.time.TimePickerDialog;
+//import be.billington.calendar.recurrencepicker.RecurrencePirDialog;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.utils.Constants;
 import java.util.Calendar;
 
+//import com.fourmob.datetimepicker.date.DatePickerDialog;
+//import com.sleepbot.datetimepicker.time.TimePickerDialog;
 
-public class ReminderPickers implements OnDateSetListener, OnTimeSetListener,
-    RecurrencePickerDialog.OnRecurrenceSetListener {
+
+public class ReminderPickers implements OnDateSetListener, OnTimeSetListener {
 
   public static final int TYPE_GOOGLE = 0;
   public static final int TYPE_AOSP = 1;
@@ -91,21 +91,21 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener,
 
     // Sets actual time or previously saved in note
     final Calendar now = DateUtils.getCalendar(reminder);
-    DatePickerDialog mCalendarDatePickerDialog = DatePickerDialog.newInstance(
-        (dialog, year, monthOfYear, dayOfMonth) -> {
-          reminderYear = year;
-          reminderMonth = monthOfYear;
-          reminderDay = dayOfMonth;
-          TimePickerDialog mRadialTimePickerDialog = TimePickerDialog.newInstance(
-              (radialPickerLayout, hour, minute) -> {
-                hourOfDay = hour;
-                minutes = minute;
-                showRecurrencePickerDialog(recurrenceRule);
-              }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE),
-              DateUtils.is24HourMode(mActivity));
-          mRadialTimePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
-        }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
-    mCalendarDatePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
+//    DatePickerDialog mCalendarDatePickerDialog = DatePickerDialog.newInstance(
+//        (dialog, year, monthOfYear, dayOfMonth) -> {
+//          reminderYear = year;
+//          reminderMonth = monthOfYear;
+//          reminderDay = dayOfMonth;
+//          TimePickerDialog mRadialTimePickerDialog = TimePickerDialog.newInstance(
+//              (radialPickerLayout, hour, minute) -> {
+//                hourOfDay = hour;
+//                minutes = minute;
+//                showRecurrencePickerDialog(recurrenceRule);
+//              }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE),
+//              DateUtils.is24HourMode(mActivity));
+//          mRadialTimePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
+//        }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+//    mCalendarDatePickerDialog.show(mActivity.getSupportFragmentManager(), Constants.TAG);
   }
 
 
@@ -132,14 +132,14 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener,
 
 
   private void showRecurrencePickerDialog (String recurrenceRule) {
-    RecurrencePickerDialog recurrencePickerDialog = new RecurrencePickerDialog();
-    if (recurrenceRule != null && recurrenceRule.length() > 0) {
-      Bundle bundle = new Bundle();
-      bundle.putString(RecurrencePickerDialog.BUNDLE_RRULE, recurrenceRule);
-      recurrencePickerDialog.setArguments(bundle);
-    }
-    recurrencePickerDialog.setOnRecurrenceSetListener(this);
-    recurrencePickerDialog.show(mActivity.getSupportFragmentManager(), "recurrencePicker");
+//    RecurrencePickerDialog recurrencePickerDialog = new RecurrencePickerDialog();
+//    if (recurrenceRule != null && recurrenceRule.length() > 0) {
+//      Bundle bundle = new Bundle();
+//      bundle.putString(RecurrencePickerDialog.BUNDLE_RRULE, recurrenceRule);
+//      recurrencePickerDialog.setArguments(bundle);
+//    }
+//    recurrencePickerDialog.setOnRecurrenceSetListener(this);
+//    recurrencePickerDialog.show(mActivity.getSupportFragmentManager(), "recurrencePicker");
   }
 
 
@@ -166,13 +166,13 @@ public class ReminderPickers implements OnDateSetListener, OnTimeSetListener,
   }
 
 
-  @Override
-  public void onRecurrenceSet (final String rrule) {
-    Calendar c = Calendar.getInstance();
-    c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minutes, 0);
-    if (mOnReminderPickedListener != null) {
-      mOnReminderPickedListener.onReminderPicked(c.getTimeInMillis());
-      mOnReminderPickedListener.onRecurrenceReminderPicked(rrule);
-    }
-  }
+//  @Override
+//  public void onRecurrenceSet (final String rrule) {
+//    Calendar c = Calendar.getInstance();
+//    c.set(reminderYear, reminderMonth, reminderDay, hourOfDay, minutes, 0);
+//    if (mOnReminderPickedListener != null) {
+//      mOnReminderPickedListener.onReminderPicked(c.getTimeInMillis());
+//      mOnReminderPickedListener.onRecurrenceReminderPicked(rrule);
+//    }
+//  }
 }

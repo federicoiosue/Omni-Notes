@@ -132,17 +132,16 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
-    implementation 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     implementation 'com.larswerkman:HoloColorPicker:1.4'
     implementation 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
     implementation "ch.acra:acra-http:5.2.1"
     implementation "ch.acra:acra-toast:5.2.1"
     implementation 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
-    implementation 'be.billington.calendar.recurrencepicker:library:1.1.1'
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support:design:28.0.0'
-    implementation 'com.android.support:multidex:1.0.3'
+//    implementation 'be.billington.calendar.recurrencepicker:library:1.1.1'
+//    implementation 'com.android.support:appcompat-v7:28.0.0'
+//    implementation 'com.android.support:design:28.0.0'
+//    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'de.greenrobot:eventbus:2.4.0'
     implementation 'com.pushbullet:android-extensions:1.0.4@aar'
@@ -153,9 +152,13 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     implementation('com.github.afollestad.material-dialogs:core:0.8.5.6@aar') {
         transitive = true
+        exclude group: "com.android.support"
+
     }
     implementation('com.github.afollestad.material-dialogs:commons:0.8.5.6@aar') {
         transitive = true
+        exclude group: "com.android.support"
+
     }
 
     implementation 'com.jakewharton:butterknife:10.2.0'

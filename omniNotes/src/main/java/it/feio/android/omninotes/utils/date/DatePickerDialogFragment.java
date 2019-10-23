@@ -30,7 +30,7 @@ import java.util.Calendar;
 
 public class DatePickerDialogFragment extends DialogFragment {
 
-  public static final String DEFAULT_DATE = "default_date";
+  static final String DEFAULT_DATE = "default_date";
 
   private OnDateSetListener mListener;
   private Long defaultDate;
