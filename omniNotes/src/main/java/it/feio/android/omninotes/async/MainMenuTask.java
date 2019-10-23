@@ -22,7 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;

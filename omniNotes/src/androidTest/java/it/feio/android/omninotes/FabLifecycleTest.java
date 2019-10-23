@@ -26,7 +26,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertNotNull;
 
-import android.support.test.espresso.ViewInteraction;
+import androidx.test.espresso.ViewInteraction;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 import java.io.IOException;

@@ -22,7 +22,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <android.support.v4.widget.DrawerLayout
+    <androidx.drawerlayout.widget.DrawerLayout
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -60,6 +60,6 @@
             android:fitsSystemWindows="true"
             android:orientation="vertical"/>
 
-    </android.support.v4.widget.DrawerLayout>
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </FrameLayout>

@@ -18,7 +18,7 @@
 package it.feio.android.omninotes.utils;
 
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.Attachment;
 import java.io.File;

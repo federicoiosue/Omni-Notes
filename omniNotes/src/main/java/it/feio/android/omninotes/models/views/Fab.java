@@ -17,14 +17,14 @@
 
 package it.feio.android.omninotes.models.views;
 
-import static android.support.v4.view.ViewCompat.animate;
+import static androidx.core.view.ViewCompat.animate;
 
-import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import androidx.core.view.ViewPropertyAnimatorListener;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import it.feio.android.omninotes.OmniNotes;

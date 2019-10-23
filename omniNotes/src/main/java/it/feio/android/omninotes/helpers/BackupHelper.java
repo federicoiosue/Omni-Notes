@@ -20,7 +20,7 @@ package it.feio.android.omninotes.helpers;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;

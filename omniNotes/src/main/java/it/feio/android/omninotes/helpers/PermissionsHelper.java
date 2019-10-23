@@ -19,10 +19,10 @@ package it.feio.android.omninotes.helpers;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import com.google.android.material.snackbar.Snackbar;
 import com.tbruyelle.rxpermissions.RxPermissions;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.listeners.OnPermissionRequestedListener;
@@ -38,9 +38,7 @@ public class PermissionsHelper {
 
       if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
         Snackbar.make(messageView, rationaleDescription, Snackbar.LENGTH_INDEFINITE)
-                .setAction(R.string.ok, view -> {
-                  requestPermissionExecute(activity, permission, onPermissionRequestedListener, messageView);
-                })
+                .setAction(R.string.ok, view -> requestPermissionExecute(activity, permission, onPermissionRequestedListener, messageView))
                 .show();
       } else {
         requestPermissionExecute(activity, permission, onPermissionRequestedListener, messageView);

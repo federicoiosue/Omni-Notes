@@ -19,8 +19,8 @@ package it.feio.android.omninotes.async;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.JobIntentService;
+import androidx.annotation.NonNull;
+import androidx.core.app.JobIntentService;
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;

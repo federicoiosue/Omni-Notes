@@ -22,44 +22,12 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.DialogFragment;
 import android.widget.DatePicker;
 import java.util.Calendar;
 
 
-/**
- * <p>This class provides a usable {@link android.app.DatePickerDialog} wrapped as a {@link android.support.v4.app
- * * .DialogFragment}, using the compatibility package v4. Its main advantage is handling Issue 34833 automatically for
- * you.</p>
- * <p/>
- * <p>Current implementation (because I wanted that way =) ):</p>
- * <p/>
- * <ul>
- * <li>Only two buttons, a {@code BUTTON_POSITIVE} and a {@code BUTTON_NEGATIVE}.
- * <li>Buttons labeled from {@code android.R.string.ok} and {@code android.R.string.cancel}.
- * </ul>
- * <p/>
- * <p><strong>Usage sample:</strong></p>
- * <p/>
- * <pre>class YourActivity extends Activity implements OnDateSetListener
- * <p/>
- * // ...
- * <p/>
- * Bundle b = new Bundle();
- * b.putInt(DatePickerDialogFragment.YEAR, 2012);
- * b.putInt(DatePickerDialogFragment.MONTH, 6);
- * b.putInt(DatePickerDialogFragment.DATE, 17);
- * DialogFragment picker = new DatePickerDialogFragment();
- * picker.setArguments(b);
- * picker.show(getActivity().getSupportFragmentManager(), "fragment_date_picker");</pre>
- *
- * @author davidcesarino@gmail.com
- * @version 2012.0828
- * @see <a href="http://code.google.com/p/android/issues/detail?id=34833">Android Issue 34833</a>
- * @see <a href="http://stackoverflow.com/q/11444238/489607" >Jelly Bean DatePickerDialog — is there a way to
- * cancel?</a>
- */
 public class DatePickerDialogFragment extends DialogFragment {
 
   public static final String DEFAULT_DATE = "default_date";

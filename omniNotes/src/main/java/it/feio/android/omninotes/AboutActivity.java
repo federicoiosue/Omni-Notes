@@ -17,7 +17,7 @@
 package it.feio.android.omninotes;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.webkit.WebView;
 
 

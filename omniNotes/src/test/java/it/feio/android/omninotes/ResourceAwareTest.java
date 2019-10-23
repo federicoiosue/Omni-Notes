@@ -17,7 +17,7 @@
 
 package it.feio.android.omninotes;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;

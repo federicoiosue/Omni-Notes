@@ -36,7 +36,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import android.support.test.espresso.ViewInteraction;
+import androidx.test.espresso.ViewInteraction;
 import android.support.test.filters.LargeTest;
 import android.support.test.runner.AndroidJUnit4;
 import it.feio.android.omninotes.helpers.BackupHelper;

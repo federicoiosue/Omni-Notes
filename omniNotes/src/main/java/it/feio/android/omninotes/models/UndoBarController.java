@@ -17,17 +17,19 @@
 
 package it.feio.android.omninotes.models;
 
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
+import static androidx.core.view.ViewCompat.animate;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.view.ViewPropertyAnimator;
+import androidx.core.view.ViewPropertyAnimatorCompat;
+import androidx.core.view.ViewPropertyAnimatorListenerAdapter;
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.R;
 import java.util.Locale;
@@ -37,7 +39,7 @@ public class UndoBarController {
 
   private View mBarView;
   private TextView mMessageView;
-  private ViewPropertyAnimator mBarAnimator;
+  private ViewPropertyAnimatorCompat mBarAnimator;
 //    private Handler mHideHandler = new Handler();
 
   private UndoListener mUndoListener;
@@ -117,9 +119,11 @@ public class UndoBarController {
           .alpha(0)
           .setDuration(mBarView.getResources()
                                .getInteger(android.R.integer.config_shortAnimTime))
-          .setListener(new AnimatorListenerAdapter() {
+          .setListener(new ViewPropertyAnimatorListenerAdapter() {
+
             @Override
-            public void onAnimationEnd (Animator animation) {
+            public void onAnimationEnd (View view) {
+              super.onAnimationEnd(view);
               mBarView.setVisibility(View.GONE);
               mUndoMessage = null;
               mUndoToken = null;

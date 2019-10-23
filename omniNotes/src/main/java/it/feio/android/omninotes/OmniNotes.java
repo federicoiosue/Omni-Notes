@@ -21,7 +21,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 import com.squareup.leakcanary.LeakCanary;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.analitica.AnalyticsHelperFactory;

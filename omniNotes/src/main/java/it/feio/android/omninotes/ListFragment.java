@@ -16,7 +16,7 @@
  */
 package it.feio.android.omninotes;
 
-import static android.support.v4.view.ViewCompat.animate;
+import static androidx.core.view.ViewCompat.animate;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -34,13 +34,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.view.ActionMode;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SearchView.OnQueryTextListener;
+import androidx.annotation.NonNull;
+import androidx.appcompat.view.ActionMode;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.SearchView.OnQueryTextListener;
+import androidx.core.util.Pair;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -55,6 +53,8 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import androidx.core.view.GravityCompat;
+import androidx.core.view.MenuItemCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.DialogAction;
@@ -152,7 +152,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   private boolean sendToArchive;
   private SharedPreferences prefs;
   private ListFragment mFragment;
-  private android.support.v7.view.ActionMode actionMode;
+  private ActionMode actionMode;
   private boolean keepActionMode = false;
 
   // Undo archive/trash
@@ -377,7 +377,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   }
 
 
-  private final class ModeCallback implements android.support.v7.view.ActionMode.Callback {
+  private final class ModeCallback implements ActionMode.Callback {
 
     @Override
     public boolean onCreateActionMode (ActionMode mode, Menu menu) {
@@ -1120,7 +1120,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         if (!goBackOnToggleSearchLabel) {
           mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
           if (searchView != null) {
-            MenuItemCompat.collapseActionView(searchMenuItem);
+            searchMenuItem.collapseActionView();
           }
           initNotesList(mainActivity.getIntent());
         } else {
@@ -1292,7 +1292,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   }
 
 
-  private android.support.v7.view.ActionMode getActionMode () {
+  private ActionMode getActionMode () {
     return actionMode;
   }
 

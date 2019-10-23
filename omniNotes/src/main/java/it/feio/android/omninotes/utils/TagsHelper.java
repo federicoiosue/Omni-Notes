@@ -19,7 +19,7 @@ package it.feio.android.omninotes.utils;
 
 import static it.feio.android.omninotes.utils.ConstantsBase.TAG_SPECIAL_CHARS_TO_REMOVE;
 
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.Tag;

@@ -16,7 +16,7 @@
  */
 package it.feio.android.omninotes;
 
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
+import static androidx.core.view.ViewCompat.animate;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 
@@ -47,13 +47,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
@@ -78,6 +71,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.core.util.Pair;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.DialogAction;
@@ -641,15 +640,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
           .content(R.string.remove_reminder)
           .positiveText(R.string.ok)
-          .onPositive(new MaterialDialog.SingleButtonCallback() {
-            @Override
-            public void onClick (
-                @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-              ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
-              noteTmp.setAlarm(null);
-              reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
-              datetime.setText("");
-            }
+          .onPositive((dialog1, which) -> {
+            ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
+            noteTmp.setAlarm(null);
+            reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
+            datetime.setText("");
           }).build();
       dialog.show();
       return true;
@@ -994,7 +989,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     // Closes search view if left open in List fragment
     MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
     if (searchMenuItem != null) {
-      MenuItemCompat.collapseActionView(searchMenuItem);
+      searchMenuItem.collapseActionView();
     }
 
     boolean newNote = noteTmp.get_id() == null;
@@ -1018,7 +1013,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @SuppressLint("NewApi")
-  public boolean goHome () {
+  private boolean goHome () {
     stopPlaying();
 
     // The activity has managed a shared intent from third party app and

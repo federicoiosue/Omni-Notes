@@ -23,7 +23,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.text.Spanned;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
