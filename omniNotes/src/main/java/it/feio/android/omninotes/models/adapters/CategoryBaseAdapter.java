@@ -28,17 +28,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import com.neopixl.pixlui.components.textview.TextView;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.adapters.category.CategoryViewHolder;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Fonts;
 import java.util.List;
 
 
-public class NavDrawerCategoryAdapter extends BaseAdapter {
+public class CategoryBaseAdapter extends BaseAdapter {
 
   private Activity mActivity;
   private int layout;
@@ -47,12 +46,12 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
   private final String navigationTmp;
 
 
-  public NavDrawerCategoryAdapter (Activity mActivity, List<Category> categories) {
+  public CategoryBaseAdapter (Activity mActivity, List<Category> categories) {
     this(mActivity, categories, null);
   }
 
 
-  public NavDrawerCategoryAdapter (Activity mActivity, List<Category> categories, String navigationTmp) {
+  public CategoryBaseAdapter (Activity mActivity, List<Category> categories, String navigationTmp) {
     this.mActivity = mActivity;
     this.layout = R.layout.drawer_list_item;
     this.categories = categories;
@@ -84,7 +83,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
     // Finds elements
     Category category = categories.get(position);
 
-    NoteDrawerCategoryAdapterViewHolder holder;
+    CategoryViewHolder holder;
     if (convertView == null) {
       convertView = inflater.inflate(layout, parent, false);
 
@@ -92,14 +91,14 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
       Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME,
           Context.MODE_MULTI_PROCESS), convertView);
 
-      holder = new NoteDrawerCategoryAdapterViewHolder();
+      holder = new CategoryViewHolder(convertView);
 
       holder.imgIcon = convertView.findViewById(R.id.icon);
       holder.txtTitle = convertView.findViewById(R.id.title);
       holder.count = convertView.findViewById(R.id.count);
       convertView.setTag(holder);
     } else {
-      holder = (NoteDrawerCategoryAdapterViewHolder) convertView.getTag();
+      holder = (CategoryViewHolder) convertView.getTag();
     }
 
     // Set the results into TextViews
@@ -158,17 +157,4 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
     return navigation.equals(String.valueOf(categories.get(position).getId()));
   }
 
-}
-
-
-/**
- * Holder object
- *
- * @author fede
- */
-class NoteDrawerCategoryAdapterViewHolder {
-
-  ImageView imgIcon;
-  TextView txtTitle;
-  android.widget.TextView count;
 }

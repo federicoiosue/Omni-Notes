@@ -31,7 +31,8 @@ import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
+import it.feio.android.omninotes.models.adapters.CategoryBaseAdapter;
+import it.feio.android.omninotes.models.adapters.CategoryRecyclerViewAdapter;
 import it.feio.android.omninotes.models.views.NonScrollableListView;
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -87,9 +88,9 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
   @Override
   protected void onPostExecute (final List<Category> categories) {
     if (isAlive()) {
-      mDrawerCategoriesList.setAdapter(new NavDrawerCategoryAdapter(mainActivity, categories,
+      mDrawerCategoriesList.setAdapter(new CategoryBaseAdapter(mainActivity, categories,
           mainActivity.getNavigationTmp()));
-      if (categories.size() == 0) {
+      if (categories.isEmpty()) {
         setWidgetVisibility(settingsViewCat, false);
         setWidgetVisibility(settingsView, true);
       } else {
