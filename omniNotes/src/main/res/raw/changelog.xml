@@ -18,6 +18,13 @@
 <changelog bulletedList="true">
 
     <changelogversion
+      changeDate="Oct 29, 2019"
+      versionName="6.0.2">
+        <changelogtext>[i]Improved![/i] Updated Burmese translation</changelogtext>
+        <changelogtext>[u]Fix[/u] Notification on notes with attachments</changelogtext>
+    </changelogversion>
+
+    <changelogversion
       changeDate="Oct 22, 2019"
       versionName="6.0.1">
         <changelogtext>[b]New![/b] Added Burmese language</changelogtext>
