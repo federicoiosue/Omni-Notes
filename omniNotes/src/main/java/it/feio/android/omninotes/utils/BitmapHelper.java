@@ -16,57 +16,46 @@
  */
 package it.feio.android.omninotes.utils;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_CONTACT_EXT;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_FILES;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_SKETCH;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.text.TextUtils;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.simplegallery.util.BitmapUtils;
-import java.util.concurrent.ExecutionException;
 import org.apache.commons.io.FilenameUtils;
 
 
 public class BitmapHelper {
+
+  private BitmapHelper () {}
 
   /**
    * Retrieves a the bitmap relative to attachment based on mime type
    */
   public static Bitmap getBitmapFromAttachment (Context mContext, Attachment mAttachment, int width, int height) {
     Bitmap bmp = null;
-    String path;
     mAttachment.getUri().getPath();
 
-    // Video or image
-    if (AttachmentsHelper.typeOf(mAttachment, Constants.MIME_TYPE_VIDEO, Constants.MIME_TYPE_IMAGE,
-        Constants.MIME_TYPE_SKETCH)) {
-      try {
-        bmp = Glide.with(OmniNotes.getAppContext()).asBitmap()
-                   .apply(new RequestOptions()
-                       .centerCrop()
-                       .error(R.drawable.attachment_broken))
-                   .load(mAttachment.getUri())
-                   .submit(width, height).get();
-      } catch (NullPointerException | InterruptedException | ExecutionException e) {
-        bmp = null;
-      }
+    if (AttachmentsHelper.typeOf(mAttachment, MIME_TYPE_VIDEO, MIME_TYPE_IMAGE, MIME_TYPE_SKETCH)) {
+      bmp = BitmapUtils.getThumbnail(mContext, mAttachment.getUri(), width, height);
 
-      // Audio
-    } else if (Constants.MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
+    } else if (MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
       bmp = ThumbnailUtils.extractThumbnail(
           BitmapUtils.decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R
               .raw.play), width, height), width, height);
 
-      // File
-    } else if (Constants.MIME_TYPE_FILES.equals(mAttachment.getMime_type())) {
-
-      // vCard
-      if (Constants.MIME_TYPE_CONTACT_EXT.equals(FilenameUtils.getExtension(mAttachment.getName()))) {
+    } else if (MIME_TYPE_FILES.equals(mAttachment.getMime_type())) {
+      if (MIME_TYPE_CONTACT_EXT.equals(FilenameUtils.getExtension(mAttachment.getName()))) {
         bmp = ThumbnailUtils.extractThumbnail(
             BitmapUtils.decodeSampledBitmapFromResourceMemOpt(mContext.getResources().openRawResource(R
                 .raw.vcard), width, height), width, height);
