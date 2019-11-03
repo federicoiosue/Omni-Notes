@@ -47,7 +47,7 @@ public class BitmapHelper {
     mAttachment.getUri().getPath();
 
     if (AttachmentsHelper.typeOf(mAttachment, MIME_TYPE_VIDEO, MIME_TYPE_IMAGE, MIME_TYPE_SKETCH)) {
-      bmp = BitmapUtils.getThumbnail(mContext, mAttachment.getUri(), width, height);
+      bmp = BitmapUtils.getThumbnail(mContext, FileProviderHelper.getShareableUri(mAttachment), width, height);
 
     } else if (MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
       bmp = ThumbnailUtils.extractThumbnail(
