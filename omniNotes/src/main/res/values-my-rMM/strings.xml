@@ -390,10 +390,10 @@
     <string name="settings_enable_file_logging_summary">ဖြစ်နိုင်ချေရှိသောပြဿနာများကို‌ဖြေရှင်းရန်အက်ပ်တီထွင်သူနှင့်ဝေမျှနိုင်ရန်အက်ပ်၏မှတ်တမ်းများကိုဖိုင်တစ်ခုထဲတွင်သိမ်းဆည်းမည်။</string>
     <string name="settings_statistics">စာရင်းအင်းများ</string>
     <!-- Stats -->
-    <string name="stats_total_notes">စုစုပေါင်းမှတ်စုအရေအတွက်</string>
+    <string name="stats_total_notes">စုစုပေါင်းမှတ်စု</string>
     <string name="stats_active_notes">အသုံးပြုဆဲမှတ်စုများ</string>
     <string name="stats_archived_notes">သိမ်းဆည်းပြီးမှတ်စုများ</string>
-    <string name="stats_trashed_notes">အမှိုက်ပုံးထဲထည့်ပြီးမှတ်စုများ</string>
+    <string name="stats_trashed_notes">အမှိုက်ပုံးထဲရှိမှတ်စုများ</string>
     <string name="stats_reminders">သတိပေးချက်များ</string>
     <string name="stats_future_reminders">ရှေ့လာမည့် သတိပေးချက်များ</string>
     <string name="stats_checklists">အမှန်ခြစ် စာရင်းများ</string>
@@ -403,16 +403,16 @@
     <string name="stats_attachments">ပူးတွဲဖိုင်များ</string>
     <string name="stats_images">ရုပ်ပုံများ</string>
     <string name="stats_videos">ဗီဒီယိုများ</string>
-    <string name="stats_audio_recordings">အသံသွင်းမှတ်တမ်းများ</string>
+    <string name="stats_audio_recordings">အသံဖိုင်များ</string>
     <string name="stats_sketches">ပုံကြမ်းများ</string>
     <string name="stats_files">ဖိုင်များ</string>
     <string name="stats_locations">တည်နေရာများ</string>
-    <string name="stats_words">စကားလုံးအရေအတွက်</string>
-    <string name="stats_max_words">အများဆုံးစကားလုံးအရေအတွက်</string>
-    <string name="stats_avg_words">ပျမ်းမျှစကားလုံးအရေအတွက်</string>
-    <string name="stats_characters">စာလုံးအရေအတွက်</string>
-    <string name="stats_max_characters">အများဆုံး စာလုံးအရေအတွက်</string>
-    <string name="stats_avg_characters">ပျမ်းမျှ စာလုံးအရေအတွက်</string>
+    <string name="stats_words">စကားလုံး</string>
+    <string name="stats_max_words">အများဆုံးစကားလုံးရေ</string>
+    <string name="stats_avg_words">ပျမ်းမျှစကားလုံး</string>
+    <string name="stats_characters">စာလုံးရေ</string>
+    <string name="stats_max_characters">အများဆုံးစာလုံးရေ</string>
+    <string name="stats_avg_characters">ပျမ်းမျှစာလုံးရေ</string>
     <!-- Instructions -->
     <string name="tour_request_start">Omninotes ကိုပထမဆုံး စတင်အသုံးပြုသည့်အတွက်
 အက်ပ်ခရီစဉ်ကိုကြည့်လိုက်မလား?</string>
@@ -455,10 +455,10 @@ OmniNotesကိုအသုံးပြုခြင်း
     <string name="drawer_open">ဆွဲတင် ဖွင့်</string>
     <string name="drawer_close">ဆွဲတင် ပိတ်</string>
     <string name="reminder">သတိပေးချက်</string>
-    <string name="stroke_size">စုတ်ချက် အရွယ်အစား</string>
-    <string name="note_thumbnail">မှတ်စု ပုံသေး</string>
-    <string name="note_reminder_symbol">မှတ်စု သတိပေးချက် သင်္ကေတ</string>
-    <string name="navigation_drawer_open">ထိန်းချုပ်မှုလမ်းညွှန် ဆွဲတင် ဖွင့်ပါ။</string>
+    <string name="stroke_size">စုတ်ချက်အရွယ်အစား</string>
+    <string name="note_thumbnail">မှတ်စုပုံသေး</string>
+    <string name="note_reminder_symbol">မှတ်စုသတိပေးချက်သင်္ကေတ</string>
+    <string name="navigation_drawer_open">ထိန်းချုပ်မှုလမ်းညွှန်ဆွဲတင် ဖွင့်ပါ။</string>
     <string name="navigation_drawer_close">ထိန်းချုပ်မှုလမ်းညွှန်ဆွဲတင်ပိတ်ပါ။</string>
     <!-- Various -->
     <string name="channel_backups_name">အရံသိမ်းဆည်းခြင်းများ</string>

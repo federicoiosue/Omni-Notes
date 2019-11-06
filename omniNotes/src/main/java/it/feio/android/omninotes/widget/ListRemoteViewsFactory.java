@@ -120,6 +120,13 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     if (!note.isLocked() && showThumbnails && !note.getAttachmentsList().isEmpty()) {
       Attachment mAttachment = note.getAttachmentsList().get(0);
+//      AppWidgetTarget awt = new AppWidgetTarget(app, R.id.attachmentThumbnail, row, appWidgetId) {
+//        @Override
+//        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+//          super.onResourceReady(resource, transition);
+//        }
+//      };
+//      BitmapHelper.loadAttachmentIntoWidget(mAttachment, awt);
       Bitmap bmp = BitmapHelper.getBitmapFromAttachment(app, mAttachment, WIDTH, HEIGHT);
       row.setBitmap(R.id.attachmentThumbnail, "setImageBitmap", bmp);
       row.setInt(R.id.attachmentThumbnail, "setVisibility", View.VISIBLE);
