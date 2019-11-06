@@ -85,6 +85,7 @@
     <string name="data_import_message">Klik -&gt; obnovi\nDolg-klik-&gt; izbriše</string>
     <string name="data_import_message_warning">OPOZORILO: to bo zamenjalo vse trenutne podatke!</string>
     <string name="data_export_completed">Varnostno kopiranje podatkov končano</string>
+    <string name="data_export_failed">Varnostno kopiranje podatkov je spodletelo: za podrobnosti preverite logcat</string>
     <string name="data_import_completed">Uvoz podatkov končan</string>
     <string name="click_to_refresh_application">Kliknite, če želite osvežiti aplikacijo</string>
     <string name="backup_existing">Naredite varnostno kopijo obstoječih podatkov, ker bodo izbrisani</string>
@@ -218,6 +219,8 @@
     <string name="settings_export">Varnostno kopiranje</string>
     <string name="settings_sync_import_export">Sinhronizacija in varnostne kopije</string>
     <string name="settings_import">Obnoviti ali jo izbrisati varnostne kopije</string>
+    <string name="settings_import_legacy">Obnovi legacy varnostne kopije</string>
+    <string name="settings_import_legacy_summary">Omogoča obnavljanje starih varnostnih kopij, narejenih z različicami Omni notes pred različico 6</string>
     <string name="settings_import_from_springpad">Uvažanje beležke iz Springpad</string>
     <string name="settings_import_from_springpad_summary">Izberite Springpad, ki se izvažajo Arhiv in se prepričajte, za povezavo z internetom</string>
     <string name="settings_sync_drive">Sinhronizacijo z Google Drive</string>
@@ -244,6 +247,9 @@
     <string name="settings_max_video_size">Video priponke</string>
     <string name="settings_screen_data">Podatki</string>
     <string name="settings_backup">Varnostno kopiranje</string>
+    <string name="settings_enable_automatic_backup">Omogoči samodejno varnostno kopiranje</string>
+    <string name="settings_enable_automatic_backup_summary">Beležke bodo shranjene v mapo \"_autobackup\"</string>
+    <string name="settings_enable_automatic_backup_dialog">Če omogočite to funkcijo, bo narejena varnostna kopija vseh podatkov</string>
     <string name="settings_password">Geslo</string>
     <string name="settings_password_access">Zahtevajte geslo za dostop</string>
     <string name="settings_password_instructions">Geslo zagotavlja, da opombe ne bo treba ogledovanjem ali spreminjanjem drugih oseb. \n\n Ko nastavite novo geslo, bo zahtevala prejšnjega.</string>
@@ -270,6 +276,7 @@
     <string name="settings_category_preferences">Nastavitve</string>
     <string name="settings_category_beta">Beta</string>
     <string name="settings_category_about">O aplikaciji</string>
+    <string name="settings_beta">Sodeluj</string>
     <string name="settings_beta_summary">Naročite se na beta program za uporabo najnovejših funkcij</string>
     <string name="donate">Doniraj</string>
     <string name="donate_summary">Podpirati razvoj te vloge z neprofitno darovanja</string>
@@ -332,6 +339,8 @@
     <string name="settings_error_reporting_summary_off">Poročila ne tresk hoteti obstati odposlati. Se ne pritožujejo, če gre kaj narobe!</string>
     <string name="settings_send_analytics">Deli anonimne podatke</string>
     <string name="settings_send_analytics_summary">Pomagajte razvijalcem s pošiljanjem neobčutljivih podatkov kot na primer model naprave, jezik, pogosto uporabljene funkcije. Ti podatki so uporabljeni izključno za izboljšanje odprtokodne aplikacije.</string>
+    <string name="settings_enable_file_logging">Shrani dnevniške zapise v datoteko</string>
+    <string name="settings_enable_file_logging_summary">Dnevniški zapisi aplikacije bodo shranjeni v datoteko, ki jo lahko delite z razvijalci za boljše odkrivanje morebitnih težav (to zahteva ponovni zagon aplikacije)</string>
     <string name="settings_statistics">Statistika</string>
     <!-- Stats -->
     <string name="stats_total_notes">Skupaj beležk</string>
@@ -372,6 +381,7 @@
     <string name="tour_detailactivity_action_title">Še več</string>
     <string name="tour_detailactivity_action_detail">Delite, označujte, arhivirajte, zaščitite in...</string>
     <string name="tour_detailactivity_reminder_title">Samo pritisnite</string>
+    <string name="tour_detailactivity_reminder_detail">Daljši pritiski na priloge, lokacijo ali na opomnik bodo ponudili drugačne možnosti, kot kratki pritiski!</string>
     <string name="tour_detailactivity_links_title">Povezave</string>
     <string name="tour_detailactivity_links_detail">Prepoznava telefonskih številk, e-poštnih in URL naslovov</string>
     <string name="tour_detailactivity_swipe_title">Močan</string>
@@ -380,6 +390,7 @@
     <string name="tour_detailactivity_save_detail">Preprosto pritisnite navigacijsko ikono \"gor\" ali pojdite nazaj z navigacijsko tipko</string>
     <string name="tour_listactivity_final_title">Uživajte</string>
     <string name="tour_listactivity_final_detail">Zahvaljujemo se vam za uporabo Omni Notes\nOdprtokodne alternative za produktivnost in shranjevanje raznih beležk!</string>
+    <string name="tour_community">Prijavite se v naše skupnosti, da boste sodelovali!</string>
     <!-- Accessibility -->
     <string name="drawer_open">poteznik odprt</string>
     <string name="drawer_close">poteznik zaprt</string>
@@ -390,5 +401,8 @@
     <string name="navigation_drawer_open">Odpri navigacijsko okno</string>
     <string name="navigation_drawer_close">Zapri navigacijsko okno</string>
     <!-- Various -->
+    <string name="channel_backups_name">Varnostne kopije</string>
+    <string name="channel_backups_description">Obvestila za stanje varnostnega kopiranja in poročilo</string>
     <string name="channel_reminders_name">Opomniki</string>
+    <string name="channel_reminders_description">Obvestila za opomnike beležk</string>
 </resources>

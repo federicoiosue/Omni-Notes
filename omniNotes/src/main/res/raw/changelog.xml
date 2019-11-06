@@ -18,6 +18,13 @@
 <changelog bulletedList="true">
 
     <changelogversion
+      changeDate="Nov 3, 2019"
+      versionName="6.0.3">
+        <changelogtext>[i]Improved![/i] Updated Burmese, Russian, Slovenian translations</changelogtext>
+        <changelogtext>[u]Fix[/u] Bug with home widgets</changelogtext>
+    </changelogversion>
+
+    <changelogversion
       changeDate="Oct 29, 2019"
       versionName="6.0.2">
         <changelogtext>[i]Improved![/i] Updated Burmese translation</changelogtext>
