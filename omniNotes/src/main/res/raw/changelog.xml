@@ -18,6 +18,12 @@
 <changelog bulletedList="true">
 
     <changelogversion
+      changeDate="Nov 11, 2019"
+      versionName="6.0.4">
+        <changelogtext>[u]Fix[/u] Notification on notes with attachments</changelogtext>
+    </changelogversion>
+
+    <changelogversion
       changeDate="Nov 3, 2019"
       versionName="6.0.3">
         <changelogtext>[i]Improved![/i] Updated Burmese, Russian, Slovenian translations</changelogtext>
