@@ -19,13 +19,16 @@ package it.feio.android.omninotes;
 
 import static org.junit.Assert.assertFalse;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.rule.GrantPermissionRule;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 
 
 public class BaseAndroidTestCase {
@@ -37,6 +40,13 @@ public class BaseAndroidTestCase {
   protected static Context testContext;
   protected static SharedPreferences prefs;
 
+  @Rule
+  public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
+      Manifest.permission.ACCESS_COARSE_LOCATION,
+      Manifest.permission.READ_EXTERNAL_STORAGE,
+      Manifest.permission.WRITE_EXTERNAL_STORAGE,
+      Manifest.permission.RECORD_AUDIO
+  );
 
   @BeforeClass
   public static void setUpBeforeClass () {

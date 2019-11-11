@@ -27,12 +27,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
+import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.widget.RemoteViews;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestBuilder;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.AppWidgetTarget;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
@@ -54,16 +53,7 @@ public class BitmapHelper {
     mAttachment.getUri().getPath();
 
     if (AttachmentsHelper.typeOf(mAttachment, MIME_TYPE_VIDEO, MIME_TYPE_IMAGE, MIME_TYPE_SKETCH)) {
-      try {
-        bmp = Glide.with(OmniNotes.getAppContext()).asBitmap()
-                   .apply(new RequestOptions()
-                       .centerCrop()
-                       .error(R.drawable.attachment_broken))
-                   .load(mAttachment.getUri())
-                   .submit(width, height).get();
-      } catch (NullPointerException | InterruptedException | ExecutionException e) {
-        bmp = null;
-      }
+      bmp = getImageBitmap(mContext, mAttachment, width, height);
 
     } else if (MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
       bmp = ThumbnailUtils.extractThumbnail(
@@ -85,29 +75,23 @@ public class BitmapHelper {
     return bmp;
   }
 
-  public static void loadAttachmentIntoWidget (Attachment mAttachment, AppWidgetTarget awt) {
-    mAttachment.getUri().getPath();
-
-    RequestBuilder<Bitmap> builder = Glide.with(OmniNotes.getAppContext()).asBitmap()
-                                      .apply(new RequestOptions()
-                                          .centerCrop()
-                                          .error(R.drawable.attachment_broken));
-
-    if (AttachmentsHelper.typeOf(mAttachment, MIME_TYPE_VIDEO, MIME_TYPE_IMAGE, MIME_TYPE_SKETCH)) {
-      builder = builder.load(mAttachment.getUri());
-    } else if (MIME_TYPE_AUDIO.equals(mAttachment.getMime_type())) {
-      builder = builder.load(R.raw.play);
-    } else if (MIME_TYPE_FILES.equals(mAttachment.getMime_type())) {
-      if (MIME_TYPE_CONTACT_EXT.equals(FilenameUtils.getExtension(mAttachment.getName()))) {
-        builder = builder.load(R.raw.vcard);
+  @Nullable
+  private static Bitmap getImageBitmap (Context mContext, Attachment mAttachment, int width, int height) {
+    try {
+      if (Looper.getMainLooper() == Looper.myLooper()) {
+        return BitmapUtils.getThumbnail(mContext, mAttachment.getUri(), width, height);
       } else {
-        builder = builder.load(R.raw.files);
+        return Glide.with(OmniNotes.getAppContext()).asBitmap()
+                    .apply(new RequestOptions()
+                        .centerCrop()
+                        .error(R.drawable.attachment_broken))
+                    .load(mAttachment.getUri())
+                    .submit(width, height).get();
       }
+    } catch (NullPointerException | InterruptedException | ExecutionException e) {
+      return null;
     }
-
-    builder.into(awt);
   }
-
 
   public static Uri getThumbnailUri (Context mContext, Attachment mAttachment) {
     Uri uri = mAttachment.getUri();
