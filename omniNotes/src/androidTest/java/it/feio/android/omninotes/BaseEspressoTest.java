@@ -49,14 +49,6 @@ import org.junit.Rule;
 public class BaseEspressoTest extends BaseAndroidTestCase {
 
   @Rule
-  public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
-      Manifest.permission.ACCESS_COARSE_LOCATION,
-      Manifest.permission.READ_EXTERNAL_STORAGE,
-      Manifest.permission.WRITE_EXTERNAL_STORAGE,
-      Manifest.permission.RECORD_AUDIO
-  );
-
-  @Rule
   public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class, false, false);
 
   static Matcher<View> childAtPosition (
