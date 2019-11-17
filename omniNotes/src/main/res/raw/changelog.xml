@@ -20,6 +20,7 @@
     <changelogversion
       changeDate="Nov 17, 2019"
       versionName="6.0.5">
+        <changelogtext>[i]Improved![/i] Confirmation required when undoing note changes</changelogtext>
         <changelogtext>[u]Fix[/u] Notification on Oreo devices</changelogtext>
     </changelogversion>
 
