@@ -48,12 +48,12 @@ public class NotificationsHelper {
   }
 
   /**
-   * Create the NotificationChannel, but only on API 26+ because the NotificationChannel class is new and not in the
+   * Creates the NotificationChannel, but only on API 26+ because the NotificationChannel class is new and not in the
    * support library
    */
   @TargetApi(Build.VERSION_CODES.O)
   public void initNotificationChannels () {
-    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       for (it.feio.android.omninotes.utils.notifications.NotificationChannel notificationChannel : NotificationChannels.getChannels()) {
         NotificationChannel channel = new NotificationChannel(notificationChannel.name, notificationChannel
             .name, notificationChannel.importance);

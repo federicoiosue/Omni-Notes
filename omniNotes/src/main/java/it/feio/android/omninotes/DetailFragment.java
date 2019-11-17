@@ -1072,14 +1072,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         shareNote();
         break;
       case R.id.menu_checklist_on:
-        toggleChecklist();
-        break;
       case R.id.menu_checklist_off:
         toggleChecklist();
         break;
       case R.id.menu_lock:
-        lockNote();
-        break;
       case R.id.menu_unlock:
         lockNote();
         break;
@@ -1453,24 +1449,29 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    * Discards changes done to the note and eventually delete new attachments
    */
   private void discard () {
-    if (!noteTmp.getAttachmentsList().equals(note.getAttachmentsList())) {
-      for (Attachment newAttachment : noteTmp.getAttachmentsList()) {
-        if (!note.getAttachmentsList().contains(newAttachment)) {
-          StorageHelper.delete(mainActivity, newAttachment.getUri().getPath());
-        }
-      }
-    }
+    new MaterialDialog.Builder(mainActivity)
+        .content(R.string.undo_changes_note_confirmation)
+        .positiveText(R.string.ok)
+        .onPositive((dialog, which) -> {
+          if (!noteTmp.getAttachmentsList().equals(note.getAttachmentsList())) {
+            for (Attachment newAttachment : noteTmp.getAttachmentsList()) {
+              if (!note.getAttachmentsList().contains(newAttachment)) {
+                StorageHelper.delete(mainActivity, newAttachment.getUri().getPath());
+              }
+            }
+          }
 
-    goBack = true;
+          goBack = true;
 
-    if (!noteTmp.equals(noteOriginal)) {
-      if (noteOriginal.get_id() != null) {
-        new SaveNoteTask(this, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
-      }
-      MainActivity.notifyAppWidgets(mainActivity);
-    } else {
-      goHome();
-    }
+          if (!noteTmp.equals(noteOriginal)) {
+            if (noteOriginal.get_id() != null) {
+              new SaveNoteTask(mFragment, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
+            }
+            MainActivity.notifyAppWidgets(mainActivity);
+          } else {
+            goHome();
+          }
+        }).build().show();
   }
 
   @SuppressLint("NewApi")
@@ -1513,14 +1514,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     new MaterialDialog.Builder(mainActivity)
         .content(R.string.delete_note_confirmation)
         .positiveText(R.string.ok)
-        .onPositive(new MaterialDialog.SingleButtonCallback() {
-          @Override
-          public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-            mainActivity.deleteNote(noteTmp);
-            LogDelegate.d("Deleted note with id '" + noteTmp.get_id() + "'");
-            mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
-            goHome();
-          }
+        .onPositive((dialog, which) -> {
+          mainActivity.deleteNote(noteTmp);
+          LogDelegate.d("Deleted note with id '" + noteTmp.get_id() + "'");
+          mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
+          goHome();
         }).build().show();
   }
 
