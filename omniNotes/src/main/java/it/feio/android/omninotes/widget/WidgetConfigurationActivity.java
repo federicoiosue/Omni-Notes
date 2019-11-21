@@ -30,7 +30,7 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
+import it.feio.android.omninotes.models.adapters.CategoryBaseAdapter;
 import java.util.ArrayList;
 
 
@@ -70,7 +70,7 @@ public class WidgetConfigurationActivity extends Activity {
     categorySpinner.setEnabled(false);
     DbHelper db = DbHelper.getInstance();
     ArrayList<Category> categories = db.getCategories();
-    categorySpinner.setAdapter(new NavDrawerCategoryAdapter(this, categories));
+    categorySpinner.setAdapter(new CategoryBaseAdapter(this, categories));
 
     Button configOkButton = findViewById(R.id.widget_config_confirm);
     configOkButton.setOnClickListener(v -> {

@@ -108,8 +108,9 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
-import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
+import it.feio.android.omninotes.models.adapters.CategoryRecyclerViewAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
+import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
@@ -1227,7 +1228,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
         .title(R.string.categorize_as)
-        .adapter(new NavDrawerCategoryAdapter(mainActivity, categories, currentCategory), null)
+        .adapter(new CategoryRecyclerViewAdapter(mainActivity, categories), null)
         .positiveText(R.string.add_category)
         .positiveColorRes(R.color.colorPrimary)
         .negativeText(R.string.remove_category)
@@ -1242,16 +1243,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           setTagMarkerColor(null);
         }).build();
 
-    dialog.getListView().setOnItemClickListener((parent, view, position, id) -> {
+    RecyclerViewItemClickSupport.addTo(dialog.getRecyclerView()).setOnItemClickListener((recyclerView, position, v) -> {
       noteTmp.setCategory(categories.get(position));
       setTagMarkerColor(categories.get(position));
       dialog.dismiss();
     });
 
     dialog.show();
+
   }
 
-  private void showAttachmentsPopup () {
+    private void showAttachmentsPopup () {
     LayoutInflater inflater = mainActivity.getLayoutInflater();
     final View layout = inflater.inflate(R.layout.attachment_dialog, null);
 

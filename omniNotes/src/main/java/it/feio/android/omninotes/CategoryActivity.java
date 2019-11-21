@@ -102,7 +102,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     new ColorChooserDialog.Builder(this, R.string.colors)
         .dynamicButtonColor(false)
         .preselect(selectedColor)
-        .show();
+        .show(this);
   }
 
 
@@ -110,6 +110,16 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
   public void onColorSelection (ColorChooserDialog colorChooserDialog, int color) {
     BitmapUtils.changeImageViewDrawableColor(colorChooser, color);
     selectedColor = color;
+  }
+
+  @Override
+  public void onColorChooserDismissed (@NonNull ColorChooserDialog dialog) {
+    // Nothing to do
+  }
+
+  @Override
+  public void onPointerCaptureChanged (boolean hasCapture) {
+    // Nothing to do
   }
 
 

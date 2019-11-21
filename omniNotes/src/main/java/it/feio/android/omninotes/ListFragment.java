@@ -34,11 +34,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
-import androidx.annotation.NonNull;
-import androidx.appcompat.view.ActionMode;
-import androidx.appcompat.widget.SearchView;
-import androidx.appcompat.widget.SearchView.OnQueryTextListener;
-import androidx.core.util.Pair;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -53,6 +48,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.view.ActionMode;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.SearchView.OnQueryTextListener;
+import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import butterknife.BindView;
@@ -84,10 +84,11 @@ import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.UndoBarController;
-import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
+import it.feio.android.omninotes.models.adapters.CategoryRecyclerViewAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
+import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
 import it.feio.android.omninotes.utils.AnimationsHelper;
@@ -1460,30 +1461,19 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
         .title(R.string.categorize_as)
-        .adapter(new NavDrawerCategoryAdapter(mainActivity, categories), null)
+        .adapter(new CategoryRecyclerViewAdapter(mainActivity, categories), null)
         .positiveText(R.string.add_category)
         .positiveColorRes(R.color.colorPrimary)
         .negativeText(R.string.remove_category)
         .negativeColorRes(R.color.colorAccent)
-        .onPositive(new MaterialDialog.SingleButtonCallback() {
-          @Override
-          public void onClick (
-              @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-            keepActionMode = true;
-            Intent intent = new Intent(mainActivity, CategoryActivity.class);
-            intent.putExtra("noHome", true);
-            startActivityForResult(intent, REQUEST_CODE_CATEGORY_NOTES);
-          }
-        }).onNegative(new MaterialDialog.SingleButtonCallback() {
-          @Override
-          public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-            categorizeNotesExecute(null);
-          }
-        }).build();
+        .onPositive((dialog1, which) -> {
+          keepActionMode = true;
+          Intent intent = new Intent(mainActivity, CategoryActivity.class);
+          intent.putExtra("noHome", true);
+          startActivityForResult(intent, REQUEST_CODE_CATEGORY_NOTES);
+        }).onNegative((dialog12, which) -> categorizeNotesExecute(null)).build();
 
-    ListView dialogList = dialog.getListView();
-    assert dialogList != null;
-    dialogList.setOnItemClickListener((parent, view, position, id) -> {
+    RecyclerViewItemClickSupport.addTo(dialog.getRecyclerView()).setOnItemClickListener((recyclerView, position, v) -> {
       dialog.dismiss();
       categorizeNotesExecute(categories.get(position));
     });

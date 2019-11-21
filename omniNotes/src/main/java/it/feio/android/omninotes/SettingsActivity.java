@@ -17,7 +17,7 @@
 
 package it.feio.android.omninotes;
 
-import android.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -53,7 +53,7 @@ public class SettingsActivity extends AppCompatActivity implements FolderChooser
     setContentView(R.layout.activity_settings);
     ButterKnife.bind(this);
     initUI();
-    getFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
+    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
   }
 
 
@@ -70,13 +70,13 @@ public class SettingsActivity extends AppCompatActivity implements FolderChooser
     Bundle b = new Bundle();
     b.putString(SettingsFragment.XML_NAME, key);
     sf.setArguments(b);
-    backStack.add(getFragmentManager().findFragmentById(R.id.content_frame));
+    backStack.add(getSupportFragmentManager().findFragmentById(R.id.content_frame));
     replaceFragment(sf);
   }
 
 
   private void replaceFragment (Fragment sf) {
-    getFragmentManager().beginTransaction().setCustomAnimations(R.animator.fade_in, R.animator.fade_out,
+    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.animator.fade_in, R.animator.fade_out,
         R.animator.fade_in, R.animator.fade_out).replace(R.id.content_frame, sf).commit();
   }
 
@@ -116,5 +116,15 @@ public class SettingsActivity extends AppCompatActivity implements FolderChooser
           service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, folder.getAbsolutePath());
           startService(service);
         }).build().show();
+  }
+
+  @Override
+  public void onFolderChooserDismissed (@NonNull FolderChooserDialog dialog) {
+    // Nothing to do
+  }
+
+  @Override
+  public void onPointerCaptureChanged (boolean hasCapture) {
+    // Nothing to do
   }
 }

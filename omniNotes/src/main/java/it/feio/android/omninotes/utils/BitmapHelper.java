@@ -28,7 +28,6 @@ import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Looper;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -75,7 +74,6 @@ public class BitmapHelper {
     return bmp;
   }
 
-  @Nullable
   private static Bitmap getImageBitmap (Context mContext, Attachment mAttachment, int width, int height) {
     try {
       if (Looper.getMainLooper() == Looper.myLooper()) {

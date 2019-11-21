@@ -29,13 +29,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.EditTextPreference;
-import android.preference.ListPreference;
-import android.preference.Preference;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceScreen;
-import android.preference.SwitchPreference;
-import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -46,6 +39,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.widget.Toolbar;
+import androidx.preference.EditTextPreference;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreference;
+import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import it.feio.android.analitica.AnalyticsHelper;
@@ -58,6 +58,8 @@ import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
+import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport.OnItemClickListener;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
@@ -71,20 +73,17 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class SettingsFragment extends PreferenceFragment {
+public class SettingsFragment extends PreferenceFragmentCompat {
 
   private SharedPreferences prefs;
 
   private static final int SPRINGPAD_IMPORT = 0;
   private static final int RINGTONE_REQUEST_CODE = 100;
   public static final String XML_NAME = "xmlName";
-  private Activity activity;
-  private SettingsFragment pf;
 
 
   @Override
   public void onCreate (Bundle savedInstanceState) {
-    pf = this;
     super.onCreate(savedInstanceState);
     int xmlId = R.xml.settings;
     if (getArguments() != null && getArguments().containsKey(XML_NAME)) {
@@ -94,15 +93,11 @@ public class SettingsFragment extends PreferenceFragment {
     addPreferencesFromResource(xmlId);
   }
 
-
   @Override
-  public void onAttach (Activity activity) {
-    super.onAttach(activity);
-    this.activity = activity;
-    prefs = activity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+  public void onCreatePreferences (Bundle savedInstanceState, String rootKey) {
+    prefs = getContext().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
     setTitle();
   }
-
 
   private void setTitle () {
     String title = getString(R.string.settings);
@@ -131,16 +126,12 @@ public class SettingsFragment extends PreferenceFragment {
     return super.onOptionsItemSelected(item);
   }
 
-
   @Override
-  public boolean onPreferenceTreeClick (PreferenceScreen preferenceScreen, Preference preference) {
-    super.onPreferenceTreeClick(preferenceScreen, preference);
-    if (preference instanceof PreferenceScreen) {
-      ((SettingsActivity) getActivity()).switchToScreen(preference.getKey());
-    }
+  public boolean onPreferenceTreeClick (androidx.preference.Preference preference) {
+    super.onPreferenceTreeClick(preference);
+    ((SettingsActivity) getActivity()).switchToScreen(preference.getKey());
     return false;
   }
-
 
   @Override
   public void onResume () {
@@ -157,7 +148,7 @@ public class SettingsFragment extends PreferenceFragment {
 
         // Finds actually saved backups names
         PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-            .string.permission_external_storage, activity.findViewById(R.id.crouton_handle), () -> export
+            .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), () -> export
             (v));
 
         return false;
@@ -169,7 +160,7 @@ public class SettingsFragment extends PreferenceFragment {
     if (importData != null) {
       importData.setOnPreferenceClickListener(arg0 -> {
         PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-            .string.permission_external_storage, activity.findViewById(R.id.crouton_handle), () -> importNotes());
+            .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), () -> importNotes());
         return false;
       });
     }
@@ -181,10 +172,10 @@ public class SettingsFragment extends PreferenceFragment {
 
         // Finds actually saved backups names
         PermissionsHelper.requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE, R
-            .string.permission_external_storage, activity.findViewById(R.id.crouton_handle), () -> new
-            FolderChooserDialog.Builder((SettingsActivity) getActivity())
+            .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), () -> new
+            FolderChooserDialog.Builder(getActivity())
             .chooseButton(R.string.md_choose_label)
-            .show());
+            .show(getActivity()));
         return false;
       });
     }
@@ -282,7 +273,7 @@ public class SettingsFragment extends PreferenceFragment {
 //		});
 
     // Swiping action
-    final SwitchPreference swipeToTrash = (SwitchPreference) findPreference("settings_swipe_to_trash");
+    final SwitchPreference swipeToTrash = findPreference("settings_swipe_to_trash");
     if (swipeToTrash != null) {
       if (prefs.getBoolean("settings_swipe_to_trash", false)) {
         swipeToTrash.setChecked(true);
@@ -302,20 +293,20 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     // Show uncategorized notes in menu
-    final SwitchPreference showUncategorized = (SwitchPreference) findPreference(Constants
+    final SwitchPreference showUncategorized = findPreference(Constants
         .PREF_SHOW_UNCATEGORIZED);
     if (showUncategorized != null) {
       showUncategorized.setOnPreferenceChangeListener((preference, newValue) -> true);
     }
 
     // Show Automatically adds location to new notes
-    final SwitchPreference autoLocation = (SwitchPreference) findPreference(Constants.PREF_AUTO_LOCATION);
+    final SwitchPreference autoLocation = findPreference(Constants.PREF_AUTO_LOCATION);
     if (autoLocation != null) {
       autoLocation.setOnPreferenceChangeListener((preference, newValue) -> true);
     }
 
     // Maximum video attachment size
-    final EditTextPreference maxVideoSize = (EditTextPreference) findPreference("settings_max_video_size");
+    final EditTextPreference maxVideoSize = findPreference("settings_max_video_size");
     if (maxVideoSize != null) {
       maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": "
           + prefs.getString("settings_max_video_size", getString(R.string.not_set)));
@@ -337,7 +328,7 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     // Use password to grant application access
-    final SwitchPreference passwordAccess = (SwitchPreference) findPreference("settings_password_access");
+    final SwitchPreference passwordAccess = findPreference("settings_password_access");
     if (passwordAccess != null) {
       if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
         passwordAccess.setEnabled(false);
@@ -356,7 +347,7 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     // Languages
-    ListPreference lang = (ListPreference) findPreference("settings_language");
+    ListPreference lang = findPreference("settings_language");
     if (lang != null) {
       String languageName = getResources().getConfiguration().locale.getDisplayName();
       lang.setSummary(languageName.substring(0, 1).toUpperCase(getResources().getConfiguration().locale)
@@ -369,7 +360,7 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     // Text size
-    final ListPreference textSize = (ListPreference) findPreference("settings_text_size");
+    final ListPreference textSize = findPreference("settings_text_size");
     if (textSize != null) {
       int textSizeIndex = textSize.findIndexOfValue(prefs.getString("settings_text_size", "default"));
       String textSizeString = getResources().getStringArray(R.array.text_size)[textSizeIndex];
@@ -385,7 +376,7 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     // Application's colors
-    final ListPreference colorsApp = (ListPreference) findPreference("settings_colors_app");
+    final ListPreference colorsApp = findPreference("settings_colors_app");
     if (colorsApp != null) {
       int colorsAppIndex = colorsApp.findIndexOfValue(prefs.getString("settings_colors_app",
           Constants.PREF_COLORS_APP_DEFAULT));
@@ -402,7 +393,7 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     // Checklists
-    final ListPreference checklist = (ListPreference) findPreference("settings_checked_items_behavior");
+    final ListPreference checklist = findPreference("settings_checked_items_behavior");
     if (checklist != null) {
       int checklistIndex = checklist.findIndexOfValue(prefs.getString("settings_checked_items_behavior", "0"));
       String checklistString = getResources().getStringArray(R.array.checked_items_behavior)[checklistIndex];
@@ -419,7 +410,7 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     // Widget's colors
-    final ListPreference colorsWidget = (ListPreference) findPreference("settings_colors_widget");
+    final ListPreference colorsWidget = findPreference("settings_colors_widget");
     if (colorsWidget != null) {
       int colorsWidgetIndex = colorsWidget.findIndexOfValue(prefs.getString("settings_colors_widget",
           Constants.PREF_COLORS_APP_DEFAULT));
@@ -436,7 +427,7 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     // Notification snooze delay
-    final EditTextPreference snoozeDelay = (EditTextPreference) findPreference
+    final EditTextPreference snoozeDelay = findPreference
         ("settings_notification_snooze_delay");
     if (snoozeDelay != null) {
       String snooze = prefs.getString("settings_notification_snooze_delay", Constants.PREF_SNOOZE_DEFAULT);
@@ -466,7 +457,7 @@ public class SettingsFragment extends PreferenceFragment {
         ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
             "settings_changelog");
 
-        new MaterialDialog.Builder(activity)
+        new MaterialDialog.Builder(getContext())
             .customView(R.layout.activity_changelog, false)
             .positiveText(R.string.ok)
             .build().show();
@@ -484,7 +475,7 @@ public class SettingsFragment extends PreferenceFragment {
     if (resetData != null) {
       resetData.setOnPreferenceClickListener(arg0 -> {
 
-        new MaterialDialog.Builder(activity)
+        new MaterialDialog.Builder(getContext())
             .content(R.string.reset_all_data_confirmation)
             .positiveText(R.string.confirm)
             .onPositive((dialog, which) -> {
@@ -503,13 +494,13 @@ public class SettingsFragment extends PreferenceFragment {
     }
 
     // Logs on files activation
-    final SwitchPreference enableFileLogging = (SwitchPreference) findPreference(Constants
+    final SwitchPreference enableFileLogging = findPreference(Constants
         .PREF_ENABLE_FILE_LOGGING);
     if (enableFileLogging != null) {
       enableFileLogging.setOnPreferenceChangeListener((preference, newValue) -> {
         if ((Boolean) newValue) {
           PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-                  .string.permission_external_storage, activity.findViewById(R.id.crouton_handle),
+                  .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle),
               () -> enableFileLogging.setChecked(true));
         } else {
           enableFileLogging.setChecked(false);
@@ -598,10 +589,7 @@ public class SettingsFragment extends PreferenceFragment {
       // OnShow is overridden to allow long-click on item so user can remove them
       importDialog.setOnShowListener(dialog -> {
 
-        ListView lv = importDialog.getListView();
-        assert lv != null;
-        lv.setOnItemClickListener((parent, view, position, id) -> {
-
+        RecyclerViewItemClickSupport.addTo(importDialog.getRecyclerView()).setOnItemClickListener((recyclerView, position, v) -> {
           // Retrieves backup size
           File backupDir = StorageHelper.getBackupDir(backups.get(position));
           long size = StorageHelper.getSize(backupDir) / 1024;
@@ -638,8 +626,7 @@ public class SettingsFragment extends PreferenceFragment {
         });
 
         // Creation of backup removal dialog
-        lv.setOnItemLongClickListener((parent, view, position, id) -> {
-
+        RecyclerViewItemClickSupport.addTo(importDialog.getRecyclerView()).setOnItemLongClickListener((recyclerView, position, v) -> {
           // Retrieves backup size
           File backupDir = StorageHelper.getBackupDir(backups.get(position));
           long size = StorageHelper.getSize(backupDir) / 1024;
