@@ -16,35 +16,35 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fitsSystemWindows="true">
+  android:fitsSystemWindows="true">
 
-    <Preference
-        android:key="settings_export_data"
-        android:title="@string/settings_export" />
+  <Preference
+    android:key="settings_export_data"
+    android:title="@string/settings_export" />
 
-    <Preference
-        android:key="settings_import_data"
-        android:title="@string/settings_import" />
+  <Preference
+    android:key="settings_import_data"
+    android:title="@string/settings_import" />
 
-    <Preference
-            android:key="settings_import_data_legacy"
-            android:title="@string/settings_import_legacy"
-            android:summary="@string/settings_import_legacy_summary"  />
+  <Preference
+    android:key="settings_import_data_legacy"
+    android:summary="@string/settings_import_legacy_summary"
+    android:title="@string/settings_import_legacy" />
 
-    <!--<Preference-->
-            <!--android:key="settings_backup_integrity_check"-->
-            <!--android:title="Backup Integrity Check"-->
-            <!--android:summary="Checks everything is ok with new auto-backup alpha feature (this option will be removed)"  />-->
+  <!--<Preference-->
+  <!--android:key="settings_backup_integrity_check"-->
+  <!--android:title="Backup Integrity Check"-->
+  <!--android:summary="Checks everything is ok with new auto-backup alpha feature (this option will be removed)"  />-->
 
-    <!--<SwitchPreference-->
-        <!--android:key="settings_enable_autobackup"-->
-        <!--android:defaultValue="false"-->
-        <!--android:title="@string/settings_enable_automatic_backup"-->
-        <!--android:summary="@string/settings_enable_automatic_backup_summary" />-->
+  <!--<SwitchPreference-->
+  <!--android:key="settings_enable_autobackup"-->
+  <!--android:defaultValue="false"-->
+  <!--android:title="@string/settings_enable_automatic_backup"-->
+  <!--android:summary="@string/settings_enable_automatic_backup_summary" />-->
 
-    <Preference
-            android:key="settings_import_from_springpad"
-            android:title="@string/settings_import_from_springpad"
-            android:summary="@string/settings_import_from_springpad_summary" />
+  <Preference
+    android:key="settings_import_from_springpad"
+    android:summary="@string/settings_import_from_springpad_summary"
+    android:title="@string/settings_import_from_springpad" />
 
 </PreferenceScreen>

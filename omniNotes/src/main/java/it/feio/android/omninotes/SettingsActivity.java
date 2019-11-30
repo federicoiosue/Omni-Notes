@@ -24,6 +24,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.ViewGroup;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -37,7 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SettingsActivity extends AppCompatActivity implements FolderChooserDialog.FolderCallback {
+public class SettingsActivity extends AppCompatActivity implements
+    PreferenceFragmentCompat.OnPreferenceStartFragmentCallback, FolderChooserDialog.FolderCallback {
 
   @BindView(R.id.toolbar)
   Toolbar toolbar;
@@ -62,16 +65,6 @@ public class SettingsActivity extends AppCompatActivity implements FolderChooser
     toolbar.setNavigationOnClickListener(v -> onBackPressed());
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
-  }
-
-
-  void switchToScreen (String key) {
-    SettingsFragment sf = new SettingsFragment();
-    Bundle b = new Bundle();
-    b.putString(SettingsFragment.XML_NAME, key);
-    sf.setArguments(b);
-    backStack.add(getSupportFragmentManager().findFragmentById(R.id.content_frame));
-    replaceFragment(sf);
   }
 
 
@@ -126,5 +119,23 @@ public class SettingsActivity extends AppCompatActivity implements FolderChooser
   @Override
   public void onPointerCaptureChanged (boolean hasCapture) {
     // Nothing to do
+  }
+
+  @Override
+  public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
+    Bundle b = new Bundle();
+    b.putString(SettingsFragment.XML_NAME, pref.getKey());
+
+    final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate(
+        getClassLoader(),
+        pref.getFragment());
+    fragment.setArguments(b);
+    fragment.setTargetFragment(caller, 0);
+
+    getSupportFragmentManager().beginTransaction()
+                               .replace(R.id.content_frame, fragment)
+                               .addToBackStack(null)
+                               .commit();
+    return true;
   }
 }

@@ -36,7 +36,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
@@ -45,7 +44,6 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
-import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import it.feio.android.analitica.AnalyticsHelper;
@@ -59,7 +57,6 @@ import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
 import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
-import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport.OnItemClickListener;
 import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
@@ -124,13 +121,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       LogDelegate.e("Wrong element choosen: " + item.getItemId());
     }
     return super.onOptionsItemSelected(item);
-  }
-
-  @Override
-  public boolean onPreferenceTreeClick (androidx.preference.Preference preference) {
-    super.onPreferenceTreeClick(preference);
-    ((SettingsActivity) getActivity()).switchToScreen(preference.getKey());
-    return false;
   }
 
   @Override

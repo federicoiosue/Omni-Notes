@@ -16,30 +16,30 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:fitsSystemWindows="true">
+  android:fitsSystemWindows="true">
 
-    <SwitchPreference
-            android:defaultValue="true"
-            android:key="settings_dynamic_menu"
-            android:title="@string/settings_dynamic_menu"
-            android:summary="@string/settings_dynamic_menu_summary"/>
+  <SwitchPreference
+    android:defaultValue="true"
+    android:key="settings_dynamic_menu"
+    android:summary="@string/settings_dynamic_menu_summary"
+    android:title="@string/settings_dynamic_menu" />
 
-    <SwitchPreference
-            android:defaultValue="true"
-            android:key="settings_show_category_count"
-            android:summary="@string/settings_show_category_count_summary"
-            android:title="@string/settings_show_category_count"/>
+  <SwitchPreference
+    android:defaultValue="true"
+    android:key="settings_show_category_count"
+    android:summary="@string/settings_show_category_count_summary"
+    android:title="@string/settings_show_category_count" />
 
-    <SwitchPreference
-            android:defaultValue="false"
-            android:key="settings_show_uncategorized"
-            android:title="@string/settings_show_uncategorized"
-            android:summary="@string/settings_show_uncategorized_summary"/>
+  <SwitchPreference
+    android:defaultValue="false"
+    android:key="settings_show_uncategorized"
+    android:summary="@string/settings_show_uncategorized_summary"
+    android:title="@string/settings_show_uncategorized" />
 
-    <SwitchPreference
-            android:defaultValue="false"
-            android:key="settings_navdrawer_on_exit"
-            android:summary="@string/settings_navdrawer_on_exit_summary"
-            android:title="@string/settings_navdrawer_on_exit"/>
+  <SwitchPreference
+    android:defaultValue="false"
+    android:key="settings_navdrawer_on_exit"
+    android:summary="@string/settings_navdrawer_on_exit_summary"
+    android:title="@string/settings_navdrawer_on_exit" />
 
 </PreferenceScreen>
