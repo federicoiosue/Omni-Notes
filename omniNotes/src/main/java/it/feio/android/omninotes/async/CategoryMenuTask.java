@@ -125,9 +125,6 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     if (settings == null) {
       return categories;
     }
-//        Fonts.overrideTextSize(mainActivity,
-//                mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
-//                settings);
 
     mainActivity.runOnUiThread(() -> {
       settings.setOnClickListener(v -> {

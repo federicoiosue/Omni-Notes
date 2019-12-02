@@ -122,7 +122,6 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.FileProviderHelper;
-import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.KeyboardUtils;
@@ -585,9 +584,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     // Sets onTouchListener to the whole activity to swipe notes
     root.setOnTouchListener(this);
-
-    // Overrides font sizes with the one selected from user
-    Fonts.overrideTextSize(mainActivity, prefs, root);
 
     // Color of tag marker if note is tagged a function is active in preferences
     setTagMarkerColor(noteTmp.getCategory());

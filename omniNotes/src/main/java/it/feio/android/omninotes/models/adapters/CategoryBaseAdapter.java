@@ -33,7 +33,6 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.category.CategoryViewHolder;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Fonts;
 import java.util.List;
 
 
@@ -80,16 +79,11 @@ public class CategoryBaseAdapter extends BaseAdapter {
 
   public View getView (int position, View convertView, ViewGroup parent) {
 
-    // Finds elements
     Category category = categories.get(position);
 
     CategoryViewHolder holder;
     if (convertView == null) {
       convertView = inflater.inflate(layout, parent, false);
-
-      // Overrides font sizes with the one selected from user
-      Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME,
-          Context.MODE_MULTI_PROCESS), convertView);
 
       holder = new CategoryViewHolder(convertView);
 

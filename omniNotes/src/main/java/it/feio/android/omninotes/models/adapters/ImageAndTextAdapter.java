@@ -26,8 +26,6 @@ import android.widget.ImageView;
 import com.neopixl.pixlui.components.textview.TextView;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.holders.ImageAndTextItem;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Fonts;
 import java.util.ArrayList;
 
 
@@ -68,13 +66,7 @@ public class ImageAndTextAdapter extends BaseAdapter {
   public View getView (int position, View convertView, ViewGroup parent) {
     ImageAndTextViewHolder holder;
     if (convertView == null) {
-      convertView = inflater.inflate(R.layout.image_and_text_item,
-          parent, false);
-
-      // Overrides font sizes with the one selected from user
-      Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(
-          Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
-          convertView);
+      convertView = inflater.inflate(R.layout.image_and_text_item, parent, false);
 
       holder = new ImageAndTextViewHolder();
 

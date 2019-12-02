@@ -34,7 +34,6 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.category.CategoryViewHolder;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Fonts;
 import java.util.List;
 
 
@@ -70,10 +69,6 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryVi
   @Override
   public void onBindViewHolder (@NonNull CategoryViewHolder holder, int position) {
     Category category = categories.get(position);
-
-    // Overrides font sizes with the one selected from user
-    Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME,
-        Context.MODE_MULTI_PROCESS), holder.txtTitle);
 
     holder.txtTitle.setText(category.getName());
 

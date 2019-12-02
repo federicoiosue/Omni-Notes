@@ -41,7 +41,6 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.Fonts;
 import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.TextHelper;
 import java.util.ArrayList;
@@ -82,7 +81,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
     NoteViewHolder holder;
     if (convertView == null) {
       convertView = inflater.inflate(layout, parent, false);
-      holder = buildHolder(convertView, parent);
+      holder = new NoteViewHolder(convertView);
       convertView.setTag(holder);
     } else {
       holder = (NoteViewHolder) convertView.getTag();
@@ -304,14 +303,6 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
     for (Note note : notes) {
       remove(note);
     }
-  }
-
-
-  private NoteViewHolder buildHolder (View convertView, ViewGroup parent) {
-    // Overrides font sizes with the one selected from user
-    Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME,
-        Context.MODE_MULTI_PROCESS), convertView);
-    return new NoteViewHolder(convertView);
   }
 
 }

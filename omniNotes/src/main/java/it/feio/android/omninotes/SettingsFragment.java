@@ -349,22 +349,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       });
     }
 
-    // Text size
-    final ListPreference textSize = findPreference("settings_text_size");
-    if (textSize != null) {
-      int textSizeIndex = textSize.findIndexOfValue(prefs.getString("settings_text_size", "default"));
-      String textSizeString = getResources().getStringArray(R.array.text_size)[textSizeIndex];
-      textSize.setSummary(textSizeString);
-      textSize.setOnPreferenceChangeListener((preference, newValue) -> {
-        int textSizeIndex1 = textSize.findIndexOfValue(newValue.toString());
-        String checklistString = getResources().getStringArray(R.array.text_size)[textSizeIndex1];
-        textSize.setSummary(checklistString);
-        prefs.edit().putString("settings_text_size", newValue.toString()).apply();
-        textSize.setValueIndex(textSizeIndex1);
-        return false;
-      });
-    }
-
     // Application's colors
     final ListPreference colorsApp = findPreference("settings_colors_app");
     if (colorsApp != null) {
