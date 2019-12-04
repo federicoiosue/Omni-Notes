@@ -70,6 +70,13 @@ Look into the wiki for GIFs-based tutorials: [LINK](https://github.com/federicoi
 Watch the following terminal session recording on how to compile distributable files
 [![asciicast](https://asciinema.org/a/102898.png)](https://asciinema.org/a/102898)
 
+To be sure that build environment is fully compliant with the project the following command creates a container with all the needed tools to compile the code:
+
+```
+cd {project-folder}; rm local.properties; docker rm android; docker run -v $PWD:/workspace --name android tabrindle/min-alpine-android-sdk:latest bash -c "yes | sdkmanager --update && yes | sdkmanager --licenses && cd /workspace && ./gradlew build --stacktrace -Dorg.gradle.daemon=true -Pandroid.useDeprecatedNdk=true"
+
+```
+
 ## Test
 
 To execute all tests included into the project connect a device or emulator, then run the following command:
