@@ -137,7 +137,7 @@
 # "project.properties" file to get the path to the default "proguard-android-optimize.txt".
 -keepattributes *Annotation*
 # ACRA loads Plugins using reflection, so we need to keep all Plugin classes
--keep class * extends org.acra.plugins.Plugin {*;}
+-keep class * implements org.acra.plugins.Plugin {*;}
 # ACRA uses enum fields in annotations, so we have to keep those
 -keep enum org.acra.** {*;}
 -dontwarn android.support.**
