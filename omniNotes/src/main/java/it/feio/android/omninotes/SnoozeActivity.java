@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,39 +26,60 @@ import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_KEY;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SNOOZE_DEFAULT;
 
-import android.app.DatePickerDialog;
 import android.app.NotificationManager;
-import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
+
+import androidx.appcompat.app.AppCompatActivity;
+import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
+import java.util.Arrays;
+import java.util.Calendar;
+
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
-import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
-import java.util.Arrays;
-import java.util.Calendar;
 
 
-public class SnoozeActivity extends AppCompatActivity implements OnReminderPickedListener,
-    DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class SnoozeActivity extends AppCompatActivity implements OnReminderPickedListener {
 
   private Note note;
   private Note[] notes;
-  private ReminderPickers onDateSetListener;
-  private ReminderPickers onTimeSetListener;
 
+  public static void setNextRecurrentReminder(Note note) {
+    if (!TextUtils.isEmpty(note.getRecurrenceRule())) {
+      long nextReminder = RecurrenceHelper.nextReminderFromRecurrenceRule(Long.parseLong(note.getAlarm()), note
+          .getRecurrenceRule());
+      if (nextReminder > 0) {
+        updateNoteReminder(nextReminder, note, true);
+      }
+    } else {
+      new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
+    }
+  }
+
+  private static void updateNoteReminder(long reminder, Note note) {
+    updateNoteReminder(reminder, note, false);
+  }
+
+  private static void updateNoteReminder(long reminder, Note noteToUpdate, boolean updateNote) {
+    if (updateNote) {
+      noteToUpdate.setAlarm(reminder);
+      new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteToUpdate);
+    } else {
+      ReminderHelper.addReminder(OmniNotes.getAppContext(), noteToUpdate, reminder);
+      ReminderHelper.showReminderMessage(noteToUpdate.getAlarm());
+    }
+  }
 
   @Override
-  protected void onCreate (Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     if (getIntent().getParcelableExtra(INTENT_NOTE) != null) {
@@ -71,8 +92,7 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
     }
   }
 
-
-  private void manageNotification (SharedPreferences prefs) {
+  private void manageNotification(SharedPreferences prefs) {
     if (ACTION_DISMISS.equals(getIntent().getAction())) {
       setNextRecurrentReminder(note);
       finish();
@@ -93,41 +113,36 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
     removeNotification(note);
   }
 
-
-  private void postpone (SharedPreferences prefs, Long alarm, String recurrenceRule) {
+  private void postpone(SharedPreferences prefs, Long alarm, String recurrenceRule) {
     int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
         ReminderPickers.TYPE_GOOGLE;
     ReminderPickers reminderPicker = new ReminderPickers(this, this, pickerType);
     reminderPicker.pick(alarm, recurrenceRule);
-    onDateSetListener = reminderPicker;
-    onTimeSetListener = reminderPicker;
   }
 
-
-  private void removeNotification (Note note) {
-    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+  private void removeNotification(Note note) {
+    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
     manager.cancel(String.valueOf(note.get_id()), 0);
   }
 
-
   @Override
-  public void onReminderPicked (long reminder) {
-    if (this.note != null) {
-      this.note.setAlarm(reminder);
+  public void onReminderPicked(long reminder) {
+    if (note != null) {
+      note.setAlarm(reminder);
     } else {
-      for (Note noteToSet : this.notes) {
-        noteToSet.setAlarm(reminder);
+      for (Note currentNote : notes) {
+        currentNote.setAlarm(reminder);
       }
     }
   }
 
   @Override
-  public void onRecurrenceReminderPicked (String recurrenceRule) {
-    if (this.note != null) {
-      this.note.setRecurrenceRule(recurrenceRule);
-      setNextRecurrentReminder(this.note);
+  public void onRecurrenceReminderPicked(String recurrenceRule) {
+    if (note != null) {
+      note.setRecurrenceRule(recurrenceRule);
+      setNextRecurrentReminder(note);
     } else {
-      for (Note note : this.notes) {
+      for (Note note : notes) {
         note.setRecurrenceRule(recurrenceRule);
         setNextRecurrentReminder(note);
       }
@@ -136,42 +151,4 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
     finish();
   }
 
-
-  public static void setNextRecurrentReminder (Note note) {
-    if (!TextUtils.isEmpty(note.getRecurrenceRule())) {
-      long nextReminder = DateHelper.nextReminderFromRecurrenceRule(Long.parseLong(note.getAlarm()), note
-          .getRecurrenceRule());
-      if (nextReminder > 0) {
-        updateNoteReminder(nextReminder, note, true);
-      }
-    } else {
-      new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
-    }
-  }
-
-
-  private static void updateNoteReminder (long reminder, Note note) {
-    updateNoteReminder(reminder, note, false);
-  }
-
-
-  private static void updateNoteReminder (long reminder, Note noteToUpdate, boolean updateNote) {
-    if (updateNote) {
-      noteToUpdate.setAlarm(reminder);
-      new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteToUpdate);
-    } else {
-      ReminderHelper.addReminder(OmniNotes.getAppContext(), noteToUpdate, reminder);
-      ReminderHelper.showReminderMessage(String.valueOf(noteToUpdate.getAlarm()));
-    }
-  }
-
-  @Override
-  public void onDateSet (DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-    onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
-  }
-
-  @Override
-  public void onTimeSet (TimePicker view, int hourOfDay, int minute) {
-    onTimeSetListener.onTimeSet(view, hourOfDay, minute);
-  }
 }

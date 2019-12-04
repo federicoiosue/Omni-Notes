@@ -23,8 +23,6 @@ import static java.lang.Long.parseLong;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -102,6 +100,7 @@ import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
+import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
@@ -158,9 +157,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private static final int CATEGORY = 5;
   private static final int DETAIL = 6;
   private static final int FILES = 7;
-  private static final int RC_READ_EXTERNAL_STORAGE_PERMISSION = 1;
-  public OnDateSetListener onDateSetListener;
-  public OnTimeSetListener onTimeSetListener;
   public boolean goBack = false;
   @BindView(R.id.detail_root)
   ViewGroup root;
@@ -629,8 +625,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       ReminderPickers reminderPicker = new ReminderPickers(mainActivity, mFragment, pickerType);
       reminderPicker.pick(DateUtils.getPresetReminder(noteTmp.getAlarm()), noteTmp
           .getRecurrenceRule());
-      onDateSetListener = reminderPicker;
-      onTimeSetListener = reminderPicker;
     });
 
     reminder_layout.setOnLongClickListener(v -> {
@@ -1698,9 +1692,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     long reminder = parseLong(note.getAlarm());
     String rrule = note.getRecurrenceRule();
     if (!TextUtils.isEmpty(rrule)) {
-      return DateHelper.getNoteRecurrentReminderText(reminder, rrule);
+      return RecurrenceHelper.getNoteRecurrentReminderText(reminder, rrule);
     } else {
-      return DateHelper.getNoteReminderText(reminder);
+      return RecurrenceHelper.getNoteReminderText(reminder);
     }
   }
 
@@ -1964,7 +1958,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     noteTmp.setAlarm(reminder);
     if (mFragment.isAdded()) {
       reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
-      datetime.setText(DateHelper.getNoteReminderText(reminder));
+      datetime.setText(RecurrenceHelper.getNoteReminderText(reminder));
     }
   }
 
@@ -1973,7 +1967,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     noteTmp.setRecurrenceRule(recurrenceRule);
     if (!TextUtils.isEmpty(recurrenceRule)) {
       LogDelegate.d("Recurrent reminder set: " + recurrenceRule);
-      datetime.setText(DateHelper.getNoteRecurrentReminderText(Long.parseLong(noteTmp.getAlarm()), recurrenceRule));
+      datetime.setText(RecurrenceHelper.getNoteRecurrentReminderText(Long.parseLong(noteTmp.getAlarm()), recurrenceRule));
     }
   }
 

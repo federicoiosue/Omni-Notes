@@ -17,32 +17,22 @@
 package it.feio.android.omninotes.helpers.date;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.text.format.Time;
 import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.utils.Constants;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import net.fortuna.ical4j.model.property.RRule;
 
 
 /**
  * Helper per la generazione di date nel formato specificato nelle costanti
- *
- * @author 17000026
  */
 public class DateHelper {
 
   public static String getSortableDate () {
-    String result;
     SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
-    Date now = Calendar.getInstance().getTime();
-    result = sdf.format(now);
+    String result = sdf.format(Calendar.getInstance().getTime());
     return result;
   }
 
@@ -113,58 +103,6 @@ public class DateHelper {
     String m = String.valueOf(time / 1000 / 60);
     String s = String.format("%02d", (time / 1000) % 60);
     return m + ":" + s;
-  }
-
-
-  public static String formatRecurrence (Context mContext, String recurrenceRule) {
-    if (!TextUtils.isEmpty(recurrenceRule)) {
-//      EventRecurrence recurrenceEvent = new EventRecurrence();
-//      recurrenceEvent.setStartDate(new Time("" + new Date().getTime()));
-//      recurrenceEvent.parse(recurrenceRule);
-//      return EventRecurrenceFormatter.getRepeatString(mContext.getApplicationContext(),
-//          mContext.getResources(), recurrenceEvent, true);
-
-      return null; //FIXME
-
-    } else {
-      return "";
-    }
-  }
-
-
-  public static Long nextReminderFromRecurrenceRule (long reminder, String recurrenceRule) {
-    return nextReminderFromRecurrenceRule(reminder, Calendar.getInstance().getTimeInMillis(), recurrenceRule);
-  }
-
-
-  public static Long nextReminderFromRecurrenceRule (long reminder, long currentTime, String recurrenceRule) {
-    RRule rule = new RRule();
-    try {
-      rule.setValue(recurrenceRule);
-      net.fortuna.ical4j.model.DateTime seed = new net.fortuna.ical4j.model.DateTime(reminder);
-      long startTimestamp = reminder + 60 * 1000;
-      if (startTimestamp < currentTime) {
-        startTimestamp = currentTime;
-      }
-      net.fortuna.ical4j.model.DateTime start = new net.fortuna.ical4j.model.DateTime(startTimestamp);
-      Date nextDate = rule.getRecur().getNextDate(seed, start);
-      return nextDate == null ? 0L : nextDate.getTime();
-    } catch (ParseException e) {
-      LogDelegate.e("Error parsing rrule");
-    }
-    return 0L;
-  }
-
-
-  public static String getNoteReminderText (long reminder) {
-    return OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + getDateTimeShort(OmniNotes
-        .getAppContext(), reminder);
-  }
-
-
-  public static String getNoteRecurrentReminderText (long reminder, String rrule) {
-    return DateHelper.formatRecurrence(OmniNotes.getAppContext(), rrule) + " " + OmniNotes.getAppContext().getString
-        (R.string.starting_from) + " " + DateHelper.getDateTimeShort(OmniNotes.getAppContext(), reminder);
   }
 
 

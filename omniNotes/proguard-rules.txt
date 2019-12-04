@@ -141,3 +141,11 @@
 # ACRA uses enum fields in annotations, so we have to keep those
 -keep enum org.acra.** {*;}
 -dontwarn android.support.**
+
+
+###############
+#Sublime Picker
+-keepnames class com.appeaser.sublimepickerlibrary.datepicker.** {
+    <fields>;
+    <methods>;
+}

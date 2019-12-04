@@ -17,13 +17,13 @@
 
 package it.feio.android.omninotes.utils.date;
 
-import it.feio.android.omninotes.helpers.date.DateHelper;
+import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
 import java.util.Calendar;
 import org.junit.Assert;
 import org.junit.Test;
 
 
-public class DateHelperTest {
+public class RecurrenceHelperTest {
 
   private int TEN_MINUTES = 10 * 60 * 1000;
   private int MILLISEC_TO_HOURS_RATIO = 60 * 60 * 1000;
@@ -35,13 +35,13 @@ public class DateHelperTest {
 
     // Daily test
     String rruleDaily = "FREQ=DAILY;COUNT=30;WKST=MO";
-    long nextReminder = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily);
+    long nextReminder = RecurrenceHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily);
     Assert.assertNotEquals(0, nextReminder);
     Assert.assertEquals(24 - 1, (nextReminder - reminder) / MILLISEC_TO_HOURS_RATIO);
 
     // 3-Daily test
     String rruleDaily2 = "FREQ=DAILY;COUNT=30;INTERVAL=3";
-    long nextReminder2 = DateHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily2);
+    long nextReminder2 = RecurrenceHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily2);
     Assert.assertNotEquals(0, nextReminder2);
     long delta = (nextReminder2 - reminder) / MILLISEC_TO_HOURS_RATIO;
     Assert.assertTrue(delta == 3 * 24 - 2 || delta == 3 * 24 - 1); // The results depends on the day of week

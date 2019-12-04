@@ -64,8 +64,7 @@ import java.util.Collections;
 import java.util.HashMap;
 
 
-public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener,
-    SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
   private static boolean isPasswordAccepted = false;
   public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
@@ -525,25 +524,6 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
   public void showMessage (String message, Style style) {
     // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
     runOnUiThread(() -> Crouton.makeText(this, message, style, croutonViewContainer).show());
-  }
-
-
-  @Override
-  public void onTimeSet (TimePicker view, int hourOfDay, int minute) {
-    DetailFragment f = (DetailFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG);
-    if (f != null && f.isAdded()) {
-      f.onTimeSetListener.onTimeSet(view, hourOfDay, minute);
-    }
-  }
-
-
-  @Override
-  public void onDateSet (DatePicker view, int year, int monthOfYear,
-      int dayOfMonth) {
-    DetailFragment f = (DetailFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG);
-    if (f != null && f.isAdded() && f.onDateSetListener != null) {
-      f.onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
-    }
   }
 
   @Override
