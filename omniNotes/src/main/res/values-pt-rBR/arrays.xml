@@ -46,13 +46,6 @@
         <item>Apenas marcadores</item>
         <item>Lista de notas</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Minúsculo</item>
-        <item>Pequeno</item>
-        <item>Normal</item>
-        <item>Grande</item>
-        <item>Enorme</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Compartilhar</item>
         <item>Excluir</item>

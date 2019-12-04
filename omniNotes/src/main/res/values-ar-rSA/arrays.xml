@@ -46,13 +46,6 @@
         <item>شريط فقط</item>
         <item>قائمة الملاحظات</item>
     </string-array>
-    <string-array name="text_size">
-        <item>أصغر</item>
-        <item>صغير</item>
-        <item>إعتيادي</item>
-        <item>كبير</item>
-        <item>أكبر</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>إشراك</item>
         <item>حذف</item>

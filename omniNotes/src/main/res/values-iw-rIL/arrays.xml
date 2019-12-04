@@ -46,13 +46,6 @@
         <item>רצועה בלבד</item>
         <item>רשימת הערות</item>
     </string-array>
-    <string-array name="text_size">
-        <item>קטן ביותר</item>
-        <item>קטן</item>
-        <item>ברירת מחדל</item>
-        <item>גדול</item>
-        <item>גדול ביותר</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>שיתוף</item>
         <item>מחיקה</item>

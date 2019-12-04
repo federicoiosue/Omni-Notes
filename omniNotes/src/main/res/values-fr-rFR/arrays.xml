@@ -46,13 +46,6 @@
         <item>Marge uniquement</item>
         <item>Liste de notes</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Plus petit</item>
-        <item>Petit</item>
-        <item>Par défaut</item>
-        <item>Grand</item>
-        <item>Plus grand</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Partager</item>
         <item>Supprimer</item>

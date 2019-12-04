@@ -46,13 +46,6 @@
         <item>Vain liuska</item>
         <item>Merkintälista</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Pienin</item>
-        <item>Pieni</item>
-        <item>Oletus</item>
-        <item>Suuri</item>
-        <item>Suurin</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Jaa</item>
         <item>Poista</item>

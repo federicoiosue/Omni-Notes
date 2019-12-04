@@ -46,13 +46,6 @@
         <item>Hanya strip</item>
         <item>Daftar catatan</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Terkecil</item>
-        <item>Kecil</item>
-        <item>Bawaan</item>
-        <item>Besar</item>
-        <item>Terbesar</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Bagi</item>
         <item>Hapus</item>

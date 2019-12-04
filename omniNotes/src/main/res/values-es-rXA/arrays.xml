@@ -46,13 +46,6 @@
         <item>Namái la tira</item>
         <item>Llista de notes</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Mui pequeñu</item>
-        <item>Pequeñu</item>
-        <item>Por defeutu</item>
-        <item>Grande</item>
-        <item>Mui grande</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Compartir</item>
         <item>Desaniciar</item>

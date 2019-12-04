@@ -46,13 +46,6 @@
         <item>Doar bandă colorata</item>
         <item>Listă de note</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Cel mai mic</item>
-        <item>Mic</item>
-        <item>Implicit</item>
-        <item>Mare</item>
-        <item>Cel mai mare</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Distribuie</item>
         <item>Șterge</item>

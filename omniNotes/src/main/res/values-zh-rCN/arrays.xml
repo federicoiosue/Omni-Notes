@@ -46,13 +46,6 @@
         <item>仅条状颜色标识</item>
         <item>记事列表全彩</item>
     </string-array>
-    <string-array name="text_size">
-        <item>最小字体</item>
-        <item>小字体</item>
-        <item>默认</item>
-        <item>大字体</item>
-        <item>最大字体</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>共享</item>
         <item>删除</item>

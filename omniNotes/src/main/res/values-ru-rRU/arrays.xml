@@ -46,13 +46,6 @@
         <item>Небольшой индикатор</item>
         <item>В списке заметок</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Наименьший</item>
-        <item>Небольшой</item>
-        <item>Обычный</item>
-        <item>Крупный</item>
-        <item>Огромный</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Поделиться</item>
         <item>Удалить</item>

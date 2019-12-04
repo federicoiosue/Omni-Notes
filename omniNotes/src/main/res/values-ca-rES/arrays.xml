@@ -46,13 +46,6 @@
         <item>Només la tira</item>
         <item>Llista de notes</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Més petit</item>
-        <item>Petit</item>
-        <item>Predeterminat</item>
-        <item>Gran</item>
-        <item>Més gran</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Comparteix</item>
         <item>Suprimeix</item>

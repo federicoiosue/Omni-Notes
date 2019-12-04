@@ -48,13 +48,6 @@
         <item>အစဉ်းများသာ</item>
         <item>စာရင်းများသာ</item>
     </string-array>
-    <string-array name="text_size">
-        <item>အသေးဆုံး</item>
-        <item>အသေး</item>
-        <item>မူလ</item>
-        <item>အကြီး</item>
-        <item>အကြီးဆုံး</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>ဝေမျှမည်။</item>
         <item>ဖျက်ပစ်မည်။</item>

@@ -46,13 +46,6 @@
         <item>فقط نوار</item>
         <item>سیاههٔ یادداشت‌ها</item>
     </string-array>
-    <string-array name="text_size">
-        <item>بسیار کوچک</item>
-        <item>کوچک</item>
-        <item>پیش‌فرض</item>
-        <item>بزرگ</item>
-        <item>بسیار بزرگ</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>هم‌رسانی</item>
         <item>حذف</item>

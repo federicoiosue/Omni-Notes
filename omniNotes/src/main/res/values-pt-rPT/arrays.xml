@@ -46,13 +46,6 @@
         <item>Apenas uma tira</item>
         <item>Lista de notas</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Muito pequeno</item>
-        <item>Pequeno</item>
-        <item>Normal</item>
-        <item>Grande</item>
-        <item>Muito grande</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Partilhar</item>
         <item>Eliminar</item>

@@ -46,13 +46,6 @@
         <item>Endast remsa</item>
         <item>Anteckningslista</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Minsta</item>
-        <item>Liten</item>
-        <item>Vanlig</item>
-        <item>Stor</item>
-        <item>Största</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Dela</item>
         <item>Radera</item>

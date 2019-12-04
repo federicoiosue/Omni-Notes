@@ -44,6 +44,7 @@
     <string name="confirm">Потврди</string>
     <string name="ok">У реду</string>
     <string name="no">Не</string>
+    <string name="failed">неуспело</string>
     <string name="cancel">Откажи</string>
     <string name="note_updated">Белешка измењена</string>
     <string name="empty_note_not_saved">Не могу да сачувам празну белешку</string>
@@ -66,6 +67,7 @@
     <string name="delete_all_attachments">Обрисати све прилоге?</string>
     <string name="gallery">Галерија</string>
     <string name="location">Локација</string>
+    <string name="timestamp">Временски жиг</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Уклонити локацију?</string>
     <string name="remove_reminder">Уклонити подсетник?</string>
@@ -83,6 +85,7 @@
     <string name="data_import_message">додир -&gt; враћа\nдуг додир -&gt; брише</string>
     <string name="data_import_message_warning">УПОЗОРЕЊЕ: ово ће заменити све тренутне податке!</string>
     <string name="data_export_completed">Прављење резервне копије завршено</string>
+    <string name="data_export_failed">Неуспело прављење бекапа: за детаље погледајте logcat</string>
     <string name="data_import_completed">Враћање података завршено</string>
     <string name="click_to_refresh_application">Додирните да освежите апликацију</string>
     <string name="backup_existing">Фајл већ постоји и биће пребрисан</string>
@@ -204,6 +207,7 @@
     <string name="uncompleted_checklists">Незавршени спискови</string>
     <string name="info">Инфо</string>
     <string name="completed">Завршени</string>
+    <string name="undo_changes_note_confirmation">Потврђујете враћање измена?</string>
     <!-- Settings -->
     <string name="dashclock_description">Приказује статистику и истекле подсетнике из Омни белешки</string>
     <string name="settings">Поставке</string>
@@ -216,6 +220,8 @@
     <string name="settings_export">Резервна копија</string>
     <string name="settings_sync_import_export">Синхронизација и резерва</string>
     <string name="settings_import">Врати или обриши резерве</string>
+    <string name="settings_import_legacy">Враћање старих бекапа</string>
+    <string name="settings_import_legacy_summary">Омогућава враћање бекапа направљених пре верзије 6</string>
     <string name="settings_import_from_springpad">Увези белешке из Спрингпеда</string>
     <string name="settings_import_from_springpad_summary">Изаберите архиву извезену из Спрингпеда и будите повезани на интернет</string>
     <string name="settings_sync_drive">Синхронизуј са Гугл диском</string>
@@ -242,6 +248,9 @@
     <string name="settings_max_video_size">Видео прилози</string>
     <string name="settings_screen_data">Подаци</string>
     <string name="settings_backup">Резервна копија</string>
+    <string name="settings_enable_automatic_backup">Омогући аутоматско прављење резервне копије</string>
+    <string name="settings_enable_automatic_backup_summary">Белешке ће бити смештене у „_autobackup“ фасциклу</string>
+    <string name="settings_enable_automatic_backup_dialog">Активирањем ове могућности биће направљен свеобухватни бекап података</string>
     <string name="settings_password">Лозинка</string>
     <string name="settings_password_access">Тражи лозинку при приступу</string>
     <string name="settings_password_instructions">Лозинка омогућава да белешке не могу да виде и мењају друге особе\n\nКада постављате нову лозинку, стара ће бити затражена.</string>
@@ -268,6 +277,7 @@
     <string name="settings_category_preferences">Подешавања</string>
     <string name="settings_category_beta">Бета</string>
     <string name="settings_category_about">О програму</string>
+    <string name="settings_beta">Опциони улаз</string>
     <string name="settings_beta_summary">Пријавите се на бета програм да будете у току са најновијим могућностима</string>
     <string name="donate">Донирајтe</string>
     <string name="donate_summary">Подржите развој ове апликације са непрофитном донацијом</string>
@@ -330,6 +340,7 @@
     <string name="settings_error_reporting_summary_off">Извештаји се неће слати. Немојте се жалити ако нешто не ради!</string>
     <string name="settings_send_analytics">Дели анонимне податке</string>
     <string name="settings_send_analytics_summary">Помаже програмеру слањем безличних података попут модела телефона, језика, често коришћених могућности апликације. Ово се користи како би се апликација побољшала.</string>
+    <string name="settings_enable_file_logging">Сачувај дневнике у фајл</string>
     <string name="settings_statistics">Статистика</string>
     <!-- Stats -->
     <string name="stats_total_notes">Укупно белешки</string>

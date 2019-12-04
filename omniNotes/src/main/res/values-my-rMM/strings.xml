@@ -222,6 +222,7 @@
     <string name="uncompleted_checklists">မပြီးသေးသော အမှန်ခြစ်စာရင်း</string>
     <string name="info">အချက်အလက်</string>
     <string name="completed">ပြီးစီး</string>
+    <string name="undo_changes_note_confirmation">အပြောင်းအလဲမလုပ်တော့ရန်အတည်ပြုသလား</string>
     <!-- Settings -->
     <string name="dashclock_description">OmniNotesမှအချိန်လွန်သွားသော
 သတိပေးချက်နှင့်စာရင်းအင်းအချို့ကိုပြသမည်။</string>

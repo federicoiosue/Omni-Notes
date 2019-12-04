@@ -46,13 +46,6 @@
         <item>Iba pás</item>
         <item>Zoznam poznámok</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Najmenšie</item>
-        <item>Malé</item>
-        <item>Predvolené</item>
-        <item>Veľké</item>
-        <item>Najväčšie</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Zdieľať</item>
         <item>Vymazať</item>

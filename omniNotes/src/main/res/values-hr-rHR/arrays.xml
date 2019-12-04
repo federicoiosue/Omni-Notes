@@ -46,13 +46,6 @@
         <item>Samo crta</item>
         <item>Samo bilješke</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Najmanje</item>
-        <item>Malo</item>
-        <item>Zadano</item>
-        <item>Veliko</item>
-        <item>Najveće</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Podijeli</item>
         <item>Obriši</item>

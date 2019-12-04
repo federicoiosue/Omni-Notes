@@ -46,13 +46,6 @@
         <item>Sadece şerit</item>
         <item>Not listesi</item>
     </string-array>
-    <string-array name="text_size">
-        <item>En küçük</item>
-        <item>Küçük</item>
-        <item>Varsayılan</item>
-        <item>Büyük</item>
-        <item>En büyük</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Paylaş</item>
         <item>Sil</item>

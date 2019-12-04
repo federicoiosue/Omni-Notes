@@ -46,13 +46,6 @@
         <item>само трака</item>
         <item>Листа белешки</item>
     </string-array>
-    <string-array name="text_size">
-        <item>најмања</item>
-        <item>мала</item>
-        <item>подразумевана</item>
-        <item>велика</item>
-        <item>највећа</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Дели</item>
         <item>Обриши</item>

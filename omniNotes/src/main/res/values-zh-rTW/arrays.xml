@@ -46,13 +46,6 @@
         <item>僅條狀顏色標識</item>
         <item>筆記清單</item>
     </string-array>
-    <string-array name="text_size">
-        <item>最小</item>
-        <item>小</item>
-        <item>預設</item>
-        <item>大</item>
-        <item>最大</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>分享</item>
         <item>刪除</item>

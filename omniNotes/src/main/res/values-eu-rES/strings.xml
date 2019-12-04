@@ -207,6 +207,7 @@
     <string name="uncompleted_checklists">Osatu gabeko egiaztaketak</string>
     <string name="info">Informazioa</string>
     <string name="completed">Osatuta</string>
+    <string name="undo_changes_note_confirmation">Baieztatu aldaketak desegitea?</string>
     <!-- Settings -->
     <string name="dashclock_description">Erakutsi Omni Notes aplikazioko estatistika batzuk eta iraungitze datak</string>
     <string name="settings">Ezarpenak</string>

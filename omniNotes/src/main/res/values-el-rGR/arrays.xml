@@ -46,13 +46,6 @@
         <item>Μόνο λωρίδα</item>
         <item>Λίστα σημειώσεων</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Ελάχιστο</item>
-        <item>Μικρό</item>
-        <item>Προεπιλογή</item>
-        <item>Μεγάλο</item>
-        <item>Τεράστιο</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Κοινή χρήση</item>
         <item>Διαγραφή</item>
