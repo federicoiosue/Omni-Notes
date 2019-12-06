@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,28 +17,27 @@
 package it.feio.android.omninotes.utils;
 
 import android.content.res.AssetManager;
-
 import java.io.IOException;
 import java.util.Arrays;
 
 
 public class AssetUtils {
 
-	public static boolean exists(String fileName, String path,
-								 AssetManager assetManager) throws IOException {
-		for (String currentFileName : assetManager.list(path)) {
-			if (currentFileName.equals(fileName)) {
-				return true;
-			}
-		}
-		return false;
-	}
+  public static boolean exists (String fileName, String path,
+      AssetManager assetManager) throws IOException {
+    for (String currentFileName : assetManager.list(path)) {
+      if (currentFileName.equals(fileName)) {
+        return true;
+      }
+    }
+    return false;
+  }
 
-	public static String[] list(String path, AssetManager assetManager)
-			throws IOException {
-		String[] files = assetManager.list(path);
-		Arrays.sort(files);
-		return files;
-	}
+  public static String[] list (String path, AssetManager assetManager)
+      throws IOException {
+    String[] files = assetManager.list(path);
+    Arrays.sort(files);
+    return files;
+  }
 
 }

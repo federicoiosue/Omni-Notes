@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,75 +17,75 @@
 
 package it.feio.android.omninotes.models.listeners;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.AbsListView;
 
 
 public abstract class AbsListViewScrollDetector implements AbsListView.OnScrollListener {
 
-    private int mLastScrollY;
-    private int mPreviousFirstVisibleItem;
-    private AbsListView mListView;
-    private int mScrollThreshold;
+  private int mLastScrollY;
+  private int mPreviousFirstVisibleItem;
+  private AbsListView mListView;
+  private int mScrollThreshold;
 
 
-    public abstract void onScrollUp();
+  public abstract void onScrollUp ();
 
-    public abstract void onScrollDown();
-
-
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-    }
+  public abstract void onScrollDown ();
 
 
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (isSameRow(firstVisibleItem)) {
-            int newScrollY = getTopItemScrollY();
-            boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
-            if (isSignificantDelta) {
-                if (mLastScrollY > newScrollY) {
-                    onScrollUp();
-                } else {
-                    onScrollDown();
-                }
-            }
-            mLastScrollY = newScrollY;
+  @Override
+  public void onScrollStateChanged (AbsListView view, int scrollState) {
+  }
+
+
+  @Override
+  public void onScroll (AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+    if (isSameRow(firstVisibleItem)) {
+      int newScrollY = getTopItemScrollY();
+      boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
+      if (isSignificantDelta) {
+        if (mLastScrollY > newScrollY) {
+          onScrollUp();
         } else {
-            if (firstVisibleItem > mPreviousFirstVisibleItem) {
-                onScrollUp();
-            } else {
-                onScrollDown();
-            }
-
-            mLastScrollY = getTopItemScrollY();
-            mPreviousFirstVisibleItem = firstVisibleItem;
+          onScrollDown();
         }
+      }
+      mLastScrollY = newScrollY;
+    } else {
+      if (firstVisibleItem > mPreviousFirstVisibleItem) {
+        onScrollUp();
+      } else {
+        onScrollDown();
+      }
+
+      mLastScrollY = getTopItemScrollY();
+      mPreviousFirstVisibleItem = firstVisibleItem;
     }
+  }
 
 
-    public void setScrollThreshold(int scrollThreshold) {
-        mScrollThreshold = scrollThreshold;
+  public void setScrollThreshold (int scrollThreshold) {
+    mScrollThreshold = scrollThreshold;
+  }
+
+
+  public void setListView (@NonNull AbsListView listView) {
+    mListView = listView;
+  }
+
+
+  private boolean isSameRow (int firstVisibleItem) {
+    return firstVisibleItem == mPreviousFirstVisibleItem;
+  }
+
+
+  private int getTopItemScrollY () {
+    if (mListView == null || mListView.getChildAt(0) == null) {
+      return 0;
     }
-
-
-    public void setListView(@NonNull AbsListView listView) {
-        mListView = listView;
-    }
-
-
-    private boolean isSameRow(int firstVisibleItem) {
-        return firstVisibleItem == mPreviousFirstVisibleItem;
-    }
-
-
-    private int getTopItemScrollY() {
-        if (mListView == null || mListView.getChildAt(0) == null) {
-            return 0;
-        }
-        View topChild = mListView.getChildAt(0);
-        return topChild.getTop();
-    }
+    View topChild = mListView.getChildAt(0);
+    return topChild.getTop();
+  }
 }

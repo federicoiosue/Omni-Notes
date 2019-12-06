@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,32 +17,31 @@
 
 package it.feio.android.omninotes.extensions;
 
-import android.util.Log;
 import com.pushbullet.android.extension.MessagingExtension;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
-import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.helpers.LogDelegate;
 
 
 public class PushBulletExtension extends MessagingExtension {
 
-    private static final String TAG = "PushBulletExtension";
+  private static final String TAG = "PushBulletExtension";
 
 
-    @Override
-    protected void onMessageReceived(final String conversationIden, final String message) {
-        Log.i(Constants.TAG, "Pushbullet MessagingExtension: onMessageReceived(" + conversationIden + ", " + message
-                + ")");
-        EventBus.getDefault().post(new PushbulletReplyEvent(message));
+  @Override
+  protected void onMessageReceived (final String conversationIden, final String message) {
+    LogDelegate.i("Pushbullet MessagingExtension: onMessageReceived(" + conversationIden + ", " + message
+        + ")");
+    EventBus.getDefault().post(new PushbulletReplyEvent(message));
 //        MainActivity runningMainActivity = MainActivity.getInstance();
 //        if (runningMainActivity != null && !runningMainActivity.isFinishing()) {
 //            runningMainActivity.onPushBulletReply(message);
 //        }
-    }
+  }
 
 
-    @Override
-    protected void onConversationDismissed(final String conversationIden) {
-        Log.i(Constants.TAG, "Pushbullet MessagingExtension: onConversationDismissed(" + conversationIden + ")");
-    }
+  @Override
+  protected void onConversationDismissed (final String conversationIden) {
+    LogDelegate.i("Pushbullet MessagingExtension: onConversationDismissed(" + conversationIden + ")");
+  }
 }

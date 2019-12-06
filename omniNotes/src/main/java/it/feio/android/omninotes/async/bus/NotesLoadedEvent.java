@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,20 +17,18 @@
 
 package it.feio.android.omninotes.async.bus;
 
-import android.util.Log;
+import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
-
 import java.util.ArrayList;
 
 
 public class NotesLoadedEvent {
 
-	public ArrayList<Note> notes;
+  public ArrayList<Note> notes;
 
 
-	public NotesLoadedEvent(ArrayList<Note> notes) {
-		Log.d(Constants.TAG, this.getClass().getName());
-		this.notes = notes;
-	}
+  public NotesLoadedEvent (ArrayList<Note> notes) {
+    LogDelegate.d(this.getClass().getName());
+    this.notes = notes;
+  }
 }

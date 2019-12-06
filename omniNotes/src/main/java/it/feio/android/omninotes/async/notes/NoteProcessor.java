@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,45 +21,49 @@ import android.os.AsyncTask;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.models.Note;
-
 import java.util.ArrayList;
 import java.util.List;
 
 
 public abstract class NoteProcessor {
 
-	List<Note> notes;
+  List<Note> notes;
 
 
-	protected NoteProcessor(List<Note> notes) {
-		this.notes = new ArrayList<>(notes);
-	}
+  protected NoteProcessor (List<Note> notes) {
+    this.notes = new ArrayList<>(notes);
+  }
 
 
-	public void process() {
-		NotesProcessorTask task = new NotesProcessorTask();
-		task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, notes);
-	}
+  public void process () {
+    NotesProcessorTask task = new NotesProcessorTask();
+    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, notes);
+  }
 
 
-	protected abstract void processNote(Note note);
+  protected abstract void processNote (Note note);
 
 
-	class NotesProcessorTask extends AsyncTask<List<Note>, Void, Void> {
+  class NotesProcessorTask extends AsyncTask<List<Note>, Void, List<Note>> {
 
-		@Override
-		protected Void doInBackground(List<Note>... params) {
-			List<Note> notes = params[0];
-			for (Note note : notes) {
-				processNote(note);
-			}
-			return null;
-		}
+    @Override
+    protected List<Note> doInBackground (List<Note>... params) {
+      List<Note> notes = params[0];
+      for (Note note : notes) {
+        processNote(note);
+      }
+      return notes;
+    }
 
 
-		@Override
-		protected void onPostExecute(Void aVoid) {
-			EventBus.getDefault().post(new NotesUpdatedEvent());
-		}
-	}
+    @Override
+    protected void onPostExecute (List<Note> notes) {
+      afterProcess(notes);
+    }
+  }
+
+
+  protected void afterProcess (List<Note> notes) {
+    EventBus.getDefault().post(new NotesUpdatedEvent(notes));
+  }
 }

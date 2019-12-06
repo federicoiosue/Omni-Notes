@@ -4,8 +4,6 @@ Omni-Notes
 ==========
 
 ![SLicense](https://img.shields.io/badge/License-GPLv3-red.svg)
-[![Stories in Ready](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=ready&title=Ready)](https://waffle.io/federicoiosue/Omni-Notes)
-[![Stories in In Progress](https://badge.waffle.io/federicoiosue/Omni-Notes.png?label=In%20Progress&title=InProgress)](https://waffle.io/federicoiosue/Omni-Notes)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/omni-notes/localized.png)](https://crowdin.com/project/omni-notes)
 [![Build Status](https://travis-ci.org/federicoiosue/Omni-Notes.svg?branch=develop)](https://travis-ci.org/federicoiosue/Omni-Notes)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8ade707d00ef468fa79d3f6b622444b5)](https://www.codacy.com/app/federico-iosue/Omni-Notes?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=federicoiosue/Omni-Notes&amp;utm_campaign=Badge_Grade)
@@ -15,9 +13,9 @@ Note taking <b>open-source</b> application aimed to have both a <b>simple interf
 
 The project was inspired by the absence of such applications compatible with old phones and old versions of Android. It aims to provide an attractive look and follow the most recent design guidelines of the Google operating system.
 
-**Follow the developments and post your comments and advice on Google+ Beta Community at http://goo.gl/eF6qqF**
+**Follow the developments and post your comments and advice on Facebook Community at https://www.facebook.com/OmniNotes**
 
-*Help to keep translations updated is always welcome, if you want give a hand checkout the translation project at [Crowdin][2].*
+*Help to keep translations updated is always welcome, if you want give a hand checkout the translation project on **https://translate.omninotes.app.** *
 
 <a href="https://f-droid.org/repository/browse/?fdid=it.feio.android.omninotes.foss" target="_blank">
 <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"/></a>
@@ -45,7 +43,7 @@ Currently the following functions are implemented:
 Further developments will include:
 
 * Notes sychronization
-* Web interface to manage notes
+* Web interface to manage notes ([stub project](https://github.com/federicoiosue/omni-notes-desktop))
 
 You can find a complete changelog inside the application settings menu!
 
@@ -72,6 +70,13 @@ Look into the wiki for GIFs-based tutorials: [LINK](https://github.com/federicoi
 Watch the following terminal session recording on how to compile distributable files
 [![asciicast](https://asciinema.org/a/102898.png)](https://asciinema.org/a/102898)
 
+To be sure that build environment is fully compliant with the project the following command creates a container with all the needed tools to compile the code:
+
+```
+cd {project-folder}; rm local.properties; docker rm android; docker run -v $PWD:/workspace --name android tabrindle/min-alpine-android-sdk:latest bash -c "yes | sdkmanager --update && yes | sdkmanager --licenses && cd /workspace && ./gradlew build --stacktrace -Dorg.gradle.daemon=true -Pandroid.useDeprecatedNdk=true"
+
+```
+
 ## Test
 
 To execute all tests included into the project connect a device or emulator, then run the following command:
@@ -88,19 +93,26 @@ There are many features/improvements that are not on **my** roadmap but someone 
 
 Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/Omni-Notes/blob/develop/contributors.md) file.
 
-**Don't forget to contribute to original code! Don't be selfish or lazy!**
+### New feature or improvements contributions
 
-### Test code contributions
+This kind of contributions **must** have screenshots or screencast as demonstration of the new additions.
+
+### Code style
+
+If you plan to manipulate the code then you'll have to do it by following a [specific code style](https://gist.github.com/federicoiosue/dee53e882b3c70d544f8608769eb02fc).
+Also pay attention if you're using any plugin that automatically formats/cleans/rearrange your code and set it to only change that code that you touched and not the whole files.
+
+### Test your code contributions!
 
 All code changes and additions **must** be tested.
-See the [related section](#test) about this.
+See the [related section](#test) for more informations or this two pull requests comments: [one](https://github.com/federicoiosue/Omni-Notes/pull/646#pullrequestreview-187973443) and [two](https://github.com/federicoiosue/Omni-Notes/pull/683#issuecomment-506206689)
 
-### Fork project
+### Forking project
 
 When forking the project you'll have to modify some files that are strictly dependent from my own development / build / third-party-services environment. Files that need some attention are the following:
 
-- *gradle.properties*: this is overridden by another file with the same name inside the *omniNotes* module. You can do the same or leave as it is, any missing property will let the app gracefully fallback on a default behavior.
-- *.travis.yml*: if you use [TravisCI](https://travis-ci.org/) as continuous integration platform and a SonarQUBE instance for code quality analysis you'll have to modify this file according to your needs.
+  - *gradle.properties*: this is overridden by another file with the same name inside the *omniNotes* module. You can do the same or leave as it is, any missing property will let the app gracefully fallback on a default behavior.
+  - *.travis.yml*: if you use [TravisCI](https://travis-ci.org/) as continuous integration platform and a SonarQUBE instance for code quality analysis you'll have to modify this file according to your needs.
 
 ## Code quality
 
@@ -115,7 +127,6 @@ Pull requests will be automatically analyzed and rejected if they'll rise the co
 They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni-Notes/blob/develop/omniNotes/build.gradle) file but due to the fact that many of the dependences have been customized by me I'd like to say thanks here to the original developers of these great libraries:
 
 * https://github.com/RobotiumTech/robotium
-* https://github.com/flavienlaurent/datetimepicker
 * https://github.com/LarsWerkman/HoloColorPicker
 * https://github.com/keyboardsurfer/Crouton
 * https://github.com/romannurik/dashclock/wiki/API
@@ -154,7 +165,7 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 ## License
 
 
-    Copyright 2013-2018 Federico Iosue
+    Copyright 2013-2019 Federico Iosue
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -169,6 +180,3 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-
-[2]: https://crowdin.net/project/omni-notes/
-[2]: https://crowdin.net/project/omni-notes/

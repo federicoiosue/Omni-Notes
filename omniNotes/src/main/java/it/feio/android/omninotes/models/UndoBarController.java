@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,141 +17,144 @@
 
 package it.feio.android.omninotes.models;
 
+
+import static androidx.core.view.ViewCompat.animate;
+
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.view.ViewPropertyAnimator;
+import androidx.core.view.ViewPropertyAnimatorCompat;
+import androidx.core.view.ViewPropertyAnimatorListenerAdapter;
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.R;
-
 import java.util.Locale;
-
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
 
 
 public class UndoBarController {
 
-    private View mBarView;
-    private TextView mMessageView;
-    private ViewPropertyAnimator mBarAnimator;
+  private View mBarView;
+  private TextView mMessageView;
+  private ViewPropertyAnimatorCompat mBarAnimator;
 //    private Handler mHideHandler = new Handler();
 
-    private UndoListener mUndoListener;
+  private UndoListener mUndoListener;
 
-    // State objects
-    private Parcelable mUndoToken;
-    private CharSequence mUndoMessage;
-    private Button mButtonView;
-    private boolean isVisible;
-
-
-    public interface UndoListener {
-
-        void onUndo(Parcelable token);
-    }
+  // State objects
+  private Parcelable mUndoToken;
+  private CharSequence mUndoMessage;
+  private Button mButtonView;
+  private boolean isVisible;
 
 
-    public UndoBarController(View undoBarView, UndoListener undoListener) {
-        mBarView = undoBarView;
+  public interface UndoListener {
+
+    void onUndo (Parcelable token);
+  }
+
+
+  public UndoBarController (View undoBarView, UndoListener undoListener) {
+    mBarView = undoBarView;
 //        mBarAnimator = mBarView.animate();
-        mBarAnimator = animate(mBarView);
-        mUndoListener = undoListener;
+    mBarAnimator = animate(mBarView);
+    mUndoListener = undoListener;
 
-        mMessageView = (TextView) mBarView.findViewById(R.id.undobar_message);
+    mMessageView = mBarView.findViewById(R.id.undobar_message);
 
-        mButtonView = (Button) mBarView.findViewById(R.id.undobar_button);
-        mButtonView.setText(mButtonView.getText().toString().toUpperCase(Locale.getDefault()));
-        mButtonView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                hideUndoBar(false);
-                mUndoListener.onUndo(mUndoToken);
-            }
-        });
-
+    mButtonView = mBarView.findViewById(R.id.undobar_button);
+    mButtonView.setText(mButtonView.getText().toString().toUpperCase(Locale.getDefault()));
+    mButtonView.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick (View view) {
         hideUndoBar(false);
-    }
+        mUndoListener.onUndo(mUndoToken);
+      }
+    });
+
+    hideUndoBar(false);
+  }
 
 
-    public void showUndoBar(boolean immediate, CharSequence message, Parcelable undoToken) {
-        mUndoToken = undoToken;
-        mUndoMessage = message;
-        mMessageView.setText(mUndoMessage);
+  public void showUndoBar (boolean immediate, CharSequence message, Parcelable undoToken) {
+    mUndoToken = undoToken;
+    mUndoMessage = message;
+    mMessageView.setText(mUndoMessage);
 
 //        mHideHandler.removeCallbacks(mHideRunnable);
 //        mHideHandler.postDelayed(mHideRunnable,
 //                mBarView.getResources().getInteger(R.integer.undobar_hide_delay));
 
-        mBarView.setVisibility(View.VISIBLE);
-        if (immediate) {
+    mBarView.setVisibility(View.VISIBLE);
+    if (immediate) {
 //            mBarView.setAlpha(1);
-            AlphaManager.setAlpha(mBarView, 1);
-        } else {
-            mBarAnimator.cancel();
-            mBarAnimator
-                    .alpha(1)
-                    .setDuration(
-                            mBarView.getResources()
-                                    .getInteger(android.R.integer.config_shortAnimTime))
-                    .setListener(null);
-        }
-        isVisible = true;
+      AlphaManager.setAlpha(mBarView, 1);
+    } else {
+      mBarAnimator.cancel();
+      mBarAnimator
+          .alpha(1)
+          .setDuration(
+              mBarView.getResources()
+                      .getInteger(android.R.integer.config_shortAnimTime))
+          .setListener(null);
     }
+    isVisible = true;
+  }
 
 
-    public void hideUndoBar(boolean immediate) {
+  public void hideUndoBar (boolean immediate) {
 //        mHideHandler.removeCallbacks(mHideRunnable);
-        if (immediate) {
-            mBarView.setVisibility(View.GONE);
-            AlphaManager.setAlpha(mBarView, 0);
-            mUndoMessage = null;
-            mUndoToken = null;
+    if (immediate) {
+      mBarView.setVisibility(View.GONE);
+      AlphaManager.setAlpha(mBarView, 0);
+      mUndoMessage = null;
+      mUndoToken = null;
 
-        } else {
-            mBarAnimator.cancel();
-            mBarAnimator
-                    .alpha(0)
-                    .setDuration(mBarView.getResources()
-                            .getInteger(android.R.integer.config_shortAnimTime))
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mBarView.setVisibility(View.GONE);
-                            mUndoMessage = null;
-                            mUndoToken = null;
-                        }
-                    });
-        }
-        isVisible = false;
-    }
+    } else {
+      mBarAnimator.cancel();
+      mBarAnimator
+          .alpha(0)
+          .setDuration(mBarView.getResources()
+                               .getInteger(android.R.integer.config_shortAnimTime))
+          .setListener(new ViewPropertyAnimatorListenerAdapter() {
 
-
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putCharSequence("undo_message", mUndoMessage);
-        outState.putParcelable("undo_token", mUndoToken);
-    }
-
-
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            mUndoMessage = savedInstanceState.getCharSequence("undo_message");
-            mUndoToken = savedInstanceState.getParcelable("undo_token");
-
-            if (mUndoToken != null || !TextUtils.isEmpty(mUndoMessage)) {
-                showUndoBar(true, mUndoMessage, mUndoToken);
+            @Override
+            public void onAnimationEnd (View view) {
+              super.onAnimationEnd(view);
+              mBarView.setVisibility(View.GONE);
+              mUndoMessage = null;
+              mUndoToken = null;
             }
-        }
+          });
     }
+    isVisible = false;
+  }
 
 
-    public boolean isVisible() {
-        return isVisible;
+  public void onSaveInstanceState (Bundle outState) {
+    outState.putCharSequence("undo_message", mUndoMessage);
+    outState.putParcelable("undo_token", mUndoToken);
+  }
+
+
+  public void onRestoreInstanceState (Bundle savedInstanceState) {
+    if (savedInstanceState != null) {
+      mUndoMessage = savedInstanceState.getCharSequence("undo_message");
+      mUndoToken = savedInstanceState.getParcelable("undo_token");
+
+      if (mUndoToken != null || !TextUtils.isEmpty(mUndoMessage)) {
+        showUndoBar(true, mUndoMessage, mUndoToken);
+      }
     }
+  }
+
+
+  public boolean isVisible () {
+    return isVisible;
+  }
 
 //    private Runnable mHideRunnable = new Runnable() {
 //        @Override

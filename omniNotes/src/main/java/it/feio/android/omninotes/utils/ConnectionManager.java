@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,15 +22,15 @@ import android.net.ConnectivityManager;
 
 public class ConnectionManager {
 
-    /**
-     * Checks for available internet connection
-     */
-    public static boolean internetAvailable(Context ctx) {
-        boolean result = false;
-        ConnectivityManager conMgr = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (conMgr.getActiveNetworkInfo() != null) {
-            return conMgr.getActiveNetworkInfo().isConnected();
-        }
-        return result;
+  /**
+   * Checks for available internet connection
+   */
+  public static boolean internetAvailable (Context ctx) {
+    boolean result = false;
+    ConnectivityManager conMgr = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
+    if (conMgr.getActiveNetworkInfo() != null) {
+      return conMgr.getActiveNetworkInfo().isConnected();
     }
+    return result;
+  }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,39 +27,39 @@ import android.widget.ListView;
 
 public class NonScrollableListView extends ListView {
 
-    public NonScrollableListView(Context context) {
-        super(context);
+  public NonScrollableListView (Context context) {
+    super(context);
+  }
+
+
+  public NonScrollableListView (Context context, AttributeSet attrs) {
+    super(context, attrs);
+  }
+
+
+  public NonScrollableListView (Context context, AttributeSet attrs, int defStyleAttr) {
+    super(context, attrs, defStyleAttr);
+  }
+
+
+  public void justifyListViewHeightBasedOnChildren () {
+
+    ListAdapter adapter = getAdapter();
+
+    if (adapter == null) {
+      return;
+    }
+    ViewGroup vg = this;
+    int totalHeight = 0;
+    for (int i = 0; i < adapter.getCount(); i++) {
+      View listItem = adapter.getView(i, null, vg);
+      listItem.measure(0, 0);
+      totalHeight += listItem.getMeasuredHeight();
     }
 
-
-    public NonScrollableListView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-
-    public NonScrollableListView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
-
-    public void justifyListViewHeightBasedOnChildren() {
-
-        ListAdapter adapter = getAdapter();
-
-        if (adapter == null) {
-            return;
-        }
-        ViewGroup vg = this;
-        int totalHeight = 0;
-        for (int i = 0; i < adapter.getCount(); i++) {
-            View listItem = adapter.getView(i, null, vg);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-
-        ViewGroup.LayoutParams par = getLayoutParams();
-        par.height = totalHeight + (getDividerHeight() * (adapter.getCount() - 1));
-        setLayoutParams(par);
-        requestLayout();
-    }
+    ViewGroup.LayoutParams par = getLayoutParams();
+    par.height = totalHeight + (getDividerHeight() * (adapter.getCount() - 1));
+    setLayoutParams(par);
+    requestLayout();
+  }
 }

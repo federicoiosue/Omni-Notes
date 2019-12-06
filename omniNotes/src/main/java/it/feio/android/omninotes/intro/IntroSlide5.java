@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,12 +24,12 @@ import it.feio.android.omninotes.R;
 
 public class IntroSlide5 extends IntroFragment {
 
-	@Override
-	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
-		background.setBackgroundColor(Color.parseColor("#9c27b0"));
-		title.setText(R.string.tour_detailactivity_links_title);
-		image.setImageResource(R.drawable.slide5);
-		description.setText(R.string.tour_detailactivity_links_detail);
-	}
+  @Override
+  public void onActivityCreated (Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+    background.setBackgroundColor(Color.parseColor("#9c27b0"));
+    title.setText(R.string.tour_detailactivity_links_title);
+    image.setImageResource(R.drawable.slide5);
+    description.setText(R.string.tour_detailactivity_links_detail);
+  }
 }

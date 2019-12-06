@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@ package it.feio.android.omninotes.models.listeners;
 
 public interface OnReminderPickedListener {
 
-    public void onReminderPicked(long reminder);
+  void onReminderPicked (long reminder);
 
-    public void onRecurrenceReminderPicked(String recurrenceRule);
+  void onRecurrenceReminderPicked (String recurrenceRule);
 }

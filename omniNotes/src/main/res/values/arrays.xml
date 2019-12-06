@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -100,34 +100,11 @@
         <item>list</item>
     </string-array>
 
-    <string-array name="text_size">
-        <item>Smallest</item>
-        <item>Small</item>
-        <item>Default</item>
-        <item>Large</item>
-        <item>Largest</item>
-    </string-array>
-
-    <string-array name="text_size_values">
-        <item>smallest</item>
-        <item>small</item>
-        <item>default</item>
-        <item>large</item>
-        <item>largest</item>
-    </string-array>
-
-    <integer-array name="text_size_offset">
-        <item>-3</item>
-        <item>-2</item>
-        <item>0</item>
-        <item>3</item>
-        <item>5</item>
-    </integer-array>
-
     <string-array name="languages">
         <item>العربية (Arabic)</item>
         <item>Asturianu (Asturian)</item>
         <item>Euskara (Basque)</item>
+        <item>မြန်မာစာ (Burmese)</item>
         <item>Català (Catalan)</item>
         <item>中文 (Chinese Simplified)</item>
         <item>臺灣話 (Chinese Traditional)</item>
@@ -135,6 +112,7 @@
         <item>Čeština (Czech)</item>
         <item>Nederlands (Dutch)</item>
         <item>English (English)</item>
+        <item>Suomi (Finnish)</item>
         <item>Français (French)</item>
         <item>ភាសាខ្មែរ (Khmer)</item>
         <item>Deutsch (German)</item>
@@ -148,15 +126,17 @@
         <item>日本語 (Japanese)</item>
         <item>ສ​ປ​ປ​ລາວ (Lao)</item>
         <item>Latviešu valoda (Latvian)</item>
+        <item>فارسی (Persian)</item>
         <item>Polszczyzna (Polish)</item>
         <item>Português (Portuguese Brazil)</item>
         <item>Português (Portuguese Portugal)</item>
+        <item>Românește (Romanian)</item>
         <item>Русский (Russian)</item>
         <item>Српски (Serbian Cyrillic)</item>
         <item>Slovenčina (Slovak)</item>
         <item>Slovenščina (Slovenian)</item>
         <item>Español (Spanish)</item>
-        <item>Kinesiska (Swedish)</item>
+        <item>Svenska (Swedish)</item>
         <item>Türkçe (Turkish)</item>
         <item>Українська (Ukrainian)</item>
     </string-array>
@@ -165,6 +145,7 @@
         <item>ar_SA</item>
         <item>es_XA</item>
         <item>eu_ES</item>
+        <item>my_MM</item>
         <item>ca_ES</item>
         <item>zh_CN</item>
         <item>zh_TW</item>
@@ -172,6 +153,7 @@
         <item>cs_CZ</item>
         <item>nl_NL</item>
         <item>en_US</item>
+        <item>fi_FI</item>
         <item>fr_FR</item>
         <item>km_KH</item>
         <item>de_DE</item>
@@ -185,9 +167,11 @@
         <item>ja_JP</item>
         <item>lo_LA</item>
         <item>lv_LV</item>
+        <item>fa_IR</item>
         <item>pl_PL</item>
         <item>pt_BR</item>
         <item>pt_PT</item>
+        <item>ro_RO</item>
         <item>ru_RU</item>
         <item>sr_SP</item>
         <item>sk_SK</item>

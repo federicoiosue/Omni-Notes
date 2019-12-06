@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,8 +23,8 @@ import android.widget.RemoteViewsService;
 
 public class ListWidgetService extends RemoteViewsService {
 
-    @Override
-    public RemoteViewsFactory onGetViewFactory(Intent intent) {
-        return new ListRemoteViewsFactory(this.getApplication(), intent);
-    }
+  @Override
+  public RemoteViewsFactory onGetViewFactory (Intent intent) {
+    return new ListRemoteViewsFactory(this.getApplication(), intent);
+  }
 }

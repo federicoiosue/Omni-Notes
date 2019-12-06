@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,25 +17,24 @@
 
 package it.feio.android.omninotes.async.notes;
 
-import java.util.List;
-
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
+import java.util.List;
 
 
 public class NoteProcessorArchive extends NoteProcessor {
 
-    boolean archive;
+  boolean archive;
 
 
-    public NoteProcessorArchive(List<Note> notes, boolean archive) {
-        super(notes);
-        this.archive = archive;
-    }
+  public NoteProcessorArchive (List<Note> notes, boolean archive) {
+    super(notes);
+    this.archive = archive;
+  }
 
 
-    @Override
-    protected void processNote(Note note) {
-        DbHelper.getInstance().archiveNote(note, archive);
-    }
+  @Override
+  protected void processNote (Note note) {
+    DbHelper.getInstance().archiveNote(note, archive);
+  }
 }

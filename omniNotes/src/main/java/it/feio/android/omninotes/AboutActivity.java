@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,43 +17,43 @@
 package it.feio.android.omninotes;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.webkit.WebView;
 
 
 public class AboutActivity extends BaseActivity {
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
+  protected void onCreate (Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_about);
 
-        WebView webview = (WebView) findViewById(R.id.webview);
-        webview.loadUrl("file:///android_asset/html/about.html");
+    WebView webview = findViewById(R.id.webview);
+    webview.loadUrl("file:///android_asset/html/about.html");
 
-        initUI();
-    }
-
-
-	@Override
-	public void onStart() {
-		((OmniNotes)getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
-		super.onStart();
-	}
+    initUI();
+  }
 
 
-    @Override
-    public boolean onNavigateUp() {
-        onBackPressed();
-        return true;
-    }
+  @Override
+  public void onStart () {
+    ((OmniNotes) getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+    super.onStart();
+  }
 
 
-    private void initUI() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeButtonEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> onNavigateUp());
-    }
+  @Override
+  public boolean onNavigateUp () {
+    onBackPressed();
+    return true;
+  }
+
+
+  private void initUI () {
+    Toolbar toolbar = findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setHomeButtonEnabled(true);
+    toolbar.setNavigationOnClickListener(v -> onNavigateUp());
+  }
 
 }

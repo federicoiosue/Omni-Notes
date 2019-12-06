@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -43,7 +43,9 @@
             android:orientation="vertical"
             android:paddingBottom="7dp"
             android:paddingLeft="6dp"
+            android:paddingStart="6dp"
             android:paddingRight="16dp"
+            android:paddingEnd="16dp"
             android:paddingTop="7dp">
 
             <LinearLayout
@@ -56,7 +58,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:gravity="top|left"
+                    android:gravity="top|start"
                     android:singleLine="true"
                     android:textAppearance="@style/Text.Big"
                     pixlui:typeface="RobotoSlab-Bold.ttf"/>
@@ -111,7 +113,7 @@
                 android:id="@+id/note_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|start"
+                android:layout_gravity="start"
                 android:maxLines="@integer/textview_max_lines"
                 android:textAppearance="@style/Text.Normal"
                 android:visibility="gone"
@@ -121,7 +123,7 @@
                 android:id="@+id/note_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right|end"
+                android:layout_gravity="end"
                 android:textAppearance="@style/Text.Small"
                 android:alpha="0.6"
                 pixlui:typeface="Roboto-Regular.ttf"/>

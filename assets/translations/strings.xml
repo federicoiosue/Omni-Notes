@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,8 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-
-
+    
     <!-- Activities -->
     <string name="title_item_list">Notes</string>
     <string name="add_note">Add Note</string>
@@ -31,6 +30,7 @@
     <string name="share">Share</string>
     <string name="undo">Undo</string>
     <string name="trash">Trash</string>
+    <string name="trash_action">Trash</string>
     <string name="trashed">trashed</string>
     <string name="note_trashed">Note(s) trashed</string>
     <string name="note_untrashed">Note(s) restored from trash</string>
@@ -45,6 +45,7 @@
     <string name="confirm">Confirm</string>
     <string name="ok">Ok</string>
     <string name="no">No</string>
+    <string name="failed">failed</string>
     <string name="cancel">Cancel</string>
     <string name="note_updated">Note updated</string>
     <string name="empty_note_not_saved">Can\'t save an empty note</string>
@@ -67,6 +68,7 @@
     <string name="delete_all_attachments">Delete all the attachments?</string>
     <string name="gallery">Gallery</string>
     <string name="location">Location</string>
+    <string name="timestamp">Timestamp</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Remove location?</string>
     <string name="remove_reminder">Remove reminder?</string>
@@ -84,6 +86,7 @@
     <string name="data_import_message">Click -&gt; restore\nLong-click -&gt; delete</string>
     <string name="data_import_message_warning">WARNING: This will replace all current data!</string>
     <string name="data_export_completed">Data backup completed</string>
+    <string name="data_export_failed">Data backup failed: check logcat for details</string>
     <string name="data_import_completed">Data restore completed</string>
     <string name="click_to_refresh_application">Click to refresh application</string>
     <string name="backup_existing">Backup already exist. It\'ll be overwritten</string>
@@ -205,6 +208,7 @@
     <string name="uncompleted_checklists">Incompleted checklists</string>
     <string name="info">Info</string>
     <string name="completed">Completed</string>
+    <string name="undo_changes_note_confirmation">Confirm undoing changes?</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
@@ -218,6 +222,8 @@
     <string name="settings_export">Backup</string>
     <string name="settings_sync_import_export">Sync and Backups</string>
     <string name="settings_import">Restore or delete backups</string>
+    <string name="settings_import_legacy">Restore legacy backup</string>
+    <string name="settings_import_legacy_summary">Allows to restore old backups made with versions of Omni Notes prior to version 6</string>
     <string name="settings_import_from_springpad">Import notes from Springpad</string>
     <string name="settings_import_from_springpad_summary">Select your Springpad exported archive and be sure to be connected to internet</string>
     <string name="settings_sync_drive">Sync with Google Drive</string>
@@ -244,6 +250,9 @@
     <string name="settings_max_video_size">Video attachments</string>
     <string name="settings_screen_data">Data</string>
     <string name="settings_backup">Backup</string>
+    <string name="settings_enable_automatic_backup">Enable automatic backup</string>
+    <string name="settings_enable_automatic_backup_summary">Notes will be stored into "_autobackup" backup folder</string>
+    <string name="settings_enable_automatic_backup_dialog">By activating this feature a full data backup will be performed</string>
     <string name="settings_password">Password</string>
     <string name="settings_password_access">Request password on access</string>
     <string name="settings_password_instructions">Password ensures that notes won\'t be viewed or modified by other persons.\n\nWhen setting a new password, the previous one will be requested.</string>
@@ -270,7 +279,7 @@
     <string name="settings_category_preferences">Preferences</string>
     <string name="settings_category_beta">Beta</string>
     <string name="settings_category_about">About</string>
-    <string name="settings_beta">Google+</string>
+    <string name="settings_beta">Opt-In</string>
     <string name="settings_beta_summary">Subscribe to the beta program to keep up to date with the latest features</string>
     <string name="donate">Donate</string>
     <string name="donate_summary">Support the development of this app with a non-profit donation</string>
@@ -333,6 +342,8 @@
     <string name="settings_error_reporting_summary_off">No crash reports will be sent. Do not complain if something goes wrong!</string>
     <string name="settings_send_analytics">Share anonymous data</string>
     <string name="settings_send_analytics_summary">Help the developer by sending non-sensitive data like device model, language, frequently used app\'s features. This data are used only to improve the open-source app.</string>
+    <string name="settings_enable_file_logging">Save logs to file</string>
+    <string name="settings_enable_file_logging_summary">The logs of the apps will be saved into a file that you\'ll be able to share with the developer to investigate possible problems (restart required)</string>
     <string name="settings_statistics">Statistics</string>
 
     <!-- Stats -->
@@ -375,7 +386,7 @@
     <string name="tour_detailactivity_action_title">Do more</string>
     <string name="tour_detailactivity_action_detail">Share, tag, archive, protect, and more&#8230;</string>
     <string name="tour_detailactivity_reminder_title">Just press</string>
-    <string name="tour_detailactivity_reminder_detail">Long pression have different effects on an object (attachment, location, reminder) than short pression!</string>
+    <string name="tour_detailactivity_reminder_detail">Long presses have different effects on an object (attachment, location, reminder) than short presses!</string>
     <string name="tour_detailactivity_links_title">Links</string>
     <string name="tour_detailactivity_links_detail">URL, e-mail addresses and telephone numbers recognition</string>
     <string name="tour_detailactivity_swipe_title">Swipe</string>
@@ -384,7 +395,7 @@
     <string name="tour_detailactivity_save_detail">To go back, press the \"up\" navigation icon, or your device button</string>
     <string name="tour_listactivity_final_title">Enjoy</string>
     <string name="tour_listactivity_final_detail">Thanks for using Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
-    <string name="tour_community">Subscribe to the community to participate!</string>
+    <string name="tour_community">Subscribe to the communities to participate!</string>
 
     <!-- Accessibility -->
     <string name="drawer_open">drawer open</string>
@@ -395,5 +406,11 @@
     <string name="note_reminder_symbol">note reminder symbol</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <!-- Various -->
+    <string name="channel_backups_name">Backups</string>
+    <string name="channel_backups_description">Notifications for backup status and results</string>
+    <string name="channel_reminders_name">Reminders</string>
+    <string name="channel_reminders_description">Notifications for notes\' reminders</string>
 
 </resources>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,27 +17,26 @@
 
 package it.feio.android.omninotes.async.notes;
 
-import java.util.List;
-
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
+import java.util.List;
 
 
 public class NoteProcessorCategorize extends NoteProcessor {
 
-    Category category;
+  Category category;
 
 
-    public NoteProcessorCategorize(List<Note> notes, Category category) {
-        super(notes);
-        this.category = category;
-    }
+  public NoteProcessorCategorize (List<Note> notes, Category category) {
+    super(notes);
+    this.category = category;
+  }
 
 
-    @Override
-    protected void processNote(Note note) {
-        note.setCategory(category);
-        DbHelper.getInstance().updateNote(note, false);
-    }
+  @Override
+  protected void processNote (Note note) {
+    note.setCategory(category);
+    DbHelper.getInstance().updateNote(note, false);
+  }
 }
