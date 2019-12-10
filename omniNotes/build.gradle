@@ -147,19 +147,16 @@ dependencies {
     implementation 'com.getbase:floatingactionbutton:1.10.1'
     implementation 'com.nhaarman.listviewanimations:lib-core:3.1.0@aar'
     implementation 'com.nhaarman.listviewanimations:lib-manipulation:3.1.0@aar'
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     implementation('com.github.afollestad.material-dialogs:core:0.9.6.0') {
         transitive = true
         exclude group: "com.android.support"
-
     }
     implementation('com.github.afollestad.material-dialogs:commons:0.9.6.0') {
         transitive = true
         exclude group: "com.android.support"
-
     }
-
     implementation 'com.jakewharton:butterknife:10.2.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.0'
     implementation('org.mnode.ical4j:ical4j:3.0.11') {
