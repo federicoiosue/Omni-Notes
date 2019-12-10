@@ -31,14 +31,12 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
-import android.Manifest;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import androidx.core.view.GravityCompat;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.rule.ActivityTestRule;
-import androidx.test.rule.GrantPermissionRule;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;

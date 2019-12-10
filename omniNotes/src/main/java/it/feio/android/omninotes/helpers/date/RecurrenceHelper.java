@@ -17,6 +17,8 @@
 
 package it.feio.android.omninotes.helpers.date;
 
+import static com.appeaser.sublimepickerlibrary.recurrencepicker.SublimeRecurrencePicker.RecurrenceOption.DOES_NOT_REPEAT;
+
 import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.Time;
@@ -80,7 +82,7 @@ public class RecurrenceHelper {
 
   public static String buildRecurrenceRuleByRecurrenceOptionAndRule (RecurrenceOption recurrenceOption,
       String recurrenceRule) {
-    if (recurrenceRule == null) {
+    if (recurrenceRule == null && recurrenceOption != DOES_NOT_REPEAT) {
       Frequency freq = Frequency.valueOf(recurrenceOption.toString());
       Recur recur = new Recur(freq, new DateTime());
       return new RRule(recur).toString().replace("RRULE:", "");

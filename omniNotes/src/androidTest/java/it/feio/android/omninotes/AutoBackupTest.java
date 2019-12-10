@@ -122,7 +122,7 @@ public class AutoBackupTest extends BaseEspressoTest {
             1),
         isDisplayed())).perform(click());
 
-    onView(allOf(withId(R.id.buttonDefaultPositive), withText(R.string.add_category),
+    onView(allOf(withId(R.id.buttonNegativeDP), withText(R.string.add_category),
         childAtPosition(
             childAtPosition(
                 withId(android.R.id.content),
@@ -155,21 +155,13 @@ public class AutoBackupTest extends BaseEspressoTest {
                 1),
             2))).perform(scrollTo(), click());
 
-    onView(allOf(withId(R.id.done),
-        childAtPosition(
+    onView(allOf(withId(R.id.buttonPositive), withText("Ok"),
             childAtPosition(
-                withClassName(is("android.widget.LinearLayout")),
-                3),
-            0),
-        isDisplayed())).perform(click());
-
-    onView(allOf(withId(R.id.done_button),
-        childAtPosition(
-            childAtPosition(
-                withId(R.id.time_picker_dialog),
-                3),
-            0),
-        isDisplayed())).perform(click());
+                allOf(withId(R.id.button_layout),
+                    childAtPosition(
+                        withId(R.id.llMainContentHolder),
+                        2)),
+                5))).perform(click());
 
     onView(allOf(withId(R.id.done),
         childAtPosition(
@@ -197,7 +189,7 @@ public class AutoBackupTest extends BaseEspressoTest {
         childAtPosition(
             allOf(withId(R.id.attachment_dialog_root),
                 childAtPosition(
-                    withId(R.id.customViewFrame),
+                    withId(R.id.md_customViewFrame),
                     0)),
             3),
         isDisplayed())).perform(click());
@@ -208,7 +200,7 @@ public class AutoBackupTest extends BaseEspressoTest {
         childAtPosition(
             allOf(withId(R.id.attachment_dialog_root),
                 childAtPosition(
-                    withId(R.id.customViewFrame),
+                    withId(R.id.md_customViewFrame),
                     0)),
             3),
         isDisplayed())).perform(click());
@@ -262,7 +254,7 @@ public class AutoBackupTest extends BaseEspressoTest {
         4),
         isDisplayed())).perform(click());
 
-    onView(allOf(withId(R.id.buttonDefaultPositive), isDisplayed())).perform(click());
+    onView(allOf(withId(R.id.buttonNegativeDP), isDisplayed())).perform(click());
 
     navigateUpSettings();
     navigateUpSettings();

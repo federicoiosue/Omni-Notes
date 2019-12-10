@@ -30,15 +30,9 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.startsWith;
 
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewParent;
+import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -68,39 +62,11 @@ public class RemindersLifecycleTest {
         withId(R.id.reminder_layout));
     linearLayout.perform(scrollTo(), click());
 
-    ViewInteraction appCompatButton = onView(
-        allOf(withId(R.id.done), withText(R.string.md_done_label), isDisplayed()));
-    appCompatButton.perform(click());
-
-    ViewInteraction appCompatButton2 = onView(
-        allOf(withId(R.id.done), withText(R.string.md_done_label), isDisplayed()));
-    appCompatButton2.perform(click());
-
-    ViewInteraction appCompatButton3 = onView(
-        allOf(withId(R.id.done), withText(R.string.save), isDisplayed()));
-    appCompatButton3.perform(click());
+    onView(allOf(withId(R.id.buttonPositive), withText("Ok"),
+        isDisplayed())).perform(click());
 
     ViewInteraction textView = onView(withId(R.id.datetime));
-    textView.check(
-        matches(withText(startsWith(OmniNotes.getAppContext().getResources().getString(R.string.alarm_set_on)))));
+    textView.check(matches(withText(startsWith(OmniNotes.getAppContext().getResources().getString(R.string.alarm_set_on)))));
   }
 
-  private static Matcher<View> childAtPosition (
-      final Matcher<View> parentMatcher, final int position) {
-
-    return new TypeSafeMatcher<View>() {
-      @Override
-      public void describeTo (Description description) {
-        description.appendText("Child at position " + position + " in parent ");
-        parentMatcher.describeTo(description);
-      }
-
-      @Override
-      public boolean matchesSafely (View view) {
-        ViewParent parent = view.getParent();
-        return parent instanceof ViewGroup && parentMatcher.matches(parent)
-            && view.equals(((ViewGroup) parent).getChildAt(position));
-      }
-    };
-  }
 }

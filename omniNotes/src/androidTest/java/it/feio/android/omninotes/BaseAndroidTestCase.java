@@ -23,6 +23,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.rule.GrantPermissionRule;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
 import org.junit.AfterClass;
@@ -64,7 +65,7 @@ public class BaseAndroidTestCase {
     testContext.deleteDatabase(DbHelper.getInstance().getDatabaseName());
   }
 
-  private static void cleanDatabase () {
+  protected static void cleanDatabase () {
     dbHelper.getDatabase(true).delete(DbHelper.TABLE_NOTES, null, null);
     dbHelper.getDatabase(true).delete(DbHelper.TABLE_CATEGORY, null, null);
     dbHelper.getDatabase(true).delete(DbHelper.TABLE_ATTACHMENTS, null, null);

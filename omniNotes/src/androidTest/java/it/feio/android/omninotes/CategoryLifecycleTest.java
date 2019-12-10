@@ -39,15 +39,16 @@ import android.graphics.ColorFilter;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.os.Build;
+import android.view.View;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import android.view.View;
+import androidx.test.filters.LargeTest;
 import java.util.Calendar;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -79,7 +80,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
     actionMenuItemView.perform(click());
 
     ViewInteraction mDButton = onView(
-        allOf(withId(R.id.buttonDefaultPositive), withText(R.string.add_category), isDisplayed()));
+        allOf(withId(R.id.md_buttonDefaultPositive), withText(R.string.add_category), isDisplayed()));
     mDButton.perform(click());
 
     ViewInteraction appCompatEditText = onView(
@@ -146,38 +147,38 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
     ViewInteraction appCompatImageView = onView(allOf(withId(R.id.color_chooser), isDisplayed()));
     appCompatImageView.perform(click());
 
-    ViewInteraction mDButton2 = onView(
-        allOf(withId(R.id.buttonDefaultNeutral), withText("Custom"),
-            withParent(allOf(withId(R.id.root),
-                withParent(withId(android.R.id.content)))),
-            isDisplayed()));
-    mDButton2.perform(click());
+    onView(allOf(withId(R.id.md_buttonDefaultNeutral), withText("Custom"),
+            childAtPosition(
+                allOf(withId(R.id.md_root),
+                    childAtPosition(
+                        withId(android.R.id.content),
+                        0)),
+                2))).perform(click());
 
-    ViewInteraction mDButton3 = onView(
-        allOf(withId(R.id.buttonDefaultNeutral), withText(R.string.md_presets_label),
-            withParent(allOf(withId(R.id.root),
-                withParent(withId(android.R.id.content)))),
-            isDisplayed()));
-    mDButton3.perform(click());
+    onView(
+        allOf(withId(R.id.md_buttonDefaultNeutral), withText(R.string.md_presets_label),
+            withParent(allOf(withId(R.id.md_root),
+                withParent(withId(android.R.id.content)))))).perform(click());
 
     ViewInteraction circleView = onView(
         childAtPosition(
-            withId(R.id.grid),
+            withId(R.id.md_grid),
             18));
     circleView.perform(scrollTo(), click());
 
     ViewInteraction circleView2 = onView(
         childAtPosition(
-            withId(R.id.grid),
+            withId(R.id.md_grid),
             9));
     circleView2.perform(scrollTo(), click());
 
-    ViewInteraction mDButton4 = onView(
-        allOf(withId(R.id.buttonDefaultPositive), withText(R.string.md_done_label),
-            withParent(allOf(withId(R.id.root),
-                withParent(withId(android.R.id.content)))),
-            isDisplayed()));
-    mDButton4.perform(click());
+    onView(allOf(withId(R.id.md_buttonDefaultPositive), withText(R.string.md_done_label),
+            childAtPosition(
+                allOf(withId(R.id.md_root),
+                    childAtPosition(
+                        withId(android.R.id.content),
+                        0)),
+                4))).perform(click());
 
     ViewInteraction appCompatImageViewColorChanged = onView(allOf(withId(R.id.color_chooser), isDisplayed()));
     appCompatImageViewColorChanged.check(matches(withBackgroundColor(Color.parseColor("#FF263238"))));
@@ -203,7 +204,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
     deleteBtn.perform(click());
 
     ViewInteraction deleteConfirmBtn = onView(
-        allOf(withId(R.id.buttonDefaultPositive), withText(R.string.confirm), isDisplayed()));
+        allOf(withId(R.id.md_buttonDefaultPositive), withText(R.string.confirm), isDisplayed()));
     deleteConfirmBtn.perform(click());
 
     // Waiting a little to ensure Eventbus post propagation
@@ -216,6 +217,11 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
     ViewInteraction categoryDeletedView = onView(allOf(withId(R.id.title), withText(categoryName)));
     categoryDeletedView.check(doesNotExist());
 
+  }
+
+  @After
+  public void tearDown() {
+    cleanDatabase();
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
