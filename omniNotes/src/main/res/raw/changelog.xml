@@ -18,6 +18,13 @@
 <changelog bulletedList="true">
 
     <changelogversion
+      changeDate="Dec 10, 2019"
+      versionName="6.1.0">
+        <changelogtext>[i]Improved![/i] Simplified merging notes: confirmation is no more required</changelogtext>
+        <changelogtext>[i]Improved![/i] Updated languages</changelogtext>
+    </changelogversion>
+
+    <changelogversion
       changeDate="Nov 17, 2019"
       versionName="6.0.5">
         <changelogtext>[i]Improved![/i] Confirmation required when undoing note changes</changelogtext>

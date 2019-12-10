@@ -1720,23 +1720,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   public void merge () {
-    new MaterialDialog.Builder(mainActivity)
-        .title(R.string.delete_merged)
-        .positiveText(R.string.ok)
-        .negativeText(R.string.no)
-        .onPositive(new MaterialDialog.SingleButtonCallback() {
-          @Override
-          public void onClick (
-              @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-            EventBus.getDefault().post(new NotesMergeEvent(false));
-          }
-        })
-        .onNegative(new MaterialDialog.SingleButtonCallback() {
-          @Override
-          public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-            EventBus.getDefault().post(new NotesMergeEvent(true));
-          }
-        }).build().show();
+    EventBus.getDefault().post(new NotesMergeEvent(false));
   }
 
 
