@@ -617,12 +617,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   private void initViewReminder () {
-
-    // Preparation for reminder icon
     reminder_layout.setOnClickListener(v -> {
-      int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
-          ReminderPickers.TYPE_GOOGLE;
-      ReminderPickers reminderPicker = new ReminderPickers(mainActivity, mFragment, pickerType);
+      ReminderPickers reminderPicker = new ReminderPickers(mainActivity, mFragment);
       reminderPicker.pick(DateUtils.getPresetReminder(noteTmp.getAlarm()), noteTmp
           .getRecurrenceRule());
     });

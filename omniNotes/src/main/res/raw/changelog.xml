@@ -18,9 +18,11 @@
 <changelog bulletedList="true">
 
     <changelogversion
-      changeDate="Dec 10, 2019"
+      changeDate="Dec 11, 2019"
       versionName="6.1.0">
+        <changelogtext>[i]Improved![/i] New date pickers for reminders</changelogtext>
         <changelogtext>[i]Improved![/i] Simplified merging notes: confirmation is no more required</changelogtext>
+        <changelogtext>[i]Improved![/i] Removed legacy option to customize text size</changelogtext>
         <changelogtext>[i]Improved![/i] Updated languages</changelogtext>
     </changelogversion>
 

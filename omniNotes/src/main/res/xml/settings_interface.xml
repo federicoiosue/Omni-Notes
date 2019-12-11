@@ -40,12 +40,6 @@
 
   <SwitchPreference
     android:defaultValue="false"
-    android:key="settings_simple_calendar"
-    android:summary="@string/settings_simple_calendar_summary"
-    android:title="@string/settings_simple_calendar" />
-
-  <SwitchPreference
-    android:defaultValue="false"
     android:key="settings_attachments_on_bottom"
     android:summaryOff="@string/settings_attachments_on_bottom_summary_off"
     android:summaryOn="@string/settings_attachments_on_bottom_summary_on"

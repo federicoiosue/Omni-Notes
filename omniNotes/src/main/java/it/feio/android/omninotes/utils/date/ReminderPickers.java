@@ -30,15 +30,12 @@ import java.util.Calendar;
 
 public class ReminderPickers {
 
-  public static final int TYPE_GOOGLE = 0;
-  public static final int TYPE_AOSP = 1;
-
   private FragmentActivity mActivity;
   private OnReminderPickedListener mOnReminderPickedListener;
 
 
   public ReminderPickers(FragmentActivity mActivity,
-      OnReminderPickedListener mOnReminderPickedListener, int pickerType) {
+      OnReminderPickedListener mOnReminderPickedListener) {
     this.mActivity = mActivity;
     this.mOnReminderPickedListener = mOnReminderPickedListener;
   }
