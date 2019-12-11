@@ -28,6 +28,11 @@
         <item name="actionModeBackground">@color/colorPrimaryDark</item>
         <item name="searchViewStyle">@style/SearchViewStyle</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="sublimePickerStyle">@style/ONSublimePickerStyle</item>
+    </style>
+
+    <style name="ONSublimePickerStyle" parent="SublimePickerStyleLight">
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
     <style name="OmniNotesTheme.ApiSpec"/>
@@ -182,5 +187,15 @@
         <item name="android:background">@drawable/fab_labels_background</item>
         <item name="android:textColor">@color/text_color</item>
     </style>
+
+<!--    <style name="SublimePickerStyleLight">-->
+<!--        <item name="colorAccent">@color/colorAccent</item>-->
+<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
+<!--&lt;!&ndash;        <item name="android:textColorPrimary">@color/icon_theme_primary</item>&ndash;&gt;-->
+<!--        <item name="android:textColorSecondary">#727272</item>-->
+<!--        <item name="android:textColorPrimaryInverse">@android:color/white</item>-->
+<!--&lt;!&ndash;        <item name="android:textColor">@color/theme_primary</item>&ndash;&gt;-->
+<!--    </style>-->
 
 </resources>
