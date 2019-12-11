@@ -23,7 +23,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:3.5.1'
         classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.8"
         classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
     }
     // Exclude the version that the android plugin depends on.
