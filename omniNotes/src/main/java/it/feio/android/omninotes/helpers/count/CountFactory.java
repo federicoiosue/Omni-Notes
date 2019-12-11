@@ -26,7 +26,7 @@ public class CountFactory {
   }
 
   public static WordCounter getWordCounter () {
-    String locale = LanguageHelper.getCurrentLocale(OmniNotes.getAppContext());
+    String locale = LanguageHelper.getCurrentLocaleAsString(OmniNotes.getAppContext());
     return getCounterInstanceByLocale(locale);
   }
 

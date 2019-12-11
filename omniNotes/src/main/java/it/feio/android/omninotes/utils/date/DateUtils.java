@@ -17,7 +17,9 @@
 package it.feio.android.omninotes.utils.date;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.utils.Constants;
 import java.text.ParseException;
@@ -125,12 +127,10 @@ public class DateUtils {
 
 
   public static boolean is24HourMode (Context mContext) {
-    boolean res = true;
     Calendar c = Calendar.getInstance();
     String timeFormatted = android.text.format.DateUtils.formatDateTime(mContext, c.getTimeInMillis(), android
         .text.format.DateUtils.FORMAT_SHOW_TIME);
-    res = !timeFormatted.toLowerCase().contains("am") && !timeFormatted.toLowerCase().contains("pm");
-    return res;
+    return !timeFormatted.toLowerCase().contains("am") && !timeFormatted.toLowerCase().contains("pm");
   }
 
 

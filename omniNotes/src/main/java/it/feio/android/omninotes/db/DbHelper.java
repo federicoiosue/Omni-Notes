@@ -16,6 +16,12 @@
  */
 package it.feio.android.omninotes.db;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_FILTER_PAST_REMINDERS;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SORTING_COLUMN;
+import static it.feio.android.omninotes.utils.ConstantsBase.TIMESTAMP_UNIX_EPOCH;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -26,6 +32,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
+import it.feio.android.omninotes.exceptions.DatabaseException;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -45,6 +52,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
@@ -166,8 +174,8 @@ public class DbHelper extends SQLiteOpenHelper {
     try {
       LogDelegate.i("Database creation");
       execSqlFile(CREATE_QUERY, db);
-    } catch (IOException exception) {
-      throw new RuntimeException("Database creation failed", exception);
+    } catch (IOException e) {
+      throw new DatabaseException("Database creation failed: " + e.getMessage(), e);
     }
   }
 
@@ -202,7 +210,7 @@ public class DbHelper extends SQLiteOpenHelper {
     db = getDatabase(true);
 
     String content = Boolean.TRUE.equals(note.isLocked())
-        ? Security.encrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, ""))
+        ? Security.encrypt(note.getContent(), prefs.getString(PREF_PASSWORD, ""))
         : note.getContent();
 
     // To ensure note and attachments insertions are atomic and boost performances transaction are used
@@ -320,7 +328,7 @@ public class DbHelper extends SQLiteOpenHelper {
         case Navigation.ARCHIVE:
           return getNotesArchived();
         case Navigation.REMINDERS:
-          return getNotesWithReminder(prefs.getBoolean(Constants.PREF_FILTER_PAST_REMINDERS, false));
+          return getNotesWithReminder(prefs.getBoolean(PREF_FILTER_PAST_REMINDERS, false));
         case Navigation.TRASH:
           return getNotesTrashed();
         case Navigation.UNCATEGORIZED:
@@ -383,7 +391,7 @@ public class DbHelper extends SQLiteOpenHelper {
     if (Navigation.checkNavigation(Navigation.REMINDERS)) {
       sortColumn = KEY_REMINDER;
     } else {
-      sortColumn = prefs.getString(Constants.PREF_SORTING_COLUMN, KEY_TITLE);
+      sortColumn = prefs.getString(PREF_SORTING_COLUMN, KEY_TITLE);
     }
     if (order) {
       sortOrder = KEY_TITLE.equals(sortColumn) || KEY_REMINDER.equals(sortColumn) ? " ASC " : " DESC ";
@@ -394,7 +402,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     // In case of reminder sorting criteria the empty reminder notes must be moved on bottom of results
     sortColumn = KEY_REMINDER.equals(sortColumn) ? "IFNULL(" + KEY_REMINDER + ", " +
-        "" + Constants.TIMESTAMP_UNIX_EPOCH + ")" : sortColumn;
+        "" + TIMESTAMP_UNIX_EPOCH + ")" : sortColumn;
 
     // Generic query to be specialized with conditions passed as parameter
     String query = "SELECT "
@@ -446,14 +454,14 @@ public class DbHelper extends SQLiteOpenHelper {
 
           // Eventual decryption of content
           if (Boolean.TRUE.equals(note.isLocked())) {
-            note.setContent(Security.decrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD, "")));
+            note.setContent(Security.decrypt(note.getContent(), prefs.getString(PREF_PASSWORD, "")));
           }
 
           // Set category
           long categoryId = cursor.getLong(i++);
           if (categoryId != 0) {
             Category category = new Category(categoryId, cursor.getString(i++),
-                cursor.getString(i++), cursor.getString(i++));
+                cursor.getString(i++), cursor.getString(i));
             note.setCategory(category);
           }
 
@@ -641,7 +649,7 @@ public class DbHelper extends SQLiteOpenHelper {
    */
   public List<Note> getNotesByCategory (Long categoryId) {
     List<Note> notes;
-    boolean filterArchived = prefs.getBoolean(Constants.PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
+    boolean filterArchived = prefs.getBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
     try {
       String whereCondition = " WHERE "
           + KEY_CATEGORY_ID + " = " + categoryId
@@ -684,8 +692,8 @@ public class DbHelper extends SQLiteOpenHelper {
       }
     }
 
-    for (String s : tagsMap.keySet()) {
-      Tag tag = new Tag(s, tagsMap.get(s));
+    for (Entry<String, Integer> entry : tagsMap.entrySet()) {
+      Tag tag = new Tag(entry.getKey(), entry.getValue());
       tags.add(tag);
     }
 

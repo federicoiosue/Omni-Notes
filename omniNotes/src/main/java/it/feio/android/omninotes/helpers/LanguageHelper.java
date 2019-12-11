@@ -18,6 +18,7 @@
 package it.feio.android.omninotes.helpers;
 
 import static android.content.Context.MODE_MULTI_PROCESS;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_LANG;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -39,15 +40,15 @@ public class LanguageHelper {
   @SuppressLint("ApplySharedPref")
   public static Context updateLanguage (Context ctx, String lang) {
     SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-    String language = prefs.getString(Constants.PREF_LANG, "");
+    String language = prefs.getString(PREF_LANG, "");
 
     Locale locale = null;
     if (TextUtils.isEmpty(language) && lang == null) {
       locale = Locale.getDefault();
-      prefs.edit().putString(Constants.PREF_LANG, locale.toString()).commit();
+      prefs.edit().putString(PREF_LANG, locale.toString()).commit();
     } else if (lang != null) {
       locale = getLocale(lang);
-      prefs.edit().putString(Constants.PREF_LANG, lang).commit();
+      prefs.edit().putString(PREF_LANG, lang).commit();
     } else if (!TextUtils.isEmpty(language)) {
       locale = getLocale(language);
     }
@@ -76,7 +77,7 @@ public class LanguageHelper {
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   @NonNull
   static String getLocalizedString (Context context, String desiredLocale, int resourceId) {
-    if (desiredLocale.equals(getCurrentLocale(context))) {
+    if (desiredLocale.equals(getCurrentLocaleAsString(context))) {
       return context.getResources().getString(resourceId);
     }
     Configuration conf = context.getResources().getConfiguration();
@@ -86,11 +87,15 @@ public class LanguageHelper {
     return localizedContext.getResources().getString(resourceId);
   }
 
-  public static String getCurrentLocale (Context context) {
+  public static String getCurrentLocaleAsString (Context context) {
+    return getCurrentLocale(context).toString();
+  }
+
+  public static Locale getCurrentLocale (Context context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-      return context.getResources().getConfiguration().getLocales().get(0).toString();
+      return context.getResources().getConfiguration().getLocales().get(0);
     } else {
-      return context.getResources().getConfiguration().locale.toString();
+      return context.getResources().getConfiguration().locale;
     }
   }
 
