@@ -84,7 +84,7 @@ public class RecurrenceHelper {
       String recurrenceRule) {
     if (recurrenceRule == null && recurrenceOption != DOES_NOT_REPEAT) {
       Frequency freq = Frequency.valueOf(recurrenceOption.toString());
-      Recur recur = new Recur(freq, new DateTime());
+      Recur recur = new Recur(freq, new DateTime(32519731800000L));
       return new RRule(recur).toString().replace("RRULE:", "");
     }
     return recurrenceRule;
