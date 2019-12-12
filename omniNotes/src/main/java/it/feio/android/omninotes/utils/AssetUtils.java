@@ -23,6 +23,10 @@ import java.util.Arrays;
 
 public class AssetUtils {
 
+  private AssetUtils() {
+    // hides public constructor
+  }
+
   public static boolean exists (String fileName, String path,
       AssetManager assetManager) throws IOException {
     for (String currentFileName : assetManager.list(path)) {

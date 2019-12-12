@@ -16,6 +16,10 @@
  */
 package it.feio.android.omninotes.models.adapters;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.DATE_FORMAT_SORTABLE;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_FILES;
+
 import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
@@ -32,7 +36,6 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.BitmapHelper;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import java.util.Collections;
 import java.util.List;
@@ -89,7 +92,7 @@ public class AttachmentAdapter extends BaseAdapter {
     }
 
     // Draw name in case the type is an audio recording
-    if (mAttachment.getMime_type() != null && mAttachment.getMime_type().equals(Constants.MIME_TYPE_AUDIO)) {
+    if (mAttachment.getMime_type() != null && mAttachment.getMime_type().equals(MIME_TYPE_AUDIO)) {
       String text;
 
       if (mAttachment.getLength() > 0) {
@@ -98,8 +101,7 @@ public class AttachmentAdapter extends BaseAdapter {
       } else {
         // Recording date otherwise
         text = DateUtils.getLocalizedDateTime(mActivity, mAttachment
-                .getUri().getLastPathSegment().split("\\.")[0],
-            Constants.DATE_FORMAT_SORTABLE);
+                .getUri().getLastPathSegment().split("\\.")[0], DATE_FORMAT_SORTABLE);
       }
 
       if (text == null) {
@@ -112,7 +114,7 @@ public class AttachmentAdapter extends BaseAdapter {
     }
 
     // Draw name in case the type is an audio recording (or file in the future)
-    if (mAttachment.getMime_type() != null && mAttachment.getMime_type().equals(Constants.MIME_TYPE_FILES)) {
+    if (mAttachment.getMime_type() != null && mAttachment.getMime_type().equals(MIME_TYPE_FILES)) {
       holder.text.setText(mAttachment.getName());
       holder.text.setVisibility(View.VISIBLE);
     }
@@ -121,8 +123,6 @@ public class AttachmentAdapter extends BaseAdapter {
     Uri thumbnailUri = BitmapHelper.getThumbnailUri(mActivity, mAttachment);
     Glide.with(mActivity.getApplicationContext())
          .load(thumbnailUri)
-//                .centerCrop()
-//                .crossFade()
          .into(holder.image);
 
     return convertView;

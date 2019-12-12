@@ -17,9 +17,7 @@
 
 package it.feio.android.omninotes.services;
 
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
-import android.os.Build;
 import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
@@ -32,9 +30,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.date.DateUtils;
 
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class NotificationListener extends NotificationListenerService {
-
 
   @Override
   public void onCreate () {
@@ -42,19 +38,16 @@ public class NotificationListener extends NotificationListenerService {
     EventBus.getDefault().register(this);
   }
 
-
   @Override
   public void onDestroy () {
     super.onDestroy();
     EventBus.getDefault().unregister(this);
   }
 
-
   @Override
   public void onNotificationPosted (StatusBarNotification sbn) {
     LogDelegate.d("Notification posted for note: " + sbn.getId());
   }
-
 
   @Override
   public void onNotificationRemoved (StatusBarNotification sbn) {
@@ -64,15 +57,13 @@ public class NotificationListener extends NotificationListenerService {
     }
   }
 
-
   public void onEventAsync (NotificationRemovedEvent event) {
-    Long nodeId = Long.valueOf(event.statusBarNotification.getTag());
+    long nodeId = Long.parseLong(event.statusBarNotification.getTag());
     Note note = DbHelper.getInstance().getNote(nodeId);
     if (!DateUtils.isFuture(note.getAlarm())) {
       DbHelper.getInstance().setReminderFired(nodeId, true);
     }
   }
-
 
   public static boolean isRunning () {
     ContentResolver contentResolver = OmniNotes.getAppContext().getContentResolver();

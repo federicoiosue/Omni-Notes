@@ -17,6 +17,9 @@
 
 package it.feio.android.omninotes.async;
 
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_RESTART_APP;
+
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -32,7 +35,6 @@ import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.notifications.NotificationChannels;
@@ -41,12 +43,12 @@ import java.io.File;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
 
-  public final static String INTENT_BACKUP_NAME = "backup_name";
-  public final static String INTENT_BACKUP_INCLUDE_SETTINGS = "backup_include_settings";
-  public final static String ACTION_DATA_EXPORT = "action_data_export";
-  public final static String ACTION_DATA_IMPORT = "action_data_import";
-  public final static String ACTION_DATA_IMPORT_LEGACY = "action_data_import_legacy";
-  public final static String ACTION_DATA_DELETE = "action_data_delete";
+  public static final String INTENT_BACKUP_NAME = "backup_name";
+  public static final String INTENT_BACKUP_INCLUDE_SETTINGS = "backup_include_settings";
+  public static final String ACTION_DATA_EXPORT = "action_data_export";
+  public static final String ACTION_DATA_IMPORT = "action_data_import";
+  public static final String ACTION_DATA_IMPORT_LEGACY = "action_data_import_legacy";
+  public static final String ACTION_DATA_DELETE = "action_data_delete";
 
   private SharedPreferences prefs;
   private NotificationsHelper mNotificationsHelper;
@@ -64,14 +66,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
   @Override
   protected void onHandleIntent (Intent intent) {
-    prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-
-    // Creates an indeterminate processing notification until the work is complete
-//        mNotificationsHelper = new NotificationsHelper(this)
-//                .createNotification(NotificationChannels.NotificationChannelNames.Backups,
-//                        R.drawable.ic_content_save_white_24dp, getString(R.string.working),
-//                        null)
-//                .setIndeterminate().setOngoing();
+    prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
 
     mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannels.NotificationChannelNames.Backups,
         R.drawable.ic_content_save_white_24dp, getString(R.string.working));
@@ -95,7 +90,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     createNotification(intent, this, title, text, null);
   }
 
-  synchronized private void exportData (Intent intent) {
+  private synchronized void exportData (Intent intent) {
 
     boolean result = true;
 
@@ -123,7 +118,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
   }
 
 
-  synchronized private void importData (Intent intent) {
+  private synchronized void importData (Intent intent) {
 
     boolean importLegacy = ACTION_DATA_IMPORT_LEGACY.equals(intent.getAction());
 
@@ -156,7 +151,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 //        }
   }
 
-  synchronized private void deleteData (Intent intent) {
+  private synchronized void deleteData (Intent intent) {
 
     // Gets backup folder
     String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
@@ -181,7 +176,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     if (DataBackupIntentService.ACTION_DATA_IMPORT.equals(intent.getAction())
         || SpringImportHelper.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
       intentLaunch = new Intent(mContext, MainActivity.class);
-      intentLaunch.setAction(Constants.ACTION_RESTART_APP);
+      intentLaunch.setAction(ACTION_RESTART_APP);
     } else {
       intentLaunch = new Intent();
     }
@@ -192,15 +187,15 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     PendingIntent notifyIntent = PendingIntent.getActivity(mContext, 0, intentLaunch,
         PendingIntent.FLAG_UPDATE_CURRENT);
 
-    NotificationsHelper mNotificationsHelper = new NotificationsHelper(mContext);
-    mNotificationsHelper.createNotification(NotificationChannels.NotificationChannelNames.Backups,
+    NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
+    notificationsHelper.createNotification(NotificationChannels.NotificationChannelNames.Backups,
         R.drawable.ic_content_save_white_24dp, title, notifyIntent)
                         .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null))
                         .setLedActive();
     if (prefs.getBoolean("settings_notification_vibration", true)) {
-      mNotificationsHelper.setVibration();
+      notificationsHelper.setVibration();
     }
-    mNotificationsHelper.show();
+    notificationsHelper.show();
   }
 
 

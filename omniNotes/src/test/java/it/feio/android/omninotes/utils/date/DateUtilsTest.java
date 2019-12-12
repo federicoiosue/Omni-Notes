@@ -39,20 +39,20 @@ public class DateUtilsTest {
     long now = Calendar.getInstance().getTimeInMillis();
 
     String prettyTime = DateUtils.prettyTime(now, Locale.ENGLISH);
-    Assert.assertEquals(prettyTime.toLowerCase(), "moments ago");
+    Assert.assertEquals("moments ago", prettyTime.toLowerCase());
 
     prettyTime = DateUtils.prettyTime(now + 10 * 60 * 1000, Locale.ENGLISH);
-    Assert.assertEquals(prettyTime.toLowerCase(), "10 minutes from now");
+    Assert.assertEquals("10 minutes from now", prettyTime.toLowerCase());
 
     prettyTime = DateUtils.prettyTime(now + 24 * 60 * 60 * 1000, Locale.ITALIAN);
-    Assert.assertEquals(prettyTime.toLowerCase(), "fra 24 ore");
+    Assert.assertEquals("fra 24 ore", prettyTime.toLowerCase());
 
     prettyTime = DateUtils.prettyTime(now + 25 * 60 * 60 * 1000, Locale.ITALIAN);
-    Assert.assertEquals(prettyTime.toLowerCase(), "fra 1 giorno");
+    Assert.assertEquals("fra 1 giorno", prettyTime.toLowerCase());
 
     prettyTime = DateUtils.prettyTime(null, Locale.JAPANESE);
     Assert.assertNotNull(prettyTime.toLowerCase());
-    Assert.assertEquals(prettyTime.toLowerCase().length(), 0);
+    Assert.assertEquals(0, prettyTime.toLowerCase().length());
   }
 
   @Test

@@ -16,6 +16,9 @@
  */
 package it.feio.android.omninotes.models.adapters;
 
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -32,7 +35,6 @@ import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.category.CategoryViewHolder;
-import it.feio.android.omninotes.utils.Constants;
 import java.util.List;
 
 
@@ -122,7 +124,7 @@ public class CategoryBaseAdapter extends BaseAdapter {
     }
 
     // Sets category count if set in preferences
-    if (mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean
+    if (mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean
         ("settings_show_category_count", true)) {
       holder.count.setText(String.valueOf(category.getCount()));
       holder.count.setVisibility(View.VISIBLE);
@@ -144,8 +146,8 @@ public class CategoryBaseAdapter extends BaseAdapter {
     navigationTmpLocal = this.navigationTmp != null ? this.navigationTmp : navigationTmpLocal;
 
     String navigation = navigationTmp != null ? navigationTmpLocal
-        : mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                   .getString(Constants.PREF_NAVIGATION,
+        : mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
+                   .getString(PREF_NAVIGATION,
                        navigationListCodes[0]);
 
     return navigation.equals(String.valueOf(categories.get(position).getId()));

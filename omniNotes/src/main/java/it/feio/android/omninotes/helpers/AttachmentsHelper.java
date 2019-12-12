@@ -25,6 +25,10 @@ import org.apache.commons.io.FileUtils;
 
 public class AttachmentsHelper {
 
+  private AttachmentsHelper() {
+    // hides public constructor
+  }
+
   /**
    * Retrieves attachment file size
    *

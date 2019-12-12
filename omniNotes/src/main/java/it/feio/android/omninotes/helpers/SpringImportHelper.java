@@ -49,8 +49,8 @@ import java.util.List;
 
 public class SpringImportHelper {
 
-  public final static String ACTION_DATA_IMPORT_SPRINGPAD = "action_data_import_springpad";
-  public final static String EXTRA_SPRINGPAD_BACKUP = "extra_springpad_backup";
+  public static final String ACTION_DATA_IMPORT_SPRINGPAD = "action_data_import_springpad";
+  public static final String EXTRA_SPRINGPAD_BACKUP = "extra_springpad_backup";
   private final Context context;
 
 

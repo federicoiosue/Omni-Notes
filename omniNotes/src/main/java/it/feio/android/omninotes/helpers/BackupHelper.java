@@ -18,6 +18,8 @@
 package it.feio.android.omninotes.helpers;
 
 
+import static it.feio.android.omninotes.utils.ConstantsBase.DATABASE_NAME;
+
 import android.content.Context;
 import android.content.Intent;
 import androidx.annotation.NonNull;
@@ -28,7 +30,6 @@ import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
@@ -51,8 +52,9 @@ import rx.Observable;
 
 public class BackupHelper {
 
-  private static String TAG = BackupHelper.class.getSimpleName();
-
+  private BackupHelper() {
+    // hides public constructor
+  }
 
   public static void exportNotes (File backupDir) {
     for (Note note : DbHelper.getInstance(true).getAllNotes(false)) {
@@ -104,7 +106,7 @@ public class BackupHelper {
 
     boolean result = true;
 
-    listOld = listOld == null ? Collections.EMPTY_LIST : listOld;
+    listOld = listOld == null ? Collections.emptyList() : listOld;
     int exported = 0;
     int failed = 0;
     for (Attachment attachment : list) {
@@ -118,8 +120,7 @@ public class BackupHelper {
         result = false;
       }
 
-      String failedString =
-          failed > 0 ? " (" + failed + " " + OmniNotes.getAppContext().getString(R.string.failed) + ")" : "";
+      String failedString = failed > 0 ? " (" + failed + " " + OmniNotes.getAppContext().getString(R.string.failed) + ")" : "";
       if (notificationsHelper != null) {
         notificationsHelper.updateMessage(
             TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string.attachment))
@@ -306,11 +307,11 @@ public class BackupHelper {
    */
   @Deprecated
   public static boolean importDB (Context context, File backupDir) {
-    File database = context.getDatabasePath(Constants.DATABASE_NAME);
+    File database = context.getDatabasePath(DATABASE_NAME);
     if (database.exists()) {
       database.delete();
     }
-    return (StorageHelper.copyFile(new File(backupDir, Constants.DATABASE_NAME), database));
+    return (StorageHelper.copyFile(new File(backupDir, DATABASE_NAME), database));
   }
 
 

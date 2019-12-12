@@ -17,6 +17,9 @@
 package it.feio.android.omninotes.models.adapters;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
+import static it.feio.android.omninotes.utils.ConstantsBase.TIMESTAMP_UNIX_EPOCH_FAR;
 
 import android.app.Activity;
 import android.content.Context;
@@ -40,10 +43,8 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.utils.BitmapHelper;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.TextHelper;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
@@ -53,12 +54,12 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 
   private final Activity mActivity;
   private final int navigation;
-  private List<Note> notes = new ArrayList<>();
+  private List<Note> notes;
   private SparseBooleanArray selectedItems = new SparseBooleanArray();
   private boolean expandedView;
   private int layout;
   private LayoutInflater inflater;
-  private long closestNoteReminder = Long.parseLong(Constants.TIMESTAMP_UNIX_EPOCH_FAR);
+  private long closestNoteReminder = Long.parseLong(TIMESTAMP_UNIX_EPOCH_FAR);
   private int closestNotePosition;
 
 
@@ -112,9 +113,9 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 
     if (expandedView && holder.attachmentThumbnail != null) {
       // If note is locked or without attachments nothing is shown
-      if ((note.isLocked() && !mActivity.getSharedPreferences(Constants.PREFS_NAME,
+      if ((note.isLocked() && !mActivity.getSharedPreferences(PREFS_NAME,
           Context.MODE_MULTI_PROCESS).getBoolean("settings_password_access", false))
-          || note.getAttachmentsList().size() == 0) {
+          || note.getAttachmentsList().isEmpty()) {
         holder.attachmentThumbnail.setVisibility(View.GONE);
       } else {
         holder.attachmentThumbnail.setVisibility(View.VISIBLE);
@@ -155,7 +156,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
     holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
     // ...the attachment icon for contracted view
     if (!expandedView) {
-      holder.attachmentIcon.setVisibility(note.getAttachmentsList().size() > 0 ? View.VISIBLE : View.GONE);
+      holder.attachmentIcon.setVisibility(!note.getAttachmentsList().isEmpty() ? View.VISIBLE : View.GONE);
     }
   }
 
@@ -235,8 +236,10 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
 
 
   public void restoreDrawable (Note note, View v, NoteViewHolder holder) {
-    final int paddingBottom = v.getPaddingBottom(), paddingLeft = v.getPaddingLeft();
-    final int paddingRight = v.getPaddingRight(), paddingTop = v.getPaddingTop();
+    final int paddingBottom = v.getPaddingBottom();
+    final int paddingLeft = v.getPaddingLeft();
+    final int paddingRight = v.getPaddingRight();
+    final int paddingTop = v.getPaddingTop();
     v.setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
     colorNote(note, v, holder);
   }
@@ -253,8 +256,8 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
    */
   private void colorNote (Note note, View v, NoteViewHolder holder) {
 
-    String colorsPref = mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                                 .getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
+    String colorsPref = mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
+                                 .getString("settings_colors_app", PREF_COLORS_APP_DEFAULT);
 
     // Checking preference
     if (!colorsPref.equals("disabled")) {

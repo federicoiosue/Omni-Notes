@@ -25,14 +25,18 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
-import androidx.appcompat.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
+import androidx.appcompat.app.AppCompatActivity;
 import it.feio.android.omninotes.helpers.LogDelegate;
 
 
 public class Display {
+
+  private Display () {
+    // hides public constructor
+  }
 
 
   public static View getRootView (Activity mActivity) {
@@ -112,16 +116,6 @@ public class Display {
     return res;
   }
 
-//	public static int getActionBarHeight(Activity mActivity) {
-//		Rect r = new Rect();
-//		Window window = mActivity.getWindow();
-//		window.getDecorView().getWindowVisibleDisplayFrame(r);
-//		int StatusBarHeight = r.top;
-//		int contentViewTop = window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
-//		int actionBarHeight = contentViewTop - StatusBarHeight;
-//		return actionBarHeight;
-//	}
-
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   public static Point getScreenDimensions (Context mContext) {
@@ -147,20 +141,16 @@ public class Display {
   }
 
   public static int getSoftButtonsBarHeight (Activity activity) {
-    // getRealMetrics is only available with API 17 and +
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-      DisplayMetrics metrics = new DisplayMetrics();
-      activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-      int usableHeight = metrics.heightPixels;
-      activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
-      int realHeight = metrics.heightPixels;
-      if (realHeight > usableHeight) {
-        return realHeight - usableHeight;
-      } else {
-        return 0;
-      }
+    DisplayMetrics metrics = new DisplayMetrics();
+    activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
+    int usableHeight = metrics.heightPixels;
+    activity.getWindowManager().getDefaultDisplay().getRealMetrics(metrics);
+    int realHeight = metrics.heightPixels;
+    if (realHeight > usableHeight) {
+      return realHeight - usableHeight;
+    } else {
+      return 0;
     }
-    return 0;
   }
 
 }

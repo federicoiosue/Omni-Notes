@@ -17,20 +17,20 @@
 
 package it.feio.android.omninotes.utils;
 
+import static it.feio.android.omninotes.BuildConfig.MAPS_API_KEY;
+import static it.feio.android.omninotes.helpers.GeocodeProviderBaseFactory.getProvider;
+
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import io.nlopez.smartlocation.SmartLocation;
 import io.nlopez.smartlocation.location.config.LocationParams;
 import io.nlopez.smartlocation.rx.ObservableFactory;
-import it.feio.android.omninotes.BuildConfig;
 import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.helpers.GeocodeProviderFactory;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import java.io.IOException;
@@ -55,45 +55,37 @@ import rx.Subscriber;
 
 public class GeocodeHelper implements LocationListener {
 
-  private static final String LOG_TAG = Constants.TAG;
   private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
   private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
   private static final String OUT_JSON = "/json";
 
-  private static GeocodeHelper instance;
-  private static LocationManager locationManager;
-
-
-  private GeocodeHelper () {
-    instance = this;
-    locationManager = (LocationManager) OmniNotes.getAppContext().getSystemService(Context.LOCATION_SERVICE);
-  }
-
-
   @Override
   public void onLocationChanged (Location newLocation) {
+    // Nothing to do
   }
 
 
   @Override
   public void onStatusChanged (String provider, int status, Bundle extras) {
+    // Nothing to do
   }
 
 
   @Override
   public void onProviderEnabled (String provider) {
+    // Nothing to do
   }
 
 
   @Override
   public void onProviderDisabled (String provider) {
+    // Nothing to do
   }
 
 
   public static void getLocation (OnGeoUtilResultListener onGeoUtilResultListener) {
     SmartLocation.LocationControl bod = SmartLocation.with(OmniNotes.getAppContext())
-                                                     .location(
-                                                         GeocodeProviderFactory.getProvider(OmniNotes.getAppContext()))
+                                                     .location(getProvider(OmniNotes.getAppContext()))
                                                      .config(LocationParams.NAVIGATION).oneFix();
 
     Observable<Location> locations = ObservableFactory.from(bod).timeout(2, TimeUnit.SECONDS);
@@ -130,7 +122,7 @@ public class GeocodeHelper implements LocationListener {
     String addressString = "";
     Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
     List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-    if (addresses.size() > 0) {
+    if (!addresses.isEmpty()) {
       Address address = addresses.get(0);
       if (address != null) {
         addressString = address.getThoroughfare() + ", " + address.getLocality();
@@ -158,7 +150,7 @@ public class GeocodeHelper implements LocationListener {
     double[] result = new double[2];
     Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
     List<Address> addresses = geocoder.getFromLocationName(address, 1);
-    if (addresses.size() > 0) {
+    if (!addresses.isEmpty()) {
       double latitude = addresses.get(0).getLatitude();
       double longitude = addresses.get(0).getLongitude();
       result[0] = latitude;
@@ -171,7 +163,7 @@ public class GeocodeHelper implements LocationListener {
   public static void getCoordinatesFromAddress (String address, final OnGeoUtilResultListener
       listener) {
     SmartLocation.with(OmniNotes.getAppContext()).geocoding().direct(address, (name, results) -> {
-      if (results.size() > 0) {
+      if (!results.isEmpty()) {
         listener.onCoordinatesResolved(results.get(0).getLocation(), address);
       }
     });
@@ -179,7 +171,6 @@ public class GeocodeHelper implements LocationListener {
 
 
   public static List<String> autocomplete (String input) {
-    String MAPS_API_KEY = BuildConfig.MAPS_API_KEY;
     if (TextUtils.isEmpty(MAPS_API_KEY)) {
       return Collections.emptyList();
     }
@@ -201,10 +192,10 @@ public class GeocodeHelper implements LocationListener {
       }
     } catch (MalformedURLException e) {
       LogDelegate.e("Error processing Places API URL");
-      return null;
+      return Collections.emptyList();
     } catch (IOException e) {
       LogDelegate.e("Error connecting to Places API");
-      return null;
+      return Collections.emptyList();
     } finally {
       if (conn != null) {
         conn.disconnect();

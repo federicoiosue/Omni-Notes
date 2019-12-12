@@ -16,6 +16,9 @@
  */
 package it.feio.android.omninotes.models.adapters;
 
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -23,7 +26,6 @@ import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +35,6 @@ import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.category.CategoryViewHolder;
-import it.feio.android.omninotes.utils.Constants;
 import java.util.List;
 
 
@@ -84,12 +85,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryVi
     if (category.getColor() != null && category.getColor().length() > 0) {
       Drawable img = mActivity.getResources().getDrawable(R.drawable.ic_folder_special_black_24dp);
       ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"), Integer.parseInt(category.getColor()));
-      // Before API 16 the object is mutable yet
-      if (Build.VERSION.SDK_INT >= 16) {
-        img.mutate().setColorFilter(cf);
-      } else {
-        img.setColorFilter(cf);
-      }
+      img.setColorFilter(cf);
       holder.imgIcon.setImageDrawable(img);
       int padding = 4;
       holder.imgIcon.setPadding(padding, padding, padding, padding);
@@ -98,7 +94,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryVi
   }
 
   private void showCategoryCounter (@NonNull CategoryViewHolder holder, Category category) {
-    if (mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean(
+    if (mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean(
         "settings_show_category_count", true)) {
       holder.count.setText(String.valueOf(category.getCount()));
       holder.count.setVisibility(View.VISIBLE);
@@ -119,9 +115,8 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryVi
     navigationTmpLocal = this.navigationTmp != null ? this.navigationTmp : navigationTmpLocal;
 
     String navigation = navigationTmp != null ? navigationTmpLocal
-        : mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                   .getString(Constants.PREF_NAVIGATION,
-                       navigationListCodes[0]);
+        : mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
+                   .getString(PREF_NAVIGATION, navigationListCodes[0]);
 
     return navigation.equals(String.valueOf(categories.get(position).getId()));
   }

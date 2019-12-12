@@ -16,13 +16,13 @@
  */
 package it.feio.android.omninotes.helpers.date;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.DATE_FORMAT_SORTABLE;
+
 import android.content.Context;
 import android.text.format.DateUtils;
 import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.utils.Constants;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 
 /**
@@ -30,10 +30,13 @@ import java.util.Date;
  */
 public class DateHelper {
 
+  private DateHelper () {
+    // hides public constructor
+  }
+
   public static String getSortableDate () {
-    SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
-    String result = sdf.format(Calendar.getInstance().getTime());
-    return result;
+    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_SORTABLE);
+    return sdf.format(Calendar.getInstance().getTime());
   }
 
 

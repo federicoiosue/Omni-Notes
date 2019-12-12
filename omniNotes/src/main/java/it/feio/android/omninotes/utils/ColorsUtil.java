@@ -22,9 +22,13 @@ import android.graphics.Color;
 
 public class ColorsUtil {
 
-  public static final int COLOR_DARK = 0;
-  public static final int COLOR_LIGHT = 1;
-  private static double CONTRAST_THRESHOLD = 100;
+  private ColorsUtil () {
+    // hides public constructor
+  }
+
+  private static final int COLOR_DARK = 0;
+  private static final int COLOR_LIGHT = 1;
+  private static final double CONTRAST_THRESHOLD = 100;
 
 
   public static double calculateColorLuminance (int color) {

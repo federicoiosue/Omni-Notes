@@ -17,27 +17,24 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_CATEGORY;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
 import static java.lang.Integer.parseInt;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import androidx.annotation.NonNull;
-import androidx.core.app.NavUtils;
-import androidx.appcompat.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import de.greenrobot.event.EventBus;
@@ -45,10 +42,7 @@ import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Category;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.simplegallery.util.BitmapUtils;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.Random;
 
@@ -76,7 +70,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     setContentView(R.layout.activity_category);
     ButterKnife.bind(this);
 
-    category = getIntent().getParcelableExtra(Constants.INTENT_CATEGORY);
+    category = getIntent().getParcelableExtra(INTENT_CATEGORY);
 
     if (category == null) {
       LogDelegate.d("Adding new category");
@@ -107,7 +101,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
 
 
   @Override
-  public void onColorSelection (ColorChooserDialog colorChooserDialog, int color) {
+  public void onColorSelection (@NonNull ColorChooserDialog colorChooserDialog, int color) {
     BitmapUtils.changeImageViewDrawableColor(colorChooser, color);
     selectedColor = color;
   }
@@ -159,7 +153,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     category = db.updateCategory(category);
 
     // Sets result to show proper message
-    getIntent().putExtra(Constants.INTENT_CATEGORY, category);
+    getIntent().putExtra(INTENT_CATEGORY, category);
     setResult(RESULT_OK, getIntent());
     finish();
   }
@@ -173,65 +167,24 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
         .content(R.string.delete_category_confirmation)
         .positiveText(R.string.confirm)
         .positiveColorRes(R.color.colorAccent)
-        .onPositive(new MaterialDialog.SingleButtonCallback() {
-          @Override
-          public void onClick (
-              @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-            // Changes navigation if actually are shown notes associated with this category
-            SharedPreferences prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-            String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
-            String navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
-            if (String.valueOf(category.getId()).equals(navigation)) {
-              prefs.edit().putString(Constants.PREF_NAVIGATION, navNotes).apply();
-            }
-            // Removes category and edit notes associated with it
-            DbHelper db = DbHelper.getInstance();
-            db.deleteCategory(category);
-
-            EventBus.getDefault().post(new CategoriesUpdatedEvent());
-            BaseActivity.notifyAppWidgets(OmniNotes.getAppContext());
-
-            setResult(RESULT_FIRST_USER);
-            finish();
+        .onPositive((dialog, which) -> {
+          // Changes navigation if actually are shown notes associated with this category
+          SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
+          String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
+          String navigation = prefs.getString(PREF_NAVIGATION, navNotes);
+          if (String.valueOf(category.getId()).equals(navigation)) {
+            prefs.edit().putString(PREF_NAVIGATION, navNotes).apply();
           }
+          // Removes category and edit notes associated with it
+          DbHelper db = DbHelper.getInstance();
+          db.deleteCategory(category);
+
+          EventBus.getDefault().post(new CategoriesUpdatedEvent());
+          BaseActivity.notifyAppWidgets(OmniNotes.getAppContext());
+
+          setResult(RESULT_FIRST_USER);
+          finish();
         }).build().show();
   }
 
-
-  public void goHome () {
-    // In this case the caller activity is DetailActivity
-    if (getIntent().getBooleanExtra("noHome", false)) {
-      setResult(RESULT_OK);
-      super.finish();
-    }
-    NavUtils.navigateUpFromSameTask(this);
-  }
-
-
-  public void save (Bitmap bitmap) {
-    if (bitmap == null) {
-      setResult(RESULT_CANCELED);
-      super.finish();
-    }
-
-    try {
-      Uri uri = getIntent().getParcelableExtra(MediaStore.EXTRA_OUTPUT);
-      File bitmapFile = new File(uri.getPath());
-      FileOutputStream out = new FileOutputStream(bitmapFile);
-      assert bitmap != null;
-      bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
-
-      if (bitmapFile.exists()) {
-        Intent localIntent = new Intent().setData(Uri
-            .fromFile(bitmapFile));
-        setResult(RESULT_OK, localIntent);
-      } else {
-        setResult(RESULT_CANCELED);
-      }
-      super.finish();
-
-    } catch (Exception e) {
-      LogDelegate.w("Bitmap not found", e);
-    }
-  }
 }

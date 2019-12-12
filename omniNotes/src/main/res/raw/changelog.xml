@@ -18,8 +18,9 @@
 <changelog bulletedList="true">
 
     <changelogversion
-      changeDate="Dec 11, 2019"
+      changeDate="Dec 12, 2019"
       versionName="6.1.0">
+        <changelogtext>[b]New![/b] Dropped support for Android versions older than KitKat to improve performances</changelogtext>
         <changelogtext>[i]Improved![/i] New date pickers for reminders</changelogtext>
         <changelogtext>[i]Improved![/i] Simplified merging notes: confirmation is no more required</changelogtext>
         <changelogtext>[i]Improved![/i] Removed legacy option to customize text size</changelogtext>

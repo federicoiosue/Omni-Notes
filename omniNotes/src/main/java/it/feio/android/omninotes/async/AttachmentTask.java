@@ -52,7 +52,9 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
   @Override
   protected Attachment doInBackground (Void... params) {
-    return StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), uri);
+    Attachment attachment = StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), uri);
+    attachment.setName(this.fileName);
+    return attachment;
   }
 
 

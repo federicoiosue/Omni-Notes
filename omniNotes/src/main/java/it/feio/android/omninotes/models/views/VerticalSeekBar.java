@@ -57,7 +57,7 @@ public class VerticalSeekBar extends SeekBar {
 
 
   @Override
-  protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
+  protected synchronized void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
     super.onMeasure(heightMeasureSpec, widthMeasureSpec);
     setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
   }

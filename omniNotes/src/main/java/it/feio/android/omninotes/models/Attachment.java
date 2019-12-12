@@ -28,13 +28,13 @@ public class Attachment extends BaseAttachment implements Parcelable {
   private Uri uri;
 
 
-  public Attachment (Uri uri, String mime_type) {
-    this(Calendar.getInstance().getTimeInMillis(), uri, null, 0, 0, mime_type);
+  public Attachment (Uri uri, String mimeType) {
+    this(Calendar.getInstance().getTimeInMillis(), uri, null, 0, 0, mimeType);
   }
 
 
-  public Attachment (long id, Uri uri, String name, long size, long length, String mime_type) {
-    super(id, uri != null ? uri.getPath() : null, name, size, length, mime_type);
+  public Attachment (long id, Uri uri, String name, long size, long length, String mimeType) {
+    super(id, uri != null ? uri.getPath() : null, name, size, length, mimeType);
     setUri(uri);
   }
 

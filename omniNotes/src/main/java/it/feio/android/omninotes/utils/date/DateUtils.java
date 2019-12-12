@@ -16,12 +16,11 @@
  */
 package it.feio.android.omninotes.utils.date;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.DATE_FORMAT_SORTABLE_OLD;
+
 import android.content.Context;
-import android.text.format.DateFormat;
 import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
-import it.feio.android.omninotes.utils.Constants;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -106,7 +105,7 @@ public class DateUtils {
     try {
       date = sdf.parse(dateString);
     } catch (ParseException e) {
-      sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE_OLD);
+      sdf = new SimpleDateFormat(DATE_FORMAT_SORTABLE_OLD);
       try {
         date = sdf.parse(dateString);
       } catch (ParseException e1) {
@@ -189,7 +188,7 @@ public class DateUtils {
   }
 
 
-  public static String prettyTime (Long timeInMillisec, Locale locale) {
+  static String prettyTime (Long timeInMillisec, Locale locale) {
     if (timeInMillisec == null) {
       return "";
     }

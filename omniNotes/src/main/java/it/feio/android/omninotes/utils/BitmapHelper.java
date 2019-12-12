@@ -42,6 +42,8 @@ import org.apache.commons.io.FilenameUtils;
 
 public class BitmapHelper {
 
+  private static final String ANDROID_RESOURCE = "android.resource://";
+
   private BitmapHelper () {}
 
   /**
@@ -103,15 +105,15 @@ public class BitmapHelper {
           // Nothing to do, bitmap will be retrieved from this
           break;
         case "audio":
-          uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.play);
+          uri = Uri.parse(ANDROID_RESOURCE + mContext.getPackageName() + "/" + R.raw.play);
           break;
         default:
           int drawable = "x-vcard".equals(subtype) ? R.raw.vcard : R.raw.files;
-          uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + drawable);
+          uri = Uri.parse(ANDROID_RESOURCE + mContext.getPackageName() + "/" + drawable);
           break;
       }
     } else {
-      uri = Uri.parse("android.resource://" + mContext.getPackageName() + "/" + R.raw.files);
+      uri = Uri.parse(ANDROID_RESOURCE + mContext.getPackageName() + "/" + R.raw.files);
     }
     return uri;
   }

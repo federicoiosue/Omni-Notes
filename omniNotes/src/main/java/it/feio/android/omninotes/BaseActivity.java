@@ -16,6 +16,10 @@
  */
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_UPDATE_DASHCLOCK;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
@@ -38,7 +42,6 @@ import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.PasswordValidator;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.widget.ListWidgetProvider;
@@ -49,8 +52,8 @@ import java.util.List;
 @SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
 
-  protected final int TRANSITION_VERTICAL = 0;
-  protected final int TRANSITION_HORIZONTAL = 1;
+  protected static final int TRANSITION_VERTICAL = 0;
+  protected static final int TRANSITION_HORIZONTAL = 1;
 
   protected SharedPreferences prefs;
 
@@ -73,7 +76,7 @@ public class BaseActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate (Bundle savedInstanceState) {
-    prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+    prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
     // Forces menu overflow icon
     try {
       ViewConfiguration config = ViewConfiguration.get(this.getApplicationContext());
@@ -93,7 +96,7 @@ public class BaseActivity extends AppCompatActivity {
   protected void onResume () {
     super.onResume();
     String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
-    navigation = prefs.getString(Constants.PREF_NAVIGATION, navNotes);
+    navigation = prefs.getString(PREF_NAVIGATION, navNotes);
     LogDelegate.d(prefs.getAll().toString());
   }
 
@@ -135,7 +138,7 @@ public class BaseActivity extends AppCompatActivity {
     if (nav.equals(navigationTmp) || (navigationTmp == null && Navigation.getNavigationText().equals(nav))) {
       return false;
     }
-    prefs.edit().putString(Constants.PREF_NAVIGATION, nav).apply();
+    prefs.edit().putString(PREF_NAVIGATION, nav).apply();
     navigation = nav;
     navigationTmp = null;
     return true;
@@ -165,7 +168,7 @@ public class BaseActivity extends AppCompatActivity {
     mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 
     // Dashclock
-    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(Constants.INTENT_UPDATE_DASHCLOCK));
+    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(INTENT_UPDATE_DASHCLOCK));
   }
 
 

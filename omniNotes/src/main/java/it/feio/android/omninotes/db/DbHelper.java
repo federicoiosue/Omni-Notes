@@ -16,11 +16,20 @@
  */
 package it.feio.android.omninotes.db;
 
+import static it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_FILES;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_SKETCH;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_FILTER_PAST_REMINDERS;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SORTING_COLUMN;
 import static it.feio.android.omninotes.utils.ConstantsBase.TIMESTAMP_UNIX_EPOCH;
+import static it.feio.android.omninotes.utils.Constants.DATABASE_NAME;
+
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -41,7 +50,6 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.Stats;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.utils.AssetUtils;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.utils.TagsHelper;
@@ -53,6 +61,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
@@ -60,7 +69,6 @@ import org.apache.commons.lang3.StringUtils;
 public class DbHelper extends SQLiteOpenHelper {
 
   // Database name
-  private static final String DATABASE_NAME = Constants.DATABASE_NAME;
   // Database version aligned if possible to software version
   private static final int DATABASE_VERSION = 560;
   // Sql query file directory
@@ -143,7 +151,7 @@ public class DbHelper extends SQLiteOpenHelper {
   private DbHelper (Context mContext) {
     super(mContext, DATABASE_NAME, null, DATABASE_VERSION);
     this.mContext = mContext;
-    this.prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+    this.prefs = mContext.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
   }
 
 
@@ -743,7 +751,7 @@ public class DbHelper extends SQLiteOpenHelper {
                                                          }).toBlocking().single();
                           return matches ? note : null;
                         })
-                        .filter(note -> note != null)
+                        .filter(Objects::nonNull)
                         .toList().toBlocking().single();
   }
 
@@ -751,8 +759,7 @@ public class DbHelper extends SQLiteOpenHelper {
    * Retrieves all uncompleted checklists
    */
   public List<Note> getNotesByUncompleteChecklist () {
-    String whereCondition = " WHERE " + KEY_CHECKLIST + " = 1 AND " + KEY_CONTENT + " LIKE '%" + it.feio.android
-        .checklistview.interfaces.Constants.UNCHECKED_SYM + "%'";
+    String whereCondition = " WHERE " + KEY_CHECKLIST + " = 1 AND " + KEY_CONTENT + " LIKE '%" + UNCHECKED_SYM + "%'";
     return getNotes(whereCondition, true);
   }
 
@@ -1033,15 +1040,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
     List<Attachment> attachments = getAllAttachments();
     for (Attachment attachment : attachments) {
-      if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
+      if (MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
         images++;
-      } else if (Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
+      } else if (MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
         videos++;
-      } else if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
+      } else if (MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
         audioRecordings++;
-      } else if (Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())) {
+      } else if (MIME_TYPE_SKETCH.equals(attachment.getMime_type())) {
         sketches++;
-      } else if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
+      } else if (MIME_TYPE_FILES.equals(attachment.getMime_type())) {
         files++;
       }
     }

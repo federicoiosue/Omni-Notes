@@ -18,6 +18,7 @@
 package it.feio.android.omninotes.models.views;
 
 import static androidx.core.view.ViewCompat.animate;
+import static it.feio.android.omninotes.utils.ConstantsBase.FAB_ANIMATION_TIME;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +32,6 @@ import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.listeners.AbsListViewScrollDetector;
 import it.feio.android.omninotes.models.listeners.OnFabItemClickedListener;
-import it.feio.android.omninotes.utils.Constants;
 
 public class Fab {
 
@@ -115,17 +115,6 @@ public class Fab {
     fab.toggle();
   }
 
-
-  private void toggleOverlay () {
-    if (this.overlay != null) {
-      if (fabExpanded) {
-        this.overlay.setVisibility(View.VISIBLE);
-      } else {
-        this.overlay.setVisibility(View.GONE);
-      }
-    }
-  }
-
   private void performAction (View v) {
     if (fabExpanded) {
       fab.toggle();
@@ -154,9 +143,9 @@ public class Fab {
   }
 
 
-  public void animateFab (int translationY, final int visibilityBefore, final int visibilityAfter) {
+  private void animateFab (int translationY, final int visibilityBefore, final int visibilityAfter) {
     animate(fab).setInterpolator(new AccelerateDecelerateInterpolator())
-                .setDuration(Constants.FAB_ANIMATION_TIME)
+                .setDuration(FAB_ANIMATION_TIME)
                 .translationY(translationY)
                 .setListener(new ViewPropertyAnimatorListener() {
                   @Override
@@ -171,6 +160,7 @@ public class Fab {
 
                   @Override
                   public void onAnimationCancel (View view) {
+                    // Nothing to do
                   }
                 });
   }

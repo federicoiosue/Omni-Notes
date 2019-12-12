@@ -32,9 +32,9 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.adapters.CategoryBaseAdapter;
-import it.feio.android.omninotes.models.adapters.CategoryRecyclerViewAdapter;
 import it.feio.android.omninotes.models.views.NonScrollableListView;
 import java.lang.ref.WeakReference;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -80,7 +80,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
       return buildCategoryMenu();
     } else {
       cancel(true);
-      return null;
+      return Collections.emptyList();
     }
   }
 
