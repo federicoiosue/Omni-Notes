@@ -499,48 +499,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         return false;
       });
     }
-
-    // Donations
-//        Preference donation = findPreference("settings_donation");
-//        if (donation != null) {
-//            donation.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-//                @Override
-//                public boolean onPreferenceClick(Preference preference) {
-//                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-//
-//                    ArrayList<ImageAndTextItem> options = new ArrayList<ImageAndTextItem>();
-//                    options.add(new ImageAndTextItem(R.drawable.ic_paypal, getString(R.string.paypal)));
-//                    options.add(new ImageAndTextItem(R.drawable.ic_bitcoin, getString(R.string.bitcoin)));
-//
-//                    alertDialogBuilder
-//                            .setAdapter(new ImageAndTextAdapter(getActivity(), options),
-//                                    new DialogInterface.OnClickListener() {
-//                                        @Override
-//                                        public void onClick(DialogInterface dialog, int which) {
-//                                            switch (which) {
-//                                                case 0:
-//                                                    Intent intentPaypal = new Intent(Intent.ACTION_VIEW);
-//                                                    intentPaypal.setData(Uri.parse(getString(R.string.paypal_url)));
-//                                                    startActivity(intentPaypal);
-//                                                    break;
-//                                                case 1:
-//                                                    Intent intentBitcoin = new Intent(Intent.ACTION_VIEW);
-//                                                    intentBitcoin.setData(Uri.parse(getString(R.string.bitcoin_url)));
-//                                                    startActivity(intentBitcoin);
-//                                                    break;
-//                                            }
-//                                        }
-//                                    });
-//
-//
-//                    // create alert dialog
-//                    AlertDialog alertDialog = alertDialogBuilder.create();
-//                    // show it
-//                    alertDialog.show();
-//                    return false;
-//                }
-//            });
-//        }
   }
 
 
