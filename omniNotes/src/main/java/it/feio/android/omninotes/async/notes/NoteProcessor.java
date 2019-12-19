@@ -48,11 +48,11 @@ public abstract class NoteProcessor {
 
     @Override
     protected List<Note> doInBackground (List<Note>... params) {
-      List<Note> notes = params[0];
-      for (Note note : notes) {
+      List<Note> processableNote = params[0];
+      for (Note note : processableNote) {
         processNote(note);
       }
-      return notes;
+      return processableNote;
     }
 
 

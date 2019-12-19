@@ -19,16 +19,13 @@ package it.feio.android.omninotes.async.bus;
 
 import it.feio.android.omninotes.helpers.LogDelegate;
 
-/**
- * Created by fede on 18/04/15.
- */
 public class NavigationUpdatedEvent {
 
   public final Object navigationItem;
-
 
   public NavigationUpdatedEvent (Object navigationItem) {
     LogDelegate.d(this.getClass().getName());
     this.navigationItem = navigationItem;
   }
+
 }

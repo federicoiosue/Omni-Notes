@@ -17,6 +17,12 @@
 
 package it.feio.android.omninotes.utils;
 
+import static android.content.Context.MODE_MULTI_PROCESS;
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD_ANSWER;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD_QUESTION;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Handler;
@@ -53,9 +59,7 @@ public class PasswordHelper {
         .positiveColorRes(R.color.colorPrimary)
         .onPositive((dialog12, which) -> {
           // When positive button is pressed password correctness is checked
-          String oldPassword = mActivity.getSharedPreferences(Constants.PREFS_NAME, Context
-              .MODE_MULTI_PROCESS)
-                                        .getString(Constants.PREF_PASSWORD, "");
+          String oldPassword = mActivity.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(PREF_PASSWORD, "");
           String password = passwordEditText.getText().toString();
           // The check is done on password's hash stored in preferences
           boolean result = Security.md5(password).equals(oldPassword);
@@ -103,14 +107,14 @@ public class PasswordHelper {
     final EditText answerEditText = layout.findViewById(R.id.reset_password_answer);
 
     MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
-        .title(OmniNotes.getSharedPreferences().getString(Constants.PREF_PASSWORD_QUESTION, ""))
+        .title(OmniNotes.getSharedPreferences().getString(PREF_PASSWORD_QUESTION, ""))
         .customView(layout, false)
         .autoDismiss(false)
         .contentColorRes(R.color.text_color)
         .positiveText(R.string.ok)
         .onPositive((dialogElement, which) -> {
           // When positive button is pressed answer correctness is checked
-          String oldAnswer = OmniNotes.getSharedPreferences().getString(Constants.PREF_PASSWORD_ANSWER, "");
+          String oldAnswer = OmniNotes.getSharedPreferences().getString(PREF_PASSWORD_ANSWER, "");
           String answer1 = answerEditText.getText().toString();
           // The check is done on password's hash stored in preferences
           boolean result = Security.md5(answer1).equals(oldAnswer);
@@ -146,9 +150,9 @@ public class PasswordHelper {
         })
         .doOnCompleted(() -> {
           OmniNotes.getSharedPreferences().edit()
-                   .remove(Constants.PREF_PASSWORD)
-                   .remove(Constants.PREF_PASSWORD_QUESTION)
-                   .remove(Constants.PREF_PASSWORD_ANSWER)
+                   .remove(PREF_PASSWORD)
+                   .remove(PREF_PASSWORD_QUESTION)
+                   .remove(PREF_PASSWORD_ANSWER)
                    .remove("settings_password_access")
                    .apply();
           EventBus.getDefault().post(new PasswordRemovedEvent());

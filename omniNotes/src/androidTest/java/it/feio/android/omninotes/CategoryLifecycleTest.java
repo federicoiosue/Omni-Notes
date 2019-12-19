@@ -237,7 +237,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
 
       @Override
       public void describeTo (Description description) {
-        description.appendText("with background color from id: " + backgroundColor);
+        description.appendText("with background color from ID: " + backgroundColor);
       }
     };
   }

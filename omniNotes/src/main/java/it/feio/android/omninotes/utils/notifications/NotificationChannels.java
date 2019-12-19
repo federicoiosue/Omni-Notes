@@ -17,8 +17,9 @@
 
 package it.feio.android.omninotes.utils.notifications;
 
+import static androidx.core.app.NotificationManagerCompat.IMPORTANCE_DEFAULT;
+
 import android.annotation.TargetApi;
-import android.app.NotificationManager;
 import android.os.Build;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
@@ -29,10 +30,10 @@ import java.util.List;
 public class NotificationChannels {
 
   private static List<NotificationChannel> channels = new ArrayList<NotificationChannel>() {{
-    add(new NotificationChannel(NotificationManager.IMPORTANCE_DEFAULT, OmniNotes.getAppContext().getString(R.string
+    add(new NotificationChannel(IMPORTANCE_DEFAULT, OmniNotes.getAppContext().getString(R.string
         .channel_backups_name), OmniNotes.getAppContext().getString(R.string
         .channel_backups_description)));
-    add(new NotificationChannel(NotificationManager.IMPORTANCE_DEFAULT, OmniNotes.getAppContext().getString(R.string
+    add(new NotificationChannel(IMPORTANCE_DEFAULT, OmniNotes.getAppContext().getString(R.string
         .channel_reminders_name), OmniNotes.getAppContext().getString(R.string
         .channel_reminders_description)));
   }};

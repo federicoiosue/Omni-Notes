@@ -17,12 +17,20 @@
 
 package it.feio.android.omninotes.helpers;
 
+import static it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM;
+import static it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
+import static it.feio.android.omninotes.utils.ConstantsBase.MERGED_NOTES_SEPARATOR;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_FILES;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_SKETCH;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO;
+
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.helpers.count.CountFactory;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.StatsSingleNote;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TagsHelper;
 import java.util.ArrayList;
@@ -44,7 +52,7 @@ public class NotesHelper {
     if (content.length() > 0
         && (!StringUtils.isEmpty(note.getTitle()) || !StringUtils.isEmpty(note.getContent()))) {
       content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"))
-             .append(Constants.MERGED_NOTES_SEPARATOR).append(System.getProperty("line.separator"))
+             .append(MERGED_NOTES_SEPARATOR).append(System.getProperty("line.separator"))
              .append(System.getProperty("line.separator"));
     }
     if (includeTitle && !StringUtils.isEmpty(note.getTitle())) {
@@ -94,8 +102,8 @@ public class NotesHelper {
         reminder = currentReminder;
         reminderRecurrenceRule = note.getRecurrenceRule();
       }
-      latitude = (Double) ObjectUtils.defaultIfNull(latitude, note.getLatitude());
-      longitude = (Double) ObjectUtils.defaultIfNull(longitude, note.getLongitude());
+      latitude = ObjectUtils.defaultIfNull(latitude, note.getLatitude());
+      longitude = ObjectUtils.defaultIfNull(longitude, note.getLongitude());
       addAttachments(keepMergedNotes, note, attachments);
       includeTitle = true;
     }
@@ -117,13 +125,12 @@ public class NotesHelper {
   public static StatsSingleNote getNoteInfos (Note note) {
     StatsSingleNote infos = new StatsSingleNote();
 
-    int words, chars;
+    int words;
+    int chars;
     if (note.isChecklist()) {
-      infos.setChecklistCompletedItemsNumber(StringUtils.countMatches(note.getContent(), it.feio.android.checklistview
-          .interfaces.Constants.CHECKED_SYM));
+      infos.setChecklistCompletedItemsNumber(StringUtils.countMatches(note.getContent(), CHECKED_SYM));
       infos.setChecklistItemsNumber(infos.getChecklistCompletedItemsNumber() +
-          StringUtils.countMatches(note.getContent(),
-              it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM));
+          StringUtils.countMatches(note.getContent(), UNCHECKED_SYM));
     }
     infos.setTags(TagsHelper.retrieveTags(note).size());
     words = getWords(note);
@@ -131,19 +138,26 @@ public class NotesHelper {
     infos.setWords(words);
     infos.setChars(chars);
 
-    int attachmentsAll = 0, images = 0, videos = 0, audioRecordings = 0, sketches = 0, files = 0;
+    int attachmentsAll = 0;
+    int images = 0;
+    int videos = 0;
+    int audioRecordings = 0;
+    int sketches = 0;
+    int files = 0;
+
     for (Attachment attachment : note.getAttachmentsList()) {
-      if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
+      if (MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
         images++;
-      } else if (Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
+      } else if (MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
         videos++;
-      } else if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
+      } else if (MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
         audioRecordings++;
-      } else if (Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())) {
+      } else if (MIME_TYPE_SKETCH.equals(attachment.getMime_type())) {
         sketches++;
-      } else if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
+      } else if (MIME_TYPE_FILES.equals(attachment.getMime_type())) {
         files++;
       }
+      attachmentsAll++;
     }
     infos.setAttachments(attachmentsAll);
     infos.setImages(images);

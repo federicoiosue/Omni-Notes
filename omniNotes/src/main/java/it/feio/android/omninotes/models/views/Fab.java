@@ -35,7 +35,7 @@ import it.feio.android.omninotes.models.listeners.OnFabItemClickedListener;
 
 public class Fab {
 
-  private FloatingActionsMenu fab;
+  private FloatingActionsMenu floatingActionsMenu;
   private boolean fabAllowed;
   private boolean fabHidden;
   private boolean fabExpanded;
@@ -47,7 +47,7 @@ public class Fab {
 
 
   public Fab (View fabView, ListView listView, boolean expandOnLongClick) {
-    this.fab = (FloatingActionsMenu) fabView;
+    this.floatingActionsMenu = (FloatingActionsMenu) fabView;
     this.listView = listView;
     this.expandOnLongClick = expandOnLongClick;
     init();
@@ -58,7 +58,7 @@ public class Fab {
     this.fabHidden = true;
     this.fabExpanded = false;
 
-    AddFloatingActionButton fabAddButton = fab.findViewById(R.id.fab_expand_menu_button);
+    AddFloatingActionButton fabAddButton = floatingActionsMenu.findViewById(R.id.fab_expand_menu_button);
     fabAddButton.setOnClickListener(v -> {
       if (!isExpanded() && expandOnLongClick) {
         performAction(v);
@@ -77,25 +77,25 @@ public class Fab {
     listView.setOnScrollListener(
         new AbsListViewScrollDetector() {
           public void onScrollUp () {
-            if (fab != null) {
-              fab.collapse();
+            if (floatingActionsMenu != null) {
+              floatingActionsMenu.collapse();
               hideFab();
             }
           }
 
           public void onScrollDown () {
-            if (fab != null) {
-              fab.collapse();
+            if (floatingActionsMenu != null) {
+              floatingActionsMenu.collapse();
               showFab();
             }
           }
         });
 
-    fab.findViewById(R.id.fab_checklist).setOnClickListener(onClickListener);
-    fab.findViewById(R.id.fab_camera).setOnClickListener(onClickListener);
+    floatingActionsMenu.findViewById(R.id.fab_checklist).setOnClickListener(onClickListener);
+    floatingActionsMenu.findViewById(R.id.fab_camera).setOnClickListener(onClickListener);
 
     if (!expandOnLongClick) {
-      View noteBtn = fab.findViewById(R.id.fab_note);
+      View noteBtn = floatingActionsMenu.findViewById(R.id.fab_note);
       noteBtn.setVisibility(View.VISIBLE);
       noteBtn.setOnClickListener(onClickListener);
     }
@@ -112,12 +112,12 @@ public class Fab {
 
   public void performToggle () {
     fabExpanded = !fabExpanded;
-    fab.toggle();
+    floatingActionsMenu.toggle();
   }
 
   private void performAction (View v) {
     if (fabExpanded) {
-      fab.toggle();
+      floatingActionsMenu.toggle();
       fabExpanded = false;
     } else {
       onFabItemClickedListener.onFabItemClick(v.getId());
@@ -126,7 +126,7 @@ public class Fab {
 
 
   public void showFab () {
-    if (fab != null && fabAllowed && fabHidden) {
+    if (floatingActionsMenu != null && fabAllowed && fabHidden) {
       animateFab(0, View.VISIBLE, View.VISIBLE);
       fabHidden = false;
     }
@@ -134,9 +134,9 @@ public class Fab {
 
 
   public void hideFab () {
-    if (fab != null && !fabHidden) {
-      fab.collapse();
-      animateFab(fab.getHeight() + getMarginBottom(fab), View.VISIBLE, View.INVISIBLE);
+    if (floatingActionsMenu != null && !fabHidden) {
+      floatingActionsMenu.collapse();
+      animateFab(floatingActionsMenu.getHeight() + getMarginBottom(floatingActionsMenu), View.VISIBLE, View.INVISIBLE);
       fabHidden = true;
       fabExpanded = false;
     }
@@ -144,18 +144,18 @@ public class Fab {
 
 
   private void animateFab (int translationY, final int visibilityBefore, final int visibilityAfter) {
-    animate(fab).setInterpolator(new AccelerateDecelerateInterpolator())
-                .setDuration(FAB_ANIMATION_TIME)
-                .translationY(translationY)
-                .setListener(new ViewPropertyAnimatorListener() {
+    animate(floatingActionsMenu).setInterpolator(new AccelerateDecelerateInterpolator())
+                                .setDuration(FAB_ANIMATION_TIME)
+                                .translationY(translationY)
+                                .setListener(new ViewPropertyAnimatorListener() {
                   @Override
                   public void onAnimationStart (View view) {
-                    fab.setVisibility(visibilityBefore);
+                    floatingActionsMenu.setVisibility(visibilityBefore);
                   }
 
                   @Override
                   public void onAnimationEnd (View view) {
-                    fab.setVisibility(visibilityAfter);
+                    floatingActionsMenu.setVisibility(visibilityAfter);
                   }
 
                   @Override
@@ -199,8 +199,8 @@ public class Fab {
     overlayView.setLayoutParams(params);
     overlayView.setVisibility(View.GONE);
     overlayView.setOnClickListener(v -> performToggle());
-    ViewGroup parent = ((ViewGroup) fab.getParent());
-    parent.addView(overlayView, parent.indexOfChild(fab));
+    ViewGroup parent = ((ViewGroup) floatingActionsMenu.getParent());
+    parent.addView(overlayView, parent.indexOfChild(floatingActionsMenu));
     this.overlay = overlayView;
   }
 

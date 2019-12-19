@@ -16,6 +16,11 @@
  */
 package it.feio.android.omninotes.async;
 
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.DRIVE_FOLDER_LAST_BUILD;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_LAST_UPDATE_CHECK;
+import static it.feio.android.omninotes.utils.ConstantsBase.UPDATE_MIN_FREQUENCY;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +41,6 @@ import it.feio.android.omninotes.helpers.AppVersionHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.misc.PlayStoreMetadataFetcherResult;
 import it.feio.android.omninotes.utils.ConnectionManager;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.MiscUtils;
 import it.feio.android.omninotes.utils.SystemHelper;
 import java.io.BufferedReader;
@@ -62,7 +66,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
   public UpdaterTask (Activity mActivity) {
     this.mActivityReference = new WeakReference<>(mActivity);
     this.mActivity = mActivity;
-    this.prefs = mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+    this.prefs = mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
   }
 
 
@@ -70,8 +74,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
   protected void onPreExecute () {
     now = System.currentTimeMillis();
     if (OmniNotes.isDebugBuild() || !ConnectionManager.internetAvailable(OmniNotes.getAppContext())
-        || now < prefs.getLong(Constants
-        .PREF_LAST_UPDATE_CHECK, 0) + Constants.UPDATE_MIN_FREQUENCY) {
+        || now < prefs.getLong(PREF_LAST_UPDATE_CHECK, 0) + UPDATE_MIN_FREQUENCY) {
       cancel(true);
     }
     super.onPreExecute();
@@ -86,7 +89,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
         // promptUpdate = isVersionUpdated(getAppData());
         promptUpdate = false;
         if (promptUpdate) {
-          prefs.edit().putLong(Constants.PREF_LAST_UPDATE_CHECK, now).apply();
+          prefs.edit().putLong(PREF_LAST_UPDATE_CHECK, now).apply();
         }
       } catch (Exception e) {
         LogDelegate.w("Error fetching app metadata", e);
@@ -110,12 +113,11 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
               ((OmniNotes) mActivity.getApplication()).getAnalyticsHelper().trackEvent(
                   AnalyticsHelper.CATEGORIES.UPDATE, "Play Store");
               mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse
-                  ("market://details?id=" + mActivity.getPackageName())));
+                  ("market://details?ID=" + mActivity.getPackageName())));
             } else {
               ((OmniNotes) mActivity.getApplication()).getAnalyticsHelper().trackEvent(
                   AnalyticsHelper.CATEGORIES.UPDATE, "Drive Repository");
-              mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(Constants
-                  .DRIVE_FOLDER_LAST_BUILD)));
+              mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(DRIVE_FOLDER_LAST_BUILD)));
             }
           }
         }).build().show();

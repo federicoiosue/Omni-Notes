@@ -26,6 +26,10 @@ import it.feio.android.omninotes.R;
 
 public class ONStyle {
 
+  private ONStyle() {
+    // hides public constructor
+  }
+
   public static final int DURATION_INFINITE = -1;
   public static final int DURATION_SHORT = 950;
   public static final int DURATION_MEDIUM = 1650;

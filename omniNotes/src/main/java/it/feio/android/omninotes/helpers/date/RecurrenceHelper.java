@@ -38,6 +38,10 @@ import net.fortuna.ical4j.model.property.RRule;
 
 public class RecurrenceHelper {
 
+  private RecurrenceHelper() {
+    // hides public constructor
+  }
+
   public static String formatRecurrence (Context mContext, String recurrenceRule) {
     if (!TextUtils.isEmpty(recurrenceRule)) {
       EventRecurrence recurrenceEvent = new EventRecurrence();

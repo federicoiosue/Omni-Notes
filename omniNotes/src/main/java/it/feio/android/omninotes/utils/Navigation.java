@@ -17,6 +17,10 @@
 
 package it.feio.android.omninotes.utils;
 
+import static android.content.Context.MODE_MULTI_PROCESS;
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
+
 import android.content.Context;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
@@ -26,6 +30,10 @@ import java.util.Arrays;
 
 
 public class Navigation {
+
+  private Navigation() {
+    // hides public constructor
+  }
 
   public static final int NOTES = 0;
   public static final int ARCHIVE = 1;
@@ -62,22 +70,18 @@ public class Navigation {
   public static String getNavigationText () {
     Context mContext = OmniNotes.getAppContext();
     String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-    @SuppressWarnings("static-access")
-    String navigation = mContext.getSharedPreferences(Constants.PREFS_NAME,
-        mContext.MODE_MULTI_PROCESS).getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
-    return navigation;
+    return mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(PREF_NAVIGATION, navigationListCodes[0]);
   }
 
 
   /**
    * Retrieves category currently shown
    *
-   * @return id of category or null if current navigation is not a category
+   * @return ID of category or null if current navigation is not a category
    */
   public static Long getCategory () {
     if (getNavigation() == CATEGORY) {
-      return Long.valueOf(OmniNotes.getAppContext().getSharedPreferences(Constants.PREFS_NAME, Context
-          .MODE_MULTI_PROCESS).getString(Constants.PREF_NAVIGATION, ""));
+      return Long.valueOf(OmniNotes.getAppContext().getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(PREF_NAVIGATION, ""));
     } else {
       return null;
     }
@@ -111,8 +115,8 @@ public class Navigation {
   public static boolean checkNavigationCategory (Category categoryToCheck) {
     Context mContext = OmniNotes.getAppContext();
     String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-    String navigation = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getString(
-        Constants.PREF_NAVIGATION, navigationListCodes[0]);
+    String navigation = mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(
+        PREF_NAVIGATION, navigationListCodes[0]);
     return (categoryToCheck != null && navigation.equals(String.valueOf(categoryToCheck.getId())));
   }
 

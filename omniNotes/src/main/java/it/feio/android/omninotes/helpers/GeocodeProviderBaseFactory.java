@@ -23,6 +23,10 @@ import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWith
 
 public class GeocodeProviderBaseFactory {
 
+  protected GeocodeProviderBaseFactory() {
+    // hides public constructor
+  }
+
   public static LocationProvider getProvider (Context context) {
     return new LocationGooglePlayServicesWithFallbackProvider(context);
   }

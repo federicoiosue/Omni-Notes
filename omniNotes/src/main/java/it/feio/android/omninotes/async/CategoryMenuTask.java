@@ -132,37 +132,44 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
         mainActivity.startActivity(settingsIntent);
       });
 
-      // Sets click events
-      mDrawerCategoriesList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+      buildCategoryMenuClickEvent();
 
-        Object item = mDrawerCategoriesList.getAdapter().getItem(position);
-        if (mainActivity.updateNavigation(String.valueOf(((Category) item).getId()))) {
-          mDrawerCategoriesList.setItemChecked(position, true);
-          // Forces redraw
-          if (mDrawerList != null) {
-            mDrawerList.setItemChecked(0, false);
-            EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
-                (position)));
-          }
-        }
-      });
+      buildCategoryMenuLongClickEvent();
 
-      // Sets long click events
-      mDrawerCategoriesList.setOnItemLongClickListener((arg0, view, position, arg3) -> {
-        if (mDrawerCategoriesList.getAdapter() != null) {
-          Object item = mDrawerCategoriesList.getAdapter().getItem(position);
-          // Ensuring that clicked item is not the ListView header
-          if (item != null) {
-            mainActivity.editTag((Category) item);
-          }
-        } else {
-          mainActivity.showMessage(R.string.category_deleted, ONStyle.ALERT);
-        }
-        return true;
-      });
     });
 
     return categories;
+  }
+
+  private void buildCategoryMenuLongClickEvent () {
+    mDrawerCategoriesList.setOnItemLongClickListener((arg0, view, position, arg3) -> {
+      if (mDrawerCategoriesList.getAdapter() != null) {
+        Object item = mDrawerCategoriesList.getAdapter().getItem(position);
+        // Ensuring that clicked item is not the ListView header
+        if (item != null) {
+          mainActivity.editTag((Category) item);
+        }
+      } else {
+        mainActivity.showMessage(R.string.category_deleted, ONStyle.ALERT);
+      }
+      return true;
+    });
+  }
+
+  private void buildCategoryMenuClickEvent () {
+    mDrawerCategoriesList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+
+      Object item = mDrawerCategoriesList.getAdapter().getItem(position);
+      if (mainActivity.updateNavigation(String.valueOf(((Category) item).getId()))) {
+        mDrawerCategoriesList.setItemChecked(position, true);
+        // Forces redraw
+        if (mDrawerList != null) {
+          mDrawerList.setItemChecked(0, false);
+          EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
+              (position)));
+        }
+      }
+    });
   }
 
 }

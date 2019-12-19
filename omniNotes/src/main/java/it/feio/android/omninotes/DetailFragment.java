@@ -16,6 +16,8 @@
  */
 package it.feio.android.omninotes;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static androidx.core.view.ViewCompat.animate;
 import static it.feio.android.omninotes.BaseActivity.TRANSITION_HORIZONTAL;
 import static it.feio.android.omninotes.BaseActivity.TRANSITION_VERTICAL;
@@ -23,6 +25,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_FAB_TAKE_PHOT
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_MERGE;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_SHOW_LIST;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
@@ -48,6 +51,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_COLORS_APP_DEFA
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_KEEP_CHECKED;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_KEEP_CHECKMARKS;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PRETTIFIED_DATES;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_WIDGET_PREFIX;
 import static it.feio.android.omninotes.utils.ConstantsBase.SWIPE_MARGIN;
 import static it.feio.android.omninotes.utils.ConstantsBase.SWIPE_OFFSET;
@@ -302,7 +306,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           .onNegative((dialog, which) -> {
             android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
                 mainActivity
-                    .getSystemService(Activity.CLIPBOARD_SERVICE);
+                    .getSystemService(CLIPBOARD_SERVICE);
             android.content.ClipData clip = android.content.ClipData.newPlainText("text label",
                 clickedString);
             clipboard.setPrimaryClip(clip);
@@ -580,8 +584,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     }
 
-    if (IntentChecker.checkAction(i, Intent.ACTION_MAIN, ACTION_WIDGET_SHOW_LIST, Constants
-        .ACTION_SHORTCUT_WIDGET, ACTION_WIDGET)) {
+    if (IntentChecker.checkAction(i, Intent.ACTION_MAIN, ACTION_WIDGET_SHOW_LIST, ACTION_SHORTCUT_WIDGET, ACTION_WIDGET)) {
       showKeyboard = true;
     }
 
@@ -634,16 +637,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   private void initViewFooter () {
     // Footer dates of creation...
-    String creation = DateHelper.getFormattedDate(noteTmp.getCreation(), prefs.getBoolean(Constants
-        .PREF_PRETTIFIED_DATES, true));
+    String creation = DateHelper.getFormattedDate(noteTmp.getCreation(), prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
     creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
     if (creationTextView.getText().length() == 0) {
       creationTextView.setVisibility(View.GONE);
     }
 
     // ... and last modification
-    String lastModification = DateHelper.getFormattedDate(noteTmp.getLastModification(), prefs.getBoolean(Constants
-        .PREF_PRETTIFIED_DATES, true));
+    String lastModification = DateHelper.getFormattedDate(noteTmp.getLastModification(), prefs.getBoolean(
+        PREF_PRETTIFIED_DATES, true));
     lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " +
         lastModification : "");
     if (lastModificationTextView.getText().length() == 0) {
@@ -1027,7 +1029,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       // Otherwise all other actions will be available
     } else {
       // Temporary removed until fixed on Oreo and following
-//			menu.findItem(R.id.menu_add_shortcut).setVisible(!newNote);
+//			menu.findItem(R.ID.menu_add_shortcut).setVisible(!newNote);
       menu.findItem(R.id.menu_archive).setVisible(!newNote && !noteTmp.isArchived());
       menu.findItem(R.id.menu_unarchive).setVisible(!newNote && noteTmp.isArchived());
       menu.findItem(R.id.menu_trash).setVisible(!newNote);
@@ -1163,8 +1165,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       return;
     }
 
-    // Inflate the popup_layout.xml
-    LayoutInflater inflater = (LayoutInflater) mainActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+    // Inflate the popup_layout.XML
+    LayoutInflater inflater = (LayoutInflater) mainActivity.getSystemService(LAYOUT_INFLATER_SERVICE);
     final View layout = inflater.inflate(R.layout.dialog_remove_checklist_layout,
         getView().findViewById(R.id.layout_root));
 
@@ -1536,7 +1538,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         .positiveText(R.string.ok)
         .onPositive((dialog, which) -> {
           mainActivity.deleteNote(noteTmp);
-          LogDelegate.d("Deleted note with id '" + noteTmp.get_id() + "'");
+          LogDelegate.d("Deleted note with ID '" + noteTmp.get_id() + "'");
           mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
           goHome();
         }).build().show();

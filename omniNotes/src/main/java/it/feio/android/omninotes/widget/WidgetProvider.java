@@ -18,6 +18,12 @@
 package it.feio.android.omninotes.widget;
 
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_SHOW_LIST;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_WIDGET;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -66,24 +72,22 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
     // Create an Intent to launch DetailActivity
     Intent intentDetail = new Intent(context, MainActivity.class);
-    intentDetail.setAction(Constants.ACTION_WIDGET);
-    intentDetail.putExtra(Constants.INTENT_WIDGET, widgetId);
-    PendingIntent pendingIntentDetail = PendingIntent.getActivity(context, widgetId, intentDetail,
-        Intent.FLAG_ACTIVITY_NEW_TASK);
+    intentDetail.setAction(ACTION_WIDGET);
+    intentDetail.putExtra(INTENT_WIDGET, widgetId);
+    PendingIntent pendingIntentDetail = PendingIntent.getActivity(context, widgetId, intentDetail, FLAG_ACTIVITY_NEW_TASK);
 
     // Create an Intent to launch ListActivity
     Intent intentList = new Intent(context, MainActivity.class);
-    intentList.setAction(Constants.ACTION_WIDGET_SHOW_LIST);
-    intentList.putExtra(Constants.INTENT_WIDGET, widgetId);
-    PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList,
-        Intent.FLAG_ACTIVITY_NEW_TASK);
+    intentList.setAction(ACTION_WIDGET_SHOW_LIST);
+    intentList.putExtra(INTENT_WIDGET, widgetId);
+    PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, FLAG_ACTIVITY_NEW_TASK);
 
     // Create an Intent to launch DetailActivity to take a photo
     Intent intentDetailPhoto = new Intent(context, MainActivity.class);
-    intentDetailPhoto.setAction(Constants.ACTION_WIDGET_TAKE_PHOTO);
-    intentDetailPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
+    intentDetailPhoto.setAction(ACTION_WIDGET_TAKE_PHOTO);
+    intentDetailPhoto.putExtra(INTENT_WIDGET, widgetId);
     PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, widgetId, intentDetailPhoto,
-        Intent.FLAG_ACTIVITY_NEW_TASK);
+        FLAG_ACTIVITY_NEW_TASK);
 
     // Check various dimensions aspect of widget to choose between layouts
     boolean isSmall = false;

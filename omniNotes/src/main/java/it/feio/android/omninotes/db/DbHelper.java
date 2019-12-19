@@ -524,7 +524,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
   /**
-   * Deleting single note by its id
+   * Deleting single note by its ID
    */
   public boolean deleteNote (long noteId, boolean keepAttachments) {
     SQLiteDatabase db = getDatabase(true);
@@ -867,7 +867,7 @@ public class DbHelper extends SQLiteOpenHelper {
    * Updates or insert a new a category
    *
    * @param category Category to be updated or inserted
-   * @return Rows affected or new inserted category id
+   * @return Rows affected or new inserted category ID
    */
   public Category updateCategory (Category category) {
     ContentValues values = new ContentValues();

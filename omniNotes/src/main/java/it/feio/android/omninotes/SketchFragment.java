@@ -165,7 +165,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
       }
     });
 
-    // Inflate the popup_layout.xml
+    // Inflate the popup_layout.XML
     LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(
         AppCompatActivity.LAYOUT_INFLATER_SERVICE);
     popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, null);

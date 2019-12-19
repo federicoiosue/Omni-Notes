@@ -17,11 +17,13 @@
 
 package it.feio.android.omninotes.intro;
 
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_TOUR_COMPLETE;
+
 import android.content.Context;
 import android.os.Bundle;
 import com.github.paolorotolo.appintro.AppIntro2;
 import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.utils.Constants;
 
 
 public class IntroActivity extends AppIntro2 {
@@ -36,23 +38,21 @@ public class IntroActivity extends AppIntro2 {
     addSlide(new IntroSlide6(), getApplicationContext());
   }
 
-
   @Override
   public void onDonePressed () {
-    OmniNotes.getAppContext().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
-             .putBoolean(Constants.PREF_TOUR_COMPLETE, true).apply();
+    OmniNotes.getAppContext().getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
+             .putBoolean(PREF_TOUR_COMPLETE, true).apply();
     finish();
   }
 
-
   public static boolean mustRun () {
-    return !OmniNotes.isDebugBuild() && !OmniNotes.getAppContext().getSharedPreferences(Constants.PREFS_NAME,
-        Context.MODE_MULTI_PROCESS).getBoolean(Constants.PREF_TOUR_COMPLETE, false);
+    return !OmniNotes.isDebugBuild() && !OmniNotes.getAppContext().getSharedPreferences(PREFS_NAME,
+        Context.MODE_MULTI_PROCESS).getBoolean(PREF_TOUR_COMPLETE, false);
   }
-
 
   @Override
   public void onBackPressed () {
     // Does nothing, you HAVE TO SEE THE INTRO!
   }
+
 }

@@ -31,8 +31,8 @@ public class IntroSlide1 extends IntroFragment {
     background.setBackgroundColor(Color.parseColor("#222222"));
     title.setText(R.string.tour_listactivity_intro_title);
     image.setVisibility(View.GONE);
-    image_small.setImageResource(R.drawable.logo);
-    image_small.setVisibility(View.VISIBLE);
+    imageSmall.setImageResource(R.drawable.logo);
+    imageSmall.setVisibility(View.VISIBLE);
     description.setText(R.string.tour_listactivity_final_detail);
   }
 }

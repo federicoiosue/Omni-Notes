@@ -140,9 +140,9 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
       note.setRecurrenceRule(recurrenceRule);
       setNextRecurrentReminder(note);
     } else {
-      for (Note note : notes) {
-        note.setRecurrenceRule(recurrenceRule);
-        setNextRecurrentReminder(note);
+      for (Note processedNotes : notes) {
+        processedNotes.setRecurrenceRule(recurrenceRule);
+        setNextRecurrentReminder(processedNotes);
       }
       setResult(RESULT_OK, getIntent());
     }

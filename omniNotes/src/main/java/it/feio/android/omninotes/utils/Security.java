@@ -19,7 +19,6 @@ package it.feio.android.omninotes.utils;
 
 import android.util.Base64;
 import it.feio.android.omninotes.helpers.LogDelegate;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -36,6 +35,9 @@ import javax.crypto.spec.DESKeySpec;
 
 public class Security {
 
+  private Security() {
+    // hides public constructor
+  }
 
   public static String md5 (String s) {
     try {
@@ -57,7 +59,6 @@ public class Security {
     return "";
   }
 
-
   public static String encrypt (String value, String password) {
     String encrypedValue = "";
     try {
@@ -76,7 +77,6 @@ public class Security {
     }
     return encrypedValue;
   }
-
 
   public static String decrypt (String value, String password) {
     String decryptedValue;

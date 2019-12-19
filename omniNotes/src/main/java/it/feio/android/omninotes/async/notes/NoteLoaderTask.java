@@ -25,9 +25,12 @@ import it.feio.android.omninotes.models.Note;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.List;
 
 
-public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
+public class NoteLoaderTask extends AsyncTask<Object, Void, List<Note>> {
+
+  private static final String ERROR_RETRIEVING_NOTES = "Error retrieving notes";
 
   private static NoteLoaderTask instance;
 
@@ -50,40 +53,35 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, ArrayList<Note>> {
 
 
   @Override
-  protected ArrayList<Note> doInBackground (Object... params) {
+  protected List<Note> doInBackground (Object... params) {
 
-    ArrayList<Note> notes = new ArrayList<>();
     String methodName = params[0].toString();
     DbHelper db = DbHelper.getInstance();
 
     if (params.length < 2 || params[1] == null) {
       try {
         Method method = db.getClass().getDeclaredMethod(methodName);
-        notes = (ArrayList<Note>) method.invoke(db);
+        return (List<Note>) method.invoke(db);
       } catch (NoSuchMethodException e) {
-        return notes;
-      } catch (IllegalAccessException e) {
-        throw new NotesLoadingException("Error retrieving notes", e);
-      } catch (InvocationTargetException e) {
-        throw new NotesLoadingException("Error retrieving notes", e);
+        return new ArrayList<>();
+      } catch (IllegalAccessException | InvocationTargetException e) {
+        throw new NotesLoadingException(ERROR_RETRIEVING_NOTES, e);
       }
     } else {
       Object methodArgs = params[1];
       Class[] paramClass = new Class[]{methodArgs.getClass()};
       try {
         Method method = db.getClass().getDeclaredMethod(methodName, paramClass);
-        notes = (ArrayList<Note>) method.invoke(db, paramClass[0].cast(methodArgs));
+        return (List<Note>) method.invoke(db, paramClass[0].cast(methodArgs));
       } catch (Exception e) {
-        throw new NotesLoadingException("Error retrieving notes", e);
+        throw new NotesLoadingException(ERROR_RETRIEVING_NOTES, e);
       }
     }
-
-    return notes;
   }
 
 
   @Override
-  protected void onPostExecute (ArrayList<Note> notes) {
+  protected void onPostExecute (List<Note> notes) {
 
     super.onPostExecute(notes);
     EventBus.getDefault().post(new NotesLoadedEvent(notes));

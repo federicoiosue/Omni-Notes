@@ -27,6 +27,10 @@ import java.util.List;
 
 public class IntentChecker {
 
+  private IntentChecker() {
+    // hides public constructor
+  }
+
   /**
    * Retrieves
    */

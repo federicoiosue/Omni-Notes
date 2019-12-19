@@ -16,6 +16,9 @@
  */
 package it.feio.android.omninotes.models.adapters;
 
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -29,8 +32,6 @@ import com.neopixl.pixlui.components.textview.TextView;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.NavigationItem;
-import it.feio.android.omninotes.utils.Constants;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,7 +39,7 @@ import java.util.List;
 public class NavDrawerAdapter extends BaseAdapter {
 
   private Activity mActivity;
-  private List<NavigationItem> items = new ArrayList<>();
+  private List<NavigationItem> items;
   private LayoutInflater inflater;
 
 
@@ -110,8 +111,8 @@ public class NavDrawerAdapter extends BaseAdapter {
         .getNavigationTmp() : null;
 
     String navigation = navigationTmp != null ? navigationTmp
-        : mActivity.getSharedPreferences(Constants.PREFS_NAME, Activity.MODE_MULTI_PROCESS)
-                   .getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+        : mActivity.getSharedPreferences(PREFS_NAME, Activity.MODE_MULTI_PROCESS)
+                   .getString(PREF_NAVIGATION, navigationListCodes[0]);
 
     // Finding selected item from standard navigation items or tags
     int index = Arrays.asList(navigationListCodes).indexOf(navigation);

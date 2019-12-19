@@ -17,6 +17,11 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.GALLERY_CLICKED_IMAGE;
+import static it.feio.android.omninotes.utils.ConstantsBase.GALLERY_IMAGES;
+import static it.feio.android.omninotes.utils.ConstantsBase.GALLERY_TITLE;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO;
+
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,7 +37,6 @@ import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.views.InterceptorFrameLayout;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileProviderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.simplegallery.models.GalleryPagerAdapter;
@@ -104,7 +108,7 @@ public class GalleryActivity extends AppCompatActivity {
 
     private void click () {
       Attachment attachment = images.get(mViewPager.getCurrentItem());
-      if (attachment.getMime_type().equals(Constants.MIME_TYPE_VIDEO)) {
+      if (attachment.getMime_type().equals(MIME_TYPE_VIDEO)) {
         viewMedia();
       }
     }
@@ -164,9 +168,9 @@ public class GalleryActivity extends AppCompatActivity {
    * Initializes data received from note detail screen
    */
   private void initData () {
-    String title = getIntent().getStringExtra(Constants.GALLERY_TITLE);
-    images = getIntent().getParcelableArrayListExtra(Constants.GALLERY_IMAGES);
-    int clickedImage = getIntent().getIntExtra(Constants.GALLERY_CLICKED_IMAGE, 0);
+    String title = getIntent().getStringExtra(GALLERY_TITLE);
+    images = getIntent().getParcelableArrayListExtra(GALLERY_IMAGES);
+    int clickedImage = getIntent().getIntExtra(GALLERY_CLICKED_IMAGE, 0);
 
     ArrayList<Uri> imageUris = new ArrayList<>();
     for (Attachment mAttachment : images) {
@@ -182,7 +186,7 @@ public class GalleryActivity extends AppCompatActivity {
     getSupportActionBar().setSubtitle("(" + (clickedImage + 1) + "/" + images.size() + ")");
 
     // If selected attachment is a video it will be immediately played
-    if (images.get(clickedImage).getMime_type().equals(Constants.MIME_TYPE_VIDEO)) {
+    if (images.get(clickedImage).getMime_type().equals(MIME_TYPE_VIDEO)) {
       viewMedia();
     }
   }

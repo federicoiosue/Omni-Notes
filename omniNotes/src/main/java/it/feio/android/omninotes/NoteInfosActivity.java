@@ -17,6 +17,8 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,7 +29,6 @@ import butterknife.ButterKnife;
 import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.StatsSingleNote;
-import it.feio.android.omninotes.utils.Constants;
 import java.util.Objects;
 
 
@@ -61,7 +62,7 @@ public class NoteInfosActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_note_infos);
     ButterKnife.bind(this);
-    Note note = Objects.requireNonNull(getIntent().getExtras()).getParcelable(Constants.INTENT_NOTE);
+    Note note = Objects.requireNonNull(getIntent().getExtras()).getParcelable(INTENT_NOTE);
     populateViews(note);
   }
 

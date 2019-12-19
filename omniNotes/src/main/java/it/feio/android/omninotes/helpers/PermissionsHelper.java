@@ -30,6 +30,9 @@ import it.feio.android.omninotes.models.listeners.OnPermissionRequestedListener;
 
 public class PermissionsHelper {
 
+  private PermissionsHelper() {
+    // hides public constructor
+  }
 
   public static void requestPermission (Activity activity, String permission, int rationaleDescription, View
       messageView, OnPermissionRequestedListener onPermissionRequestedListener) {
@@ -50,20 +53,18 @@ public class PermissionsHelper {
     }
   }
 
-
   private static void requestPermissionExecute (Activity activity, String permission, OnPermissionRequestedListener
       onPermissionRequestedListener, View messageView) {
     RxPermissions.getInstance(activity)
                  .request(permission)
                  .subscribe(granted -> {
-                   if (granted) {
-                     if (onPermissionRequestedListener != null) {
+                   if (granted && onPermissionRequestedListener != null) {
                        onPermissionRequestedListener.onPermissionGranted();
-                     }
                    } else {
                      String msg = activity.getString(R.string.permission_not_granted) + ": " + permission;
                      Snackbar.make(messageView, msg, Snackbar.LENGTH_LONG).show();
                    }
                  });
   }
+
 }

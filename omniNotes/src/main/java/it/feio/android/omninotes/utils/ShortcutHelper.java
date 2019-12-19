@@ -17,6 +17,10 @@
 
 package it.feio.android.omninotes.utils;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_KEY;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PRETTIFIED_DATES;
+
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -33,6 +37,9 @@ import it.feio.android.omninotes.models.Note;
 
 public class ShortcutHelper {
 
+  private ShortcutHelper() {
+    // hides public constructor
+  }
 
   /**
    * Adding shortcut on Home screen
@@ -40,13 +47,12 @@ public class ShortcutHelper {
   public static void addShortcut (Context context, Note note) {
 
     String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
-        .getCreation(), OmniNotes.getSharedPreferences().getBoolean(Constants
-        .PREF_PRETTIFIED_DATES, true));
+        .getCreation(), OmniNotes.getSharedPreferences().getBoolean(PREF_PRETTIFIED_DATES, true));
 
     if (Build.VERSION.SDK_INT < 26) {
       Intent shortcutIntent = new Intent(context, MainActivity.class);
-      shortcutIntent.putExtra(Constants.INTENT_KEY, note.get_id());
-      shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
+      shortcutIntent.putExtra(INTENT_KEY, note.get_id());
+      shortcutIntent.setAction(ACTION_SHORTCUT);
 
       Intent addIntent = new Intent();
       addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
@@ -81,18 +87,18 @@ public class ShortcutHelper {
    */
   public static void removeshortCut (Context context, Note note) {
     Intent shortcutIntent = new Intent(context, MainActivity.class);
-    shortcutIntent.putExtra(Constants.INTENT_KEY, note.get_id());
-    shortcutIntent.setAction(Constants.ACTION_SHORTCUT);
+    shortcutIntent.putExtra(INTENT_KEY, note.get_id());
+    shortcutIntent.setAction(ACTION_SHORTCUT);
 
     Intent addIntent = new Intent();
     addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
     String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
-        .getCreation(), OmniNotes.getSharedPreferences().getBoolean(Constants
-        .PREF_PRETTIFIED_DATES, true));
+        .getCreation(), OmniNotes.getSharedPreferences().getBoolean(PREF_PRETTIFIED_DATES, true));
 
     addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
 
     addIntent.setAction("com.android.launcher.action.UNINSTALL_SHORTCUT");
     context.sendBroadcast(addIntent);
   }
+
 }

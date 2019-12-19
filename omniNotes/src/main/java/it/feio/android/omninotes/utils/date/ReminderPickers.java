@@ -53,7 +53,7 @@ public class ReminderPickers {
     pickerFrag.setCallback(new SublimePickerFragment.Callback() {
       @Override
       public void onCancelled() {
-
+        // Nothing to do
       }
 
       @Override

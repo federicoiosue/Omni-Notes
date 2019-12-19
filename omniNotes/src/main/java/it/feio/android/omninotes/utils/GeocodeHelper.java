@@ -98,6 +98,7 @@ public class GeocodeHelper implements LocationListener {
 
       @Override
       public void onCompleted () {
+        // Nothing to do
       }
 
       @Override

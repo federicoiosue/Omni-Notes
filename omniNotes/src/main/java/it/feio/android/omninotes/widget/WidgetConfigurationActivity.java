@@ -116,7 +116,7 @@ public class WidgetConfigurationActivity extends Activity {
           AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
-    // If they gave us an intent without the widget id, just bail.
+    // If they gave us an intent without the widget ID, just bail.
     if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
       finish();
     }

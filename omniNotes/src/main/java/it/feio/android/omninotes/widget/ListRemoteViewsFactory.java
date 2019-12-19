@@ -47,6 +47,7 @@ import java.util.List;
 
 public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
+  private static final String SET_BACKGROUND_COLOR = "setBackgroundColor";
   private static boolean showThumbnails = true;
   private static boolean showTimestamps = true;
   private final int WIDTH = 80;
@@ -120,13 +121,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     if (!note.isLocked() && showThumbnails && !note.getAttachmentsList().isEmpty()) {
       Attachment mAttachment = note.getAttachmentsList().get(0);
-//      AppWidgetTarget awt = new AppWidgetTarget(app, R.id.attachmentThumbnail, row, appWidgetId) {
-//        @Override
-//        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-//          super.onResourceReady(resource, transition);
-//        }
-//      };
-//      BitmapHelper.loadAttachmentIntoWidget(mAttachment, awt);
       Bitmap bmp = BitmapHelper.getBitmapFromAttachment(app, mAttachment, WIDTH, HEIGHT);
       row.setBitmap(R.id.attachmentThumbnail, "setImageBitmap", bmp);
       row.setInt(R.id.attachmentThumbnail, "setVisibility", View.VISIBLE);
@@ -182,17 +176,17 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     if (!colorsPref.equals("disabled")) {
 
       // Resetting transparent color to the view
-      row.setInt(R.id.tag_marker, "setBackgroundColor", Color.parseColor("#00000000"));
+      row.setInt(R.id.tag_marker, SET_BACKGROUND_COLOR, Color.parseColor("#00000000"));
 
       // If tag is set the color will be applied on the appropriate target
       if (note.getCategory() != null && note.getCategory().getColor() != null) {
         if (colorsPref.equals("list")) {
-          row.setInt(R.id.card_layout, "setBackgroundColor", Integer.parseInt(note.getCategory().getColor()));
+          row.setInt(R.id.card_layout, SET_BACKGROUND_COLOR, Integer.parseInt(note.getCategory().getColor()));
         } else {
-          row.setInt(R.id.tag_marker, "setBackgroundColor", Integer.parseInt(note.getCategory().getColor()));
+          row.setInt(R.id.tag_marker, SET_BACKGROUND_COLOR, Integer.parseInt(note.getCategory().getColor()));
         }
       } else {
-        row.setInt(R.id.tag_marker, "setBackgroundColor", 0);
+        row.setInt(R.id.tag_marker, SET_BACKGROUND_COLOR, 0);
       }
     }
   }

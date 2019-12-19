@@ -34,6 +34,10 @@ import java.util.Locale;
 
 public class LanguageHelper {
 
+  private LanguageHelper() {
+    // hides public constructor
+  }
+
   /**
    * Updates default language with forced one
    */

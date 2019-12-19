@@ -148,7 +148,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
       category.setColor(String.valueOf(selectedColor));
     }
 
-    // Saved to DB and new id or update result catched
+    // Saved to DB and new ID or update result catched
     DbHelper db = DbHelper.getInstance();
     category = db.updateCategory(category);
 

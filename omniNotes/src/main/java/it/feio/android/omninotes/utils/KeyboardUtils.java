@@ -26,6 +26,10 @@ import it.feio.android.omninotes.MainActivity;
 
 public class KeyboardUtils {
 
+  private KeyboardUtils() {
+    // hides public constructor
+  }
+
   public static void showKeyboard (View view) {
     if (view == null) {
       return;
@@ -64,11 +68,6 @@ public class KeyboardUtils {
       return;
     }
     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
-//		if (!isKeyboardShowed(view)) {
-//			imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, InputMethodManager.RESULT_HIDDEN);
-//		}
-
   }
 
 

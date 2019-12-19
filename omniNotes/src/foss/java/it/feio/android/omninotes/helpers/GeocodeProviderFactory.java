@@ -23,6 +23,10 @@ import io.nlopez.smartlocation.location.providers.LocationManagerProvider;
 
 public class GeocodeProviderFactory {
 
+  private GeocodeProviderFactory() {
+    // hides public constructor
+  }
+
   public static LocationProvider getProvider (Context context) {
     return new LocationManagerProvider();
   }

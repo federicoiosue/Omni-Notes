@@ -16,6 +16,16 @@
  */
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.DATABASE_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.DATE_FORMAT_EXPORT;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_AUTO_LOCATION;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_ENABLE_FILE_LOGGING;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SHOW_UNCATEGORIZED;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SNOOZE_DEFAULT;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_TOUR_COMPLETE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.reverse;
 
@@ -84,7 +94,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     super.onCreate(savedInstanceState);
     int xmlId = R.xml.settings;
     if (getArguments() != null && getArguments().containsKey(XML_NAME)) {
-      xmlId = ResourcesUtils.getXmlId(OmniNotes.getAppContext(), ResourcesUtils.ResourceIdentifiers.xml, String
+      xmlId = ResourcesUtils.getXmlId(OmniNotes.getAppContext(), ResourcesUtils.ResourceIdentifiers.XML, String
           .valueOf(getArguments().get(XML_NAME)));
     }
     addPreferencesFromResource(xmlId);
@@ -92,7 +102,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
   @Override
   public void onCreatePreferences (Bundle savedInstanceState, String rootKey) {
-    prefs = getContext().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+    prefs = getContext().getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
     setTitle();
   }
 
@@ -150,7 +160,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     if (importData != null) {
       importData.setOnPreferenceClickListener(arg0 -> {
         PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-            .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), () -> importNotes());
+            .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), this::importNotes);
         return false;
       });
     }
@@ -186,7 +196,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 //					String content = Observable.from(errors).map(diffs -> diffMatchPatch.diffPrettyHtml(diffs) +
 //							"<br/>").toList().toBlocking().first().toString();
 //					View v = getActivity().getLayoutInflater().inflate(R.layout.webview, null);
-//					((WebView) v.findViewById(R.id.webview)).loadData(content, "text/html", null);
+//					((WebView) v.findViewById(R.ID.webview)).loadData(content, "text/html", null);
 //					new MaterialDialog.Builder(activity)
 //							.customView(v, true)
 //							.positiveText(R.string.ok)
@@ -213,9 +223,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 //							.onPositive((dialog, which) -> {
 //								PermissionsHelper.requestPermission(getActivity(), Manifest.permission
 //										.WRITE_EXTERNAL_STORAGE, R
-//										.string.permission_external_storage, activity.findViewById(R.id
+//										.string.permission_external_storage, activity.findViewById(R.ID
 //										.crouton_handle), () -> {
-//									BackupHelper.startBackupService(Constants.AUTO_BACKUP_DIR);
+//									BackupHelper.startBackupService(AUTO_BACKUP_DIR);
 //									enableAutobackup.setChecked(true);
 //								});
 //							})
@@ -283,14 +293,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     // Show uncategorized notes in menu
-    final SwitchPreference showUncategorized = findPreference(Constants
-        .PREF_SHOW_UNCATEGORIZED);
+    final SwitchPreference showUncategorized = findPreference(PREF_SHOW_UNCATEGORIZED);
     if (showUncategorized != null) {
       showUncategorized.setOnPreferenceChangeListener((preference, newValue) -> true);
     }
 
     // Show Automatically adds location to new notes
-    final SwitchPreference autoLocation = findPreference(Constants.PREF_AUTO_LOCATION);
+    final SwitchPreference autoLocation = findPreference(PREF_AUTO_LOCATION);
     if (autoLocation != null) {
       autoLocation.setOnPreferenceChangeListener((preference, newValue) -> true);
     }
@@ -320,7 +329,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Use password to grant application access
     final SwitchPreference passwordAccess = findPreference("settings_password_access");
     if (passwordAccess != null) {
-      if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
+      if (prefs.getString(PREF_PASSWORD, null) == null) {
         passwordAccess.setEnabled(false);
         passwordAccess.setChecked(false);
       } else {
@@ -353,7 +362,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     final ListPreference colorsApp = findPreference("settings_colors_app");
     if (colorsApp != null) {
       int colorsAppIndex = colorsApp.findIndexOfValue(prefs.getString("settings_colors_app",
-          Constants.PREF_COLORS_APP_DEFAULT));
+          PREF_COLORS_APP_DEFAULT));
       String colorsAppString = getResources().getStringArray(R.array.colors_app)[colorsAppIndex];
       colorsApp.setSummary(colorsAppString);
       colorsApp.setOnPreferenceChangeListener((preference, newValue) -> {
@@ -387,7 +396,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     final ListPreference colorsWidget = findPreference("settings_colors_widget");
     if (colorsWidget != null) {
       int colorsWidgetIndex = colorsWidget.findIndexOfValue(prefs.getString("settings_colors_widget",
-          Constants.PREF_COLORS_APP_DEFAULT));
+          PREF_COLORS_APP_DEFAULT));
       String colorsWidgetString = getResources().getStringArray(R.array.colors_widget)[colorsWidgetIndex];
       colorsWidget.setSummary(colorsWidgetString);
       colorsWidget.setOnPreferenceChangeListener((preference, newValue) -> {
@@ -404,12 +413,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     final EditTextPreference snoozeDelay = findPreference
         ("settings_notification_snooze_delay");
     if (snoozeDelay != null) {
-      String snooze = prefs.getString("settings_notification_snooze_delay", Constants.PREF_SNOOZE_DEFAULT);
-      snooze = TextUtils.isEmpty(snooze) ? Constants.PREF_SNOOZE_DEFAULT : snooze;
+      String snooze = prefs.getString("settings_notification_snooze_delay", PREF_SNOOZE_DEFAULT);
+      snooze = TextUtils.isEmpty(snooze) ? PREF_SNOOZE_DEFAULT : snooze;
       snoozeDelay.setSummary(snooze + " " + getString(R.string.minutes));
       snoozeDelay.setOnPreferenceChangeListener((preference, newValue) -> {
-        String snoozeUpdated = TextUtils.isEmpty(String.valueOf(newValue)) ? Constants
-            .PREF_SNOOZE_DEFAULT : String.valueOf(newValue);
+        String snoozeUpdated = TextUtils.isEmpty(String.valueOf(newValue)) ? PREF_SNOOZE_DEFAULT : String.valueOf(newValue);
         snoozeDelay.setSummary(snoozeUpdated + " " + getString(R.string.minutes));
         prefs.edit().putString("settings_notification_snooze_delay", snoozeUpdated).apply();
         return false;
@@ -454,7 +462,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             .positiveText(R.string.confirm)
             .onPositive((dialog, which) -> {
               prefs.edit().clear().apply();
-              File db = getActivity().getDatabasePath(Constants.DATABASE_NAME);
+              File db = getActivity().getDatabasePath(DATABASE_NAME);
               StorageHelper.delete(getActivity(), db.getAbsolutePath());
               File attachmentsDir = StorageHelper.getAttachmentDir();
               StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
@@ -468,8 +476,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     // Logs on files activation
-    final SwitchPreference enableFileLogging = findPreference(Constants
-        .PREF_ENABLE_FILE_LOGGING);
+    final SwitchPreference enableFileLogging = findPreference(PREF_ENABLE_FILE_LOGGING);
     if (enableFileLogging != null) {
       enableFileLogging.setOnPreferenceChangeListener((preference, newValue) -> {
         if ((Boolean) newValue) {
@@ -493,7 +500,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             .onPositive((dialog, which) -> {
               ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
                   AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
-              prefs.edit().putBoolean(Constants.PREF_TOUR_COMPLETE, false).apply();
+              prefs.edit().putBoolean(PREF_TOUR_COMPLETE, false).apply();
               SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
             }).build().show();
         return false;
@@ -592,7 +599,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     final List<String> backups = asList(StorageHelper.getExternalStoragePublicDir().list());
 
     // Sets default export file name
-    SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_EXPORT);
+    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_EXPORT);
     String fileName = sdf.format(Calendar.getInstance().getTime());
     final EditText fileNameEditText = v.findViewById(R.id.export_file_name);
     final TextView backupExistingTextView = v.findViewById(R.id.backup_existing);
@@ -600,13 +607,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     fileNameEditText.addTextChangedListener(new TextWatcher() {
       @Override
       public void onTextChanged (CharSequence arg0, int arg1, int arg2, int arg3) {
-
+        // Nothing to do
       }
 
 
       @Override
       public void beforeTextChanged (CharSequence arg0, int arg1, int arg2, int arg3) {
-
+        // Nothing to do
       }
 
 

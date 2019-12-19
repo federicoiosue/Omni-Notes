@@ -187,7 +187,7 @@ public class BaseActivity extends AppCompatActivity {
 
   protected void setActionBarTitle (String title) {
     // Creating a spannable to support custom fonts on ActionBar
-    int actionBarTitle = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+    int actionBarTitle = Resources.getSystem().getIdentifier("action_bar_title", "ID", "android");
     android.widget.TextView actionBarTitleView = getWindow().findViewById(actionBarTitle);
     Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
     if (actionBarTitleView != null) {

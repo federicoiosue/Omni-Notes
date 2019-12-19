@@ -17,6 +17,19 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_RESTART_APP;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SEND_AND_EXIT;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_START_APP;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_GOOGLE_NOW;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_KEY;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -51,7 +64,6 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileProviderHelper;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
@@ -63,10 +75,10 @@ import java.util.HashMap;
 public class MainActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
   private static boolean isPasswordAccepted = false;
-  public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
-  public final String FRAGMENT_LIST_TAG = "fragment_list";
-  public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
-  public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
+  public final static String FRAGMENT_DRAWER_TAG = "fragment_drawer";
+  public final static String FRAGMENT_LIST_TAG = "fragment_list";
+  public final static String FRAGMENT_DETAIL_TAG = "fragment_detail";
+  public final static String FRAGMENT_SKETCH_TAG = "fragment_sketch";
   public Uri sketchUri;
   @BindView(R.id.crouton_handle)
   ViewGroup croutonViewContainer;
@@ -124,7 +136,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
    * This method starts the bootstrap chain.
    */
   private void checkPassword () {
-    if (prefs.getString(Constants.PREF_PASSWORD, null) != null
+    if (prefs.getString(PREF_PASSWORD, null) != null
         && prefs.getBoolean("settings_password_access", false)) {
       PasswordHelper.requestPassword(this, passwordConfirmed -> {
         switch (passwordConfirmed) {
@@ -181,7 +193,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   @Override
   protected void onNewIntent (Intent intent) {
     if (intent.getAction() == null) {
-      intent.setAction(Constants.ACTION_START_APP);
+      intent.setAction(ACTION_START_APP);
     }
     super.onNewIntent(intent);
     setIntent(intent);
@@ -239,7 +251,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     return result;
   }
 
-
+  @Override
   public void onBackPressed () {
 
     // SketchFragment
@@ -337,14 +349,14 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
       return;
     }
 
-    if (Constants.ACTION_RESTART_APP.equals(i.getAction())) {
+    if (ACTION_RESTART_APP.equals(i.getAction())) {
       SystemHelper.restartApp(getApplicationContext(), MainActivity.class);
     }
 
     if (receivedIntent(i)) {
-      Note note = i.getParcelableExtra(Constants.INTENT_NOTE);
+      Note note = i.getParcelableExtra(INTENT_NOTE);
       if (note == null) {
-        note = DbHelper.getInstance().getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+        note = DbHelper.getInstance().getNote(i.getIntExtra(INTENT_KEY, 0));
       }
       // Checks if the same note is already opened to avoid to open again
       if (note != null && noteAlreadyOpened(note)) {
@@ -358,7 +370,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
       return;
     }
 
-    if (Constants.ACTION_SEND_AND_EXIT.equals(i.getAction())) {
+    if (ACTION_SEND_AND_EXIT.equals(i.getAction())) {
       saveAndExit(i);
       return;
     }
@@ -370,7 +382,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     }
 
     // Home launcher shortcut widget
-    if (Constants.ACTION_SHORTCUT_WIDGET.equals(i.getAction())) {
+    if (ACTION_SHORTCUT_WIDGET.equals(i.getAction())) {
       switchToDetail(new Note());
       return;
     }
@@ -391,15 +403,15 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
 
   private boolean receivedIntent (Intent i) {
-    return Constants.ACTION_SHORTCUT.equals(i.getAction())
-        || Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())
-        || Constants.ACTION_WIDGET.equals(i.getAction())
-        || Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
+    return ACTION_SHORTCUT.equals(i.getAction())
+        || ACTION_NOTIFICATION_CLICK.equals(i.getAction())
+        || ACTION_WIDGET.equals(i.getAction())
+        || ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
         || ((Intent.ACTION_SEND.equals(i.getAction())
         || Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
-        || Constants.INTENT_GOOGLE_NOW.equals(i.getAction()))
+        || INTENT_GOOGLE_NOW.equals(i.getAction()))
         && i.getType() != null)
-        || i.getAction().contains(Constants.ACTION_NOTIFICATION_CLICK);
+        || i.getAction().contains(ACTION_NOTIFICATION_CLICK);
   }
 
 
@@ -429,7 +441,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     animateTransition(transaction, TRANSITION_HORIZONTAL);
     DetailFragment mDetailFragment = new DetailFragment();
     Bundle b = new Bundle();
-    b.putParcelable(Constants.INTENT_NOTE, note);
+    b.putParcelable(INTENT_NOTE, note);
     mDetailFragment.setArguments(b);
     if (getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG) == null) {
       transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
@@ -457,7 +469,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
     Intent shareIntent = new Intent();
     // Prepare sharing intent with only text
-    if (note.getAttachmentsList().size() == 0) {
+    if (note.getAttachmentsList().isEmpty()) {
       shareIntent.setAction(Intent.ACTION_SEND);
       shareIntent.setType("text/plain");
 
@@ -502,7 +514,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   public void deleteNote (Note note) {
     new NoteProcessorDelete(Collections.singletonList(note)).process();
     BaseActivity.notifyAppWidgets(this);
-    LogDelegate.d("Deleted permanently note with id '" + note.get_id() + "'");
+    LogDelegate.d("Deleted permanently note with ID '" + note.get_id() + "'");
   }
 
 

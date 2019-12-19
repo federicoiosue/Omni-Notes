@@ -115,21 +115,7 @@ public class SketchView extends View implements OnTouchListener {
       bitmap = bitmap.copy(bitmapConfig, true);
     }
     this.bitmap = bitmap;
-//		this.bitmap = getScaledBitmap(mActivity, bitmap);
-//		mCanvas = new Canvas(bitmap);
   }
-
-//	private Bitmap getScaledBitmap(Activity mActivity, Bitmap bitmap) {
-//		DisplayMetrics display = new DisplayMetrics();
-//		mActivity.getWindowManager().getDefaultDisplay().getMetrics(display);
-//		int screenWidth = display.widthPixels;
-//		int screenHeight = display.heightPixels;
-//		float scale = bitmap.getWidth() / screenWidth > bitmap.getHeight() / screenHeight ? bitmap.getWidth() / 
-// screenWidth : bitmap.getHeight() / screenHeight;
-//		int scaledWidth = (int) (bitmap.getWidth() / scale);
-//		int scaledHeight = (int) (bitmap.getHeight() / scale);
-//		return Bitmap.createScaledBitmap(bitmap, scaledWidth, scaledHeight, true);
-//	}
 
 
   @Override
@@ -191,7 +177,7 @@ public class SketchView extends View implements OnTouchListener {
     }
 
     // Avoids that a sketch with just erasures is saved
-    if (!(paths.size() == 0 && mode == ERASER && bitmap == null)) {
+    if (!(paths.isEmpty() && mode == ERASER && bitmap == null)) {
       m_Path = new Path();
       paths.add(new Pair<>(m_Path, new Paint(m_Paint)));
     }
@@ -216,7 +202,7 @@ public class SketchView extends View implements OnTouchListener {
    * @return background bitmap with a paths drawn on it
    */
   public Bitmap getBitmap () {
-    if (paths.size() == 0) {
+    if (paths.isEmpty()) {
       return null;
     }
 

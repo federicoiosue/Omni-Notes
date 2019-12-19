@@ -17,6 +17,11 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_LANG;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SEND_ANALYTICS;
+import static it.feio.android.omninotes.utils.ConstantsBase.PROPERTIES_PARAMS_SEPARATOR;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -29,7 +34,6 @@ import it.feio.android.analitica.MockAnalyticsHelper;
 import it.feio.android.analitica.exceptions.AnalyticsInstantiationException;
 import it.feio.android.analitica.exceptions.InvalidIdentifierException;
 import it.feio.android.omninotes.helpers.LanguageHelper;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
@@ -62,7 +66,7 @@ public class OmniNotes extends MultiDexApplication {
    * @return SharedPreferences object instance
    */
   public static SharedPreferences getSharedPreferences () {
-    return getAppContext().getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+    return getAppContext().getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
   }
 
   @Override
@@ -81,7 +85,7 @@ public class OmniNotes extends MultiDexApplication {
     }
 
     mContext = getApplicationContext();
-    prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+    prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
 
     enableStrictMode();
 
@@ -108,15 +112,15 @@ public class OmniNotes extends MultiDexApplication {
   @Override
   public void onConfigurationChanged (Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    String language = prefs.getString(Constants.PREF_LANG, "");
+    String language = prefs.getString(PREF_LANG, "");
     LanguageHelper.updateLanguage(this, language);
   }
 
   public AnalyticsHelper getAnalyticsHelper () {
     if (analyticsHelper == null) {
-      boolean enableAnalytics = prefs.getBoolean(Constants.PREF_SEND_ANALYTICS, true);
+      boolean enableAnalytics = prefs.getBoolean(PREF_SEND_ANALYTICS, true);
       try {
-        String[] analyticsParams = BuildConfig.ANALYTICS_PARAMS.split(Constants.PROPERTIES_PARAMS_SEPARATOR);
+        String[] analyticsParams = BuildConfig.ANALYTICS_PARAMS.split(PROPERTIES_PARAMS_SEPARATOR);
         analyticsHelper = new AnalyticsHelperFactory().getAnalyticsHelper(this, enableAnalytics,
             analyticsParams);
       } catch (AnalyticsInstantiationException | InvalidIdentifierException e) {

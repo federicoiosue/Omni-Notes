@@ -17,6 +17,12 @@
 
 package it.feio.android.omninotes.async.upgrade;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO_EXT;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_FILES;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO;
+
 import android.content.ContentValues;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -25,7 +31,6 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
@@ -102,21 +107,21 @@ public class UpgradeProcessor {
           String type = mimeType.replaceFirst("/.*", "");
           switch (type) {
             case "image":
-              attachment.setMime_type(Constants.MIME_TYPE_IMAGE);
+              attachment.setMime_type(MIME_TYPE_IMAGE);
               break;
             case "video":
-              attachment.setMime_type(Constants.MIME_TYPE_VIDEO);
+              attachment.setMime_type(MIME_TYPE_VIDEO);
               break;
             case "audio":
-              attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
+              attachment.setMime_type(MIME_TYPE_AUDIO);
               break;
             default:
-              attachment.setMime_type(Constants.MIME_TYPE_FILES);
+              attachment.setMime_type(MIME_TYPE_FILES);
               break;
           }
           dbHelper.updateAttachment(attachment);
         } else {
-          attachment.setMime_type(Constants.MIME_TYPE_FILES);
+          attachment.setMime_type(MIME_TYPE_FILES);
         }
       }
     }
@@ -136,12 +141,12 @@ public class UpgradeProcessor {
         File from = new File(attachment.getUriPath());
         FilenameUtils.getExtension(from.getName());
         File to = new File(from.getParent(), from.getName().replace(FilenameUtils.getExtension(from
-            .getName()), Constants.MIME_TYPE_AUDIO_EXT));
+            .getName()), MIME_TYPE_AUDIO_EXT));
         from.renameTo(to);
 
         // Note's attachment update
         attachment.setUri(Uri.fromFile(to));
-        attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
+        attachment.setMime_type(MIME_TYPE_AUDIO);
         dbHelper.updateAttachment(attachment);
       }
     }
@@ -159,7 +164,7 @@ public class UpgradeProcessor {
 
 
   /**
-   * Ensures that no duplicates will be found during the creation-to-id transition
+   * Ensures that no duplicates will be found during the creation-to-ID transition
    */
   private void onUpgradeTo501 () {
     List<Long> creations = new ArrayList<>();

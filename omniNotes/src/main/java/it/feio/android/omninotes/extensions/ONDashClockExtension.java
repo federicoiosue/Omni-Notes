@@ -17,6 +17,8 @@
 
 package it.feio.android.omninotes.extensions;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_UPDATE_DASHCLOCK;
+
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,7 +31,6 @@ import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import java.util.ArrayList;
@@ -55,7 +56,7 @@ public class ONDashClockExtension extends DashClockExtension {
       broadcastMgr.unregisterReceiver(mDashClockReceiver);
     }
     mDashClockReceiver = new DashClockUpdateReceiver();
-    broadcastMgr.registerReceiver(mDashClockReceiver, new IntentFilter(Constants.INTENT_UPDATE_DASHCLOCK));
+    broadcastMgr.registerReceiver(mDashClockReceiver, new IntentFilter(INTENT_UPDATE_DASHCLOCK));
   }
 
 
@@ -75,7 +76,7 @@ public class ONDashClockExtension extends DashClockExtension {
 
     StringBuilder expandedBody = new StringBuilder();
 
-    if (notesCounters.get(Counters.TODAY).size() > 0) {
+    if (!notesCounters.get(Counters.TODAY).isEmpty()) {
       expandedBody.append(notesCounters.get(Counters.TODAY).size()).append(" ").append(
           getString(R.string.today)).append(":");
       for (Note todayReminder : notesCounters.get(Counters.TODAY)) {
@@ -85,7 +86,7 @@ public class ONDashClockExtension extends DashClockExtension {
       expandedBody.append("\n");
     }
 
-    if (notesCounters.get(Counters.TOMORROW).size() > 0) {
+    if (!notesCounters.get(Counters.TOMORROW).isEmpty()) {
       expandedBody.append(notesCounters.get(Counters.TOMORROW).size()).append(" ").append(
           getString(R.string.tomorrow)).append(":");
       for (Note tomorrowReminder : notesCounters.get(Counters.TOMORROW)) {

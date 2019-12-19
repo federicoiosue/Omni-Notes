@@ -41,7 +41,7 @@ public class IntroFragment extends Fragment {
   ImageView image;
 
   @BindView(R.id.intro_image_small)
-  ImageView image_small;
+  ImageView imageSmall;
 
   @BindView(R.id.intro_description)
   TextView description;

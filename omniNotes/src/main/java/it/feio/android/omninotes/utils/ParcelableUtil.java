@@ -23,6 +23,10 @@ import android.os.Parcelable;
 
 public class ParcelableUtil {
 
+  private ParcelableUtil() {
+    // hides public constructor
+  }
+
   public static byte[] marshall (Parcelable parceable) {
     Parcel parcel = Parcel.obtain();
     parceable.writeToParcel(parcel, 0);

@@ -17,6 +17,14 @@
 
 package it.feio.android.omninotes.utils;
 
+import static it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY;
+import static it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM;
+import static it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY;
+import static it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PRETTIFIED_DATES;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SORTING_COLUMN;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.Html;
@@ -46,7 +54,7 @@ public class TextHelper {
 
     // Masking title and content string if note is locked
     if (note.isLocked()
-        && !mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean(
+        && !mContext.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean(
         "settings_password_access", false)) {
       // This checks if a part of content is used as title and should be partially masked
       if (!note.getTitle().equals(titleText) && titleText.length() > 3) {
@@ -59,10 +67,8 @@ public class TextHelper {
     Spanned contentSpanned;
     if (note.isChecklist() && !TextUtils.isEmpty(contentText)) {
       contentSpanned = Html.fromHtml(contentText
-          .replace(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM,
-              it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY)
-          .replace(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM,
-              it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY)
+          .replace(CHECKED_SYM, CHECKED_ENTITY)
+          .replace(UNCHECKED_SYM, UNCHECKED_ENTITY)
           .replace(System.getProperty("line.separator"), "<br/>"));
     } else {
       contentSpanned = new SpannedString(contentText);
@@ -96,7 +102,7 @@ public class TextHelper {
    * Checks if a query conditions searches for category
    *
    * @param sqlCondition query "where" condition
-   * @return Category id
+   * @return Category ID
    */
   public static String checkIntentCategory (String sqlCondition) {
     String pattern = DbHelper.KEY_CATEGORY + "\\s*=\\s*([\\d]+)";
@@ -117,19 +123,19 @@ public class TextHelper {
   public static String getDateText (Context mContext, Note note, int navigation) {
     String dateText;
     String sort_column;
-    SharedPreferences prefs = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+    SharedPreferences prefs = mContext.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
 
     // Reminder screen forces sorting
     if (Navigation.REMINDERS == navigation) {
       sort_column = DbHelper.KEY_REMINDER;
     } else {
-      sort_column = prefs.getString(Constants.PREF_SORTING_COLUMN, "");
+      sort_column = prefs.getString(PREF_SORTING_COLUMN, "");
     }
 
     switch (sort_column) {
       case DbHelper.KEY_CREATION:
         dateText = mContext.getString(R.string.creation) + " " + DateHelper.getFormattedDate(note.getCreation
-            (), prefs.getBoolean(Constants.PREF_PRETTIFIED_DATES, true));
+            (), prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
         break;
       case DbHelper.KEY_REMINDER:
         if (note.getAlarm() == null) {
@@ -141,7 +147,7 @@ public class TextHelper {
         break;
       default:
         dateText = mContext.getString(R.string.last_update) + " " + DateHelper.getFormattedDate(note
-            .getLastModification(), prefs.getBoolean(Constants.PREF_PRETTIFIED_DATES, true));
+            .getLastModification(), prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
         break;
     }
     return dateText;

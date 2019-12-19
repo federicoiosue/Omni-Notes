@@ -20,9 +20,6 @@ package it.feio.android.omninotes.factory;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-/**
- * Created by Relf on 11/24/2015.
- */
 public class MediaStoreFactory {
 
   public Uri createURI (String type) {
@@ -33,7 +30,9 @@ public class MediaStoreFactory {
         return MediaStore.Video.Media.EXTERNAL_CONTENT_URI;
       case "audio":
         return MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
+      default:
+        return null;
     }
-    return null;
   }
+
 }

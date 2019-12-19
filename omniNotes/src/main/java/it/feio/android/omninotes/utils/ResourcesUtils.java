@@ -22,7 +22,7 @@ import android.content.Context;
 
 public class ResourcesUtils {
 
-  public enum ResourceIdentifiers {xml, id, array}
+  public enum ResourceIdentifiers {XML, ID, ARRAY}
 
 
   public static int getXmlId (Context context, ResourceIdentifiers resourceIdentifier, String resourceName) {

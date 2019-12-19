@@ -17,9 +17,10 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.async.bus.SwitchFragmentEvent.Direction.CHILDREN;
+
 import android.animation.ValueAnimator;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -131,12 +132,10 @@ public class NavigationDrawerFragment extends Fragment {
 
 
   public void onEvent (SwitchFragmentEvent event) {
-    switch (event.direction) {
-      case CHILDREN:
-        animateBurger(ARROW);
-        break;
-      default:
-        animateBurger(BURGER);
+    if (CHILDREN.equals(event.direction)) {
+      animateBurger(ARROW);
+    } else {
+      animateBurger(BURGER);
     }
   }
 
@@ -163,13 +162,10 @@ public class NavigationDrawerFragment extends Fragment {
     mDrawerLayout = mActivity.findViewById(R.id.drawer_layout);
     mDrawerLayout.setFocusableInTouchMode(false);
 
-    // Setting specific bottom margin for Kitkat with translucent nav bar
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-      View leftDrawer = getView().findViewById(R.id.left_drawer);
-      int leftDrawerBottomPadding = Display.getNavigationBarHeightKitkat(getActivity());
-      leftDrawer.setPadding(leftDrawer.getPaddingLeft(), leftDrawer.getPaddingTop(),
-          leftDrawer.getPaddingRight(), leftDrawerBottomPadding);
-    }
+    View leftDrawer = getView().findViewById(R.id.left_drawer);
+    int leftDrawerBottomPadding = Display.getNavigationBarHeightKitkat(getActivity());
+    leftDrawer.setPadding(leftDrawer.getPaddingLeft(), leftDrawer.getPaddingTop(), leftDrawer.getPaddingRight(),
+        leftDrawerBottomPadding);
 
     // ActionBarDrawerToggle± ties together the the proper interactions
     // between the sliding drawer and the action bar app icon
@@ -196,7 +192,7 @@ public class NavigationDrawerFragment extends Fragment {
 
     // Styling options
     mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-    mDrawerLayout.setDrawerListener(mDrawerToggle);
+    mDrawerLayout.addDrawerListener(mDrawerToggle);
     mDrawerToggle.setDrawerIndicatorEnabled(true);
 
     LogDelegate.v("Finished navigation drawer initialization");

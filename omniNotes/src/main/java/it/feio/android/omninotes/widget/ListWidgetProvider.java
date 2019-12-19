@@ -17,6 +17,8 @@
 
 package it.feio.android.omninotes.widget;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -26,7 +28,6 @@ import android.util.SparseArray;
 import android.widget.RemoteViews;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.utils.Constants;
 
 
 public class ListWidgetProvider extends WidgetProvider {
@@ -70,7 +71,7 @@ public class ListWidgetProvider extends WidgetProvider {
       views.setRemoteAdapter(R.id.widget_list, intent);
 
       Intent clickIntent = new Intent(mContext, MainActivity.class);
-      clickIntent.setAction(Constants.ACTION_WIDGET);
+      clickIntent.setAction(ACTION_WIDGET);
       PendingIntent clickPI = PendingIntent.getActivity(mContext, 0,
           clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
