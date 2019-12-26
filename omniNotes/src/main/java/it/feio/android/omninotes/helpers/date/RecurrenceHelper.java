@@ -20,7 +20,7 @@ package it.feio.android.omninotes.helpers.date;
 import static com.appeaser.sublimepickerlibrary.recurrencepicker.SublimeRecurrencePicker.RecurrenceOption.DOES_NOT_REPEAT;
 
 import android.content.Context;
-import android.text.TextUtils;
+import org.apache.commons.lang3.StringUtils;
 import android.text.format.Time;
 import com.appeaser.sublimepickerlibrary.recurrencepicker.EventRecurrence;
 import com.appeaser.sublimepickerlibrary.recurrencepicker.EventRecurrenceFormatter;
@@ -43,15 +43,14 @@ public class RecurrenceHelper {
   }
 
   public static String formatRecurrence (Context mContext, String recurrenceRule) {
-    if (!TextUtils.isEmpty(recurrenceRule)) {
-      EventRecurrence recurrenceEvent = new EventRecurrence();
-      recurrenceEvent.setStartDate(new Time("" + new Date().getTime()));
-      recurrenceEvent.parse(recurrenceRule);
-      return EventRecurrenceFormatter.getRepeatString(mContext.getApplicationContext(),
-          mContext.getResources(), recurrenceEvent, true);
-    } else {
+    if (StringUtils.isEmpty(recurrenceRule)) {
       return "";
     }
+    EventRecurrence recurrenceEvent = new EventRecurrence();
+    recurrenceEvent.setStartDate(new Time("" + new Date().getTime()));
+    recurrenceEvent.parse(recurrenceRule);
+    return EventRecurrenceFormatter.getRepeatString(mContext.getApplicationContext(),
+        mContext.getResources(), recurrenceEvent, true);
   }
 
   public static Long nextReminderFromRecurrenceRule (long reminder, String recurrenceRule) {
@@ -59,8 +58,8 @@ public class RecurrenceHelper {
   }
 
   public static Long nextReminderFromRecurrenceRule (long reminder, long currentTime, String recurrenceRule) {
-    RRule rule = new RRule();
     try {
+      RRule rule= new RRule();
       rule.setValue(recurrenceRule);
       long startTimestamp = reminder + 60 * 1000;
       if (startTimestamp < currentTime) {
@@ -70,8 +69,8 @@ public class RecurrenceHelper {
       return nextDate == null ? 0L : nextDate.getTime();
     } catch (ParseException e) {
       LogDelegate.e("Error parsing rrule");
+      return 0L;
     }
-    return 0L;
   }
 
   public static String getNoteReminderText (long reminder) {

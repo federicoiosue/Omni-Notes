@@ -18,6 +18,7 @@
 package it.feio.android.omninotes;
 
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -29,12 +30,14 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import androidx.core.view.GravityCompat;
+import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.rule.ActivityTestRule;
 import org.hamcrest.Description;
@@ -106,6 +109,15 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
     onView(withId(R.id.detail_content)).perform(scrollTo(), replaceText(content), closeSoftKeyboard());
 
     navigateUp();
+  }
+
+  void selectNoteInList(int number) {
+    onData(anything())
+        .inAdapterView(allOf(withId(R.id.list),
+            childAtPosition(
+                withClassName(is("android.widget.FrameLayout")),
+                0)))
+        .atPosition(number).perform(click());
   }
 
   void navigateUp () {

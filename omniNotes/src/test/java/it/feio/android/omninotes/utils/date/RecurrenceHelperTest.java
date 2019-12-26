@@ -29,23 +29,28 @@ public class RecurrenceHelperTest {
   private int MILLISEC_TO_HOURS_RATIO = 60 * 60 * 1000;
 
   @Test
-  public void nextReminderFromRecurrenceRule () {
+  public void nextReminderFromRecurrenceRule_daily () {
     long currentTime = Calendar.getInstance().getTimeInMillis();
     long reminder = Calendar.getInstance().getTimeInMillis() + TEN_MINUTES;
 
-    // Daily test
     String rruleDaily = "FREQ=DAILY;COUNT=30;WKST=MO";
     long nextReminder = RecurrenceHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily);
+
     Assert.assertNotEquals(0, nextReminder);
     Assert.assertEquals(24 - 1, (nextReminder - reminder) / MILLISEC_TO_HOURS_RATIO);
+  }
 
-    // 3-Daily test
+  @Test
+  public void nextReminderFromRecurrenceRule_3days () {
+    long currentTime = Calendar.getInstance().getTimeInMillis();
+    long reminder = Calendar.getInstance().getTimeInMillis() + TEN_MINUTES;
+
     String rruleDaily2 = "FREQ=DAILY;COUNT=30;INTERVAL=3";
     long nextReminder2 = RecurrenceHelper.nextReminderFromRecurrenceRule(reminder, currentTime, rruleDaily2);
     Assert.assertNotEquals(0, nextReminder2);
     long delta = (nextReminder2 - reminder) / MILLISEC_TO_HOURS_RATIO;
-    Assert.assertTrue(delta == 3 * 24 - 2 || delta == 3 * 24 - 1); // The results depends on the day of week
 
+    Assert.assertTrue(delta == 3 * 24 - 2 || delta == 3 * 24 - 1); // The results depends on the day of week
   }
 
 }
