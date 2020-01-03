@@ -153,6 +153,16 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 * https://github.com/mrmans0n/smart-location-lib
 
 
+## Mentioned on
+
+[XDA](https://www.xda-developers.com/omni-notes-the-open-source-note-app/)
+[Android Authority](https://www.androidauthority.com/best-note-taking-apps-for-android-205356/)
+[Droid Advisor](https://droidadvisor.com/omni-notes-note-taking-app/)
+[Addictive Tips](https://www.addictivetips.com/android/note-taking-apps-for-android/)
+[Techalook](https://techalook.com/apps/best-sticky-notes-android-iphone/)
+[DZone](https://dzone.com/articles/amazing-open-source-android-apps-written-in-java)
+[Slash Gear](https://www.slashgear.com/best-note-taking-apps-for-android-phones-and-tablets-04529297/)
+[quaap.com](https://quaap.com/D/use-fdroid)
 
 ## Developed with love and passion by
 
