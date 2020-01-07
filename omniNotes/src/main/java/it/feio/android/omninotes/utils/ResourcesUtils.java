@@ -26,6 +26,7 @@ public class ResourcesUtils {
 
 
   public static int getXmlId (Context context, ResourceIdentifiers resourceIdentifier, String resourceName) {
-    return context.getResources().getIdentifier(resourceName, resourceIdentifier.name(), context.getPackageName());
+    return context.getResources().getIdentifier(resourceName, resourceIdentifier.name().toLowerCase(), context.getPackageName());
   }
+
 }
