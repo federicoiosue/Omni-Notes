@@ -16,28 +16,34 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
   android:fitsSystemWindows="true">
 
   <Preference
     android:key="settings_export_data"
-    android:title="@string/settings_export" />
+    android:title="@string/settings_export"
+    app:iconSpaceReserved="false" />
 
   <Preference
     android:key="settings_import_data"
-    android:title="@string/settings_import" />
+    android:title="@string/settings_import"
+    app:iconSpaceReserved="false" />
 
   <Preference
     android:key="settings_import_data_legacy"
     android:summary="@string/settings_import_legacy_summary"
-    android:title="@string/settings_import_legacy" />
+    android:title="@string/settings_import_legacy"
+    app:iconSpaceReserved="false" />
 
   <!--<Preference-->
   <!--android:key="settings_backup_integrity_check"-->
+  <!--app:iconSpaceReserved="false"-->
   <!--android:title="Backup Integrity Check"-->
   <!--android:summary="Checks everything is ok with new auto-backup alpha feature (this option will be removed)"  />-->
 
   <!--<SwitchPreference-->
   <!--android:key="settings_enable_autobackup"-->
+  <!--app:iconSpaceReserved="false"-->
   <!--android:defaultValue="false"-->
   <!--android:title="@string/settings_enable_automatic_backup"-->
   <!--android:summary="@string/settings_enable_automatic_backup_summary" />-->
@@ -45,6 +51,7 @@
   <Preference
     android:key="settings_import_from_springpad"
     android:summary="@string/settings_import_from_springpad_summary"
-    android:title="@string/settings_import_from_springpad" />
+    android:title="@string/settings_import_from_springpad"
+    app:iconSpaceReserved="false" />
 
 </PreferenceScreen>
