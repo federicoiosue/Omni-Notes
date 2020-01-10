@@ -25,7 +25,7 @@
     android:title="@string/settings_enable_vibration"
     app:iconSpaceReserved="false" />
 
-  <RingtonePreference
+  <Preference
     android:key="settings_notification_ringtone"
     android:ringtoneType="all"
     android:title="@string/settings_notification_ringtone"

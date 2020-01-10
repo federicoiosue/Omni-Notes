@@ -16,6 +16,8 @@
  */
 package it.feio.android.omninotes;
 
+import static android.media.RingtoneManager.EXTRA_RINGTONE_EXISTING_URI;
+import static android.provider.Settings.System.DEFAULT_NOTIFICATION_URI;
 import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.DATABASE_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.DATE_FORMAT_EXPORT;
@@ -37,7 +39,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -408,9 +409,37 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       });
     }
 
+    // Ringtone selection
+    final Preference ringtone = findPreference("settings_notification_ringtone");
+    if (ringtone != null) {
+      ringtone.setOnPreferenceClickListener(arg0 -> {
+        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true);
+        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, DEFAULT_NOTIFICATION_URI);
+
+        String existingValue = prefs.getString("settings_notification_ringtone", null);
+        if (existingValue != null) {
+          if (existingValue.length() == 0) {
+            // Select "Silent"
+            intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
+          } else {
+            intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, Uri.parse(existingValue));
+          }
+        } else {
+          // No ringtone has been selected, set to the default
+          intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, DEFAULT_NOTIFICATION_URI);
+        }
+
+        startActivityForResult(intent, RINGTONE_REQUEST_CODE);
+
+        return false;
+      });
+    }
+
     // Notification snooze delay
-    final EditTextPreference snoozeDelay = findPreference
-        ("settings_notification_snooze_delay");
+    final EditTextPreference snoozeDelay = findPreference("settings_notification_snooze_delay");
     if (snoozeDelay != null) {
       String snooze = prefs.getString("settings_notification_snooze_delay", PREF_SNOOZE_DEFAULT);
       snooze = TextUtils.isEmpty(snooze) ? PREF_SNOOZE_DEFAULT : snooze;
@@ -424,9 +453,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     // NotificationServiceListener shortcut
-    final Preference norificationServiceListenerPreference = findPreference
-        ("settings_notification_service_listener");
-    if (norificationServiceListenerPreference != null && Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+    final Preference norificationServiceListenerPreference = findPreference("settings_notification_service_listener");
+    if (norificationServiceListenerPreference != null) {
       getPreferenceScreen().removePreference(norificationServiceListenerPreference);
     }
 
