@@ -55,12 +55,12 @@
         android:visible="false"
         app:showAsAction="ifRoom"/>
     <item
-        android:id="@+id/menu_select_all"
-        android:icon="@drawable/ic_select_all_white_24dp"
+        android:id="@+id/menu_share"
+        android:icon="@drawable/ic_share_white_24dp"
         android:orderInCategory="175"
-        app:showAsAction="always"
-        android:title="@string/select_all"
-        android:visible="false"/>
+        android:title="@string/share"
+        android:visible="false"
+        app:showAsAction="always"/>
     <item
         android:id="@+id/menu_category"
         android:icon="@drawable/ic_folder_special_white_24dp"
@@ -88,12 +88,12 @@
         android:title="@string/add_reminder"
         android:visible="false"/>
     <item
-        android:id="@+id/menu_share"
-        android:icon="@drawable/ic_share_white_24dp"
-        android:orderInCategory="300"
-        android:title="@string/share"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
+      android:id="@+id/menu_select_all"
+      android:icon="@drawable/ic_select_all_white_24dp"
+      android:orderInCategory="300"
+      app:showAsAction="ifRoom"
+      android:title="@string/select_all"
+      android:visible="false"/>
     <item
         android:id="@+id/menu_merge"
         android:icon="@drawable/ic_call_merge_white_24dp"
