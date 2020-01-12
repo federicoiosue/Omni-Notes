@@ -19,6 +19,7 @@ package it.feio.android.omninotes.async;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 import it.feio.android.omninotes.BaseActivity;
@@ -29,13 +30,20 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import java.util.List;
 
-
+/**
+ * Verify version code and add wake lock in manifest is important to avoid crash
+ */
 public class AlarmRestoreOnRebootService extends JobIntentService {
 
   public static final int JOB_ID = 0x01;
 
   public static void enqueueWork (Context context, Intent work) {
-    enqueueWork(context, AlarmRestoreOnRebootService.class, JOB_ID, work);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      enqueueWork(context, AlarmRestoreOnRebootService.class, JOB_ID, work);
+    } else {
+      Intent jobIntent = new Intent(context, AlarmRestoreOnRebootService.class);
+      context.startService(jobIntent);
+    }
   }
 
   @Override
