@@ -25,4 +25,7 @@ public interface Constants extends ConstantsBase {
   String PACKAGE = "it.feio.android.omninotes.alpha";
   String PREFS_NAME = PACKAGE + "_preferences";
 
+  String CHANNEL_BACKUPS_ID = PACKAGE + ".backups";
+  String CHANNEL_REMINDERS_ID = PACKAGE + ".reminders";
+
 }
