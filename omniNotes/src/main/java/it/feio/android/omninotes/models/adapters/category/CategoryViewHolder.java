@@ -20,8 +20,10 @@ package it.feio.android.omninotes.models.adapters.category;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.neopixl.pixlui.components.textview.TextView;
+import it.feio.android.omninotes.R;
 
 public class CategoryViewHolder extends ViewHolder {
 
@@ -30,7 +32,10 @@ public class CategoryViewHolder extends ViewHolder {
     ButterKnife.bind(this, view);
   }
 
+  @BindView(R.id.icon)
   public ImageView imgIcon;
+  @BindView(R.id.title)
   public TextView txtTitle;
+  @BindView(R.id.count)
   public android.widget.TextView count;
 }
