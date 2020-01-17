@@ -2,14 +2,22 @@ sudo: true
 language: android
 dist: trusty
 install: true
+jdk: openjdk8
+
+env:
+  global:
+    - ANDROID_API_LEVEL=28
+    - ANDROID_EMULATOR_API_LEVEL=22
+    - ANDROID_BUILD_TOOLS_VERSION=28.0.3
+    - ANDROID_ABI=armeabi-v7a
+
 addons:
   sonarcloud:
     organization: federicoiosue-github
     token: $SONAR_TOKEN
     branches:
     - develop
-jdk:
-- oraclejdk8
+
 branches:
   only:
   - develop
@@ -17,22 +25,35 @@ branches:
   - /^feature/.*$/
   - /^hotfix/.*$/
   - /^release/.*$/
+
 android:
   components:
   - tools
-  - tools
   - platform-tools
-  - build-tools-27.0.3
-  - android-23
+  - build-tools-$ANDROID_BUILD_TOOLS_VERSION
+  - android-$ANDROID_API_LEVEL
+  - android-$ANDROID_EMULATOR_API_LEVEL
   - extra-google-m2repository
   - extra-android-m2repository
+  - sys-img-armeabi-v7a-android-$ANDROID_EMULATOR_API_LEVEL
+
   licenses:
   - android-sdk-preview-license-.+
   - android-sdk-license-.+
   - google-gdk-license-.+
+
 before_install:
-  - yes | sdkmanager "platforms;android-27"
-script: 
-  - ./gradlew -S clean build jacocoTestReport sonarqube
+  - yes | sdkmanager "platforms;android-$ANDROID_API_LEVEL"
+  - yes | sdkmanager "platforms;android-$ANDROID_EMULATOR_API_LEVEL"
+
+before_script:
+  - echo no | android create avd --force -n test -t android-$ANDROID_EMULATOR_API_LEVEL --abi $ANDROID_ABI
+  - emulator -avd test -no-skin -no-audio -no-window &
+  - android-wait-for-emulator
+  - adb shell input keyevent 82 &
+
+script:
+  - ./gradlew -S clean build test connectedAndroidTest jacocoTestReport sonarqube
+
 after_success:
   - bash <(curl -s https://codecov.io/bash)
