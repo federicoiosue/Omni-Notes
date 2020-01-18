@@ -33,7 +33,9 @@ public class RecurrenceHelperTest {
     String rrule = "FREQ=WEEKLY;WKST=MO;BYDAY=MO,TU,TH";
     String alarmText = RecurrenceHelper.getNoteRecurrentReminderText(reminder, rrule);
 
-    Assert.assertEquals("Weekly on Mon, Tue, Thu starting from Thu, Dec 26 3:17 PM", alarmText);
+    Assert.assertEquals("Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 2019 3:17 PM", alarmText);
   }
 
 }
+//Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 3:17 PM
+//Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 2019 3:17 PM
