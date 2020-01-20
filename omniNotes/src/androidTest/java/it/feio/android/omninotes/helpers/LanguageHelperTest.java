@@ -33,7 +33,7 @@ import org.junit.runner.RunWith;
 public class LanguageHelperTest extends BaseAndroidTestCase {
 
   @Test
-  public void shouldChangeSharedPrefrencesLanguage () {
+  public void changeSharedPrefrencesLanguage () {
     LanguageHelper.updateLanguage(testContext, Locale.ITALY.toString());
     SharedPreferences prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context
         .MODE_MULTI_PROCESS);
@@ -42,7 +42,7 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void shouldChangeAppLanguage () {
+  public void changeAppLanguage () {
     LanguageHelper.updateLanguage(testContext, Locale.ITALY.toString());
     assertTranslationMatches(Locale.ITALY.toString(), R.string.add_note);
   }

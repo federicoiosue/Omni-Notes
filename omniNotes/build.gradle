@@ -252,3 +252,9 @@ jacocoAndroidUnitTestReport {
 jacoco {
     toolVersion = "0.7.5.201505241946"
 }
+test {
+    testLogging {
+        events "passed", "skipped", "failed"
+        exceptionFormat "full"
+    }
+}
