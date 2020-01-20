@@ -18,7 +18,6 @@
 package it.feio.android.omninotes.helpers;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import android.net.Uri;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -62,7 +61,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void testExportNote () throws IOException {
+  public void exportNote () {
     Note note = new Note();
     note.setTitle("test title");
     note.setContent("test content");
@@ -74,11 +73,11 @@ public class BackupHelperTest extends BaseAndroidTestCase {
         TrueFileFilter.INSTANCE);
     assertEquals(1, noteFiles.size());
     Note retrievedNote = rx.Observable.from(noteFiles).map(BackupHelper::importNote).toBlocking().first();
-    assertTrue(note.equals(retrievedNote));
+    assertEquals(note, retrievedNote);
   }
 
   @Test
-  public void testExportNoteWithAttachment () throws IOException {
+  public void exportNoteWithAttachment () throws IOException {
     Note note = new Note();
     note.setTitle("test title");
     note.setContent("test content");
@@ -106,7 +105,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
       }
     }).toBlocking().first();
     assertEquals(2, files.size());
-    assertTrue(note.equals(retrievedNote));
+    assertEquals(note, retrievedNote);
     assertEquals(retrievedAttachmentContent, FileUtils.readFileToString(new File(attachment.getUri().getPath())));
   }
 
