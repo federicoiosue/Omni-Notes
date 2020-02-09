@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes;
+package it.feio.android.omninotes.ui;
 
 
 import static androidx.test.espresso.Espresso.onData;
@@ -37,11 +37,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import androidx.core.view.GravityCompat;
-import androidx.test.espresso.DataInteraction;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.rule.ActivityTestRule;
+import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.MainActivity;
+import it.feio.android.omninotes.R;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
@@ -79,7 +83,7 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
 
   void createNote (String title, String content) {
     ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
+        Matchers.allOf(ViewMatchers.withId(R.id.fab_expand_menu_button),
             withParent(withId(R.id.fab)),
             isDisplayed()));
 
@@ -88,18 +92,14 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
     }
     viewInteraction.perform(click());
 
-    ViewInteraction floatingActionButton = onView(
-        allOf(withId(R.id.fab_note),
-            withParent(withId(R.id.fab)),
-            isDisplayed()));
-    floatingActionButton.perform(click());
+    onView(allOf(withId(R.id.fab_note),
+        withParent(withId(R.id.fab)),
+        isDisplayed())).perform(click());
 
-    ViewInteraction editText = onView(
-        allOf(withId(R.id.detail_title),
-            withParent(allOf(withId(R.id.title_wrapper),
-                withParent(withId(R.id.detail_tile_card)))),
-            isDisplayed()));
-    editText.perform(click());
+    onView(allOf(withId(R.id.detail_title),
+        withParent(allOf(withId(R.id.title_wrapper),
+            withParent(withId(R.id.detail_tile_card)))),
+        isDisplayed())).perform(click());
 
     onView(allOf(withId(R.id.detail_title),
         withParent(allOf(withId(R.id.title_wrapper),
@@ -111,7 +111,7 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
     navigateUp();
   }
 
-  void selectNoteInList(int number) {
+  void selectNoteInList (int number) {
     onData(anything())
         .inAdapterView(allOf(withId(R.id.list),
             childAtPosition(

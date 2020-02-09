@@ -246,7 +246,7 @@ android.productFlavors.each { flavor ->
 apply plugin: 'jacoco-android'
 jacocoAndroidUnitTestReport {
     csv.enabled false
-    html.enabled true
+    html.enabled false
     xml.enabled true
 }
 jacoco {

@@ -37,5 +37,3 @@ public class RecurrenceHelperTest {
   }
 
 }
-//Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 3:17 PM
-//Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 2019 3:17 PM
