@@ -86,8 +86,11 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Selection;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.BackgroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -103,6 +106,7 @@ import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -187,7 +191,7 @@ import rx.Observable;
 
 public class DetailFragment extends BaseFragment implements OnReminderPickedListener, OnTouchListener,
     OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved,
-    OnGeoUtilResultListener {
+    OnGeoUtilResultListener, OnClickListener {
 
   private static final int TAKE_PHOTO = 1;
   private static final int TAKE_VIDEO = 2;
@@ -201,6 +205,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   ViewGroup root;
   @BindView(R.id.detail_title)
   EditText title;
+  @BindView(R.id.detail_search)
+  EditText search;
+  @BindView(R.id.button_search)
+  Button searchButton;
   @BindView(R.id.detail_content)
   EditText content;
   @BindView(R.id.detail_attachments_above)
@@ -351,6 +359,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     View view = inflater.inflate(R.layout.fragment_detail, container, false);
     ButterKnife.bind(this, view);
+    searchButton.setOnClickListener(this);
     return view;
   }
 
@@ -1357,6 +1366,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     startActivityForResult(takeVideoIntent, TAKE_VIDEO);
   }
 
+  @SuppressLint("SourceLockedOrientationActivity")
   private void takeSketch (Attachment attachment) {
 
     File f = StorageHelper.createNewAttachmentFile(mainActivity, MIME_TYPE_SKETCH_EXT);
@@ -2162,6 +2172,27 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   public void onEventMainThread (PushbulletReplyEvent pushbulletReplyEvent) {
     String text = getNoteContent() + System.getProperty("line.separator") + pushbulletReplyEvent.message;
     content.setText(text);
+  }
+
+  @Override
+  public void onClick(View view) {
+    String searchText = search.getText().toString();
+    setHighlightedText(content, searchText);
+  }
+
+  private void setHighlightedText(EditText et, String textToHighlight) {
+    String originalText = et.getText().toString();
+    int ofe = originalText.indexOf(textToHighlight);
+    Spannable wordToSpan = new SpannableString(et.getText());
+    for (int ofs = 0; ofs < originalText.length() && ofe != -1; ofs = ofe + 1) {
+      ofe = originalText.indexOf(textToHighlight, ofs);
+      if (ofe == -1)
+        break;
+      else {
+        wordToSpan.setSpan(new BackgroundColorSpan(0xFFFFFF00), ofe, ofe + textToHighlight.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        et.setText(wordToSpan, TextView.BufferType.SPANNABLE);
+      }
+    }
   }
 
   private static class OnGeoUtilResultListenerImpl implements OnGeoUtilResultListener {
