@@ -27,13 +27,6 @@ public class MiscUtils {
     // hides public constructor
   }
 
-  /**
-   * Performs a full app restart
-   */
-  public static void restartApp (final Context mContext, Class activityClass) {
-    System.exit(0);
-  }
-
 
   /**
    * Checks Google Play Store availability

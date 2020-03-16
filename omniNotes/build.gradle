@@ -246,15 +246,16 @@ android.productFlavors.each { flavor ->
 apply plugin: 'jacoco-android'
 jacocoAndroidUnitTestReport {
     csv.enabled false
-    html.enabled true
+    html.enabled false
     xml.enabled true
 }
 jacoco {
     toolVersion = "0.7.5.201505241946"
 }
-test {
+
+tasks.withType(Test) {
     testLogging {
-        events "passed", "skipped", "failed"
+        events "standardOut", "started", "passed", "skipped", "failed"
         exceptionFormat "full"
     }
 }

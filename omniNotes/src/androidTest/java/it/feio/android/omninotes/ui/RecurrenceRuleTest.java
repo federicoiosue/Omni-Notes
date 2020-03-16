@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes;
+package it.feio.android.omninotes.ui;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -27,6 +27,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
 import it.feio.android.omninotes.models.Note;
 import java.util.Calendar;

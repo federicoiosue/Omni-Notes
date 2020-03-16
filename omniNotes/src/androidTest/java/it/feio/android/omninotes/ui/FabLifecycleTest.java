@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes;
+package it.feio.android.omninotes.ui;
 
 
 import static androidx.test.espresso.Espresso.onView;
@@ -27,8 +27,11 @@ import static org.hamcrest.Matchers.allOf;
 import static org.junit.Assert.assertNotNull;
 
 import androidx.test.espresso.ViewInteraction;
-import androidx.test.filters.LargeTest;
+import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
+import it.feio.android.omninotes.R;
+import org.hamcrest.Matchers;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,25 +44,19 @@ public class FabLifecycleTest extends BaseEspressoTest {
   @Test
   public void fabOpenCloseTest () {
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            withParent(withId(R.id.fab))));
-    viewInteraction.perform(click());
+    onView(Matchers.allOf(ViewMatchers.withId(R.id.fab_expand_menu_button),
+        withParent(withId(R.id.fab)))).perform(click());
 
-    ViewInteraction viewInteraction2 = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            withParent(withId(R.id.fab))));
-    viewInteraction2.perform(click());
+    onView(allOf(withId(R.id.fab_expand_menu_button),
+        withParent(withId(R.id.fab)))).perform(click());
   }
 
   @Test
   public void fabActionsTest () {
 
-    ViewInteraction viewInteraction = onView(
-        allOf(withId(R.id.fab_expand_menu_button),
-            withParent(withId(R.id.fab)),
-            isDisplayed()));
-    viewInteraction.perform(click());
+    onView(allOf(withId(R.id.fab_expand_menu_button),
+        withParent(withId(R.id.fab)),
+        isDisplayed())).perform(click());
 
     ViewInteraction checklistFabAction = onView(
         allOf(withId(R.id.fab_checklist),
