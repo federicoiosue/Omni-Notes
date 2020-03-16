@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes.utils.date;
 
+import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
@@ -93,5 +94,31 @@ public class DateUtilsTest {
 //		D
 //		assertEquals(DateUtils.getString(today, today));
 //	}
+  @Test
+  public void getDateFromStringTest(){
+    String date="2020/03/12 15:15:15";
+    String dateformat="yyyy/MM/dd HH:mm:ss";
+    Calendar calendar=DateUtils.getDateFromString(date,dateformat);
+    assertEquals(calendar.get(Calendar.YEAR),2020);
+    assertEquals(calendar.get(Calendar.MONTH),2);
+    assertEquals(calendar.get(Calendar.DATE),12);
+    assertEquals(calendar.get(Calendar.HOUR_OF_DAY),15);
+    assertEquals(calendar.get(Calendar.MINUTE),15);
+    assertEquals(calendar.get(Calendar.SECOND),15);
+  }
 
+  @Test
+  public void getLongFromDateTimeTest(){
+    String date="2020-03-12";
+    String dateformat="yyyy-MM-dd";
+    String time="15:15:15";
+    String timeformat="HH:mm:ss";
+    Calendar calendar=DateUtils.getLongFromDateTime(date,dateformat,time,timeformat);
+    assertEquals(calendar.get(Calendar.YEAR),2020);
+    assertEquals(calendar.get(Calendar.MONTH),2);
+    assertEquals(calendar.get(Calendar.DATE),12);
+    assertEquals(calendar.get(Calendar.HOUR_OF_DAY),15);
+    assertEquals(calendar.get(Calendar.MINUTE),15);
+    assertEquals(calendar.get(Calendar.SECOND),0);
+  }
 }

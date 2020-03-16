@@ -26,7 +26,7 @@ import static java.util.Locale.ENGLISH;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LanguageHelper;
@@ -52,7 +52,7 @@ public class BaseAndroidTestCase {
 
   @BeforeClass
   public static void setUpBeforeClass () {
-    testContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
+    testContext = ApplicationProvider.getApplicationContext();
     prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
     dbHelper = DbHelper.getInstance(testContext);
     prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
