@@ -97,4 +97,16 @@ public class TagsHelperTest {
     assertTrue(newTags.first.contains(newTag));
     assertFalse(newTags.first.contains(TAG3));
   }
+
+  @Test
+  public void TestTagWithComma() {
+    String newTag="#comma,comma";
+    List<Tag> tags = new ArrayList<>();
+    tags.add(new Tag(newTag, 1));
+    Pair<String, List<Tag>> newTags = TagsHelper.addTagToNote(tags, new Integer[]{0, 1}, note);
+    HashMap<String, Integer> tags1 = TagsHelper.retrieveTags(note);
+    assertTrue(newTags.first.contains(newTag));
+    assertFalse(tags1.containsKey(newTag));
+  }
+
 }
