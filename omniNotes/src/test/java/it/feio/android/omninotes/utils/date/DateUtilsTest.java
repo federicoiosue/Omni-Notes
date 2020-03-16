@@ -21,7 +21,10 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 import org.junit.Assert;
 import org.junit.Test;
@@ -61,7 +64,7 @@ public class DateUtilsTest {
     long mockedNextMinute = 1497315847L;
     Long testReminder = null;
     PowerMockito.stub(PowerMockito.method(DateUtils.class, "getNextMinute")).toReturn(mockedNextMinute);
-    junit.framework.Assert.assertEquals(mockedNextMinute, DateUtils.getPresetReminder(testReminder));
+    assertEquals(mockedNextMinute, DateUtils.getPresetReminder(testReminder));
   }
 
   @Test
@@ -86,14 +89,22 @@ public class DateUtilsTest {
     assertFalse(DateUtils.isSameDay(today, tomorrow));
   }
 
-//	@Test
-//	public void getString() throws ParseException {
-//    	String desiderDate = "";
-//		new SimpleDateFormat().parse(desiderDate);
-//		Date date = new SimpleDateFormat("dd/MM/yyyy").parse("15/05/2012");
-//		D
-//		assertEquals(DateUtils.getString(today, today));
-//	}
+  @Test
+  public void getString_dateSignature() throws ParseException {
+    String expectedDate = "15/05/2012";
+    String format = "dd/MM/yyyy";
+    Date date = new SimpleDateFormat(format).parse(expectedDate);
+    assertEquals(expectedDate, DateUtils.getString(date, format));
+  }
+
+  @Test
+  public void getString_longSignature() {
+    String expectedDateAsString = "16/03/2020";
+    long expectedDate = 1584371565000L;
+    String format = "dd/MM/yyyy";
+    assertEquals(expectedDateAsString, DateUtils.getString(expectedDate, format));
+  }
+
   @Test
   public void getDateFromStringTest(){
     String date="2020/03/12 15:15:15";
