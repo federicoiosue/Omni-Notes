@@ -45,13 +45,11 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.ui.BaseEspressoTest;
 import java.util.Calendar;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -182,11 +180,6 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
     }
 
     onView(allOf(withId(R.id.title), withText(categoryName))).check(doesNotExist());
-  }
-
-  @After
-  public void tearDown () {
-    cleanDatabase();
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)

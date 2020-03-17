@@ -73,7 +73,7 @@ Watch the following terminal session recording on how to compile distributable f
 To be sure that build environment is fully compliant with the project the following command creates a container with all the needed tools to compile the code:
 
 ```
-cd {project-folder}; rm local.properties; docker rm android; docker run -v $PWD:/workspace --name android tabrindle/min-alpine-android-sdk:latest bash -c "yes | sdkmanager --update && yes | sdkmanager --licenses && cd /workspace && ./gradlew build --stacktrace -Dorg.gradle.daemon=true -Pandroid.useDeprecatedNdk=true"
+cd {project-folder}; rm local.properties; docker rm android-omninotes; docker run -v $PWD:/workspace --name android-omninotes tabrindle/min-alpine-android-sdk:latest bash -c "yes | sdkmanager --update && yes | sdkmanager --licenses && cd /workspace && ./gradlew build --stacktrace -Dorg.gradle.daemon=true -Pandroid.useDeprecatedNdk=true"
 
 ```
 
