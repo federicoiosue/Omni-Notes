@@ -82,8 +82,28 @@ cd {project-folder}; rm local.properties; docker rm android-omninotes; docker ru
 To execute all tests included into the project connect a device or emulator, then run the following command:
 
 ```shell
-./gradlew connectedAndroidTest
+./gradlew testAll
 ```
+
+### Testing Pyramid
+
+To speedup the development more levels of testing are available following the [testing pyramid approach](https://martinfowler.com/articles/practical-test-pyramid.html), each type test requires more time than the previous one.
+
+### Unit Tests
+```shell
+./gradlew --stacktrace test
+```
+
+### Integration Tests
+```shell
+./gradlew --stacktrace -Pandroid.testInstrumentationRunnerArguments.notAnnotation=androidx.test.filters.LargeTest connectedAndroidTest
+```
+
+### UI Tests
+```shell
+./gradlew --stacktrace -Pandroid.testInstrumentationRunnerArguments.annotation=androidx.test.filters.LargeTest connectedPlayDebugAndroidTest
+```
+Notice that in this case I specified a single flavor to run tests on. This could be a useful and faster approach when you're testing specific flavor features.  
 
 ## Contributing
 

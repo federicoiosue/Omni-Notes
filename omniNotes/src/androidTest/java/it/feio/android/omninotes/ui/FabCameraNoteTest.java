@@ -42,7 +42,6 @@ import androidx.test.espresso.intent.Intents;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
-import it.feio.android.omninotes.ui.BaseEspressoTest;
 import it.feio.android.omninotes.utils.Constants;
 import org.junit.Test;
 import org.junit.runner.RunWith;

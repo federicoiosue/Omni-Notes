@@ -31,6 +31,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static java.lang.Thread.sleep;
 import static org.hamcrest.Matchers.allOf;
 
 import android.annotation.TargetApi;
@@ -60,7 +61,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
   private String categoryName;
 
   @Test
-  public void addNewCategory () {
+  public void addNewCategory () throws InterruptedException {
 
     categoryName = "Cat_" + Calendar.getInstance().getTimeInMillis();
 
@@ -78,7 +79,8 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
     onView(allOf(withId(R.id.md_buttonDefaultPositive), withText(R.string.add_category), isDisplayed())).perform(
         click());
 
-    onView(allOf(withId(R.id.category_title), isDisplayed())).perform(replaceText(categoryName), closeSoftKeyboard());
+    sleep(1000);
+    onView(withId(R.id.category_title)).perform(replaceText(categoryName), closeSoftKeyboard());
 
     onView(allOf(withId(R.id.save), withText("Ok"), isDisplayed())).perform(click());
 
@@ -99,7 +101,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
   }
 
   @Test
-  public void checkCategoryCreation () {
+  public void checkCategoryCreation () throws InterruptedException {
 
     addNewCategory();
 
@@ -111,7 +113,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
   }
 
   @Test
-  public void categoryColorChange () {
+  public void categoryColorChange () throws InterruptedException {
 
     addNewCategory();
 
@@ -158,7 +160,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
   }
 
   @Test
-  public void categoryDeletion () {
+  public void categoryDeletion () throws InterruptedException {
 
     addNewCategory();
 
@@ -174,7 +176,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
 
     // Waiting a little to ensure Eventbus post propagation
     try {
-      Thread.sleep(1000);
+      sleep(1000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
