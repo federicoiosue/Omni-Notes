@@ -43,12 +43,21 @@ licenses:
   - google-gdk-license-.+
 
 before_install:
+  # Set up KVM
+  - sudo apt-get -y --no-install-recommends install bridge-utils libpulse0 libvirt-bin qemu-kvm virtinst ubuntu-vm-builder > /dev/null
+  - sudo adduser $USER libvirt
+  - sudo adduser $USER kvm
+
+  # Avoid harmless sdkmanager warning
+  - mkdir ~/.android
+  - echo 'count=0' > ~/.android/repositories.cfg
+
   - yes | sdkmanager "platforms;android-$ANDROID_API_LEVEL"
   - yes | sdkmanager "platforms;android-$ANDROID_EMULATOR_API_LEVEL"
 
 before_script:
-  - echo no | android create avd --force -n test -t android-$ANDROID_EMULATOR_API_LEVEL --abi $ANDROID_ABI
-  - emulator -avd test -no-skin -no-audio -no-window &
+  - echo no | android create avd --force -n test -t android-$ANDROID_EMULATOR_API_LEVEL --abi $ANDROID_ABI --accept-licenses='android-sdk-license-[0-9a-f]{8}'
+  - emulator -avd test -no-audio -no-window
   - android-wait-for-emulator
   - adb shell input keyevent 82 &
 
