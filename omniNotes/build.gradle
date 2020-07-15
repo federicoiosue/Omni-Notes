@@ -260,6 +260,6 @@ tasks.withType(Test) {
     }
 }
 
-task testAll(dependsOn: ['test', 'connectedAndroidTest']) {
+task testAll(dependsOn: ['test', 'connectedPlayDebugAndroidTest', 'connectedFossDebugAndroidTest']) {
     description = "Run all tests"
 }
