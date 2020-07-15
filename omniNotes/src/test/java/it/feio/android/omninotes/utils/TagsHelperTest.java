@@ -51,7 +51,6 @@ public class TagsHelperTest {
             + TAG5);
   }
 
-
   @Test
   public void retrievesTagsFromNote () {
     HashMap<String, Integer> tags = TagsHelper.retrieveTags(note);
@@ -59,7 +58,6 @@ public class TagsHelperTest {
     assertTrue(tags.containsKey(TAG1) && tags.containsKey(TAG3) && tags.containsKey(TAG4) && tags.containsKey(TAG5));
     assertFalse(tags.containsKey(TAG2));
   }
-
 
   @Test
   public void retrievesTagsFromNoteMultilanguage () {
@@ -71,7 +69,6 @@ public class TagsHelperTest {
     tags = TagsHelper.retrieveTags(note);
     assertTrue(tags.containsKey("#中华人民共和国"));
   }
-
 
   @Test
   public void removesTagsFromNote () {
@@ -86,7 +83,6 @@ public class TagsHelperTest {
     assertFalse(tags.containsKey(TAG4));
   }
 
-
   @Test
   public void addsTagsToNote () {
     String newTag = "#addedTag";
@@ -99,8 +95,19 @@ public class TagsHelperTest {
   }
 
   @Test
-  public void TestTagWithComma() {
-    String newTag="#comma,comma";
+  public void addsTagsToNote_addMore () {
+    String newTag = "#addedTag";
+    List<Tag> tags = new ArrayList<>();
+    tags.add(new Tag(newTag, 1));
+    tags.add(new Tag(TAG3, 1));
+    Pair<String, List<Tag>> newTags = TagsHelper.addTagToNote(tags, new Integer[]{0, 1}, note);
+    assertTrue(newTags.first.contains(newTag));
+    assertFalse(newTags.first.contains(TAG3));
+  }
+
+  @Test
+  public void TestTagWithComma () {
+    String newTag = "#comma,comma";
     List<Tag> tags = new ArrayList<>();
     tags.add(new Tag(newTag, 1));
     Pair<String, List<Tag>> newTags = TagsHelper.addTagToNote(tags, new Integer[]{0, 1}, note);
