@@ -25,31 +25,31 @@ import android.app.NotificationManager;
 import android.os.Build;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.EnumMap;
+import java.util.Map;
 
 @TargetApi(Build.VERSION_CODES.O)
 public class NotificationChannels {
 
-  private static List<NotificationChannel> channels = new ArrayList<NotificationChannel>() {{
-    add(new NotificationChannel(
+
+  public static final Map<NotificationChannelNames, NotificationChannel> channels;
+
+  static {
+    channels = new EnumMap<>(NotificationChannelNames.class);
+    channels.put(NotificationChannelNames.BACKUPS, new NotificationChannel(
         NotificationManager.IMPORTANCE_DEFAULT,
         OmniNotes.getAppContext().getString(R.string.channel_backups_name),
         OmniNotes.getAppContext().getString(R.string.channel_backups_description),
         CHANNEL_BACKUPS_ID));
-    add(new NotificationChannel(
+    channels.put(NotificationChannelNames.REMINDERS, new NotificationChannel(
         NotificationManager.IMPORTANCE_DEFAULT,
         OmniNotes.getAppContext().getString(R.string.channel_reminders_name),
         OmniNotes.getAppContext().getString(R.string.channel_reminders_description),
         CHANNEL_REMINDERS_ID));
-  }};
-
-  public static List<NotificationChannel> getChannels () {
-    return channels;
   }
 
   public enum NotificationChannelNames {
-    Backups, Reminders
+    BACKUPS, REMINDERS
   }
 
 }

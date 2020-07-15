@@ -33,7 +33,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
-import it.feio.android.omninotes.utils.notifications.NotificationChannels;
+import it.feio.android.omninotes.utils.notifications.NotificationChannels.NotificationChannelNames;
 import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 import it.feio.android.springpadimporter.Importer;
 import it.feio.android.springpadimporter.models.SpringpadAttachment;
@@ -75,7 +75,7 @@ public class SpringImportHelper {
       updateImportNotification(importer, mNotificationsHelper);
     } catch (ImportException e) {
       new NotificationsHelper(context)
-          .createNotification(NotificationChannels.NotificationChannelNames.Backups,
+          .createNotification(NotificationChannelNames.BACKUPS,
               R.drawable.ic_emoticon_sad_white_24dp,
               context.getString(R.string.import_fail) + ": " + e.getMessage(), null).setLedActive().show();
       return;
@@ -83,7 +83,7 @@ public class SpringImportHelper {
     List<SpringpadElement> elements = importer.getSpringpadNotes();
 
     // If nothing is retrieved it will exit
-    if (elements == null || elements.size() == 0) {
+    if (elements == null || elements.isEmpty()) {
       return;
     }
 
@@ -283,7 +283,7 @@ public class SpringImportHelper {
       }
 
       // If the note has a category is added to the map to be post-processed
-      if (springpadElement.getNotebooks().size() > 0) {
+      if (!springpadElement.getNotebooks().isEmpty()) {
         note.setCategory(categoriesWithUuid.get(springpadElement.getNotebooks().get(0)));
       } else {
         note.setCategory(defaulCategory);

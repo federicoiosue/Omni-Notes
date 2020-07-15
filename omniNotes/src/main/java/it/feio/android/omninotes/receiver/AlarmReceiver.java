@@ -42,7 +42,7 @@ import it.feio.android.omninotes.services.NotificationListener;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.ParcelableUtil;
 import it.feio.android.omninotes.utils.TextHelper;
-import it.feio.android.omninotes.utils.notifications.NotificationChannels;
+import it.feio.android.omninotes.utils.notifications.NotificationChannels.NotificationChannelNames;
 import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 import java.util.List;
 
@@ -113,7 +113,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         PendingIntent.FLAG_UPDATE_CURRENT);
 
     NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
-    notificationsHelper.createNotification(NotificationChannels.NotificationChannelNames.Reminders,
+    notificationsHelper.createNotification(NotificationChannelNames.REMINDERS,
         R.drawable.ic_stat_notification, title, notifyIntent).setLedActive()
                        .setMessage(text);
 

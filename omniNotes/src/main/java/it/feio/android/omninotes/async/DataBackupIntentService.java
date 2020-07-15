@@ -37,7 +37,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
-import it.feio.android.omninotes.utils.notifications.NotificationChannels;
+import it.feio.android.omninotes.utils.notifications.NotificationChannels.NotificationChannelNames;
 import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 import java.io.File;
 
@@ -68,7 +68,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
   protected void onHandleIntent (Intent intent) {
     prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
 
-    mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannels.NotificationChannelNames.Backups,
+    mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannelNames.BACKUPS,
         R.drawable.ic_content_save_white_24dp, getString(R.string.working));
 
     // If an alarm has been fired a notification must be generated
@@ -188,7 +188,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         PendingIntent.FLAG_UPDATE_CURRENT);
 
     NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
-    notificationsHelper.createNotification(NotificationChannels.NotificationChannelNames.Backups,
+    notificationsHelper.createNotification(NotificationChannelNames.BACKUPS,
         R.drawable.ic_content_save_white_24dp, title, notifyIntent)
                         .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null))
                         .setLedActive();

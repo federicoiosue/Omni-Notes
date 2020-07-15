@@ -54,23 +54,24 @@ public class NotificationsHelper {
   @TargetApi(Build.VERSION_CODES.O)
   public void initNotificationChannels () {
     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
-      for (it.feio.android.omninotes.utils.notifications.NotificationChannel notificationChannel : NotificationChannels.getChannels()) {
-        NotificationChannel channel = new NotificationChannel(notificationChannel.id, notificationChannel
-            .name, notificationChannel.importance);
-        channel.setDescription(notificationChannel.description);
-        mNotificationManager.createNotificationChannel(channel);
-      }
+      NotificationChannels.channels.forEach(
+          (notificationChannelNames, notificationChannel) -> {
+            NotificationChannel channel = new NotificationChannel(notificationChannel.id, notificationChannel
+                .name, notificationChannel.importance);
+            channel.setDescription(notificationChannel.description);
+            mNotificationManager.createNotificationChannel(channel);
+          });
     }
   }
 
   /**
    * Creation of notification on operations completed
    */
-  public NotificationsHelper createNotification (NotificationChannels.NotificationChannelNames channelId, int
+  public NotificationsHelper createNotification (NotificationChannels.NotificationChannelNames channelName, int
       smallIcon, String title, PendingIntent notifyIntent) {
-    mBuilder = new NotificationCompat.Builder(mContext, channelId.name()).setSmallIcon(smallIcon).setContentTitle(title)
-                                                                         .setAutoCancel(true).setColor(
-            mContext.getResources().getColor(R.color.colorAccent));
+    mBuilder = new NotificationCompat.Builder(mContext, NotificationChannels.channels.get(channelName).id).setSmallIcon(
+        smallIcon).setContentTitle(title).setAutoCancel(true).setColor(
+        mContext.getResources().getColor(R.color.colorAccent));
     mBuilder.setContentIntent(notifyIntent);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       setLargeIcon(R.drawable.logo_notification_lollipop);
@@ -156,9 +157,9 @@ public class NotificationsHelper {
     return this;
   }
 
-  public NotificationsHelper start (NotificationChannels.NotificationChannelNames channelId, int
+  public NotificationsHelper start (NotificationChannels.NotificationChannelNames channelName, int
       smallIcon, String title) {
-    createNotification(channelId, smallIcon, title, null).setIndeterminate().setOngoing();
+    createNotification(channelName, smallIcon, title, null).setIndeterminate().setOngoing();
     mNotificationManager.notify(0, mBuilder.setOnlyAlertOnce(true).build());
     return this;
   }
