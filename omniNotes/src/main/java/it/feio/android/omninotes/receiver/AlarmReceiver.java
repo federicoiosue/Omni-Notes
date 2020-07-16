@@ -73,8 +73,6 @@ public class AlarmReceiver extends BroadcastReceiver {
   }
 
   private void createNotification (Context mContext, Note note) {
-
-    // Retrieving preferences
     SharedPreferences prefs = mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
 
     // Prepare text contents
@@ -139,9 +137,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
   private void setRingtone (SharedPreferences prefs, NotificationsHelper notificationsHelper) {
     String ringtone = prefs.getString("settings_notification_ringtone", null);
-		if (ringtone != null) {
-			notificationsHelper.setRingtone(ringtone);
-		}
+    notificationsHelper.setRingtone(ringtone);
   }
 
 

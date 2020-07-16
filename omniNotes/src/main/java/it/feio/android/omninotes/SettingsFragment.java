@@ -39,6 +39,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -74,6 +75,7 @@ import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.ResourcesUtils;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
+import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -413,26 +415,30 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     final Preference ringtone = findPreference("settings_notification_ringtone");
     if (ringtone != null) {
       ringtone.setOnPreferenceClickListener(arg0 -> {
-        Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true);
-        intent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, DEFAULT_NOTIFICATION_URI);
-
-        String existingValue = prefs.getString("settings_notification_ringtone", null);
-        if (existingValue != null) {
-          if (existingValue.length() == 0) {
-            // Select "Silent"
-            intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
-          } else {
-            intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, Uri.parse(existingValue));
-          }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+          new NotificationsHelper(getContext()).updateNotificationChannelsSound();
         } else {
-          // No ringtone has been selected, set to the default
-          intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, DEFAULT_NOTIFICATION_URI);
-        }
+          Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
+          intent.putExtra(RingtoneManager.EXTRA_RINGTONE_TYPE, RingtoneManager.TYPE_NOTIFICATION);
+          intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_DEFAULT, true);
+          intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true);
+          intent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, DEFAULT_NOTIFICATION_URI);
 
-        startActivityForResult(intent, RINGTONE_REQUEST_CODE);
+          String existingValue = prefs.getString("settings_notification_ringtone", null);
+          if (existingValue != null) {
+            if (existingValue.length() == 0) {
+              // Select "Silent"
+              intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, (Uri) null);
+            } else {
+              intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, Uri.parse(existingValue));
+            }
+          } else {
+            // No ringtone has been selected, set to the default
+            intent.putExtra(EXTRA_RINGTONE_EXISTING_URI, DEFAULT_NOTIFICATION_URI);
+          }
+
+          startActivityForResult(intent, RINGTONE_REQUEST_CODE);
+        }
 
         return false;
       });

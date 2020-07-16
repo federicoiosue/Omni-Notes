@@ -17,6 +17,9 @@
 
 package it.feio.android.omninotes.utils.notifications;
 
+import static android.content.Context.MODE_MULTI_PROCESS;
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -24,14 +27,19 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationCompat.Builder;
 import it.feio.android.omninotes.R;
+import lombok.NonNull;
 
 
 public class NotificationsHelper {
@@ -53,21 +61,43 @@ public class NotificationsHelper {
    */
   @TargetApi(Build.VERSION_CODES.O)
   public void initNotificationChannels () {
-    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+      SharedPreferences prefs = mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
+      String soundFromPrefs = prefs.getString("settings_notification_ringtone", null);
+      Uri sound = soundFromPrefs != null ? Uri.parse(soundFromPrefs) : RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+
       NotificationChannels.channels.forEach(
           (notificationChannelNames, notificationChannel) -> {
             NotificationChannel channel = new NotificationChannel(notificationChannel.id, notificationChannel
                 .name, notificationChannel.importance);
             channel.setDescription(notificationChannel.description);
+
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+                .build();
+            channel.setSound(sound, audioAttributes);
+
             mNotificationManager.createNotificationChannel(channel);
           });
+    }
+  }
+
+  @TargetApi(Build.VERSION_CODES.O)
+  public void updateNotificationChannelsSound () {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      intent.putExtra(Settings.EXTRA_APP_PACKAGE, mContext.getPackageName());
+      mContext.startActivity(intent);
     }
   }
 
   /**
    * Creation of notification on operations completed
    */
-  public NotificationsHelper createNotification (NotificationChannels.NotificationChannelNames channelName, int
+  public NotificationsHelper createNotification (@NonNull NotificationChannels.NotificationChannelNames channelName, int
       smallIcon, String title, PendingIntent notifyIntent) {
     mBuilder = new NotificationCompat.Builder(mContext, NotificationChannels.channels.get(channelName).id).setSmallIcon(
         smallIcon).setContentTitle(title).setAutoCancel(true).setColor(
@@ -97,8 +127,8 @@ public class NotificationsHelper {
   }
 
   public NotificationsHelper setRingtone (String ringtone) {
-    if (ringtone != null) {
-      mBuilder.setSound(Uri.parse(ringtone));
+    if (ringtone != null && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+        mBuilder.setSound(Uri.parse(ringtone));
     }
     return this;
   }
