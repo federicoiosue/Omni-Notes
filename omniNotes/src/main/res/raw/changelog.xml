@@ -25,6 +25,7 @@
         <changelogtext>[i]Improved![/i] New date pickers for reminders</changelogtext>
         <changelogtext>[i]Improved![/i] Simplified merging notes: confirmation is no more required</changelogtext>
         <changelogtext>[i]Improved![/i] Changed position of sharing action in menu to make it faster to be reached</changelogtext>
+        <changelogtext>[i]Improved![/i] Percentage of completion for checklists into note informations dialog</changelogtext>
         <changelogtext>[i]Improved![/i] Removed legacy option to customize text size</changelogtext>
         <changelogtext>[i]Improved![/i] Updated languages</changelogtext>
     </changelogversion>

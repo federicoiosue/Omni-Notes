@@ -68,17 +68,23 @@ public class NoteInfosActivity extends Activity {
 
   private void populateViews (Note note) {
     StatsSingleNote infos = NotesHelper.getNoteInfos(note);
+
     populateView(category, infos.getCategoryName());
     populateView(tags, infos.getTags());
     populateView(chars, infos.getChars());
     populateView(words, infos.getWords());
     populateView(checklistItems, infos.getChecklistItemsNumber());
-    populateView(checklistCompletedItems, infos.getChecklistCompletedItemsNumber());
+    populateView(checklistCompletedItems, getChecklistCompletionState(infos));
     populateView(images, infos.getImages());
     populateView(videos, infos.getVideos());
     populateView(audioRecordings, infos.getAudioRecordings());
     populateView(sketches, infos.getSketches());
     populateView(files, infos.getFiles());
+  }
+
+  static String getChecklistCompletionState (StatsSingleNote infos) {
+    int percentage = Math.round((float) infos.getChecklistCompletedItemsNumber() / infos.getChecklistItemsNumber() * 100);
+    return infos.getChecklistCompletedItemsNumber() + " (" + percentage + "%)";
   }
 
   private void populateView (TextView textView, int numberValue) {
