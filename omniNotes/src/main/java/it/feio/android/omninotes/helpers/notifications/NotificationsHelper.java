@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.utils.notifications;
+package it.feio.android.omninotes.helpers.notifications;
 
 import static android.content.Context.MODE_MULTI_PROCESS;
 import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
@@ -94,15 +94,26 @@ public class NotificationsHelper {
     }
   }
 
-  /**
-   * Creation of notification on operations completed
-   */
-  public NotificationsHelper createNotification (@NonNull NotificationChannels.NotificationChannelNames channelName, int
+  public NotificationsHelper createStandardNotification (@NonNull NotificationChannels.NotificationChannelNames channelName, int
       smallIcon, String title, PendingIntent notifyIntent) {
-    mBuilder = new NotificationCompat.Builder(mContext, NotificationChannels.channels.get(channelName).id).setSmallIcon(
-        smallIcon).setContentTitle(title).setAutoCancel(true).setColor(
-        mContext.getResources().getColor(R.color.colorAccent));
-    mBuilder.setContentIntent(notifyIntent);
+    return createNotification(channelName, smallIcon, title, notifyIntent, false);
+  }
+
+  public NotificationsHelper createOngoingNotification (@NonNull NotificationChannels.NotificationChannelNames channelName, int
+      smallIcon, String title, PendingIntent notifyIntent) {
+    return createNotification(channelName, smallIcon, title, notifyIntent, true);
+  }
+
+  public NotificationsHelper createNotification (@NonNull NotificationChannels.NotificationChannelNames channelName, int
+      smallIcon, String title, PendingIntent notifyIntent, boolean isOngoing) {
+    mBuilder = new NotificationCompat.Builder(mContext, NotificationChannels.channels.get(channelName).id)
+        .setSmallIcon(smallIcon)
+        .setContentTitle(title)
+        .setAutoCancel(!isOngoing)
+        .setOngoing(isOngoing)
+        .setColor(mContext.getResources().getColor(R.color.colorAccent))
+        .setContentIntent(notifyIntent);
+
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
       setLargeIcon(R.drawable.logo_notification_lollipop);
     } else {
@@ -189,7 +200,7 @@ public class NotificationsHelper {
 
   public NotificationsHelper start (NotificationChannels.NotificationChannelNames channelName, int
       smallIcon, String title) {
-    createNotification(channelName, smallIcon, title, null).setIndeterminate().setOngoing();
+    createStandardNotification(channelName, smallIcon, title, null).setIndeterminate().setOngoing();
     mNotificationManager.notify(0, mBuilder.setOnlyAlertOnce(true).build());
     return this;
   }

@@ -168,6 +168,8 @@
     <string name="grid_view">Grid view</string>
     <string name="add_shortcut">Add shortcut</string>
     <string name="shortcut_added">Shortcut added to home screen</string>
+    <string name="pin_note">Pin note</string>
+    <string name="pined_note">Pinned note as notification</string>
     <string name="shortcut_note_deleted">Shortcut points to deleted note</string>
     <string name="widget_simple_description">Simple widget with buttons</string>
     <string name="widget_list_description">Scrolling list widget with buttons</string>
@@ -425,5 +427,7 @@
     <string name="channel_backups_description">Notifications for backup status and results</string>
     <string name="channel_reminders_name">Reminders</string>
     <string name="channel_reminders_description">Notifications for notes\' reminders</string>
+    <string name="channel_pinned_name">Pinned</string>
+    <string name="channel_pinned_description">Notifications for pinned notes</string>
 
 </resources>

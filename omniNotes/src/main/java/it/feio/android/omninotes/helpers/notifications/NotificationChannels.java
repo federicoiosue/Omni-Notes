@@ -15,9 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.utils.notifications;
+package it.feio.android.omninotes.helpers.notifications;
 
 import static it.feio.android.omninotes.utils.Constants.CHANNEL_BACKUPS_ID;
+import static it.feio.android.omninotes.utils.Constants.CHANNEL_PINNED_ID;
 import static it.feio.android.omninotes.utils.Constants.CHANNEL_REMINDERS_ID;
 
 import android.annotation.TargetApi;
@@ -46,10 +47,15 @@ public class NotificationChannels {
         OmniNotes.getAppContext().getString(R.string.channel_reminders_name),
         OmniNotes.getAppContext().getString(R.string.channel_reminders_description),
         CHANNEL_REMINDERS_ID));
+    channels.put(NotificationChannelNames.PINNED, new NotificationChannel(
+        NotificationManager.IMPORTANCE_DEFAULT,
+        OmniNotes.getAppContext().getString(R.string.channel_pinned_name),
+        OmniNotes.getAppContext().getString(R.string.channel_pinned_description),
+        CHANNEL_PINNED_ID));
   }
 
   public enum NotificationChannelNames {
-    BACKUPS, REMINDERS
+    BACKUPS, REMINDERS, PINNED
   }
 
 }

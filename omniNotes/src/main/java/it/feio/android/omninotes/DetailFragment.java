@@ -18,14 +18,20 @@ package it.feio.android.omninotes;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static android.content.Context.MODE_MULTI_PROCESS;
 import static androidx.core.view.ViewCompat.animate;
 import static it.feio.android.omninotes.BaseActivity.TRANSITION_HORIZONTAL;
 import static it.feio.android.omninotes.BaseActivity.TRANSITION_VERTICAL;
+import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_DISMISS;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_MERGE;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_PINNED;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_POSTPONE;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SNOOZE;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_SHOW_LIST;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
@@ -62,6 +68,7 @@ import static java.lang.Long.parseLong;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -86,6 +93,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Selection;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -110,6 +118,7 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat.Action;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -136,6 +145,7 @@ import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
+import it.feio.android.omninotes.helpers.IntentHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
@@ -155,8 +165,8 @@ import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.AlphaManager;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.ConnectionManager;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.FileProviderHelper;
@@ -171,6 +181,8 @@ import it.feio.android.omninotes.utils.TagsHelper;
 import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
+import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.pixlui.links.TextLinkClickListener;
 import java.io.File;
 import java.io.IOException;
@@ -636,14 +648,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   private void initViewFooter () {
-    // Footer dates of creation...
     String creation = DateHelper.getFormattedDate(noteTmp.getCreation(), prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
     creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
     if (creationTextView.getText().length() == 0) {
       creationTextView.setVisibility(View.GONE);
     }
 
-    // ... and last modification
     String lastModification = DateHelper.getFormattedDate(noteTmp.getLastModification(), prefs.getBoolean(
         PREF_PRETTIFIED_DATES, true));
     lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " +
@@ -1029,7 +1039,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       // Otherwise all other actions will be available
     } else {
       // Temporary removed until fixed on Oreo and following
-//			menu.findItem(R.ID.menu_add_shortcut).setVisible(!newNote);
+//			menu.findItem(R.id.menu_add_shortcut).setVisible(!newNote);
+			menu.findItem(R.id.menu_pin_note).setVisible(!newNote);
       menu.findItem(R.id.menu_archive).setVisible(!newNote && !noteTmp.isArchived());
       menu.findItem(R.id.menu_unarchive).setVisible(!newNote && noteTmp.isArchived());
       menu.findItem(R.id.menu_trash).setVisible(!newNote);
@@ -1097,6 +1108,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       case R.id.menu_lock:
       case R.id.menu_unlock:
         lockNote();
+        break;
+      case R.id.menu_pin_note:
+        pinNote();
         break;
       case R.id.menu_add_shortcut:
         addShortcut();
@@ -1888,6 +1902,33 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       });
       v.startAnimation(mAnimation);
     }
+  }
+
+  /**
+   * Pin note as ongoing notifications
+   */
+  private void pinNote () {
+    PendingIntent notifyIntent = IntentHelper.getNotePendingIntent(getContext(), SnoozeActivity.class, ACTION_PINNED, note);
+
+    Spanned[] titleAndContent = TextHelper.parseTitleAndContent(getContext(), note);
+    String pinnedTitle = titleAndContent[0].toString();
+    String pinnedContent = titleAndContent[1].toString();
+
+    NotificationsHelper notificationsHelper = new NotificationsHelper(getContext());
+    notificationsHelper.createOngoingNotification(NotificationChannelNames.PINNED, R.drawable.ic_stat_notification,
+        pinnedTitle, notifyIntent).setMessage(pinnedContent);
+
+    List<Attachment> attachments = note.getAttachmentsList();
+    if (!attachments.isEmpty() && !attachments.get(0).getMime_type().equals(MIME_TYPE_FILES)) {
+      Bitmap notificationIcon = BitmapHelper.getBitmapFromAttachment(getContext(), note.getAttachmentsList().get(0), 128,
+          128);
+      notificationsHelper.setLargeIcon(notificationIcon);
+    }
+
+    PendingIntent unpinIntent = IntentHelper.getNotePendingIntent(getContext(), SnoozeActivity.class, ACTION_DISMISS, note);
+    notificationsHelper.getBuilder().addAction(R.drawable.ic_material_reminder_time_light, "FATTO", unpinIntent);
+
+    notificationsHelper.show(note.get_id());
   }
 
   /**

@@ -18,7 +18,6 @@ package it.feio.android.omninotes.receiver;
 
 import static android.content.Context.MODE_MULTI_PROCESS;
 import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
-import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_POSTPONE;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SNOOZE;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
@@ -30,20 +29,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.text.Spanned;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SnoozeActivity;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.IntentHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.services.NotificationListener;
 import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.ParcelableUtil;
 import it.feio.android.omninotes.utils.TextHelper;
-import it.feio.android.omninotes.utils.notifications.NotificationChannels.NotificationChannelNames;
-import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 import java.util.List;
 
 
@@ -75,45 +74,17 @@ public class AlarmReceiver extends BroadcastReceiver {
   private void createNotification (Context mContext, Note note) {
     SharedPreferences prefs = mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
 
-    // Prepare text contents
+    PendingIntent piSnooze = IntentHelper.getNotePendingIntent(mContext, SnoozeActivity.class, ACTION_SNOOZE, note);
+    PendingIntent piPostpone = IntentHelper.getNotePendingIntent(mContext, SnoozeActivity.class, ACTION_POSTPONE, note);
+    PendingIntent notifyIntent = IntentHelper.getNotePendingIntent(mContext, SnoozeActivity.class, null, note);
+
     Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mContext, note);
     String title = TextHelper.getAlternativeTitle(mContext, note, titleAndContent[0]);
     String text = titleAndContent[1].toString();
 
-    Intent snoozeIntent = new Intent(mContext, SnoozeActivity.class);
-    snoozeIntent.setAction(ACTION_SNOOZE);
-    snoozeIntent.putExtra(INTENT_NOTE, (android.os.Parcelable) note);
-    PendingIntent piSnooze = PendingIntent.getActivity(mContext, getUniqueRequestCode(note), snoozeIntent,
-        PendingIntent.FLAG_UPDATE_CURRENT);
-
-    Intent postponeIntent = new Intent(mContext, SnoozeActivity.class);
-    postponeIntent.setAction(ACTION_POSTPONE);
-    postponeIntent.putExtra(INTENT_NOTE, (android.os.Parcelable) note);
-    PendingIntent piPostpone = PendingIntent.getActivity(mContext, getUniqueRequestCode(note), postponeIntent,
-        PendingIntent.FLAG_UPDATE_CURRENT);
-
-    String snoozeDelay = mContext.getSharedPreferences(PREFS_NAME,
-        MODE_MULTI_PROCESS).getString("settings_notification_snooze_delay", "10");
-
-    // Next create the bundle and initialize it
-    Intent intent = new Intent(mContext, SnoozeActivity.class);
-    Bundle bundle = new Bundle();
-    bundle.putParcelable(INTENT_NOTE, note);
-    intent.putExtras(bundle);
-
-    // Sets the Activity to start in a new, empty task
-    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    // Workaround to fix problems with multiple notifications
-    intent.setAction(ACTION_NOTIFICATION_CLICK + System.currentTimeMillis());
-
-    // Creates the PendingIntent
-    PendingIntent notifyIntent = PendingIntent.getActivity(mContext, getUniqueRequestCode(note), intent,
-        PendingIntent.FLAG_UPDATE_CURRENT);
-
     NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
-    notificationsHelper.createNotification(NotificationChannelNames.REMINDERS,
-        R.drawable.ic_stat_notification, title, notifyIntent).setLedActive()
-                       .setMessage(text);
+    notificationsHelper.createStandardNotification(NotificationChannelNames.REMINDERS, R.drawable.ic_stat_notification,
+        title, notifyIntent).setLedActive().setMessage(text);
 
     List<Attachment> attachments = note.getAttachmentsList();
     if (!attachments.isEmpty() && !attachments.get(0).getMime_type().equals(MIME_TYPE_FILES)) {
@@ -121,6 +92,9 @@ public class AlarmReceiver extends BroadcastReceiver {
           128);
       notificationsHelper.setLargeIcon(notificationIcon);
     }
+
+    String snoozeDelay = mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(
+        "settings_notification_snooze_delay", "10");
 
     notificationsHelper.getBuilder()
                        .addAction(R.drawable.ic_material_reminder_time_light,
@@ -142,13 +116,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
   private void setVibrate (SharedPreferences prefs, NotificationsHelper notificationsHelper) {
-		if (prefs.getBoolean("settings_notification_vibration", true)) {
-			notificationsHelper.setVibration();
-		}
+    if (prefs.getBoolean("settings_notification_vibration", true)) {
+      notificationsHelper.setVibration();
+    }
   }
 
-
-  private int getUniqueRequestCode (Note note) {
-    return note.get_id().intValue();
-  }
 }

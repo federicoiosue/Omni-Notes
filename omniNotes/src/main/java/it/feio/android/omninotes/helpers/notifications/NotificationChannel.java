@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.utils.notifications;
+package it.feio.android.omninotes.helpers.notifications;
 
 public class NotificationChannel {
 

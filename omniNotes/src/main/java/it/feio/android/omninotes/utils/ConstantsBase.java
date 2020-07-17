@@ -61,6 +61,7 @@ public interface ConstantsBase {
   String ACTION_DISMISS = "action_dismiss";
   String ACTION_SNOOZE = "action_snooze";
   String ACTION_POSTPONE = "action_postpone";
+  String ACTION_PINNED = "action_pinned";
   String ACTION_SHORTCUT = "action_shortcut";
   String ACTION_WIDGET = "action_widget";
   String ACTION_WIDGET_TAKE_PHOTO = "action_widget_take_photo";

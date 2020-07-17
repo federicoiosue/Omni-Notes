@@ -34,7 +34,7 @@ import it.feio.android.analitica.MockAnalyticsHelper;
 import it.feio.android.analitica.exceptions.AnalyticsInstantiationException;
 import it.feio.android.analitica.exceptions.InvalidIdentifierException;
 import it.feio.android.omninotes.helpers.LanguageHelper;
-import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraHttpSender;

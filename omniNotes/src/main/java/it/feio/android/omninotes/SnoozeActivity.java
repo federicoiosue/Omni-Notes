@@ -20,6 +20,7 @@ package it.feio.android.omninotes;
 import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_DISMISS;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_PINNED;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_POSTPONE;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SNOOZE;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_KEY;
@@ -110,7 +111,10 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
       startActivity(intent);
       finish();
     }
-    removeNotification(note);
+
+    if (!ACTION_PINNED.equals(getIntent().getAction())) {
+      removeNotification(note);
+    }
   }
 
   private void postpone(SharedPreferences prefs, Long alarm, String recurrenceRule) {

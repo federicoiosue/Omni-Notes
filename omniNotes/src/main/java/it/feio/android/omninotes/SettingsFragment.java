@@ -75,7 +75,7 @@ import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.ResourcesUtils;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
-import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

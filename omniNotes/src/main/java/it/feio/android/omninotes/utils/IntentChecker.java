@@ -43,7 +43,7 @@ public class IntentChecker {
    * Checks intent and features availability
    */
   public static boolean isAvailable (Context ctx, Intent intent, String[] features) {
-    boolean res = getCompatiblePackages(ctx, intent).size() > 0;
+    boolean res = !getCompatiblePackages(ctx, intent).isEmpty();
 
     if (features != null) {
       for (String feature : features) {

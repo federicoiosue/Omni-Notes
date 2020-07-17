@@ -37,8 +37,8 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
-import it.feio.android.omninotes.utils.notifications.NotificationChannels.NotificationChannelNames;
-import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import java.io.File;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
@@ -188,7 +188,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         PendingIntent.FLAG_UPDATE_CURRENT);
 
     NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
-    notificationsHelper.createNotification(NotificationChannelNames.BACKUPS,
+    notificationsHelper.createStandardNotification(NotificationChannelNames.BACKUPS,
         R.drawable.ic_content_save_white_24dp, title, notifyIntent)
                         .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null))
                         .setLedActive();

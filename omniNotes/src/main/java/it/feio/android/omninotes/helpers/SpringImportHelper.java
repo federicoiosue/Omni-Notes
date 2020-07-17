@@ -33,8 +33,8 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
-import it.feio.android.omninotes.utils.notifications.NotificationChannels.NotificationChannelNames;
-import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.springpadimporter.Importer;
 import it.feio.android.springpadimporter.models.SpringpadAttachment;
 import it.feio.android.springpadimporter.models.SpringpadComment;
@@ -75,7 +75,7 @@ public class SpringImportHelper {
       updateImportNotification(importer, mNotificationsHelper);
     } catch (ImportException e) {
       new NotificationsHelper(context)
-          .createNotification(NotificationChannelNames.BACKUPS,
+          .createStandardNotification(NotificationChannelNames.BACKUPS,
               R.drawable.ic_emoticon_sad_white_24dp,
               context.getString(R.string.import_fail) + ": " + e.getMessage(), null).setLedActive().show();
       return;

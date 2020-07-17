@@ -32,7 +32,7 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TextHelper;
-import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
