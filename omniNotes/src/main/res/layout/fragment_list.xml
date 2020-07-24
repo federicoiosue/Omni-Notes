@@ -57,7 +57,7 @@
         </LinearLayout>
 
         <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
-            <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
+            <it.feio.android.omninotes.models.views.RecyclerViewEmptySupport
                     android:id="@+id/list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

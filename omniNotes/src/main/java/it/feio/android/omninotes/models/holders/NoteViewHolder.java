@@ -19,7 +19,9 @@ package it.feio.android.omninotes.models.holders;
 
 import android.view.View;
 import android.widget.ImageView;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.neopixl.pixlui.components.textview.TextView;
@@ -27,10 +29,11 @@ import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.views.SquareImageView;
 
 
-public class NoteViewHolder {
+public class NoteViewHolder extends ViewHolder {
 
-  public NoteViewHolder (View view) {
-    ButterKnife.bind(this, view);
+  public NoteViewHolder (@NonNull View itemView) {
+    super(itemView);
+    ButterKnife.bind(this, itemView);
   }
 
   @BindView(R.id.root)

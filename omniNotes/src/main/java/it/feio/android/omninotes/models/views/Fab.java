@@ -26,6 +26,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import androidx.core.view.ViewPropertyAnimatorListener;
+import androidx.recyclerview.widget.RecyclerView;
 import com.getbase.floatingactionbutton.AddFloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import it.feio.android.omninotes.OmniNotes;
@@ -39,14 +40,14 @@ public class Fab {
   private boolean fabAllowed;
   private boolean fabHidden;
   private boolean fabExpanded;
-  private final ListView listView;
+  private final RecyclerView listView;
   private boolean expandOnLongClick;
   private View overlay;
 
   OnFabItemClickedListener onFabItemClickedListener;
 
 
-  public Fab (View fabView, ListView listView, boolean expandOnLongClick) {
+  public Fab (View fabView, RecyclerView listView, boolean expandOnLongClick) {
     this.floatingActionsMenu = (FloatingActionsMenu) fabView;
     this.listView = listView;
     this.expandOnLongClick = expandOnLongClick;
@@ -74,7 +75,7 @@ public class Fab {
       }
       return true;
     });
-    listView.setOnScrollListener(
+    listView.addOnScrollListener(
         new AbsListViewScrollDetector() {
           public void onScrollUp () {
             if (floatingActionsMenu != null) {

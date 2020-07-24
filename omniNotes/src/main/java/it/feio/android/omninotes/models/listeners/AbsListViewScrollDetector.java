@@ -20,9 +20,11 @@ package it.feio.android.omninotes.models.listeners;
 import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.AbsListView;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 
 
-public abstract class AbsListViewScrollDetector implements AbsListView.OnScrollListener {
+public abstract class AbsListViewScrollDetector extends OnScrollListener {
 
   private int mLastScrollY;
   private int mPreviousFirstVisibleItem;
@@ -36,13 +38,12 @@ public abstract class AbsListViewScrollDetector implements AbsListView.OnScrollL
 
 
   @Override
-  public void onScrollStateChanged (AbsListView view, int scrollState) {
+  public void onScrollStateChanged (@NonNull RecyclerView recyclerView, int newState) {
   }
 
-
   @Override
-  public void onScroll (AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-    if (isSameRow(firstVisibleItem)) {
+  public void onScrolled (@NonNull RecyclerView recyclerView, int dx, int dy) {
+    if (isSameRow(dy)) {
       int newScrollY = getTopItemScrollY();
       boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
       if (isSignificantDelta) {
@@ -54,14 +55,14 @@ public abstract class AbsListViewScrollDetector implements AbsListView.OnScrollL
       }
       mLastScrollY = newScrollY;
     } else {
-      if (firstVisibleItem > mPreviousFirstVisibleItem) {
+      if (dy > mPreviousFirstVisibleItem) {
         onScrollUp();
       } else {
         onScrollDown();
       }
 
       mLastScrollY = getTopItemScrollY();
-      mPreviousFirstVisibleItem = firstVisibleItem;
+      mPreviousFirstVisibleItem = dy;
     }
   }
 

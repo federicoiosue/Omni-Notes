@@ -66,20 +66,19 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import androidx.annotation.NonNull;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.textview.TextView;
-import com.nhaarman.listviewanimations.itemmanipulation.DynamicListView;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -110,6 +109,7 @@ import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
 import it.feio.android.omninotes.models.views.Fab;
 import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
+import it.feio.android.omninotes.models.views.RecyclerViewEmptySupport;
 import it.feio.android.omninotes.utils.AnimationsHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.KeyboardUtils;
@@ -141,7 +141,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   @BindView(R.id.list_root)
   InterceptorLinearLayout listRoot;
   @BindView(R.id.list)
-  DynamicListView list;
+  RecyclerViewEmptySupport list;
   @BindView(R.id.search_layout)
   View searchLayout;
   @BindView(R.id.search_query)
@@ -157,7 +157,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   @BindView(R.id.undobar)
   View undoBarView;
   @BindView(R.id.progress_wheel)
-  ProgressWheel progress_wheel;
+  ProgressWheel progressWheel;
   @BindView(R.id.snackbar_placeholder)
   View snackBarPlaceholder;
 
@@ -231,6 +231,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
     View view = inflater.inflate(R.layout.fragment_list, container, false);
     ButterKnife.bind(this, view);
+
+    list.setHasFixedSize(true);
+    list.setLayoutManager(new LinearLayoutManager(getContext()));
+
+    RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
+    itemAnimator.setAddDuration(1000);
+    itemAnimator.setRemoveDuration(1000);
+    list.setItemAnimator(itemAnimator);
+
     return view;
   }
 
@@ -357,7 +366,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     closeFab();
     if (!keepActionMode) {
       commitPending();
-      list.clearChoices();
+//      list.clearChoices();
       if (getActionMode() != null) {
         getActionMode().finish();
       }
@@ -378,7 +387,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   private void refreshListScrollPosition () {
     if (list != null) {
-      listViewPosition = list.getFirstVisiblePosition();
+      listViewPosition = ((LinearLayoutManager)list.getLayoutManager()).findFirstVisibleItemPosition();
       View v = list.getChildAt(0);
       listViewPositionOffset = (v == null) ? (int) getResources().getDimension(R.dimen.vertical_margin) : v.getTop();
     }
@@ -419,16 +428,16 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       // deselected/unchecked.
       for (int i = 0; i < listAdapter.getSelectedItems().size(); i++) {
         int key = listAdapter.getSelectedItems().keyAt(i);
-        View v = list.getChildAt(key - list.getFirstVisiblePosition());
-        if (listAdapter.getCount() > key && listAdapter.getItem(key) != null && v != null) {
-          listAdapter.restoreDrawable(listAdapter.getItem(key), v.findViewById(R.id.card_layout));
-        }
+//        View v = list.getChildAt(key - list.getFirstVisiblePosition());
+//        if (listAdapter.getCount() > key && listAdapter.getItem(key) != null && v != null) {
+//          listAdapter.restoreDrawable(listAdapter.getItem(key), v.findViewById(R.id.card_layout));
+//        }
       }
 
-      // Clears data structures
       selectedNotes.clear();
       listAdapter.clearSelectedItems();
-      list.clearChoices();
+//      list.clearChoices();
+      listAdapter.notifyDataSetChanged();
 
       fab.setAllowed(isFabAllowed(true));
       if (undoNotesMap.size() == 0) {
@@ -500,11 +509,47 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Notes list initialization. Data, actions and callback are defined here.
    */
   private void initListView () {
-    list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-    list.setItemsCanFocus(false);
+//    list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+//    list.setItemsCanFocus(false);
+
+//    // Note long click to start CAB mode
+//    list.setOnItemLongClickListener((arg0, view, position, arg3) -> {
+//      if (getActionMode() != null) {
+//        return false;
+//      }
+//      // Start the CAB using the ActionMode.Callback defined above
+//      mainActivity.startSupportActionMode(new ModeCallback());
+//      toggleListViewItem(view, position);
+//      setCabTitle();
+//      return true;
+//    });
+//
+//    // Note single click listener managed by the activity itself
+//    list.setOnItemClickListener((arg0, view, position, arg3) -> {
+//      if (getActionMode() == null) {
+//        editNote(listAdapter.getItem(position), view);
+//        return;
+//      }
+//      // If in CAB mode
+//      toggleListViewItem(view, position);
+//      setCabTitle();
+//    });
 
     // Note long click to start CAB mode
-    list.setOnItemLongClickListener((arg0, view, position, arg3) -> {
+    RecyclerViewItemClickSupport.addTo(list)
+                                // Note single click listener managed by the activity itself
+                                .setOnItemClickListener((recyclerView, position, view) -> {
+                                  if (getActionMode() == null) {
+                                    editNote(listAdapter.getItem(position), view);
+                                    return;
+                                  }
+                                  // If in CAB mode
+                                  toggleListViewItem(view, position);
+                                  setCabTitle();
+                                }).setOnItemLongClickListener((recyclerView, position, view) -> {
+      //        if (view.equals(listFooter)) {
+      //          return false;
+      //        }
       if (getActionMode() != null) {
         return false;
       }
@@ -513,17 +558,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       toggleListViewItem(view, position);
       setCabTitle();
       return true;
-    });
-
-    // Note single click listener managed by the activity itself
-    list.setOnItemClickListener((arg0, view, position, arg3) -> {
-      if (getActionMode() == null) {
-        editNote(listAdapter.getItem(position), view);
-        return;
-      }
-      // If in CAB mode
-      toggleListViewItem(view, position);
-      setCabTitle();
     });
 
     listRoot.setOnViewTouchedListener(this);
@@ -980,10 +1014,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         break;
 
       case REQUEST_CODE_ADD_ALARMS:
-        list.clearChoices();
         selectedNotes.clear();
         finishActionMode();
-        list.invalidateViews();
         break;
 
       default:
@@ -1019,25 +1051,21 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     new MaterialDialog.Builder(mainActivity)
         .content(R.string.empty_trash_confirmation)
         .positiveText(R.string.ok)
-        .onPositive(new MaterialDialog.SingleButtonCallback() {
-          @Override
-          public void onClick (
-              @NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-            boolean mustDeleteLockedNotes = false;
-            for (int i = 0; i < listAdapter.getCount(); i++) {
-              selectedNotes.add(listAdapter.getItem(i));
-              mustDeleteLockedNotes = mustDeleteLockedNotes || listAdapter.getItem(i).isLocked();
-            }
-            if (mustDeleteLockedNotes) {
-              mainActivity.requestPassword(mainActivity, getSelectedNotes(),
-                  passwordConfirmed -> {
-                    if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
-                      deleteNotesExecute();
-                    }
-                  });
-            } else {
-              deleteNotesExecute();
-            }
+        .onPositive((dialog, which) -> {
+          boolean mustDeleteLockedNotes = false;
+          for (int i = 0; i < listAdapter.getItemCount(); i++) {
+            selectedNotes.add(listAdapter.getItem(i));
+            mustDeleteLockedNotes = mustDeleteLockedNotes || listAdapter.getItem(i).isLocked();
+          }
+          if (mustDeleteLockedNotes) {
+            mainActivity.requestPassword(mainActivity, getSelectedNotes(),
+                passwordConfirmed -> {
+                  if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
+                    deleteNotesExecute();
+                  }
+                });
+          } else {
+            deleteNotesExecute();
           }
         }).build().show();
   }
@@ -1051,7 +1079,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   void initNotesList (Intent intent) {
     LogDelegate.d("initNotesList intent: " + intent.getAction());
 
-    progress_wheel.setAlpha(1);
+    progressWheel.setAlpha(1);
     list.setAlpha(0);
 
     // Search for a tag
@@ -1174,62 +1202,62 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     noteViewHolder = new NoteViewHolder(noteLayout);
 
     if (Navigation.getNavigation() != Navigation.UNCATEGORIZED && prefs.getBoolean(PREF_ENABLE_SWIPE, true)) {
-      list.enableSwipeToDismiss((viewGroup, reverseSortedPositions) -> {
-
-        // Avoids conflicts with action mode
-        finishActionMode();
-
-        for (int position : reverseSortedPositions) {
-          Note note;
-          try {
-            note = listAdapter.getItem(position);
-          } catch (IndexOutOfBoundsException e) {
-            LogDelegate.d("Please stop swiping in the zone beneath the last card");
-            continue;
-          }
-
-          if (note != null && note.isLocked()) {
-            PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
-              if (!passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
-                onUndo(null);
-              }
-            });
-          }
-
-          getSelectedNotes().add(note);
-
-          // Depending on settings and note status this action will...
-          // ...restore
-          if (Navigation.checkNavigation(Navigation.TRASH)) {
-            trashNotes(false);
-          }
-          // ...removes category
-          else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
-            categorizeNotesExecute(null);
-          } else {
-            // ...trash
-            if (prefs.getBoolean("settings_swipe_to_trash", false)
-                || Navigation.checkNavigation(Navigation.ARCHIVE)) {
-              trashNotes(true);
-              // ...archive
-            } else {
-              archiveNotes(true);
-            }
-          }
-        }
-      });
+//      list.enableSwipeToDismiss((viewGroup, reverseSortedPositions) -> {
+//
+//        // Avoids conflicts with action mode
+//        finishActionMode();
+//
+//        for (int position : reverseSortedPositions) {
+//          Note note;
+//          try {
+//            note = listAdapter.getItem(position);
+//          } catch (IndexOutOfBoundsException e) {
+//            LogDelegate.d("Please stop swiping in the zone beneath the last card");
+//            continue;
+//          }
+//
+//          if (note != null && note.isLocked()) {
+//            PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
+//              if (!passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
+//                onUndo(null);
+//              }
+//            });
+//          }
+//
+//          getSelectedNotes().add(note);
+//
+//          // Depending on settings and note status this action will...
+//          // ...restore
+//          if (Navigation.checkNavigation(Navigation.TRASH)) {
+//            trashNotes(false);
+//          }
+//          // ...removes category
+//          else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
+//            categorizeNotesExecute(null);
+//          } else {
+//            // ...trash
+//            if (prefs.getBoolean("settings_swipe_to_trash", false)
+//                || Navigation.checkNavigation(Navigation.ARCHIVE)) {
+//              trashNotes(true);
+//              // ...archive
+//            } else {
+//              archiveNotes(true);
+//            }
+//          }
+//        }
+//      });
     } else {
-      list.disableSwipeToDismiss();
+//      list.disableSwipeToDismiss();
     }
     list.setAdapter(listAdapter);
 
     // Replace listview with Mr. Jingles if it is empty
-    if (notesLoadedEvent.notes.size() == 0) {
+    if (notesLoadedEvent.notes.isEmpty()) {
       list.setEmptyView(empyListItem);
     }
 
     // Restores listview position when turning back to list or when navigating reminders
-    if (list != null && notesLoadedEvent.notes.size() > 0) {
+    if (!notesLoadedEvent.notes.isEmpty()) {
       if (Navigation.checkNavigation(Navigation.REMINDERS)) {
         listViewPosition = listAdapter.getClosestNotePosition();
       }
@@ -1247,21 +1275,21 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   private void animateListView () {
     if (!OmniNotes.isDebugBuild()) {
-      animate(progress_wheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
+      animate(progressWheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
       animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
     } else {
-      progress_wheel.setVisibility(View.INVISIBLE);
+      progressWheel.setVisibility(View.INVISIBLE);
       list.setAlpha(1);
     }
   }
 
 
-  private void restoreListScrollPosition () {
-    if (list.getCount() > listViewPosition) {
-      list.setSelectionFromTop(listViewPosition, listViewPositionOffset);
+  private void restoreListScrollPosition() {
+    if (listAdapter.getItemCount() > listViewPosition) {
+      list.getLayoutManager().scrollToPosition(listViewPosition);
       new Handler().postDelayed(fab::showFab, 150);
     } else {
-      list.setSelectionFromTop(0, 0);
+      list.getLayoutManager().scrollToPosition(0);
     }
   }
 
@@ -1284,7 +1312,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
 
     // If list is empty again Mr Jingles will appear again
-    if (listAdapter.getCount() == 0) {
+    if (listAdapter.getItemCount() == 0) {
       list.setEmptyView(empyListItem);
     }
 
@@ -1337,7 +1365,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
     }
     selectedNotes.clear();
-    for (int i = 0; i < listAdapter.getCount(); i++) {
+    for (int i = 0; i < listAdapter.getItemCount(); i++) {
       selectedNotes.add(listAdapter.getItem(i));
       listAdapter.addSelectedItem(i);
     }
@@ -1370,11 +1398,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   private void deleteNotesExecute () {
     listAdapter.remove(getSelectedNotes());
     new NoteProcessorDelete(getSelectedNotes()).process();
-    list.clearChoices();
+//    list.clearChoices();
     selectedNotes.clear();
     finishActionMode();
     // If list is empty again Mr Jingles will appear again
-    if (listAdapter.getCount() == 0) {
+    if (listAdapter.getItemCount() == 0) {
       list.setEmptyView(empyListItem);
     }
     mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
@@ -1418,7 +1446,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     finishActionMode();
 
     // If list is empty again Mr Jingles will appear again
-    if (listAdapter.getCount() == 0) {
+    if (listAdapter.getItemCount() == 0) {
       list.setEmptyView(empyListItem);
     }
 
@@ -1524,7 +1552,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     finishActionMode();
 
     // If list is empty again Mr Jingles will appear again
-    if (listAdapter.getCount() == 0) {
+    if (listAdapter.getItemCount() == 0) {
       list.setEmptyView(empyListItem);
     }
 
@@ -1591,13 +1619,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
 
     // Clears data structures
-    list.clearChoices();
+//    list.clearChoices();
 
     // Refreshes list
-    list.invalidateViews();
+//    list.invalidateViews();
 
     // If list is empty again Mr Jingles will appear again
-    if (listAdapter.getCount() == 0) {
+    if (listAdapter.getItemCount() == 0) {
       list.setEmptyView(empyListItem);
     }
 
@@ -1659,7 +1687,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         listAdapter.replace(currentNote, listAdapter.getPosition(currentNote));
         // Manages trash undo
       } else {
-        list.insert(notePosition, currentNote);
+        listAdapter.add(notePosition, currentNote);
       }
     }
 
@@ -1707,7 +1735,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       undoNotesMap.clear();
       undoCategoryMap.clear();
       undoArchivedMap.clear();
-      list.clearChoices();
+//      list.clearChoices();
 
       ubc.hideUndoBar(false);
       fab.showFab();

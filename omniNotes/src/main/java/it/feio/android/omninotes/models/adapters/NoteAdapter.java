@@ -26,16 +26,15 @@ import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
-import androidx.annotation.NonNull;
 import android.text.Spanned;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.nhaarman.listviewanimations.util.Insertable;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.TextWorkerTask;
 import it.feio.android.omninotes.helpers.LogDelegate;
@@ -50,49 +49,23 @@ import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
 
-public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
+public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
   private final Activity mActivity;
   private final int navigation;
   private List<Note> notes;
   private SparseBooleanArray selectedItems = new SparseBooleanArray();
   private boolean expandedView;
-  private int layout;
-  private LayoutInflater inflater;
   private long closestNoteReminder = Long.parseLong(TIMESTAMP_UNIX_EPOCH_FAR);
   private int closestNotePosition;
 
 
   public NoteAdapter (Activity activity, int layout, List<Note> notes) {
-    super(activity, R.layout.note_layout_expanded, notes);
-    mActivity = activity;
+    this.mActivity = activity;
     this.notes = notes;
-    this.layout = layout;
-
     expandedView = layout == R.layout.note_layout_expanded;
-    inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     navigation = Navigation.getNavigation();
     manageCloserNote(notes, navigation);
-  }
-
-
-  @Override
-  public View getView (int position, View convertView, ViewGroup parent) {
-    Note note = notes.get(position);
-    NoteViewHolder holder;
-    if (convertView == null) {
-      convertView = inflater.inflate(layout, parent, false);
-      holder = new NoteViewHolder(convertView);
-      convertView.setTag(holder);
-    } else {
-      holder = (NoteViewHolder) convertView.getTag();
-    }
-    initText(note, holder);
-    initIcons(note, holder);
-    initDates(note, holder);
-    initThumbnail(note, holder);
-    manageSelectionColor(position, note, holder);
-    return convertView;
   }
 
 
@@ -101,8 +74,7 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
    */
   private void manageSelectionColor (int position, Note note, NoteViewHolder holder) {
     if (selectedItems.get(position)) {
-      holder.cardLayout.setBackgroundColor(mActivity.getResources().getColor(
-          R.color.list_bg_selected));
+      holder.cardLayout.setBackgroundColor(mActivity.getResources().getColor(R.color.list_bg_selected));
     } else {
       restoreDrawable(note, holder.cardLayout, holder);
     }
@@ -282,25 +254,19 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
     }
   }
 
-
-  /**
-   * Replaces notes
-   */
-  public void replace (Note note, int index) {
+  public void replace (@NonNull Note note, int index) {
     if (notes.indexOf(note) != -1) {
-      notes.remove(index);
+      remove(note);
     } else {
       index = notes.size();
     }
-    notes.add(index, note);
+    add(index, note);
   }
 
-
-  @Override
-  public void add (int i, @NonNull Object o) {
-    insert((Note) o, i);
+  public void add (int index, @NonNull Object o) {
+    notes.add(index, (Note) o);
+    notifyItemInserted(index);
   }
-
 
   public void remove (List<Note> notes) {
     for (Note note : notes) {
@@ -308,7 +274,47 @@ public class NoteAdapter extends ArrayAdapter<Note> implements Insertable {
     }
   }
 
+  public void remove (@NonNull Note note) {
+    int pos = getPosition(note);
+    if (pos >= 0) {
+      notes.remove(note);
+      notifyItemRemoved(pos);
+    }
+  }
+
+  public int getPosition (@NonNull Note note) {
+    return notes.indexOf(note);
+  }
+
+  public Note getItem (int index) {
+    return notes.get(index);
+  }
+
+  @Override
+  public long getItemId (int position) {
+    return position;
+  }
+
+  @NonNull
+  @Override
+  public NoteViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType) {
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_layout_expanded, parent, false);
+    return new NoteViewHolder(view);
+  }
+
+  @Override
+  public void onBindViewHolder (@NonNull NoteViewHolder holder, int position) {
+    Note note = notes.get(position);
+    initText(note, holder);
+    initIcons(note, holder);
+    initDates(note, holder);
+    initThumbnail(note, holder);
+    manageSelectionColor(position, note, holder);
+  }
+
+  @Override
+  public int getItemCount () {
+    return this.notes.size();
+  }
+
 }
-
-
-
