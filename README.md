@@ -156,7 +156,6 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 * https://github.com/greenrobot/EventBus
 * https://github.com/futuresimple/android-floating-action-button
 * https://github.com/keyboardsurfer
-* https://github.com/nhaarman/ListViewAnimations
 * https://github.com/bumptech/glide
 * https://github.com/neopixl/PixlUI
 * https://github.com/afollestad/material-dialogs

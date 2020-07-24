@@ -66,6 +66,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import androidx.annotation.NonNull;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
@@ -73,6 +74,7 @@ import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -509,32 +511,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Notes list initialization. Data, actions and callback are defined here.
    */
   private void initListView () {
-//    list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-//    list.setItemsCanFocus(false);
-
-//    // Note long click to start CAB mode
-//    list.setOnItemLongClickListener((arg0, view, position, arg3) -> {
-//      if (getActionMode() != null) {
-//        return false;
-//      }
-//      // Start the CAB using the ActionMode.Callback defined above
-//      mainActivity.startSupportActionMode(new ModeCallback());
-//      toggleListViewItem(view, position);
-//      setCabTitle();
-//      return true;
-//    });
-//
-//    // Note single click listener managed by the activity itself
-//    list.setOnItemClickListener((arg0, view, position, arg3) -> {
-//      if (getActionMode() == null) {
-//        editNote(listAdapter.getItem(position), view);
-//        return;
-//      }
-//      // If in CAB mode
-//      toggleListViewItem(view, position);
-//      setCabTitle();
-//    });
-
     // Note long click to start CAB mode
     RecyclerViewItemClickSupport.addTo(list)
                                 // Note single click listener managed by the activity itself
@@ -547,9 +523,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
                                   toggleListViewItem(view, position);
                                   setCabTitle();
                                 }).setOnItemLongClickListener((recyclerView, position, view) -> {
-      //        if (view.equals(listFooter)) {
-      //          return false;
-      //        }
       if (getActionMode() != null) {
         return false;
       }
@@ -1201,54 +1174,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     View noteLayout = LayoutInflater.from(mainActivity).inflate(layoutSelected, null, false);
     noteViewHolder = new NoteViewHolder(noteLayout);
 
-    if (Navigation.getNavigation() != Navigation.UNCATEGORIZED && prefs.getBoolean(PREF_ENABLE_SWIPE, true)) {
-//      list.enableSwipeToDismiss((viewGroup, reverseSortedPositions) -> {
-//
-//        // Avoids conflicts with action mode
-//        finishActionMode();
-//
-//        for (int position : reverseSortedPositions) {
-//          Note note;
-//          try {
-//            note = listAdapter.getItem(position);
-//          } catch (IndexOutOfBoundsException e) {
-//            LogDelegate.d("Please stop swiping in the zone beneath the last card");
-//            continue;
-//          }
-//
-//          if (note != null && note.isLocked()) {
-//            PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
-//              if (!passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
-//                onUndo(null);
-//              }
-//            });
-//          }
-//
-//          getSelectedNotes().add(note);
-//
-//          // Depending on settings and note status this action will...
-//          // ...restore
-//          if (Navigation.checkNavigation(Navigation.TRASH)) {
-//            trashNotes(false);
-//          }
-//          // ...removes category
-//          else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
-//            categorizeNotesExecute(null);
-//          } else {
-//            // ...trash
-//            if (prefs.getBoolean("settings_swipe_to_trash", false)
-//                || Navigation.checkNavigation(Navigation.ARCHIVE)) {
-//              trashNotes(true);
-//              // ...archive
-//            } else {
-//              archiveNotes(true);
-//            }
-//          }
-//        }
-//      });
-    } else {
-//      list.disableSwipeToDismiss();
-    }
+    initSwipeGesture();
+
     list.setAdapter(listAdapter);
 
     // Replace listview with Mr. Jingles if it is empty
@@ -1267,6 +1194,69 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     animateListView();
 
     closeFab();
+  }
+
+  private void initSwipeGesture () {
+      ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0,
+          ItemTouchHelper.LEFT|ItemTouchHelper.RIGHT) {
+
+        @Override
+        public boolean onMove (@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder,
+            @NonNull RecyclerView.ViewHolder target) {
+          return false;
+        }
+
+        @Override
+        public void onSwiped (RecyclerView.ViewHolder viewHolder, int swipeDir) {
+          int swipedPosition = viewHolder.getAdapterPosition();
+
+          // Avoids conflicts with action mode
+          finishActionMode();
+
+          Note note = null;
+          try {
+            note = listAdapter.getItem(swipedPosition);
+          } catch (IndexOutOfBoundsException e) {
+            LogDelegate.d("Please stop swiping in the zone beneath the last card");
+          }
+
+          if (note != null && note.isLocked()) {
+            PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
+              if (!passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
+                onUndo(null);
+              }
+            });
+          }
+
+          getSelectedNotes().add(note);
+
+          // Depending on settings and note status this action will...
+          // ...restore
+          if (Navigation.checkNavigation(Navigation.TRASH)) {
+            trashNotes(false);
+          }
+          // ...removes category
+          else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
+            categorizeNotesExecute(null);
+          } else {
+            // ...trash
+            if (prefs.getBoolean("settings_swipe_to_trash", false)
+                || Navigation.checkNavigation(Navigation.ARCHIVE)) {
+              trashNotes(true);
+              // ...archive
+            } else {
+              archiveNotes(true);
+            }
+          }
+        }
+      };
+      ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+
+    if (Navigation.getNavigation() != Navigation.UNCATEGORIZED && prefs.getBoolean(PREF_ENABLE_SWIPE, true)) {
+      itemTouchHelper.attachToRecyclerView(list);
+    } else {
+      itemTouchHelper.attachToRecyclerView(null);
+    }
   }
 
   public void onEvent (PasswordRemovedEvent passwordRemovedEvent) {
