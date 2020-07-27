@@ -18,20 +18,17 @@ package it.feio.android.omninotes;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
-import static android.content.Context.MODE_MULTI_PROCESS;
 import static androidx.core.view.ViewCompat.animate;
 import static it.feio.android.omninotes.BaseActivity.TRANSITION_HORIZONTAL;
 import static it.feio.android.omninotes.BaseActivity.TRANSITION_VERTICAL;
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.MainActivity.FRAGMENT_DETAIL_TAG;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_DISMISS;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_MERGE;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_PINNED;
-import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_POSTPONE;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
-import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SNOOZE;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_SHOW_LIST;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
@@ -87,7 +84,6 @@ import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -116,7 +112,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
@@ -149,6 +144,8 @@ import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
@@ -157,11 +154,11 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.CategoryRecyclerViewAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
-import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
+import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.BitmapHelper;
@@ -180,8 +177,6 @@ import it.feio.android.omninotes.utils.TagsHelper;
 import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
-import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
-import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.pixlui.links.TextLinkClickListener;
 import java.io.File;
 import java.io.IOException;
@@ -543,18 +538,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       //  with tags to set tag
       if (i.hasExtra(INTENT_WIDGET)) {
         String widgetId = i.getExtras().get(INTENT_WIDGET).toString();
-        if (widgetId != null) {
-          String sqlCondition = prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
-          String categoryId = TextHelper.checkIntentCategory(sqlCondition);
-          if (categoryId != null) {
-            Category category;
-            try {
-              category = DbHelper.getInstance().getCategory(parseLong(categoryId));
-              noteTmp = new Note();
-              noteTmp.setCategory(category);
-            } catch (NumberFormatException e) {
-              LogDelegate.e("Category with not-numeric value!", e);
-            }
+        String sqlCondition = prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
+        String categoryId = TextHelper.checkIntentCategory(sqlCondition);
+        if (categoryId != null) {
+          Category category;
+          try {
+            category = DbHelper.getInstance().getCategory(parseLong(categoryId));
+            noteTmp = new Note();
+            noteTmp.setCategory(category);
+          } catch (NumberFormatException e) {
+            LogDelegate.e("Category with not-numeric value!", e);
           }
         }
       }
@@ -725,13 +718,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       MaterialDialog.Builder builder = new MaterialDialog.Builder(mainActivity);
       builder.content(R.string.remove_location);
       builder.positiveText(R.string.ok);
-      builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-        @Override
-        public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-          noteTmp.setLatitude("");
-          noteTmp.setLongitude("");
-          fade(locationTextView, false);
-        }
+      builder.onPositive((dialog, which) -> {
+        noteTmp.setLatitude("");
+        noteTmp.setLongitude("");
+        fade(locationTextView, false);
       });
       MaterialDialog dialog = builder.build();
       dialog.show();
@@ -1065,7 +1055,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
 
       // Otherwise the result is passed to ListActivity
-      if (mainActivity != null && mainActivity.getSupportFragmentManager() != null) {
+      if (mainActivity != null) {
+        mainActivity.getSupportFragmentManager();
         mainActivity.getSupportFragmentManager().popBackStack();
         if (mainActivity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
           mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -1192,15 +1183,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     new MaterialDialog.Builder(mainActivity)
         .customView(layout, false)
         .positiveText(R.string.ok)
-        .onPositive(new MaterialDialog.SingleButtonCallback() {
-          @Override
-          public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-            prefs.edit()
-                 .putBoolean(PREF_KEEP_CHECKED, keepChecked.isChecked())
-                 .putBoolean(PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
-                 .apply();
-            toggleChecklist2();
-          }
+        .onPositive((dialog, which) -> {
+          prefs.edit()
+               .putBoolean(PREF_KEEP_CHECKED, keepChecked.isChecked())
+               .putBoolean(PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
+               .apply();
+          toggleChecklist2();
         }).build().show();
   }
 
@@ -1218,7 +1206,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     // Get instance and set options to convert EditText to CheckListView
 
     mChecklistManager = mChecklistManager == null ? new ChecklistManager(mainActivity) : mChecklistManager;
-    int checkedItemsBehavior = Integer.valueOf(prefs.getString("settings_checked_items_behavior", String.valueOf
+    int checkedItemsBehavior = Integer.parseInt(prefs.getString("settings_checked_items_behavior", String.valueOf
         (it.feio.android.checklistview.Settings.CHECKED_HOLD)));
     mChecklistManager
         .showCheckMarks(showChecks)
@@ -1393,7 +1381,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
     mSketchFragment.setArguments(b);
     transaction.replace(R.id.fragment_container, mSketchFragment, mainActivity.FRAGMENT_SKETCH_TAG)
-               .addToBackStack(mainActivity.FRAGMENT_DETAIL_TAG).commit();
+               .addToBackStack(FRAGMENT_DETAIL_TAG).commit();
   }
 
   private void addTimestamp () {
@@ -1465,7 +1453,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   private void onActivityResultManageReceivedFiles (Intent intent) {
     List<Uri> uris = new ArrayList<>();
-    if (Build.VERSION.SDK_INT > 16 && intent.getClipData() != null) {
+    if (intent.getClipData() != null) {
       for (int i = 0; i < intent.getClipData().getItemCount(); i++) {
         uris.add(intent.getClipData().getItemAt(i).getUri());
       }
@@ -1577,7 +1565,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     // Check if some text or attachments of any type have been inserted or is an empty note
     if (goBack && TextUtils.isEmpty(noteTmp.getTitle()) && TextUtils.isEmpty(noteTmp.getContent())
-        && noteTmp.getAttachmentsList().size() == 0) {
+        && noteTmp.getAttachmentsList().isEmpty()) {
       LogDelegate.d("Empty note not saved");
       exitMessage = getString(R.string.empty_note_not_saved);
       exitCroutonStyle = ONStyle.INFO;
@@ -1978,9 +1966,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
             Bundle b = new Bundle();
             b.putParcelable(INTENT_NOTE, new Note());
             mDetailFragment.setArguments(b);
-            transaction.replace(R.id.fragment_container, mDetailFragment,
-                mainActivity.FRAGMENT_DETAIL_TAG).addToBackStack(mainActivity
-                .FRAGMENT_DETAIL_TAG).commit();
+            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(
+                FRAGMENT_DETAIL_TAG).commit();
           }
         }
         break;

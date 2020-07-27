@@ -1581,7 +1581,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     final List<Tag> tags = DbHelper.getInstance().getTags();
 
     // If there is no tag a message will be shown
-    if (tags.size() == 0) {
+    if (tags.isEmpty()) {
       finishActionMode();
       mainActivity.showMessage(R.string.no_tags_created, ONStyle.WARN);
       return;
@@ -1602,17 +1602,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   private void tagNotesExecute (List<Tag> tags, Integer[] selectedTags, Integer[] preSelectedTags) {
-
-    // Retrieves selected tags
     for (Note note : getSelectedNotes()) {
       tagNote(tags, selectedTags, note);
     }
-
-    // Clears data structures
-//    list.clearChoices();
-
-    // Refreshes list
-//    list.invalidateViews();
 
     // If list is empty again Mr Jingles will appear again
     if (listAdapter.getItemCount() == 0) {
