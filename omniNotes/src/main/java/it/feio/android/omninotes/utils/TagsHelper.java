@@ -26,8 +26,11 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.pixlui.links.UrlCompleter;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.function.Consumer;
 import org.apache.commons.lang3.StringUtils;
 import rx.Observable;
 
@@ -123,28 +126,24 @@ public class TagsHelper {
 
 
   public static Integer[] getPreselectedTagsArray (Note note, List<Tag> tags) {
-    List<Note> notes = new ArrayList<>();
-    notes.add(note);
-    return getPreselectedTagsArray(notes, tags);
+    List<Integer> t = new ArrayList<>();
+    for (String noteTag : TagsHelper.retrieveTags(note).keySet()) {
+      for (Tag tag : tags) {
+        if (tag.getText().equals(noteTag)) {
+          t.add(tags.indexOf(tag));
+          break;
+        }
+      }
+    }
+    return t.toArray(new Integer[]{});
   }
 
 
   public static Integer[] getPreselectedTagsArray (List<Note> notes, List<Tag> tags) {
-    final Integer[] preSelectedTags;
-    if (notes.size() == 1) {
-      List<Integer> t = new ArrayList<>();
-      for (String noteTag : TagsHelper.retrieveTags(notes.get(0)).keySet()) {
-        for (Tag tag : tags) {
-          if (tag.getText().equals(noteTag)) {
-            t.add(tags.indexOf(tag));
-            break;
-          }
-        }
-      }
-      preSelectedTags = t.toArray(new Integer[t.size()]);
-    } else {
-      preSelectedTags = new Integer[]{};
+    HashSet<Integer> set = new HashSet<>();
+    for (Note note : notes) {
+      set.addAll(Arrays.asList(getPreselectedTagsArray(note, tags)));
     }
-    return preSelectedTags;
+    return set.toArray(new Integer[]{});
   }
 }
