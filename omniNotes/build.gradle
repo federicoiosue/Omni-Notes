@@ -137,8 +137,8 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
 
-    compileOnly "org.projectlombok:lombok:1.18.10"
-    annotationProcessor 'org.projectlombok:lombok:1.18.10'
+    compileOnly "org.projectlombok:lombok:1.18.12"
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
     implementation 'com.larswerkman:HoloColorPicker:1.4'
     implementation 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
@@ -184,6 +184,7 @@ dependencies {
     implementation 'org.ocpsoft.prettytime:prettytime:3.2.7.Final'
     implementation 'org.bitbucket.cowwoc:diff-match-patch:1.1'
     implementation 'com.github.bosphere.android-filelogger:filelogger:1.0.7'
+    implementation 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
 
     implementation('com.github.federicoiosue:simplegallery:3.0.1') {
         exclude group: 'com.android.support'
@@ -192,7 +193,7 @@ dependencies {
     implementation ('com.github.federicoiosue:Omni-Notes-Commons:1.2.0') {
         exclude group: 'org.projectlombok'
     }
-    implementation ('com.github.federicoiosue:checklistview:3.2.1') {
+    implementation ('com.github.federicoiosue:checklistview:4.0.0') {
         transitive=false
     }
     implementation 'com.github.federicoiosue:pixlui:3.0.0'
