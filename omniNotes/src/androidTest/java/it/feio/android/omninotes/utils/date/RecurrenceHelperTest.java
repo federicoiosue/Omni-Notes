@@ -19,7 +19,6 @@ package it.feio.android.omninotes.utils.date;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
-import java.util.Calendar;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +32,7 @@ public class RecurrenceHelperTest {
     String rrule = "FREQ=WEEKLY;WKST=MO;BYDAY=MO,TU,TH";
     String alarmText = RecurrenceHelper.getNoteRecurrentReminderText(reminder, rrule);
 
-    Assert.assertEquals("Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 2019 3:17 PM", alarmText);
+    Assert.assertTrue(alarmText.matches("Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 2019 [2|3]:17 PM"));
   }
 
 }
