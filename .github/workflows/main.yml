@@ -5,8 +5,7 @@ on:
 jobs:
   build-and-test:
     name: Build and run tests
-    # runs-on: ubuntu-latest
-    runs-on: macos-latest # Switched to macOS
+    runs-on: macos-latest
     steps:
       - name: Checkout current develop branch
         uses: actions/checkout@v1
@@ -19,10 +18,10 @@ jobs:
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: 28
           arch: x86
           profile: Nexus 6
           avd-name: test
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back none
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           disable-animations: true
           script: ./gradlew connectedPlayDebugAndroidTest connectedFossDebugAndroidTest
