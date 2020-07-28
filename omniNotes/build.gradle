@@ -136,6 +136,11 @@ dependencies {
     androidTestImplementation ('androidx.test.espresso:espresso-intents:3.2.0') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
+    androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2') {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+    }
 
     compileOnly "org.projectlombok:lombok:1.18.12"
     annotationProcessor 'org.projectlombok:lombok:1.18.12'

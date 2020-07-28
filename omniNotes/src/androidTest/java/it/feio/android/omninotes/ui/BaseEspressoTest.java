@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import androidx.core.view.GravityCompat;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.rule.ActivityTestRule;
 import it.feio.android.omninotes.BaseAndroidTestCase;
@@ -112,12 +113,7 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
   }
 
   void selectNoteInList (int number) {
-    onData(anything())
-        .inAdapterView(allOf(withId(R.id.list),
-            childAtPosition(
-                withClassName(is("android.widget.FrameLayout")),
-                0)))
-        .atPosition(number).perform(click());
+    onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition(number, click()));
   }
 
   void navigateUp () {
