@@ -25,5 +25,6 @@ public interface Constants extends ConstantsBase {
 
   String CHANNEL_BACKUPS_ID = PACKAGE + ".backups";
   String CHANNEL_REMINDERS_ID = PACKAGE + ".reminders";
+  String CHANNEL_PINNED_ID = PACKAGE + ".pinned";
 
 }
