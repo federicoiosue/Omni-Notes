@@ -26,7 +26,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-//@Ignore("grpc failed error on emulator. Not reliable.")
+@Ignore("grpc failed error on emulator. Not reliable.")
 @RunWith(AndroidJUnit4.class)
 public class GeocodeHelperTest extends BaseAndroidTestCase {
 
