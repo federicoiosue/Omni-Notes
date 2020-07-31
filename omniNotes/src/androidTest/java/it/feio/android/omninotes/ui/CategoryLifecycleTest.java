@@ -101,8 +101,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
   }
 
   @Test
-  @FlakyTest(detail = "NoMatchingViewException: No views in hierarchy found matching: (with id: it.feio.android.omninotes:id/md_buttonDefaultPositive and with string from resource id: <2131820573> and is displayed on the screen to the user)\n"
-      + "\tIf the target view is not part of the view hierarchy, you may need to use Espresso.onData to load it from one of the following AdapterViews:it.feio.android.omninotes.models.views.NonScrollableListView{e62329c VFED.VC.. ......ID 0,455-1120,623 #7f0900b1 app:id/drawer_nav_list}")
+  @FlakyTest(detail = "Fixme with Idling Resources or BusyBee") // FIXME
   public void checkCategoryCreation () throws InterruptedException {
 
     addNewCategory();
@@ -162,6 +161,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
   }
 
   @Test
+  @FlakyTest(detail = "Fixme with Idling Resources or BusyBee") // FIXME
   public void categoryDeletion () throws InterruptedException {
 
     addNewCategory();

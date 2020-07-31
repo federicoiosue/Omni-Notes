@@ -18,15 +18,15 @@
 package it.feio.android.omninotes.utils;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.FlakyTest;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.OmniNotes;
 import java.io.IOException;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@Ignore("grpc failed error on emulator. Not reliable.")
+@FlakyTest(detail = "'Grpc failed' error on emulator. Not reliable")
 @RunWith(AndroidJUnit4.class)
 public class GeocodeHelperTest extends BaseAndroidTestCase {
 

@@ -24,4 +24,4 @@ jobs:
           avd-name: test
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           disable-animations: true
-          script: ./gradlew connectedPlayDebugAndroidTest connectedFossDebugAndroidTest
+          script: ./gradlew -Pandroid.testInstrumentationRunnerArguments.notAnnotation=androidx.test.filters.FlakyTest connectedPlayDebugAndroidTest connectedFossDebugAndroidTest
