@@ -18,32 +18,37 @@
 package it.feio.android.omninotes.ui;
 
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import androidx.core.view.GravityCompat;
+import androidx.test.espresso.PerformException;
+import androidx.test.espresso.UiController;
+import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.espresso.util.HumanReadables;
+import androidx.test.espresso.util.TreeIterables;
 import androidx.test.rule.ActivityTestRule;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
+import java.util.concurrent.TimeoutException;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
@@ -127,6 +132,50 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
         childAtPosition(allOf(withId(R.id.toolbar),
             childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)),
             1), isDisplayed())).perform(click());
+  }
+
+  /**
+   * Perform action of waiting for a specific view id.
+   * @param viewId The id of the view to wait for.
+   * @param millis The timeout of until when to wait for.
+   */
+  public static ViewAction waitId(final int viewId, final long millis) {
+    return new ViewAction() {
+      @Override
+      public Matcher<View> getConstraints() {
+        return isRoot();
+      }
+
+      @Override
+      public String getDescription() {
+        return "wait for a specific view with id <" + viewId + "> during " + millis + " millis.";
+      }
+
+      @Override
+      public void perform(final UiController uiController, final View view) {
+        uiController.loopMainThreadUntilIdle();
+        final long startTime = System.currentTimeMillis();
+        final long endTime = startTime + millis;
+        final Matcher<View> viewMatcher = withId(viewId);
+
+        do {
+          for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
+            if (viewMatcher.matches(child)) {
+              return;
+            }
+          }
+
+          uiController.loopMainThreadForAtLeast(50);
+        }
+        while (System.currentTimeMillis() < endTime);
+
+        throw new PerformException.Builder()
+            .withActionDescription(this.getDescription())
+            .withViewDescription(HumanReadables.describe(view))
+            .withCause(new TimeoutException())
+            .build();
+      }
+    };
   }
 
 }

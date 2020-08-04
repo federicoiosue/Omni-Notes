@@ -27,6 +27,7 @@ import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
@@ -44,7 +45,6 @@ import android.view.View;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.filters.FlakyTest;
 import androidx.test.filters.LargeTest;
 import it.feio.android.omninotes.R;
 import java.util.Calendar;
@@ -77,9 +77,11 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
     onView(allOf(withId(R.id.menu_category), withContentDescription(R.string.category), isDisplayed())).perform(
         click());
 
+    // Materialdialog "Add Category"
+    onView(isRoot()).perform(waitId(R.id.md_buttonDefaultPositive, 5000));
+
     onView((withText(R.string.add_category))).perform(click());
 
-    sleep(1000);
     onView(withId(R.id.category_title)).perform(replaceText(categoryName), closeSoftKeyboard());
 
     onView(allOf(withId(R.id.save), withText("Ok"), isDisplayed())).perform(click());
@@ -97,11 +99,9 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
     onView(allOf(withContentDescription(R.string.drawer_open),
         withParent(withId(R.id.toolbar)),
         isDisplayed())).perform(click());
-
   }
 
   @Test
-  @FlakyTest(detail = "Fixme with Idling Resources or BusyBee") // FIXME
   public void checkCategoryCreation () throws InterruptedException {
 
     addNewCategory();
@@ -157,11 +157,9 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
 
     onView(allOf(withId(R.id.color_chooser), isDisplayed())).check(
         matches(withBackgroundColor(Color.parseColor("#FF263238"))));
-
   }
 
   @Test
-  @FlakyTest(detail = "Fixme with Idling Resources or BusyBee") // FIXME
   public void categoryDeletion () throws InterruptedException {
 
     addNewCategory();
