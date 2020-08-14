@@ -15,6 +15,11 @@ jobs:
           java-version: 1.8
       - name: Run unit tests and coverage generation
         run: ./gradlew jacocoTestReport
+      - name: SonarCloud static code analysis
+        run: ./gradlew sonar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
       - name: Run instrumentation tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -25,8 +30,3 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           disable-animations: true
           script: ./gradlew -Pandroid.testInstrumentationRunnerArguments.notAnnotation=androidx.test.filters.FlakyTest connectedPlayDebugAndroidTest connectedFossDebugAndroidTest
-      - name: SonarCloud static code analysis
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
