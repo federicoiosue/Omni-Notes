@@ -23,12 +23,5 @@
     <solid
         android:color="@color/kitkat_gray_light" >
     </solid>
- 
-    <!-- view border color and width -->
-    <!--<stroke-->
-        <!--android:width="2dp"-->
-        <!--android:color="#ffffff" >-->
-    <!--</stroke>-->
->
- 
+
 </shape>

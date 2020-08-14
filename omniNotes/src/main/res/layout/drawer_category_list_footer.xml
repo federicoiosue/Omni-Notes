@@ -14,15 +14,6 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" -->
-<!--     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui" -->
-<!--     android:layout_width="match_parent" -->
-<!--     android:layout_height="wrap_content" -->
-<!--     android:background="@drawable/icon_selector" -->
-<!--     android:gravity="center_vertical" -->
-<!--     android:orientation="horizontal" -->
-<!--     android:paddingLeft="@dimen/horizontal_margin" -->
-<!--     android:paddingStart="@dimen/horizontal_margin"> -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="match_parent"
@@ -30,7 +21,6 @@
     android:background="@drawable/icon_selector"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingLeft="@dimen/horizontal_margin"
     android:paddingStart="@dimen/horizontal_margin">
 
     <ImageView
@@ -39,25 +29,11 @@
         android:padding="4dp"
         android:src="@drawable/ic_settings_black_36dp" />
 
-<!--     <com.neopixl.pixlui.components.textview.TextView -->
-<!--         android:id="@+id/settings" -->
-<!--         android:layout_width="@dimen/navigation_drawer_width" -->
-<!--         android:layout_height="50dp" -->
-<!--         android:gravity="center_vertical" -->
-<!--         android:paddingLeft="@dimen/icon_text_margin" -->
-<!--         android:paddingStart="@dimen/icon_text_margin" -->
-<!--         android:text="@string/settings" -->
-<!--         android:textAllCaps="true" -->
-<!--         android:textAppearance="@style/Text.Normal" -->
-<!--         android:textColor="@color/drawer_text" -->
-<!--         pixlui:typeface="Roboto-Regular.ttf" /> -->
-
     <com.neopixl.pixlui.components.textview.TextView
         android:id="@+id/settings"
         android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="50dp"
         android:gravity="center_vertical"
-        android:paddingLeft="@dimen/icon_text_margin"
         android:paddingStart="@dimen/icon_text_margin"
         android:text="@string/settings"
         android:textAllCaps="true"

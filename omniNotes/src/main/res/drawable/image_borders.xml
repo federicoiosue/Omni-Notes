@@ -24,7 +24,6 @@
 </item>
 <item android:top="4dp">
     <shape android:shape="rectangle">
-<!--         <solid android:color="@color/gray_bg" /> -->
         <solid android:color="@color/white" />
     </shape>
 </item>

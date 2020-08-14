@@ -279,10 +279,6 @@
             <meta-data
                 android:name="description"
                 android:value="@string/dashclock_description" />
-            <!-- A settings activity is optional -->
-            <!-- <meta-data -->
-            <!-- android:name="settingsActivity" -->
-            <!-- android:value=".ExampleSettingsActivity" /> -->
         </service>
 
         <service

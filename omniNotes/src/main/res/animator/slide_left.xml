@@ -25,16 +25,6 @@
         android:toXDelta="0"
         android:toYDelta="0" />
     
-
-<!--     <scale -->
-<!--         android:duration="@android:integer/config_shortAnimTime" -->
-<!--         android:fromXScale="0.2" -->
-<!--         android:fromYScale="0.2" -->
-<!--         android:pivotX="50%" -->
-<!--         android:pivotY="50%" -->
-<!--         android:toXScale="1" -->
-<!--         android:toYScale="1" > -->
-<!--     </scale> -->
     <alpha
         android:duration="@integer/sliding_anim_time_short"
         android:fromAlpha="0.0"
