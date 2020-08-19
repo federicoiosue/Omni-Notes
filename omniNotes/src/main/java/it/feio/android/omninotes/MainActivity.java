@@ -30,6 +30,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_KEY;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -100,11 +101,13 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
     initUI();
 
+
     if (IntroActivity.mustRun()) {
       startActivity(new Intent(getApplicationContext(), IntroActivity.class));
     }
 
 //		new UpdaterTask(this).execute(); Removed due to missing backend
+
   }
 
   @Override
