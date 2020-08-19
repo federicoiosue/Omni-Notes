@@ -17,7 +17,12 @@
 
 package it.feio.android.omninotes.helpers;
 
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.provider.Settings;
+
 import io.nlopez.smartlocation.location.LocationProvider;
 import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider;
 
@@ -28,6 +33,23 @@ public class GeocodeProviderBaseFactory {
   }
 
   public static LocationProvider getProvider (Context context) {
+    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT&&android.os.Build.VERSION.SDK_INT <Build.VERSION_CODES.P)
+    {
+      if(getLocationMode(context)!=3)
+      {
+        context.startActivity((new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)));
+      }
+    }
+
     return new LocationGooglePlayServicesWithFallbackProvider(context);
+  }
+  public static int getLocationMode(Context context)  {
+    ContentResolver contentResolver=(ContentResolver)context.getContentResolver();
+    try {
+      return Settings.Secure.getInt(contentResolver, Settings.Secure.LOCATION_MODE);
+    } catch (Settings.SettingNotFoundException e) {
+      e.printStackTrace();
+    }
+    return 0;
   }
 }
