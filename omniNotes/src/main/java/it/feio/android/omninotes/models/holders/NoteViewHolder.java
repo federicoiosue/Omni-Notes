@@ -64,4 +64,13 @@ public class NoteViewHolder extends ViewHolder {
   @Nullable
   @BindView(R.id.attachmentThumbnail)
   public SquareImageView attachmentThumbnail;
+
+    @Nullable
+    public ImageView getAttachmentIcon() {
+        return attachmentIcon;
+    }
+
+    public void setAttachmentIcon(@Nullable ImageView attachmentIcon) {
+        this.attachmentIcon = attachmentIcon;
+    }
 }
