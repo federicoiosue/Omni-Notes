@@ -10,4 +10,6 @@ AgiMaulana (https://github.com/AgiMaulana)
 
 Richard Zhang (https://github.com/richardzhanguw)
 
+Sachin Jethanandani (https://github.com/sachin-0102)
+
 See [pull requests](https://github.com/federicoiosue/Omni-Notes/pulls?q=is%3Aclosed) for all contributions.
