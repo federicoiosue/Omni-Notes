@@ -116,7 +116,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
 
 
-  public void initIcons (Note note, NoteViewHolder holder) {
+  private void initIcons (Note note, NoteViewHolder holder) {
     // Evaluates the archived state...
     holder.archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
     // ...the location
