@@ -115,7 +115,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
   }
 
 
-  private void initIcons (Note note, NoteViewHolder holder) {
+
+  public void initIcons (Note note, NoteViewHolder holder) {
     // Evaluates the archived state...
     holder.archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
     // ...the location
@@ -128,7 +129,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
     // ...the attachment icon for contracted view
     if (!expandedView) {
-      holder.attachmentIcon.setVisibility(!note.getAttachmentsList().isEmpty() ? View.VISIBLE : View.GONE);
+     holder.attachmentIcon.setVisibility(!note.getAttachmentsList().isEmpty() ? View.VISIBLE : View.GONE);
     }
   }
 

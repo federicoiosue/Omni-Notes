@@ -44,7 +44,7 @@ import java.util.List;
 public class AttachmentAdapter extends BaseAdapter {
 
   private Activity mActivity;
-  private List<Attachment> attachmentsList;
+  public List<Attachment> attachmentsList;
   private LayoutInflater inflater;
 
 
