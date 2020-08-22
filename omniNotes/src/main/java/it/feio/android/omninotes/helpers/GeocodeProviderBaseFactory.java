@@ -52,6 +52,6 @@ public class GeocodeProviderBaseFactory {
     } catch (Settings.SettingNotFoundException e) {
       e.printStackTrace();
     }
-    return 0;
+    return -1;
   }
 }
