@@ -32,6 +32,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
+import android.view.InputDevice;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
@@ -40,6 +42,12 @@ import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
 import androidx.test.espresso.ViewInteraction;
+import androidx.test.espresso.action.GeneralLocation;
+import androidx.test.espresso.action.GeneralSwipeAction;
+import androidx.test.espresso.action.Press;
+import androidx.test.espresso.action.Swipe;
+import androidx.test.espresso.action.Tap;
+import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.espresso.util.HumanReadables;
@@ -48,6 +56,7 @@ import androidx.test.rule.ActivityTestRule;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.utils.ClickWithoutDisplayConstraint;
 import java.util.concurrent.TimeoutException;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -136,23 +145,24 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
 
   /**
    * Perform action of waiting for a specific view id.
+   *
    * @param viewId The id of the view to wait for.
    * @param millis The timeout of until when to wait for.
    */
-  public static ViewAction waitId(final int viewId, final long millis) {
+  public static ViewAction waitId (final int viewId, final long millis) {
     return new ViewAction() {
       @Override
-      public Matcher<View> getConstraints() {
+      public Matcher<View> getConstraints () {
         return isRoot();
       }
 
       @Override
-      public String getDescription() {
+      public String getDescription () {
         return "wait for a specific view with id <" + viewId + "> during " + millis + " millis.";
       }
 
       @Override
-      public void perform(final UiController uiController, final View view) {
+      public void perform (final UiController uiController, final View view) {
         uiController.loopMainThreadUntilIdle();
         final long startTime = System.currentTimeMillis();
         final long endTime = startTime + millis;
@@ -176,6 +186,44 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
             .build();
       }
     };
+  }
+
+  ClickWithoutDisplayConstraint getClickAction () {
+    return new ClickWithoutDisplayConstraint(
+        Tap.SINGLE,
+        GeneralLocation.VISIBLE_CENTER,
+        Press.FINGER,
+        InputDevice.SOURCE_UNKNOWN,
+        MotionEvent.BUTTON_PRIMARY);
+  }
+
+  ClickWithoutDisplayConstraint getLongClickAction () {
+    return new ClickWithoutDisplayConstraint(
+        Tap.LONG,
+        GeneralLocation.CENTER,
+        Press.FINGER,
+        InputDevice.SOURCE_UNKNOWN,
+        MotionEvent.BUTTON_PRIMARY);
+  }
+
+  ViewAction getSwipeAction (final int fromX, final int fromY, final int toX, final int toY) {
+    return ViewActions.actionWithAssertions(
+        new GeneralSwipeAction(
+            Swipe.SLOW,
+            view -> new float[]{fromX, fromY},
+            view -> new float[]{toX, toY},
+            Press.FINGER));
+  }
+
+  protected void openDrawer() {
+    onView(allOf(withContentDescription("drawer open"),
+        childAtPosition(
+            allOf(withId(R.id.toolbar),
+                childAtPosition(
+                    withClassName(is("android.widget.RelativeLayout")),
+                    0)),
+            1),
+        isDisplayed())).perform(click());
   }
 
 }
