@@ -19,7 +19,6 @@ package it.feio.android.omninotes;
 
 import android.os.SystemClock;
 import androidx.fragment.app.Fragment;
-import com.squareup.leakcanary.LeakCanary;
 
 
 public class BaseFragment extends Fragment {
@@ -37,7 +36,6 @@ public class BaseFragment extends Fragment {
   @Override
   public void onDestroy () {
     super.onDestroy();
-    LeakCanary.installedRefWatcher().watch(this);
   }
 
   protected boolean isOptionsItemFastClick () {

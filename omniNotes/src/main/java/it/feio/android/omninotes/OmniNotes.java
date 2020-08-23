@@ -27,7 +27,6 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
 import androidx.multidex.MultiDexApplication;
-import com.squareup.leakcanary.LeakCanary;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.analitica.AnalyticsHelperFactory;
 import it.feio.android.analitica.MockAnalyticsHelper;
@@ -80,10 +79,6 @@ public class OmniNotes extends MultiDexApplication {
   public void onCreate () {
     super.onCreate();
 
-    if (initLeakCanary()) {
-      return;
-    }
-
     mContext = getApplicationContext();
     prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
 
@@ -98,16 +93,6 @@ public class OmniNotes extends MultiDexApplication {
     }
   }
 
-  /**
-   * Returns true if the process dedicated to LeakCanary for heap analysis is running and app's init must be skipped
-   */
-  private boolean initLeakCanary () {
-    if (!LeakCanary.isInAnalyzerProcess(this)) {
-      LeakCanary.install(this);
-      return false;
-    }
-    return true;
-  }
 
   @Override
   public void onConfigurationChanged (Configuration newConfig) {
