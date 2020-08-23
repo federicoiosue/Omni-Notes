@@ -25,6 +25,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import io.nlopez.smartlocation.SmartLocation;
@@ -237,4 +238,13 @@ public class GeocodeHelper implements LocationListener {
     Matcher m = p.matcher(string);
     return m.matches();
   }
+
+  /**
+   * Checks for location provider between {@link android.location.LocationManager#GPS_PROVIDER} etc...
+   */
+  public static boolean checkLocationProviderEnabled(Context context, String provider) {
+    LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    return locationManager.isProviderEnabled(provider);
+  }
+
 }

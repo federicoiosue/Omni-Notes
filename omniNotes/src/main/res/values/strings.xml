@@ -81,6 +81,7 @@
     <string name="delete_all_attachments">Delete all the attachments?</string>
     <string name="gallery">Gallery</string>
     <string name="location">Location</string>
+    <string name="location_set_high_accuracy">Please set Location mode to high accuracy to continue</string>
     <string name="timestamp">Timestamp</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Remove location?</string>
