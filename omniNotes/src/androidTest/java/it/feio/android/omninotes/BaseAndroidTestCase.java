@@ -27,17 +27,19 @@ import static org.junit.Assert.assertFalse;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.utils.Constants;
+import java.util.Locale;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 
 
 public class BaseAndroidTestCase {
 
+  protected static final Locale PRESET_LOCALE = new Locale(ENGLISH.toString());
   protected static DbHelper dbHelper;
   protected static Context testContext;
   protected static SharedPreferences prefs;
@@ -51,11 +53,14 @@ public class BaseAndroidTestCase {
   public static void setUpBeforeClass () {
     testContext = ApplicationProvider.getApplicationContext();
     prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+
     dbHelper = DbHelper.getInstance(testContext);
-    prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_PRIVATE);
-    assertFalse("Database MUST be writable", dbHelper.getDatabase(true).isReadOnly());
     cleanDatabase();
-    LanguageHelper.updateLanguage(testContext, ENGLISH.toString());
+    assertFalse("Database MUST be writable", dbHelper.getDatabase(true).isReadOnly());
+
+    Locale.setDefault(PRESET_LOCALE);
+    Configuration config = testContext.getResources().getConfiguration();
+    config.locale = PRESET_LOCALE;
   }
 
   private static void cleanDatabase () {

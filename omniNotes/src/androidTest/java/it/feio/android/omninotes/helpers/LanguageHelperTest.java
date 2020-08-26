@@ -17,7 +17,9 @@
 
 package it.feio.android.omninotes.helpers;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_LANG;
 import static org.junit.Assert.assertEquals;
+import static java.util.Locale.ITALIAN;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -26,11 +28,17 @@ import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import java.util.Locale;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class LanguageHelperTest extends BaseAndroidTestCase {
+
+  @After
+  public void tearDown () {
+    prefs.edit().remove(PREF_LANG).commit();
+  }
 
   @Test
   public void changeSharedPrefrencesLanguage () {
@@ -82,6 +90,20 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
     assertTranslationMatches("sv_SE", R.string.add_note, "Lägg till Anteckning");
     assertTranslationMatches("tr_TR", R.string.add_note, "Not Ekle");
     assertTranslationMatches("uk_UA", R.string.add_note, "Додати нотатку");
+  }
+
+  @Test
+  public void updateLanguage_systemDefault () {
+    assertEquals(PRESET_LOCALE, LanguageHelper.getCurrentLocale(testContext));
+    LanguageHelper.updateLanguage(testContext, null);
+    assertEquals(PRESET_LOCALE, LanguageHelper.getCurrentLocale(testContext));
+  }
+
+  @Test
+  public void updateLanguage () {
+    assertEquals(PRESET_LOCALE, LanguageHelper.getCurrentLocale(testContext));
+    LanguageHelper.updateLanguage(testContext, ITALIAN.getLanguage());
+    assertEquals(ITALIAN, LanguageHelper.getCurrentLocale(testContext));
   }
 
   private void assertTranslationMatches (String locale, int resourceId) {
