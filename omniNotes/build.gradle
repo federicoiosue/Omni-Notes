@@ -152,8 +152,8 @@ dependencies {
     implementation 'com.larswerkman:HoloColorPicker:1.4'
     implementation 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
-    implementation "ch.acra:acra-http:5.4.0"
-    implementation "ch.acra:acra-toast:5.4.0"
+    implementation "ch.acra:acra-http:5.7.0"
+    implementation "ch.acra:acra-toast:5.7.0"
     implementation 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
     implementation 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.2'
     implementation 'androidx.preference:preference:1.1.1'
