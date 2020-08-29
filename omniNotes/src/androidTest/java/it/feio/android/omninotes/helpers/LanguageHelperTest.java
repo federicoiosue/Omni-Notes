@@ -40,6 +40,11 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
+  public void checkUtilityClassWellDefined () throws Exception {
+    assertUtilityClassWellDefined(LanguageHelper.class);
+  }
+
+  @Test
   public void changeSharedPrefrencesLanguage () {
     LanguageHelper.updateLanguage(testContext, Locale.ITALY.toString());
     SharedPreferences prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context

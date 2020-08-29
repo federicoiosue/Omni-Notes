@@ -31,13 +31,10 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.DESKeySpec;
+import lombok.experimental.UtilityClass;
 
-
+@UtilityClass
 public class Security {
-
-  private Security() {
-    // hides public constructor
-  }
 
   public static String md5 (String s) {
     try {
@@ -48,8 +45,8 @@ public class Security {
 
       // Create Hex String
       StringBuilder hexString = new StringBuilder();
-      for (int i = 0; i < messageDigest.length; i++) {
-        hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+      for (byte b : messageDigest) {
+        hexString.append(Integer.toHexString(0xFF & b));
       }
       return hexString.toString();
 
@@ -104,6 +101,5 @@ public class Security {
     }
     return decryptedValue;
   }
-
 
 }

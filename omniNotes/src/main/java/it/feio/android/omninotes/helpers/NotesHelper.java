@@ -35,10 +35,11 @@ import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TagsHelper;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
-
+@UtilityClass
 public class NotesHelper {
 
   public static boolean haveSameId (Note note, Note currentNote) {

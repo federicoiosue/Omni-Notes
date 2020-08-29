@@ -23,7 +23,10 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static java.util.Locale.ENGLISH;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -32,6 +35,10 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.utils.Constants;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Locale;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -61,6 +68,45 @@ public class BaseAndroidTestCase {
     Locale.setDefault(PRESET_LOCALE);
     Configuration config = testContext.getResources().getConfiguration();
     config.locale = PRESET_LOCALE;
+  }
+
+  /**
+   * Verifies that a utility class is well defined.
+   *
+   * @param clazz utility class to verify.
+   */
+  protected static void assertUtilityClassWellDefined (final Class<?> clazz)
+      throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+    assertUtilityClassWellDefined(clazz, false, false);
+  }
+
+  protected static void assertUtilityClassWellDefined (final Class<?> clazz, boolean weakClassModifier,
+      boolean weakConstructorModifier)
+      throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    if (!weakClassModifier) {
+      assertTrue("class must be final", Modifier.isFinal(clazz.getModifiers()));
+    }
+
+    assertEquals("There must be only one constructor", 1, clazz.getDeclaredConstructors().length);
+    final Constructor<?> constructor = clazz.getDeclaredConstructor();
+    if (!weakConstructorModifier && (constructor.isAccessible() || !Modifier.isPrivate(constructor.getModifiers()))) {
+      fail("constructor is not private");
+    }
+
+    try {
+      constructor.setAccessible(true);
+      constructor.newInstance();
+      constructor.setAccessible(false);
+    } catch (InvocationTargetException e) {
+      // Using @UtilityClass from Lombok is ok to get this
+      assertTrue(e.getTargetException() instanceof UnsupportedOperationException);
+    }
+
+    for (final Method method : clazz.getMethods()) {
+      if (!Modifier.isStatic(method.getModifiers()) && method.getDeclaringClass().equals(clazz)) {
+        fail("there exists a non-static method:" + method);
+      }
+    }
   }
 
   private static void cleanDatabase () {

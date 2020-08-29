@@ -35,6 +35,11 @@ public class AppVersionHelperTest extends BaseAndroidTestCase {
   private static final String VERSION_NAME_REGEX = "\\d{1}(\\.\\d)*( Alpha| Beta)*( \\d+)*";
 
   @Test
+  public void checkUtilityClassWellDefined () throws Exception {
+    assertUtilityClassWellDefined(AppVersionHelper.class);
+  }
+
+  @Test
   public void shouldGetCurrentAppVersion () throws PackageManager.NameNotFoundException {
     int currentAppVersion = AppVersionHelper.getCurrentAppVersion(testContext);
     assertTrue(currentAppVersion > 0);

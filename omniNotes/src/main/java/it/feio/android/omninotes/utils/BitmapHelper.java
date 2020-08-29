@@ -37,14 +37,13 @@ import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.simplegallery.util.BitmapUtils;
 import java.util.concurrent.ExecutionException;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FilenameUtils;
 
-
+@UtilityClass
 public class BitmapHelper {
 
   private static final String ANDROID_RESOURCE = "android.resource://";
-
-  private BitmapHelper () {}
 
   /**
    * Retrieves a the bitmap relative to attachment based on mime type

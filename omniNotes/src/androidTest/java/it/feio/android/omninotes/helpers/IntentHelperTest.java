@@ -33,6 +33,11 @@ public class IntentHelperTest extends BaseAndroidTestCase {
   private static final String NOTE_TITLE = "Lorem ipsum is not that good";
 
   @Test
+  public void checkUtilityClassWellDefined () throws Exception {
+    assertUtilityClassWellDefined(IntentHelper.class);
+  }
+
+  @Test
   public void getNoteIntent () {
     Note note = new Note();
     note.setTitle(NOTE_TITLE);

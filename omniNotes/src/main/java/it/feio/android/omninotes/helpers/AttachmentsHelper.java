@@ -20,14 +20,11 @@ package it.feio.android.omninotes.helpers;
 
 import it.feio.android.omninotes.models.Attachment;
 import java.io.File;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 
-
+@UtilityClass
 public class AttachmentsHelper {
-
-  private AttachmentsHelper() {
-    // hides public constructor
-  }
 
   /**
    * Retrieves attachment file size
@@ -54,4 +51,5 @@ public class AttachmentsHelper {
     }
     return false;
   }
+
 }

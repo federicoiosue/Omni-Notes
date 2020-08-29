@@ -18,16 +18,30 @@
 package it.feio.android.omninotes.helpers;
 
 
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
+import io.nlopez.smartlocation.location.LocationProvider;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import org.junit.Test;
 
 public class GeocodeProviderBaseFactoryTest extends BaseAndroidTestCase {
 
   @Test
+  public void checkUtilityClassWellDefined () throws Exception {
+    assertUtilityClassWellDefined(GeocodeProviderBaseFactory.class, true, true);
+  }
+
+  @Test
+  public void getProvider () {
+    LocationProvider locationProvider = GeocodeProviderBaseFactory.getProvider(testContext);
+    assertNotEquals(null, locationProvider);
+  }
+
+  @Test
   public void checkHighAccuracyLocationProvider () {
-    boolean highAccuracyLocationProviderEnabled= GeocodeProviderBaseFactory.checkHighAccuracyLocationProvider(testContext);
+    boolean highAccuracyLocationProviderEnabled = GeocodeProviderBaseFactory.checkHighAccuracyLocationProvider(
+        testContext);
     assertTrue(highAccuracyLocationProviderEnabled);
   }
 

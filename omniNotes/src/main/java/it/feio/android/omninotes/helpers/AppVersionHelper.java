@@ -23,16 +23,14 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_CURRENT_APP_VER
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import lombok.experimental.UtilityClass;
 
 
 /**
  * Class used to manage application version code and name
  */
+@UtilityClass
 public class AppVersionHelper {
-
-  private AppVersionHelper() {
-    // hides public constructor
-  }
 
   public static boolean isAppUpdated (Context context) throws PackageManager.NameNotFoundException {
     int currentAppVersion = getCurrentAppVersion(context);

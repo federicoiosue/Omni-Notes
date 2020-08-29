@@ -61,6 +61,11 @@ public class BackupHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
+  public void checkUtilityClassWellDefined () throws Exception {
+    assertUtilityClassWellDefined(BackupHelper.class);
+  }
+
+  @Test
   public void exportNote () {
     Note note = new Note();
     note.setTitle("test title");

@@ -30,13 +30,11 @@ import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import it.feio.android.omninotes.utils.Constants;
 import java.util.Locale;
+import lombok.experimental.UtilityClass;
 
 
+@UtilityClass
 public class LanguageHelper {
-
-  private LanguageHelper() {
-    // hides public constructor
-  }
 
   /**
    * Updates default language with forced one

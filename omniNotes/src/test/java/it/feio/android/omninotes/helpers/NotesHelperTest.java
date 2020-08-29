@@ -36,6 +36,11 @@ import org.junit.Test;
 public class NotesHelperTest extends BaseUnitTest {
 
   @Test
+  public void checkUtilityClassWellDefined () throws Exception {
+    assertUtilityClassWellDefined(NotesHelper.class);
+  }
+
+  @Test
   public void haveSameIdShouldFail () {
     Note note1 = getNote(1L, "test title", "test content");
     Note note2 = getNote(2L, "test title", "test content");

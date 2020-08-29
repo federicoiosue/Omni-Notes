@@ -50,10 +50,10 @@ public class RemindersLifecycleTest {
   public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
   @Test
-  @FlakyTest(detail = "Works on local emulator but is broken on Github Actions CI due to "
-      + "androidx.test.espresso.NoMatchingViewException: No views in hierarchy found matching: (with id: "
-      + "it.feio.android.omninotes:id/buttonPositive and with text: is \"Ok\" and is displayed on the screen to the user)."
-      + "Fixme with Idling Resources or BusyBee") // FIXME")
+//  @FlakyTest(detail = "Works on local emulator but is broken on Github Actions CI due to "
+//      + "androidx.test.espresso.NoMatchingViewException: No views in hierarchy found matching: (with id: "
+//      + "it.feio.android.omninotes:id/buttonPositive and with text: is \"Ok\" and is displayed on the screen to the user)."
+//      + "Fixme with Idling Resources or BusyBee") // FIXME")
   public void remindersLifecycle () {
     onView(Matchers.allOf(ViewMatchers.withId(R.id.fab_expand_menu_button),
         withParent(withId(R.id.fab)),

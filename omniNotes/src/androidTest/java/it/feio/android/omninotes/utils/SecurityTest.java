@@ -22,12 +22,13 @@ import static junit.framework.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import it.feio.android.omninotes.BaseAndroidTestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 
 @RunWith(AndroidJUnit4.class)
-public class SecurityTest {
+public class SecurityTest extends BaseAndroidTestCase {
 
   private final String PASS = "12345uselessPasswords";
   private final String TEXT = "Today is a - good - day to test useless things!";
@@ -36,6 +37,11 @@ public class SecurityTest {
       + " laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit "
       + "esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa "
       + "qui officia deserunt mollit anim ID est laborum.";
+
+  @Test
+  public void checkUtilityClassWellDefined () throws Exception {
+    assertUtilityClassWellDefined(Security.class);
+  }
 
   @Test
   public void testEncrypt () {

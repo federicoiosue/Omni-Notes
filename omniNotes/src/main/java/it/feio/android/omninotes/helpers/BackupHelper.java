@@ -50,7 +50,7 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import rx.Observable;
 
-public class BackupHelper {
+public final class BackupHelper {
 
   private BackupHelper() {
     // hides public constructor

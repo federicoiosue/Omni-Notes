@@ -44,6 +44,11 @@ public class ParcelableUtilTest extends BaseAndroidTestCase {
   }
 
   @Test
+  public void checkUtilityClassWellDefined () throws Exception {
+    assertUtilityClassWellDefined(ParcelableUtil.class);
+  }
+
+  @Test
   public void unmarshall () {
     assertEquals(testNote, ParcelableUtil.unmarshall(marshalledNote, Note.CREATOR));
   }
