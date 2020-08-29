@@ -257,9 +257,10 @@ jacoco {
     toolVersion = "0.8.5"
 }
 
+apply plugin: 'com.adarshr.test-logger'
 tasks.withType(Test) {
     testLogging {
-        events "standardOut", "started", "passed", "skipped", "failed"
+        events "standardOut", "standardError", "started", "passed", "skipped", "failed"
         exceptionFormat "full"
     }
 }
