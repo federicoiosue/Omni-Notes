@@ -18,7 +18,7 @@
 apply plugin: 'com.android.application'
 
 boolean signConfigExists = project.hasProperty("SIGN_PROPS") && new File(project.property("SIGN_PROPS")).exists()
-if(signConfigExists) {
+if (signConfigExists) {
     Properties props = new Properties()
     props.load(new FileInputStream(file(project.property("SIGN_PROPS"))))
 
@@ -88,7 +88,7 @@ android {
                     outputFileName = "OmniNotes-${variant.name}-${variant.versionName}.apk"
                 }
             }
-            if(signConfigExists) {
+            if (signConfigExists) {
                 signingConfig signingConfigs.release
             }
         }
@@ -133,7 +133,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test:rules:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    androidTestImplementation ('androidx.test.espresso:espresso-intents:3.2.0') {
+    androidTestImplementation('androidx.test.espresso:espresso-intents:3.2.0') {
         exclude group: 'com.android.support', module: 'support-annotations'
     }
     androidTestImplementation('com.android.support.test.espresso:espresso-contrib:3.0.2') {
@@ -142,7 +142,7 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
 
-    debugImplementation ('com.squareup.leakcanary:leakcanary-android:2.4') {
+    debugImplementation('com.squareup.leakcanary:leakcanary-android:2.4') {
         exclude group: "com.android.support"
     }
 
@@ -194,11 +194,11 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation 'com.github.federicoiosue:Springpad-Importer:1.0.1'
-    implementation ('com.github.federicoiosue:Omni-Notes-Commons:1.2.0') {
+    implementation('com.github.federicoiosue:Omni-Notes-Commons:1.2.0') {
         exclude group: 'org.projectlombok'
     }
-    implementation ('com.github.federicoiosue:checklistview:4.0.0') {
-        transitive=false
+    implementation('com.github.federicoiosue:checklistview:4.0.0') {
+        transitive = false
     }
     implementation 'com.github.federicoiosue:pixlui:3.0.0'
 
@@ -208,22 +208,22 @@ dependencies {
     alphaImplementation 'io.nlopez.smartlocation:library:3.2.4'
     fossImplementation 'com.github.federicoiosue:smart-location-lib:3.2.6'
 
-    playImplementation ('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar'){
-        transitive=true
+    playImplementation('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar') {
+        transitive = true
     }
-    betaImplementation ('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar'){
-        transitive=true
+    betaImplementation('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar') {
+        transitive = true
     }
-    alphaImplementation ('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar'){
-        transitive=true
+    alphaImplementation('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar') {
+        transitive = true
     }
-    fossImplementation ('com.github.federicoiosue:analitica:0.0.3:piwikRelease@aar'){
-        transitive=true
+    fossImplementation('com.github.federicoiosue:analitica:0.0.3:piwikRelease@aar') {
+        transitive = true
     }
     playImplementation 'com.google.android.gms:play-services-analytics:9.0.2'
     betaImplementation 'com.google.android.gms:play-services-analytics:9.0.2'
     alphaImplementation 'com.google.android.gms:play-services-analytics:9.0.2'
-    fossImplementation ('org.piwik.sdk:piwik-sdk:1.0.2'){
+    fossImplementation('org.piwik.sdk:piwik-sdk:1.0.2') {
         exclude group: 'com.jakewharton.timber', module: 'timber'
     }
     fossImplementation 'com.jakewharton.timber:timber:4.5.1'
@@ -247,11 +247,24 @@ android.productFlavors.each { flavor ->
     flavor.buildConfigField 'String', 'MAPS_API_KEY', '"' + MAPS_API_KEY + '"'
 }
 
-apply plugin: 'com.hiya.jacoco-android'
-jacocoAndroidUnitTestReport {
-    csv.enabled false
-    html.enabled false
-    xml.enabled true
+apply plugin: 'jacoco'
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 'createAlphaDebugCoverageReport']) {
+
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories.from = files([mainSrc])
+    classDirectories.from = files([debugTree])
+    executionData.from = fileTree(dir: "$buildDir", includes: [
+            "jacoco/testAlphaDebugUnitTest.exec",
+            "outputs/code-coverage/alphaDebugAndroidTest/connected/*coverage.ec"
+    ])
 }
 jacoco {
     toolVersion = "0.8.5"

@@ -25,7 +25,6 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:4.0.1'
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0"
-        classpath "com.hiya:jacoco-android:0.2"
         classpath 'com.adarshr:gradle-test-logger-plugin:2.1.0'
     }
     // Exclude the version that the android plugin depends on.
@@ -53,7 +52,7 @@ sonarqube {
         property "sonar.host.url", "https://sonarcloud.io"
         property 'sonar.sourceEncoding', 'UTF-8'
         property 'sonar.language', 'java'
-        property 'sonar.coverage.jacoco.xmlReportPaths', "**/jacoco/jacoco.xml"
+        property 'sonar.coverage.jacoco.xmlReportPaths', "**/build/reports/coverage/**/debug/report.xml"
         property 'sonar.exclusions', '**/src/main/assets/**/*.*'
         property 'sonar.test.exclusions', '**/src/test/**/*.*,**/src/androidTest/**/*.*'
     }
