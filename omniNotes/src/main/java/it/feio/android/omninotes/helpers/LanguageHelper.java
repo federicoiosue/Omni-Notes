@@ -59,6 +59,13 @@ public class LanguageHelper {
     return setLocale(ctx, locale);
   }
 
+  public static Context resetSystemLanguage (Context ctx) {
+    SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
+    prefs.edit().remove(PREF_LANG).apply();
+
+    return setLocale(ctx, Locale.getDefault());
+  }
+
   private static Context setLocale (Context context, Locale locale) {
     Configuration configuration = context.getResources().getConfiguration();
     configuration.locale = locale;

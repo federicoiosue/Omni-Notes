@@ -18,16 +18,17 @@
 package it.feio.android.omninotes.utils.date;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class RecurrenceHelperTest {
+public class RecurrenceHelperTest extends BaseAndroidTestCase {
 
   @Test
-  public void testGetNoteRecurrentReminderText () {
+  public void getNoteRecurrentReminderText () {
     long reminder = 1577369824425L;
     String rrule = "FREQ=WEEKLY;WKST=MO;BYDAY=MO,TU,TH";
     String alarmText = RecurrenceHelper.getNoteRecurrentReminderText(reminder, rrule);

@@ -17,7 +17,6 @@
 
 package it.feio.android.omninotes.helpers;
 
-import static it.feio.android.omninotes.utils.ConstantsBase.PREF_LANG;
 import static org.junit.Assert.assertEquals;
 import static java.util.Locale.ITALIAN;
 
@@ -37,7 +36,7 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
 
   @After
   public void tearDown () {
-    prefs.edit().remove(PREF_LANG).commit();
+    LanguageHelper.resetSystemLanguage(testContext);
   }
 
   @Test
@@ -51,7 +50,10 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
 
   @Test
   public void changeAppLanguage () {
+    assertEquals(PRESET_LOCALE, LanguageHelper.getCurrentLocale(testContext));
+
     LanguageHelper.updateLanguage(testContext, Locale.ITALY.toString());
+
     assertTranslationMatches(Locale.ITALY.toString(), R.string.add_note);
   }
 
@@ -96,6 +98,13 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
   public void updateLanguage_systemDefault () {
     assertEquals(PRESET_LOCALE, LanguageHelper.getCurrentLocale(testContext));
     LanguageHelper.updateLanguage(testContext, null);
+    assertEquals(PRESET_LOCALE, LanguageHelper.getCurrentLocale(testContext));
+  }
+
+  @Test
+  public void resetSystemLanguage () {
+    LanguageHelper.updateLanguage(testContext, ITALIAN.getLanguage());
+    LanguageHelper.resetSystemLanguage(testContext);
     assertEquals(PRESET_LOCALE, LanguageHelper.getCurrentLocale(testContext));
   }
 
