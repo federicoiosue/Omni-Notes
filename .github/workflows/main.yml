@@ -13,9 +13,7 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Run unit tests and coverage generation
-        run: ./gradlew jacocoTestReport
-      - name: Run instrumentation tests
+      - name: Run unit/instrumentation/ui tests and coverage generation
         uses: reactivecircus/android-emulator-runner@v2
         with:
           api-level: 29
@@ -24,7 +22,7 @@ jobs:
           avd-name: test
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           disable-animations: true
-          script: ./gradlew -Pandroid.testInstrumentationRunnerArguments.notAnnotation=androidx.test.filters.FlakyTest connectedPlayDebugAndroidTest connectedFossDebugAndroidTest
+          script: ./gradlew -Pandroid.testInstrumentationRunnerArguments.notAnnotation=androidx.test.filters.FlakyTest jacocoTestReport
       - name: SonarCloud static code analysis
         run: ./gradlew sonar
         env:
