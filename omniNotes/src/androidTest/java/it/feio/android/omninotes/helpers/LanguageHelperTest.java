@@ -67,7 +67,7 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
     assertTranslationMatches("ar_SA", R.string.add_note, "إضافة نقطة");
     assertTranslationMatches("es_XA", R.string.add_note, "Amestar Nota");
     assertTranslationMatches("ca_ES", R.string.add_note, "Afegeix una nota");
-    assertTranslationMatches("zh_CN", R.string.add_note, "添加记事");
+    assertTranslationMatches("zh_CN", R.string.add_note, "新建笔记");
     assertTranslationMatches("zh_TW", R.string.add_note, "新增筆記");
     assertTranslationMatches("hr_HR", R.string.add_note, "Dodaj Bilješku");
     assertTranslationMatches("cs_CZ", R.string.add_note, "Přidat poznámku");
@@ -125,6 +125,7 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
   }
 
   private void assertTranslationMatches (String locale, int resourceId, String string) {
-    assertEquals(LanguageHelper.getLocalizedString(testContext, locale, resourceId), string);
+    assertEquals(string, LanguageHelper.getLocalizedString(testContext, locale, resourceId));
   }
+  
 }
