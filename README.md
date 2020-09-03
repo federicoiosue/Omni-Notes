@@ -13,7 +13,7 @@ Note taking <b>open-source</b> application aimed to have both a <b>simple interf
 
 The project was inspired by the absence of such applications compatible with old phones and old versions of Android. It aims to provide an attractive look and follow the most recent design guidelines of the Google operating system.
 
-**Follows the developments and post your comments and advice on Facebook Community at https://www.facebook.com/OmniNotes**
+**Follow the developments and post your comments and advice on Facebook Community at https://www.facebook.com/OmniNotes**
 
 *Help to keep translations updated is always welcome, if you want give a hand checkout the translation project on **https://translate.omninotes.app.** *
 
