@@ -38,9 +38,6 @@
     <color name="navigation_bg">#ffffffff</color>
     <color name="gray_bg">#e2e2e2</color>
     <color name="list_bg">#eeffffff</color>
-    <color name="holo_blue_dark">#880099CC</color>
-    <color name="holo_blue_light">#8833B5E5</color>
-    <color name="kitkat_gray_dark">#25000000</color>
     <color name="kitkat_gray_light">#19000000</color>
     <color name="list_bg_pressed">#88336699</color>
     <color name="list_bg_selected">#4e3f51b5</color>

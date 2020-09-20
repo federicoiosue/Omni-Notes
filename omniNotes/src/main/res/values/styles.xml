@@ -28,7 +28,6 @@
         <item name="actionModeBackground">@color/colorPrimaryDark</item>
         <item name="actionBarPopupTheme">@style/ThemeOverlay.MaterialComponents.Light</item>
         <item name="sublimePickerStyle">@style/ONSublimePickerStyle</item>
-        <item name="colorSurface">@color/colorAccent</item>
     </style>
 
     <style name="ONSublimePickerStyle" parent="SublimePickerStyleLight">
@@ -90,16 +89,10 @@
         <item name="android:windowBackground">@color/about_bg</item>
     </style>
 
-    <style name="Button.Dialog" parent="MD_ActionButton">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:background">@null</item>
-        <item name="android:textCursorDrawable">@null</item>
-    </style>
+    <style name="Button.Dialog" parent="Widget.MaterialComponents.Button.TextButton"/>
 
-    <style name="Button.Dialog.Accent" parent="MD_ActionButton">
+    <style name="Button.Dialog.Accent" parent="Widget.MaterialComponents.Button.TextButton">
         <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:background">@null</item>
-        <item name="android:textCursorDrawable">@null</item>
     </style>
 
     <style name="Text" parent="android:TextAppearance.Holo.Medium.Inverse">
@@ -183,15 +176,5 @@
         <item name="android:background">@drawable/fab_labels_background</item>
         <item name="android:textColor">@color/text_color</item>
     </style>
-
-<!--    <style name="SublimePickerStyleLight">-->
-<!--        <item name="colorAccent">@color/colorAccent</item>-->
-<!--        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
-<!--        <item name="colorPrimary">@color/colorPrimary</item>-->
-<!--&lt;!&ndash;        <item name="android:textColorPrimary">@color/icon_theme_primary</item>&ndash;&gt;-->
-<!--        <item name="android:textColorSecondary">#727272</item>-->
-<!--        <item name="android:textColorPrimaryInverse">@android:color/white</item>-->
-<!--&lt;!&ndash;        <item name="android:textColor">@color/theme_primary</item>&ndash;&gt;-->
-<!--    </style>-->
 
 </resources>
