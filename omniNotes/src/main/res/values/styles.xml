@@ -40,11 +40,6 @@
         <item name="android:windowBackground">@drawable/branded_background</item>
     </style>
 
-    <style name="PreferencesTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-    </style>
-
     <style name="OmniNotesFullscreenTheme" parent="@style/Theme.MaterialComponents">
         <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="windowActionBarOverlay">true</item>
@@ -95,7 +90,7 @@
         <item name="android:textColor">@color/colorAccent</item>
     </style>
 
-    <style name="Text" parent="android:TextAppearance.Holo.Medium.Inverse">
+    <style name="Text" parent="TextAppearance.AppCompat.Medium.Inverse">
         <item name="android:textColor">@color/text_color</item>
         <item name="android:textColorHint">@color/text_color_lighter</item>
         <item name="android:textCursorDrawable">@null</item>

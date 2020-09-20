@@ -28,7 +28,6 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
-import androidx.appcompat.app.AppCompatActivity;
 import it.feio.android.omninotes.helpers.LogDelegate;
 
 
@@ -97,23 +96,6 @@ public class Display {
       return mContext.getResources().getDimensionPixelSize(resourceId);
     }
     return 0;
-  }
-
-
-  public static int getNavigationBarHeight (View view) {
-    return (getFullSize(view).y - getUsableSize(view.getContext()).y);
-  }
-
-
-  @SuppressLint("NewApi")
-  public static int getActionbarHeight (Object mObject) {
-    int res = 0;
-    if (AppCompatActivity.class.isAssignableFrom(mObject.getClass())) {
-      res = ((AppCompatActivity) mObject).getSupportActionBar().getHeight();
-    } else if (Activity.class.isAssignableFrom(mObject.getClass())) {
-      res = ((Activity) mObject).getActionBar().getHeight();
-    }
-    return res;
   }
 
 

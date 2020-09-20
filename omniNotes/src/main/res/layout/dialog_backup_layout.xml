@@ -16,23 +16,17 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center_vertical|center_horizontal"
     android:orientation="vertical" >
 
     <EditText
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:id="@+id/export_file_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/padding_half"
-        android:layout_marginLeft="@dimen/padding_half"
-        android:layout_marginEnd="@dimen/padding_half"
-        android:layout_marginRight="@dimen/padding_half"
         android:gravity="center_horizontal">
-
         <requestFocus />
     </EditText>
 
@@ -40,11 +34,10 @@
         android:id="@+id/backup_existing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:textColor="#ff0000"
-        android:textSize="12sp" />
+        android:gravity="center_horizontal"/>
 
     <CheckBox
+      style="Box"
         android:id="@+id/backup_include_settings"
         android:text="@string/backup_include_settings"
         android:layout_width="match_parent"

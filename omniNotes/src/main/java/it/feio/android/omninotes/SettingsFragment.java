@@ -645,17 +645,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       }
     });
 
-    new MaterialDialog.Builder(getActivity())
-        .title(R.string.data_export_message)
-        .customView(v, false)
-        .positiveText(R.string.confirm)
-        .onPositive((dialog, which) -> {
+    new MaterialAlertDialogBuilder(getContext())
+        .setTitle(R.string.data_export_message)
+        .setView(v)
+        .setPositiveButton(R.string.confirm, (dialog, which) -> {
           ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
               AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
           String backupName = TextUtils.isEmpty(fileNameEditText.getText().toString()) ?
               fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();
           BackupHelper.startBackupService(backupName);
-        }).build().show();
+        }).show();
   }
 
 
