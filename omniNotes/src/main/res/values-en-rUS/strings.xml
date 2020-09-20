@@ -80,7 +80,6 @@
     <string name="error_occurred_deleting_note">Error while deleting note</string>
     <string name="no_backups_available">No backups available</string>
     <string name="data_export_message">Insert backup name</string>
-    <string name="data_import_message">Click -&gt; restore\nLong-click -&gt; delete</string>
     <string name="data_import_message_warning">WARNING: This will replace all current data!</string>
     <string name="data_export_completed">Data backup completed</string>
     <string name="data_import_completed">Data restore completed</string>

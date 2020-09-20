@@ -34,8 +34,6 @@ import static java.util.Collections.reverse;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -52,6 +50,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
@@ -554,8 +553,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     } else {
 
       MaterialAlertDialogBuilder importDialog = new MaterialAlertDialogBuilder(getActivity())
-          .setTitle(R.string.data_import_message)
-          .setItems(backupsArray, (dialog, position) -> {
+          .setTitle(R.string.settings_import)
+          .setSingleChoiceItems(backupsArray, -1, (dialog, position) -> {
+          })
+          .setPositiveButton(R.string.data_import_message, (dialog, which) -> {
+            int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
             File backupDir = StorageHelper.getBackupDir(backups.get(position));
             long size = StorageHelper.getSize(backupDir) / 1024;
             String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
@@ -570,7 +572,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             new MaterialAlertDialogBuilder(getActivity())
                 .setTitle(R.string.confirm_restoring_backup)
                 .setMessage(message)
-                .setPositiveButton(R.string.confirm, (dialog1, which) -> {
+                .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
                   ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
                       AnalyticsHelper.CATEGORIES.SETTING,
                       "settings_import_data");
@@ -583,40 +585,27 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                       backups.get(position));
                   getActivity().startService(service);
                 }).show();
+          })
+          .setNegativeButton(R.string.delete, (dialog, which) -> {
+            int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+            File backupDir = StorageHelper.getBackupDir(backups.get(position));
+            long size = StorageHelper.getSize(backupDir) / 1024;
+            String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
+
+            new MaterialDialog.Builder(getActivity())
+                .title(R.string.confirm_removing_backup)
+                .content(backups.get(position) + "" + " (" + sizeString + ")")
+                .positiveText(R.string.confirm)
+                .onPositive((dialog12, which1) -> {
+                  Intent service = new Intent(getActivity(),
+                      DataBackupIntentService.class);
+                  service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
+                  service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
+                      backups.get(position));
+                  getActivity().startService(service);
+                }).build().show();
           });
 
-      // OnShow is overridden to allow long-click on item so user can remove them
-//      importDialog.setOnShowListener(dialog -> {
-//
-//        RecyclerViewItemClickSupport.addTo(importDialog.getRecyclerView()).setOnItemClickListener((recyclerView, position, v) -> {
-//
-//        });
-//
-//        // Creation of backup removal dialog
-//        RecyclerViewItemClickSupport.addTo(importDialog.getRecyclerView()).setOnItemLongClickListener((recyclerView, position, v) -> {
-//          // Retrieves backup size
-//          File backupDir = StorageHelper.getBackupDir(backups.get(position));
-//          long size = StorageHelper.getSize(backupDir) / 1024;
-//          String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
-//
-//          new MaterialDialog.Builder(getActivity())
-//              .title(R.string.confirm_removing_backup)
-//              .content(backups.get(position) + "" + " (" + sizeString + ")")
-//              .positiveText(R.string.confirm)
-//              .onPositive((dialog12, which) -> {
-//                importDialog.dismiss();
-//                // An IntentService will be launched to accomplish the deletion task
-//                Intent service = new Intent(getActivity(),
-//                    DataBackupIntentService.class);
-//                service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
-//                service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-//                    backups.get(position));
-//                getActivity().startService(service);
-//              }).build().show();
-//
-//          return true;
-//        });
-//      });
 
       importDialog.show();
     }
