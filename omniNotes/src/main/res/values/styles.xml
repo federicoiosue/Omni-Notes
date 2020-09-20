@@ -18,7 +18,7 @@
   -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="OmniNotesTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="OmniNotesTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -26,9 +26,9 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeBackground">@color/colorPrimaryDark</item>
-        <item name="searchViewStyle">@style/SearchViewStyle</item>
-        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+        <item name="actionBarPopupTheme">@style/ThemeOverlay.MaterialComponents.Light</item>
         <item name="sublimePickerStyle">@style/ONSublimePickerStyle</item>
+        <item name="colorSurface">@color/colorAccent</item>
     </style>
 
     <style name="ONSublimePickerStyle" parent="SublimePickerStyleLight">
@@ -41,12 +41,12 @@
         <item name="android:windowBackground">@drawable/branded_background</item>
     </style>
 
-    <style name="PreferencesTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="PreferencesTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="OmniNotesFullscreenTheme" parent="@style/Theme.AppCompat">
+    <style name="OmniNotesFullscreenTheme" parent="@style/Theme.MaterialComponents">
         <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="windowActionBarOverlay">true</item>
         <item name="background">@color/black_overlay</item>
@@ -73,7 +73,7 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="Theme.AppCompat.Dialog.NoBackgroundOrDim" parent="AppTheme">
+    <style name="Theme.MaterialComponents.Dialog.NoBackgroundOrDim" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowContentOverlay">@null</item>
@@ -82,15 +82,11 @@
         <item name="android:windowIsFloating">true</item>
     </style>
 
-    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
-        <item name="closeIcon">@drawable/ic_cancel_white_24dp</item>
-    </style>
-
     <style name="AppTheme.ActionBar.Fullscreen.TitleTextStyle" parent="@android:style/TextAppearance">
         <item name="android:textColor">@android:color/white</item>
     </style>
 
-    <style name="Theme.AppCompat.Dialog.About" parent="Theme.AppCompat.Dialog">
+    <style name="Theme.MaterialComponents.Dialog.About" parent="Theme.MaterialComponents.Dialog">
         <item name="android:windowBackground">@color/about_bg</item>
     </style>
 
