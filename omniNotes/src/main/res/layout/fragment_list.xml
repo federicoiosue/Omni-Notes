@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:visibility="gone"
-                android:paddingLeft="@dimen/horizontal_margin"
+                android:paddingEnd="@dimen/horizontal_margin"
                 android:paddingStart="@dimen/horizontal_margin">
 
             <TextView
@@ -52,7 +52,7 @@
                     android:layout_height="match_parent"
                     android:src="@drawable/ic_cancel_black_18dp"
                     android:paddingTop="10dp"
-                    android:paddingRight="@dimen/horizontal_margin"
+                    android:paddingStart="@dimen/horizontal_margin"
                     android:paddingEnd="@dimen/horizontal_margin"/>
         </LinearLayout>
 
