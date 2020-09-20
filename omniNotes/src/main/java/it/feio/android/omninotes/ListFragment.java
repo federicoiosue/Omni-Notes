@@ -74,6 +74,7 @@ import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -235,7 +236,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     ButterKnife.bind(this, view);
 
     list.setHasFixedSize(true);
-    list.setLayoutManager(new LinearLayoutManager(getContext()));
+    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+    list.setLayoutManager(linearLayoutManager);
+
+    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(list.getContext(),
+        linearLayoutManager.getOrientation());
+    dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.fragment_list_item_divider));
+    list.addItemDecoration(dividerItemDecoration);
 
     RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
     itemAnimator.setAddDuration(1000);
