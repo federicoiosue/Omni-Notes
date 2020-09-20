@@ -249,6 +249,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     itemAnimator.setRemoveDuration(1000);
     list.setItemAnimator(itemAnimator);
 
+    // Replace listview with Mr. Jingles if it is empty
+    list.setEmptyView(empyListItem);
+
     return view;
   }
 
@@ -1054,7 +1057,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   /**
    * Notes list adapter initialization and association to view
    *
-   * @FIXME: This method is a divine opprobrium and MUST be refactored. I'm ashamed by myself.
+   * @FIXME: This method is a divine disgrace and MUST be refactored. I'm ashamed by myself.
    */
   void initNotesList (Intent intent) {
     LogDelegate.d("initNotesList intent: " + intent.getAction());
@@ -1185,11 +1188,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     list.setAdapter(listAdapter);
 
-    // Replace listview with Mr. Jingles if it is empty
-    if (notesLoadedEvent.notes.isEmpty()) {
-      list.setEmptyView(empyListItem);
-    }
-
     // Restores listview position when turning back to list or when navigating reminders
     if (!notesLoadedEvent.notes.isEmpty()) {
       if (Navigation.checkNavigation(Navigation.REMINDERS)) {
@@ -1308,11 +1306,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       trashNote(getSelectedNotes(), false);
     }
 
-    // If list is empty again Mr Jingles will appear again
-    if (listAdapter.getItemCount() == 0) {
-      list.setEmptyView(empyListItem);
-    }
-
     finishActionMode();
 
     // Advice to user
@@ -1395,13 +1388,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   private void deleteNotesExecute () {
     listAdapter.remove(getSelectedNotes());
     new NoteProcessorDelete(getSelectedNotes()).process();
-//    list.clearChoices();
     selectedNotes.clear();
     finishActionMode();
-    // If list is empty again Mr Jingles will appear again
-    if (listAdapter.getItemCount() == 0) {
-      list.setEmptyView(empyListItem);
-    }
     mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
   }
 
@@ -1441,11 +1429,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     listAdapter.notifyDataSetChanged();
     finishActionMode();
-
-    // If list is empty again Mr Jingles will appear again
-    if (listAdapter.getItemCount() == 0) {
-      list.setEmptyView(empyListItem);
-    }
 
     // Advice to user
     int msg = archive ? R.string.note_archived : R.string.note_unarchived;
@@ -1548,11 +1531,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     finishActionMode();
 
-    // If list is empty again Mr Jingles will appear again
-    if (listAdapter.getItemCount() == 0) {
-      list.setEmptyView(empyListItem);
-    }
-
     // Advice to user
     String msg;
     if (category != null) {
@@ -1611,11 +1589,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   private void tagNotesExecute (List<Tag> tags, Integer[] selectedTags, Integer[] preSelectedTags) {
     for (Note note : getSelectedNotes()) {
       tagNote(tags, selectedTags, note);
-    }
-
-    // If list is empty again Mr Jingles will appear again
-    if (listAdapter.getItemCount() == 0) {
-      list.setEmptyView(empyListItem);
     }
 
     if (getActionMode() != null) {
