@@ -111,8 +111,9 @@ public class TagsHelperTest {
 
     Pair<String, String> pair = TagsHelper.removeTag(testString, testString, singletonList(tag));
 
-    assertEquals(text, pair.first);
-    assertEquals(text, pair.second);
+    String expectedText = text.trim();
+    assertEquals(expectedText, pair.first);
+    assertEquals(expectedText, pair.second);
   }
 
   @Test
