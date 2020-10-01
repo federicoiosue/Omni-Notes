@@ -104,6 +104,18 @@ public class TagsHelperTest {
   }
 
   @Test
+  public void removesTagsFromNoteWithSpecialChars () {
+    Tag tag = TAG1;
+    String text = "<>[],-.(){}!?\n\t text ";
+    String testString = text + tag.getText();
+
+    Pair<String, String> pair = TagsHelper.removeTag(testString, testString, singletonList(tag));
+
+    assertEquals(text, pair.first);
+    assertEquals(text, pair.second);
+  }
+
+  @Test
   public void addsTagsToNote () {
     String newTag = "#addedTag";
     List<Tag> tags = new ArrayList<>();
