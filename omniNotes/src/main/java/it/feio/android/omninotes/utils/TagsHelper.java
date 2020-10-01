@@ -91,24 +91,28 @@ public class TagsHelper {
 
   public static Pair<String, String> removeTag (String noteTitle, String noteContent, List<Tag> tagsToRemove) {
     String title = noteTitle, content = noteContent;
-    final String tagSeparator = "[ <>,-.()\\[\\]{}!?]";
-    final String tagReplacement = "";
     for (Tag tagToRemove : tagsToRemove) {
-      String regex =
-              "(?<="+ tagSeparator + "|^)" +
-              tagToRemove.getText() +
-              "(?=" + tagSeparator + "|$|\\v)";
-      Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
       if (StringUtils.isNotEmpty(title)) {
-        Matcher matcher = pattern.matcher(title);
-        title = matcher.replaceAll(tagReplacement);
+        title = removeTagFromText(title, tagToRemove);
       }
       if (StringUtils.isNotEmpty(content)) {
-        Matcher matcher = pattern.matcher(content);
-        content = matcher.replaceAll(tagReplacement);
+        content = removeTagFromText(content, tagToRemove);
       }
     }
     return new Pair<>(title, content);
+  }
+
+
+  private static String removeTagFromText (String text, Tag tag) {
+    final String tagSeparator = "[ <>,-.()\\[\\]{}!?]";
+    final String tagReplacement = "";
+    String regex =
+            "(?<=" + tagSeparator + "|^)" +
+            tag.getText() +
+            "(?=" + tagSeparator + "|$|\\v)";
+    Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+    Matcher matcher = pattern.matcher(text);
+    return matcher.replaceAll(tagReplacement).trim();
   }
 
 
