@@ -17,8 +17,6 @@
 
 package it.feio.android.omninotes.utils;
 
-import static it.feio.android.omninotes.utils.ConstantsBase.TAG_SPECIAL_CHARS_TO_REMOVE;
-
 import androidx.core.util.Pair;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
@@ -26,13 +24,13 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.pixlui.links.UrlCompleter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.function.Consumer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
-import rx.Observable;
 
 
 public class TagsHelper {
@@ -93,24 +91,22 @@ public class TagsHelper {
 
   public static Pair<String, String> removeTag (String noteTitle, String noteContent, List<Tag> tagsToRemove) {
     String title = noteTitle, content = noteContent;
+    final String tagSeparator = "[ <>,-.()\\[\\]{}!?]";
+    final String tagReplacement = "";
     for (Tag tagToRemove : tagsToRemove) {
+      String regex =
+              "(?<="+ tagSeparator + "|^)" +
+              tagToRemove.getText() +
+              "(?=" + tagSeparator + "|$|\\v)";
+      Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
       if (StringUtils.isNotEmpty(title)) {
-        title = Observable.from(title.replaceAll(TAG_SPECIAL_CHARS_TO_REMOVE, " ").split("\\s"))
-                          .map(String::trim)
-                          .filter(s -> !s.matches(tagToRemove.getText()))
-                          .reduce((s, s2) -> s + " " + s2)
-                          .toBlocking()
-                          .singleOrDefault("");
+        Matcher matcher = pattern.matcher(title);
+        title = matcher.replaceAll(tagReplacement);
       }
       if (StringUtils.isNotEmpty(content)) {
-        content = Observable.from(content.replaceAll(TAG_SPECIAL_CHARS_TO_REMOVE, " ").split("\\s"))
-                            .map(String::trim)
-                            .filter(s -> !s.matches(tagToRemove.getText()))
-                            .reduce((s, s2) -> s + " " + s2)
-                            .toBlocking()
-                            .singleOrDefault("");
+        Matcher matcher = pattern.matcher(content);
+        content = matcher.replaceAll(tagReplacement);
       }
-
     }
     return new Pair<>(title, content);
   }
