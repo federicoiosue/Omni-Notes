@@ -15,11 +15,16 @@ The project was inspired by the absence of such applications compatible with old
 
 **Follow the developments and post your comments and advice on Facebook Community at https://www.facebook.com/OmniNotes**
 
-*Help to keep translations updated is always welcome, if you want give a hand checkout the translation project on **https://translate.omninotes.app.** *
+Help to keep translations updated is always welcome, if you want give a hand checkout the translation project on *https://translate.omninotes.app.*
 
 <a href="https://f-droid.org/repository/browse/?fdid=it.feio.android.omninotes.foss" target="_blank">
 <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"/></a>
 <a href="https://play.google.com/store/apps/details?id=it.feio.android.omninotes" target="_blank">
+<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/></a>
+
+If you're willing to help speeding up developments please also opt-in for the Alpha version of the app following continuous delivery principles:
+
+<a href="https://play.google.com/store/apps/details?id=it.feio.android.omninotes.alpha" target="_blank">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/></a>
 
 ## Features
@@ -194,7 +199,7 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 ## License
 
 
-    Copyright 2013-2019 Federico Iosue
+    Copyright 2013-2020 Federico Iosue
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
