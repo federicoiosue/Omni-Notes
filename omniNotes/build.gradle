@@ -277,7 +277,3 @@ tasks.withType(Test) {
         exceptionFormat "full"
     }
 }
-
-task testAll(dependsOn: ['test', 'connectedPlayDebugAndroidTest', 'connectedFossDebugAndroidTest']) {
-    description = "Run all tests"
-}
