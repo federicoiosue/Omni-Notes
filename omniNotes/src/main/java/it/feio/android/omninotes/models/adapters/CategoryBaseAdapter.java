@@ -112,12 +112,7 @@ public class CategoryBaseAdapter extends BaseAdapter {
     if (category.getColor() != null && category.getColor().length() > 0) {
       Drawable img = mActivity.getResources().getDrawable(R.drawable.ic_folder_special_black_24dp);
       ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"), Integer.parseInt(category.getColor()));
-      // Before API 16 the object is mutable yet
-      if (Build.VERSION.SDK_INT >= 16) {
-        img.mutate().setColorFilter(cf);
-      } else {
-        img.setColorFilter(cf);
-      }
+      img.mutate().setColorFilter(cf);
       holder.imgIcon.setImageDrawable(img);
       int padding = 4;
       holder.imgIcon.setPadding(padding, padding, padding, padding);
