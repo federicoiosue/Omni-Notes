@@ -1028,7 +1028,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       // Otherwise all other actions will be available
     } else {
       // Temporary removed until fixed on Oreo and following
-//			menu.findItem(R.id.menu_add_shortcut).setVisible(!newNote);
+			menu.findItem(R.id.menu_add_shortcut).setVisible(!newNote);
 			menu.findItem(R.id.menu_pin_note).setVisible(!newNote);
       menu.findItem(R.id.menu_archive).setVisible(!newNote && !noteTmp.isArchived());
       menu.findItem(R.id.menu_unarchive).setVisible(!newNote && noteTmp.isArchived());
@@ -1525,7 +1525,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     exitMessage = trash ? getString(R.string.note_trashed) : getString(R.string.note_untrashed);
     exitCroutonStyle = trash ? ONStyle.WARN : ONStyle.INFO;
     if (trash) {
-      ShortcutHelper.removeshortCut(OmniNotes.getAppContext(), noteTmp);
+      ShortcutHelper.removeShortcut(OmniNotes.getAppContext(), noteTmp);
       ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
     } else {
       ReminderHelper.addReminder(OmniNotes.getAppContext(), note);

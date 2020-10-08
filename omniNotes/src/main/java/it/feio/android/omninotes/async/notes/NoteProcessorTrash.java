@@ -39,7 +39,7 @@ public class NoteProcessorTrash extends NoteProcessor {
   @Override
   protected void processNote (Note note) {
     if (trash) {
-      ShortcutHelper.removeshortCut(OmniNotes.getAppContext(), note);
+      ShortcutHelper.removeShortcut(OmniNotes.getAppContext(), note);
       ReminderHelper.removeReminder(OmniNotes.getAppContext(), note);
     } else {
       ReminderHelper.addReminder(OmniNotes.getAppContext(), note);

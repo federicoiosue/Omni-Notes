@@ -76,6 +76,14 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
+            <intent-filter>
+                <data android:scheme="app" android:host="omninotes" />
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+            </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />

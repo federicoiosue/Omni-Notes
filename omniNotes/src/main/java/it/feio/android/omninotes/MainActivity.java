@@ -21,7 +21,6 @@ import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_RESTART_APP;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SEND_AND_EXIT;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT;
-import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_START_APP;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
@@ -378,14 +377,16 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     }
 
     // Tag search
-    if (Intent.ACTION_VIEW.equals(i.getAction())) {
+    if (Intent.ACTION_VIEW.equals(i.getAction()) && i.getData() == null) {
       switchToList();
       return;
     }
 
     // Home launcher shortcut widget
-    if (ACTION_SHORTCUT_WIDGET.equals(i.getAction())) {
-      switchToDetail(new Note());
+    if (Intent.ACTION_VIEW.equals(i.getAction()) && i.getData() != null) {
+      Long id = Long.valueOf(Uri.parse(i.getDataString()).getQueryParameter("id"));
+      Note note = DbHelper.getInstance().getNote(id);
+      switchToDetail(note);
       return;
     }
   }
