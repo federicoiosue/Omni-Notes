@@ -387,6 +387,10 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     if (Intent.ACTION_VIEW.equals(i.getAction()) && i.getData() != null) {
       Long id = Long.valueOf(Uri.parse(i.getDataString()).getQueryParameter("id"));
       Note note = DbHelper.getInstance().getNote(id);
+      if (note == null) {
+        showMessage(R.string.note_doesnt_exist, ONStyle.ALERT);
+        return;
+      }
       switchToDetail(note);
       return;
     }
