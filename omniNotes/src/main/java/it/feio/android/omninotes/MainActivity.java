@@ -21,6 +21,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_RESTART_APP;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SEND_AND_EXIT;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_START_APP;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
@@ -387,6 +388,12 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
       Long id = Long.valueOf(Uri.parse(i.getDataString()).getQueryParameter("id"));
       Note note = DbHelper.getInstance().getNote(id);
       switchToDetail(note);
+      return;
+    }
+
+    // Home launcher "new note" shortcut widget
+    if (ACTION_SHORTCUT_WIDGET.equals(i.getAction())) {
+      switchToDetail(new Note());
       return;
     }
   }
