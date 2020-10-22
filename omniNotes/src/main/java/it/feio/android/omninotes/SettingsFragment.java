@@ -502,6 +502,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
               StorageHelper.delete(getActivity(), attachmentsDir.getAbsolutePath());
               File cacheDir = StorageHelper.getCacheDir(getActivity());
               StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
+              prefs.edit().clear().apply();
               SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
             }).build().show();
 
