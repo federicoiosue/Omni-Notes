@@ -15,12 +15,13 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-             xmlns:wheel="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:layout_marginLeft="@dimen/activity_additional_margin"
-             android:layout_marginRight="@dimen/activity_additional_margin">
+  xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+  xmlns:wheel="http://schemas.android.com/apk/res-auto"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_marginLeft="@dimen/activity_additional_margin"
+  android:layout_marginRight="@dimen/activity_additional_margin">
 
     <it.feio.android.omninotes.models.views.InterceptorLinearLayout
             android:id="@+id/list_root"
@@ -67,13 +68,15 @@
                     android:paddingRight="8dp"
                     android:paddingTop="@dimen/padding_half"
                     android:clipToPadding="false"
-                    android:scrollbarSize="4dp"
                     android:drawSelectorOnTop="true"
                     android:listSelector="@drawable/icon_selector"
+                    android:scrollbars="vertical"
                     android:scrollbarStyle="outsideOverlay"
-                    android:scrollbarThumbVertical="@drawable/scroll_bar"
-                    android:fastScrollEnabled="true"
-                    android:smoothScrollbar="true"
+                    app:fastScrollEnabled="true"
+                    app:fastScrollHorizontalThumbDrawable="@drawable/scrollbar_thumb_drawable"
+                    app:fastScrollHorizontalTrackDrawable="@drawable/scrollbar_line_drawable"
+                    app:fastScrollVerticalThumbDrawable="@drawable/scrollbar_thumb_drawable"
+                    app:fastScrollVerticalTrackDrawable="@drawable/scrollbar_line_drawable"
                     android:scrollingCache="false"
                     android:animationCache="false"/>
 
