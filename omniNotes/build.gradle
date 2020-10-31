@@ -101,14 +101,14 @@ android {
         }
         foss {
             dimension "standard"
-            applicationId project.PACKAGE + ".foss"
+            applicationIdSuffix ".foss"
         }
         beta {
             dimension "standard"
         }
         alpha {
             dimension "standard"
-            applicationId project.PACKAGE + ".alpha"
+            applicationIdSuffix ".alpha"
         }
     }
 
