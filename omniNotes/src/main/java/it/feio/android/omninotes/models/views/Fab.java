@@ -23,7 +23,6 @@ import static it.feio.android.omninotes.utils.ConstantsBase.FAB_ANIMATION_TIME;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import androidx.core.view.ViewPropertyAnimatorListener;
 import androidx.recyclerview.widget.RecyclerView;

@@ -50,7 +50,7 @@
     app:showAsAction="ifRoom" />
   <item
     android:id="@+id/menu_checklist_off"
-    android:icon="@drawable/ic_file_document_box_white_48dp"
+    android:icon="@drawable/text_box_white"
     android:orderInCategory="500"
     android:title="@string/checklist_off"
     android:visible="false"
