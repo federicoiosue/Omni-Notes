@@ -22,6 +22,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#F44336</color>
     <color name="colorAccentPressed">#D32F2F</color>
+    <color name="materialGrey100">#F5F5F5</color>
 
     <!-- Statusbar overlay -->
     <color name="statusbar_overlay">#20000000</color>

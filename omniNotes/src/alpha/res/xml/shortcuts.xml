@@ -20,7 +20,7 @@
   tools:targetApi="25">
   <shortcut
     android:enabled="true"
-    android:icon="@drawable/plus"
+    android:icon="@drawable/plus_adaptive"
     android:shortcutId="shortcut_add_note"
     android:shortcutShortLabel="@string/add_note">
     <intent
@@ -30,7 +30,7 @@
   </shortcut>
   <shortcut
     android:enabled="true"
-    android:icon="@drawable/camera"
+    android:icon="@drawable/camera_adaptive"
     android:shortcutId="shortcut_add_photo"
     android:shortcutShortLabel="@string/photo">
     <intent
