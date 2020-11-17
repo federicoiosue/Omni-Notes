@@ -36,20 +36,6 @@ if (signConfigExists) {
 
 android {
 
-    if (project.hasProperty("SIGN_PROPS")
-            && new File(project.property("SIGN_PROPS").toString()).exists()) {
-        Properties props = new Properties()
-        props.load(new FileInputStream(file(project.property("SIGN_PROPS"))))
-        signingConfigs {
-            signConfig {
-                storeFile file(props['keystore'])
-                storePassword props['keystore.password']
-                keyAlias props['keystore.alias']
-                keyPassword props['keystore.alias.password']
-            }
-        }
-    }
-
     compileSdkVersion Integer.parseInt(project.TARGET_SDK)
     buildToolsVersion project.BUILD_TOOLS
 
