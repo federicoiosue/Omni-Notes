@@ -18,12 +18,13 @@
 <changelog bulletedList="true">
 
     <changelogversion
-      changeDate="Oct 23, 2020"
+      changeDate="Nov 17, 2020"
       versionName="6.1.0 Alpha 1">
-        <changelogtext>[b]New![/b] Pin your notes on top of notifications!</changelogtext>
+        <changelogtext>[b]New![/b] Pin your notes on top of notifications</changelogtext>
         <changelogtext>[b]New![/b] Dropped support for Android versions older than KitKat to improve performances</changelogtext>
         <changelogtext>[b]New![/b] Add reminders with a single touch with new dialogs!</changelogtext>
-        <changelogtext>[b]New![/b] Add new note from app's icon shortcut!</changelogtext>
+        <changelogtext>[b]New![/b] Add new note from app's icon shortcut</changelogtext>
+        <changelogtext>[b]New![/b] Move to bottom your checked items on demand</changelogtext>
         <changelogtext>[i]Improved![/i] Updated to SDK 29 to include framework fixed and improvements</changelogtext>
         <changelogtext>[i]Improved![/i] Simplified merging notes: confirmation is no more required</changelogtext>
         <changelogtext>[i]Improved![/i] More intuitive bulk tag editing: all notes'tags will be preselected for easier management</changelogtext>

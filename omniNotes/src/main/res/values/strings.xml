@@ -141,6 +141,7 @@
     <string name="no_items_in_list">Nothing here!</string>
     <string name="checklist_on">Enable checklist</string>
     <string name="checklist_off">Disable checklist</string>
+    <string name="checklist_moveToBottom">Move checked items to bottom</string>
     <string name="checklist_item_hint">New item</string>
     <string name="remove_checklist">Remove checklist?</string>
     <string name="checklist_keep_checked">Keep checked items</string>

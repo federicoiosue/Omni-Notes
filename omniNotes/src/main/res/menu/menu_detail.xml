@@ -56,6 +56,13 @@
     android:visible="false"
     app:showAsAction="ifRoom" />
   <item
+    android:id="@+id/menu_checklist_moveToBottom"
+    android:icon="@drawable/text_box_white"
+    android:orderInCategory="550"
+    android:title="@string/checklist_moveToBottom"
+    android:visible="false"
+    app:showAsAction="ifRoom" />
+  <item
     android:id="@+id/menu_lock"
     android:icon="@drawable/ic_lock_black_24dp"
     android:orderInCategory="600"

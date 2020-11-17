@@ -1019,6 +1019,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
     menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
+    menu.findItem(R.id.menu_checklist_moveToBottom).setVisible(noteTmp.isChecklist() && mChecklistManager.getCheckedCount() > 0);
     menu.findItem(R.id.menu_lock).setVisible(!noteTmp.isLocked());
     menu.findItem(R.id.menu_unlock).setVisible(noteTmp.isLocked());
     // If note is trashed only this options will be available from menu
@@ -1095,6 +1096,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       case R.id.menu_checklist_off:
         toggleChecklist();
         break;
+      case R.id.menu_checklist_moveToBottom:
+        moveCheckedItemsToBottom();
+        break;
       case R.id.menu_lock:
       case R.id.menu_unlock:
         lockNote();
@@ -1150,9 +1154,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     saveAndExit(this);
   }
 
-  /**
-   *
-   */
   private void toggleChecklist () {
 
     // In case checklist is active a prompt will ask about many options
@@ -1234,6 +1235,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       toggleChecklistView = newView;
       animate(toggleChecklistView).alpha(1).scaleXBy(0).scaleX(1).scaleYBy(0).scaleY(1);
       noteTmp.setChecklist(!noteTmp.isChecklist());
+    }
+  }
+
+  private void moveCheckedItemsToBottom () {
+    if (noteTmp.isChecklist()) {
+      mChecklistManager.moveCheckedToBottom();
     }
   }
 
