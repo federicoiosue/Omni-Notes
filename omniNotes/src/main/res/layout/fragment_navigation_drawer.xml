@@ -16,10 +16,11 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/navigation_bg">
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/navigation_bg">
 
     <LinearLayout
         android:id="@+id/left_drawer"
@@ -66,6 +67,68 @@
             android:listSelector="@drawable/icon_selector"
             android:scrollingCache="false"
             android:animationCache="false" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:onClick="rate"
+            android:paddingStart="@dimen/horizontal_margin">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:padding="4dp"
+                app:srcCompat="@drawable/ic_baseline_star_24" />
+
+
+            <TextView
+                android:text="RATE US"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/icon_text_margin"
+                android:textAllCaps="true"
+                android:textAppearance="@style/Text.Normal"
+                android:textColor="@color/drawer_text"
+                pixlui:typeface="Roboto-Regular.ttf"
+
+                />
+
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/icon_selector"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:onClick="share"
+            android:paddingStart="@dimen/horizontal_margin">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:padding="4dp"
+                app:srcCompat="@drawable/ic_baseline_share_24" />
+
+            <TextView
+                android:text="SHARE "
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:paddingStart="@dimen/icon_text_margin"
+                android:textAllCaps="true"
+                android:textAppearance="@style/Text.Normal"
+                android:textColor="@color/drawer_text"
+                pixlui:typeface="Roboto-Regular.ttf"
+
+                />
+
+        </LinearLayout>
 
         <include android:id="@+id/settings_view" layout="@layout/drawer_category_list_footer"/>
 

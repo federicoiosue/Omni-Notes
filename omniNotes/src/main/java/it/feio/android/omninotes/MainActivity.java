@@ -30,6 +30,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_KEY;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -43,6 +44,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
@@ -107,6 +109,21 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
 //		new UpdaterTask(this).execute(); Removed due to missing backend
 
+  }
+
+  public void rate(View view){
+     startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://play.google.com/store/apps/details?id="+getPackageName())));
+  }
+
+  public void share(View view){
+
+    Intent shareintent =new Intent();
+    shareintent.setAction(Intent.ACTION_SEND);
+    shareintent.putExtra(Intent.EXTRA_TEXT,"http://play.google.com/store/apps/details?id="+getPackageName());
+    shareintent.setType("text/plain");
+    startActivity(shareintent);
+
+      //startActivity(new Intent(Intent.ACTION_VIEW,Uri.parse("http://play.google.com/store/apps/details?id="+getPackageName())));
   }
 
   @Override
