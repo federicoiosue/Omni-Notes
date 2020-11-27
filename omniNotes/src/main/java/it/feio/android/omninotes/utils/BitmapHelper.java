@@ -50,7 +50,6 @@ public class BitmapHelper {
    */
   public static Bitmap getBitmapFromAttachment (Context mContext, Attachment mAttachment, int width, int height) {
     Bitmap bmp = null;
-    mAttachment.getUri().getPath();
 
     if (AttachmentsHelper.typeOf(mAttachment, MIME_TYPE_VIDEO, MIME_TYPE_IMAGE, MIME_TYPE_SKETCH)) {
       bmp = getImageBitmap(mContext, mAttachment, width, height);
