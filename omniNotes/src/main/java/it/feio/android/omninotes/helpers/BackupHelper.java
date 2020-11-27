@@ -22,29 +22,28 @@ import static it.feio.android.omninotes.utils.ConstantsBase.DATABASE_NAME;
 
 import android.content.Context;
 import android.content.Intent;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
+import androidx.annotation.NonNull;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TextHelper;
-import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.filefilter.FileFilterUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
@@ -138,10 +137,6 @@ public final class BackupHelper {
     return result;
   }
 
-
-  /**
-   * Imports backuped notes
-   */
   public static List<Note> importNotes (File backupDir) {
     List<Note> notes = new ArrayList<>();
     for (File file : FileUtils.listFiles(backupDir, new RegexFileFilter("\\d{13}.json"), TrueFileFilter.INSTANCE)) {
@@ -150,24 +145,15 @@ public final class BackupHelper {
     return notes;
   }
 
-
-  /**
-   * Imports single note from its file
-   */
   public static Note importNote (File file) {
     Note note = getImportNote(file);
     if (note.getCategory() != null) {
       DbHelper.getInstance().updateCategory(note.getCategory());
     }
-    note.setAttachmentsListOld(DbHelper.getInstance().getNoteAttachments(note));
     DbHelper.getInstance().updateNote(note, false);
     return note;
   }
 
-
-  /**
-   * Retrieves single note from its file
-   */
   public static Note getImportNote (File file) {
     try {
       Note note = new Note();
@@ -183,65 +169,36 @@ public final class BackupHelper {
     }
   }
 
-
-  /**
-   * Import attachments from backup folder
-   */
-  public static boolean importAttachments (File backupDir) {
-    return importAttachments(backupDir, null);
-  }
-
-
   /**
    * Import attachments from backup folder notifying for each imported item
    */
   public static boolean importAttachments (File backupDir, NotificationsHelper notificationsHelper) {
+    AtomicBoolean result = new AtomicBoolean(true);
     File attachmentsDir = StorageHelper.getAttachmentDir();
     File backupAttachmentsDir = new File(backupDir, attachmentsDir.getName());
     if (!backupAttachmentsDir.exists()) {
-      return true;
+      return false;
     }
-    boolean result = true;
-    Collection list = FileUtils.listFiles(backupAttachmentsDir, FileFilterUtils.trueFileFilter(),
-        TrueFileFilter.INSTANCE);
-    Iterator i = list.iterator();
-    int imported = 0;
-    File file = null;
-    while (i.hasNext()) {
-      try {
-        file = (File) i.next();
-        FileUtils.copyFileToDirectory(file, attachmentsDir, true);
-        if (notificationsHelper != null) {
-          notificationsHelper.updateMessage(
-              TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string.attachment))
-                  + " " + imported++ + "/" + list.size()
-          );
-        }
-      } catch (IOException e) {
-        result = false;
-        LogDelegate.e("Error importing the attachment " + file.getName());
-      }
-    }
-    return result;
-  }
 
-
-  /**
-   * Import attachments of a specific note from backup folder
-   */
-  public static void importAttachments (Note note, File backupDir) throws IOException {
-
-    File backupAttachmentsDir = new File(backupDir, StorageHelper.getAttachmentDir().getName());
-
-    for (Attachment attachment : note.getAttachmentsList()) {
-      String attachmentFileName = FilenameUtils.getName(attachment.getUriPath());
-      File attachmentFile = new File(backupAttachmentsDir, attachmentFileName);
-      if (attachmentFile.exists()) {
-        FileUtils.copyFileToDirectory(attachmentFile, StorageHelper.getAttachmentDir(), true);
-      } else {
-        LogDelegate.e("Attachment file not found: " + attachmentFileName);
-      }
-    }
+    AtomicInteger imported = new AtomicInteger();
+    ArrayList<Attachment> attachments = DbHelper.getInstance().getAllAttachments();
+    rx.Observable.from(attachments)
+                 .forEach(attachment -> {
+                   try {
+                     File attachmentFile = new File(backupAttachmentsDir.getAbsolutePath(),
+                         attachment.getUri().getLastPathSegment());
+                     FileUtils.copyFileToDirectory(attachmentFile, attachmentsDir, true);
+                     if (notificationsHelper != null) {
+                       notificationsHelper.updateMessage(
+                           TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string.attachment)) + " "
+                               + imported.incrementAndGet() + "/" + attachments.size());
+                     }
+                   } catch (IOException e) {
+                     LogDelegate.e("Error importing the attachment " + attachment.getUriPath(), e);
+                     result.set(false);
+                   }
+                 });
+    return result.get();
   }
 
 

@@ -18,17 +18,22 @@
 package it.feio.android.omninotes.helpers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import android.net.Uri;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -114,6 +119,18 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     assertEquals(retrievedAttachmentContent, FileUtils.readFileToString(new File(attachment.getUri().getPath())));
   }
 
+  @Test
+  public void importAttachments () throws IOException {
+    File testAttachment = new File(targetAttachmentsDir, "testAttachment");
+    testAttachment.createNewFile();
+    Attachment attachment = new Attachment(Uri.fromFile(new File(StorageHelper.getAttachmentDir(), testAttachment.getName())), Constants.MIME_TYPE_FILES);
+    DbHelper.getInstance().updateAttachment(attachment);
+
+    boolean result = BackupHelper.importAttachments(targetDir, null);
+
+    assertTrue(result);
+    assertTrue(new File(attachment.getUriPath().replace("file://", "")).exists());
+  }
 
   @After
   public void tearDown () throws Exception {
