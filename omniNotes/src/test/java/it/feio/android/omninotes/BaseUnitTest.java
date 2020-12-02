@@ -20,12 +20,21 @@ package it.feio.android.omninotes;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import android.content.Context;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.LocaleList;
+import androidx.core.os.LocaleListCompat;
 import it.feio.android.omninotes.models.Note;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Locale;
 
 
 public class BaseUnitTest {
@@ -76,4 +85,28 @@ public class BaseUnitTest {
     note.setContent(content);
     return note;
   }
+
+  protected Context getContextMock () {
+    Context context = mock(Context.class);
+    Resources res = getResourcesMock();
+    when(context.getResources()).thenReturn(res);
+    return context;
+  }
+
+  protected Resources getResourcesMock () {
+    Resources resources = mock(Resources.class);
+    Configuration conf = getConfigurationMock();
+    when(resources.getConfiguration()).thenReturn(conf);
+    return resources;
+  }
+
+  protected Configuration getConfigurationMock () {
+    Configuration configuration = mock(Configuration.class);
+    LocaleList localeList = mock(LocaleList.class);
+    when(configuration.getLocales()).thenReturn(localeList);
+    when(configuration.getLocales().get(0)).thenReturn(Locale.ITALY);
+//    doReturn(Locale.ITALY).when(configuration.locale);
+    return configuration;
+  }
+
 }

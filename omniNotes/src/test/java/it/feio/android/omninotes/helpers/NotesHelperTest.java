@@ -20,19 +20,34 @@ package it.feio.android.omninotes.helpers;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertNotNull;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.doReturn;
 
+import android.content.Context;
+import android.os.Build;
 import it.feio.android.omninotes.BaseUnitTest;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.models.StatsSingleNote;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.date.DateUtils;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.Assert;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PowerMockIgnore;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
-
+@RunWith(PowerMockRunner.class)
+@PrepareForTest({OmniNotes.class, Build.VERSION.class})
+@PowerMockIgnore("jdk.internal.reflect.*")
 public class NotesHelperTest extends BaseUnitTest {
 
   @Test
@@ -82,4 +97,18 @@ public class NotesHelperTest extends BaseUnitTest {
     Assert.assertTrue(mergeNote.getContent().contains("Merged note 2 content"));
     assertEquals(StringUtils.countMatches(mergeNote.getContent(), Constants.MERGED_NOTES_SEPARATOR), 2);
   }
+
+  @Test
+  public void getNoteInfos () {
+    Context contextMock = getContextMock();
+    Whitebox.setInternalState(Build.VERSION.class, "SDK_INT", 29);
+    PowerMockito.stub(PowerMockito.method(OmniNotes.class, "getAppContext")).toReturn(contextMock);
+
+    StatsSingleNote info = NotesHelper.getNoteInfos(new Note());
+
+    assertEquals(0, info.getChars());
+    assertEquals(0, info.getWords());
+    assertEquals(0, info.getChecklistCompletedItemsNumber());
+  }
+
 }

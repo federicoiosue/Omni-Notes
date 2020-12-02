@@ -52,7 +52,8 @@ public class DefaultWordCounter implements WordCounter {
     String titleAndContent = note.getTitle() + "\n" + note.getContent();
     return Observable
         .from(sanitizeTextForWordsAndCharsCount(note, titleAndContent).split(""))
-        .filter(s -> !s.matches("\\s"))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
         .count().toBlocking().single();
   }
 
