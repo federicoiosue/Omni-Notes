@@ -31,27 +31,39 @@ import org.junit.runner.RunWith;
 public class CountFactoryTest extends BaseAndroidTestCase {
 
   @Test
-  public void getWordCounterForEnglish () {
+  public void getWordCounter_english () {
     OmniNotes.getAppContext().getResources().getConfiguration().setLocale(Locale.US);
     assertEquals(DefaultWordCounter.class, CountFactory.getWordCounter().getClass());
   }
 
   @Test
-  public void getWordCounterForItalian () {
+  public void getWordCounter_italian () {
     OmniNotes.getAppContext().getResources().getConfiguration().setLocale(Locale.ITALY);
     assertEquals(DefaultWordCounter.class, CountFactory.getWordCounter().getClass());
   }
 
   @Test
-  public void getWordCounterForChineseSimplified () {
+  public void getWordCounter_chineseSimplified () {
     OmniNotes.getAppContext().getResources().getConfiguration().setLocale(Locale.SIMPLIFIED_CHINESE);
     assertEquals(IdeogramsWordCounter.class, CountFactory.getWordCounter().getClass());
   }
 
   @Test
-  public void getWordCounterForChineseTraditional () {
+  public void getWordCounter_chineseTraditional () {
     OmniNotes.getAppContext().getResources().getConfiguration().setLocale(Locale.TRADITIONAL_CHINESE);
     assertEquals(IdeogramsWordCounter.class, CountFactory.getWordCounter().getClass());
+  }
+
+  @Test
+  public void getWordCounter_japanese () {
+    OmniNotes.getAppContext().getResources().getConfiguration().setLocale(Locale.JAPAN);
+    assertEquals(IdeogramsWordCounter.class, CountFactory.getWordCounter().getClass());
+  }
+
+  @Test
+  public void getWordCounter_unknowLocale () {
+    OmniNotes.getAppContext().getResources().getConfiguration().setLocale(new Locale("meow"));
+    assertEquals(DefaultWordCounter.class, CountFactory.getWordCounter().getClass());
   }
 
 }
