@@ -30,6 +30,7 @@ import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.StatsSingleNote;
 import java.util.Objects;
+import org.apache.commons.lang3.StringUtils;
 
 
 public class NoteInfosActivity extends Activity {
@@ -74,7 +75,7 @@ public class NoteInfosActivity extends Activity {
     populateView(chars, infos.getChars());
     populateView(words, infos.getWords());
     populateView(checklistItems, infos.getChecklistItemsNumber());
-    populateView(checklistCompletedItems, getChecklistCompletionState(infos));
+    populateView(checklistCompletedItems, getChecklistCompletionState(infos), !note.isChecklist());
     populateView(images, infos.getImages());
     populateView(videos, infos.getVideos());
     populateView(audioRecordings, infos.getAudioRecordings());
@@ -93,7 +94,11 @@ public class NoteInfosActivity extends Activity {
   }
 
   private void populateView (TextView textView, String value) {
-    if (!TextUtils.isEmpty(value)) {
+    populateView(textView, value, false);
+  }
+
+  private void populateView (TextView textView, String value, boolean forceHide) {
+    if (StringUtils.isNotEmpty(value) && !forceHide) {
       textView.setText(value);
     } else {
       ((View) textView.getParent()).setVisibility(View.GONE);
