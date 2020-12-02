@@ -67,6 +67,7 @@ import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.FileProviderHelper;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
+import it.feio.android.pixlui.links.UrlCompleter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -378,7 +379,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     }
 
     // Tag search
-    if (Intent.ACTION_VIEW.equals(i.getAction()) && i.getData() == null) {
+    if (Intent.ACTION_VIEW.equals(i.getAction()) && i.getDataString().startsWith(UrlCompleter.HASHTAG_SCHEME)) {
       switchToList();
       return;
     }
