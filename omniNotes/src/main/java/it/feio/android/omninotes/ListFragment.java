@@ -1225,33 +1225,17 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             LogDelegate.d("Please stop swiping in the zone beneath the last card");
           }
 
-          if (note != null && note.isLocked()) {
+          if (note.isLocked()) {
+            Note finalNote = note;
             PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
-              if (!passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
+              if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
+                onNoteSwipedPerformAction(finalNote);
+              } else {
                 onUndo(null);
               }
             });
-          }
-
-          getSelectedNotes().add(note);
-
-          // Depending on settings and note status this action will...
-          // ...restore
-          if (Navigation.checkNavigation(Navigation.TRASH)) {
-            trashNotes(false);
-          }
-          // ...removes category
-          else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
-            categorizeNotesExecute(null);
           } else {
-            // ...trash
-            if (prefs.getBoolean("settings_swipe_to_trash", false)
-                || Navigation.checkNavigation(Navigation.ARCHIVE)) {
-              trashNotes(true);
-              // ...archive
-            } else {
-              archiveNotes(true);
-            }
+            onNoteSwipedPerformAction(note);
           }
         }
       };
@@ -1261,6 +1245,29 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       itemTouchHelper.attachToRecyclerView(list);
     } else {
       itemTouchHelper.attachToRecyclerView(null);
+    }
+  }
+
+  private void onNoteSwipedPerformAction (Note note) {
+    getSelectedNotes().add(note);
+
+    // Depending on settings and note status this action will...
+    // ...restore
+    if (Navigation.checkNavigation(Navigation.TRASH)) {
+      trashNotes(false);
+    }
+    // ...removes category
+    else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
+      categorizeNotesExecute(null);
+    } else {
+      // ...trash
+      if (prefs.getBoolean("settings_swipe_to_trash", false)
+          || Navigation.checkNavigation(Navigation.ARCHIVE)) {
+        trashNotes(true);
+        // ...archive
+      } else {
+        archiveNotes(true);
+      }
     }
   }
 
