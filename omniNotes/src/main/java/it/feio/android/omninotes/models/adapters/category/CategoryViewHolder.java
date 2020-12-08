@@ -17,25 +17,21 @@
 
 package it.feio.android.omninotes.models.adapters.category;
 
-import android.view.View;
 import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.neopixl.pixlui.components.textview.TextView;
-import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.databinding.DrawerListItemBinding;
 
 public class CategoryViewHolder extends ViewHolder {
 
-  public CategoryViewHolder (View view) {
-    super(view);
-    ButterKnife.bind(this, view);
-  }
-
-  @BindView(R.id.icon)
   public ImageView imgIcon;
-  @BindView(R.id.title)
   public TextView txtTitle;
-  @BindView(R.id.count)
   public android.widget.TextView count;
+
+  public CategoryViewHolder (DrawerListItemBinding binding) {
+    super(binding.getRoot());
+    imgIcon = binding.icon;
+    txtTitle = binding.title;
+    count = binding.count;
+  }
 }

@@ -33,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.databinding.DrawerListItemBinding;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.category.CategoryViewHolder;
 import java.util.List;
@@ -63,8 +64,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryVi
   @NonNull
   @Override
   public CategoryViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.drawer_list_item, parent, false);
-    return new CategoryViewHolder(view);
+    return new CategoryViewHolder(DrawerListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
   }
 
   @Override

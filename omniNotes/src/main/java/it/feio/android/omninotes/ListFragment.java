@@ -78,11 +78,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.neopixl.pixlui.components.textview.TextView;
-import com.pnikosis.materialishprogress.ProgressWheel;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -96,6 +92,7 @@ import it.feio.android.omninotes.async.notes.NoteProcessorArchive;
 import it.feio.android.omninotes.async.notes.NoteProcessorCategorize;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.NoteProcessorTrash;
+import it.feio.android.omninotes.databinding.FragmentListBinding;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.NotesHelper;
@@ -107,12 +104,9 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.UndoBarController;
 import it.feio.android.omninotes.models.adapters.CategoryRecyclerViewAdapter;
 import it.feio.android.omninotes.models.adapters.NoteAdapter;
-import it.feio.android.omninotes.models.holders.NoteViewHolder;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
 import it.feio.android.omninotes.models.views.Fab;
-import it.feio.android.omninotes.models.views.InterceptorLinearLayout;
-import it.feio.android.omninotes.models.views.RecyclerViewEmptySupport;
 import it.feio.android.omninotes.utils.AnimationsHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.KeyboardUtils;
@@ -141,30 +135,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   public static final String LIST_VIEW_POSITION = "listViewPosition";
   public static final String LIST_VIEW_POSITION_OFFSET = "listViewPositionOffset";
 
-  @BindView(R.id.list_root)
-  InterceptorLinearLayout listRoot;
-  @BindView(R.id.list)
-  RecyclerViewEmptySupport list;
-  @BindView(R.id.search_layout)
-  View searchLayout;
-  @BindView(R.id.search_query)
-  android.widget.TextView searchQueryView;
-  @BindView(R.id.search_cancel)
-  ImageView searchCancel;
-  @BindView(R.id.empty_list)
-  TextView empyListItem;
-  @BindView(R.id.expanded_image)
-  ImageView expandedImageView;
-  @BindView(R.id.fab)
-  View fabView;
-  @BindView(R.id.undobar)
-  View undoBarView;
-  @BindView(R.id.progress_wheel)
-  ProgressWheel progressWheel;
-  @BindView(R.id.snackbar_placeholder)
-  View snackBarPlaceholder;
-
-  NoteViewHolder noteViewHolder;
+  private FragmentListBinding binding;
 
   private List<Note> selectedNotes = new ArrayList<>();
   private SearchView searchView;
@@ -232,25 +203,25 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       }
       keepActionMode = false;
     }
-    View view = inflater.inflate(R.layout.fragment_list, container, false);
-    ButterKnife.bind(this, view);
+    binding = FragmentListBinding.inflate(inflater, container, false);
+    View view = binding.getRoot();
 
-    list.setHasFixedSize(true);
+    binding.list.setHasFixedSize(true);
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-    list.setLayoutManager(linearLayoutManager);
+    binding.list.setLayoutManager(linearLayoutManager);
 
-    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(list.getContext(),
+    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.list.getContext(),
         linearLayoutManager.getOrientation());
     dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.fragment_list_item_divider));
-    list.addItemDecoration(dividerItemDecoration);
+    binding.list.addItemDecoration(dividerItemDecoration);
 
     RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
     itemAnimator.setAddDuration(1000);
     itemAnimator.setRemoveDuration(1000);
-    list.setItemAnimator(itemAnimator);
+    binding.list.setItemAnimator(itemAnimator);
 
     // Replace listview with Mr. Jingles if it is empty
-    list.setEmptyView(empyListItem);
+    binding.list.setEmptyView(binding.emptyList);
 
     return view;
   }
@@ -271,7 +242,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   private void init () {
     initEasterEgg();
     initListView();
-    ubc = new UndoBarController(undoBarView, this);
+    ubc = new UndoBarController(binding.undobar.getRoot(), this);
 
     initNotesList(mainActivity.getIntent());
     initFab();
@@ -283,7 +254,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   private void initFab () {
-    fab = new Fab(fabView, list, prefs.getBoolean(PREF_FAB_EXPANSION_BEHAVIOR, false));
+    fab = new Fab(binding.fab.getRoot(), binding.list, prefs.getBoolean(PREF_FAB_EXPANSION_BEHAVIOR, false));
     fab.setOnFabItemClickedListener(id -> {
       View v = mainActivity.findViewById(id);
       switch (id) {
@@ -344,10 +315,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Starts a little animation on Mr.Jingles!
    */
   private void initEasterEgg () {
-    empyListItem.setOnClickListener(v -> {
+    binding.emptyList.setOnClickListener(v -> {
       if (jinglesAnimation == null) {
-        jinglesAnimation = (AnimationDrawable) empyListItem.getCompoundDrawables()[1];
-        empyListItem.post(() -> {
+        jinglesAnimation = (AnimationDrawable) binding.emptyList.getCompoundDrawables()[1];
+        binding.emptyList.post(() -> {
           if (jinglesAnimation != null) {
             jinglesAnimation.start();
           }
@@ -363,7 +334,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     if (jinglesAnimation != null) {
       jinglesAnimation.stop();
       jinglesAnimation = null;
-      empyListItem.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.jingles_animation, 0, 0);
+      binding.emptyList.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.jingles_animation, 0, 0);
 
     }
   }
@@ -398,15 +369,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   private void refreshListScrollPosition () {
-    if (list != null) {
-      listViewPosition = ((LinearLayoutManager)list.getLayoutManager()).findFirstVisibleItemPosition();
-      View v = list.getChildAt(0);
-      listViewPositionOffset = (v == null) ? (int) getResources().getDimension(R.dimen.vertical_margin) : v.getTop();
-    }
+    listViewPosition = ((LinearLayoutManager)binding.list.getLayoutManager()).findFirstVisibleItemPosition();
+    View v = binding.list.getChildAt(0);
+    listViewPositionOffset = (v == null) ? (int) getResources().getDimension(R.dimen.vertical_margin) : v.getTop();
   }
 
 
-  @SuppressWarnings("static-access")
   @Override
   public void onResume () {
     super.onResume();
@@ -522,7 +490,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    */
   private void initListView () {
     // Note long click to start CAB mode
-    RecyclerViewItemClickSupport.addTo(list)
+    RecyclerViewItemClickSupport.addTo(binding.list)
                                 // Note single click listener managed by the activity itself
                                 .setOnItemClickListener((recyclerView, position, view) -> {
                                   if (getActionMode() == null) {
@@ -543,7 +511,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       return true;
     });
 
-    listRoot.setOnViewTouchedListener(this);
+    binding.listRoot.setOnViewTouchedListener(this);
   }
 
 
@@ -551,24 +519,23 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Retrieves from the single listview note item the element to be zoomed when opening a note
    */
   private ImageView getZoomListItemView (View view, Note note) {
-    if (expandedImageView != null) {
-      View targetView = null;
-      if (!note.getAttachmentsList().isEmpty()) {
-        targetView = view.findViewById(R.id.attachmentThumbnail);
-      }
-      if (targetView == null && note.getCategory() != null) {
-        targetView = view.findViewById(R.id.category_marker);
-      }
-      if (targetView == null) {
-        targetView = new ImageView(mainActivity);
-        targetView.setBackgroundColor(Color.WHITE);
-      }
-      targetView.setDrawingCacheEnabled(true);
-      targetView.buildDrawingCache();
-      Bitmap bmp = targetView.getDrawingCache();
-      expandedImageView.setBackgroundColor(BitmapUtils.getDominantColor(bmp));
+    View targetView = null;
+    if (!note.getAttachmentsList().isEmpty()) {
+      targetView = view.findViewById(R.id.attachmentThumbnail);
     }
-    return expandedImageView;
+    if (targetView == null && note.getCategory() != null) {
+      targetView = view.findViewById(R.id.category_marker);
+    }
+    if (targetView == null) {
+      targetView = new ImageView(mainActivity);
+      targetView.setBackgroundColor(Color.WHITE);
+    }
+    targetView.setDrawingCacheEnabled(true);
+    targetView.buildDrawingCache();
+    Bitmap bmp = targetView.getDrawingCache();
+    binding.expandedImage.setBackgroundColor(BitmapUtils.getDominantColor(bmp));
+
+    return binding.expandedImage;
   }
 
 
@@ -711,7 +678,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       public boolean onMenuItemActionCollapse (MenuItem item) {
         // Reinitialize notes list to all notes when search is collapsed
         searchQuery = null;
-        if (searchLayout.getVisibility() == View.VISIBLE) {
+        if (binding.searchLayout.getVisibility() == View.VISIBLE) {
           toggleSearchLabel(false);
         }
         mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
@@ -735,7 +702,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
           @Override
           public boolean onQueryTextChange (String pattern) {
 
-            if (prefs.getBoolean("settings_instant_search", false) && searchLayout != null &&
+            if (prefs.getBoolean("settings_instant_search", false) && binding.searchLayout != null &&
                 searchPerformed && mFragment.isAdded()) {
               searchTags = null;
               searchQuery = pattern;
@@ -932,12 +899,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
           note.setPasswordChecked(true);
           AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
-              listRoot, buildAnimatorListenerAdapter(note));
+              binding.listRoot, buildAnimatorListenerAdapter(note));
         }
       });
     } else {
       AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
-          listRoot, buildAnimatorListenerAdapter(note));
+          binding.listRoot, buildAnimatorListenerAdapter(note));
     }
   }
 
@@ -1062,8 +1029,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   void initNotesList (Intent intent) {
     LogDelegate.d("initNotesList intent: " + intent.getAction());
 
-    progressWheel.setAlpha(1);
-    list.setAlpha(0);
+    binding.progressWheel.setAlpha(1);
+    binding.list.setAlpha(0);
 
     // Search for a tag
     // A workaround to simplify it's to simulate normal search
@@ -1134,14 +1101,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   public void toggleSearchLabel (boolean activate) {
     if (activate) {
-      searchQueryView.setText(Html.fromHtml(getString(R.string.search) + ":<b> " + searchQuery + "</b>"));
-      searchLayout.setVisibility(View.VISIBLE);
-      searchCancel.setOnClickListener(v -> toggleSearchLabel(false));
+      binding.searchQuery.setText(Html.fromHtml(getString(R.string.search) + ":<b> " + searchQuery + "</b>"));
+      binding.searchLayout.setVisibility(View.VISIBLE);
+      binding.searchCancel.setOnClickListener(v -> toggleSearchLabel(false));
       searchLabelActive = true;
     } else {
       if (searchLabelActive) {
         searchLabelActive = false;
-        AnimationsHelper.expandOrCollapse(searchLayout, false);
+        AnimationsHelper.expandOrCollapse(binding.searchLayout, false);
         searchTags = null;
         searchQuery = null;
         searchUncompleteChecklists = false;
@@ -1177,16 +1144,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   public void onEvent (NotesLoadedEvent notesLoadedEvent) {
-    int layoutSelected = prefs.getBoolean(PREF_EXPANDED_VIEW, true) ? R.layout.note_layout_expanded
-        : R.layout.note_layout;
-    listAdapter = new NoteAdapter(mainActivity, layoutSelected, notesLoadedEvent.notes);
-
-    View noteLayout = LayoutInflater.from(mainActivity).inflate(layoutSelected, null, false);
-    noteViewHolder = new NoteViewHolder(noteLayout);
+    listAdapter = new NoteAdapter(mainActivity, prefs.getBoolean(PREF_EXPANDED_VIEW, true), notesLoadedEvent.notes);
 
     initSwipeGesture();
 
-    list.setAdapter(listAdapter);
+    binding.list.setAdapter(listAdapter);
 
     // Restores listview position when turning back to list or when navigating reminders
     if (!notesLoadedEvent.notes.isEmpty()) {
@@ -1242,7 +1204,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
 
     if (Navigation.getNavigation() != Navigation.UNCATEGORIZED && prefs.getBoolean(PREF_ENABLE_SWIPE, true)) {
-      itemTouchHelper.attachToRecyclerView(list);
+      itemTouchHelper.attachToRecyclerView(binding.list);
     } else {
       itemTouchHelper.attachToRecyclerView(null);
     }
@@ -1277,21 +1239,21 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   private void animateListView () {
     if (!OmniNotes.isDebugBuild()) {
-      animate(progressWheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
-      animate(list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
+      animate(binding.progressWheel).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
+      animate(binding.list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(1);
     } else {
-      progressWheel.setVisibility(View.INVISIBLE);
-      list.setAlpha(1);
+      binding.progressWheel.setVisibility(View.INVISIBLE);
+      binding.list.setAlpha(1);
     }
   }
 
 
   private void restoreListScrollPosition() {
     if (listAdapter.getItemCount() > listViewPosition) {
-      list.getLayoutManager().scrollToPosition(listViewPosition);
+      binding.list.getLayoutManager().scrollToPosition(listViewPosition);
       new Handler().postDelayed(fab::showFab, 150);
     } else {
-      list.getLayoutManager().scrollToPosition(0);
+      binding.list.getLayoutManager().scrollToPosition(0);
     }
   }
 
@@ -1357,8 +1319,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Selects all notes in list
    */
   private void selectAllNotes () {
-    for (int i = 0; i < list.getChildCount(); i++) {
-      LinearLayout v = list.getChildAt(i).findViewById(R.id.card_layout);
+    for (int i = 0; i < binding.list.getChildCount(); i++) {
+      LinearLayout v = binding.list.getChildAt(i).findViewById(R.id.card_layout);
       v.setBackgroundColor(getResources().getColor(R.color.list_bg_selected));
     }
     selectedNotes.clear();

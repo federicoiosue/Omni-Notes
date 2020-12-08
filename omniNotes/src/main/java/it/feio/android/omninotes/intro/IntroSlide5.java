@@ -27,9 +27,9 @@ public class IntroSlide5 extends IntroFragment {
   @Override
   public void onActivityCreated (Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    background.setBackgroundColor(Color.parseColor("#9c27b0"));
-    title.setText(R.string.tour_detailactivity_links_title);
-    image.setImageResource(R.drawable.slide5);
-    description.setText(R.string.tour_detailactivity_links_detail);
+    binding.introBackground.setBackgroundColor(Color.parseColor("#9c27b0"));
+    binding.introTitle.setText(R.string.tour_detailactivity_links_title);
+    binding.introImage.setImageResource(R.drawable.slide5);
+    binding.introDescription.setText(R.string.tour_detailactivity_links_detail);
   }
 }

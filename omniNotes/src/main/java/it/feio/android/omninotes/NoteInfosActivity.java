@@ -21,11 +21,9 @@ import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import it.feio.android.omninotes.databinding.ActivityNoteInfosBinding;
 import it.feio.android.omninotes.helpers.NotesHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.StatsSingleNote;
@@ -35,34 +33,16 @@ import org.apache.commons.lang3.StringUtils;
 
 public class NoteInfosActivity extends Activity {
 
-  @BindView(R.id.note_infos_category)
-  TextView category;
-  @BindView(R.id.note_infos_tags)
-  TextView tags;
-  @BindView(R.id.note_infos_chars)
-  TextView chars;
-  @BindView(R.id.note_infos_words)
-  TextView words;
-  @BindView(R.id.note_infos_checklist_items)
-  TextView checklistItems;
-  @BindView(R.id.note_infos_completed_checklist_items)
-  TextView checklistCompletedItems;
-  @BindView(R.id.note_infos_images)
-  TextView images;
-  @BindView(R.id.note_infos_videos)
-  TextView videos;
-  @BindView(R.id.note_infos_audiorecordings)
-  TextView audioRecordings;
-  @BindView(R.id.note_infos_sketches)
-  TextView sketches;
-  @BindView(R.id.note_infos_files)
-  TextView files;
+  private ActivityNoteInfosBinding binding;
 
   @Override
   protected void onCreate (Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_note_infos);
-    ButterKnife.bind(this);
+
+    binding = ActivityNoteInfosBinding.inflate(getLayoutInflater());
+    View view = binding.getRoot();
+    setContentView(view);
+
     Note note = Objects.requireNonNull(getIntent().getExtras()).getParcelable(INTENT_NOTE);
     populateViews(note);
   }
@@ -70,17 +50,17 @@ public class NoteInfosActivity extends Activity {
   private void populateViews (Note note) {
     StatsSingleNote infos = NotesHelper.getNoteInfos(note);
 
-    populateView(category, infos.getCategoryName());
-    populateView(tags, infos.getTags());
-    populateView(chars, infos.getChars());
-    populateView(words, infos.getWords());
-    populateView(checklistItems, infos.getChecklistItemsNumber());
-    populateView(checklistCompletedItems, getChecklistCompletionState(infos), !note.isChecklist());
-    populateView(images, infos.getImages());
-    populateView(videos, infos.getVideos());
-    populateView(audioRecordings, infos.getAudioRecordings());
-    populateView(sketches, infos.getSketches());
-    populateView(files, infos.getFiles());
+    populateView(binding.noteInfosCategory, infos.getCategoryName());
+    populateView(binding.noteInfosTags, infos.getTags());
+    populateView(binding.noteInfosChars, infos.getChars());
+    populateView(binding.noteInfosWords, infos.getWords());
+    populateView(binding.noteInfosChecklistItems, infos.getChecklistItemsNumber());
+    populateView(binding.noteInfosCompletedChecklistItems, getChecklistCompletionState(infos), !note.isChecklist());
+    populateView(binding.noteInfosImages, infos.getImages());
+    populateView(binding.noteInfosVideos, infos.getVideos());
+    populateView(binding.noteInfosAudiorecordings, infos.getAudioRecordings());
+    populateView(binding.noteInfosSketches, infos.getSketches());
+    populateView(binding.noteInfosFiles, infos.getFiles());
   }
 
   static String getChecklistCompletionState (StatsSingleNote infos) {

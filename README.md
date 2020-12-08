@@ -163,7 +163,6 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 * https://github.com/bumptech/glide
 * https://github.com/neopixl/PixlUI
 * https://github.com/afollestad/material-dialogs
-* https://github.com/JakeWharton/butterknife
 * https://github.com/ical4j
 * https://github.com/square/leakcanary
 * https://github.com/pnikosis/materialish-progress

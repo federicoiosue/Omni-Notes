@@ -37,18 +37,16 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.drawerlayout.widget.DrawerLayout;
 import android.view.MenuItem;
-import android.view.ViewGroup;
 import android.widget.Toast;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -56,6 +54,7 @@ import it.feio.android.omninotes.async.UpdateWidgetsTask;
 import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
+import it.feio.android.omninotes.databinding.ActivityMainBinding;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.NotesHelper;
@@ -81,21 +80,20 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   public final static String FRAGMENT_DETAIL_TAG = "fragment_detail";
   public final static String FRAGMENT_SKETCH_TAG = "fragment_sketch";
   public Uri sketchUri;
-  @BindView(R.id.crouton_handle)
-  ViewGroup croutonViewContainer;
-  @BindView(R.id.toolbar)
-  Toolbar toolbar;
-  @BindView(R.id.drawer_layout)
-  DrawerLayout drawerLayout;
   boolean prefsChanged = false;
   private FragmentManager mFragmentManager;
+
+  ActivityMainBinding binding;
 
   @Override
   protected void onCreate (Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTheme(R.style.OmniNotesTheme_ApiSpec);
-    setContentView(R.layout.activity_main);
-    ButterKnife.bind(this);
+
+    binding = ActivityMainBinding.inflate(getLayoutInflater());
+    View view = binding.getRoot();
+    setContentView(view);
+
     EventBus.getDefault().register(this);
     prefs.registerOnSharedPreferenceChangeListener(this);
 
@@ -129,7 +127,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
 
   private void initUI () {
-    setSupportActionBar(toolbar);
+    setSupportActionBar(binding.toolbar.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
   }
@@ -315,7 +313,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
 
   public DrawerLayout getDrawerLayout () {
-    return drawerLayout;
+    return binding.drawerLayout;
   }
 
 
@@ -341,7 +339,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
 
   Toolbar getToolbar () {
-    return toolbar;
+    return binding.toolbar.toolbar;
   }
 
 
@@ -546,7 +544,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
   public void showMessage (String message, Style style) {
     // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
-    runOnUiThread(() -> Crouton.makeText(this, message, style, croutonViewContainer).show());
+    runOnUiThread(() -> Crouton.makeText(this, message, style, binding.croutonHandle.croutonHandle).show());
   }
 
   @Override

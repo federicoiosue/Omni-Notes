@@ -32,16 +32,16 @@ public class IntroSlide6 extends IntroFragment {
   @Override
   public void onActivityCreated (Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    background.setBackgroundColor(Color.parseColor("#222222"));
-    title.setText(R.string.tour_listactivity_final_title);
-    image.setVisibility(View.GONE);
-    imageSmall.setImageResource(R.drawable.facebook);
-    imageSmall.setVisibility(View.VISIBLE);
-    imageSmall.setOnClickListener(v -> {
+    binding.introBackground.setBackgroundColor(Color.parseColor("#222222"));
+    binding.introTitle.setText(R.string.tour_listactivity_final_title);
+    binding.introImage.setVisibility(View.GONE);
+    binding.introImageSmall.setImageResource(R.drawable.facebook);
+    binding.introImageSmall.setVisibility(View.VISIBLE);
+    binding.introImageSmall.setOnClickListener(v -> {
       Intent intent = new Intent(Intent.ACTION_VIEW);
       intent.setData(Uri.parse(FACEBOOK_COMMUNITY));
       startActivity(intent);
     });
-    description.setText(R.string.tour_community);
+    binding.introDescription.setText(R.string.tour_community);
   }
 }

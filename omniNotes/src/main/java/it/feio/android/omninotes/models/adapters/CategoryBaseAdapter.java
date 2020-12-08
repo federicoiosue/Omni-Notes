@@ -26,13 +26,13 @@ import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.databinding.DrawerListItemBinding;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.category.CategoryViewHolder;
 import java.util.List;
@@ -87,7 +87,8 @@ public class CategoryBaseAdapter extends BaseAdapter {
     if (convertView == null) {
       convertView = inflater.inflate(layout, parent, false);
 
-      holder = new CategoryViewHolder(convertView);
+      holder = new CategoryViewHolder(
+          DrawerListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
 
       holder.imgIcon = convertView.findViewById(R.id.icon);
       holder.txtTitle = convertView.findViewById(R.id.title);

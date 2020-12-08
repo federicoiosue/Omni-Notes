@@ -27,18 +27,13 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.databinding.ActivityCategoryBinding;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Category;
@@ -49,26 +44,18 @@ import java.util.Random;
 
 public class CategoryActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback {
 
-  @BindView(R.id.category_title)
-  EditText title;
-  @BindView(R.id.category_description)
-  EditText description;
-  @BindView(R.id.delete)
-  Button deleteBtn;
-  @BindView(R.id.save)
-  Button saveBtn;
-  @BindView(R.id.color_chooser)
-  ImageView colorChooser;
+  private ActivityCategoryBinding binding;
 
   Category category;
   private int selectedColor;
 
-
   @Override
   protected void onCreate (Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_category);
-    ButterKnife.bind(this);
+
+    binding = ActivityCategoryBinding.inflate(getLayoutInflater());
+    View view = binding.getRoot();
+    setContentView(view);
 
     category = getIntent().getParcelableExtra(INTENT_CATEGORY);
 
@@ -83,14 +70,11 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     populateViews();
   }
 
-
   private int getRandomPaletteColor () {
     int[] paletteArray = getResources().getIntArray(R.array.material_colors);
     return paletteArray[new Random().nextInt((paletteArray.length))];
   }
 
-
-  @OnClick(R.id.color_chooser)
   public void showColorChooserCustomColors () {
 
     new ColorChooserDialog.Builder(this, R.string.colors)
@@ -99,10 +83,9 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
         .show(this);
   }
 
-
   @Override
   public void onColorSelection (@NonNull ColorChooserDialog colorChooserDialog, int color) {
-    BitmapUtils.changeImageViewDrawableColor(colorChooser, color);
+    BitmapUtils.changeImageViewDrawableColor(binding.colorChooser, color);
     selectedColor = color;
   }
 
@@ -116,34 +99,32 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     // Nothing to do
   }
 
-
   private void populateViews () {
-    title.setText(category.getName());
-    description.setText(category.getDescription());
+    binding.categoryTitle.setText(category.getName());
+    binding.categoryDescription.setText(category.getDescription());
     // Reset picker to saved color
     String color = category.getColor();
     if (color != null && color.length() > 0) {
-      colorChooser.getDrawable().mutate().setColorFilter(parseInt(color), PorterDuff.Mode.SRC_ATOP);
+      binding.colorChooser.getDrawable().mutate().setColorFilter(parseInt(color), PorterDuff.Mode.SRC_ATOP);
     }
-    deleteBtn.setVisibility(TextUtils.isEmpty(category.getName()) ? View.INVISIBLE : View.VISIBLE);
+    binding.delete.setVisibility(TextUtils.isEmpty(category.getName()) ? View.INVISIBLE : View.VISIBLE);
+
+    binding.save.setOnClickListener(v -> saveCategory());
+    binding.delete.setOnClickListener(v -> deleteCategory());
+    binding.colorChooser.setOnClickListener(v -> showColorChooserCustomColors());
   }
 
-
-  /**
-   * Category saving
-   */
-  @OnClick(R.id.save)
   public void saveCategory () {
 
-    if (title.getText().toString().length() == 0) {
-      title.setError(getString(R.string.category_missing_title));
+    if (binding.categoryTitle.getText().toString().length() == 0) {
+      binding.categoryTitle.setError(getString(R.string.category_missing_title));
       return;
     }
 
     Long id = category.getId() != null ? category.getId() : Calendar.getInstance().getTimeInMillis();
     category.setId(id);
-    category.setName(title.getText().toString());
-    category.setDescription(description.getText().toString());
+    category.setName(binding.categoryTitle.getText().toString());
+    category.setDescription(binding.categoryDescription.getText().toString());
     if (selectedColor != 0 || category.getColor() == null) {
       category.setColor(String.valueOf(selectedColor));
     }
@@ -158,8 +139,6 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     finish();
   }
 
-
-  @OnClick(R.id.delete)
   public void deleteCategory () {
 
     new MaterialDialog.Builder(this)

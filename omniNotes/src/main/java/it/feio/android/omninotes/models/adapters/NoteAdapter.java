@@ -53,17 +53,17 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
   private final Activity mActivity;
   private final int navigation;
-  private List<Note> notes;
-  private SparseBooleanArray selectedItems = new SparseBooleanArray();
-  private boolean expandedView;
+  private final List<Note> notes;
+  private final SparseBooleanArray selectedItems = new SparseBooleanArray();
+  private final boolean expandedView;
   private long closestNoteReminder = Long.parseLong(TIMESTAMP_UNIX_EPOCH_FAR);
   private int closestNotePosition;
 
 
-  public NoteAdapter (Activity activity, int layout, List<Note> notes) {
+  public NoteAdapter (Activity activity, boolean expandedView, List<Note> notes) {
     this.mActivity = activity;
     this.notes = notes;
-    expandedView = layout == R.layout.note_layout_expanded;
+    this.expandedView = expandedView;
     navigation = Navigation.getNavigation();
     manageCloserNote(notes, navigation);
   }
@@ -306,7 +306,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
       view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_layout, parent, false);
     }
 
-    return new NoteViewHolder(view);
+    return new NoteViewHolder(view, expandedView);
   }
 
   @Override

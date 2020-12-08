@@ -28,11 +28,11 @@ public class IntroSlide1 extends IntroFragment {
   @Override
   public void onActivityCreated (Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    background.setBackgroundColor(Color.parseColor("#222222"));
-    title.setText(R.string.tour_listactivity_intro_title);
-    image.setVisibility(View.GONE);
-    imageSmall.setImageResource(R.drawable.logo);
-    imageSmall.setVisibility(View.VISIBLE);
-    description.setText(R.string.tour_listactivity_final_detail);
+    binding.introBackground.setBackgroundColor(Color.parseColor("#222222"));
+    binding.introTitle.setText(R.string.tour_listactivity_intro_title);
+    binding.introImage.setVisibility(View.GONE);
+    binding.introImageSmall.setImageResource(R.drawable.logo);
+    binding.introImageSmall.setVisibility(View.VISIBLE);
+    binding.introDescription.setText(R.string.tour_listactivity_final_detail);
   }
 }

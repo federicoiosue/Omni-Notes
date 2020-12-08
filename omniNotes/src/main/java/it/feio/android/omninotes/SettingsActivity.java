@@ -17,23 +17,21 @@
 
 package it.feio.android.omninotes;
 
+import android.view.View;
 import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import android.view.ViewGroup;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.databinding.ActivitySettingsBinding;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,27 +40,27 @@ import java.util.List;
 public class SettingsActivity extends AppCompatActivity implements
     PreferenceFragmentCompat.OnPreferenceStartFragmentCallback, FolderChooserDialog.FolderCallback {
 
-  @BindView(R.id.toolbar)
-  Toolbar toolbar;
-  @BindView(R.id.crouton_handle)
-  ViewGroup croutonViewContainer;
-
   private List<Fragment> backStack = new ArrayList<>();
+
+  private ActivitySettingsBinding binding;
 
 
   @Override
   protected void onCreate (Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_settings);
-    ButterKnife.bind(this);
+
+    binding = ActivitySettingsBinding.inflate(getLayoutInflater());
+    View view = binding.getRoot();
+    setContentView(view);
+
     initUI();
     getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
   }
 
 
   void initUI () {
-    setSupportActionBar(toolbar);
-    toolbar.setNavigationOnClickListener(v -> onBackPressed());
+    setSupportActionBar(binding.toolbar.toolbar);
+    binding.toolbar.toolbar.setNavigationOnClickListener(v -> onBackPressed());
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
   }
@@ -91,7 +89,7 @@ public class SettingsActivity extends AppCompatActivity implements
 
   public void showMessage (String message, Style style) {
     // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
-    Crouton.makeText(this, message, style, croutonViewContainer).show();
+    Crouton.makeText(this, message, style, binding.croutonHandle.croutonHandle).show();
   }
 
 
@@ -138,4 +136,5 @@ public class SettingsActivity extends AppCompatActivity implements
                                .commit();
     return true;
   }
+
 }

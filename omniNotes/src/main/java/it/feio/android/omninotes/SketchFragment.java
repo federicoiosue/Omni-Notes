@@ -38,11 +38,10 @@ import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.larswerkman.holocolorpicker.ColorPicker;
 import it.feio.android.checklistview.utils.AlphaManager;
+import it.feio.android.omninotes.databinding.FragmentSketchBinding;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
@@ -54,18 +53,6 @@ import java.io.FileOutputStream;
 
 public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
-  @BindView(R.id.sketch_stroke)
-  ImageView stroke;
-  @BindView(R.id.sketch_eraser)
-  ImageView eraser;
-  @BindView(R.id.drawing)
-  SketchView mSketchView;
-  @BindView(R.id.sketch_undo)
-  ImageView undo;
-  @BindView(R.id.sketch_redo)
-  ImageView redo;
-  @BindView(R.id.sketch_erase)
-  ImageView erase;
   private int seekBarStrokeProgress;
   private int seekBarEraserProgress;
   private View popupLayout;
@@ -74,6 +61,8 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
   private ImageView eraserImageView;
   private int size;
   private ColorPicker mColorPicker;
+
+  private FragmentSketchBinding binding;
 
 
   @Override
@@ -91,13 +80,10 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     super.onStart();
   }
 
-
-  @SuppressWarnings("unchecked")
   @Override
   public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_sketch, container, false);
-    ButterKnife.bind(this, view);
-    return view;
+    binding = FragmentSketchBinding.inflate(inflater, container, false);
+    return binding.getRoot();
   }
 
   @Override
@@ -106,14 +92,14 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
     getMainActivity().getToolbar().setNavigationOnClickListener(v -> getActivity().onBackPressed());
 
-    mSketchView.setOnDrawChangedListener(this);
+    binding.drawing.setOnDrawChangedListener(this);
 
     Uri baseUri = getArguments().getParcelable("base");
     if (baseUri != null) {
       Bitmap bmp;
       try {
         bmp = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(baseUri));
-        mSketchView.setBackgroundBitmap(getActivity(), bmp);
+        binding.drawing.setBackgroundBitmap(getActivity(), bmp);
       } catch (FileNotFoundException e) {
         LogDelegate.e("Error replacing sketch bitmap background", e);
       }
@@ -126,32 +112,32 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
       getMainActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    stroke.setOnClickListener(v -> {
-      if (mSketchView.getMode() == SketchView.STROKE) {
+    binding.sketchStroke.setOnClickListener(v -> {
+      if (binding.drawing.getMode() == SketchView.STROKE) {
         showPopup(v, SketchView.STROKE);
       } else {
-        mSketchView.setMode(SketchView.STROKE);
-        AlphaManager.setAlpha(eraser, 0.4f);
-        AlphaManager.setAlpha(stroke, 1f);
+        binding.drawing.setMode(SketchView.STROKE);
+        AlphaManager.setAlpha(binding.sketchEraser, 0.4f);
+        AlphaManager.setAlpha(binding.sketchStroke, 1f);
       }
     });
 
-    AlphaManager.setAlpha(eraser, 0.4f);
-    eraser.setOnClickListener(v -> {
-      if (mSketchView.getMode() == SketchView.ERASER) {
+    AlphaManager.setAlpha(binding.sketchEraser, 0.4f);
+    binding.sketchEraser.setOnClickListener(v -> {
+      if (binding.drawing.getMode() == SketchView.ERASER) {
         showPopup(v, SketchView.ERASER);
       } else {
-        mSketchView.setMode(SketchView.ERASER);
-        AlphaManager.setAlpha(stroke, 0.4f);
-        AlphaManager.setAlpha(eraser, 1f);
+        binding.drawing.setMode(SketchView.ERASER);
+        AlphaManager.setAlpha(binding.sketchStroke, 0.4f);
+        AlphaManager.setAlpha(binding.sketchEraser, 1f);
       }
     });
 
-    undo.setOnClickListener(v -> mSketchView.undo());
+    binding.sketchUndo.setOnClickListener(v -> binding.drawing.undo());
 
-    redo.setOnClickListener(v -> mSketchView.redo());
+    binding.sketchRedo.setOnClickListener(v -> binding.drawing.redo());
 
-    erase.setOnClickListener(new OnClickListener() {
+    binding.sketchErase.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick (View v) {
         askForErase();
@@ -161,7 +147,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         new MaterialDialog.Builder(getActivity())
             .content(R.string.erase_sketch)
             .positiveText(R.string.confirm)
-            .onPositive((dialog, which) -> mSketchView.erase()).build().show();
+            .onPositive((dialog, which) -> binding.drawing.erase()).build().show();
       }
     });
 
@@ -189,9 +175,9 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     mColorPicker = popupLayout.findViewById(R.id.stroke_color_picker);
     mColorPicker.addSVBar(popupLayout.findViewById(R.id.svbar));
     mColorPicker.addOpacityBar(popupLayout.findViewById(R.id.opacitybar));
-    mColorPicker.setOnColorChangedListener(mSketchView::setStrokeColor);
-    mColorPicker.setColor(mSketchView.getStrokeColor());
-    mColorPicker.setOldCenterColor(mSketchView.getStrokeColor());
+    mColorPicker.setOnColorChangedListener(binding.drawing::setStrokeColor);
+    mColorPicker.setColor(binding.drawing.getStrokeColor());
+    mColorPicker.setOldCenterColor(binding.drawing.getStrokeColor());
   }
 
   @Override
@@ -206,7 +192,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
 
   public void save () {
-    Bitmap bitmap = mSketchView.getBitmap();
+    Bitmap bitmap = binding.drawing.getBitmap();
     if (bitmap != null) {
 
       try {
@@ -304,23 +290,23 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
       seekBarEraserProgress = progress;
     }
 
-    mSketchView.setSize(newSize, eraserOrStroke);
+    binding.drawing.setSize(newSize, eraserOrStroke);
   }
 
 
   @Override
   public void onDrawChanged () {
     // Undo
-    if (mSketchView.getPaths().isEmpty()) {
-      AlphaManager.setAlpha(undo, 1f);
+    if (binding.drawing.getPaths().isEmpty()) {
+      AlphaManager.setAlpha(binding.sketchUndo, 1f);
     } else {
-      AlphaManager.setAlpha(undo, 0.4f);
+      AlphaManager.setAlpha(binding.sketchUndo, 0.4f);
     }
     // Redo
-    if (mSketchView.getUndoneCount() > 0) {
-      AlphaManager.setAlpha(redo, 1f);
+    if (binding.drawing.getUndoneCount() > 0) {
+      AlphaManager.setAlpha(binding.sketchRedo, 1f);
     } else {
-      AlphaManager.setAlpha(redo, 0.4f);
+      AlphaManager.setAlpha(binding.sketchRedo, 0.4f);
     }
   }
 

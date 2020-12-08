@@ -110,7 +110,7 @@
                                   android:layout_height="wrap_content"
                                   android:layout="@layout/fragment_detail_attachments"/>
 
-                        <include layout="@layout/fragment_detail_content"/>
+                        <include android:id="@+id/fragment_detail_content" layout="@layout/fragment_detail_content"/>
 
                         <ViewStub android:id="@+id/detail_attachments_below" android:layout_width="match_parent"
                                   android:layout_height="wrap_content"
