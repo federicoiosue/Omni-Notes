@@ -40,6 +40,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Locale;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 
@@ -62,6 +63,10 @@ public class BaseAndroidTestCase {
     prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
 
     dbHelper = DbHelper.getInstance(testContext);
+  }
+
+  @Before
+  public void setUpBase () {
     cleanDatabase();
     assertFalse("Database MUST be writable", dbHelper.getDatabase(true).isReadOnly());
 

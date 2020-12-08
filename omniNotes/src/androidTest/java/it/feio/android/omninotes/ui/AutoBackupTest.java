@@ -64,7 +64,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 
   @Before
   @Override
-  public void setUp () throws Exception {
+  public void setUp () {
     super.setUp();
     prefs.edit().putBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false).apply();
   }
@@ -222,7 +222,7 @@ public class AutoBackupTest extends BaseEspressoTest {
   private void assertAutobackupIsCorrect () {
     List<LinkedList<DiffMatchPatch.Diff>> autobackupDifferences = BackupHelper
         .integrityCheck(StorageHelper.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
-    assertTrue(autobackupDifferences.size() == 0);
+    assertEquals(0, autobackupDifferences.size());
 
   }
 

@@ -24,7 +24,6 @@ import android.net.Uri;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import it.feio.android.omninotes.BaseAndroidTestCase;
-import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
@@ -32,8 +31,6 @@ import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -56,7 +53,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
 
 
   @Before
-  public void setUp () throws Exception {
+  public void setUp () throws IOException {
     targetDir = new File(StorageHelper.getCacheDir(InstrumentationRegistry.getInstrumentation().getTargetContext()), "_autobackupTest");
     if (targetDir.exists()) {
       FileUtils.forceDelete(targetDir);
@@ -124,7 +121,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     File testAttachment = new File(targetAttachmentsDir, "testAttachment");
     testAttachment.createNewFile();
     Attachment attachment = new Attachment(Uri.fromFile(new File(StorageHelper.getAttachmentDir(), testAttachment.getName())), Constants.MIME_TYPE_FILES);
-    DbHelper.getInstance().updateAttachment(attachment);
+    dbHelper.updateAttachment(attachment);
 
     boolean result = BackupHelper.importAttachments(targetDir, null);
 

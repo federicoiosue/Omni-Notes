@@ -44,7 +44,7 @@ public class RecurrenceRuleTest extends BaseEspressoTest {
 
   @Before
   @Override
-  public void setUp () throws Exception {
+  public void setUp () {
     super.setUp();
     testNote = new Note();
     testNote.setTitle("Title 1");
