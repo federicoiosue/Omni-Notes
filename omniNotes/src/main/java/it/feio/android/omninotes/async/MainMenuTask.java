@@ -27,14 +27,16 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import androidx.fragment.app.Fragment;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
-import it.feio.android.omninotes.databinding.FragmentNavigationDrawerBinding;
 import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
 import it.feio.android.omninotes.models.misc.DynamicNavigationLookupTable;
+import it.feio.android.omninotes.models.views.NonScrollableListView;
 import it.feio.android.omninotes.utils.Navigation;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -45,13 +47,16 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
   private final WeakReference<Fragment> mFragmentWeakReference;
   private final MainActivity mainActivity;
-  private final FragmentNavigationDrawerBinding binding;
+  @BindView(R.id.drawer_nav_list)
+  NonScrollableListView mDrawerList;
+  @BindView(R.id.drawer_tag_list)
+  NonScrollableListView mDrawerCategoriesList;
+
 
   public MainMenuTask (Fragment mFragment) {
     mFragmentWeakReference = new WeakReference<>(mFragment);
     this.mainActivity = (MainActivity) mFragment.getActivity();
-
-    binding = FragmentNavigationDrawerBinding.inflate(mFragment.getLayoutInflater());
+    ButterKnife.bind(this, mFragment.getView());
   }
 
 
@@ -64,27 +69,29 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
   @Override
   protected void onPostExecute (final List<NavigationItem> items) {
     if (isAlive()) {
-      binding.drawerNavList.setAdapter(new NavDrawerAdapter(mainActivity, items));
-      binding.drawerNavList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+      mDrawerList.setAdapter(new NavDrawerAdapter(mainActivity, items));
+      mDrawerList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
         String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
-            .navigation_list_codes)[items.get(position).getArrayIndex()];
+                .navigation_list_codes)[items.get(position).getArrayIndex()];
         if (mainActivity.updateNavigation(navigation)) {
-          binding.drawerNavList.setItemChecked(position, true);
-          binding.drawerTagList.setItemChecked(0, false); // Called to force redraw
+          mDrawerList.setItemChecked(position, true);
+          if (mDrawerCategoriesList != null) {
+            mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
+          }
           mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
-          EventBus.getDefault().post(new NavigationUpdatedEvent(binding.drawerNavList.getItemAtPosition(position)));
+          EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
         }
       });
-      binding.drawerNavList.justifyListViewHeightBasedOnChildren();
+      mDrawerList.justifyListViewHeightBasedOnChildren();
     }
   }
 
 
   private boolean isAlive () {
     return mFragmentWeakReference.get() != null
-        && mFragmentWeakReference.get().isAdded()
-        && mFragmentWeakReference.get().getActivity() != null
-        && !mFragmentWeakReference.get().getActivity().isFinishing();
+            && mFragmentWeakReference.get().isAdded()
+            && mFragmentWeakReference.get().getActivity() != null
+            && !mFragmentWeakReference.get().getActivity().isFinishing();
   }
 
 
@@ -96,13 +103,13 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
     String[] mNavigationArray = mainActivity.getResources().getStringArray(R.array.navigation_list);
     TypedArray mNavigationIconsArray = mainActivity.getResources().obtainTypedArray(R.array.navigation_list_icons);
     TypedArray mNavigationIconsSelectedArray = mainActivity.getResources().obtainTypedArray(R.array
-        .navigation_list_icons_selected);
+            .navigation_list_icons_selected);
 
     final List<NavigationItem> items = new ArrayList<>();
     for (int i = 0; i < mNavigationArray.length; i++) {
       if (!checkSkippableItem(i)) {
         NavigationItem item = new NavigationItem(i, mNavigationArray[i], mNavigationIconsArray.getResourceId(i,
-            0), mNavigationIconsSelectedArray.getResourceId(i, 0));
+                0), mNavigationIconsSelectedArray.getResourceId(i, 0));
         items.add(item);
       }
     }
