@@ -31,9 +31,13 @@ import static org.junit.Assert.fail;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
+import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Constants;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -73,6 +77,17 @@ public class BaseAndroidTestCase {
     Locale.setDefault(PRESET_LOCALE);
     Configuration config = testContext.getResources().getConfiguration();
     config.locale = PRESET_LOCALE;
+  }
+
+  protected void createCategory(String categoryName) {
+    Category category = new Category();
+    category.setName(categoryName);
+    category.setColor(String.valueOf(testContext.getResources().getIntArray(R.array.material_colors)[0]));
+    category.setDescription("testing category");
+
+    dbHelper.updateCategory(category);
+
+    EventBus.getDefault().post(new CategoriesUpdatedEvent());
   }
 
   /**

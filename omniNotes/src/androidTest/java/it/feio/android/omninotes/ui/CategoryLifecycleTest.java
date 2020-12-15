@@ -34,6 +34,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static java.lang.Thread.sleep;
 import static org.hamcrest.Matchers.allOf;
+import static org.junit.Assert.assertEquals;
 
 import android.annotation.TargetApi;
 import android.graphics.Color;
@@ -47,6 +48,9 @@ import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.models.Category;
+import java.util.ArrayList;
 import java.util.Calendar;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -59,12 +63,9 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class CategoryLifecycleTest extends BaseEspressoTest {
 
-  private String categoryName;
-
   @Test
-  public void addNewCategory () throws InterruptedException {
-
-    categoryName = "Cat_" + Calendar.getInstance().getTimeInMillis();
+  public void addNewCategory () {
+    String categoryName = "Cat_" + Calendar.getInstance().getTimeInMillis();
 
     onView(Matchers.allOf(ViewMatchers.withId(R.id.fab_expand_menu_button),
         withParent(withId(R.id.fab)),
@@ -99,12 +100,17 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
     onView(allOf(withContentDescription(R.string.drawer_open),
         withParent(withId(R.id.toolbar)),
         isDisplayed())).perform(click());
+
+    ArrayList<Category> categories = DbHelper.getInstance().getCategories();
+
+    assertEquals(1, categories.size());
+    assertEquals(categoryName, categories.get(0).getName());
   }
 
   @Test
-  public void checkCategoryCreation () throws InterruptedException {
-
-    addNewCategory();
+  public void checkCategoryCreation () {
+    String categoryName = "Cat_" + Calendar.getInstance().getTimeInMillis();
+    createCategory(categoryName);
 
     onView(allOf(withContentDescription(R.string.drawer_open),
         withParent(withId(R.id.toolbar)),
@@ -114,9 +120,9 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
   }
 
   @Test
-  public void categoryColorChange () throws InterruptedException {
-
-    addNewCategory();
+  public void categoryColorChange () {
+    String categoryName = "Cat_" + Calendar.getInstance().getTimeInMillis();
+    createCategory(categoryName);
 
     onView(allOf(withContentDescription(R.string.drawer_open),
         withParent(withId(R.id.toolbar)))).perform(click());
@@ -160,9 +166,9 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
   }
 
   @Test
-  public void categoryDeletion () throws InterruptedException {
-
-    addNewCategory();
+  public void categoryDeletion () {
+    String categoryName = "Cat_" + Calendar.getInstance().getTimeInMillis();
+    createCategory(categoryName);
 
     onView(allOf(withContentDescription(R.string.drawer_open),
         withParent(withId(R.id.toolbar)),
