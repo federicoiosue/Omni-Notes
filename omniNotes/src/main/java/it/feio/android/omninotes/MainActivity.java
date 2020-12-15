@@ -223,13 +223,25 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
 
   public void initNotesList (Intent intent) {
-    Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
-    if (f != null) {
+    //Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
+    if (intent != null) {
+      Fragment searchTagFragment = startSearchView();
       new Handler(getMainLooper()).post(() -> {
-        ((ListFragment) f).toggleSearchLabel(false);
-        ((ListFragment) f).initNotesList(intent);
+        ((ListFragment) searchTagFragment).initNotesList(intent);
       });
     }
+  }
+
+  public Fragment startSearchView(){
+    FragmentTransaction transaction = getFragmentManagerInstance().beginTransaction();
+    animateTransition(transaction, TRANSITION_HORIZONTAL);
+    ListFragment mListFragment = new ListFragment();
+    transaction.replace(R.id.fragment_container, mListFragment, FRAGMENT_LIST_TAG).addToBackStack
+            (FRAGMENT_DETAIL_TAG).commit();
+    Bundle args = new Bundle();
+    args.putBoolean("setSearchFocus", true);
+    mListFragment.setArguments(args);
+    return mListFragment;
   }
 
 

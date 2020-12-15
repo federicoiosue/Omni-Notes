@@ -135,6 +135,11 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
         childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)
     ), 0), isDisplayed())).perform(click());
   }
+  void navigateUPSearch () {
+    onView(allOf(childAtPosition(allOf(withId(R.id.toolbar),
+            childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)
+    ), 1), isDisplayed())).perform(click());
+  }
 
   void navigateUpSettings () {
     onView(allOf(withContentDescription(R.string.abc_action_bar_up_description),

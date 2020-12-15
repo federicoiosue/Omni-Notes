@@ -693,6 +693,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     // Save item as class attribute to make it collapse on drawer opening
     searchMenuItem = menu.findItem(R.id.menu_search);
 
+    Bundle args = getArguments();
+    if(args != null){
+      Boolean setSearchFocus = args.getBoolean("setSearchFocus");
+      if(setSearchFocus == true){
+        searchMenuItem.expandActionView();
+        KeyboardUtils.hideKeyboard(this.getView());
+      }
+    }
+
     // Associate searchable configuration with the SearchView
     SearchManager searchManager = (SearchManager) mainActivity.getSystemService(Context.SEARCH_SERVICE);
     searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));

@@ -306,7 +306,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                   ONStyle.ALERT);
 
             } else {
-              startActivity(intent);
+              mainActivity.initNotesList(intent);
             }
           })
           .onNegative((dialog, which) -> {
@@ -399,6 +399,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
     }
 
+    // Ensures that Detail Fragment always have the back Arrow when it's created
+    EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
     init();
 
     setHasOptionsMenu(true);
