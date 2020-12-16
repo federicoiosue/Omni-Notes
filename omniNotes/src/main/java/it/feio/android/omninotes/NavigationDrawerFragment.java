@@ -133,7 +133,7 @@ public class NavigationDrawerFragment extends Fragment {
 
 
   public void onEvent(SwitchFragmentEvent event) {
-    if (CHILDREN.equals(event.direction)) {
+    if (CHILDREN.equals(event.getDirection())) {
       animateBurger(ARROW);
     } else {
       animateBurger(BURGER);

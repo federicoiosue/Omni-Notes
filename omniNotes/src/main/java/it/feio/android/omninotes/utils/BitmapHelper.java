@@ -91,7 +91,10 @@ public class BitmapHelper {
             .load(mAttachment.getUri())
             .submit(width, height).get();
       }
-    } catch (NullPointerException | InterruptedException | ExecutionException e) {
+    } catch (NullPointerException | ExecutionException e) {
+      return null;
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
       return null;
     }
   }

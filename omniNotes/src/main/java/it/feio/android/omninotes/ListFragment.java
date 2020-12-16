@@ -1188,14 +1188,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   public void onEvent(NotesLoadedEvent notesLoadedEvent) {
     listAdapter = new NoteAdapter(mainActivity, prefs.getBoolean(PREF_EXPANDED_VIEW, true),
-        notesLoadedEvent.notes);
+        notesLoadedEvent.getNotes());
 
     initSwipeGesture();
 
     binding.list.setAdapter(listAdapter);
 
     // Restores listview position when turning back to list or when navigating reminders
-    if (!notesLoadedEvent.notes.isEmpty()) {
+    if (!notesLoadedEvent.getNotes().isEmpty()) {
       if (Navigation.checkNavigation(Navigation.REMINDERS)) {
         listViewPosition = listAdapter.getClosestNotePosition();
       }
@@ -1221,29 +1221,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       @Override
       public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
         int swipedPosition = viewHolder.getAdapterPosition();
-
-        // Avoids conflicts with action mode
         finishActionMode();
-
-        Note note = null;
-        try {
-          note = listAdapter.getItem(swipedPosition);
-        } catch (IndexOutOfBoundsException e) {
-          LogDelegate.d("Please stop swiping in the zone beneath the last card");
-        }
-
-        if (note.isLocked()) {
-          Note finalNote = note;
-          PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
-            if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
-              onNoteSwipedPerformAction(finalNote);
-            } else {
-              onUndo(null);
-            }
-          });
-        } else {
-          onNoteSwipedPerformAction(note);
-        }
+        swipeNote(swipedPosition);
       }
     };
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
@@ -1253,6 +1232,25 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       itemTouchHelper.attachToRecyclerView(binding.list);
     } else {
       itemTouchHelper.attachToRecyclerView(null);
+    }
+  }
+
+  private void swipeNote(int swipedPosition) {
+    try {
+      Note note = listAdapter.getItem(swipedPosition);
+      if (note.isLocked()) {
+        PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
+          if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
+            onNoteSwipedPerformAction(note);
+          } else {
+            onUndo(null);
+          }
+        });
+      } else {
+        onNoteSwipedPerformAction(note);
+      }
+    } catch (IndexOutOfBoundsException e) {
+      LogDelegate.d("Please stop swiping in the zone beneath the last card");
     }
   }
 

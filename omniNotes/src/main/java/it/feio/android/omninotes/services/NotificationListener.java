@@ -58,7 +58,7 @@ public class NotificationListener extends NotificationListenerService {
   }
 
   public void onEventAsync(NotificationRemovedEvent event) {
-    long nodeId = Long.parseLong(event.statusBarNotification.getTag());
+    long nodeId = Long.parseLong(event.getStatusBarNotification().getTag());
     Note note = DbHelper.getInstance().getNote(nodeId);
     if (!DateUtils.isFuture(note.getAlarm())) {
       DbHelper.getInstance().setReminderFired(nodeId, true);

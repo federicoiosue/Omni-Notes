@@ -311,7 +311,10 @@ public class StorageHelper {
 
   private static void createNoMediaFile(File folder) {
     try {
-      new File(folder, ".nomedia").createNewFile();
+      boolean created = new File(folder, ".nomedia").createNewFile();
+      if (!created) {
+        LogDelegate.w("File .nomedia already existing into " + folder.getAbsolutePath());
+      }
     } catch (IOException e) {
       LogDelegate.e("Error creating .nomedia file into backup folder");
     }

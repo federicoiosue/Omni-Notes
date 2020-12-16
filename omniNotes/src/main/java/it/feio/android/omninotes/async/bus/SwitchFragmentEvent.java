@@ -18,6 +18,8 @@
 package it.feio.android.omninotes.async.bus;
 
 import it.feio.android.omninotes.helpers.LogDelegate;
+import lombok.Getter;
+import lombok.Setter;
 
 public class SwitchFragmentEvent {
 
@@ -25,9 +27,9 @@ public class SwitchFragmentEvent {
     CHILDREN, PARENT
   }
 
-
-  public Direction direction;
-
+  @Getter
+  @Setter
+  private Direction direction;
 
   public SwitchFragmentEvent(Direction direction) {
     LogDelegate.d(this.getClass().getName());

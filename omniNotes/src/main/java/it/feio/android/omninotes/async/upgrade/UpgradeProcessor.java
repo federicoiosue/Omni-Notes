@@ -130,8 +130,7 @@ public class UpgradeProcessor {
 
 
   /**
-   * Upgrades all the old audio attachments to the new format 3gpp to avoid to exchange them for
-   * videos
+   * Upgrades all the old audio attachments to the new format 3gpp to avoid mixing with videos
    */
   private void onUpgradeTo480() {
     final DbHelper dbHelper = DbHelper.getInstance();
@@ -140,17 +139,20 @@ public class UpgradeProcessor {
           .equals(attachment.getMime_type
               ())) {
 
-        // File renaming
         File from = new File(attachment.getUriPath());
         FilenameUtils.getExtension(from.getName());
         File to = new File(from.getParent(), from.getName().replace(FilenameUtils.getExtension(from
             .getName()), MIME_TYPE_AUDIO_EXT));
-        from.renameTo(to);
+        boolean successRenaming = from.renameTo(to);
 
-        // Note's attachment update
-        attachment.setUri(Uri.fromFile(to));
-        attachment.setMime_type(MIME_TYPE_AUDIO);
-        dbHelper.updateAttachment(attachment);
+        if (successRenaming) {
+          attachment.setUri(Uri.fromFile(to));
+          attachment.setMime_type(MIME_TYPE_AUDIO);
+          dbHelper.updateAttachment(attachment);
+        } else {
+          LogDelegate.e("onUpgradeTo480 - Error renaming attachment: " + attachment.getName());
+        }
+
       }
     }
   }

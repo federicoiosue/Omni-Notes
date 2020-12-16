@@ -338,26 +338,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       mainActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
-    // Restored temp note after orientation change
-    if (savedInstanceState != null) {
-      noteTmp = savedInstanceState.getParcelable("noteTmp");
-      note = savedInstanceState.getParcelable("note");
-      noteOriginal = savedInstanceState.getParcelable("noteOriginal");
-      attachmentUri = savedInstanceState.getParcelable("attachmentUri");
-      orientationChanged = savedInstanceState.getBoolean("orientationChanged");
-    }
+    restoreTempNoteAfterOrientationChange(savedInstanceState);
 
-    // Added the sketched image if present returning from SketchFragment
-    if (mainActivity.sketchUri != null) {
-      Attachment mAttachment = new Attachment(mainActivity.sketchUri, MIME_TYPE_SKETCH);
-      addAttachment(mAttachment);
-      mainActivity.sketchUri = null;
-      // Removes previous version of edited image
-      if (sketchEdited != null) {
-        noteTmp.getAttachmentsList().remove(sketchEdited);
-        sketchEdited = null;
-      }
-    }
+    addSketchedImageIfPresent();
 
     // Ensures that Detail Fragment always have the back Arrow when it's created
     EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
@@ -365,6 +348,29 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     setHasOptionsMenu(true);
     setRetainInstance(false);
+  }
+
+  private void addSketchedImageIfPresent() {
+    if (mainActivity.getSketchUri() != null) {
+      Attachment mAttachment = new Attachment(mainActivity.getSketchUri(), MIME_TYPE_SKETCH);
+      addAttachment(mAttachment);
+      mainActivity.setSketchUri(null);
+      // Removes previous version of edited image
+      if (sketchEdited != null) {
+        noteTmp.getAttachmentsList().remove(sketchEdited);
+        sketchEdited = null;
+      }
+    }
+  }
+
+  private void restoreTempNoteAfterOrientationChange(Bundle savedInstanceState) {
+    if (savedInstanceState != null) {
+      noteTmp = savedInstanceState.getParcelable("noteTmp");
+      note = savedInstanceState.getParcelable("note");
+      noteOriginal = savedInstanceState.getParcelable("noteOriginal");
+      attachmentUri = savedInstanceState.getParcelable("attachmentUri");
+      orientationChanged = savedInstanceState.getBoolean("orientationChanged");
+    }
   }
 
   @Override
@@ -2195,7 +2201,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   public void onEventMainThread(PushbulletReplyEvent pushbulletReplyEvent) {
     String text =
-        getNoteContent() + System.getProperty("line.separator") + pushbulletReplyEvent.message;
+        getNoteContent() + System.getProperty("line.separator") + pushbulletReplyEvent.getMessage();
     binding.fragmentDetailContent.detailContent.setText(text);
   }
 
