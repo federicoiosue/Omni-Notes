@@ -33,31 +33,31 @@ import it.feio.android.omninotes.utils.date.DateUtils;
 public class NotificationListener extends NotificationListenerService {
 
   @Override
-  public void onCreate () {
+  public void onCreate() {
     super.onCreate();
     EventBus.getDefault().register(this);
   }
 
   @Override
-  public void onDestroy () {
+  public void onDestroy() {
     super.onDestroy();
     EventBus.getDefault().unregister(this);
   }
 
   @Override
-  public void onNotificationPosted (StatusBarNotification sbn) {
+  public void onNotificationPosted(StatusBarNotification sbn) {
     LogDelegate.d("Notification posted for note: " + sbn.getId());
   }
 
   @Override
-  public void onNotificationRemoved (StatusBarNotification sbn) {
+  public void onNotificationRemoved(StatusBarNotification sbn) {
     if (sbn.getPackageName().equals(getPackageName())) {
       EventBus.getDefault().post(new NotificationRemovedEvent(sbn));
       LogDelegate.d("Notification removed for note: " + sbn.getId());
     }
   }
 
-  public void onEventAsync (NotificationRemovedEvent event) {
+  public void onEventAsync(NotificationRemovedEvent event) {
     long nodeId = Long.parseLong(event.statusBarNotification.getTag());
     Note note = DbHelper.getInstance().getNote(nodeId);
     if (!DateUtils.isFuture(note.getAlarm())) {
@@ -65,11 +65,13 @@ public class NotificationListener extends NotificationListenerService {
     }
   }
 
-  public static boolean isRunning () {
+  public static boolean isRunning() {
     ContentResolver contentResolver = OmniNotes.getAppContext().getContentResolver();
-    String enabledNotificationListeners = Settings.Secure.getString(contentResolver, "enabled_notification_listeners");
-    return enabledNotificationListeners != null && enabledNotificationListeners.contains(NotificationListener
-        .class.getSimpleName());
+    String enabledNotificationListeners = Settings.Secure
+        .getString(contentResolver, "enabled_notification_listeners");
+    return enabledNotificationListeners != null && enabledNotificationListeners
+        .contains(NotificationListener
+            .class.getSimpleName());
   }
 
 }

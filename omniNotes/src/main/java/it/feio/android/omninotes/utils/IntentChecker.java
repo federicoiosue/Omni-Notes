@@ -34,7 +34,7 @@ public class IntentChecker {
   /**
    * Retrieves
    */
-  public static String resolveActivityPackage (Context ctx, Intent intent) {
+  public static String resolveActivityPackage(Context ctx, Intent intent) {
     ComponentName activity = intent.resolveActivity(ctx.getPackageManager());
     return activity != null ? activity.getPackageName() : "";
   }
@@ -42,7 +42,7 @@ public class IntentChecker {
   /**
    * Checks intent and features availability
    */
-  public static boolean isAvailable (Context ctx, Intent intent, String[] features) {
+  public static boolean isAvailable(Context ctx, Intent intent, String[] features) {
     boolean res = !getCompatiblePackages(ctx, intent).isEmpty();
 
     if (features != null) {
@@ -56,10 +56,10 @@ public class IntentChecker {
   /**
    * Checks Intent's action
    *
-   * @param i Intent to ckeck
+   * @param i      Intent to ckeck
    * @param action Action to compare with
    */
-  public static boolean checkAction (Intent i, String action) {
+  public static boolean checkAction(Intent i, String action) {
     return action.equals(i.getAction());
   }
 
@@ -67,10 +67,10 @@ public class IntentChecker {
   /**
    * Checks Intent's actions
    *
-   * @param i Intent to ckeck
+   * @param i       Intent to ckeck
    * @param actions Multiple actions to compare with
    */
-  public static boolean checkAction (Intent i, String... actions) {
+  public static boolean checkAction(Intent i, String... actions) {
     for (String action : actions) {
       if (checkAction(i, action)) {
         return true;
@@ -79,7 +79,7 @@ public class IntentChecker {
     return false;
   }
 
-  private static List<ResolveInfo> getCompatiblePackages (Context ctx, Intent intent) {
+  private static List<ResolveInfo> getCompatiblePackages(Context ctx, Intent intent) {
     final PackageManager mgr = ctx.getPackageManager();
     return mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
   }

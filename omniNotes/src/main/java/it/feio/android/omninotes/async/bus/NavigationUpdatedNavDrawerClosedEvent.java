@@ -24,7 +24,7 @@ public class NavigationUpdatedNavDrawerClosedEvent {
   public final Object navigationItem;
 
 
-  public NavigationUpdatedNavDrawerClosedEvent (Object navigationItem) {
+  public NavigationUpdatedNavDrawerClosedEvent(Object navigationItem) {
     LogDelegate.d(this.getClass().getName());
     this.navigationItem = navigationItem;
   }

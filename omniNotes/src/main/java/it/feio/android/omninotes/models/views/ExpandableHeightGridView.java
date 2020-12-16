@@ -28,17 +28,17 @@ public class ExpandableHeightGridView extends GridView {
   private int itemHeight;
 
 
-  public ExpandableHeightGridView (Context context) {
+  public ExpandableHeightGridView(Context context) {
     super(context);
   }
 
 
-  public ExpandableHeightGridView (Context context, AttributeSet attrs) {
+  public ExpandableHeightGridView(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
 
-  public ExpandableHeightGridView (Context context, AttributeSet attrs,
+  public ExpandableHeightGridView(Context context, AttributeSet attrs,
       int defStyle) {
     super(context, attrs, defStyle);
   }
@@ -49,7 +49,7 @@ public class ExpandableHeightGridView extends GridView {
 
 
   @Override
-  public void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
+  public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 //		if (isExpanded()) {
     // Calculate entire height by providing a very large height hint.
     // View.MEASURED_SIZE_MASK represents the largest height possible.
@@ -69,7 +69,7 @@ public class ExpandableHeightGridView extends GridView {
 //	}
 
 
-  public void autoresize () {
+  public void autoresize() {
     // Set gridview height
 //	    ViewGroup.LayoutParams layoutParams = getLayoutParams();
     int items = getAdapter().getCount();
@@ -83,7 +83,7 @@ public class ExpandableHeightGridView extends GridView {
   }
 
 
-  public int getItemHeight () {
+  public int getItemHeight() {
     return itemHeight;
   }
 }

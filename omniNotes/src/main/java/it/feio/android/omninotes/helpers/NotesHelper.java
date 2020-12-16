@@ -42,25 +42,28 @@ import org.apache.commons.lang3.StringUtils;
 @UtilityClass
 public class NotesHelper {
 
-  public static boolean haveSameId (Note note, Note currentNote) {
+  public static boolean haveSameId(Note note, Note currentNote) {
     return currentNote != null
         && currentNote.get_id() != null
         && currentNote.get_id().equals(note.get_id());
 
   }
 
-  public static StringBuilder appendContent (Note note, StringBuilder content, boolean includeTitle) {
+  public static StringBuilder appendContent(Note note, StringBuilder content,
+      boolean includeTitle) {
     if (content.length() > 0
         && (!StringUtils.isEmpty(note.getTitle()) || !StringUtils.isEmpty(note.getContent()))) {
-      content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"))
-             .append(MERGED_NOTES_SEPARATOR).append(System.getProperty("line.separator"))
-             .append(System.getProperty("line.separator"));
+      content.append(System.getProperty("line.separator"))
+          .append(System.getProperty("line.separator"))
+          .append(MERGED_NOTES_SEPARATOR).append(System.getProperty("line.separator"))
+          .append(System.getProperty("line.separator"));
     }
     if (includeTitle && !StringUtils.isEmpty(note.getTitle())) {
       content.append(note.getTitle());
     }
     if (!StringUtils.isEmpty(note.getTitle()) && !StringUtils.isEmpty(note.getContent())) {
-      content.append(System.getProperty("line.separator")).append(System.getProperty("line.separator"));
+      content.append(System.getProperty("line.separator"))
+          .append(System.getProperty("line.separator"));
     }
     if (!StringUtils.isEmpty(note.getContent())) {
       content.append(note.getContent());
@@ -68,18 +71,20 @@ public class NotesHelper {
     return content;
   }
 
-  public static void addAttachments (boolean keepMergedNotes, Note note, ArrayList<Attachment> attachments) {
+  public static void addAttachments(boolean keepMergedNotes, Note note,
+      ArrayList<Attachment> attachments) {
     if (keepMergedNotes) {
       for (Attachment attachment : note.getAttachmentsList()) {
-        attachments.add(StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), attachment.getUri
-            ()));
+        attachments
+            .add(StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), attachment.getUri
+                ()));
       }
     } else {
       attachments.addAll(note.getAttachmentsList());
     }
   }
 
-  public static Note mergeNotes (List<Note> notes, boolean keepMergedNotes) {
+  public static Note mergeNotes(List<Note> notes, boolean keepMergedNotes) {
     boolean locked = false;
     ArrayList<Attachment> attachments = new ArrayList<>();
     String reminder = null;
@@ -123,13 +128,14 @@ public class NotesHelper {
   /**
    * Retrieves statistics data for a single note
    */
-  public static StatsSingleNote getNoteInfos (Note note) {
+  public static StatsSingleNote getNoteInfos(Note note) {
     StatsSingleNote infos = new StatsSingleNote();
 
     int words;
     int chars;
     if (note.isChecklist()) {
-      infos.setChecklistCompletedItemsNumber(StringUtils.countMatches(note.getContent(), CHECKED_SYM));
+      infos.setChecklistCompletedItemsNumber(
+          StringUtils.countMatches(note.getContent(), CHECKED_SYM));
       infos.setChecklistItemsNumber(infos.getChecklistCompletedItemsNumber() +
           StringUtils.countMatches(note.getContent(), UNCHECKED_SYM));
     }
@@ -177,14 +183,14 @@ public class NotesHelper {
   /**
    * Counts words in a note
    */
-  public static int getWords (Note note) {
+  public static int getWords(Note note) {
     return CountFactory.getWordCounter().countWords(note);
   }
 
   /**
    * Counts chars in a note
    */
-  public static int getChars (Note note) {
+  public static int getChars(Note note) {
     return CountFactory.getWordCounter().countChars(note);
   }
 

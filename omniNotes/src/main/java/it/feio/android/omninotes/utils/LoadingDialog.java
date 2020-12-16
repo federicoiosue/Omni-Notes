@@ -25,14 +25,14 @@ public class LoadingDialog extends ProgressDialog {
   Context context;
 
 
-  public LoadingDialog (Context context) {
+  public LoadingDialog(Context context) {
     super(context);
     this.context = context;
   }
 
 
   @Override
-  public void onBackPressed () {
+  public void onBackPressed() {
     super.onBackPressed();
     this.cancel();
   }

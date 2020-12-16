@@ -15,12 +15,11 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<it.feio.android.omninotes.models.views.ExpandableHeightGridView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/gridview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:drawSelectorOnTop="true"
-        android:listSelector="@drawable/icon_selector"
-        android:numColumns="2"
-        android:stretchMode="columnWidth"/>
+<it.feio.android.omninotes.models.views.ExpandableHeightGridView xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/gridview"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:drawSelectorOnTop="true"
+  android:listSelector="@drawable/icon_selector"
+  android:numColumns="2"
+  android:stretchMode="columnWidth" />

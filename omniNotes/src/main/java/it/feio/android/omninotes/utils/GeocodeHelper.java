@@ -61,49 +61,49 @@ public class GeocodeHelper implements LocationListener {
   private static final String OUT_JSON = "/json";
 
   @Override
-  public void onLocationChanged (Location newLocation) {
+  public void onLocationChanged(Location newLocation) {
     // Nothing to do
   }
 
 
   @Override
-  public void onStatusChanged (String provider, int status, Bundle extras) {
+  public void onStatusChanged(String provider, int status, Bundle extras) {
     // Nothing to do
   }
 
 
   @Override
-  public void onProviderEnabled (String provider) {
+  public void onProviderEnabled(String provider) {
     // Nothing to do
   }
 
 
   @Override
-  public void onProviderDisabled (String provider) {
+  public void onProviderDisabled(String provider) {
     // Nothing to do
   }
 
 
-  public static void getLocation (OnGeoUtilResultListener onGeoUtilResultListener) {
+  public static void getLocation(OnGeoUtilResultListener onGeoUtilResultListener) {
     SmartLocation.LocationControl bod = SmartLocation.with(OmniNotes.getAppContext())
-                                                     .location(getProvider(OmniNotes.getAppContext()))
-                                                     .config(LocationParams.NAVIGATION).oneFix();
+        .location(getProvider(OmniNotes.getAppContext()))
+        .config(LocationParams.NAVIGATION).oneFix();
 
     Observable<Location> locations = ObservableFactory.from(bod).timeout(2, TimeUnit.SECONDS);
     locations.subscribe(new Subscriber<Location>() {
       @Override
-      public void onNext (Location location) {
+      public void onNext(Location location) {
         onGeoUtilResultListener.onLocationRetrieved(location);
         unsubscribe();
       }
 
       @Override
-      public void onCompleted () {
+      public void onCompleted() {
         // Nothing to do
       }
 
       @Override
-      public void onError (Throwable e) {
+      public void onError(Throwable e) {
         onGeoUtilResultListener.onLocationUnavailable();
         unsubscribe();
       }
@@ -111,7 +111,7 @@ public class GeocodeHelper implements LocationListener {
   }
 
 
-  public static void stop () {
+  public static void stop() {
     SmartLocation.with(OmniNotes.getAppContext()).location().stop();
     if (Geocoder.isPresent()) {
       SmartLocation.with(OmniNotes.getAppContext()).geocoding().stop();
@@ -119,7 +119,7 @@ public class GeocodeHelper implements LocationListener {
   }
 
 
-  static String getAddressFromCoordinates (Context mContext, double latitude,
+  static String getAddressFromCoordinates(Context mContext, double latitude,
       double longitude) throws IOException {
     String addressString = "";
     Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
@@ -134,20 +134,21 @@ public class GeocodeHelper implements LocationListener {
   }
 
 
-  public static void getAddressFromCoordinates (Location location,
+  public static void getAddressFromCoordinates(Location location,
       final OnGeoUtilResultListener onGeoUtilResultListener) {
     if (!Geocoder.isPresent()) {
       onGeoUtilResultListener.onAddressResolved("");
     } else {
-      SmartLocation.with(OmniNotes.getAppContext()).geocoding().reverse(location, (location1, list) -> {
-        String address = list.size() > 0 ? list.get(0).getAddressLine(0) : null;
-        onGeoUtilResultListener.onAddressResolved(address);
-      });
+      SmartLocation.with(OmniNotes.getAppContext()).geocoding()
+          .reverse(location, (location1, list) -> {
+            String address = list.size() > 0 ? list.get(0).getAddressLine(0) : null;
+            onGeoUtilResultListener.onAddressResolved(address);
+          });
     }
   }
 
 
-  public static double[] getCoordinatesFromAddress (Context mContext, String address)
+  public static double[] getCoordinatesFromAddress(Context mContext, String address)
       throws IOException {
     double[] result = new double[2];
     Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
@@ -162,7 +163,7 @@ public class GeocodeHelper implements LocationListener {
   }
 
 
-  public static void getCoordinatesFromAddress (String address, final OnGeoUtilResultListener
+  public static void getCoordinatesFromAddress(String address, final OnGeoUtilResultListener
       listener) {
     SmartLocation.with(OmniNotes.getAppContext()).geocoding().direct(address, (name, results) -> {
       if (!results.isEmpty()) {
@@ -172,7 +173,7 @@ public class GeocodeHelper implements LocationListener {
   }
 
 
-  public static List<String> autocomplete (String input) {
+  public static List<String> autocomplete(String input) {
     if (TextUtils.isEmpty(MAPS_API_KEY)) {
       return Collections.emptyList();
     }
@@ -182,8 +183,9 @@ public class GeocodeHelper implements LocationListener {
     InputStreamReader in = null;
     StringBuilder jsonResults = new StringBuilder();
     try {
-      URL url = new URL(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON + "?key=" + MAPS_API_KEY + "&input=" +
-          URLEncoder.encode(input, "utf8"));
+      URL url = new URL(
+          PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON + "?key=" + MAPS_API_KEY + "&input=" +
+              URLEncoder.encode(input, "utf8"));
       conn = (HttpURLConnection) url.openConnection();
       in = new InputStreamReader(conn.getInputStream());
       // Load the results into a StringBuilder
@@ -232,18 +234,21 @@ public class GeocodeHelper implements LocationListener {
   }
 
 
-  public static boolean areCoordinates (String string) {
-    Pattern p = Pattern.compile("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|" +
-        "([1-9]?\\d))(\\.\\d+)?)$");
+  public static boolean areCoordinates(String string) {
+    Pattern p = Pattern
+        .compile("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|" +
+            "([1-9]?\\d))(\\.\\d+)?)$");
     Matcher m = p.matcher(string);
     return m.matches();
   }
 
   /**
-   * Checks for location provider between {@link android.location.LocationManager#GPS_PROVIDER} etc...
+   * Checks for location provider between {@link android.location.LocationManager#GPS_PROVIDER}
+   * etc...
    */
   public static boolean checkLocationProviderEnabled(Context context, String provider) {
-    LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+    LocationManager locationManager = (LocationManager) context
+        .getSystemService(Context.LOCATION_SERVICE);
     return locationManager.isProviderEnabled(provider);
   }
 

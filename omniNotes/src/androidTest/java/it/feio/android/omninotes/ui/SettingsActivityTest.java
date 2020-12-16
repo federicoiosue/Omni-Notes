@@ -30,7 +30,7 @@ import org.junit.runner.RunWith;
 public class SettingsActivityTest extends BaseEspressoTest {
 
   @Test
-  public void settingsActivityTest () {
+  public void settingsActivityTest() {
     onView(allOf(
         withContentDescription(equalToTrimmingAndIgnoringCase("drawer open")),
         isVisible(),
@@ -64,7 +64,7 @@ public class SettingsActivityTest extends BaseEspressoTest {
   }
 
   @Test
-  public void settingsMenuItemsCheck () {
+  public void settingsMenuItemsCheck() {
     openDrawer();
 
     onView(allOf(
@@ -84,7 +84,8 @@ public class SettingsActivityTest extends BaseEspressoTest {
         .perform(getClickAction());
 
     onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(2));
-    onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_data))).check(matches(isDisplayed()));
+    onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_data)))
+        .check(matches(isDisplayed()));
     onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(3));
     onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_interface))).check(
         matches(isDisplayed()));
@@ -95,32 +96,40 @@ public class SettingsActivityTest extends BaseEspressoTest {
     onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_behaviors))).check(
         matches(isDisplayed()));
     onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(6));
-    onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_notifications))).check(
-        matches(isDisplayed()));
+    onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_notifications)))
+        .check(
+            matches(isDisplayed()));
     onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(7));
-    onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_privacy))).check(matches(isDisplayed()));
+    onView(allOf(withId(android.R.id.title), withText(R.string.settings_screen_privacy)))
+        .check(matches(isDisplayed()));
 
     onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(9));
-    onView(allOf(withId(android.R.id.title), withText(R.string.settings_beta))).check(matches(isDisplayed()));
+    onView(allOf(withId(android.R.id.title), withText(R.string.settings_beta)))
+        .check(matches(isDisplayed()));
 
     onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(11));
-    onView(allOf(withId(android.R.id.title), withText(R.string.online_manual))).check(matches(isDisplayed()));
+    onView(allOf(withId(android.R.id.title), withText(R.string.online_manual)))
+        .check(matches(isDisplayed()));
     onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(12));
-    onView(allOf(withId(android.R.id.title), withText(R.string.settings_tour_show_again))).check(matches(isDisplayed()));
+    onView(allOf(withId(android.R.id.title), withText(R.string.settings_tour_show_again)))
+        .check(matches(isDisplayed()));
 
     onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(14));
-    onView(allOf(withId(android.R.id.title), withText(R.string.settings_changelog))).check(matches(isDisplayed()));
+    onView(allOf(withId(android.R.id.title), withText(R.string.settings_changelog)))
+        .check(matches(isDisplayed()));
     onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(15));
-    onView(allOf(withId(android.R.id.title), withText(R.string.settings_statistics))).check(matches(isDisplayed()));
+    onView(allOf(withId(android.R.id.title), withText(R.string.settings_statistics)))
+        .check(matches(isDisplayed()));
     onView(withId(R.id.recycler_view)).perform(RecyclerViewActions.scrollToPosition(16));
-    onView(allOf(withId(android.R.id.title), withText(R.string.info))).check(matches(isDisplayed()));
+    onView(allOf(withId(android.R.id.title), withText(R.string.info)))
+        .check(matches(isDisplayed()));
   }
 
-  private static Matcher<View> withTextOrHint (final Matcher<String> stringMatcher) {
+  private static Matcher<View> withTextOrHint(final Matcher<String> stringMatcher) {
     return anyOf(withText(stringMatcher), withHint(stringMatcher));
   }
 
-  private void waitToScrollEnd () {
+  private void waitToScrollEnd() {
     SystemClock.sleep(500);
   }
 

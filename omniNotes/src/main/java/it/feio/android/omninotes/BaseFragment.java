@@ -28,17 +28,18 @@ public class BaseFragment extends Fragment {
   private long mLastClickTime;
 
   @Override
-  public void onStart () {
+  public void onStart() {
     super.onStart();
-    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
+        .trackScreenView(getClass().getName());
   }
 
   @Override
-  public void onDestroy () {
+  public void onDestroy() {
     super.onDestroy();
   }
 
-  protected boolean isOptionsItemFastClick () {
+  protected boolean isOptionsItemFastClick() {
     if (SystemClock.elapsedRealtime() - mLastClickTime < OPTIONS_ITEM_CLICK_DELAY_TIME) {
       return true;
     }

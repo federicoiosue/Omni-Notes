@@ -33,19 +33,19 @@ import it.feio.android.omninotes.helpers.LogDelegate;
 
 public class Display {
 
-  private Display () {
+  private Display() {
     // hides public constructor
   }
 
 
-  public static View getRootView (Activity mActivity) {
+  public static View getRootView(Activity mActivity) {
     return mActivity.getWindow().getDecorView().findViewById(android.R.id.content);
   }
 
 
   @SuppressWarnings("deprecation")
   @SuppressLint("NewApi")
-  public static Point getUsableSize (Context mContext) {
+  public static Point getUsableSize(Context mContext) {
     Point displaySize = new Point();
     try {
       WindowManager manager = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
@@ -62,7 +62,7 @@ public class Display {
   }
 
 
-  public static Point getVisibleSize (Activity activity) {
+  public static Point getVisibleSize(Activity activity) {
     Point displaySize = new Point();
     Rect r = new Rect();
     activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
@@ -72,7 +72,7 @@ public class Display {
   }
 
 
-  public static Point getFullSize (View view) {
+  public static Point getFullSize(View view) {
     Point displaySize = new Point();
     displaySize.x = view.getRootView().getWidth();
     displaySize.y = view.getRootView().getHeight();
@@ -80,7 +80,7 @@ public class Display {
   }
 
 
-  public static int getStatusBarHeight (Context mContext) {
+  public static int getStatusBarHeight(Context mContext) {
     int result = 0;
     int resourceId = mContext.getResources().getIdentifier("status_bar_height", "dimen", "android");
     if (resourceId > 0) {
@@ -90,8 +90,9 @@ public class Display {
   }
 
 
-  public static int getNavigationBarHeightStandard (Context mContext) {
-    int resourceId = mContext.getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+  public static int getNavigationBarHeightStandard(Context mContext) {
+    int resourceId = mContext.getResources()
+        .getIdentifier("navigation_bar_height", "dimen", "android");
     if (resourceId > 0) {
       return mContext.getResources().getDimensionPixelSize(resourceId);
     }
@@ -100,7 +101,7 @@ public class Display {
 
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-  public static Point getScreenDimensions (Context mContext) {
+  public static Point getScreenDimensions(Context mContext) {
     WindowManager wm = (WindowManager) mContext.getSystemService(Context.WINDOW_SERVICE);
     android.view.Display display = wm.getDefaultDisplay();
     Point size = new Point();
@@ -113,16 +114,17 @@ public class Display {
 
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-  public static int getNavigationBarHeightKitkat (Context mContext) {
+  public static int getNavigationBarHeightKitkat(Context mContext) {
     return getScreenDimensions(mContext).y - getUsableSize(mContext).y;
   }
 
 
-  public static boolean orientationLandscape (Context context) {
-    return context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE;
+  public static boolean orientationLandscape(Context context) {
+    return context.getResources().getConfiguration().orientation
+        == Configuration.ORIENTATION_LANDSCAPE;
   }
 
-  public static int getSoftButtonsBarHeight (Activity activity) {
+  public static int getSoftButtonsBarHeight(Activity activity) {
     DisplayMetrics metrics = new DisplayMetrics();
     activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
     int usableHeight = metrics.heightPixels;

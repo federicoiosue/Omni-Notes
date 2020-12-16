@@ -57,57 +57,58 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
   private List<Note> notes;
   private int navigation;
 
-  public ListRemoteViewsFactory (Application app, Intent intent) {
+  public ListRemoteViewsFactory(Application app, Intent intent) {
     this.app = (OmniNotes) app;
-    appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+    appWidgetId = intent
+        .getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
   }
 
-  static void updateConfiguration (Context mContext, int mAppWidgetId, String sqlCondition,
+  static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition,
       boolean thumbnails, boolean timestamps) {
     LogDelegate.d("Widget configuration updated");
     mContext.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
-            .putString(PREF_WIDGET_PREFIX + mAppWidgetId, sqlCondition).apply();
+        .putString(PREF_WIDGET_PREFIX + mAppWidgetId, sqlCondition).apply();
     showThumbnails = thumbnails;
     showTimestamps = timestamps;
   }
 
   @Override
-  public void onCreate () {
+  public void onCreate() {
     LogDelegate.d("Created widget " + appWidgetId);
     String condition = app.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                          .getString(
-                              PREF_WIDGET_PREFIX
-                                  + appWidgetId, "");
+        .getString(
+            PREF_WIDGET_PREFIX
+                + appWidgetId, "");
     notes = DbHelper.getInstance().getNotes(condition, true);
   }
 
   @Override
-  public void onDataSetChanged () {
+  public void onDataSetChanged() {
     LogDelegate.d("onDataSetChanged widget " + appWidgetId);
     navigation = Navigation.getNavigation();
 
     String condition = app.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                          .getString(
-                              PREF_WIDGET_PREFIX
-                                  + appWidgetId, "");
+        .getString(
+            PREF_WIDGET_PREFIX
+                + appWidgetId, "");
     notes = DbHelper.getInstance().getNotes(condition, true);
   }
 
   @Override
-  public void onDestroy () {
+  public void onDestroy() {
     app.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-       .edit()
-       .remove(PREF_WIDGET_PREFIX + appWidgetId)
-       .apply();
+        .edit()
+        .remove(PREF_WIDGET_PREFIX + appWidgetId)
+        .apply();
   }
 
   @Override
-  public int getCount () {
+  public int getCount() {
     return notes.size();
   }
 
   @Override
-  public RemoteViews getViewAt (int position) {
+  public RemoteViews getViewAt(int position) {
     RemoteViews row = new RemoteViews(app.getPackageName(), R.layout.note_layout_widget);
 
     Note note = notes.get(position);
@@ -147,30 +148,30 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
   }
 
   @Override
-  public RemoteViews getLoadingView () {
+  public RemoteViews getLoadingView() {
     return null;
   }
 
   @Override
-  public int getViewTypeCount () {
+  public int getViewTypeCount() {
     return 1;
   }
 
   @Override
-  public long getItemId (int position) {
+  public long getItemId(int position) {
     return position;
   }
 
   @Override
-  public boolean hasStableIds () {
+  public boolean hasStableIds() {
     return false;
   }
 
-  private void color (Note note, RemoteViews row) {
+  private void color(Note note, RemoteViews row) {
 
     String colorsPref = app.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                           .getString("settings_colors_widget",
-                               PREF_COLORS_APP_DEFAULT);
+        .getString("settings_colors_widget",
+            PREF_COLORS_APP_DEFAULT);
 
     // Checking preference
     if (!colorsPref.equals("disabled")) {
@@ -181,9 +182,11 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
       // If tag is set the color will be applied on the appropriate target
       if (note.getCategory() != null && note.getCategory().getColor() != null) {
         if (colorsPref.equals("list")) {
-          row.setInt(R.id.card_layout, SET_BACKGROUND_COLOR, Integer.parseInt(note.getCategory().getColor()));
+          row.setInt(R.id.card_layout, SET_BACKGROUND_COLOR,
+              Integer.parseInt(note.getCategory().getColor()));
         } else {
-          row.setInt(R.id.tag_marker, SET_BACKGROUND_COLOR, Integer.parseInt(note.getCategory().getColor()));
+          row.setInt(R.id.tag_marker, SET_BACKGROUND_COLOR,
+              Integer.parseInt(note.getCategory().getColor()));
         }
       } else {
         row.setInt(R.id.tag_marker, SET_BACKGROUND_COLOR, 0);

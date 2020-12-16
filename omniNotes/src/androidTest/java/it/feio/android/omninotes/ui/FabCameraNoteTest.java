@@ -35,10 +35,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
-import androidx.test.platform.app.InstrumentationRegistry;
-import androidx.test.filters.LargeTest;
-import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.espresso.intent.Intents;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
+import androidx.test.platform.app.InstrumentationRegistry;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
@@ -52,7 +52,7 @@ import org.junit.runner.RunWith;
 public class FabCameraNoteTest extends BaseEspressoTest {
 
   @Test
-  public void fabCameraNoteTest () {
+  public void fabCameraNoteTest() {
     EventBus.getDefault().register(this);
     Intents.init();
     Bitmap icon = BitmapFactory.decodeResource(
@@ -61,7 +61,8 @@ public class FabCameraNoteTest extends BaseEspressoTest {
 
     Intent resultData = new Intent();
     resultData.putExtra("data", icon);
-    Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK, resultData);
+    Instrumentation.ActivityResult result = new Instrumentation.ActivityResult(Activity.RESULT_OK,
+        resultData);
 
     intending(hasAction(MediaStore.ACTION_IMAGE_CAPTURE)).respondWith(result);
 
@@ -87,9 +88,10 @@ public class FabCameraNoteTest extends BaseEspressoTest {
 
   }
 
-  public void onEvent (NotesUpdatedEvent notesUpdatedEvent) {
+  public void onEvent(NotesUpdatedEvent notesUpdatedEvent) {
     assertEquals(0, notesUpdatedEvent.notes.get(0).getAttachmentsList().size());
-    assertEquals(Constants.MIME_TYPE_IMAGE, notesUpdatedEvent.notes.get(0).getAttachmentsList().get(0).getMime_type());
+    assertEquals(Constants.MIME_TYPE_IMAGE,
+        notesUpdatedEvent.notes.get(0).getAttachmentsList().get(0).getMime_type());
   }
 
 }

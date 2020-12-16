@@ -25,8 +25,11 @@ public class ResourcesUtils {
   public enum ResourceIdentifiers {XML, ID, ARRAY}
 
 
-  public static int getXmlId (Context context, ResourceIdentifiers resourceIdentifier, String resourceName) {
-    return context.getResources().getIdentifier(resourceName, resourceIdentifier.name().toLowerCase(), context.getPackageName());
+  public static int getXmlId(Context context, ResourceIdentifiers resourceIdentifier,
+      String resourceName) {
+    return context.getResources()
+        .getIdentifier(resourceName, resourceIdentifier.name().toLowerCase(),
+            context.getPackageName());
   }
 
 }

@@ -22,7 +22,7 @@ import it.feio.android.omninotes.models.Attachment;
 
 public interface OnAttachingFileListener {
 
-  void onAttachingFileErrorOccurred (Attachment mAttachment);
+  void onAttachingFileErrorOccurred(Attachment mAttachment);
 
-  void onAttachingFileFinished (Attachment mAttachment);
+  void onAttachingFileFinished(Attachment mAttachment);
 }

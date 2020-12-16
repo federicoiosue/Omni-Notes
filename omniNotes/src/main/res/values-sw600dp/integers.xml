@@ -16,6 +16,6 @@
   -->
 
 <resources>
-    <integer name="textview_max_lines">2</integer>
-    <integer name="textview_max_lines_expanded">3</integer>
+  <integer name="textview_max_lines">2</integer>
+  <integer name="textview_max_lines_expanded">3</integer>
 </resources>

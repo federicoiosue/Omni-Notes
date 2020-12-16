@@ -44,7 +44,7 @@ public class RecurrenceRuleTest extends BaseEspressoTest {
 
   @Before
   @Override
-  public void setUp () {
+  public void setUp() {
     super.setUp();
     testNote = new Note();
     testNote.setTitle("Title 1");
@@ -56,7 +56,7 @@ public class RecurrenceRuleTest extends BaseEspressoTest {
   }
 
   @Test
-  public void recurrenceRuleTextHasValue () throws InterruptedException {
+  public void recurrenceRuleTextHasValue() throws InterruptedException {
 
     Thread.sleep(1500);
 
@@ -80,8 +80,9 @@ public class RecurrenceRuleTest extends BaseEspressoTest {
 
     selectNoteInList(0);
 
-    String expectedText = RecurrenceHelper.getNoteRecurrentReminderText(Long.parseLong(testNote.getAlarm()),
-        testNote.getRecurrenceRule());
+    String expectedText = RecurrenceHelper
+        .getNoteRecurrentReminderText(Long.parseLong(testNote.getAlarm()),
+            testNote.getRecurrenceRule());
     onView(withId(R.id.datetime)).check(matches(withText(expectedText)));
   }
 

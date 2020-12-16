@@ -27,7 +27,7 @@ import java.util.List;
 
 public class SqlParser {
 
-  public static List<String> parseSqlFile (String sqlFile,
+  public static List<String> parseSqlFile(String sqlFile,
       AssetManager assetManager) throws IOException {
     List<String> sqlIns = null;
     InputStream is = assetManager.open(sqlFile);
@@ -40,13 +40,13 @@ public class SqlParser {
   }
 
 
-  public static List<String> parseSqlFile (InputStream is) throws IOException {
+  public static List<String> parseSqlFile(InputStream is) throws IOException {
     String script = removeComments(is);
     return splitSqlScript(script, ';');
   }
 
 
-  private static String removeComments (InputStream is) throws IOException {
+  private static String removeComments(InputStream is) throws IOException {
 
     StringBuilder sql = new StringBuilder();
 
@@ -94,7 +94,7 @@ public class SqlParser {
   }
 
 
-  private static List<String> splitSqlScript (String script, char delim) {
+  private static List<String> splitSqlScript(String script, char delim) {
     List<String> statements = new ArrayList<>();
     StringBuilder sb = new StringBuilder();
     boolean inLiteral = false;

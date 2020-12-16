@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -16,39 +15,39 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-    <string-array name="navigation_list">
-        <item>Белешке</item>
-        <item>Архива</item>
-        <item>Подсетници</item>
-        <item>Смеће</item>
-        <item>Некатегорисано</item>
-    </string-array>
-    <string-array name="sortable_columns_human_readable">
-        <item>по наслову</item>
-        <item>по датуму стварања</item>
-        <item>по датуму измене</item>
-        <item>по датуму подсетника</item>
-    </string-array>
-    <string-array name="checked_items_behavior">
-        <item>задржи позицију</item>
-        <item>помери на крај листе</item>
-        <item>помери иза необележених</item>
-    </string-array>
-    <string-array name="colors_app">
-        <item>искључено</item>
-        <item>само трака</item>
-        <item>само листа белешки</item>
-        <item>потпуно</item>
-    </string-array>
-    <string-array name="colors_widget">
-        <item>искључено</item>
-        <item>само трака</item>
-        <item>Листа белешки</item>
-    </string-array>
-    <string-array name="attachments_actions">
-        <item>Дели</item>
-        <item>Обриши</item>
-        <item>Обриши све</item>
-        <item>Уреди</item>
-    </string-array>
+  <string-array name="navigation_list">
+    <item>Белешке</item>
+    <item>Архива</item>
+    <item>Подсетници</item>
+    <item>Смеће</item>
+    <item>Некатегорисано</item>
+  </string-array>
+  <string-array name="sortable_columns_human_readable">
+    <item>по наслову</item>
+    <item>по датуму стварања</item>
+    <item>по датуму измене</item>
+    <item>по датуму подсетника</item>
+  </string-array>
+  <string-array name="checked_items_behavior">
+    <item>задржи позицију</item>
+    <item>помери на крај листе</item>
+    <item>помери иза необележених</item>
+  </string-array>
+  <string-array name="colors_app">
+    <item>искључено</item>
+    <item>само трака</item>
+    <item>само листа белешки</item>
+    <item>потпуно</item>
+  </string-array>
+  <string-array name="colors_widget">
+    <item>искључено</item>
+    <item>само трака</item>
+    <item>Листа белешки</item>
+  </string-array>
+  <string-array name="attachments_actions">
+    <item>Дели</item>
+    <item>Обриши</item>
+    <item>Обриши све</item>
+    <item>Уреди</item>
+  </string-array>
 </resources>

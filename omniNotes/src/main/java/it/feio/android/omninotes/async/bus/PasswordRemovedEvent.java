@@ -21,7 +21,7 @@ import it.feio.android.omninotes.helpers.LogDelegate;
 
 public class PasswordRemovedEvent {
 
-  public PasswordRemovedEvent () {
+  public PasswordRemovedEvent() {
     LogDelegate.d(this.getClass().getName());
   }
 }

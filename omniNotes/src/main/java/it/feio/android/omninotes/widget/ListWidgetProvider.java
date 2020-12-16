@@ -33,7 +33,7 @@ import it.feio.android.omninotes.R;
 public class ListWidgetProvider extends WidgetProvider {
 
   @Override
-  protected RemoteViews getRemoteViews (Context mContext, int widgetId,
+  protected RemoteViews getRemoteViews(Context mContext, int widgetId,
       boolean isSmall, boolean isSingleLine,
       SparseArray<PendingIntent> pendingIntentsMap) {
     RemoteViews views;

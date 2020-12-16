@@ -41,13 +41,13 @@ public class ReminderHelper {
     // hides public constructor
   }
 
-  public static void addReminder (Context context, Note note) {
+  public static void addReminder(Context context, Note note) {
     if (note.getAlarm() != null) {
       addReminder(context, note, Long.parseLong(note.getAlarm()));
     }
   }
 
-  public static void addReminder (Context context, Note note, long reminder) {
+  public static void addReminder(Context context, Note note, long reminder) {
     if (DateUtils.isFuture(reminder)) {
       Intent intent = new Intent(context, AlarmReceiver.class);
       intent.putExtra(INTENT_NOTE, ParcelableUtil.marshall(note));
@@ -61,17 +61,19 @@ public class ReminderHelper {
   /**
    * Checks if exists any reminder for given note
    */
-  public static boolean checkReminder (Context context, Note note) {
-    return PendingIntent.getBroadcast(context, getRequestCode(note), new Intent(context, AlarmReceiver
-        .class), PendingIntent.FLAG_NO_CREATE) != null;
+  public static boolean checkReminder(Context context, Note note) {
+    return
+        PendingIntent.getBroadcast(context, getRequestCode(note), new Intent(context, AlarmReceiver
+            .class), PendingIntent.FLAG_NO_CREATE) != null;
   }
 
-  static int getRequestCode (Note note) {
-    long longCode = note.getCreation() != null ? note.getCreation() : Calendar.getInstance().getTimeInMillis() / 1000L;
+  static int getRequestCode(Note note) {
+    long longCode = note.getCreation() != null ? note.getCreation()
+        : Calendar.getInstance().getTimeInMillis() / 1000L;
     return (int) longCode;
   }
 
-  public static void removeReminder (Context context, Note note) {
+  public static void removeReminder(Context context, Note note) {
     if (!TextUtils.isEmpty(note.getAlarm())) {
       AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
       Intent intent = new Intent(context, AlarmReceiver.class);
@@ -81,14 +83,15 @@ public class ReminderHelper {
     }
   }
 
-  public static void showReminderMessage (String reminderString) {
+  public static void showReminderMessage(String reminderString) {
     if (reminderString != null) {
       long reminder = Long.parseLong(reminderString);
       if (reminder > Calendar.getInstance().getTimeInMillis()) {
         new Handler(OmniNotes.getAppContext().getMainLooper()).post(() ->
             Toast.makeText(OmniNotes.getAppContext(),
-            OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort
-                (OmniNotes.getAppContext(), reminder), Toast.LENGTH_LONG).show());
+                OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateHelper
+                    .getDateTimeShort
+                        (OmniNotes.getAppContext(), reminder), Toast.LENGTH_LONG).show());
       }
     }
   }

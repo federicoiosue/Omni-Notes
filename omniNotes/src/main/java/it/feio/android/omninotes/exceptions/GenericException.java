@@ -19,7 +19,7 @@ package it.feio.android.omninotes.exceptions;
 
 public class GenericException extends RuntimeException {
 
-  public GenericException (String message) {
+  public GenericException(String message) {
     super(message);
   }
 

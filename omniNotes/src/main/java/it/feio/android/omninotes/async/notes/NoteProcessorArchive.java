@@ -27,14 +27,14 @@ public class NoteProcessorArchive extends NoteProcessor {
   boolean archive;
 
 
-  public NoteProcessorArchive (List<Note> notes, boolean archive) {
+  public NoteProcessorArchive(List<Note> notes, boolean archive) {
     super(notes);
     this.archive = archive;
   }
 
 
   @Override
-  protected void processNote (Note note) {
+  protected void processNote(Note note) {
     DbHelper.getInstance().archiveNote(note, archive);
   }
 }

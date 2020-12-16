@@ -41,7 +41,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 public class DateUtilsTest {
 
   @Test
-  public void prettyTime () {
+  public void prettyTime() {
     long now = Calendar.getInstance().getTimeInMillis();
 
     String prettyTime = DateUtils.prettyTime(now, Locale.ENGLISH);
@@ -62,15 +62,16 @@ public class DateUtilsTest {
   }
 
   @Test
-  public void getPresetReminder () {
+  public void getPresetReminder() {
     long mockedNextMinute = 1497315847L;
     Long testReminder = null;
-    PowerMockito.stub(PowerMockito.method(DateUtils.class, "getNextMinute")).toReturn(mockedNextMinute);
+    PowerMockito.stub(PowerMockito.method(DateUtils.class, "getNextMinute"))
+        .toReturn(mockedNextMinute);
     assertEquals(mockedNextMinute, DateUtils.getPresetReminder(testReminder));
   }
 
   @Test
-  public void isFuture () {
+  public void isFuture() {
     String nextMinute = String.valueOf(Calendar.getInstance().getTimeInMillis() + 60000);
     String previousMinute = String.valueOf(Calendar.getInstance().getTimeInMillis() - 60000);
     assertTrue(DateUtils.isFuture(nextMinute));
@@ -78,13 +79,13 @@ public class DateUtilsTest {
   }
 
   @Test
-  public void isFutureManagesNullValues () {
+  public void isFutureManagesNullValues() {
     Long longValue = null;
     assertFalse(DateUtils.isFuture(longValue));
   }
 
   @Test
-  public void isSameDay () {
+  public void isSameDay() {
     long today = Calendar.getInstance().getTimeInMillis();
     long tomorrow = today + (1000 * 60 * 60 * 24);
     assertTrue(DateUtils.isSameDay(today, today));
@@ -108,30 +109,30 @@ public class DateUtilsTest {
   }
 
   @Test
-  public void getDateFromStringTest(){
-    String date="2020/03/12 15:15:15";
-    String dateformat="yyyy/MM/dd HH:mm:ss";
-    Calendar calendar=DateUtils.getDateFromString(date,dateformat);
-    assertEquals(calendar.get(Calendar.YEAR),2020);
-    assertEquals(calendar.get(Calendar.MONTH),2);
-    assertEquals(calendar.get(Calendar.DATE),12);
-    assertEquals(calendar.get(Calendar.HOUR_OF_DAY),15);
-    assertEquals(calendar.get(Calendar.MINUTE),15);
-    assertEquals(calendar.get(Calendar.SECOND),15);
+  public void getDateFromStringTest() {
+    String date = "2020/03/12 15:15:15";
+    String dateformat = "yyyy/MM/dd HH:mm:ss";
+    Calendar calendar = DateUtils.getDateFromString(date, dateformat);
+    assertEquals(calendar.get(Calendar.YEAR), 2020);
+    assertEquals(calendar.get(Calendar.MONTH), 2);
+    assertEquals(calendar.get(Calendar.DATE), 12);
+    assertEquals(calendar.get(Calendar.HOUR_OF_DAY), 15);
+    assertEquals(calendar.get(Calendar.MINUTE), 15);
+    assertEquals(calendar.get(Calendar.SECOND), 15);
   }
 
   @Test
-  public void getLongFromDateTimeTest(){
-    String date="2020-03-12";
-    String dateformat="yyyy-MM-dd";
-    String time="15:15:15";
-    String timeformat="HH:mm:ss";
-    Calendar calendar=DateUtils.getLongFromDateTime(date,dateformat,time,timeformat);
-    assertEquals(calendar.get(Calendar.YEAR),2020);
-    assertEquals(calendar.get(Calendar.MONTH),2);
-    assertEquals(calendar.get(Calendar.DATE),12);
-    assertEquals(calendar.get(Calendar.HOUR_OF_DAY),15);
-    assertEquals(calendar.get(Calendar.MINUTE),15);
-    assertEquals(calendar.get(Calendar.SECOND),0);
+  public void getLongFromDateTimeTest() {
+    String date = "2020-03-12";
+    String dateformat = "yyyy-MM-dd";
+    String time = "15:15:15";
+    String timeformat = "HH:mm:ss";
+    Calendar calendar = DateUtils.getLongFromDateTime(date, dateformat, time, timeformat);
+    assertEquals(calendar.get(Calendar.YEAR), 2020);
+    assertEquals(calendar.get(Calendar.MONTH), 2);
+    assertEquals(calendar.get(Calendar.DATE), 12);
+    assertEquals(calendar.get(Calendar.HOUR_OF_DAY), 15);
+    assertEquals(calendar.get(Calendar.MINUTE), 15);
+    assertEquals(calendar.get(Calendar.SECOND), 0);
   }
 }

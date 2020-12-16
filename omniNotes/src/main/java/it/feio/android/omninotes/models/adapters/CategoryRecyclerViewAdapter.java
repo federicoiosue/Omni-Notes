@@ -46,29 +46,31 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryVi
   private String navigationTmp;
 
 
-  public CategoryRecyclerViewAdapter (Activity mActivity, List<Category> categories) {
+  public CategoryRecyclerViewAdapter(Activity mActivity, List<Category> categories) {
     this(mActivity, categories, null);
   }
 
-  public CategoryRecyclerViewAdapter (Activity mActivity, List<Category> categories, String navigationTmp) {
+  public CategoryRecyclerViewAdapter(Activity mActivity, List<Category> categories,
+      String navigationTmp) {
     this.mActivity = mActivity;
     this.categories = categories;
     this.navigationTmp = navigationTmp;
   }
 
   @Override
-  public int getItemCount () {
+  public int getItemCount() {
     return categories.size();
   }
 
   @NonNull
   @Override
-  public CategoryViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType) {
-    return new CategoryViewHolder(DrawerListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+  public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    return new CategoryViewHolder(
+        DrawerListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
   }
 
   @Override
-  public void onBindViewHolder (@NonNull CategoryViewHolder holder, int position) {
+  public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
     Category category = categories.get(position);
 
     holder.txtTitle.setText(category.getName());
@@ -84,7 +86,8 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryVi
     // Set the results into ImageView checking if an icon is present before
     if (category.getColor() != null && category.getColor().length() > 0) {
       Drawable img = mActivity.getResources().getDrawable(R.drawable.ic_folder_special_black_24dp);
-      ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"), Integer.parseInt(category.getColor()));
+      ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"),
+          Integer.parseInt(category.getColor()));
       img.mutate().setColorFilter(cf);
       holder.imgIcon.setImageDrawable(img);
       int padding = 4;
@@ -93,7 +96,7 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryVi
     showCategoryCounter(holder, category);
   }
 
-  private void showCategoryCounter (@NonNull CategoryViewHolder holder, Category category) {
+  private void showCategoryCounter(@NonNull CategoryViewHolder holder, Category category) {
     if (mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean(
         "settings_show_category_count", true)) {
       holder.count.setText(String.valueOf(category.getCount()));
@@ -102,21 +105,23 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryVi
   }
 
   @Override
-  public long getItemId (int position) {
+  public long getItemId(int position) {
     return position;
   }
 
-  private boolean isSelected (int position) {
-    String[] navigationListCodes = mActivity.getResources().getStringArray(R.array.navigation_list_codes);
+  private boolean isSelected(int position) {
+    String[] navigationListCodes = mActivity.getResources()
+        .getStringArray(R.array.navigation_list_codes);
 
     // Managing temporary navigation indicator when coming from a widget
-    String navigationTmpLocal = MainActivity.class.isAssignableFrom(mActivity.getClass()) ? ((MainActivity)
-        mActivity).getNavigationTmp() : null;
+    String navigationTmpLocal =
+        MainActivity.class.isAssignableFrom(mActivity.getClass()) ? ((MainActivity)
+            mActivity).getNavigationTmp() : null;
     navigationTmpLocal = this.navigationTmp != null ? this.navigationTmp : navigationTmpLocal;
 
     String navigation = navigationTmp != null ? navigationTmpLocal
         : mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                   .getString(PREF_NAVIGATION, navigationListCodes[0]);
+            .getString(PREF_NAVIGATION, navigationListCodes[0]);
 
     return navigation.equals(String.valueOf(categories.get(position).getId()));
   }

@@ -29,7 +29,7 @@ import it.feio.android.omninotes.OmniNotes;
 public class IntroActivity extends AppIntro2 {
 
   @Override
-  public void init (Bundle savedInstanceState) {
+  public void init(Bundle savedInstanceState) {
     addSlide(new IntroSlide1(), getApplicationContext());
     addSlide(new IntroSlide2(), getApplicationContext());
     addSlide(new IntroSlide3(), getApplicationContext());
@@ -39,19 +39,19 @@ public class IntroActivity extends AppIntro2 {
   }
 
   @Override
-  public void onDonePressed () {
+  public void onDonePressed() {
     OmniNotes.getAppContext().getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
-             .putBoolean(PREF_TOUR_COMPLETE, true).apply();
+        .putBoolean(PREF_TOUR_COMPLETE, true).apply();
     finish();
   }
 
-  public static boolean mustRun () {
+  public static boolean mustRun() {
     return !OmniNotes.isDebugBuild() && !OmniNotes.getAppContext().getSharedPreferences(PREFS_NAME,
         Context.MODE_MULTI_PROCESS).getBoolean(PREF_TOUR_COMPLETE, false);
   }
 
   @Override
-  public void onBackPressed () {
+  public void onBackPressed() {
     // Does nothing, you HAVE TO SEE THE INTRO!
   }
 

@@ -22,5 +22,5 @@ import it.feio.android.omninotes.models.Note;
 
 public interface OnNoteSaved {
 
-  void onNoteSaved (Note noteSaved);
+  void onNoteSaved(Note noteSaved);
 }

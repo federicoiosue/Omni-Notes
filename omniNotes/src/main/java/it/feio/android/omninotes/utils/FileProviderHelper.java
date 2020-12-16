@@ -25,14 +25,14 @@ import java.io.File;
 
 public class FileProviderHelper {
 
-  private FileProviderHelper () {
+  private FileProviderHelper() {
     // hides public constructor
   }
 
   /**
    * Generates the FileProvider URI for a given existing file
    */
-  public static Uri getFileProvider (File file) {
+  public static Uri getFileProvider(File file) {
     return FileProvider.getUriForFile(OmniNotes.getAppContext(),
         OmniNotes.getAppContext().getPackageName() + ".authority", file);
   }
@@ -40,7 +40,7 @@ public class FileProviderHelper {
   /**
    * Generates a shareable URI for a given attachment by evaluating its stored (into DB) path
    */
-  public static Uri getShareableUri (Attachment attachment) {
+  public static Uri getShareableUri(Attachment attachment) {
     File attachmentFile = new File(attachment.getUri().getPath());
     if (attachmentFile.exists()) {
       return FileProviderHelper.getFileProvider(attachmentFile);

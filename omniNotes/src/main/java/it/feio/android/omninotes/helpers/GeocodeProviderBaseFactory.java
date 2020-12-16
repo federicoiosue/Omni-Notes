@@ -30,11 +30,11 @@ import it.feio.android.omninotes.utils.GeocodeHelper;
 
 public class GeocodeProviderBaseFactory {
 
-  protected GeocodeProviderBaseFactory () {
+  protected GeocodeProviderBaseFactory() {
     // hides public constructor
   }
 
-  public static LocationProvider getProvider (Context context) {
+  public static LocationProvider getProvider(Context context) {
     if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
         && android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.P
         && checkHighAccuracyLocationProvider(context)) {
@@ -45,7 +45,7 @@ public class GeocodeProviderBaseFactory {
     return new LocationGooglePlayServicesWithFallbackProvider(context);
   }
 
-  public static boolean checkHighAccuracyLocationProvider (Context context) {
+  public static boolean checkHighAccuracyLocationProvider(Context context) {
     return GeocodeHelper.checkLocationProviderEnabled(context, LocationManager.GPS_PROVIDER);
   }
 

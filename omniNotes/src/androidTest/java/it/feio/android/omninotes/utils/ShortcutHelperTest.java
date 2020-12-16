@@ -31,18 +31,18 @@ public class ShortcutHelperTest extends BaseAndroidTestCase {
   private Note note;
 
   @Before
-  public void setUp () {
+  public void setUp() {
     note = new Note();
     note.set_id(42L);
   }
 
   @Test
-  public void addShortcut () {
+  public void addShortcut() {
     ShortcutHelper.addShortcut(testContext, note);
   }
 
   @Test
-  public void removeshortCut () {
+  public void removeshortCut() {
     ShortcutHelper.removeShortcut(testContext, note);
   }
 }

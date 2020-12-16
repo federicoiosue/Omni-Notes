@@ -19,5 +19,5 @@ package it.feio.android.omninotes.models.listeners;
 
 public interface OnDrawChangedListener {
 
-  void onDrawChanged ();
+  void onDrawChanged();
 }

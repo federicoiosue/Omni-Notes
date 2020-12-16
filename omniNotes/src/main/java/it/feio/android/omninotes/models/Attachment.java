@@ -28,50 +28,51 @@ public class Attachment extends BaseAttachment implements Parcelable {
   private Uri uri;
 
 
-  public Attachment (Uri uri, String mimeType) {
+  public Attachment(Uri uri, String mimeType) {
     this(Calendar.getInstance().getTimeInMillis(), uri, null, 0, 0, mimeType);
   }
 
 
-  public Attachment (long id, Uri uri, String name, long size, long length, String mimeType) {
+  public Attachment(long id, Uri uri, String name, long size, long length, String mimeType) {
     super(id, uri != null ? uri.getPath() : null, name, size, length, mimeType);
     setUri(uri);
   }
 
 
-  public Attachment (BaseAttachment attachment) {
-    super(attachment.getId(), attachment.getUriPath(), attachment.getName(), attachment.getSize(), attachment
-        .getLength(), attachment.getMime_type());
+  public Attachment(BaseAttachment attachment) {
+    super(attachment.getId(), attachment.getUriPath(), attachment.getName(), attachment.getSize(),
+        attachment
+            .getLength(), attachment.getMime_type());
     this.uri = Uri.parse(attachment.getUriPath());
   }
 
 
-  private Attachment (Parcel in) {
+  private Attachment(Parcel in) {
     setId(in.readLong());
     setUri(Uri.parse(in.readString()));
     setMime_type(in.readString());
   }
 
 
-  public Uri getUri () {
+  public Uri getUri() {
     return uri;
   }
 
 
-  public void setUri (Uri uri) {
+  public void setUri(Uri uri) {
     this.uri = uri;
     setUriPath(uri != null ? uri.toString() : "");
   }
 
 
   @Override
-  public int describeContents () {
+  public int describeContents() {
     return 0;
   }
 
 
   @Override
-  public void writeToParcel (Parcel parcel, int flags) {
+  public void writeToParcel(Parcel parcel, int flags) {
     parcel.writeLong(getId());
     parcel.writeString(getUri().toString());
     parcel.writeString(getMime_type());
@@ -84,12 +85,12 @@ public class Attachment extends BaseAttachment implements Parcelable {
    */
   public static final Parcelable.Creator<Attachment> CREATOR = new Parcelable.Creator<Attachment>() {
 
-    public Attachment createFromParcel (Parcel in) {
+    public Attachment createFromParcel(Parcel in) {
       return new Attachment(in);
     }
 
 
-    public Attachment[] newArray (int size) {
+    public Attachment[] newArray(int size) {
       return new Attachment[size];
     }
   };

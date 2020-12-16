@@ -46,23 +46,25 @@ public class TagsHelperTest {
 
 
   @Before
-  public void setup () {
+  public void setup() {
     note = new Note();
-    note.setContent("Random content with " + TAG1.getText() + " " + TAG_INVALID.getText() + " " + TAG2.getText()
-        + "(and another with similar prefix: " + TAG3.getText() + ") and " + TAG4.getText());
+    note.setContent(
+        "Random content with " + TAG1.getText() + " " + TAG_INVALID.getText() + " " + TAG2.getText()
+            + "(and another with similar prefix: " + TAG3.getText() + ") and " + TAG4.getText());
   }
 
   @Test
-  public void retrievesTagsFromNote () {
+  public void retrievesTagsFromNote() {
     HashMap<String, Integer> tags = TagsHelper.retrieveTags(note);
     assertEquals(tags.size(), 4);
-    assertTrue(tags.containsKey(TAG1.getText()) && tags.containsKey(TAG2.getText()) && tags.containsKey(TAG3.getText())
+    assertTrue(tags.containsKey(TAG1.getText()) && tags.containsKey(TAG2.getText()) && tags
+        .containsKey(TAG3.getText())
         && tags.containsKey(TAG4.getText()));
     assertFalse(tags.containsKey(TAG_INVALID.getText()));
   }
 
   @Test
-  public void retrievesTagsFromNoteMultilanguage () {
+  public void retrievesTagsFromNoteMultilanguage() {
     note.setContent("#привет");
     HashMap<String, Integer> tags = TagsHelper.retrieveTags(note);
     assertTrue(tags.containsKey("#привет"));
@@ -73,7 +75,7 @@ public class TagsHelperTest {
   }
 
   @Test
-  public void getPreselectedTagsArray () {
+  public void getPreselectedTagsArray() {
     final Tag anotherTag = new Tag("#anotherTag", 1);
     Note anotherNote = new Note();
     anotherNote.setContent(TAG1.getText() + " " + TAG2.getText() + " " + anotherTag);
@@ -91,7 +93,7 @@ public class TagsHelperTest {
   }
 
   @Test
-  public void removesTagsFromNote () {
+  public void removesTagsFromNote() {
     Pair<String, String> pair = TagsHelper.removeTag(note.getTitle(), note.getContent(),
         singletonList(new Tag(TAG3.getText(), 4)));
     note.setTitle(pair.first);
@@ -104,7 +106,7 @@ public class TagsHelperTest {
   }
 
   @Test
-  public void addsTagsToNote () {
+  public void addsTagsToNote() {
     String newTag = "#addedTag";
     List<Tag> tags = new ArrayList<>();
     tags.add(new Tag(newTag, 1));
@@ -115,7 +117,7 @@ public class TagsHelperTest {
   }
 
   @Test
-  public void TestTagWithComma () {
+  public void TestTagWithComma() {
     String newTag = "#comma,comma";
     List<Tag> tags = new ArrayList<>();
     tags.add(new Tag(newTag, 1));

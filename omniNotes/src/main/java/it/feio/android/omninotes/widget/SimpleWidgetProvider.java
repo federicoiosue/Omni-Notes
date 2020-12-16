@@ -29,7 +29,8 @@ public class SimpleWidgetProvider extends WidgetProvider {
 
 
   @Override
-  protected RemoteViews getRemoteViews (Context mContext, int widgetId, boolean isSmall, boolean isSingleLine,
+  protected RemoteViews getRemoteViews(Context mContext, int widgetId, boolean isSmall,
+      boolean isSingleLine,
       SparseArray<PendingIntent> pendingIntentsMap) {
     RemoteViews views;
     if (isSmall) {

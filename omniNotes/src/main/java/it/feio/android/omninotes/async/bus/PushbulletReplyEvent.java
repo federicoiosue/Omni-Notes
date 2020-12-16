@@ -24,7 +24,7 @@ public class PushbulletReplyEvent {
 
   public String message;
 
-  public PushbulletReplyEvent (String message) {
+  public PushbulletReplyEvent(String message) {
     LogDelegate.d(this.getClass().getName());
     this.message = message;
   }

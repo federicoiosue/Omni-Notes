@@ -25,7 +25,7 @@ import it.feio.android.omninotes.R;
 public class IntroSlide3 extends IntroFragment {
 
   @Override
-  public void onActivityCreated (Bundle savedInstanceState) {
+  public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     binding.introBackground.setBackgroundColor(Color.parseColor("#8bc34a"));
     binding.introTitle.setText(R.string.categories);

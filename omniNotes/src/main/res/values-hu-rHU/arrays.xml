@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -16,39 +15,39 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-    <string-array name="navigation_list">
-        <item>Jegyzetek</item>
-        <item>Archívum</item>
-        <item>Emlékeztetők</item>
-        <item>Lomtár</item>
-        <item>Kategorizálatlan</item>
-    </string-array>
-    <string-array name="sortable_columns_human_readable">
-        <item>Cím</item>
-        <item>Készítés dátuma</item>
-        <item>Utolsó módosítás dátuma</item>
-        <item>Emlékeztető dátuma</item>
-    </string-array>
-    <string-array name="checked_items_behavior">
-        <item>Pozíció megtartása</item>
-        <item>Mozgatás a lista végére</item>
-        <item>Mozgatás a nem jegyzett elemek végére</item>
-    </string-array>
-    <string-array name="colors_app">
-        <item>Letiltva</item>
-        <item>Csak szalag</item>
-        <item>Csak a jegyzetek listája</item>
-        <item>Teljes</item>
-    </string-array>
-    <string-array name="colors_widget">
-        <item>Letiltva</item>
-        <item>Csak szalag</item>
-        <item>Jegyzetek listája</item>
-    </string-array>
-    <string-array name="attachments_actions">
-        <item>Megosztás</item>
-        <item>Törlés</item>
-        <item>Mind törlése</item>
-        <item>Szerkesztés</item>
-    </string-array>
+  <string-array name="navigation_list">
+    <item>Jegyzetek</item>
+    <item>Archívum</item>
+    <item>Emlékeztetők</item>
+    <item>Lomtár</item>
+    <item>Kategorizálatlan</item>
+  </string-array>
+  <string-array name="sortable_columns_human_readable">
+    <item>Cím</item>
+    <item>Készítés dátuma</item>
+    <item>Utolsó módosítás dátuma</item>
+    <item>Emlékeztető dátuma</item>
+  </string-array>
+  <string-array name="checked_items_behavior">
+    <item>Pozíció megtartása</item>
+    <item>Mozgatás a lista végére</item>
+    <item>Mozgatás a nem jegyzett elemek végére</item>
+  </string-array>
+  <string-array name="colors_app">
+    <item>Letiltva</item>
+    <item>Csak szalag</item>
+    <item>Csak a jegyzetek listája</item>
+    <item>Teljes</item>
+  </string-array>
+  <string-array name="colors_widget">
+    <item>Letiltva</item>
+    <item>Csak szalag</item>
+    <item>Jegyzetek listája</item>
+  </string-array>
+  <string-array name="attachments_actions">
+    <item>Megosztás</item>
+    <item>Törlés</item>
+    <item>Mind törlése</item>
+    <item>Szerkesztés</item>
+  </string-array>
 </resources>

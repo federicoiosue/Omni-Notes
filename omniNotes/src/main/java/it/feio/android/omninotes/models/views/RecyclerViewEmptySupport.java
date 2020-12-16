@@ -30,7 +30,7 @@ public class RecyclerViewEmptySupport extends RecyclerView {
 
 
     @Override
-    public void onChanged () {
+    public void onChanged() {
       Adapter<?> adapter = getAdapter();
       if (adapter != null && emptyView != null) {
         if (adapter.getItemCount() == 0) {
@@ -45,20 +45,20 @@ public class RecyclerViewEmptySupport extends RecyclerView {
     }
   };
 
-  public RecyclerViewEmptySupport (Context context) {
+  public RecyclerViewEmptySupport(Context context) {
     super(context);
   }
 
-  public RecyclerViewEmptySupport (Context context, AttributeSet attrs) {
+  public RecyclerViewEmptySupport(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
-  public RecyclerViewEmptySupport (Context context, AttributeSet attrs, int defStyle) {
+  public RecyclerViewEmptySupport(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
   }
 
   @Override
-  public void setAdapter (Adapter adapter) {
+  public void setAdapter(Adapter adapter) {
     super.setAdapter(adapter);
 
     if (adapter != null) {
@@ -68,7 +68,7 @@ public class RecyclerViewEmptySupport extends RecyclerView {
     emptyObserver.onChanged();
   }
 
-  public void setEmptyView (View emptyView) {
+  public void setEmptyView(View emptyView) {
     this.emptyView = emptyView;
   }
 }

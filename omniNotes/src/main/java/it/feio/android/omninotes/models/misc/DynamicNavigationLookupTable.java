@@ -36,13 +36,13 @@ public class DynamicNavigationLookupTable {
   int reminders;
 
 
-  private DynamicNavigationLookupTable () {
+  private DynamicNavigationLookupTable() {
     EventBus.getDefault().register(this);
     update();
   }
 
 
-  public static DynamicNavigationLookupTable getInstance () {
+  public static DynamicNavigationLookupTable getInstance() {
     if (instance == null) {
       instance = new DynamicNavigationLookupTable();
     }
@@ -50,7 +50,7 @@ public class DynamicNavigationLookupTable {
   }
 
 
-  public void update () {
+  public void update() {
     ((Runnable) () -> {
       archived = trashed = uncategorized = reminders = 0;
       List<Note> notes = DbHelper.getInstance().getAllNotes(false);
@@ -72,27 +72,27 @@ public class DynamicNavigationLookupTable {
   }
 
 
-  public void onEventAsync (NotesUpdatedEvent event) {
+  public void onEventAsync(NotesUpdatedEvent event) {
     update();
   }
 
 
-  public int getArchived () {
+  public int getArchived() {
     return archived;
   }
 
 
-  public int getTrashed () {
+  public int getTrashed() {
     return trashed;
   }
 
 
-  public int getReminders () {
+  public int getReminders() {
     return reminders;
   }
 
 
-  public int getUncategorized () {
+  public int getUncategorized() {
     return uncategorized;
   }
 

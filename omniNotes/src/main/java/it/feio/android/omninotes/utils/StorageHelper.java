@@ -49,7 +49,7 @@ import org.apache.commons.io.IOUtils;
 
 public class StorageHelper {
 
-  public static boolean checkStorage () {
+  public static boolean checkStorage() {
     boolean mExternalStorageAvailable;
     boolean mExternalStorageWriteable;
     String state = Environment.getExternalStorageState();
@@ -75,14 +75,15 @@ public class StorageHelper {
   }
 
 
-  public static String getStorageDir () {
+  public static String getStorageDir() {
     // return Environment.getExternalStorageDirectory() + File.separator +
     // Constants.TAG + File.separator;
-    return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString();
+    return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        .toString();
   }
 
 
-  public static File getAttachmentDir () {
+  public static File getAttachmentDir() {
     return OmniNotes.getAppContext().getExternalFilesDir(null);
   }
 
@@ -90,7 +91,7 @@ public class StorageHelper {
   /**
    * Retrieves the folderwhere to store data to sync notes
    */
-  public static File getDbSyncDir (Context mContext) {
+  public static File getDbSyncDir(Context mContext) {
     File extFilesDir = mContext.getExternalFilesDir(null);
     File dbSyncDir = new File(extFilesDir, Constants.APP_STORAGE_DIRECTORY_SB_SYNC);
     dbSyncDir.mkdirs();
@@ -105,10 +106,11 @@ public class StorageHelper {
   /**
    * Create a path where we will place our private file on external
    */
-  public static File createExternalStoragePrivateFile (Context mContext, Uri uri, String extension) {
+  public static File createExternalStoragePrivateFile(Context mContext, Uri uri, String extension) {
 
     if (!checkStorage()) {
-      Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
+      Toast.makeText(mContext, mContext.getString(R.string.storage_not_available),
+          Toast.LENGTH_SHORT).show();
       return null;
     }
     File file = createNewAttachmentFile(mContext, extension);
@@ -150,7 +152,7 @@ public class StorageHelper {
     return file;
   }
 
-  public static boolean copyFile (File source, File destination) {
+  public static boolean copyFile(File source, File destination) {
     FileInputStream is = null;
     FileOutputStream os = null;
     try {
@@ -182,7 +184,7 @@ public class StorageHelper {
    * @param os Output
    * @return True if copy is done, false otherwise
    */
-  public static boolean copyFile (InputStream is, OutputStream os) {
+  public static boolean copyFile(InputStream is, OutputStream os) {
     try {
       IOUtils.copy(is, os);
       return true;
@@ -193,10 +195,11 @@ public class StorageHelper {
   }
 
 
-  public static boolean deleteExternalStoragePrivateFile (Context mContext, String name) {
+  public static boolean deleteExternalStoragePrivateFile(Context mContext, String name) {
     // Checks for external storage availability
     if (!checkStorage()) {
-      Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
+      Toast.makeText(mContext, mContext.getString(R.string.storage_not_available),
+          Toast.LENGTH_SHORT).show();
       return false;
     }
     File file = new File(mContext.getExternalFilesDir(null), name);
@@ -204,9 +207,10 @@ public class StorageHelper {
   }
 
 
-  public static boolean delete (Context mContext, String path) {
+  public static boolean delete(Context mContext, String path) {
     if (!checkStorage()) {
-      Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), Toast.LENGTH_SHORT).show();
+      Toast.makeText(mContext, mContext.getString(R.string.storage_not_available),
+          Toast.LENGTH_SHORT).show();
       return false;
     }
     try {
@@ -219,7 +223,7 @@ public class StorageHelper {
   }
 
 
-  public static String getRealPathFromURI (Context mContext, Uri contentUri) {
+  public static String getRealPathFromURI(Context mContext, Uri contentUri) {
     String[] proj = {MediaStore.Images.Media.DATA};
     Cursor cursor = mContext.getContentResolver().query(contentUri, proj, null, null, null);
     if (cursor == null) {
@@ -233,7 +237,7 @@ public class StorageHelper {
   }
 
 
-  public static File createNewAttachmentFile (Context mContext, String extension) {
+  public static File createNewAttachmentFile(Context mContext, String extension) {
     File f = null;
     if (checkStorage()) {
       f = new File(mContext.getExternalFilesDir(null), createNewAttachmentName(extension));
@@ -242,7 +246,7 @@ public class StorageHelper {
   }
 
 
-  private static synchronized String createNewAttachmentName (String extension) {
+  private static synchronized String createNewAttachmentName(String extension) {
     Calendar now = Calendar.getInstance();
     SimpleDateFormat sdf = new SimpleDateFormat(Constants.DATE_FORMAT_SORTABLE);
     String name = sdf.format(now.getTime());
@@ -251,14 +255,14 @@ public class StorageHelper {
   }
 
 
-  public static File createNewAttachmentFile (Context mContext) {
+  public static File createNewAttachmentFile(Context mContext) {
     return createNewAttachmentFile(mContext, null);
   }
 
   /**
    * Create a path where we will place our private file on external
    */
-  public static File copyToBackupDir (File backupDir, String fileName, InputStream fileInputStream) {
+  public static File copyToBackupDir(File backupDir, String fileName, InputStream fileInputStream) {
     if (!checkStorage()) {
       return null;
     }
@@ -275,7 +279,7 @@ public class StorageHelper {
   }
 
 
-  public static File getCacheDir (Context mContext) {
+  public static File getCacheDir(Context mContext) {
     File dir = mContext.getExternalCacheDir();
     if (!dir.exists()) {
       dir.mkdirs();
@@ -284,9 +288,10 @@ public class StorageHelper {
   }
 
 
-  public static File getExternalStoragePublicDir () {
+  public static File getExternalStoragePublicDir() {
     File dir = new File(
-        Environment.getExternalStorageDirectory() + File.separator + Constants.EXTERNAL_STORAGE_FOLDER + File
+        Environment.getExternalStorageDirectory() + File.separator
+            + Constants.EXTERNAL_STORAGE_FOLDER + File
             .separator);
     if (!dir.exists()) {
       dir.mkdirs();
@@ -295,7 +300,7 @@ public class StorageHelper {
   }
 
 
-  public static File getBackupDir (String backupName) {
+  public static File getBackupDir(String backupName) {
     File backupDir = new File(getExternalStoragePublicDir(), backupName);
     if (!backupDir.exists() && backupDir.mkdirs()) {
       createNoMediaFile(backupDir);
@@ -304,7 +309,7 @@ public class StorageHelper {
   }
 
 
-  private static void createNoMediaFile (File folder) {
+  private static void createNoMediaFile(File folder) {
     try {
       new File(folder, ".nomedia").createNewFile();
     } catch (IOException e) {
@@ -313,7 +318,7 @@ public class StorageHelper {
   }
 
 
-  public static File getSharedPreferencesFile (Context mContext) {
+  public static File getSharedPreferencesFile(Context mContext) {
     File appData = mContext.getFilesDir().getParentFile();
     String packageName = mContext.getApplicationContext().getPackageName();
     return new File(appData
@@ -329,7 +334,7 @@ public class StorageHelper {
    * Returns a directory size in bytes
    */
   @SuppressWarnings("deprecation")
-  public static long getSize (File directory) {
+  public static long getSize(File directory) {
     StatFs statFs = new StatFs(directory.getAbsolutePath());
     long blockSize = 0;
     try {
@@ -346,7 +351,7 @@ public class StorageHelper {
   }
 
 
-  private static long getSize (File directory, long blockSize) {
+  private static long getSize(File directory, long blockSize) {
     if (blockSize == 0) {
       throw new InvalidParameterException("Blocksize can't be 0");
     }
@@ -374,7 +379,7 @@ public class StorageHelper {
   }
 
 
-  public static boolean copyDirectory (File sourceLocation, File targetLocation) {
+  public static boolean copyDirectory(File sourceLocation, File targetLocation) {
     boolean res = true;
 
     // If target is a directory the method will be iterated
@@ -400,7 +405,7 @@ public class StorageHelper {
   /**
    * Retrieves uri mime-type using ContentResolver
    */
-  public static String getMimeType (Context mContext, Uri uri) {
+  public static String getMimeType(Context mContext, Uri uri) {
     ContentResolver cR = mContext.getContentResolver();
     String mimeType = cR.getType(uri);
     if (mimeType == null) {
@@ -410,7 +415,7 @@ public class StorageHelper {
   }
 
 
-  public static String getMimeType (String url) {
+  public static String getMimeType(String url) {
     String type = null;
     String extension = MimeTypeMap.getFileExtensionFromUrl(url);
     if (extension != null) {
@@ -424,7 +429,7 @@ public class StorageHelper {
   /**
    * Retrieves uri mime-type between the ones managed by application
    */
-  public static String getMimeTypeInternal (Context mContext, Uri uri) {
+  public static String getMimeTypeInternal(Context mContext, Uri uri) {
     String mimeType = getMimeType(mContext, uri);
     mimeType = getMimeTypeInternal(mContext, mimeType);
     return mimeType;
@@ -434,7 +439,7 @@ public class StorageHelper {
   /**
    * Retrieves mime-type between the ones managed by application from given string
    */
-  public static String getMimeTypeInternal (Context mContext, String mimeType) {
+  public static String getMimeTypeInternal(Context mContext, String mimeType) {
     if (mimeType != null) {
       if (mimeType.contains("image/")) {
         mimeType = Constants.MIME_TYPE_IMAGE;
@@ -453,7 +458,7 @@ public class StorageHelper {
   /**
    * Creates a new attachment file copying data from source file
    */
-  public static Attachment createAttachmentFromUri (Context mContext, Uri uri) {
+  public static Attachment createAttachmentFromUri(Context mContext, Uri uri) {
     return createAttachmentFromUri(mContext, uri, false);
   }
 
@@ -461,10 +466,11 @@ public class StorageHelper {
   /**
    * Creates a fiile to be used as attachment.
    */
-  public static Attachment createAttachmentFromUri (Context mContext, Uri uri, boolean moveSource) {
+  public static Attachment createAttachmentFromUri(Context mContext, Uri uri, boolean moveSource) {
     String name = FileHelper.getNameFromUri(mContext, uri);
-    String extension = FileHelper.getFileExtension(FileHelper.getNameFromUri(mContext, uri)).toLowerCase(
-        Locale.getDefault());
+    String extension = FileHelper.getFileExtension(FileHelper.getNameFromUri(mContext, uri))
+        .toLowerCase(
+            Locale.getDefault());
     File f;
     if (moveSource) {
       f = createNewAttachmentFile(mContext, extension);
@@ -478,7 +484,8 @@ public class StorageHelper {
     }
     Attachment mAttachment = null;
     if (f != null) {
-      mAttachment = new Attachment(Uri.fromFile(f), StorageHelper.getMimeTypeInternal(mContext, uri));
+      mAttachment = new Attachment(Uri.fromFile(f),
+          StorageHelper.getMimeTypeInternal(mContext, uri));
       mAttachment.setName(name);
       mAttachment.setSize(f.length());
     }
@@ -489,7 +496,7 @@ public class StorageHelper {
   /**
    * Creates new attachment from web content
    */
-  public static File createNewAttachmentFileFromHttp (Context mContext, String url)
+  public static File createNewAttachmentFileFromHttp(Context mContext, String url)
       throws IOException {
     if (TextUtils.isEmpty(url)) {
       return null;
@@ -501,7 +508,7 @@ public class StorageHelper {
   /**
    * Retrieves a file from its web url
    */
-  public static File getFromHttp (String url, File file) throws IOException {
+  public static File getFromHttp(String url, File file) throws IOException {
     URL imageUrl = new URL(url);
     FileUtils.copyURLToFile(imageUrl, file);
     return file;

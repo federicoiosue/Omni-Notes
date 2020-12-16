@@ -22,7 +22,7 @@ import android.graphics.Color;
 
 public class ColorsUtil {
 
-  private ColorsUtil () {
+  private ColorsUtil() {
     // hides public constructor
   }
 
@@ -31,12 +31,12 @@ public class ColorsUtil {
   private static final double CONTRAST_THRESHOLD = 100;
 
 
-  public static double calculateColorLuminance (int color) {
+  public static double calculateColorLuminance(int color) {
     return 0.2126 * Color.red(color) + 0.7152 * Color.green(color) + 0.0722 * Color.blue(color);
   }
 
 
-  public static int getContrastedColor (int color) {
+  public static int getContrastedColor(int color) {
     double luminance = calculateColorLuminance(color);
     return luminance > CONTRAST_THRESHOLD ? COLOR_DARK : COLOR_LIGHT;
   }

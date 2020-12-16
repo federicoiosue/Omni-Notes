@@ -44,7 +44,7 @@ public class SublimePickerFragment extends DialogFragment {
 
   SublimeListenerAdapter mListener = new SublimeListenerAdapter() {
     @Override
-    public void onCancelled () {
+    public void onCancelled() {
       if (mCallback != null) {
         mCallback.onCancelled();
       }
@@ -52,7 +52,7 @@ public class SublimePickerFragment extends DialogFragment {
     }
 
     @Override
-    public void onDateTimeRecurrenceSet (SublimePicker sublimeMaterialPicker,
+    public void onDateTimeRecurrenceSet(SublimePicker sublimeMaterialPicker,
         SelectedDate selectedDate,
         int hourOfDay, int minute,
         SublimeRecurrencePicker.RecurrenceOption recurrenceOption,
@@ -65,20 +65,22 @@ public class SublimePickerFragment extends DialogFragment {
     }
   };
 
-  public SublimePickerFragment () {
+  public SublimePickerFragment() {
     mDateFormatter = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault());
     mTimeFormatter = DateFormat.getTimeInstance(DateFormat.SHORT, Locale.getDefault());
     mTimeFormatter.setTimeZone(TimeZone.getTimeZone("GMT+0"));
   }
 
-  public void setCallback (Callback callback) {
+  public void setCallback(Callback callback) {
     mCallback = callback;
   }
 
   @Nullable
   @Override
-  public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    mSublimePicker = (SublimePicker) getActivity().getLayoutInflater().inflate(R.layout.sublime_picker, container);
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    mSublimePicker = (SublimePicker) getActivity().getLayoutInflater()
+        .inflate(R.layout.sublime_picker, container);
 
     Bundle arguments = getArguments();
     SublimeOptions options = null;
@@ -93,9 +95,9 @@ public class SublimePickerFragment extends DialogFragment {
 
   public interface Callback {
 
-    void onCancelled ();
+    void onCancelled();
 
-    void onDateTimeRecurrenceSet (SelectedDate selectedDate,
+    void onDateTimeRecurrenceSet(SelectedDate selectedDate,
         int hourOfDay, int minute,
         SublimeRecurrencePicker.RecurrenceOption recurrenceOption,
         String recurrenceRule);

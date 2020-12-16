@@ -27,22 +27,22 @@ import android.widget.ListView;
 
 public class NonScrollableListView extends ListView {
 
-  public NonScrollableListView (Context context) {
+  public NonScrollableListView(Context context) {
     super(context);
   }
 
 
-  public NonScrollableListView (Context context, AttributeSet attrs) {
+  public NonScrollableListView(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
 
-  public NonScrollableListView (Context context, AttributeSet attrs, int defStyleAttr) {
+  public NonScrollableListView(Context context, AttributeSet attrs, int defStyleAttr) {
     super(context, attrs, defStyleAttr);
   }
 
 
-  public void justifyListViewHeightBasedOnChildren () {
+  public void justifyListViewHeightBasedOnChildren() {
 
     ListAdapter adapter = getAdapter();
 

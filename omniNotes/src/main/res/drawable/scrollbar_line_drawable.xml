@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -17,10 +16,7 @@
   -->
 
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-  <item
-    android:state_pressed="true"
-    android:drawable="@drawable/scrollbar_line"/>
+  <item android:state_pressed="true" android:drawable="@drawable/scrollbar_line" />
 
-  <item
-    android:drawable="@drawable/scrollbar_line"/>
+  <item android:drawable="@drawable/scrollbar_line" />
 </selector>

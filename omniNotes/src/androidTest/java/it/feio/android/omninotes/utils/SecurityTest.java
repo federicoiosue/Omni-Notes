@@ -32,32 +32,33 @@ public class SecurityTest extends BaseAndroidTestCase {
 
   private final String PASS = "12345uselessPasswords";
   private final String TEXT = "Today is a - good - day to test useless things!";
-  private final String LOREM = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor"
-      + " incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"
-      + " laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit "
-      + "esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa "
-      + "qui officia deserunt mollit anim ID est laborum.";
+  private final String LOREM =
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor"
+          + " incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"
+          + " laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit "
+          + "esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa "
+          + "qui officia deserunt mollit anim ID est laborum.";
 
   @Test
-  public void checkUtilityClassWellDefined () throws Exception {
+  public void checkUtilityClassWellDefined() throws Exception {
     assertUtilityClassWellDefined(Security.class);
   }
 
   @Test
-  public void testEncrypt () {
+  public void testEncrypt() {
     String encryptedText = Security.encrypt(TEXT, PASS);
     assertNotEquals(TEXT, encryptedText);
   }
 
   @Test
-  public void testDecrypt () {
+  public void testDecrypt() {
     String encryptedText = Security.encrypt(TEXT, PASS);
     assertEquals(TEXT, Security.decrypt(encryptedText, PASS));
     assertNotEquals(TEXT, Security.decrypt(encryptedText, "zaza" + PASS));
   }
 
   @Test
-  public void testDecryptUnencrypted () {
+  public void testDecryptUnencrypted() {
     String result = Security.decrypt(LOREM, PASS);
     assertFalse(result.length() == 0);
   }

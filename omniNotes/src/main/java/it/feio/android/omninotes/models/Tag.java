@@ -23,37 +23,37 @@ import it.feio.android.omninotes.commons.models.BaseTag;
 
 public class Tag extends BaseTag implements Parcelable {
 
-  private Tag (Parcel in) {
+  private Tag(Parcel in) {
     setText(in.readString());
     setCount(in.readInt());
   }
 
 
-  public Tag () {
+  public Tag() {
     super();
   }
 
 
-  public Tag (String text, Integer count) {
+  public Tag(String text, Integer count) {
     super(text, count);
   }
 
 
   @Override
-  public int describeContents () {
+  public int describeContents() {
     return 0;
   }
 
 
   @Override
-  public void writeToParcel (Parcel parcel, int flags) {
+  public void writeToParcel(Parcel parcel, int flags) {
     parcel.writeString(getText());
     parcel.writeInt(getCount());
   }
 
 
   @Override
-  public String toString () {
+  public String toString() {
     return getText();
   }
 
@@ -64,12 +64,12 @@ public class Tag extends BaseTag implements Parcelable {
    */
   public static final Parcelable.Creator<Tag> CREATOR = new Parcelable.Creator<Tag>() {
 
-    public Tag createFromParcel (Parcel in) {
+    public Tag createFromParcel(Parcel in) {
       return new Tag(in);
     }
 
 
-    public Tag[] newArray (int size) {
+    public Tag[] newArray(int size) {
       return new Tag[size];
     }
   };

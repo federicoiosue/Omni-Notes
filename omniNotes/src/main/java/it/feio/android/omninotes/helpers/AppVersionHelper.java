@@ -32,13 +32,14 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class AppVersionHelper {
 
-  public static boolean isAppUpdated (Context context) throws PackageManager.NameNotFoundException {
+  public static boolean isAppUpdated(Context context) throws PackageManager.NameNotFoundException {
     int currentAppVersion = getCurrentAppVersion(context);
     int savedAppVersion = getAppVersionFromPreferences(context);
     return currentAppVersion > savedAppVersion;
   }
 
-  public static int getAppVersionFromPreferences (Context context) throws PackageManager.NameNotFoundException {
+  public static int getAppVersionFromPreferences(Context context)
+      throws PackageManager.NameNotFoundException {
     try {
       return context.getSharedPreferences(PREFS_NAME,
           Context.MODE_MULTI_PROCESS).getInt(PREF_CURRENT_APP_VERSION, 1);
@@ -47,16 +48,20 @@ public class AppVersionHelper {
     }
   }
 
-  public static void updateAppVersionInPreferences (Context context) throws PackageManager.NameNotFoundException {
+  public static void updateAppVersionInPreferences(Context context)
+      throws PackageManager.NameNotFoundException {
     context.getSharedPreferences(PREFS_NAME,
-        Context.MODE_MULTI_PROCESS).edit().putInt(PREF_CURRENT_APP_VERSION, getCurrentAppVersion(context)).apply();
+        Context.MODE_MULTI_PROCESS).edit()
+        .putInt(PREF_CURRENT_APP_VERSION, getCurrentAppVersion(context)).apply();
   }
 
-  public static int getCurrentAppVersion (Context context) throws PackageManager.NameNotFoundException {
+  public static int getCurrentAppVersion(Context context)
+      throws PackageManager.NameNotFoundException {
     return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
   }
 
-  public static String getCurrentAppVersionName (Context context) throws PackageManager.NameNotFoundException {
+  public static String getCurrentAppVersionName(Context context)
+      throws PackageManager.NameNotFoundException {
     PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
     return pInfo.versionName;
   }

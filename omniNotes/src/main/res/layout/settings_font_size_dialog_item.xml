@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -17,15 +16,15 @@
   -->
 
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="?android:attr/listPreferredItemHeightSmall"
-    android:height="48dp"
-    android:gravity="center_vertical"
-    android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
-    android:drawableRight="?android:attr/listChoiceIndicatorSingle"
-    android:paddingEnd="?android:attr/listPreferredItemPaddingRight"
-    android:paddingLeft="20dip"
-    android:paddingRight="?android:attr/listPreferredItemPaddingRight"
-    android:paddingStart="20dip"
-    android:textAppearance="?android:attr/textAppearanceListItemSmall" />
+  android:layout_width="match_parent"
+  android:layout_height="?android:attr/listPreferredItemHeightSmall"
+  android:height="48dp"
+  android:gravity="center_vertical"
+  android:drawableEnd="?android:attr/listChoiceIndicatorSingle"
+  android:drawableRight="?android:attr/listChoiceIndicatorSingle"
+  android:paddingEnd="?android:attr/listPreferredItemPaddingRight"
+  android:paddingLeft="20dip"
+  android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+  android:paddingStart="20dip"
+  android:textAppearance="?android:attr/textAppearanceListItemSmall" />
 

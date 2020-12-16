@@ -38,12 +38,12 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
   private OnNoteSaved mOnNoteSaved;
 
 
-  public SaveNoteTask (boolean updateLastModification) {
+  public SaveNoteTask(boolean updateLastModification) {
     this(null, updateLastModification);
   }
 
 
-  public SaveNoteTask (OnNoteSaved mOnNoteSaved, boolean updateLastModification) {
+  public SaveNoteTask(OnNoteSaved mOnNoteSaved, boolean updateLastModification) {
     super();
     this.context = OmniNotes.getAppContext();
     this.mOnNoteSaved = mOnNoteSaved;
@@ -52,7 +52,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 
 
   @Override
-  protected Note doInBackground (Note... params) {
+  protected Note doInBackground(Note... params) {
     Note note = params[0];
     purgeRemovedAttachments(note);
     boolean reminderMustBeSet = DateUtils.isFuture(note.getAlarm());
@@ -67,7 +67,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
   }
 
 
-  private void purgeRemovedAttachments (Note note) {
+  private void purgeRemovedAttachments(Note note) {
     List<Attachment> deletedAttachments = note.getAttachmentsListOld();
     for (Attachment attachment : note.getAttachmentsList()) {
       if (attachment.getId() != null) {
@@ -86,7 +86,8 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
   }
 
 
-  private Attachment getFixedAttachmentInstance (List<Attachment> deletedAttachments, Attachment attachment) {
+  private Attachment getFixedAttachmentInstance(List<Attachment> deletedAttachments,
+      Attachment attachment) {
     for (Attachment deletedAttachment : deletedAttachments) {
       if (deletedAttachment.getId().equals(attachment.getId())) {
         return deletedAttachment;
@@ -97,7 +98,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 
 
   @Override
-  protected void onPostExecute (Note note) {
+  protected void onPostExecute(Note note) {
     super.onPostExecute(note);
     if (this.mOnNoteSaved != null) {
       mOnNoteSaved.onNoteSaved(note);

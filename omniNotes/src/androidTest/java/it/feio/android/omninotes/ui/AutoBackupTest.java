@@ -38,8 +38,8 @@ import static org.junit.Assert.assertTrue;
 
 import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.matcher.ViewMatchers;
-import androidx.test.filters.LargeTest;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.models.Note;
@@ -64,26 +64,26 @@ public class AutoBackupTest extends BaseEspressoTest {
 
   @Before
   @Override
-  public void setUp () {
+  public void setUp() {
     super.setUp();
     prefs.edit().putBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false).apply();
   }
 
   @After
-  public void tearDown () throws Exception {
+  public void tearDown() throws Exception {
     File backupFolder = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
     FileUtils.deleteDirectory(backupFolder);
   }
 
   @Test
-  public void autoBackupPreferenceActivation () {
+  public void autoBackupPreferenceActivation() {
     assertFalse(prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false));
     autoBackupActivationFromPreferences();
     assertTrue(prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false));
   }
 
   @Test
-  public void autoBackupWithNotesCheck () throws InterruptedException {
+  public void autoBackupWithNotesCheck() throws InterruptedException {
     createNote("A Title", "A content");
     enableAutobackup();
     createNote("B Title", "B content");
@@ -94,8 +94,9 @@ public class AutoBackupTest extends BaseEspressoTest {
     List<Note> currentNotes = dbHelper.getAllNotes(false);
     assertEquals(2, currentNotes.size());
     for (Note currentNote : currentNotes) {
-      File backupNoteFile = BackupHelper.getBackupNoteFile(StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR)
-          , currentNote);
+      File backupNoteFile = BackupHelper
+          .getBackupNoteFile(StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR)
+              , currentNote);
       assertTrue(backupNoteFile.exists());
       Note backupNote = BackupHelper.getImportNote(backupNoteFile);
       assertEquals(backupNote, currentNote);
@@ -104,7 +105,7 @@ public class AutoBackupTest extends BaseEspressoTest {
   }
 
   @Test
-  public void everyUpdateToNotesShouldTriggerAutobackup () throws InterruptedException {
+  public void everyUpdateToNotesShouldTriggerAutobackup() throws InterruptedException {
 
     enableAutobackup();
 
@@ -158,12 +159,12 @@ public class AutoBackupTest extends BaseEspressoTest {
             2))).perform(scrollTo(), click());
 
     onView(allOf(withId(R.id.buttonPositive), withText("Ok"),
-            childAtPosition(
-                allOf(withId(R.id.button_layout),
-                    childAtPosition(
-                        withId(R.id.llMainContentHolder),
-                        2)),
-                5))).perform(click());
+        childAtPosition(
+            allOf(withId(R.id.button_layout),
+                childAtPosition(
+                    withId(R.id.llMainContentHolder),
+                    2)),
+            5))).perform(click());
 
     onView(allOf(withId(R.id.done),
         childAtPosition(
@@ -214,19 +215,19 @@ public class AutoBackupTest extends BaseEspressoTest {
 
   }
 
-  private void enableAutobackup () {
+  private void enableAutobackup() {
     prefs.edit().putBoolean(Constants.PREF_ENABLE_AUTOBACKUP, true).apply();
     BackupHelper.startBackupService(Constants.AUTO_BACKUP_DIR);
   }
 
-  private void assertAutobackupIsCorrect () {
+  private void assertAutobackupIsCorrect() {
     List<LinkedList<DiffMatchPatch.Diff>> autobackupDifferences = BackupHelper
         .integrityCheck(StorageHelper.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
     assertEquals(0, autobackupDifferences.size());
 
   }
 
-  private void autoBackupActivationFromPreferences () {
+  private void autoBackupActivationFromPreferences() {
 
     onView(allOf(childAtPosition(allOf(withId(R.id.toolbar),
         childAtPosition(
@@ -263,9 +264,10 @@ public class AutoBackupTest extends BaseEspressoTest {
     navigateUpSettings();
   }
 
-  private ViewInteraction getSettingsMenuItemView () {
+  private ViewInteraction getSettingsMenuItemView() {
     boolean existsAtLeastOneCategory = dbHelper.getCategories().size() > 0;
-    return existsAtLeastOneCategory ? onView(withId(R.id.drawer_tag_list)) : onView(withId(R.id.settings_view));
+    return existsAtLeastOneCategory ? onView(withId(R.id.drawer_tag_list))
+        : onView(withId(R.id.settings_view));
   }
 
 }

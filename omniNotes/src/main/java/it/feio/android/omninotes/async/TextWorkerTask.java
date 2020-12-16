@@ -36,7 +36,7 @@ public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
   private boolean expandedView;
 
 
-  public TextWorkerTask (Activity activity, TextView titleTextView,
+  public TextWorkerTask(Activity activity, TextView titleTextView,
       TextView contentTextView, boolean expandedView) {
     mActivityWeakReference = new WeakReference<>(activity);
     mActivity = activity;
@@ -47,13 +47,13 @@ public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
 
 
   @Override
-  protected Spanned[] doInBackground (Note... params) {
+  protected Spanned[] doInBackground(Note... params) {
     return TextHelper.parseTitleAndContent(mActivity, params[0]);
   }
 
 
   @Override
-  protected void onPostExecute (Spanned[] titleAndContent) {
+  protected void onPostExecute(Spanned[] titleAndContent) {
     if (isAlive()) {
       titleTextView.setText(titleAndContent[0]);
       if (titleAndContent[1].length() > 0) {
@@ -75,7 +75,7 @@ public class TextWorkerTask extends AsyncTask<Note, Void, Spanned[]> {
    *
    * @return True or false
    */
-  private boolean isAlive () {
+  private boolean isAlive() {
     return mActivityWeakReference != null
         && mActivityWeakReference.get() != null;
 

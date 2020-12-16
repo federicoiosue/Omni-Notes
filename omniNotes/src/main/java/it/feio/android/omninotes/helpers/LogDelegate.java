@@ -35,7 +35,7 @@ public class LogDelegate {
 
   private static Boolean fileLoggingEnabled;
 
-  public static void v (String message) {
+  public static void v(String message) {
     if (isFileLoggingEnabled()) {
       FL.v(message);
     } else {
@@ -43,7 +43,7 @@ public class LogDelegate {
     }
   }
 
-  public static void d (String message) {
+  public static void d(String message) {
     if (isFileLoggingEnabled()) {
       FL.d(message);
     } else {
@@ -51,7 +51,7 @@ public class LogDelegate {
     }
   }
 
-  public static void i (String message) {
+  public static void i(String message) {
     if (isFileLoggingEnabled()) {
       FL.i(message);
     } else {
@@ -59,7 +59,7 @@ public class LogDelegate {
     }
   }
 
-  public static void w (String message, Throwable e) {
+  public static void w(String message, Throwable e) {
     if (isFileLoggingEnabled()) {
       FL.w(message, e);
     } else {
@@ -67,7 +67,7 @@ public class LogDelegate {
     }
   }
 
-  public static void w (String message) {
+  public static void w(String message) {
     if (isFileLoggingEnabled()) {
       FL.w(message);
     } else {
@@ -75,7 +75,7 @@ public class LogDelegate {
     }
   }
 
-  public static void e (String message, Throwable e) {
+  public static void e(String message, Throwable e) {
     if (isFileLoggingEnabled()) {
       FL.e(message, e);
     } else {
@@ -83,13 +83,14 @@ public class LogDelegate {
     }
   }
 
-  public static void e (String message) {
+  public static void e(String message) {
     e(message, new GenericException(message));
   }
 
-  private static boolean isFileLoggingEnabled () {
+  private static boolean isFileLoggingEnabled() {
     if (fileLoggingEnabled == null) {
-      fileLoggingEnabled = OmniNotes.getSharedPreferences().getBoolean(PREF_ENABLE_FILE_LOGGING, false);
+      fileLoggingEnabled = OmniNotes.getSharedPreferences()
+          .getBoolean(PREF_ENABLE_FILE_LOGGING, false);
       if (fileLoggingEnabled) {
         FL.init(new FLConfig.Builder(OmniNotes.getAppContext())
             .minLevel(FLConst.Level.V)

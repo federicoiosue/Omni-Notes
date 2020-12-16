@@ -30,7 +30,8 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class IntentHelper {
 
-  public static Intent getNoteIntent (@NonNull Context context, @NonNull Class target, String action, Note note) {
+  public static Intent getNoteIntent(@NonNull Context context, @NonNull Class target, String action,
+      Note note) {
     Intent intent = new Intent(context, target);
     intent.setAction(action);
     Bundle bundle = new Bundle();
@@ -45,13 +46,15 @@ public class IntentHelper {
     return intent;
   }
 
-  public static PendingIntent getNotePendingIntent (@NonNull Context context, @NonNull Class target, String action,
+  public static PendingIntent getNotePendingIntent(@NonNull Context context, @NonNull Class target,
+      String action,
       Note note) {
     Intent intent = getNoteIntent(context, target, action, note);
-    return PendingIntent.getActivity(context, getUniqueRequestCode(note), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    return PendingIntent.getActivity(context, getUniqueRequestCode(note), intent,
+        PendingIntent.FLAG_UPDATE_CURRENT);
   }
 
-  static int getUniqueRequestCode (Note note) {
+  static int getUniqueRequestCode(Note note) {
     return note.get_id().intValue();
   }
 

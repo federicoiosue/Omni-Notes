@@ -30,7 +30,8 @@ public class IntroFragment extends Fragment {
   IntroSlideBinding binding;
 
   @Override
-  public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
     binding = IntroSlideBinding.inflate(inflater, container, false);
     return binding.getRoot();
   }

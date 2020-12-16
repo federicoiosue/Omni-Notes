@@ -30,11 +30,11 @@ import java.util.Calendar;
  */
 public class DateHelper {
 
-  private DateHelper () {
+  private DateHelper() {
     // hides public constructor
   }
 
-  public static String getSortableDate () {
+  public static String getSortableDate() {
     SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_SORTABLE);
     return sdf.format(Calendar.getInstance().getTime());
   }
@@ -43,7 +43,7 @@ public class DateHelper {
   /**
    * Build a formatted date string starting from values obtained by a DatePicker
    */
-  public static String onDateSet (int year, int month, int day, String format) {
+  public static String onDateSet(int year, int month, int day, String format) {
     SimpleDateFormat sdf = new SimpleDateFormat(format);
     Calendar cal = Calendar.getInstance();
     cal.set(Calendar.YEAR, year);
@@ -56,7 +56,7 @@ public class DateHelper {
   /**
    * Build a formatted time string starting from values obtained by a TimePicker
    */
-  public static String onTimeSet (int hour, int minute, String format) {
+  public static String onTimeSet(int hour, int minute, String format) {
     SimpleDateFormat sdf = new SimpleDateFormat(format);
     Calendar cal = Calendar.getInstance();
     cal.set(Calendar.HOUR_OF_DAY, hour);
@@ -67,7 +67,7 @@ public class DateHelper {
   /**
    *
    */
-  public static String getDateTimeShort (Context mContext, Long date) {
+  public static String getDateTimeShort(Context mContext, Long date) {
     int flags = DateUtils.FORMAT_ABBREV_WEEKDAY | DateUtils.FORMAT_SHOW_WEEKDAY
         | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_SHOW_DATE;
     return (date == null) ? "" : DateUtils.formatDateTime(mContext, date, flags)
@@ -78,7 +78,7 @@ public class DateHelper {
   /**
    *
    */
-  public static String getTimeShort (Context mContext, Long time) {
+  public static String getTimeShort(Context mContext, Long time) {
     if (time == null) {
       return "";
     }
@@ -91,7 +91,7 @@ public class DateHelper {
   /**
    *
    */
-  public static String getTimeShort (Context mContext, int hourOfDay, int minute) {
+  public static String getTimeShort(Context mContext, int hourOfDay, int minute) {
     Calendar c = Calendar.getInstance();
     c.set(Calendar.HOUR_OF_DAY, hourOfDay);
     c.set(Calendar.MINUTE, minute);
@@ -102,14 +102,14 @@ public class DateHelper {
   /**
    * Formats a short time period (minutes)
    */
-  public static String formatShortTime (Context mContext, long time) {
+  public static String formatShortTime(Context mContext, long time) {
     String m = String.valueOf(time / 1000 / 60);
     String s = String.format("%02d", (time / 1000) % 60);
     return m + ":" + s;
   }
 
 
-  public static String getFormattedDate (Long timestamp, boolean prettified) {
+  public static String getFormattedDate(Long timestamp, boolean prettified) {
     if (prettified) {
       return it.feio.android.omninotes.utils.date.DateUtils.prettyTime(timestamp);
     } else {

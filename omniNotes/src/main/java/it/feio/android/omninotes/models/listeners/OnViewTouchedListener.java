@@ -22,5 +22,5 @@ import android.view.MotionEvent;
 
 public interface OnViewTouchedListener {
 
-  void onViewTouchOccurred (MotionEvent ev);
+  void onViewTouchOccurred(MotionEvent ev);
 }

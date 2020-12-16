@@ -23,10 +23,10 @@ import it.feio.android.omninotes.helpers.LogDelegate;
 
 public class CountFactory {
 
-  private CountFactory () {
+  private CountFactory() {
   }
 
-  public static WordCounter getWordCounter () {
+  public static WordCounter getWordCounter() {
     try {
       String locale = LanguageHelper.getCurrentLocaleAsString(OmniNotes.getAppContext());
       return getCounterInstanceByLocale(locale);
@@ -36,7 +36,7 @@ public class CountFactory {
     }
   }
 
-  static WordCounter getCounterInstanceByLocale (String locale) {
+  static WordCounter getCounterInstanceByLocale(String locale) {
     switch (locale) {
       case "ja_JP":
       case "zh_CN":

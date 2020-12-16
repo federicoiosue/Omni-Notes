@@ -24,7 +24,6 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD_ANSWER
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD_QUESTION;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +45,8 @@ import rx.schedulers.Schedulers;
 public class PasswordHelper {
 
 
-  public static void requestPassword (final Activity mActivity, final PasswordValidator mPasswordValidator) {
+  public static void requestPassword(final Activity mActivity,
+      final PasswordValidator mPasswordValidator) {
     LayoutInflater inflater = mActivity.getLayoutInflater();
     final View v = inflater.inflate(R.layout.password_request_dialog_layout, null);
     final EditText passwordEditText = v.findViewById(R.id.password_request);
@@ -59,7 +59,8 @@ public class PasswordHelper {
         .positiveColorRes(R.color.colorPrimary)
         .onPositive((dialog12, which) -> {
           // When positive button is pressed password correctness is checked
-          String oldPassword = mActivity.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(PREF_PASSWORD, "");
+          String oldPassword = mActivity.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS)
+              .getString(PREF_PASSWORD, "");
           String password = passwordEditText.getText().toString();
           // The check is done on password's hash stored in preferences
           boolean result = Security.md5(password).equals(oldPassword);
@@ -102,8 +103,9 @@ public class PasswordHelper {
   }
 
 
-  public static void resetPassword (final Activity mActivity) {
-    View layout = mActivity.getLayoutInflater().inflate(R.layout.password_reset_dialog_layout, null);
+  public static void resetPassword(final Activity mActivity) {
+    View layout = mActivity.getLayoutInflater()
+        .inflate(R.layout.password_reset_dialog_layout, null);
     final EditText answerEditText = layout.findViewById(R.id.reset_password_answer);
 
     MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
@@ -139,7 +141,7 @@ public class PasswordHelper {
   }
 
 
-  public static void removePassword () {
+  public static void removePassword() {
     Observable
         .from(DbHelper.getInstance().getNotesWithLock(true))
         .subscribeOn(Schedulers.newThread())
@@ -150,11 +152,11 @@ public class PasswordHelper {
         })
         .doOnCompleted(() -> {
           OmniNotes.getSharedPreferences().edit()
-                   .remove(PREF_PASSWORD)
-                   .remove(PREF_PASSWORD_QUESTION)
-                   .remove(PREF_PASSWORD_ANSWER)
-                   .remove("settings_password_access")
-                   .apply();
+              .remove(PREF_PASSWORD)
+              .remove(PREF_PASSWORD_QUESTION)
+              .remove(PREF_PASSWORD_ANSWER)
+              .remove("settings_password_access")
+              .apply();
           EventBus.getDefault().post(new PasswordRemovedEvent());
         })
         .subscribe();

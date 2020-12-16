@@ -27,7 +27,7 @@ public class AssetUtils {
     // hides public constructor
   }
 
-  public static boolean exists (String fileName, String path,
+  public static boolean exists(String fileName, String path,
       AssetManager assetManager) throws IOException {
     for (String currentFileName : assetManager.list(path)) {
       if (currentFileName.equals(fileName)) {
@@ -37,7 +37,7 @@ public class AssetUtils {
     return false;
   }
 
-  public static String[] list (String path, AssetManager assetManager)
+  public static String[] list(String path, AssetManager assetManager)
       throws IOException {
     String[] files = assetManager.list(path);
     Arrays.sort(files);

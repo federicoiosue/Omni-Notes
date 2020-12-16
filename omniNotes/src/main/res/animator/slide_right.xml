@@ -14,19 +14,19 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<set xmlns:android="http://schemas.android.com/apk/res/android" >
+<set xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <translate
-        android:duration="@integer/sliding_anim_time_medium"
-        android:fromXDelta="0"
-        android:fromYDelta="0"
-        android:interpolator="@android:anim/overshoot_interpolator"
-        android:toXDelta="100%"
-        android:toYDelta="0" />
+  <translate
+    android:duration="@integer/sliding_anim_time_medium"
+    android:fromXDelta="0"
+    android:fromYDelta="0"
+    android:interpolator="@android:anim/overshoot_interpolator"
+    android:toXDelta="100%"
+    android:toYDelta="0" />
 
-    <alpha
-        android:duration="@integer/sliding_anim_time_medium"
-        android:fromAlpha="1.0"
-        android:interpolator="@android:anim/overshoot_interpolator"
-        android:toAlpha="0.0" />
+  <alpha
+    android:duration="@integer/sliding_anim_time_medium"
+    android:fromAlpha="1.0"
+    android:interpolator="@android:anim/overshoot_interpolator"
+    android:toAlpha="0.0" />
 </set>

@@ -25,12 +25,12 @@ import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.View;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 import it.feio.android.omninotes.databinding.ActivityGalleryBinding;
 import it.feio.android.omninotes.helpers.LogDelegate;
@@ -44,8 +44,8 @@ import java.util.List;
 
 
 /**
- * An example full-screen activity that shows and hides the system UI (i.e. status bar and navigation/system bar) * with
- * user interaction.
+ * An example full-screen activity that shows and hides the system UI (i.e. status bar and
+ * navigation/system bar) * with user interaction.
  */
 public class GalleryActivity extends AppCompatActivity {
 
@@ -60,7 +60,7 @@ public class GalleryActivity extends AppCompatActivity {
 
 
     @Override
-    public void onViewTouchOccurred (MotionEvent ev) {
+    public void onViewTouchOccurred(MotionEvent ev) {
       if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
         x = ev.getX();
         y = ev.getY();
@@ -84,7 +84,7 @@ public class GalleryActivity extends AppCompatActivity {
     }
 
 
-    private void click () {
+    private void click() {
       Attachment attachment = images.get(binding.fullscreenContent.getCurrentItem());
       if (attachment.getMime_type().equals(MIME_TYPE_VIDEO)) {
         viewMedia();
@@ -93,7 +93,7 @@ public class GalleryActivity extends AppCompatActivity {
   };
 
   @Override
-  protected void onCreate (Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     binding = ActivityGalleryBinding.inflate(getLayoutInflater());
@@ -105,19 +105,19 @@ public class GalleryActivity extends AppCompatActivity {
   }
 
   @Override
-  public void onStart () {
+  public void onStart() {
     ((OmniNotes) getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
     super.onStart();
   }
 
   @Override
-  public boolean onCreateOptionsMenu (Menu menu) {
+  public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.menu_gallery, menu);
     return true;
   }
 
-  private void initViews () {
+  private void initViews() {
     // Show the Up button in the action bar.
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -128,18 +128,18 @@ public class GalleryActivity extends AppCompatActivity {
 
     binding.fullscreenContent.addOnPageChangeListener(new OnPageChangeListener() {
       @Override
-      public void onPageSelected (int arg0) {
+      public void onPageSelected(int arg0) {
         getSupportActionBar().setSubtitle("(" + (arg0 + 1) + "/" + images.size() + ")");
       }
 
 
       @Override
-      public void onPageScrolled (int arg0, float arg1, int arg2) {
+      public void onPageScrolled(int arg0, float arg1, int arg2) {
       }
 
 
       @Override
-      public void onPageScrollStateChanged (int arg0) {
+      public void onPageScrollStateChanged(int arg0) {
       }
     });
   }
@@ -147,7 +147,7 @@ public class GalleryActivity extends AppCompatActivity {
   /**
    * Initializes data received from note detail screen
    */
-  private void initData () {
+  private void initData() {
     String title = getIntent().getStringExtra(GALLERY_TITLE);
     images = getIntent().getParcelableArrayListExtra(GALLERY_IMAGES);
     int clickedImage = getIntent().getIntExtra(GALLERY_CLICKED_IMAGE, 0);
@@ -172,7 +172,7 @@ public class GalleryActivity extends AppCompatActivity {
   }
 
   @Override
-  public boolean onOptionsItemSelected (MenuItem item) {
+  public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home:
         onBackPressed();
@@ -189,7 +189,7 @@ public class GalleryActivity extends AppCompatActivity {
     return super.onOptionsItemSelected(item);
   }
 
-  private void viewMedia () {
+  private void viewMedia() {
     Attachment attachment = images.get(binding.fullscreenContent.getCurrentItem());
     Intent intent = new Intent(Intent.ACTION_VIEW);
     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -198,7 +198,7 @@ public class GalleryActivity extends AppCompatActivity {
     startActivity(intent);
   }
 
-  private void shareMedia () {
+  private void shareMedia() {
     Attachment attachment = images.get(binding.fullscreenContent.getCurrentItem());
     Intent intent = new Intent(Intent.ACTION_SEND);
     intent.setType(StorageHelper.getMimeType(this, attachment.getUri()));

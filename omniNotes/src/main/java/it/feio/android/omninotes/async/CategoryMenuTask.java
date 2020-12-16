@@ -48,23 +48,25 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
   private NonScrollableListView mDrawerList;
 
 
-  public CategoryMenuTask (Fragment mFragment) {
+  public CategoryMenuTask(Fragment mFragment) {
     mFragmentWeakReference = new WeakReference<>(mFragment);
     this.mainActivity = (MainActivity) mFragment.getActivity();
   }
 
 
   @Override
-  protected void onPreExecute () {
+  protected void onPreExecute() {
     super.onPreExecute();
     mDrawerList = mainActivity.findViewById(R.id.drawer_nav_list);
-    LayoutInflater inflater = (LayoutInflater) mainActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+    LayoutInflater inflater = (LayoutInflater) mainActivity
+        .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
     settingsView = mainActivity.findViewById(R.id.settings_view);
 
     // Settings view when categories are available
     mDrawerCategoriesList = mainActivity.findViewById(R.id.drawer_tag_list);
-    if (mDrawerCategoriesList.getAdapter() == null && mDrawerCategoriesList.getFooterViewsCount() == 0) {
+    if (mDrawerCategoriesList.getAdapter() == null
+        && mDrawerCategoriesList.getFooterViewsCount() == 0) {
       settingsViewCat = inflater.inflate(R.layout.drawer_category_list_footer, null);
       mDrawerCategoriesList.addFooterView(settingsViewCat);
     } else {
@@ -75,7 +77,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 
 
   @Override
-  protected List<Category> doInBackground (Void... params) {
+  protected List<Category> doInBackground(Void... params) {
     if (isAlive()) {
       return buildCategoryMenu();
     } else {
@@ -86,7 +88,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 
 
   @Override
-  protected void onPostExecute (final List<Category> categories) {
+  protected void onPostExecute(final List<Category> categories) {
     if (isAlive()) {
       mDrawerCategoriesList.setAdapter(new CategoryBaseAdapter(mainActivity, categories,
           mainActivity.getNavigationTmp()));
@@ -102,14 +104,14 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
   }
 
 
-  private void setWidgetVisibility (View view, boolean visible) {
+  private void setWidgetVisibility(View view, boolean visible) {
     if (view != null) {
       view.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
   }
 
 
-  private boolean isAlive () {
+  private boolean isAlive() {
     return mFragmentWeakReference.get() != null
         && mFragmentWeakReference.get().isAdded()
         && mFragmentWeakReference.get().getActivity() != null
@@ -117,7 +119,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
   }
 
 
-  private List<Category> buildCategoryMenu () {
+  private List<Category> buildCategoryMenu() {
 
     List<Category> categories = DbHelper.getInstance().getCategories();
 
@@ -141,7 +143,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     return categories;
   }
 
-  private void buildCategoryMenuLongClickEvent () {
+  private void buildCategoryMenuLongClickEvent() {
     mDrawerCategoriesList.setOnItemLongClickListener((arg0, view, position, arg3) -> {
       if (mDrawerCategoriesList.getAdapter() != null) {
         Object item = mDrawerCategoriesList.getAdapter().getItem(position);
@@ -156,7 +158,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     });
   }
 
-  private void buildCategoryMenuClickEvent () {
+  private void buildCategoryMenuClickEvent() {
     mDrawerCategoriesList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
 
       Object item = mDrawerCategoriesList.getAdapter().getItem(position);
@@ -165,8 +167,9 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
         // Forces redraw
         if (mDrawerList != null) {
           mDrawerList.setItemChecked(0, false);
-          EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
-              (position)));
+          EventBus.getDefault()
+              .post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
+                  (position)));
         }
       }
     });

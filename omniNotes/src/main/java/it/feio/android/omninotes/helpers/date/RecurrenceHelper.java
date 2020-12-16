@@ -20,7 +20,6 @@ package it.feio.android.omninotes.helpers.date;
 import static com.appeaser.sublimepickerlibrary.recurrencepicker.SublimeRecurrencePicker.RecurrenceOption.DOES_NOT_REPEAT;
 
 import android.content.Context;
-import org.apache.commons.lang3.StringUtils;
 import android.text.format.Time;
 import com.appeaser.sublimepickerlibrary.recurrencepicker.EventRecurrence;
 import com.appeaser.sublimepickerlibrary.recurrencepicker.EventRecurrenceFormatter;
@@ -35,6 +34,7 @@ import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.Recur;
 import net.fortuna.ical4j.model.Recur.Frequency;
 import net.fortuna.ical4j.model.property.RRule;
+import org.apache.commons.lang3.StringUtils;
 
 public class RecurrenceHelper {
 
@@ -42,7 +42,7 @@ public class RecurrenceHelper {
     // hides public constructor
   }
 
-  public static String formatRecurrence (Context mContext, String recurrenceRule) {
+  public static String formatRecurrence(Context mContext, String recurrenceRule) {
     if (StringUtils.isEmpty(recurrenceRule)) {
       return "";
     }
@@ -53,19 +53,22 @@ public class RecurrenceHelper {
         mContext.getResources(), recurrenceEvent, true);
   }
 
-  public static Long nextReminderFromRecurrenceRule (long reminder, String recurrenceRule) {
-    return nextReminderFromRecurrenceRule(reminder, Calendar.getInstance().getTimeInMillis(), recurrenceRule);
+  public static Long nextReminderFromRecurrenceRule(long reminder, String recurrenceRule) {
+    return nextReminderFromRecurrenceRule(reminder, Calendar.getInstance().getTimeInMillis(),
+        recurrenceRule);
   }
 
-  public static Long nextReminderFromRecurrenceRule (long reminder, long currentTime, String recurrenceRule) {
+  public static Long nextReminderFromRecurrenceRule(long reminder, long currentTime,
+      String recurrenceRule) {
     try {
-      RRule rule= new RRule();
+      RRule rule = new RRule();
       rule.setValue(recurrenceRule);
       long startTimestamp = reminder + 60 * 1000;
       if (startTimestamp < currentTime) {
         startTimestamp = currentTime;
       }
-      Date nextDate = rule.getRecur().getNextDate(new DateTime(reminder), new DateTime(startTimestamp));
+      Date nextDate = rule.getRecur()
+          .getNextDate(new DateTime(reminder), new DateTime(startTimestamp));
       return nextDate == null ? 0L : nextDate.getTime();
     } catch (ParseException e) {
       LogDelegate.e("Error parsing rrule");
@@ -73,17 +76,21 @@ public class RecurrenceHelper {
     }
   }
 
-  public static String getNoteReminderText (long reminder) {
-    return OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(OmniNotes
-        .getAppContext(), reminder);
+  public static String getNoteReminderText(long reminder) {
+    return OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateHelper
+        .getDateTimeShort(OmniNotes
+            .getAppContext(), reminder);
   }
 
-  public static String getNoteRecurrentReminderText (long reminder, String rrule) {
-    return formatRecurrence(OmniNotes.getAppContext(), rrule) + " " + OmniNotes.getAppContext().getString
-        (R.string.starting_from) + " " + DateHelper.getDateTimeShort(OmniNotes.getAppContext(), reminder);
+  public static String getNoteRecurrentReminderText(long reminder, String rrule) {
+    return formatRecurrence(OmniNotes.getAppContext(), rrule) + " " + OmniNotes.getAppContext()
+        .getString
+            (R.string.starting_from) + " " + DateHelper
+        .getDateTimeShort(OmniNotes.getAppContext(), reminder);
   }
 
-  public static String buildRecurrenceRuleByRecurrenceOptionAndRule (RecurrenceOption recurrenceOption,
+  public static String buildRecurrenceRuleByRecurrenceOptionAndRule(
+      RecurrenceOption recurrenceOption,
       String recurrenceRule) {
     if (recurrenceRule == null && recurrenceOption != DOES_NOT_REPEAT) {
       Frequency freq = Frequency.valueOf(recurrenceOption.toString());

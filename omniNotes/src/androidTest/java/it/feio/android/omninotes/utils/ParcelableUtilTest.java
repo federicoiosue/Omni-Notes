@@ -37,24 +37,24 @@ public class ParcelableUtilTest extends BaseAndroidTestCase {
   private byte[] marshalledNote;
 
   @Before
-  public void setUp () {
+  public void setUp() {
     testNote = new Note();
     testNote.setAttachmentsList(Collections.singletonList(new Attachment(Uri.EMPTY, "")));
     marshalledNote = ParcelableUtil.marshall(testNote);
   }
 
   @Test
-  public void checkUtilityClassWellDefined () throws Exception {
+  public void checkUtilityClassWellDefined() throws Exception {
     assertUtilityClassWellDefined(ParcelableUtil.class);
   }
 
   @Test
-  public void unmarshall () {
+  public void unmarshall() {
     assertEquals(testNote, ParcelableUtil.unmarshall(marshalledNote, Note.CREATOR));
   }
 
   @Test
-  public void marshall () {
+  public void marshall() {
     assertArrayEquals(marshalledNote, ParcelableUtil.marshall(testNote));
   }
 }

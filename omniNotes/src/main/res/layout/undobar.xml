@@ -16,17 +16,17 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/undobar"
-    style="@style/UndoBar"
-    android:orientation="horizontal"
-    android:visibility="gone">
+  android:id="@+id/undobar"
+  style="@style/UndoBar"
+  android:orientation="horizontal"
+  android:visibility="gone">
 
-    <TextView
-        android:id="@+id/undobar_message"
-        style="@style/UndoBarMessage" />
+  <TextView
+    android:id="@+id/undobar_message"
+    style="@style/UndoBarMessage" />
 
-    <Button
-        android:id="@+id/undobar_button"
-        style="@style/UndoBarButton" />
-    
+  <Button
+    android:id="@+id/undobar_button"
+    style="@style/UndoBarButton" />
+
 </LinearLayout>

@@ -47,7 +47,7 @@ public class BitmapHelperTest extends BaseAndroidTestCase {
   private Attachment attachment;
 
   @Before
-  public void setUp () throws IOException {
+  public void setUp() throws IOException {
     File bitmapFile = tempFolder.newFile("bitmapFile.bmp");
 
     Bitmap bmp = Bitmap.createBitmap(100, 200, Bitmap.Config.ARGB_8888);
@@ -58,19 +58,19 @@ public class BitmapHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void checkUtilityClassWellDefined () throws Exception {
+  public void checkUtilityClassWellDefined() throws Exception {
     assertUtilityClassWellDefined(BitmapHelper.class);
   }
 
   @Test
-  public void getBitmapFromAttachment_backgroundThread () {
+  public void getBitmapFromAttachment_backgroundThread() {
     Bitmap bmp = BitmapHelper.getBitmapFromAttachment(testContext, attachment, 100, 100);
     assertNotEquals("Thread MUST be a background one", Looper.getMainLooper(), Looper.myLooper());
     assertNotNull("Bitmap should not be null", bmp);
   }
 
   @Test
-  public void getBitmapFromAttachment_mainThread () throws Throwable {
+  public void getBitmapFromAttachment_mainThread() throws Throwable {
     UiThreadStatement.runOnUiThread(() -> {
       Bitmap bmp = BitmapHelper.getBitmapFromAttachment(testContext, attachment, 100, 100);
       assertEquals("Thread MUST be a the main one", Looper.getMainLooper(), Looper.myLooper());

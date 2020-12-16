@@ -20,7 +20,7 @@ package it.feio.android.omninotes.models.listeners;
 
 public interface OnReminderPickedListener {
 
-  void onReminderPicked (long reminder);
+  void onReminderPicked(long reminder);
 
-  void onRecurrenceReminderPicked (String recurrenceRule);
+  void onRecurrenceReminderPicked(String recurrenceRule);
 }

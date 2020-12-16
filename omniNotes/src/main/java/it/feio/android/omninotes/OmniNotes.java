@@ -51,11 +51,11 @@ public class OmniNotes extends MultiDexApplication {
   private static Context mContext;
   private AnalyticsHelper analyticsHelper;
 
-  public static boolean isDebugBuild () {
+  public static boolean isDebugBuild() {
     return BuildConfig.BUILD_TYPE.equals("debug");
   }
 
-  public static Context getAppContext () {
+  public static Context getAppContext() {
     return OmniNotes.mContext;
   }
 
@@ -64,19 +64,19 @@ public class OmniNotes extends MultiDexApplication {
    *
    * @return SharedPreferences object instance
    */
-  public static SharedPreferences getSharedPreferences () {
+  public static SharedPreferences getSharedPreferences() {
     return getAppContext().getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
   }
 
   @Override
-  protected void attachBaseContext (Context base) {
+  protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
     ACRA.init(this);
     ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild() ? "1" : "0");
   }
 
   @Override
-  public void onCreate () {
+  public void onCreate() {
     super.onCreate();
 
     mContext = getApplicationContext();
@@ -87,7 +87,7 @@ public class OmniNotes extends MultiDexApplication {
     new NotificationsHelper(this).initNotificationChannels();
   }
 
-  private void enableStrictMode () {
+  private void enableStrictMode() {
     if (isDebugBuild()) {
       StrictMode.enableDefaults();
     }
@@ -95,13 +95,13 @@ public class OmniNotes extends MultiDexApplication {
 
 
   @Override
-  public void onConfigurationChanged (Configuration newConfig) {
+  public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
     String language = prefs.getString(PREF_LANG, "");
     LanguageHelper.updateLanguage(this, language);
   }
 
-  public AnalyticsHelper getAnalyticsHelper () {
+  public AnalyticsHelper getAnalyticsHelper() {
     if (analyticsHelper == null) {
       boolean enableAnalytics = prefs.getBoolean(PREF_SEND_ANALYTICS, true);
       try {

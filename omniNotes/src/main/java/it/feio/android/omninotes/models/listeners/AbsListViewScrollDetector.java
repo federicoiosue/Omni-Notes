@@ -17,9 +17,9 @@
 
 package it.feio.android.omninotes.models.listeners;
 
-import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.AbsListView;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 
@@ -32,17 +32,17 @@ public abstract class AbsListViewScrollDetector extends OnScrollListener {
   private int mScrollThreshold;
 
 
-  public abstract void onScrollUp ();
+  public abstract void onScrollUp();
 
-  public abstract void onScrollDown ();
+  public abstract void onScrollDown();
 
 
   @Override
-  public void onScrollStateChanged (@NonNull RecyclerView recyclerView, int newState) {
+  public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
   }
 
   @Override
-  public void onScrolled (@NonNull RecyclerView recyclerView, int dx, int dy) {
+  public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
     if (isSameRow(dy)) {
       int newScrollY = getTopItemScrollY();
       boolean isSignificantDelta = Math.abs(mLastScrollY - newScrollY) > mScrollThreshold;
@@ -67,22 +67,22 @@ public abstract class AbsListViewScrollDetector extends OnScrollListener {
   }
 
 
-  public void setScrollThreshold (int scrollThreshold) {
+  public void setScrollThreshold(int scrollThreshold) {
     mScrollThreshold = scrollThreshold;
   }
 
 
-  public void setListView (@NonNull AbsListView listView) {
+  public void setListView(@NonNull AbsListView listView) {
     mListView = listView;
   }
 
 
-  private boolean isSameRow (int firstVisibleItem) {
+  private boolean isSameRow(int firstVisibleItem) {
     return firstVisibleItem == mPreviousFirstVisibleItem;
   }
 
 
-  private int getTopItemScrollY () {
+  private int getTopItemScrollY() {
     if (mListView == null || mListView.getChildAt(0) == null) {
       return 0;
     }

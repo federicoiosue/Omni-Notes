@@ -19,7 +19,6 @@ package it.feio.android.omninotes.utils;
 
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_KEY;
-import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PRETTIFIED_DATES;
 import static java.util.Collections.singletonList;
 
@@ -29,20 +28,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
 import android.content.pm.ShortcutManager;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.date.DateHelper;
-import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import java.util.Optional;
 import lombok.SneakyThrows;
 import lombok.experimental.UtilityClass;
 
@@ -53,9 +47,11 @@ public class ShortcutHelper {
   /**
    * Adding shortcut on Home screen
    */
-  public static void addShortcut (Context context, Note note) {
-    String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
-        .getCreation(), OmniNotes.getSharedPreferences().getBoolean(PREF_PRETTIFIED_DATES, true));
+  public static void addShortcut(Context context, Note note) {
+    String shortcutTitle =
+        note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
+                .getCreation(),
+            OmniNotes.getSharedPreferences().getBoolean(PREF_PRETTIFIED_DATES, true));
 
     if (Build.VERSION.SDK_INT < 26) {
       createShortcutPreOreo(context, note, shortcutTitle);
@@ -65,14 +61,14 @@ public class ShortcutHelper {
   }
 
   @TargetApi(VERSION_CODES.O)
-  private static void createShortcutPostOreo (Context context, Note note, String shortcutTitle) {
+  private static void createShortcutPostOreo(Context context, Note note, String shortcutTitle) {
     ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
 
     if (shortcutManager.isRequestPinShortcutSupported()) {
       Uri uri = new Uri.Builder().scheme("app")
-                                 .authority("omninotes")
-                                 .appendQueryParameter("id", String.valueOf(note.get_id()))
-                                 .build();
+          .authority("omninotes")
+          .appendQueryParameter("id", String.valueOf(note.get_id()))
+          .build();
       Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 
       ShortcutInfo pinShortcutInfo = new ShortcutInfo
@@ -81,9 +77,11 @@ public class ShortcutHelper {
           .setIntent(intent)
           .setShortLabel(shortcutTitle)
           .build();
-      Intent pinnedShortcutCallbackIntent = shortcutManager.createShortcutResultIntent(pinShortcutInfo);
+      Intent pinnedShortcutCallbackIntent = shortcutManager
+          .createShortcutResultIntent(pinShortcutInfo);
       //Get notified when a shortcut is pinned successfully//
-      PendingIntent successCallback = PendingIntent.getBroadcast(context, 0, pinnedShortcutCallbackIntent, 0);
+      PendingIntent successCallback = PendingIntent
+          .getBroadcast(context, 0, pinnedShortcutCallbackIntent, 0);
       shortcutManager.requestPinShortcut(pinShortcutInfo, successCallback.getIntentSender()
       );
     }
@@ -91,15 +89,16 @@ public class ShortcutHelper {
 
   @SneakyThrows
   @TargetApi(VERSION_CODES.O)
-  private static Icon createShortcutIcon (Context context, Note note) {
+  private static Icon createShortcutIcon(Context context, Note note) {
     if (note.getAttachmentsList().isEmpty()) {
       return Icon.createWithResource(context, R.drawable.ic_shortcut);
     } else {
-      return Icon.createWithBitmap(BitmapHelper.getBitmapFromAttachment(context, note.getAttachmentsList().get(0), 64, 64));
+      return Icon.createWithBitmap(
+          BitmapHelper.getBitmapFromAttachment(context, note.getAttachmentsList().get(0), 64, 64));
     }
   }
 
-  private static void createShortcutPreOreo (Context context, Note note, String shortcutTitle) {
+  private static void createShortcutPreOreo(Context context, Note note, String shortcutTitle) {
     Intent shortcutIntent = new Intent(context, MainActivity.class);
     shortcutIntent.putExtra(INTENT_KEY, note.get_id());
     shortcutIntent.setAction(ACTION_SHORTCUT);
@@ -117,7 +116,7 @@ public class ShortcutHelper {
   /**
    * Removes note shortcut from home launcher
    */
-  public static void removeShortcut (Context context, Note note) {
+  public static void removeShortcut(Context context, Note note) {
     if (Build.VERSION.SDK_INT < 26) {
       removeShortcutPreOreo(context, note);
     } else {
@@ -126,23 +125,25 @@ public class ShortcutHelper {
   }
 
   @TargetApi(VERSION_CODES.O)
-  private static void removeShortcutPostOreo (Context context, Note note) {
+  private static void removeShortcutPostOreo(Context context, Note note) {
     ShortcutManager shortcutManager = context.getSystemService(ShortcutManager.class);
     shortcutManager.getPinnedShortcuts().stream()
-                   .filter(ps -> ps.getId().equals(String.valueOf(note.get_id())))
-                   .forEach(ps -> shortcutManager.disableShortcuts(singletonList(ps.getId()),
-                       context.getString(R.string.shortcut_disabled)));
+        .filter(ps -> ps.getId().equals(String.valueOf(note.get_id())))
+        .forEach(ps -> shortcutManager.disableShortcuts(singletonList(ps.getId()),
+            context.getString(R.string.shortcut_disabled)));
   }
 
-  private static void removeShortcutPreOreo (Context context, Note note) {
+  private static void removeShortcutPreOreo(Context context, Note note) {
     Intent shortcutIntent = new Intent(context, MainActivity.class);
     shortcutIntent.putExtra(INTENT_KEY, note.get_id());
     shortcutIntent.setAction(ACTION_SHORTCUT);
 
     Intent addIntent = new Intent();
     addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-    String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
-        .getCreation(), OmniNotes.getSharedPreferences().getBoolean(PREF_PRETTIFIED_DATES, true));
+    String shortcutTitle =
+        note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
+                .getCreation(),
+            OmniNotes.getSharedPreferences().getBoolean(PREF_PRETTIFIED_DATES, true));
 
     addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
 

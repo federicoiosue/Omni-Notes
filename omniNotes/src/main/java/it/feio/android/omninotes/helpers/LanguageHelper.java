@@ -26,8 +26,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
+import androidx.annotation.NonNull;
 import it.feio.android.omninotes.utils.Constants;
 import java.util.Locale;
 import lombok.experimental.UtilityClass;
@@ -40,7 +40,7 @@ public class LanguageHelper {
    * Updates default language with forced one
    */
   @SuppressLint("ApplySharedPref")
-  public static Context updateLanguage (Context ctx, String lang) {
+  public static Context updateLanguage(Context ctx, String lang) {
     SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
     String language = prefs.getString(PREF_LANG, "");
 
@@ -57,14 +57,14 @@ public class LanguageHelper {
     return setLocale(ctx, locale);
   }
 
-  public static Context resetSystemLanguage (Context ctx) {
+  public static Context resetSystemLanguage(Context ctx) {
     SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
     prefs.edit().remove(PREF_LANG).apply();
 
     return setLocale(ctx, Locale.getDefault());
   }
 
-  private static Context setLocale (Context context, Locale locale) {
+  private static Context setLocale(Context context, Locale locale) {
     Configuration configuration = context.getResources().getConfiguration();
     configuration.locale = locale;
     context.getResources().updateConfiguration(configuration, null);
@@ -74,7 +74,7 @@ public class LanguageHelper {
   /**
    * Checks country AND region
    */
-  private static Locale getLocale (String lang) {
+  private static Locale getLocale(String lang) {
     if (lang.contains("_")) {
       return new Locale(lang.split("_")[0], lang.split("_")[1]);
     } else {
@@ -84,7 +84,7 @@ public class LanguageHelper {
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   @NonNull
-  static String getLocalizedString (Context context, String desiredLocale, int resourceId) {
+  static String getLocalizedString(Context context, String desiredLocale, int resourceId) {
     if (desiredLocale.equals(getCurrentLocaleAsString(context))) {
       return context.getResources().getString(resourceId);
     }
@@ -95,11 +95,11 @@ public class LanguageHelper {
     return localizedContext.getResources().getString(resourceId);
   }
 
-  public static String getCurrentLocaleAsString (Context context) {
+  public static String getCurrentLocaleAsString(Context context) {
     return getCurrentLocale(context).toString();
   }
 
-  public static Locale getCurrentLocale (Context context) {
+  public static Locale getCurrentLocale(Context context) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
       return context.getResources().getConfiguration().getLocales().get(0);
     } else {

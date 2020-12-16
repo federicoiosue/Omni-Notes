@@ -17,12 +17,12 @@
 
 package it.feio.android.omninotes;
 
-import android.view.View;
-import androidx.fragment.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -46,7 +46,7 @@ public class SettingsActivity extends AppCompatActivity implements
 
 
   @Override
-  protected void onCreate (Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     binding = ActivitySettingsBinding.inflate(getLayoutInflater());
@@ -54,11 +54,12 @@ public class SettingsActivity extends AppCompatActivity implements
     setContentView(view);
 
     initUI();
-    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
+    getSupportFragmentManager().beginTransaction()
+        .replace(R.id.content_frame, new SettingsFragment()).commit();
   }
 
 
-  void initUI () {
+  void initUI() {
     setSupportActionBar(binding.toolbar.toolbar);
     binding.toolbar.toolbar.setNavigationOnClickListener(v -> onBackPressed());
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -66,14 +67,15 @@ public class SettingsActivity extends AppCompatActivity implements
   }
 
 
-  private void replaceFragment (Fragment sf) {
-    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.animator.fade_in, R.animator.fade_out,
-        R.animator.fade_in, R.animator.fade_out).replace(R.id.content_frame, sf).commit();
+  private void replaceFragment(Fragment sf) {
+    getSupportFragmentManager().beginTransaction()
+        .setCustomAnimations(R.animator.fade_in, R.animator.fade_out,
+            R.animator.fade_in, R.animator.fade_out).replace(R.id.content_frame, sf).commit();
   }
 
 
   @Override
-  public void onBackPressed () {
+  public void onBackPressed() {
     if (!backStack.isEmpty()) {
       replaceFragment(backStack.remove(backStack.size() - 1));
     } else {
@@ -82,26 +84,27 @@ public class SettingsActivity extends AppCompatActivity implements
   }
 
 
-  public void showMessage (int messageId, Style style) {
+  public void showMessage(int messageId, Style style) {
     showMessage(getString(messageId), style);
   }
 
 
-  public void showMessage (String message, Style style) {
+  public void showMessage(String message, Style style) {
     // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
     Crouton.makeText(this, message, style, binding.croutonHandle.croutonHandle).show();
   }
 
 
   @Override
-  public void onFolderSelection (@NonNull FolderChooserDialog dialog, @NonNull File folder) {
+  public void onFolderSelection(@NonNull FolderChooserDialog dialog, @NonNull File folder) {
     new MaterialDialog.Builder(this)
         .title(R.string.data_import_message_warning)
         .content(folder.getName())
         .positiveText(R.string.confirm)
         .onPositive((dialog1, which) -> {
-          ((OmniNotes) getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
-              "settings_import_data");
+          ((OmniNotes) getApplication()).getAnalyticsHelper()
+              .trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+                  "settings_import_data");
           Intent service = new Intent(getApplicationContext(), DataBackupIntentService.class);
           service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_LEGACY);
           service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, folder.getAbsolutePath());
@@ -110,12 +113,12 @@ public class SettingsActivity extends AppCompatActivity implements
   }
 
   @Override
-  public void onFolderChooserDismissed (@NonNull FolderChooserDialog dialog) {
+  public void onFolderChooserDismissed(@NonNull FolderChooserDialog dialog) {
     // Nothing to do
   }
 
   @Override
-  public void onPointerCaptureChanged (boolean hasCapture) {
+  public void onPointerCaptureChanged(boolean hasCapture) {
     // Nothing to do
   }
 
@@ -131,9 +134,9 @@ public class SettingsActivity extends AppCompatActivity implements
     fragment.setTargetFragment(caller, 0);
 
     getSupportFragmentManager().beginTransaction()
-                               .replace(R.id.content_frame, fragment)
-                               .addToBackStack(null)
-                               .commit();
+        .replace(R.id.content_frame, fragment)
+        .addToBackStack(null)
+        .commit();
     return true;
   }
 

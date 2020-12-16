@@ -31,7 +31,6 @@ import static org.junit.Assert.fail;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
 import de.greenrobot.event.EventBus;
@@ -58,11 +57,12 @@ public class BaseAndroidTestCase {
 
   @Rule
   public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
-      ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE, RECORD_AUDIO
+      ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE,
+      RECORD_AUDIO
   );
 
   @BeforeClass
-  public static void setUpBeforeClass () {
+  public static void setUpBeforeClass() {
     testContext = ApplicationProvider.getApplicationContext();
     prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
 
@@ -70,7 +70,7 @@ public class BaseAndroidTestCase {
   }
 
   @Before
-  public void setUpBase () {
+  public void setUpBase() {
     cleanDatabase();
     assertFalse("Database MUST be writable", dbHelper.getDatabase(true).isReadOnly());
 
@@ -82,7 +82,8 @@ public class BaseAndroidTestCase {
   protected void createCategory(String categoryName) {
     Category category = new Category();
     category.setName(categoryName);
-    category.setColor(String.valueOf(testContext.getResources().getIntArray(R.array.material_colors)[0]));
+    category.setColor(
+        String.valueOf(testContext.getResources().getIntArray(R.array.material_colors)[0]));
     category.setDescription("testing category");
 
     dbHelper.updateCategory(category);
@@ -95,12 +96,13 @@ public class BaseAndroidTestCase {
    *
    * @param clazz utility class to verify.
    */
-  protected static void assertUtilityClassWellDefined (final Class<?> clazz)
+  protected static void assertUtilityClassWellDefined(final Class<?> clazz)
       throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
     assertUtilityClassWellDefined(clazz, false, false);
   }
 
-  protected static void assertUtilityClassWellDefined (final Class<?> clazz, boolean weakClassModifier,
+  protected static void assertUtilityClassWellDefined(final Class<?> clazz,
+      boolean weakClassModifier,
       boolean weakConstructorModifier)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     if (!weakClassModifier) {
@@ -109,7 +111,8 @@ public class BaseAndroidTestCase {
 
     assertEquals("There must be only one constructor", 1, clazz.getDeclaredConstructors().length);
     final Constructor<?> constructor = clazz.getDeclaredConstructor();
-    if (!weakConstructorModifier && (constructor.isAccessible() || !Modifier.isPrivate(constructor.getModifiers()))) {
+    if (!weakConstructorModifier && (constructor.isAccessible() || !Modifier
+        .isPrivate(constructor.getModifiers()))) {
       fail("constructor is not private");
     }
 
@@ -129,7 +132,7 @@ public class BaseAndroidTestCase {
     }
   }
 
-  private static void cleanDatabase () {
+  private static void cleanDatabase() {
     dbHelper.getDatabase(true).delete(DbHelper.TABLE_NOTES, null, null);
     dbHelper.getDatabase(true).delete(DbHelper.TABLE_CATEGORY, null, null);
     dbHelper.getDatabase(true).delete(DbHelper.TABLE_ATTACHMENTS, null, null);

@@ -63,7 +63,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
   private long now;
 
 
-  public UpdaterTask (Activity mActivity) {
+  public UpdaterTask(Activity mActivity) {
     this.mActivityReference = new WeakReference<>(mActivity);
     this.mActivity = mActivity;
     this.prefs = mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
@@ -71,7 +71,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
 
   @Override
-  protected void onPreExecute () {
+  protected void onPreExecute() {
     now = System.currentTimeMillis();
     if (OmniNotes.isDebugBuild() || !ConnectionManager.internetAvailable(OmniNotes.getAppContext())
         || now < prefs.getLong(PREF_LAST_UPDATE_CHECK, 0) + UPDATE_MIN_FREQUENCY) {
@@ -82,7 +82,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
 
   @Override
-  protected Void doInBackground (String... params) {
+  protected Void doInBackground(String... params) {
     if (!isCancelled()) {
       try {
         // Temporary disabled untill MetadataFetcher will work again
@@ -99,7 +99,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
   }
 
 
-  private void promptUpdate () {
+  private void promptUpdate() {
     new MaterialDialog.Builder(mActivityReference.get())
         .title(R.string.app_name)
         .content(R.string.new_update_available)
@@ -108,7 +108,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
         .negativeColorRes(R.color.colorPrimary)
         .onPositive(new MaterialDialog.SingleButtonCallback() {
           @Override
-          public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+          public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
             if (MiscUtils.isGooglePlayAvailable(mActivity)) {
               ((OmniNotes) mActivity.getApplication()).getAnalyticsHelper().trackEvent(
                   AnalyticsHelper.CATEGORIES.UPDATE, "Play Store");
@@ -117,7 +117,8 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
             } else {
               ((OmniNotes) mActivity.getApplication()).getAnalyticsHelper().trackEvent(
                   AnalyticsHelper.CATEGORIES.UPDATE, "Drive Repository");
-              mActivityReference.get().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(DRIVE_FOLDER_LAST_BUILD)));
+              mActivityReference.get().startActivity(
+                  new Intent(Intent.ACTION_VIEW, Uri.parse(DRIVE_FOLDER_LAST_BUILD)));
             }
           }
         }).build().show();
@@ -125,7 +126,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
 
   @Override
-  protected void onPostExecute (Void result) {
+  protected void onPostExecute(Void result) {
     if (isAlive(mActivityReference)) {
       if (promptUpdate) {
         promptUpdate();
@@ -144,12 +145,12 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
     }
   }
 
-  private void restoreReminders () {
+  private void restoreReminders() {
     Intent service = new Intent(mActivity, AlarmRestoreOnRebootService.class);
     mActivity.startService(service);
   }
 
-  private void showChangelog () {
+  private void showChangelog() {
     new MaterialDialog.Builder(mActivity)
         .customView(R.layout.activity_changelog, false)
         .positiveText(R.string.ok)
@@ -157,7 +158,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
   }
 
 
-  private boolean isAlive (WeakReference<Activity> weakActivityReference) {
+  private boolean isAlive(WeakReference<Activity> weakActivityReference) {
     return !(weakActivityReference.get() == null || weakActivityReference.get().isFinishing());
   }
 
@@ -165,7 +166,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
   /**
    * Fetches application data from internet
    */
-  private PlayStoreMetadataFetcherResult getAppData () throws IOException, JSONException {
+  private PlayStoreMetadataFetcherResult getAppData() throws IOException, JSONException {
     InputStream is = null;
     InputStreamReader inputStreamReader = null;
     try {
@@ -190,7 +191,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
   /**
    * Checks parsing "android:versionName" if app has been updated
    */
-  private boolean isVersionUpdated (PlayStoreMetadataFetcherResult playStoreMetadataFetcherResult)
+  private boolean isVersionUpdated(PlayStoreMetadataFetcherResult playStoreMetadataFetcherResult)
       throws NameNotFoundException {
 
     String playStoreVersion = playStoreMetadataFetcherResult.getSoftwareVersion();
@@ -214,8 +215,9 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
 
     boolean playStoreHasMoreRecentVersion =
         Integer.parseInt(playStoreVersionString) > Integer.parseInt(installedVersionString);
-    boolean outOfBeta = Integer.parseInt(playStoreVersionString) == Integer.parseInt(installedVersionString)
-        && playStoreVersion.split("b").length == 1 && installedVersion.split("b").length == 2;
+    boolean outOfBeta =
+        Integer.parseInt(playStoreVersionString) == Integer.parseInt(installedVersionString)
+            && playStoreVersion.split("b").length == 1 && installedVersion.split("b").length == 2;
 
     return playStoreHasMoreRecentVersion || outOfBeta;
   }

@@ -22,7 +22,7 @@ import android.provider.MediaStore;
 
 public class MediaStoreFactory {
 
-  public Uri createURI (String type) {
+  public Uri createURI(String type) {
     switch (type) {
       case "image":
         return MediaStore.Images.Media.EXTERNAL_CONTENT_URI;

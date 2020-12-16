@@ -46,7 +46,7 @@ public class NoteViewHolder extends ViewHolder {
   @Nullable
   public SquareImageView attachmentThumbnail;
 
-  public NoteViewHolder (View view, boolean expandedView) {
+  public NoteViewHolder(View view, boolean expandedView) {
     super(view);
 
     if (expandedView) {

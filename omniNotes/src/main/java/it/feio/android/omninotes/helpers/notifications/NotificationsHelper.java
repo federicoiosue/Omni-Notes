@@ -48,29 +48,32 @@ public class NotificationsHelper {
   private Builder mBuilder;
   private NotificationManager mNotificationManager;
 
-  public NotificationsHelper (Context mContext) {
+  public NotificationsHelper(Context mContext) {
     this.mContext = mContext.getApplicationContext();
     if (mNotificationManager == null) {
-      mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+      mNotificationManager = (NotificationManager) mContext
+          .getSystemService(Context.NOTIFICATION_SERVICE);
     }
   }
 
   /**
-   * Creates the NotificationChannel, but only on API 26+ because the NotificationChannel class is new and not in the
-   * support library
+   * Creates the NotificationChannel, but only on API 26+ because the NotificationChannel class is
+   * new and not in the support library
    */
   @TargetApi(Build.VERSION_CODES.O)
-  public void initNotificationChannels () {
+  public void initNotificationChannels() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
       SharedPreferences prefs = mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
       String soundFromPrefs = prefs.getString("settings_notification_ringtone", null);
-      Uri sound = soundFromPrefs != null ? Uri.parse(soundFromPrefs) : RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+      Uri sound = soundFromPrefs != null ? Uri.parse(soundFromPrefs)
+          : RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
       NotificationChannels.channels.forEach(
           (notificationChannelNames, notificationChannel) -> {
-            NotificationChannel channel = new NotificationChannel(notificationChannel.id, notificationChannel
-                .name, notificationChannel.importance);
+            NotificationChannel channel = new NotificationChannel(notificationChannel.id,
+                notificationChannel
+                    .name, notificationChannel.importance);
             channel.setDescription(notificationChannel.description);
 
             AudioAttributes audioAttributes = new AudioAttributes.Builder()
@@ -85,7 +88,7 @@ public class NotificationsHelper {
   }
 
   @TargetApi(Build.VERSION_CODES.O)
-  public void updateNotificationChannelsSound () {
+  public void updateNotificationChannelsSound() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -94,19 +97,23 @@ public class NotificationsHelper {
     }
   }
 
-  public NotificationsHelper createStandardNotification (@NonNull NotificationChannels.NotificationChannelNames channelName, int
+  public NotificationsHelper createStandardNotification(
+      @NonNull NotificationChannels.NotificationChannelNames channelName, int
       smallIcon, String title, PendingIntent notifyIntent) {
     return createNotification(channelName, smallIcon, title, notifyIntent, false);
   }
 
-  public NotificationsHelper createOngoingNotification (@NonNull NotificationChannels.NotificationChannelNames channelName, int
+  public NotificationsHelper createOngoingNotification(
+      @NonNull NotificationChannels.NotificationChannelNames channelName, int
       smallIcon, String title, PendingIntent notifyIntent) {
     return createNotification(channelName, smallIcon, title, notifyIntent, true);
   }
 
-  public NotificationsHelper createNotification (@NonNull NotificationChannels.NotificationChannelNames channelName, int
+  public NotificationsHelper createNotification(
+      @NonNull NotificationChannels.NotificationChannelNames channelName, int
       smallIcon, String title, PendingIntent notifyIntent, boolean isOngoing) {
-    mBuilder = new NotificationCompat.Builder(mContext, NotificationChannels.channels.get(channelName).id)
+    mBuilder = new NotificationCompat.Builder(mContext,
+        NotificationChannels.channels.get(channelName).id)
         .setSmallIcon(smallIcon)
         .setContentTitle(title)
         .setAutoCancel(!isOngoing)
@@ -123,32 +130,33 @@ public class NotificationsHelper {
     return this;
   }
 
-  public Builder getBuilder () {
+  public Builder getBuilder() {
     return mBuilder;
   }
 
-  public NotificationsHelper setLargeIcon (Bitmap largeIconBitmap) {
+  public NotificationsHelper setLargeIcon(Bitmap largeIconBitmap) {
     mBuilder.setLargeIcon(largeIconBitmap);
     return this;
   }
 
-  public NotificationsHelper setLargeIcon (int largeIconResource) {
-    Bitmap largeIconBitmap = BitmapFactory.decodeResource(mContext.getResources(), largeIconResource);
+  public NotificationsHelper setLargeIcon(int largeIconResource) {
+    Bitmap largeIconBitmap = BitmapFactory
+        .decodeResource(mContext.getResources(), largeIconResource);
     return setLargeIcon(largeIconBitmap);
   }
 
-  public NotificationsHelper setRingtone (String ringtone) {
+  public NotificationsHelper setRingtone(String ringtone) {
     if (ringtone != null && Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-        mBuilder.setSound(Uri.parse(ringtone));
+      mBuilder.setSound(Uri.parse(ringtone));
     }
     return this;
   }
 
-  public NotificationsHelper setVibration () {
+  public NotificationsHelper setVibration() {
     return setVibration(null);
   }
 
-  public NotificationsHelper setVibration (long[] pattern) {
+  public NotificationsHelper setVibration(long[] pattern) {
     if (pattern == null || pattern.length == 0) {
       pattern = new long[]{500, 500};
     }
@@ -156,37 +164,37 @@ public class NotificationsHelper {
     return this;
   }
 
-  public NotificationsHelper setLedActive () {
+  public NotificationsHelper setLedActive() {
     mBuilder.setLights(Color.BLUE, 1000, 1000);
     return this;
   }
 
-  public NotificationsHelper setIcon (int icon) {
+  public NotificationsHelper setIcon(int icon) {
     mBuilder.setSmallIcon(icon);
     return this;
   }
 
-  public NotificationsHelper setMessage (String message) {
+  public NotificationsHelper setMessage(String message) {
     mBuilder.setContentText(message);
     return this;
   }
 
-  public NotificationsHelper setIndeterminate () {
+  public NotificationsHelper setIndeterminate() {
     mBuilder.setProgress(0, 0, true);
     return this;
   }
 
-  public NotificationsHelper setOngoing () {
+  public NotificationsHelper setOngoing() {
     mBuilder.setOngoing(true);
     return this;
   }
 
-  public NotificationsHelper show () {
+  public NotificationsHelper show() {
     show(0);
     return this;
   }
 
-  public NotificationsHelper show (long id) {
+  public NotificationsHelper show(long id) {
     Notification mNotification = mBuilder.build();
     if (mNotification.contentIntent == null) {
       // Creates a dummy PendingIntent
@@ -198,35 +206,35 @@ public class NotificationsHelper {
     return this;
   }
 
-  public NotificationsHelper start (NotificationChannels.NotificationChannelNames channelName, int
+  public NotificationsHelper start(NotificationChannels.NotificationChannelNames channelName, int
       smallIcon, String title) {
     createStandardNotification(channelName, smallIcon, title, null).setIndeterminate().setOngoing();
     mNotificationManager.notify(0, mBuilder.setOnlyAlertOnce(true).build());
     return this;
   }
 
-  public void updateMessage (String message) {
+  public void updateMessage(String message) {
     updateMessage(0, message);
   }
 
-  public void updateMessage (int id, String message) {
+  public void updateMessage(int id, String message) {
     mNotificationManager.notify(id, mBuilder.setContentText(message).build());
   }
 
-  public void finish (Intent intent, String message) {
+  public void finish(Intent intent, String message) {
     finish(0, intent, message);
   }
 
-  public void finish (int id, Intent intent, String message) {
+  public void finish(int id, Intent intent, String message) {
     mBuilder.setContentTitle(message).setProgress(0, 0, false).setOngoing(false);
     mNotificationManager.notify(id, mBuilder.build());
   }
 
-  public void cancel () {
+  public void cancel() {
     mNotificationManager.cancel(0);
   }
 
-  public void cancel (int id) {
+  public void cancel(int id) {
     mNotificationManager.cancel(id);
   }
 

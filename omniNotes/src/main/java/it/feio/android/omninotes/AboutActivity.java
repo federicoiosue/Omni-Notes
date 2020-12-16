@@ -17,13 +17,13 @@
 package it.feio.android.omninotes;
 
 import android.os.Bundle;
-import androidx.appcompat.widget.Toolbar;
 import android.webkit.WebView;
+import androidx.appcompat.widget.Toolbar;
 
 
 public class AboutActivity extends BaseActivity {
 
-  protected void onCreate (Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_about);
 
@@ -35,20 +35,20 @@ public class AboutActivity extends BaseActivity {
 
 
   @Override
-  public void onStart () {
+  public void onStart() {
     ((OmniNotes) getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
     super.onStart();
   }
 
 
   @Override
-  public boolean onNavigateUp () {
+  public boolean onNavigateUp() {
     onBackPressed();
     return true;
   }
 
 
-  private void initUI () {
+  private void initUI() {
     Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);

@@ -23,5 +23,5 @@ public interface PasswordValidator {
     SUCCEED, FAIL, RESTORE
   }
 
-  void onPasswordValidated (Result result);
+  void onPasswordValidated(Result result);
 }

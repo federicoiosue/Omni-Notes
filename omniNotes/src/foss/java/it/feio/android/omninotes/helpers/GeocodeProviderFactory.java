@@ -27,7 +27,7 @@ public class GeocodeProviderFactory {
     // hides public constructor
   }
 
-  public static LocationProvider getProvider (Context context) {
+  public static LocationProvider getProvider(Context context) {
     return new LocationManagerProvider();
   }
 }

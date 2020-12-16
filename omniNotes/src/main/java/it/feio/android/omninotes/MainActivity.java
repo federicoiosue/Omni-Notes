@@ -37,15 +37,15 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.drawerlayout.widget.DrawerLayout;
-import android.view.MenuItem;
-import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.FragmentTransaction;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -72,7 +72,8 @@ import java.util.Collections;
 import java.util.HashMap;
 
 
-public class MainActivity extends BaseActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
+public class MainActivity extends BaseActivity implements
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
   private static boolean isPasswordAccepted = false;
   public final static String FRAGMENT_DRAWER_TAG = "fragment_drawer";
@@ -86,7 +87,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   ActivityMainBinding binding;
 
   @Override
-  protected void onCreate (Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTheme(R.style.OmniNotesTheme_ApiSpec);
 
@@ -99,7 +100,6 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
     initUI();
 
-
     if (IntroActivity.mustRun()) {
       startActivity(new Intent(getApplicationContext(), IntroActivity.class));
     }
@@ -109,7 +109,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   }
 
   @Override
-  protected void onResume () {
+  protected void onResume() {
     super.onResume();
     if (isPasswordAccepted) {
       init();
@@ -120,13 +120,13 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
 
   @Override
-  protected void onStop () {
+  protected void onStop() {
     super.onStop();
     EventBus.getDefault().unregister(this);
   }
 
 
-  private void initUI () {
+  private void initUI() {
     setSupportActionBar(binding.toolbar.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
@@ -136,7 +136,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   /**
    * This method starts the bootstrap chain.
    */
-  private void checkPassword () {
+  private void checkPassword() {
     if (prefs.getString(PREF_PASSWORD, null) != null
         && prefs.getBoolean("settings_password_access", false)) {
       PasswordHelper.requestPassword(this, passwordConfirmed -> {
@@ -157,13 +157,13 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   }
 
 
-  public void onEvent (PasswordRemovedEvent passwordRemovedEvent) {
+  public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
     showMessage(R.string.password_successfully_removed, ONStyle.ALERT);
     init();
   }
 
 
-  private void init () {
+  private void init() {
     isPasswordAccepted = true;
 
     getFragmentManagerInstance();
@@ -178,13 +178,14 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
     if (getFragmentManagerInstance().findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
       FragmentTransaction fragmentTransaction = getFragmentManagerInstance().beginTransaction();
-      fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG).commit();
+      fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG)
+          .commit();
     }
 
     handleIntents();
   }
 
-  private FragmentManager getFragmentManagerInstance () {
+  private FragmentManager getFragmentManagerInstance() {
     if (mFragmentManager == null) {
       mFragmentManager = getSupportFragmentManager();
     }
@@ -192,7 +193,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   }
 
   @Override
-  protected void onNewIntent (Intent intent) {
+  protected void onNewIntent(Intent intent) {
     if (intent.getAction() == null) {
       intent.setAction(ACTION_START_APP);
     }
@@ -203,7 +204,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   }
 
 
-  public MenuItem getSearchMenuItem () {
+  public MenuItem getSearchMenuItem() {
     Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
     if (f != null) {
       return ((ListFragment) f).getSearchMenuItem();
@@ -213,7 +214,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   }
 
 
-  public void editTag (Category tag) {
+  public void editTag(Category tag) {
     Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
     if (f != null) {
       ((ListFragment) f).editCategory(tag);
@@ -221,7 +222,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   }
 
 
-  public void initNotesList (Intent intent) {
+  public void initNotesList(Intent intent) {
     //Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
     if (intent != null) {
       Fragment searchTagFragment = startSearchView();
@@ -231,12 +232,12 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     }
   }
 
-  public Fragment startSearchView(){
+  public Fragment startSearchView() {
     FragmentTransaction transaction = getFragmentManagerInstance().beginTransaction();
     animateTransition(transaction, TRANSITION_HORIZONTAL);
     ListFragment mListFragment = new ListFragment();
     transaction.replace(R.id.fragment_container, mListFragment, FRAGMENT_LIST_TAG).addToBackStack
-            (FRAGMENT_DETAIL_TAG).commit();
+        (FRAGMENT_DETAIL_TAG).commit();
     Bundle args = new Bundle();
     args.putBoolean("setSearchFocus", true);
     mListFragment.setArguments(args);
@@ -244,7 +245,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   }
 
 
-  public void commitPending () {
+  public void commitPending() {
     Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
     if (f != null) {
       ((ListFragment) f).commitPending();
@@ -255,7 +256,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   /**
    * Checks if allocated fragment is of the required type and then returns it or returns null
    */
-  private Fragment checkFragmentInstance (int id, Object instanceClass) {
+  private Fragment checkFragmentInstance(int id, Object instanceClass) {
     Fragment result = null;
     Fragment fragment = getFragmentManagerInstance().findFragmentById(id);
     if (fragment != null && instanceClass.equals(fragment.getClass())) {
@@ -265,7 +266,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   }
 
   @Override
-  public void onBackPressed () {
+  public void onBackPressed() {
 
     // SketchFragment
     Fragment f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
@@ -295,7 +296,8 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
       if (prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
           !getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
         getDrawerLayout().openDrawer(GravityCompat.START);
-      } else if (!prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
+      } else if (!prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null
+          &&
           getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
         getDrawerLayout().closeDrawer(GravityCompat.START);
       } else {
@@ -311,25 +313,25 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
 
   @Override
-  public void onSaveInstanceState (Bundle outState) {
+  public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putString("navigationTmp", navigationTmp);
   }
 
 
   @Override
-  protected void onPause () {
+  protected void onPause() {
     super.onPause();
     Crouton.cancelAllCroutons();
   }
 
 
-  public DrawerLayout getDrawerLayout () {
+  public DrawerLayout getDrawerLayout() {
     return binding.drawerLayout;
   }
 
 
-  public ActionBarDrawerToggle getDrawerToggle () {
+  public ActionBarDrawerToggle getDrawerToggle() {
     if (getFragmentManagerInstance().findFragmentById(R.id.navigation_drawer) != null) {
       return ((NavigationDrawerFragment) getFragmentManagerInstance().findFragmentById(
           R.id.navigation_drawer)).mDrawerToggle;
@@ -342,20 +344,21 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   /**
    * Finishes multiselection mode started by ListFragment
    */
-  public void finishActionMode () {
-    ListFragment fragment = (ListFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_LIST_TAG);
+  public void finishActionMode() {
+    ListFragment fragment = (ListFragment) getFragmentManagerInstance()
+        .findFragmentByTag(FRAGMENT_LIST_TAG);
     if (fragment != null) {
       fragment.finishActionMode();
     }
   }
 
 
-  Toolbar getToolbar () {
+  Toolbar getToolbar() {
     return binding.toolbar.toolbar;
   }
 
 
-  private void handleIntents () {
+  private void handleIntents() {
     Intent i = getIntent();
 
     if (i.getAction() == null) {
@@ -389,7 +392,8 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     }
 
     // Tag search
-    if (Intent.ACTION_VIEW.equals(i.getAction()) && i.getDataString().startsWith(UrlCompleter.HASHTAG_SCHEME)) {
+    if (Intent.ACTION_VIEW.equals(i.getAction()) && i.getDataString()
+        .startsWith(UrlCompleter.HASHTAG_SCHEME)) {
       switchToList();
       return;
     }
@@ -417,7 +421,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   /**
    * Used to perform a quick text-only note saving (eg. Tasker+Pushbullet)
    */
-  private void saveAndExit (Intent i) {
+  private void saveAndExit(Intent i) {
     Note note = new Note();
     note.setTitle(i.getStringExtra(Intent.EXTRA_SUBJECT));
     note.setContent(i.getStringExtra(Intent.EXTRA_TEXT));
@@ -427,7 +431,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   }
 
 
-  private boolean receivedIntent (Intent i) {
+  private boolean receivedIntent(Intent i) {
     return ACTION_SHORTCUT.equals(i.getAction())
         || ACTION_NOTIFICATION_CLICK.equals(i.getAction())
         || ACTION_WIDGET.equals(i.getAction())
@@ -440,14 +444,14 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   }
 
 
-  private boolean noteAlreadyOpened (Note note) {
+  private boolean noteAlreadyOpened(Note note) {
     DetailFragment detailFragment = (DetailFragment) getFragmentManagerInstance().findFragmentByTag(
         FRAGMENT_DETAIL_TAG);
     return detailFragment != null && NotesHelper.haveSameId(note, detailFragment.getCurrentNote());
   }
 
 
-  public void switchToList () {
+  public void switchToList() {
     FragmentTransaction transaction = getFragmentManagerInstance().beginTransaction();
     animateTransition(transaction, TRANSITION_HORIZONTAL);
     ListFragment mListFragment = new ListFragment();
@@ -461,7 +465,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   }
 
 
-  public void switchToDetail (Note note) {
+  public void switchToDetail(Note note) {
     FragmentTransaction transaction = getFragmentManagerInstance().beginTransaction();
     animateTransition(transaction, TRANSITION_HORIZONTAL);
     DetailFragment mDetailFragment = new DetailFragment();
@@ -470,13 +474,13 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     mDetailFragment.setArguments(b);
     if (getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG) == null) {
       transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
-                 .addToBackStack(FRAGMENT_LIST_TAG)
-                 .commitAllowingStateLoss();
+          .addToBackStack(FRAGMENT_LIST_TAG)
+          .commitAllowingStateLoss();
     } else {
       getFragmentManagerInstance().popBackStackImmediate();
       transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
-                 .addToBackStack(FRAGMENT_DETAIL_TAG)
-                 .commitAllowingStateLoss();
+          .addToBackStack(FRAGMENT_DETAIL_TAG)
+          .commitAllowingStateLoss();
     }
   }
 
@@ -484,7 +488,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   /**
    * Notes sharing
    */
-  public void shareNote (Note note) {
+  public void shareNote(Note note) {
 
     String titleText = note.getTitle();
 
@@ -527,7 +531,8 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
     shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
 
-    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+    startActivity(Intent
+        .createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
   }
 
 
@@ -536,31 +541,32 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
    *
    * @param note Note to be deleted
    */
-  public void deleteNote (Note note) {
+  public void deleteNote(Note note) {
     new NoteProcessorDelete(Collections.singletonList(note)).process();
     BaseActivity.notifyAppWidgets(this);
     LogDelegate.d("Deleted permanently note with ID '" + note.get_id() + "'");
   }
 
 
-  public void updateWidgets () {
+  public void updateWidgets() {
     new UpdateWidgetsTask(getApplicationContext())
         .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
 
 
-  public void showMessage (int messageId, Style style) {
+  public void showMessage(int messageId, Style style) {
     showMessage(getString(messageId), style);
   }
 
 
-  public void showMessage (String message, Style style) {
+  public void showMessage(String message, Style style) {
     // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
-    runOnUiThread(() -> Crouton.makeText(this, message, style, binding.croutonHandle.croutonHandle).show());
+    runOnUiThread(
+        () -> Crouton.makeText(this, message, style, binding.croutonHandle.croutonHandle).show());
   }
 
   @Override
-  public void onSharedPreferenceChanged (SharedPreferences sharedPreferences, String key) {
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
     prefsChanged = true;
   }
 

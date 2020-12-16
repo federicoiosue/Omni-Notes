@@ -20,7 +20,6 @@ package it.feio.android.omninotes;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -28,7 +27,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.LocaleList;
-import androidx.core.os.LocaleListCompat;
 import it.feio.android.omninotes.models.Note;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -44,12 +42,13 @@ public class BaseUnitTest {
    *
    * @param clazz utility class to verify.
    */
-  protected static void assertUtilityClassWellDefined (final Class<?> clazz)
+  protected static void assertUtilityClassWellDefined(final Class<?> clazz)
       throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
     assertUtilityClassWellDefined(clazz, false, false);
   }
 
-  protected static void assertUtilityClassWellDefined (final Class<?> clazz, boolean weakClassModifier,
+  protected static void assertUtilityClassWellDefined(final Class<?> clazz,
+      boolean weakClassModifier,
       boolean weakConstructorModifier)
       throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
     if (!weakClassModifier) {
@@ -58,7 +57,8 @@ public class BaseUnitTest {
 
     assertEquals("There must be only one constructor", 1, clazz.getDeclaredConstructors().length);
     final Constructor<?> constructor = clazz.getDeclaredConstructor();
-    if (!weakConstructorModifier && (constructor.isAccessible() || !Modifier.isPrivate(constructor.getModifiers()))) {
+    if (!weakConstructorModifier && (constructor.isAccessible() || !Modifier
+        .isPrivate(constructor.getModifiers()))) {
       fail("constructor is not private");
     }
 
@@ -78,7 +78,7 @@ public class BaseUnitTest {
     }
   }
 
-  protected Note getNote (Long id, String title, String content) {
+  protected Note getNote(Long id, String title, String content) {
     Note note = new Note();
     note.set_id(id);
     note.setTitle(title);
@@ -86,21 +86,21 @@ public class BaseUnitTest {
     return note;
   }
 
-  protected Context getContextMock () {
+  protected Context getContextMock() {
     Context context = mock(Context.class);
     Resources res = getResourcesMock();
     when(context.getResources()).thenReturn(res);
     return context;
   }
 
-  protected Resources getResourcesMock () {
+  protected Resources getResourcesMock() {
     Resources resources = mock(Resources.class);
     Configuration conf = getConfigurationMock();
     when(resources.getConfiguration()).thenReturn(conf);
     return resources;
   }
 
-  protected Configuration getConfigurationMock () {
+  protected Configuration getConfigurationMock() {
     Configuration configuration = mock(Configuration.class);
     LocaleList localeList = mock(LocaleList.class);
     when(configuration.getLocales()).thenReturn(localeList);

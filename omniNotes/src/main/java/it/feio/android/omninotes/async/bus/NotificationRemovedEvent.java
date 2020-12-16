@@ -26,7 +26,7 @@ public class NotificationRemovedEvent {
   public StatusBarNotification statusBarNotification;
 
 
-  public NotificationRemovedEvent (StatusBarNotification statusBarNotification) {
+  public NotificationRemovedEvent(StatusBarNotification statusBarNotification) {
     LogDelegate.d(this.getClass().getName());
     this.statusBarNotification = statusBarNotification;
   }

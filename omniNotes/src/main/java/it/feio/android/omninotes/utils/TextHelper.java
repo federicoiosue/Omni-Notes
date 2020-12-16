@@ -45,7 +45,7 @@ public class TextHelper {
   /**
    *
    */
-  public static Spanned[] parseTitleAndContent (Context mContext, Note note) {
+  public static Spanned[] parseTitleAndContent(Context mContext, Note note) {
 
     final int CONTENT_SUBSTRING_LENGTH = 300;
 
@@ -78,10 +78,11 @@ public class TextHelper {
   }
 
 
-  private static String limit (String value, int length, boolean singleLine, boolean elipsize) {
+  private static String limit(String value, int length, boolean singleLine, boolean elipsize) {
     StringBuilder buf = new StringBuilder(value);
     int indexNewLine = buf.indexOf(System.getProperty("line.separator"));
-    int endIndex = singleLine && indexNewLine < length ? indexNewLine : length < buf.length() ? length : -1;
+    int endIndex =
+        singleLine && indexNewLine < length ? indexNewLine : length < buf.length() ? length : -1;
     if (endIndex != -1) {
       buf.setLength(endIndex);
       if (elipsize) {
@@ -92,7 +93,7 @@ public class TextHelper {
   }
 
 
-  public static String capitalize (String string) {
+  public static String capitalize(String string) {
     return string.substring(0, 1).toUpperCase(Locale.getDefault()) + string.substring(1
     ).toLowerCase(Locale.getDefault());
   }
@@ -104,7 +105,7 @@ public class TextHelper {
    * @param sqlCondition query "where" condition
    * @return Category ID
    */
-  public static String checkIntentCategory (String sqlCondition) {
+  public static String checkIntentCategory(String sqlCondition) {
     String pattern = DbHelper.KEY_CATEGORY + "\\s*=\\s*([\\d]+)";
     Pattern p = Pattern.compile(pattern);
     Matcher matcher = p.matcher(sqlCondition);
@@ -120,7 +121,7 @@ public class TextHelper {
    *
    * @return String ith formatted date
    */
-  public static String getDateText (Context mContext, Note note, int navigation) {
+  public static String getDateText(Context mContext, Note note, int navigation) {
     String dateText;
     String sort_column;
     SharedPreferences prefs = mContext.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
@@ -134,15 +135,17 @@ public class TextHelper {
 
     switch (sort_column) {
       case DbHelper.KEY_CREATION:
-        dateText = mContext.getString(R.string.creation) + " " + DateHelper.getFormattedDate(note.getCreation
-            (), prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
+        dateText = mContext.getString(R.string.creation) + " " + DateHelper
+            .getFormattedDate(note.getCreation
+                (), prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
         break;
       case DbHelper.KEY_REMINDER:
         if (note.getAlarm() == null) {
           dateText = mContext.getString(R.string.no_reminder_set);
         } else {
-          dateText = mContext.getString(R.string.alarm_set_on) + " " + DateHelper.getDateTimeShort(mContext,
-              Long.parseLong(note.getAlarm()));
+          dateText = mContext.getString(R.string.alarm_set_on) + " " + DateHelper
+              .getDateTimeShort(mContext,
+                  Long.parseLong(note.getAlarm()));
         }
         break;
       default:
@@ -157,11 +160,12 @@ public class TextHelper {
   /**
    * Gets an alternative title if empty
    */
-  public static String getAlternativeTitle (Context context, Note note, Spanned spanned) {
+  public static String getAlternativeTitle(Context context, Note note, Spanned spanned) {
     if (spanned.length() > 0) {
       return spanned.toString();
     }
-    return context.getString(R.string.note) + " " + context.getString(R.string.creation) + " " + DateHelper
+    return context.getString(R.string.note) + " " + context.getString(R.string.creation) + " "
+        + DateHelper
         .getDateTimeShort(context, note.getCreation());
   }
 

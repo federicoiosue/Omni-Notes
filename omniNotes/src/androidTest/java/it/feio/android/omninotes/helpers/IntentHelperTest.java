@@ -18,7 +18,8 @@
 package it.feio.android.omninotes.helpers;
 
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
 import it.feio.android.omninotes.BaseAndroidTestCase;
@@ -33,12 +34,12 @@ public class IntentHelperTest extends BaseAndroidTestCase {
   private static final String NOTE_TITLE = "Lorem ipsum is not that good";
 
   @Test
-  public void checkUtilityClassWellDefined () throws Exception {
+  public void checkUtilityClassWellDefined() throws Exception {
     assertUtilityClassWellDefined(IntentHelper.class);
   }
 
   @Test
-  public void getNoteIntent () {
+  public void getNoteIntent() {
     Note note = new Note();
     note.setTitle(NOTE_TITLE);
 
@@ -46,11 +47,11 @@ public class IntentHelperTest extends BaseAndroidTestCase {
 
     assertEquals(ACTION, intent.getAction());
     assertTrue(intent.getParcelableExtra(INTENT_NOTE) instanceof Note);
-    assertEquals(NOTE_TITLE, ((Note)intent.getParcelableExtra(INTENT_NOTE)).getTitle());
+    assertEquals(NOTE_TITLE, ((Note) intent.getParcelableExtra(INTENT_NOTE)).getTitle());
   }
 
   @Test
-  public void getNotePendingIntent () {
+  public void getNotePendingIntent() {
     Note note = new Note();
     note.set_id(Calendar.getInstance().getTimeInMillis());
     note.setTitle(NOTE_TITLE);
@@ -59,7 +60,7 @@ public class IntentHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void getUniqueRequestCode () {
+  public void getUniqueRequestCode() {
     final Long now = Calendar.getInstance().getTimeInMillis();
     Note note = new Note();
     note.set_id(now);

@@ -28,7 +28,7 @@ public class CategoryViewHolder extends ViewHolder {
   public TextView txtTitle;
   public android.widget.TextView count;
 
-  public CategoryViewHolder (DrawerListItemBinding binding) {
+  public CategoryViewHolder(DrawerListItemBinding binding) {
     super(binding.getRoot());
     imgIcon = binding.icon;
     txtTitle = binding.title;

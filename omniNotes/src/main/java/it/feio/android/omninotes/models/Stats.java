@@ -37,177 +37,177 @@ public class Stats extends StatsSingleNote {
   private long usageTime;
 
 
-  public int getNotesTotalNumber () {
+  public int getNotesTotalNumber() {
     return notesActive + notesArchived + notesTrashed;
   }
 
 
-  public int getNotesActive () {
+  public int getNotesActive() {
     return notesActive;
   }
 
 
-  public void setNotesActive (int notesActive) {
+  public void setNotesActive(int notesActive) {
     this.notesActive = notesActive;
   }
 
 
-  public int getNotesArchived () {
+  public int getNotesArchived() {
     return notesArchived;
   }
 
 
-  public void setNotesArchived (int notesArchived) {
+  public void setNotesArchived(int notesArchived) {
     this.notesArchived = notesArchived;
   }
 
 
-  public int getNotesTrashed () {
+  public int getNotesTrashed() {
     return notesTrashed;
   }
 
 
-  public void setNotesTrashed (int notesTrashed) {
+  public void setNotesTrashed(int notesTrashed) {
     this.notesTrashed = notesTrashed;
   }
 
 
-  public int getReminders () {
+  public int getReminders() {
     return reminders;
   }
 
 
-  public void setReminders (int reminders) {
+  public void setReminders(int reminders) {
     this.reminders = reminders;
   }
 
 
-  public int getRemindersFutures () {
+  public int getRemindersFutures() {
     return remindersFutures;
   }
 
 
-  public void setRemindersFutures (int remindersFutures) {
+  public void setRemindersFutures(int remindersFutures) {
     this.remindersFutures = remindersFutures;
   }
 
 
-  public int getNotesChecklist () {
+  public int getNotesChecklist() {
     return notesChecklist;
   }
 
 
-  public void setNotesChecklist (int notesChecklist) {
+  public void setNotesChecklist(int notesChecklist) {
     this.notesChecklist = notesChecklist;
   }
 
 
-  public int getNotesMasked () {
+  public int getNotesMasked() {
     return notesMasked;
   }
 
 
-  public void setNotesMasked (int notesMasked) {
+  public void setNotesMasked(int notesMasked) {
     this.notesMasked = notesMasked;
   }
 
 
-  public int getCategories () {
+  public int getCategories() {
     return categories;
   }
 
 
-  public void setCategories (int categories) {
+  public void setCategories(int categories) {
     this.categories = categories;
   }
 
 
-  public int getTags () {
+  public int getTags() {
     return tags;
   }
 
 
-  public void setTags (int tags) {
+  public void setTags(int tags) {
     this.tags = tags;
   }
 
 
-  public int getWords () {
+  public int getWords() {
     return words;
   }
 
 
-  public void setWords (int words) {
+  public void setWords(int words) {
     this.words = words;
   }
 
 
-  public int getChars () {
+  public int getChars() {
     return chars;
   }
 
 
-  public void setChars (int chars) {
+  public void setChars(int chars) {
     this.chars = chars;
   }
 
 
-  public int getWordsMax () {
+  public int getWordsMax() {
     return wordsMax;
   }
 
 
-  public void setWordsMax (int wordsMax) {
+  public void setWordsMax(int wordsMax) {
     this.wordsMax = wordsMax;
   }
 
 
-  public int getWordsAvg () {
+  public int getWordsAvg() {
     return wordsAvg;
   }
 
 
-  public void setWordsAvg (int wordsAvg) {
+  public void setWordsAvg(int wordsAvg) {
     this.wordsAvg = wordsAvg;
   }
 
 
-  public int getCharsMax () {
+  public int getCharsMax() {
     return charsMax;
   }
 
 
-  public void setCharsMax (int charsMax) {
+  public void setCharsMax(int charsMax) {
     this.charsMax = charsMax;
   }
 
 
-  public int getCharsAvg () {
+  public int getCharsAvg() {
     return charsAvg;
   }
 
 
-  public void setCharsAvg (int charsAvg) {
+  public void setCharsAvg(int charsAvg) {
     this.charsAvg = charsAvg;
   }
 
 
-  public int getLocation () {
+  public int getLocation() {
     return location;
   }
 
 
-  public void setLocation (int location) {
+  public void setLocation(int location) {
     this.location = location;
   }
 
 
-  public long getUsageTime () {
+  public long getUsageTime() {
     return usageTime;
   }
 
 
-  public void setUsageTime (long usageTime) {
+  public void setUsageTime(long usageTime) {
     this.usageTime = usageTime;
   }
 }

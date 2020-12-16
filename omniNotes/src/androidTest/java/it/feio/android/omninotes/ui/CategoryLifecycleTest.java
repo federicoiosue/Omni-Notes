@@ -64,7 +64,7 @@ import org.junit.runner.RunWith;
 public class CategoryLifecycleTest extends BaseEspressoTest {
 
   @Test
-  public void addNewCategory () {
+  public void addNewCategory() {
     String categoryName = "Cat_" + Calendar.getInstance().getTimeInMillis();
 
     onView(Matchers.allOf(ViewMatchers.withId(R.id.fab_expand_menu_button),
@@ -75,8 +75,10 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
         withParent(withId(R.id.fab)),
         isDisplayed())).perform(click());
 
-    onView(allOf(withId(R.id.menu_category), withContentDescription(R.string.category), isDisplayed())).perform(
-        click());
+    onView(
+        allOf(withId(R.id.menu_category), withContentDescription(R.string.category), isDisplayed()))
+        .perform(
+            click());
 
     // Materialdialog "Add Category"
     onView(isRoot()).perform(waitId(R.id.md_buttonDefaultPositive, 5000));
@@ -108,7 +110,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
   }
 
   @Test
-  public void checkCategoryCreation () {
+  public void checkCategoryCreation() {
     String categoryName = "Cat_" + Calendar.getInstance().getTimeInMillis();
     createCategory(categoryName);
 
@@ -116,11 +118,12 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
         withParent(withId(R.id.toolbar)),
         isDisplayed())).perform(click());
 
-    onView(allOf(withId(R.id.title), withText(categoryName))).check(matches(withText(categoryName)));
+    onView(allOf(withId(R.id.title), withText(categoryName)))
+        .check(matches(withText(categoryName)));
   }
 
   @Test
-  public void categoryColorChange () {
+  public void categoryColorChange() {
     String categoryName = "Cat_" + Calendar.getInstance().getTimeInMillis();
     createCategory(categoryName);
 
@@ -166,7 +169,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
   }
 
   @Test
-  public void categoryDeletion () {
+  public void categoryDeletion() {
     String categoryName = "Cat_" + Calendar.getInstance().getTimeInMillis();
     createCategory(categoryName);
 
@@ -191,18 +194,19 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
   }
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-  private static Matcher<View> withBackgroundColor (final int backgroundColor) {
+  private static Matcher<View> withBackgroundColor(final int backgroundColor) {
     return new TypeSafeMatcher<View>() {
 
       @Override
-      public boolean matchesSafely (View view) {
-        ColorFilter cf = new PorterDuffColorFilter(Color.parseColor("#FF263238"), PorterDuff.Mode.SRC_ATOP);
+      public boolean matchesSafely(View view) {
+        ColorFilter cf = new PorterDuffColorFilter(Color.parseColor("#FF263238"),
+            PorterDuff.Mode.SRC_ATOP);
         ColorFilter cf1 = ((AppCompatImageView) view).getDrawable().getColorFilter();
         return cf.equals(cf1);
       }
 
       @Override
-      public void describeTo (Description description) {
+      public void describeTo(Description description) {
         description.appendText("with background color from ID: " + backgroundColor);
       }
     };

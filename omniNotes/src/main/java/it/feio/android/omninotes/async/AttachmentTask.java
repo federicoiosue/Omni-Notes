@@ -19,8 +19,8 @@ package it.feio.android.omninotes.async;
 
 import android.net.Uri;
 import android.os.AsyncTask;
-import androidx.fragment.app.Fragment;
 import android.text.TextUtils;
+import androidx.fragment.app.Fragment;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
@@ -36,12 +36,13 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
   private String fileName;
 
 
-  public AttachmentTask (Fragment mFragment, Uri uri, OnAttachingFileListener mOnAttachingFileListener) {
+  public AttachmentTask(Fragment mFragment, Uri uri,
+      OnAttachingFileListener mOnAttachingFileListener) {
     this(mFragment, uri, null, mOnAttachingFileListener);
   }
 
 
-  public AttachmentTask (Fragment mFragment, Uri uri, String fileName,
+  public AttachmentTask(Fragment mFragment, Uri uri, String fileName,
       OnAttachingFileListener mOnAttachingFileListener) {
     mFragmentWeakReference = new WeakReference<>(mFragment);
     this.uri = uri;
@@ -51,7 +52,7 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
 
   @Override
-  protected Attachment doInBackground (Void... params) {
+  protected Attachment doInBackground(Void... params) {
     Attachment attachment = StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), uri);
     attachment.setName(this.fileName);
     return attachment;
@@ -59,7 +60,7 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
 
   @Override
-  protected void onPostExecute (Attachment mAttachment) {
+  protected void onPostExecute(Attachment mAttachment) {
     if (isAlive()) {
       if (mAttachment != null) {
         mOnAttachingFileListener.onAttachingFileFinished(mAttachment);
@@ -74,7 +75,7 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
   }
 
 
-  private boolean isAlive () {
+  private boolean isAlive() {
     return mFragmentWeakReference != null
         && mFragmentWeakReference.get() != null
         && mFragmentWeakReference.get().isAdded()

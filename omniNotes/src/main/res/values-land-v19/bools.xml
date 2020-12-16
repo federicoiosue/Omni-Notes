@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -18,6 +17,6 @@
 
 <resources>
 
-    <bool name="transparent_nav">false</bool>
+  <bool name="transparent_nav">false</bool>
 
 </resources>

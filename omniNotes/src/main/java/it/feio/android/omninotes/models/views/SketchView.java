@@ -64,7 +64,7 @@ public class SketchView extends View implements OnTouchListener {
   private OnDrawChangedListener onDrawChangedListener;
 
 
-  public SketchView (Context context, AttributeSet attr) {
+  public SketchView(Context context, AttributeSet attr) {
     super(context, attr);
 
     this.mContext = context;
@@ -88,14 +88,14 @@ public class SketchView extends View implements OnTouchListener {
   }
 
 
-  public void setMode (int mode) {
+  public void setMode(int mode) {
     if (mode == STROKE || mode == ERASER) {
       this.mode = mode;
     }
   }
 
 
-  public int getMode () {
+  public int getMode() {
     return this.mode;
   }
 
@@ -105,7 +105,7 @@ public class SketchView extends View implements OnTouchListener {
    *
    * @param bitmap saved sketch
    */
-  public void setBackgroundBitmap (Activity mActivity, Bitmap bitmap) {
+  public void setBackgroundBitmap(Activity mActivity, Bitmap bitmap) {
     if (!bitmap.isMutable()) {
       android.graphics.Bitmap.Config bitmapConfig = bitmap.getConfig();
       // set default bitmap config if none
@@ -119,7 +119,7 @@ public class SketchView extends View implements OnTouchListener {
 
 
   @Override
-  protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
+  protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     width = View.MeasureSpec.getSize(widthMeasureSpec);
     height = View.MeasureSpec.getSize(heightMeasureSpec);
 
@@ -127,7 +127,7 @@ public class SketchView extends View implements OnTouchListener {
   }
 
 
-  public boolean onTouch (View arg0, MotionEvent event) {
+  public boolean onTouch(View arg0, MotionEvent event) {
     float x = event.getX();
     float y = event.getY();
 
@@ -151,7 +151,7 @@ public class SketchView extends View implements OnTouchListener {
 
 
   @Override
-  protected void onDraw (Canvas canvas) {
+  protected void onDraw(Canvas canvas) {
     if (bitmap != null) {
       canvas.drawBitmap(bitmap, 0, 0, null);
     }
@@ -164,7 +164,7 @@ public class SketchView extends View implements OnTouchListener {
   }
 
 
-  private void touch_start (float x, float y) {
+  private void touch_start(float x, float y) {
     // Clearing undone list
     undonePaths.clear();
 
@@ -189,7 +189,7 @@ public class SketchView extends View implements OnTouchListener {
   }
 
 
-  private void touch_move (float x, float y) {
+  private void touch_move(float x, float y) {
     m_Path.quadTo(mX, mY, (x + mX) / 2, (y + mY) / 2);
     mX = x;
     mY = y;
@@ -201,7 +201,7 @@ public class SketchView extends View implements OnTouchListener {
    *
    * @return background bitmap with a paths drawn on it
    */
-  public Bitmap getBitmap () {
+  public Bitmap getBitmap() {
     if (paths.isEmpty()) {
       return null;
     }
@@ -218,7 +218,7 @@ public class SketchView extends View implements OnTouchListener {
   }
 
 
-  public void undo () {
+  public void undo() {
     if (!paths.isEmpty()) {
       undonePaths.add(paths.remove(paths.size() - 1));
       invalidate();
@@ -226,7 +226,7 @@ public class SketchView extends View implements OnTouchListener {
   }
 
 
-  public void redo () {
+  public void redo() {
     if (!undonePaths.isEmpty()) {
       paths.add(undonePaths.remove(undonePaths.size() - 1));
       invalidate();
@@ -234,37 +234,37 @@ public class SketchView extends View implements OnTouchListener {
   }
 
 
-  public int getUndoneCount () {
+  public int getUndoneCount() {
     return undonePaths.size();
   }
 
 
-  public ArrayList<Pair<Path, Paint>> getPaths () {
+  public ArrayList<Pair<Path, Paint>> getPaths() {
     return paths;
   }
 
 
-  public void setPaths (ArrayList<Pair<Path, Paint>> paths) {
+  public void setPaths(ArrayList<Pair<Path, Paint>> paths) {
     this.paths = paths;
   }
 
 
-  public ArrayList<Pair<Path, Paint>> getUndonePaths () {
+  public ArrayList<Pair<Path, Paint>> getUndonePaths() {
     return undonePaths;
   }
 
 
-  public void setUndonePaths (ArrayList<Pair<Path, Paint>> undonePaths) {
+  public void setUndonePaths(ArrayList<Pair<Path, Paint>> undonePaths) {
     this.undonePaths = undonePaths;
   }
 
 
-  public int getStrokeSize () {
+  public int getStrokeSize() {
     return Math.round(this.strokeSize);
   }
 
 
-  public void setSize (int size, int eraserOrStroke) {
+  public void setSize(int size, int eraserOrStroke) {
     switch (eraserOrStroke) {
       case STROKE:
         strokeSize = size;
@@ -279,24 +279,24 @@ public class SketchView extends View implements OnTouchListener {
   }
 
 
-  public int getStrokeColor () {
+  public int getStrokeColor() {
     return this.strokeColor;
   }
 
 
-  public void setStrokeColor (int color) {
+  public void setStrokeColor(int color) {
     strokeColor = color;
   }
 
 
-  public void erase () {
+  public void erase() {
     paths.clear();
     undonePaths.clear();
     invalidate();
   }
 
 
-  public void setOnDrawChangedListener (OnDrawChangedListener listener) {
+  public void setOnDrawChangedListener(OnDrawChangedListener listener) {
     this.onDrawChangedListener = listener;
   }
 }

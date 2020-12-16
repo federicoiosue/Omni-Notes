@@ -93,29 +93,31 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
 
   @Override
-  public void onCreate (Bundle savedInstanceState) {
+  public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     int xmlId = R.xml.settings;
     if (getArguments() != null && getArguments().containsKey(XML_NAME)) {
-      xmlId = ResourcesUtils.getXmlId(OmniNotes.getAppContext(), ResourcesUtils.ResourceIdentifiers.XML, String
-          .valueOf(getArguments().get(XML_NAME)));
+      xmlId = ResourcesUtils
+          .getXmlId(OmniNotes.getAppContext(), ResourcesUtils.ResourceIdentifiers.XML, String
+              .valueOf(getArguments().get(XML_NAME)));
     }
     addPreferencesFromResource(xmlId);
   }
 
   @Override
-  public void onCreatePreferences (Bundle savedInstanceState, String rootKey) {
+  public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     prefs = getContext().getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
     setTitle();
   }
 
-  private void setTitle () {
+  private void setTitle() {
     String title = getString(R.string.settings);
     if (getArguments() != null && getArguments().containsKey(XML_NAME)) {
       String xmlName = getArguments().getString(XML_NAME);
       if (!TextUtils.isEmpty(xmlName)) {
-        int stringResourceId = getActivity().getResources().getIdentifier(xmlName.replace("settings_",
-            "settings_screen_"), "string", getActivity().getPackageName());
+        int stringResourceId = getActivity().getResources()
+            .getIdentifier(xmlName.replace("settings_",
+                "settings_screen_"), "string", getActivity().getPackageName());
         title = stringResourceId != 0 ? getString(stringResourceId) : title;
       }
     }
@@ -127,7 +129,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
 
   @Override
-  public boolean onOptionsItemSelected (MenuItem item) {
+  public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == android.R.id.home) {
       getActivity().onBackPressed();
     } else {
@@ -137,7 +139,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
   }
 
   @Override
-  public void onResume () {
+  public void onResume() {
     super.onResume();
 
     // Export notes
@@ -150,9 +152,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         View v = inflater.inflate(R.layout.dialog_backup_layout, null);
 
         // Finds actually saved backups names
-        PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-            .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), () -> export
-            (v));
+        PermissionsHelper
+            .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+                    .string.permission_external_storage,
+                getActivity().findViewById(R.id.crouton_handle), () -> export
+                    (v));
 
         return false;
       });
@@ -162,8 +166,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     Preference importData = findPreference("settings_import_data");
     if (importData != null) {
       importData.setOnPreferenceClickListener(arg0 -> {
-        PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-            .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), this::importNotes);
+        PermissionsHelper
+            .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+                    .string.permission_external_storage,
+                getActivity().findViewById(R.id.crouton_handle), this::importNotes);
         return false;
       });
     }
@@ -174,11 +180,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       importLegacyData.setOnPreferenceClickListener(arg0 -> {
 
         // Finds actually saved backups names
-        PermissionsHelper.requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE, R
-            .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), () -> new
-            FolderChooserDialog.Builder(getActivity())
-            .chooseButton(R.string.md_choose_label)
-            .show(getActivity()));
+        PermissionsHelper
+            .requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE, R
+                    .string.permission_external_storage,
+                getActivity().findViewById(R.id.crouton_handle), () -> new
+                    FolderChooserDialog.Builder(getActivity())
+                    .chooseButton(R.string.md_choose_label)
+                    .show(getActivity()));
         return false;
       });
     }
@@ -280,16 +288,20 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     if (swipeToTrash != null) {
       if (prefs.getBoolean("settings_swipe_to_trash", false)) {
         swipeToTrash.setChecked(true);
-        swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
+        swipeToTrash
+            .setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
       } else {
         swipeToTrash.setChecked(false);
-        swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
+        swipeToTrash
+            .setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
       }
       swipeToTrash.setOnPreferenceChangeListener((preference, newValue) -> {
         if ((Boolean) newValue) {
-          swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
+          swipeToTrash
+              .setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
         } else {
-          swipeToTrash.setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
+          swipeToTrash
+              .setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
         }
         return true;
       });
@@ -313,7 +325,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": "
           + prefs.getString("settings_max_video_size", getString(R.string.not_set)));
       maxVideoSize.setOnPreferenceChangeListener((preference, newValue) -> {
-        maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": " + newValue);
+        maxVideoSize
+            .setSummary(getString(R.string.settings_max_video_size_summary) + ": " + newValue);
         prefs.edit().putString("settings_max_video_size", newValue.toString()).apply();
         return false;
       });
@@ -352,8 +365,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     ListPreference lang = findPreference("settings_language");
     if (lang != null) {
       String languageName = getResources().getConfiguration().locale.getDisplayName();
-      lang.setSummary(languageName.substring(0, 1).toUpperCase(getResources().getConfiguration().locale)
-          + languageName.substring(1));
+      lang.setSummary(
+          languageName.substring(0, 1).toUpperCase(getResources().getConfiguration().locale)
+              + languageName.substring(1));
       lang.setOnPreferenceChangeListener((preference, value) -> {
         LanguageHelper.updateLanguage(getActivity(), value.toString());
         SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
@@ -370,7 +384,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       colorsApp.setSummary(colorsAppString);
       colorsApp.setOnPreferenceChangeListener((preference, newValue) -> {
         int colorsAppIndex1 = colorsApp.findIndexOfValue(newValue.toString());
-        String colorsAppString1 = getResources().getStringArray(R.array.colors_app)[colorsAppIndex1];
+        String colorsAppString1 = getResources()
+            .getStringArray(R.array.colors_app)[colorsAppIndex1];
         colorsApp.setSummary(colorsAppString1);
         prefs.edit().putString("settings_colors_app", newValue.toString()).apply();
         colorsApp.setValueIndex(colorsAppIndex1);
@@ -381,8 +396,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Checklists
     final ListPreference checklist = findPreference("settings_checked_items_behavior");
     if (checklist != null) {
-      int checklistIndex = checklist.findIndexOfValue(prefs.getString("settings_checked_items_behavior", "0"));
-      String checklistString = getResources().getStringArray(R.array.checked_items_behavior)[checklistIndex];
+      int checklistIndex = checklist
+          .findIndexOfValue(prefs.getString("settings_checked_items_behavior", "0"));
+      String checklistString = getResources()
+          .getStringArray(R.array.checked_items_behavior)[checklistIndex];
       checklist.setSummary(checklistString);
       checklist.setOnPreferenceChangeListener((preference, newValue) -> {
         int checklistIndex1 = checklist.findIndexOfValue(newValue.toString());
@@ -398,13 +415,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Widget's colors
     final ListPreference colorsWidget = findPreference("settings_colors_widget");
     if (colorsWidget != null) {
-      int colorsWidgetIndex = colorsWidget.findIndexOfValue(prefs.getString("settings_colors_widget",
-          PREF_COLORS_APP_DEFAULT));
-      String colorsWidgetString = getResources().getStringArray(R.array.colors_widget)[colorsWidgetIndex];
+      int colorsWidgetIndex = colorsWidget
+          .findIndexOfValue(prefs.getString("settings_colors_widget",
+              PREF_COLORS_APP_DEFAULT));
+      String colorsWidgetString = getResources()
+          .getStringArray(R.array.colors_widget)[colorsWidgetIndex];
       colorsWidget.setSummary(colorsWidgetString);
       colorsWidget.setOnPreferenceChangeListener((preference, newValue) -> {
         int colorsWidgetIndex1 = colorsWidget.findIndexOfValue(newValue.toString());
-        String colorsWidgetString1 = getResources().getStringArray(R.array.colors_widget)[colorsWidgetIndex1];
+        String colorsWidgetString1 = getResources()
+            .getStringArray(R.array.colors_widget)[colorsWidgetIndex1];
         colorsWidget.setSummary(colorsWidgetString1);
         prefs.edit().putString("settings_colors_widget", newValue.toString()).apply();
         colorsWidget.setValueIndex(colorsWidgetIndex1);
@@ -452,7 +472,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       snooze = TextUtils.isEmpty(snooze) ? PREF_SNOOZE_DEFAULT : snooze;
       snoozeDelay.setSummary(snooze + " " + getString(R.string.minutes));
       snoozeDelay.setOnPreferenceChangeListener((preference, newValue) -> {
-        String snoozeUpdated = TextUtils.isEmpty(String.valueOf(newValue)) ? PREF_SNOOZE_DEFAULT : String.valueOf(newValue);
+        String snoozeUpdated = TextUtils.isEmpty(String.valueOf(newValue)) ? PREF_SNOOZE_DEFAULT
+            : String.valueOf(newValue);
         snoozeDelay.setSummary(snoozeUpdated + " " + getString(R.string.minutes));
         prefs.edit().putString("settings_notification_snooze_delay", snoozeUpdated).apply();
         return false;
@@ -460,7 +481,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
 
     // NotificationServiceListener shortcut
-    final Preference norificationServiceListenerPreference = findPreference("settings_notification_service_listener");
+    final Preference norificationServiceListenerPreference = findPreference(
+        "settings_notification_service_listener");
     if (norificationServiceListenerPreference != null) {
       getPreferenceScreen().removePreference(norificationServiceListenerPreference);
     }
@@ -470,8 +492,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     if (changelog != null) {
       changelog.setOnPreferenceClickListener(arg0 -> {
 
-        ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
-            "settings_changelog");
+        ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
+            .trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
+                "settings_changelog");
 
         new MaterialDialog.Builder(getContext())
             .customView(R.layout.activity_changelog, false)
@@ -515,9 +538,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     if (enableFileLogging != null) {
       enableFileLogging.setOnPreferenceChangeListener((preference, newValue) -> {
         if ((Boolean) newValue) {
-          PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-                  .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle),
-              () -> enableFileLogging.setChecked(true));
+          PermissionsHelper
+              .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+                      .string.permission_external_storage,
+                  getActivity().findViewById(R.id.crouton_handle),
+                  () -> enableFileLogging.setChecked(true));
         } else {
           enableFileLogging.setChecked(false);
         }
@@ -544,7 +569,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
   }
 
 
-  private void importNotes () {
+  private void importNotes() {
     String[] backupsArray = StorageHelper.getExternalStoragePublicDir().list();
     final List<String> backups = asList(backupsArray);
     reverse(backups);
@@ -607,13 +632,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 }).build().show();
           });
 
-
       importDialog.show();
     }
   }
 
 
-  private void export (View v) {
+  private void export(View v) {
     final List<String> backups = asList(StorageHelper.getExternalStoragePublicDir().list());
 
     // Sets default export file name
@@ -624,19 +648,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     fileNameEditText.setHint(fileName);
     fileNameEditText.addTextChangedListener(new TextWatcher() {
       @Override
-      public void onTextChanged (CharSequence arg0, int arg1, int arg2, int arg3) {
+      public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
         // Nothing to do
       }
 
 
       @Override
-      public void beforeTextChanged (CharSequence arg0, int arg1, int arg2, int arg3) {
+      public void beforeTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
         // Nothing to do
       }
 
 
       @Override
-      public void afterTextChanged (Editable arg0) {
+      public void afterTextChanged(Editable arg0) {
 
         if (backups.contains(arg0.toString())) {
           backupExistingTextView.setText(R.string.backup_existing);
@@ -660,14 +684,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
 
   @Override
-  public void onStart () {
-    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+  public void onStart() {
+    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
+        .trackScreenView(getClass().getName());
     super.onStart();
   }
 
 
   @Override
-  public void onActivityResult (int requestCode, int resultCode, Intent intent) {
+  public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     if (resultCode == Activity.RESULT_OK) {
       switch (requestCode) {
         case SPRINGPAD_IMPORT:

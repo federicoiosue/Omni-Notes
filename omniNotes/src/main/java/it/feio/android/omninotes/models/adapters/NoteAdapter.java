@@ -60,7 +60,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
   private int closestNotePosition;
 
 
-  public NoteAdapter (Activity activity, boolean expandedView, List<Note> notes) {
+  public NoteAdapter(Activity activity, boolean expandedView, List<Note> notes) {
     this.mActivity = activity;
     this.notes = notes;
     this.expandedView = expandedView;
@@ -72,16 +72,17 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
   /**
    * Highlighted if is part of multiselection of notes. Remember to search for child with card ui
    */
-  private void manageSelectionColor (int position, Note note, NoteViewHolder holder) {
+  private void manageSelectionColor(int position, Note note, NoteViewHolder holder) {
     if (selectedItems.get(position)) {
-      holder.cardLayout.setBackgroundColor(mActivity.getResources().getColor(R.color.list_bg_selected));
+      holder.cardLayout
+          .setBackgroundColor(mActivity.getResources().getColor(R.color.list_bg_selected));
     } else {
       restoreDrawable(note, holder.cardLayout, holder);
     }
   }
 
 
-  private void initThumbnail (Note note, NoteViewHolder holder) {
+  private void initThumbnail(Note note, NoteViewHolder holder) {
 
     if (expandedView && holder.attachmentThumbnail != null) {
       // If note is locked or without attachments nothing is shown
@@ -95,33 +96,33 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
         Uri thumbnailUri = BitmapHelper.getThumbnailUri(mActivity, mAttachment);
 
         Glide.with(mActivity)
-             .load(thumbnailUri)
-             .apply(new RequestOptions().centerCrop())
-             .transition(withCrossFade())
-             .into(holder.attachmentThumbnail);
+            .load(thumbnailUri)
+            .apply(new RequestOptions().centerCrop())
+            .transition(withCrossFade())
+            .into(holder.attachmentThumbnail);
       }
     }
   }
 
 
-  public List<Note> getNotes () {
+  public List<Note> getNotes() {
     return notes;
   }
 
 
-  private void initDates (Note note, NoteViewHolder holder) {
+  private void initDates(Note note, NoteViewHolder holder) {
     String dateText = TextHelper.getDateText(mActivity, note, navigation);
     holder.date.setText(dateText);
   }
 
 
-
-  private void initIcons (Note note, NoteViewHolder holder) {
+  private void initIcons(Note note, NoteViewHolder holder) {
     // Evaluates the archived state...
     holder.archiveIcon.setVisibility(note.isArchived() ? View.VISIBLE : View.GONE);
     // ...the location
-    holder.locationIcon.setVisibility(note.getLongitude() != null && note.getLongitude() != 0 ? View.VISIBLE :
-        View.GONE);
+    holder.locationIcon
+        .setVisibility(note.getLongitude() != null && note.getLongitude() != 0 ? View.VISIBLE :
+            View.GONE);
 
     // ...the presence of an alarm
     holder.alarmIcon.setVisibility(note.getAlarm() != null ? View.VISIBLE : View.GONE);
@@ -129,15 +130,17 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
     // ...the attachment icon for contracted view
     if (!expandedView) {
-     holder.attachmentIcon.setVisibility(!note.getAttachmentsList().isEmpty() ? View.VISIBLE : View.GONE);
+      holder.attachmentIcon
+          .setVisibility(!note.getAttachmentsList().isEmpty() ? View.VISIBLE : View.GONE);
     }
   }
 
 
-  private void initText (Note note, NoteViewHolder holder) {
+  private void initText(Note note, NoteViewHolder holder) {
     try {
       if (note.isChecklist()) {
-        TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content, expandedView);
+        TextWorkerTask task = new TextWorkerTask(mActivity, holder.title, holder.content,
+            expandedView);
         task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
       } else {
         Spanned[] titleAndContent = TextHelper.parseTitleAndContent(mActivity, note);
@@ -160,7 +163,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
   /**
    * Saves the position of the closest note to align list scrolling with it on start
    */
-  private void manageCloserNote (List<Note> notes, int navigation) {
+  private void manageCloserNote(List<Note> notes, int navigation) {
     if (navigation == Navigation.REMINDERS) {
       for (int i = 0; i < notes.size(); i++) {
         long now = Calendar.getInstance().getTimeInMillis();
@@ -178,37 +181,37 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
   /**
    * Returns the note with the nearest reminder in the future
    */
-  public int getClosestNotePosition () {
+  public int getClosestNotePosition() {
     return closestNotePosition;
   }
 
 
-  public SparseBooleanArray getSelectedItems () {
+  public SparseBooleanArray getSelectedItems() {
     return selectedItems;
   }
 
 
-  public void addSelectedItem (Integer selectedItem) {
+  public void addSelectedItem(Integer selectedItem) {
     selectedItems.put(selectedItem, true);
   }
 
 
-  public void removeSelectedItem (Integer selectedItem) {
+  public void removeSelectedItem(Integer selectedItem) {
     selectedItems.delete(selectedItem);
   }
 
 
-  public void clearSelectedItems () {
+  public void clearSelectedItems() {
     selectedItems.clear();
   }
 
 
-  public void restoreDrawable (Note note, View v) {
+  public void restoreDrawable(Note note, View v) {
     restoreDrawable(note, v, null);
   }
 
 
-  public void restoreDrawable (Note note, View v, NoteViewHolder holder) {
+  public void restoreDrawable(Note note, View v, NoteViewHolder holder) {
     final int paddingBottom = v.getPaddingBottom();
     final int paddingLeft = v.getPaddingLeft();
     final int paddingRight = v.getPaddingRight();
@@ -219,7 +222,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
 
   @SuppressWarnings("unused")
-  private void colorNote (Note note, View v) {
+  private void colorNote(Note note, View v) {
     colorNote(note, v, null);
   }
 
@@ -227,10 +230,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
   /**
    * Color of category marker if note is categorized a function is active in preferences
    */
-  private void colorNote (Note note, View v, NoteViewHolder holder) {
+  private void colorNote(Note note, View v, NoteViewHolder holder) {
 
     String colorsPref = mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                                 .getString("settings_colors_app", PREF_COLORS_APP_DEFAULT);
+        .getString("settings_colors_app", PREF_COLORS_APP_DEFAULT);
 
     // Checking preference
     if (!colorsPref.equals("disabled")) {
@@ -244,9 +247,11 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
           v.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
         } else {
           if (holder != null) {
-            holder.categoryMarker.setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
+            holder.categoryMarker
+                .setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
           } else {
-            v.findViewById(R.id.category_marker).setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
+            v.findViewById(R.id.category_marker)
+                .setBackgroundColor(Integer.parseInt(note.getCategory().getColor()));
           }
         }
       } else {
@@ -255,7 +260,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     }
   }
 
-  public void replace (@NonNull Note note, int index) {
+  public void replace(@NonNull Note note, int index) {
     if (notes.indexOf(note) != -1) {
       remove(note);
     } else {
@@ -264,18 +269,18 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     add(index, note);
   }
 
-  public void add (int index, @NonNull Object o) {
+  public void add(int index, @NonNull Object o) {
     notes.add(index, (Note) o);
     notifyItemInserted(index);
   }
 
-  public void remove (List<Note> notes) {
+  public void remove(List<Note> notes) {
     for (Note note : notes) {
       remove(note);
     }
   }
 
-  public void remove (@NonNull Note note) {
+  public void remove(@NonNull Note note) {
     int pos = getPosition(note);
     if (pos >= 0) {
       notes.remove(note);
@@ -283,25 +288,26 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     }
   }
 
-  public int getPosition (@NonNull Note note) {
+  public int getPosition(@NonNull Note note) {
     return notes.indexOf(note);
   }
 
-  public Note getItem (int index) {
+  public Note getItem(int index) {
     return notes.get(index);
   }
 
   @Override
-  public long getItemId (int position) {
+  public long getItemId(int position) {
     return position;
   }
 
   @NonNull
   @Override
-  public NoteViewHolder onCreateViewHolder (@NonNull ViewGroup parent, int viewType) {
+  public NoteViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
     View view;
     if (expandedView) {
-      view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_layout_expanded, parent, false);
+      view = LayoutInflater.from(parent.getContext())
+          .inflate(R.layout.note_layout_expanded, parent, false);
     } else {
       view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_layout, parent, false);
     }
@@ -310,7 +316,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
   }
 
   @Override
-  public void onBindViewHolder (@NonNull NoteViewHolder holder, int position) {
+  public void onBindViewHolder(@NonNull NoteViewHolder holder, int position) {
     Note note = notes.get(position);
     initText(note, holder);
     initIcons(note, holder);
@@ -320,7 +326,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
   }
 
   @Override
-  public int getItemCount () {
+  public int getItemCount() {
     return this.notes.size();
   }
 

@@ -42,7 +42,8 @@ import java.util.Calendar;
 import java.util.Random;
 
 
-public class CategoryActivity extends AppCompatActivity implements ColorChooserDialog.ColorCallback {
+public class CategoryActivity extends AppCompatActivity implements
+    ColorChooserDialog.ColorCallback {
 
   private ActivityCategoryBinding binding;
 
@@ -50,7 +51,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
   private int selectedColor;
 
   @Override
-  protected void onCreate (Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     binding = ActivityCategoryBinding.inflate(getLayoutInflater());
@@ -70,12 +71,12 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     populateViews();
   }
 
-  private int getRandomPaletteColor () {
+  private int getRandomPaletteColor() {
     int[] paletteArray = getResources().getIntArray(R.array.material_colors);
     return paletteArray[new Random().nextInt((paletteArray.length))];
   }
 
-  public void showColorChooserCustomColors () {
+  public void showColorChooserCustomColors() {
 
     new ColorChooserDialog.Builder(this, R.string.colors)
         .dynamicButtonColor(false)
@@ -84,44 +85,47 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
   }
 
   @Override
-  public void onColorSelection (@NonNull ColorChooserDialog colorChooserDialog, int color) {
+  public void onColorSelection(@NonNull ColorChooserDialog colorChooserDialog, int color) {
     BitmapUtils.changeImageViewDrawableColor(binding.colorChooser, color);
     selectedColor = color;
   }
 
   @Override
-  public void onColorChooserDismissed (@NonNull ColorChooserDialog dialog) {
+  public void onColorChooserDismissed(@NonNull ColorChooserDialog dialog) {
     // Nothing to do
   }
 
   @Override
-  public void onPointerCaptureChanged (boolean hasCapture) {
+  public void onPointerCaptureChanged(boolean hasCapture) {
     // Nothing to do
   }
 
-  private void populateViews () {
+  private void populateViews() {
     binding.categoryTitle.setText(category.getName());
     binding.categoryDescription.setText(category.getDescription());
     // Reset picker to saved color
     String color = category.getColor();
     if (color != null && color.length() > 0) {
-      binding.colorChooser.getDrawable().mutate().setColorFilter(parseInt(color), PorterDuff.Mode.SRC_ATOP);
+      binding.colorChooser.getDrawable().mutate()
+          .setColorFilter(parseInt(color), PorterDuff.Mode.SRC_ATOP);
     }
-    binding.delete.setVisibility(TextUtils.isEmpty(category.getName()) ? View.INVISIBLE : View.VISIBLE);
+    binding.delete
+        .setVisibility(TextUtils.isEmpty(category.getName()) ? View.INVISIBLE : View.VISIBLE);
 
     binding.save.setOnClickListener(v -> saveCategory());
     binding.delete.setOnClickListener(v -> deleteCategory());
     binding.colorChooser.setOnClickListener(v -> showColorChooserCustomColors());
   }
 
-  public void saveCategory () {
+  public void saveCategory() {
 
     if (binding.categoryTitle.getText().toString().length() == 0) {
       binding.categoryTitle.setError(getString(R.string.category_missing_title));
       return;
     }
 
-    Long id = category.getId() != null ? category.getId() : Calendar.getInstance().getTimeInMillis();
+    Long id =
+        category.getId() != null ? category.getId() : Calendar.getInstance().getTimeInMillis();
     category.setId(id);
     category.setName(binding.categoryTitle.getText().toString());
     category.setDescription(binding.categoryDescription.getText().toString());
@@ -139,7 +143,7 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
     finish();
   }
 
-  public void deleteCategory () {
+  public void deleteCategory() {
 
     new MaterialDialog.Builder(this)
         .title(R.string.delete_unused_category_confirmation)

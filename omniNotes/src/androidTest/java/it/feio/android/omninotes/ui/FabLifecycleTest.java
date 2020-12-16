@@ -42,7 +42,7 @@ import org.junit.runner.RunWith;
 public class FabLifecycleTest extends BaseEspressoTest {
 
   @Test
-  public void fabOpenCloseTest () {
+  public void fabOpenCloseTest() {
 
     onView(Matchers.allOf(ViewMatchers.withId(R.id.fab_expand_menu_button),
         withParent(withId(R.id.fab)))).perform(click());
@@ -52,7 +52,7 @@ public class FabLifecycleTest extends BaseEspressoTest {
   }
 
   @Test
-  public void fabActionsTest () {
+  public void fabActionsTest() {
 
     onView(allOf(withId(R.id.fab_expand_menu_button),
         withParent(withId(R.id.fab)),

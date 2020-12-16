@@ -21,11 +21,12 @@ import org.hamcrest.Matcher;
 
 /**
  * Custom click action similar to the GeneralClickAction provided by Espresso.
- *
- * The only difference is that it does not force the target view to be displayed at least 90% on screen (i.e., 90% of
- * the view in sight of the user). In this custom class, the only constraint is that the view needs to have "Visible"
- * visibility and positive height and width. A typical example is when a long form has a visible view at the bottom, but
- * the UI needs to be scrolled to reach it.
+ * <p>
+ * The only difference is that it does not force the target view to be displayed at least 90% on
+ * screen (i.e., 90% of the view in sight of the user). In this custom class, the only constraint is
+ * that the view needs to have "Visible" visibility and positive height and width. A typical example
+ * is when a long form has a visible view at the bottom, but the UI needs to be scrolled to reach
+ * it.
  */
 public final class ClickWithoutDisplayConstraint implements ViewAction {
 
@@ -40,14 +41,14 @@ public final class ClickWithoutDisplayConstraint implements ViewAction {
 
 
   @Deprecated
-  public ClickWithoutDisplayConstraint (
+  public ClickWithoutDisplayConstraint(
       Tapper tapper,
       CoordinatesProvider coordinatesProvider,
       PrecisionDescriber precisionDescriber) {
     this(tapper, coordinatesProvider, precisionDescriber, 0, 0, null);
   }
 
-  public ClickWithoutDisplayConstraint (
+  public ClickWithoutDisplayConstraint(
       Tapper tapper,
       CoordinatesProvider coordinatesProvider,
       PrecisionDescriber precisionDescriber,
@@ -57,7 +58,7 @@ public final class ClickWithoutDisplayConstraint implements ViewAction {
   }
 
   @Deprecated
-  public ClickWithoutDisplayConstraint (
+  public ClickWithoutDisplayConstraint(
       Tapper tapper,
       CoordinatesProvider coordinatesProvider,
       PrecisionDescriber precisionDescriber,
@@ -65,7 +66,7 @@ public final class ClickWithoutDisplayConstraint implements ViewAction {
     this(tapper, coordinatesProvider, precisionDescriber, 0, 0, rollbackAction);
   }
 
-  public ClickWithoutDisplayConstraint (
+  public ClickWithoutDisplayConstraint(
       Tapper tapper,
       CoordinatesProvider coordinatesProvider,
       PrecisionDescriber precisionDescriber,
@@ -82,7 +83,7 @@ public final class ClickWithoutDisplayConstraint implements ViewAction {
 
   @Override
   @SuppressWarnings("unchecked")
-  public Matcher<View> getConstraints () {
+  public Matcher<View> getConstraints() {
     Matcher<View> standardConstraint = isVisible();
     if (rollbackAction.isPresent()) {
       return allOf(standardConstraint, rollbackAction.get().getConstraints());
@@ -92,7 +93,7 @@ public final class ClickWithoutDisplayConstraint implements ViewAction {
   }
 
   @Override
-  public void perform (UiController uiController, View view) {
+  public void perform(UiController uiController, View view) {
     float[] coordinates = coordinatesProvider.calculateCoordinates(view);
     float[] precision = precisionDescriber.describePrecision();
 
@@ -196,7 +197,7 @@ public final class ClickWithoutDisplayConstraint implements ViewAction {
   }
 
   @Override
-  public String getDescription () {
+  public String getDescription() {
     return tapper.toString().toLowerCase() + " click";
   }
 }

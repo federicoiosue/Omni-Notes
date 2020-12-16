@@ -34,7 +34,7 @@ public class MiscUtils {
    * @param context Application context
    * @return True if Play Store is installed on the device
    */
-  public static boolean isGooglePlayAvailable (Context context) {
+  public static boolean isGooglePlayAvailable(Context context) {
     try {
       context.getPackageManager().getPackageInfo("com.android.vending", 0);
       return true;

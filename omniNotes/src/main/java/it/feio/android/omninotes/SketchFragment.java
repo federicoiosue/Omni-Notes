@@ -66,7 +66,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
 
   @Override
-  public void onCreate (Bundle savedInstanceState) {
+  public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     setRetainInstance(false);
@@ -74,20 +74,22 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
 
   @Override
-  public void onStart () {
-    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+  public void onStart() {
+    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
+        .trackScreenView(getClass().getName());
 
     super.onStart();
   }
 
   @Override
-  public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
     binding = FragmentSketchBinding.inflate(inflater, container, false);
     return binding.getRoot();
   }
 
   @Override
-  public void onActivityCreated (Bundle savedInstanceState) {
+  public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
     getMainActivity().getToolbar().setNavigationOnClickListener(v -> getActivity().onBackPressed());
@@ -98,7 +100,8 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     if (baseUri != null) {
       Bitmap bmp;
       try {
-        bmp = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(baseUri));
+        bmp = BitmapFactory
+            .decodeStream(getActivity().getContentResolver().openInputStream(baseUri));
         binding.drawing.setBackgroundBitmap(getActivity(), bmp);
       } catch (FileNotFoundException e) {
         LogDelegate.e("Error replacing sketch bitmap background", e);
@@ -139,11 +142,11 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
     binding.sketchErase.setOnClickListener(new OnClickListener() {
       @Override
-      public void onClick (View v) {
+      public void onClick(View v) {
         askForErase();
       }
 
-      private void askForErase () {
+      private void askForErase() {
         new MaterialDialog.Builder(getActivity())
             .content(R.string.erase_sketch)
             .positiveText(R.string.confirm)
@@ -181,17 +184,17 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
   }
 
   @Override
-  public boolean onOptionsItemSelected (MenuItem item) {
+  public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId() == android.R.id.home) {
       getActivity().onBackPressed();
     } else {
-        LogDelegate.e("Wrong element choosen: " + item.getItemId());
+      LogDelegate.e("Wrong element choosen: " + item.getItemId());
     }
     return super.onOptionsItemSelected(item);
   }
 
 
-  public void save () {
+  public void save() {
     Bitmap bitmap = binding.drawing.getBitmap();
     if (bitmap != null) {
 
@@ -214,7 +217,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
   }
 
 
-  private void showPopup (View anchor, final int eraserOrStroke) {
+  private void showPopup(View anchor, final int eraserOrStroke) {
 
     boolean isErasing = eraserOrStroke == SketchView.ERASER;
 
@@ -249,19 +252,19 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         .findViewById(R.id.stroke_seekbar));
     mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
       @Override
-      public void onStopTrackingTouch (SeekBar seekBar) {
+      public void onStopTrackingTouch(SeekBar seekBar) {
         // Nothing to do
       }
 
 
       @Override
-      public void onStartTrackingTouch (SeekBar seekBar) {
+      public void onStartTrackingTouch(SeekBar seekBar) {
         // Nothing to do
       }
 
 
       @Override
-      public void onProgressChanged (SeekBar seekBar, int progress,
+      public void onProgressChanged(SeekBar seekBar, int progress,
           boolean fromUser) {
         // When the seekbar is moved a new size is calculated and the new shape
         // is positioned centrally into the ImageView
@@ -273,7 +276,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
   }
 
 
-  protected void setSeekbarProgress (int progress, int eraserOrStroke) {
+  protected void setSeekbarProgress(int progress, int eraserOrStroke) {
     int calcProgress = progress > 1 ? progress : 1;
 
     int newSize = Math.round((size / 100f) * calcProgress);
@@ -295,7 +298,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
 
   @Override
-  public void onDrawChanged () {
+  public void onDrawChanged() {
     // Undo
     if (binding.drawing.getPaths().isEmpty()) {
       AlphaManager.setAlpha(binding.sketchUndo, 1f);
@@ -311,7 +314,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
   }
 
 
-  private MainActivity getMainActivity () {
+  private MainActivity getMainActivity() {
     return (MainActivity) getActivity();
   }
 

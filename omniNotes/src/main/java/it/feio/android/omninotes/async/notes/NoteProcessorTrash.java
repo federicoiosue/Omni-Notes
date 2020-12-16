@@ -30,14 +30,14 @@ public class NoteProcessorTrash extends NoteProcessor {
   boolean trash;
 
 
-  public NoteProcessorTrash (List<Note> notes, boolean trash) {
+  public NoteProcessorTrash(List<Note> notes, boolean trash) {
     super(notes);
     this.trash = trash;
   }
 
 
   @Override
-  protected void processNote (Note note) {
+  protected void processNote(Note note) {
     if (trash) {
       ShortcutHelper.removeShortcut(OmniNotes.getAppContext(), note);
       ReminderHelper.removeReminder(OmniNotes.getAppContext(), note);

@@ -47,12 +47,12 @@ public class CategoryBaseAdapter extends BaseAdapter {
   private final String navigationTmp;
 
 
-  public CategoryBaseAdapter (Activity mActivity, List<Category> categories) {
+  public CategoryBaseAdapter(Activity mActivity, List<Category> categories) {
     this(mActivity, categories, null);
   }
 
 
-  public CategoryBaseAdapter (Activity mActivity, List<Category> categories, String navigationTmp) {
+  public CategoryBaseAdapter(Activity mActivity, List<Category> categories, String navigationTmp) {
     this.mActivity = mActivity;
     this.layout = R.layout.drawer_list_item;
     this.categories = categories;
@@ -62,24 +62,24 @@ public class CategoryBaseAdapter extends BaseAdapter {
 
 
   @Override
-  public int getCount () {
+  public int getCount() {
     return categories.size();
   }
 
 
   @Override
-  public Object getItem (int position) {
+  public Object getItem(int position) {
     return categories.get(position);
   }
 
 
   @Override
-  public long getItemId (int position) {
+  public long getItemId(int position) {
     return position;
   }
 
 
-  public View getView (int position, View convertView, ViewGroup parent) {
+  public View getView(int position, View convertView, ViewGroup parent) {
 
     Category category = categories.get(position);
 
@@ -112,7 +112,8 @@ public class CategoryBaseAdapter extends BaseAdapter {
     // Set the results into ImageView checking if an icon is present before
     if (category.getColor() != null && category.getColor().length() > 0) {
       Drawable img = mActivity.getResources().getDrawable(R.drawable.ic_folder_special_black_24dp);
-      ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"), Integer.parseInt(category.getColor()));
+      ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"),
+          Integer.parseInt(category.getColor()));
       img.mutate().setColorFilter(cf);
       holder.imgIcon.setImageDrawable(img);
       int padding = 4;
@@ -130,21 +131,22 @@ public class CategoryBaseAdapter extends BaseAdapter {
   }
 
 
-  private boolean isSelected (int position) {
+  private boolean isSelected(int position) {
 
     // Getting actual navigation selection
     String[] navigationListCodes = mActivity.getResources().getStringArray(
         R.array.navigation_list_codes);
 
     // Managing temporary navigation indicator when coming from a widget
-    String navigationTmpLocal = MainActivity.class.isAssignableFrom(mActivity.getClass()) ? ((MainActivity)
-        mActivity).getNavigationTmp() : null;
+    String navigationTmpLocal =
+        MainActivity.class.isAssignableFrom(mActivity.getClass()) ? ((MainActivity)
+            mActivity).getNavigationTmp() : null;
     navigationTmpLocal = this.navigationTmp != null ? this.navigationTmp : navigationTmpLocal;
 
     String navigation = navigationTmp != null ? navigationTmpLocal
         : mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                   .getString(PREF_NAVIGATION,
-                       navigationListCodes[0]);
+            .getString(PREF_NAVIGATION,
+                navigationListCodes[0]);
 
     return navigation.equals(String.valueOf(categories.get(position).getId()));
   }

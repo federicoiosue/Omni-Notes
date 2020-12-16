@@ -23,7 +23,7 @@ import rx.Observable;
 public class DefaultWordCounter implements WordCounter {
 
   @Override
-  public int countWords (Note note) {
+  public int countWords(Note note) {
     int count = 0;
     String[] fields = {note.getTitle(), note.getContent()};
     for (String field : fields) {
@@ -48,7 +48,7 @@ public class DefaultWordCounter implements WordCounter {
   }
 
   @Override
-  public int countChars (Note note) {
+  public int countChars(Note note) {
     String titleAndContent = note.getTitle() + "\n" + note.getContent();
     return Observable
         .from(sanitizeTextForWordsAndCharsCount(note, titleAndContent).split(""))

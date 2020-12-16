@@ -18,8 +18,8 @@
   -->
 <resources>
 
-    <string name="app_name">Omni Notes FOSS</string>
-    <string name="app_package">it.feio.android.omninotes.foss</string>
-    <string name="version_postfix">.FOSS</string>
+  <string name="app_name">Omni Notes FOSS</string>
+  <string name="app_package">it.feio.android.omninotes.foss</string>
+  <string name="version_postfix">.FOSS</string>
 
 </resources>

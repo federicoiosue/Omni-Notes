@@ -27,7 +27,7 @@ public class NotesLoadedEvent {
   public List<Note> notes;
 
 
-  public NotesLoadedEvent (List<Note> notes) {
+  public NotesLoadedEvent(List<Note> notes) {
     LogDelegate.d(this.getClass().getName());
     this.notes = notes;
   }

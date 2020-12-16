@@ -46,7 +46,7 @@ public class Navigation {
   /**
    * Returns actual navigation status
    */
-  public static int getNavigation () {
+  public static int getNavigation() {
     String[] navigationListCodes = OmniNotes.getAppContext().getResources().getStringArray(
         R.array.navigation_list_codes);
     String navigation = getNavigationText();
@@ -67,10 +67,12 @@ public class Navigation {
   }
 
 
-  public static String getNavigationText () {
+  public static String getNavigationText() {
     Context mContext = OmniNotes.getAppContext();
-    String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-    return mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(PREF_NAVIGATION, navigationListCodes[0]);
+    String[] navigationListCodes = mContext.getResources()
+        .getStringArray(R.array.navigation_list_codes);
+    return mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS)
+        .getString(PREF_NAVIGATION, navigationListCodes[0]);
   }
 
 
@@ -79,9 +81,11 @@ public class Navigation {
    *
    * @return ID of category or null if current navigation is not a category
    */
-  public static Long getCategory () {
+  public static Long getCategory() {
     if (getNavigation() == CATEGORY) {
-      return Long.valueOf(OmniNotes.getAppContext().getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(PREF_NAVIGATION, ""));
+      return Long.valueOf(
+          OmniNotes.getAppContext().getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS)
+              .getString(PREF_NAVIGATION, ""));
     } else {
       return null;
     }
@@ -91,12 +95,12 @@ public class Navigation {
   /**
    * Checks if passed parameters is the actual navigation status
    */
-  public static boolean checkNavigation (int navigationToCheck) {
+  public static boolean checkNavigation(int navigationToCheck) {
     return checkNavigation(new Integer[]{navigationToCheck});
   }
 
 
-  public static boolean checkNavigation (Integer[] navigationsToCheck) {
+  public static boolean checkNavigation(Integer[] navigationsToCheck) {
     boolean res = false;
     int navigation = getNavigation();
     for (int navigationToCheck : new ArrayList<>(Arrays.asList(navigationsToCheck))) {
@@ -112,9 +116,10 @@ public class Navigation {
   /**
    * Checks if passed parameters is the category user is actually navigating in
    */
-  public static boolean checkNavigationCategory (Category categoryToCheck) {
+  public static boolean checkNavigationCategory(Category categoryToCheck) {
     Context mContext = OmniNotes.getAppContext();
-    String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
+    String[] navigationListCodes = mContext.getResources()
+        .getStringArray(R.array.navigation_list_codes);
     String navigation = mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(
         PREF_NAVIGATION, navigationListCodes[0]);
     return (categoryToCheck != null && navigation.equals(String.valueOf(categoryToCheck.getId())));

@@ -59,46 +59,47 @@ public class NavigationDrawerFragment extends Fragment {
 
 
   @Override
-  public void onCreate (Bundle savedInstanceState) {
+  public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setRetainInstance(true);
   }
 
 
   @Override
-  public void onStart () {
+  public void onStart() {
     super.onStart();
     EventBus.getDefault().register(this);
   }
 
 
   @Override
-  public void onStop () {
+  public void onStop() {
     super.onStop();
     EventBus.getDefault().unregister(this);
   }
 
 
   @Override
-  public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
     return inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
   }
 
 
   @Override
-  public void onActivityCreated (Bundle savedInstanceState) {
+  public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     mActivity = (MainActivity) getActivity();
     init();
   }
 
 
-  private MainActivity getMainActivity () {
+  private MainActivity getMainActivity() {
     return (MainActivity) getActivity();
   }
 
 
-  public void onEventMainThread (DynamicNavigationReadyEvent event) {
+  public void onEventMainThread(DynamicNavigationReadyEvent event) {
     if (alreadyInitialized) {
       alreadyInitialized = false;
     } else {
@@ -107,17 +108,17 @@ public class NavigationDrawerFragment extends Fragment {
   }
 
 
-  public void onEvent (CategoriesUpdatedEvent event) {
+  public void onEvent(CategoriesUpdatedEvent event) {
     refreshMenus();
   }
 
 
-  public void onEventAsync (NotesUpdatedEvent event) {
+  public void onEventAsync(NotesUpdatedEvent event) {
     alreadyInitialized = false;
   }
 
 
-  public void onEvent (NotesLoadedEvent event) {
+  public void onEvent(NotesLoadedEvent event) {
     if (mDrawerLayout != null) {
       if (!isDoublePanelActive()) {
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
@@ -131,7 +132,7 @@ public class NavigationDrawerFragment extends Fragment {
   }
 
 
-  public void onEvent (SwitchFragmentEvent event) {
+  public void onEvent(SwitchFragmentEvent event) {
     if (CHILDREN.equals(event.direction)) {
       animateBurger(ARROW);
     } else {
@@ -140,23 +141,26 @@ public class NavigationDrawerFragment extends Fragment {
   }
 
 
-  public void onEvent (NavigationUpdatedEvent navigationUpdatedEvent) {
+  public void onEvent(NavigationUpdatedEvent navigationUpdatedEvent) {
     if (navigationUpdatedEvent.navigationItem.getClass().isAssignableFrom(NavigationItem.class)) {
-      mActivity.getSupportActionBar().setTitle(((NavigationItem) navigationUpdatedEvent.navigationItem).getText());
+      mActivity.getSupportActionBar()
+          .setTitle(((NavigationItem) navigationUpdatedEvent.navigationItem).getText());
     } else {
-      mActivity.getSupportActionBar().setTitle(((Category) navigationUpdatedEvent.navigationItem).getName());
+      mActivity.getSupportActionBar()
+          .setTitle(((Category) navigationUpdatedEvent.navigationItem).getName());
     }
     if (mDrawerLayout != null) {
       if (!isDoublePanelActive()) {
         mDrawerLayout.closeDrawer(GravityCompat.START);
       }
-      new Handler().postDelayed(() -> EventBus.getDefault().post(new NavigationUpdatedNavDrawerClosedEvent
-          (navigationUpdatedEvent.navigationItem)), 400);
+      new Handler()
+          .postDelayed(() -> EventBus.getDefault().post(new NavigationUpdatedNavDrawerClosedEvent
+              (navigationUpdatedEvent.navigationItem)), 400);
     }
   }
 
 
-  public void init () {
+  public void init() {
     LogDelegate.v("Started navigation drawer initialization");
 
     mDrawerLayout = mActivity.findViewById(R.id.drawer_layout);
@@ -164,7 +168,8 @@ public class NavigationDrawerFragment extends Fragment {
 
     View leftDrawer = getView().findViewById(R.id.left_drawer);
     int leftDrawerBottomPadding = Display.getNavigationBarHeightKitkat(getActivity());
-    leftDrawer.setPadding(leftDrawer.getPaddingLeft(), leftDrawer.getPaddingTop(), leftDrawer.getPaddingRight(),
+    leftDrawer.setPadding(leftDrawer.getPaddingLeft(), leftDrawer.getPaddingTop(),
+        leftDrawer.getPaddingRight(),
         leftDrawerBottomPadding);
 
     // ActionBarDrawerToggle± ties together the the proper interactions
@@ -175,12 +180,12 @@ public class NavigationDrawerFragment extends Fragment {
         R.string.drawer_open,
         R.string.drawer_close
     ) {
-      public void onDrawerClosed (View view) {
+      public void onDrawerClosed(View view) {
         mActivity.supportInvalidateOptionsMenu();
       }
 
 
-      public void onDrawerOpened (View drawerView) {
+      public void onDrawerOpened(View drawerView) {
         mActivity.commitPending();
         mActivity.finishActionMode();
       }
@@ -199,7 +204,7 @@ public class NavigationDrawerFragment extends Fragment {
   }
 
 
-  private void refreshMenus () {
+  private void refreshMenus() {
     buildMainMenu();
     LogDelegate.v("Finished main menu initialization");
     buildCategoriesMenu();
@@ -208,19 +213,19 @@ public class NavigationDrawerFragment extends Fragment {
   }
 
 
-  private void buildCategoriesMenu () {
+  private void buildCategoriesMenu() {
     CategoryMenuTask task = new CategoryMenuTask(this);
     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
 
 
-  private void buildMainMenu () {
+  private void buildMainMenu() {
     MainMenuTask task = new MainMenuTask(this);
     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
 
 
-  void animateBurger (int targetShape) {
+  void animateBurger(int targetShape) {
     if (mDrawerToggle != null) {
       if (targetShape != BURGER && targetShape != ARROW) {
         return;
@@ -237,7 +242,7 @@ public class NavigationDrawerFragment extends Fragment {
   }
 
 
-  public static boolean isDoublePanelActive () {
+  public static boolean isDoublePanelActive() {
 //		Resources resources = OmniNotes.getAppContext().getResources();
 //		return resources.getDimension(R.dimen.navigation_drawer_width) == resources.getDimension(R.dimen
 //				.navigation_drawer_reserved_space);

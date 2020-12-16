@@ -37,7 +37,7 @@ public class AlarmRestoreOnRebootService extends JobIntentService {
 
   public static final int JOB_ID = 0x01;
 
-  public static void enqueueWork (Context context, Intent work) {
+  public static void enqueueWork(Context context, Intent work) {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       enqueueWork(context, AlarmRestoreOnRebootService.class, JOB_ID, work);
     } else {
@@ -47,7 +47,7 @@ public class AlarmRestoreOnRebootService extends JobIntentService {
   }
 
   @Override
-  protected void onHandleWork (@NonNull Intent intent) {
+  protected void onHandleWork(@NonNull Intent intent) {
     LogDelegate.i("System rebooted: service refreshing reminders");
     Context mContext = getApplicationContext();
 

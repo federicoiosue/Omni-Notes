@@ -69,21 +69,22 @@ import org.junit.Rule;
 public class BaseEspressoTest extends BaseAndroidTestCase {
 
   @Rule
-  public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class, false, false);
+  public ActivityTestRule<MainActivity> activityRule = new ActivityTestRule<>(MainActivity.class,
+      false, false);
 
-  static Matcher<View> childAtPosition (
+  static Matcher<View> childAtPosition(
       final Matcher<View> parentMatcher, final int position) {
 
     return new TypeSafeMatcher<View>() {
       @Override
-      public void describeTo (Description description) {
+      public void describeTo(Description description) {
         description.appendText("Child at position " + position + " in parent ");
         parentMatcher.describeTo(description);
       }
 
 
       @Override
-      public boolean matchesSafely (View view) {
+      public boolean matchesSafely(View view) {
         ViewParent parent = view.getParent();
         return parent instanceof ViewGroup && parentMatcher.matches(parent)
             && view.equals(((ViewGroup) parent).getChildAt(position));
@@ -92,11 +93,11 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
   }
 
   @Before
-  public void setUp () {
+  public void setUp() {
     activityRule.launchActivity(null);
   }
 
-  void createNote (String title, String content) {
+  void createNote(String title, String content) {
     ViewInteraction viewInteraction = onView(
         Matchers.allOf(ViewMatchers.withId(R.id.fab_expand_menu_button),
             withParent(withId(R.id.fab)),
@@ -121,27 +122,29 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
             withParent(withId(R.id.detail_tile_card)))),
         isDisplayed())).perform(replaceText(title), closeSoftKeyboard());
 
-    onView(withId(R.id.detail_content)).perform(scrollTo(), replaceText(content), closeSoftKeyboard());
+    onView(withId(R.id.detail_content))
+        .perform(scrollTo(), replaceText(content), closeSoftKeyboard());
 
     navigateUp();
   }
 
-  void selectNoteInList (int number) {
+  void selectNoteInList(int number) {
     onView(withId(R.id.list)).perform(RecyclerViewActions.actionOnItemAtPosition(number, click()));
   }
 
-  void navigateUp () {
+  void navigateUp() {
     onView(allOf(childAtPosition(allOf(withId(R.id.toolbar),
         childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)
     ), 0), isDisplayed())).perform(click());
   }
-  void navigateUPSearch () {
+
+  void navigateUPSearch() {
     onView(allOf(childAtPosition(allOf(withId(R.id.toolbar),
-            childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)
+        childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)
     ), 1), isDisplayed())).perform(click());
   }
 
-  void navigateUpSettings () {
+  void navigateUpSettings() {
     onView(allOf(withContentDescription(R.string.abc_action_bar_up_description),
         childAtPosition(allOf(withId(R.id.toolbar),
             childAtPosition(withClassName(is("android.widget.RelativeLayout")), 0)),
@@ -154,20 +157,20 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
    * @param viewId The id of the view to wait for.
    * @param millis The timeout of until when to wait for.
    */
-  public static ViewAction waitId (final int viewId, final long millis) {
+  public static ViewAction waitId(final int viewId, final long millis) {
     return new ViewAction() {
       @Override
-      public Matcher<View> getConstraints () {
+      public Matcher<View> getConstraints() {
         return isRoot();
       }
 
       @Override
-      public String getDescription () {
+      public String getDescription() {
         return "wait for a specific view with id <" + viewId + "> during " + millis + " millis.";
       }
 
       @Override
-      public void perform (final UiController uiController, final View view) {
+      public void perform(final UiController uiController, final View view) {
         uiController.loopMainThreadUntilIdle();
         final long startTime = System.currentTimeMillis();
         final long endTime = startTime + millis;
@@ -193,7 +196,7 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
     };
   }
 
-  ClickWithoutDisplayConstraint getClickAction () {
+  ClickWithoutDisplayConstraint getClickAction() {
     return new ClickWithoutDisplayConstraint(
         Tap.SINGLE,
         GeneralLocation.VISIBLE_CENTER,
@@ -202,7 +205,7 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
         MotionEvent.BUTTON_PRIMARY);
   }
 
-  ClickWithoutDisplayConstraint getLongClickAction () {
+  ClickWithoutDisplayConstraint getLongClickAction() {
     return new ClickWithoutDisplayConstraint(
         Tap.LONG,
         GeneralLocation.CENTER,
@@ -211,7 +214,7 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
         MotionEvent.BUTTON_PRIMARY);
   }
 
-  ViewAction getSwipeAction (final int fromX, final int fromY, final int toX, final int toY) {
+  ViewAction getSwipeAction(final int fromX, final int fromY, final int toX, final int toY) {
     return ViewActions.actionWithAssertions(
         new GeneralSwipeAction(
             Swipe.SLOW,

@@ -28,12 +28,13 @@ import org.junit.runner.RunWith;
 public class RecurrenceHelperTest extends BaseAndroidTestCase {
 
   @Test
-  public void getNoteRecurrentReminderText () {
+  public void getNoteRecurrentReminderText() {
     long reminder = 1577369824425L;
     String rrule = "FREQ=WEEKLY;WKST=MO;BYDAY=MO,TU,TH";
     String alarmText = RecurrenceHelper.getNoteRecurrentReminderText(reminder, rrule);
 
-    Assert.assertTrue(alarmText.matches("Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 2019 [2|3]:17 PM"));
+    Assert.assertTrue(
+        alarmText.matches("Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 2019 [2|3]:17 PM"));
   }
 
 }

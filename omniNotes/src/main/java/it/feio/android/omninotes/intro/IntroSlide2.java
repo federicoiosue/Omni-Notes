@@ -25,7 +25,7 @@ import it.feio.android.omninotes.R;
 public class IntroSlide2 extends IntroFragment {
 
   @Override
-  public void onActivityCreated (Bundle savedInstanceState) {
+  public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     binding.introBackground.setBackgroundColor(Color.parseColor("#f44336"));
     binding.introTitle.setText(R.string.tour_listactivity_home_title);

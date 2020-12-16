@@ -53,7 +53,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
   NonScrollableListView mDrawerCategoriesList;
 
 
-  public MainMenuTask (Fragment mFragment) {
+  public MainMenuTask(Fragment mFragment) {
     mFragmentWeakReference = new WeakReference<>(mFragment);
     this.mainActivity = (MainActivity) mFragment.getActivity();
     ButterKnife.bind(this, mFragment.getView());
@@ -61,25 +61,26 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
 
   @Override
-  protected List<NavigationItem> doInBackground (Void... params) {
+  protected List<NavigationItem> doInBackground(Void... params) {
     return buildMainMenu();
   }
 
 
   @Override
-  protected void onPostExecute (final List<NavigationItem> items) {
+  protected void onPostExecute(final List<NavigationItem> items) {
     if (isAlive()) {
       mDrawerList.setAdapter(new NavDrawerAdapter(mainActivity, items));
       mDrawerList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
         String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
-                .navigation_list_codes)[items.get(position).getArrayIndex()];
+            .navigation_list_codes)[items.get(position).getArrayIndex()];
         if (mainActivity.updateNavigation(navigation)) {
           mDrawerList.setItemChecked(position, true);
           if (mDrawerCategoriesList != null) {
             mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
           }
           mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
-          EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
+          EventBus.getDefault()
+              .post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
         }
       });
       mDrawerList.justifyListViewHeightBasedOnChildren();
@@ -87,28 +88,30 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
   }
 
 
-  private boolean isAlive () {
+  private boolean isAlive() {
     return mFragmentWeakReference.get() != null
-            && mFragmentWeakReference.get().isAdded()
-            && mFragmentWeakReference.get().getActivity() != null
-            && !mFragmentWeakReference.get().getActivity().isFinishing();
+        && mFragmentWeakReference.get().isAdded()
+        && mFragmentWeakReference.get().getActivity() != null
+        && !mFragmentWeakReference.get().getActivity().isFinishing();
   }
 
 
-  private List<NavigationItem> buildMainMenu () {
+  private List<NavigationItem> buildMainMenu() {
     if (!isAlive()) {
       return new ArrayList<>();
     }
 
     String[] mNavigationArray = mainActivity.getResources().getStringArray(R.array.navigation_list);
-    TypedArray mNavigationIconsArray = mainActivity.getResources().obtainTypedArray(R.array.navigation_list_icons);
+    TypedArray mNavigationIconsArray = mainActivity.getResources()
+        .obtainTypedArray(R.array.navigation_list_icons);
     TypedArray mNavigationIconsSelectedArray = mainActivity.getResources().obtainTypedArray(R.array
-            .navigation_list_icons_selected);
+        .navigation_list_icons_selected);
 
     final List<NavigationItem> items = new ArrayList<>();
     for (int i = 0; i < mNavigationArray.length; i++) {
       if (!checkSkippableItem(i)) {
-        NavigationItem item = new NavigationItem(i, mNavigationArray[i], mNavigationIconsArray.getResourceId(i,
+        NavigationItem item = new NavigationItem(i, mNavigationArray[i],
+            mNavigationIconsArray.getResourceId(i,
                 0), mNavigationIconsSelectedArray.getResourceId(i, 0));
         items.add(item);
       }
@@ -117,9 +120,10 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
   }
 
 
-  private boolean checkSkippableItem (int i) {
+  private boolean checkSkippableItem(int i) {
     boolean skippable = false;
-    SharedPreferences prefs = mainActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
+    SharedPreferences prefs = mainActivity
+        .getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
     boolean dynamicMenu = prefs.getBoolean(PREF_DYNAMIC_MENU, true);
     DynamicNavigationLookupTable dynamicNavigationLookupTable = null;
     if (dynamicMenu) {
@@ -133,7 +137,8 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         break;
       case Navigation.UNCATEGORIZED:
         boolean showUncategorized = prefs.getBoolean(PREF_SHOW_UNCATEGORIZED, false);
-        if (!showUncategorized || (dynamicMenu && dynamicNavigationLookupTable.getUncategorized() == 0)) {
+        if (!showUncategorized || (dynamicMenu
+            && dynamicNavigationLookupTable.getUncategorized() == 0)) {
           skippable = true;
         }
         break;

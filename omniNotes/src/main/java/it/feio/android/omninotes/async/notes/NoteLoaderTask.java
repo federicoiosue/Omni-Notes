@@ -34,10 +34,11 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, List<Note>> {
 
   private static NoteLoaderTask instance;
 
-  private NoteLoaderTask () {}
+  private NoteLoaderTask() {
+  }
 
 
-  public static NoteLoaderTask getInstance () {
+  public static NoteLoaderTask getInstance() {
 
     if (instance != null) {
       if (instance.getStatus() == Status.RUNNING && !instance.isCancelled()) {
@@ -53,7 +54,7 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, List<Note>> {
 
 
   @Override
-  protected List<Note> doInBackground (Object... params) {
+  protected List<Note> doInBackground(Object... params) {
 
     String methodName = params[0].toString();
     DbHelper db = DbHelper.getInstance();
@@ -81,7 +82,7 @@ public class NoteLoaderTask extends AsyncTask<Object, Void, List<Note>> {
 
 
   @Override
-  protected void onPostExecute (List<Note> notes) {
+  protected void onPostExecute(List<Note> notes) {
 
     super.onPostExecute(notes);
     EventBus.getDefault().post(new NotesLoadedEvent(notes));

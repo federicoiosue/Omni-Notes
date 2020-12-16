@@ -34,18 +34,16 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-
 import androidx.appcompat.app.AppCompatActivity;
-import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
-import java.util.Arrays;
-import java.util.Calendar;
-
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
+import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
+import java.util.Arrays;
+import java.util.Calendar;
 
 
 public class SnoozeActivity extends AppCompatActivity implements OnReminderPickedListener {
@@ -55,8 +53,9 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
 
   public static void setNextRecurrentReminder(Note note) {
     if (!TextUtils.isEmpty(note.getRecurrenceRule())) {
-      long nextReminder = RecurrenceHelper.nextReminderFromRecurrenceRule(Long.parseLong(note.getAlarm()), note
-          .getRecurrenceRule());
+      long nextReminder = RecurrenceHelper
+          .nextReminderFromRecurrenceRule(Long.parseLong(note.getAlarm()), note
+              .getRecurrenceRule());
       if (nextReminder > 0) {
         updateNoteReminder(nextReminder, note, true);
       }
@@ -89,7 +88,8 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
     } else {
       Object[] notesObjs = (Object[]) getIntent().getExtras().get(INTENT_NOTE);
       notes = Arrays.copyOf(notesObjs, notesObjs.length, Note[].class);
-      postpone(getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS), DateUtils.getNextMinute(), null);
+      postpone(getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS), DateUtils.getNextMinute(),
+          null);
     }
   }
 
@@ -98,8 +98,10 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
       setNextRecurrentReminder(note);
       finish();
     } else if (ACTION_SNOOZE.equals(getIntent().getAction())) {
-      String snoozeDelay = prefs.getString("settings_notification_snooze_delay", PREF_SNOOZE_DEFAULT);
-      long newReminder = Calendar.getInstance().getTimeInMillis() + Integer.parseInt(snoozeDelay) * 60 * 1000;
+      String snoozeDelay = prefs
+          .getString("settings_notification_snooze_delay", PREF_SNOOZE_DEFAULT);
+      long newReminder =
+          Calendar.getInstance().getTimeInMillis() + Integer.parseInt(snoozeDelay) * 60 * 1000;
       updateNoteReminder(newReminder, note);
       finish();
     } else if (ACTION_POSTPONE.equals(getIntent().getAction())) {
@@ -123,7 +125,8 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
   }
 
   private void removeNotification(Note note) {
-    NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+    NotificationManager manager = (NotificationManager) getSystemService(
+        Context.NOTIFICATION_SERVICE);
     manager.cancel(String.valueOf(note.get_id()), 0);
   }
 

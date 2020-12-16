@@ -46,7 +46,7 @@ public class Fab {
   OnFabItemClickedListener onFabItemClickedListener;
 
 
-  public Fab (View fabView, RecyclerView listView, boolean expandOnLongClick) {
+  public Fab(View fabView, RecyclerView listView, boolean expandOnLongClick) {
     this.floatingActionsMenu = (FloatingActionsMenu) fabView;
     this.listView = listView;
     this.expandOnLongClick = expandOnLongClick;
@@ -54,11 +54,12 @@ public class Fab {
   }
 
 
-  private void init () {
+  private void init() {
     this.fabHidden = true;
     this.fabExpanded = false;
 
-    AddFloatingActionButton fabAddButton = floatingActionsMenu.findViewById(R.id.fab_expand_menu_button);
+    AddFloatingActionButton fabAddButton = floatingActionsMenu
+        .findViewById(R.id.fab_expand_menu_button);
     fabAddButton.setOnClickListener(v -> {
       if (!isExpanded() && expandOnLongClick) {
         performAction(v);
@@ -76,14 +77,14 @@ public class Fab {
     });
     listView.addOnScrollListener(
         new AbsListViewScrollDetector() {
-          public void onScrollUp () {
+          public void onScrollUp() {
             if (floatingActionsMenu != null) {
               floatingActionsMenu.collapse();
               hideFab();
             }
           }
 
-          public void onScrollDown () {
+          public void onScrollDown() {
             if (floatingActionsMenu != null) {
               floatingActionsMenu.collapse();
               showFab();
@@ -105,17 +106,17 @@ public class Fab {
 
   private View.OnClickListener onClickListener = new View.OnClickListener() {
     @Override
-    public void onClick (View v) {
+    public void onClick(View v) {
       onFabItemClickedListener.onFabItemClick(v.getId());
     }
   };
 
-  public void performToggle () {
+  public void performToggle() {
     fabExpanded = !fabExpanded;
     floatingActionsMenu.toggle();
   }
 
-  private void performAction (View v) {
+  private void performAction(View v) {
     if (fabExpanded) {
       floatingActionsMenu.toggle();
       fabExpanded = false;
@@ -125,7 +126,7 @@ public class Fab {
   }
 
 
-  public void showFab () {
+  public void showFab() {
     if (floatingActionsMenu != null && fabAllowed && fabHidden) {
       animateFab(0, View.VISIBLE, View.VISIBLE);
       fabHidden = false;
@@ -133,45 +134,46 @@ public class Fab {
   }
 
 
-  public void hideFab () {
+  public void hideFab() {
     if (floatingActionsMenu != null && !fabHidden) {
       floatingActionsMenu.collapse();
-      animateFab(floatingActionsMenu.getHeight() + getMarginBottom(floatingActionsMenu), View.VISIBLE, View.INVISIBLE);
+      animateFab(floatingActionsMenu.getHeight() + getMarginBottom(floatingActionsMenu),
+          View.VISIBLE, View.INVISIBLE);
       fabHidden = true;
       fabExpanded = false;
     }
   }
 
 
-  private void animateFab (int translationY, final int visibilityBefore, final int visibilityAfter) {
+  private void animateFab(int translationY, final int visibilityBefore, final int visibilityAfter) {
     animate(floatingActionsMenu).setInterpolator(new AccelerateDecelerateInterpolator())
-                                .setDuration(FAB_ANIMATION_TIME)
-                                .translationY(translationY)
-                                .setListener(new ViewPropertyAnimatorListener() {
-                  @Override
-                  public void onAnimationStart (View view) {
-                    floatingActionsMenu.setVisibility(visibilityBefore);
-                  }
+        .setDuration(FAB_ANIMATION_TIME)
+        .translationY(translationY)
+        .setListener(new ViewPropertyAnimatorListener() {
+          @Override
+          public void onAnimationStart(View view) {
+            floatingActionsMenu.setVisibility(visibilityBefore);
+          }
 
-                  @Override
-                  public void onAnimationEnd (View view) {
-                    floatingActionsMenu.setVisibility(visibilityAfter);
-                  }
+          @Override
+          public void onAnimationEnd(View view) {
+            floatingActionsMenu.setVisibility(visibilityAfter);
+          }
 
-                  @Override
-                  public void onAnimationCancel (View view) {
-                    // Nothing to do
-                  }
-                });
+          @Override
+          public void onAnimationCancel(View view) {
+            // Nothing to do
+          }
+        });
   }
 
 
-  public void setAllowed (boolean allowed) {
+  public void setAllowed(boolean allowed) {
     fabAllowed = allowed;
   }
 
 
-  private int getMarginBottom (View view) {
+  private int getMarginBottom(View view) {
     int marginBottom = 0;
     final ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
     if (layoutParams instanceof ViewGroup.MarginLayoutParams) {
@@ -180,18 +182,18 @@ public class Fab {
     return marginBottom;
   }
 
-  public void setOnFabItemClickedListener (OnFabItemClickedListener onFabItemClickedListener) {
+  public void setOnFabItemClickedListener(OnFabItemClickedListener onFabItemClickedListener) {
     this.onFabItemClickedListener = onFabItemClickedListener;
   }
 
 
-  public void setOverlay (View overlay) {
+  public void setOverlay(View overlay) {
     this.overlay = overlay;
     this.overlay.setOnClickListener(v -> performToggle());
   }
 
 
-  public void setOverlay (int colorResurce) {
+  public void setOverlay(int colorResurce) {
     View overlayView = new View(OmniNotes.getAppContext());
     overlayView.setBackgroundResource(colorResurce);
     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams
@@ -204,7 +206,7 @@ public class Fab {
     this.overlay = overlayView;
   }
 
-  public boolean isExpanded () {
+  public boolean isExpanded() {
     return fabExpanded;
   }
 }

@@ -48,7 +48,8 @@ public class AttachmentAdapter extends BaseAdapter {
   private LayoutInflater inflater;
 
 
-  public AttachmentAdapter (Activity mActivity, List<Attachment> attachmentsList, ExpandableHeightGridView mGridView) {
+  public AttachmentAdapter(Activity mActivity, List<Attachment> attachmentsList,
+      ExpandableHeightGridView mGridView) {
     this.mActivity = mActivity;
     if (attachmentsList == null) {
       attachmentsList = Collections.emptyList();
@@ -58,22 +59,22 @@ public class AttachmentAdapter extends BaseAdapter {
   }
 
 
-  public int getCount () {
+  public int getCount() {
     return attachmentsList.size();
   }
 
 
-  public Attachment getItem (int position) {
+  public Attachment getItem(int position) {
     return attachmentsList.get(position);
   }
 
 
-  public long getItemId (int position) {
+  public long getItemId(int position) {
     return 0;
   }
 
 
-  public View getView (int position, View convertView, ViewGroup parent) {
+  public View getView(int position, View convertView, ViewGroup parent) {
 
     LogDelegate.v("GridView called for position " + position);
 
@@ -101,7 +102,7 @@ public class AttachmentAdapter extends BaseAdapter {
       } else {
         // Recording date otherwise
         text = DateUtils.getLocalizedDateTime(mActivity, mAttachment
-                .getUri().getLastPathSegment().split("\\.")[0], DATE_FORMAT_SORTABLE);
+            .getUri().getLastPathSegment().split("\\.")[0], DATE_FORMAT_SORTABLE);
       }
 
       if (text == null) {
@@ -122,14 +123,14 @@ public class AttachmentAdapter extends BaseAdapter {
     // Starts the AsyncTask to draw bitmap into ImageView
     Uri thumbnailUri = BitmapHelper.getThumbnailUri(mActivity, mAttachment);
     Glide.with(mActivity.getApplicationContext())
-         .load(thumbnailUri)
-         .into(holder.image);
+        .load(thumbnailUri)
+        .into(holder.image);
 
     return convertView;
   }
 
 
-  public List<Attachment> getAttachmentsList () {
+  public List<Attachment> getAttachmentsList() {
     return attachmentsList;
   }
 

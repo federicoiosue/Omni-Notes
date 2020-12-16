@@ -19,11 +19,13 @@
   android:height="108dp"
   android:viewportWidth="108"
   android:viewportHeight="108">
-  <group android:scaleX="0.71"
+  <group
+    android:scaleX="0.71"
     android:scaleY="0.71"
     android:translateX="15.66"
     android:translateY="15.66">
-    <group android:scaleX="3.05"
+    <group
+      android:scaleX="3.05"
       android:scaleY="3.05"
       android:translateX="16.12"
       android:translateY="16.12">

@@ -28,20 +28,21 @@ import org.junit.Test;
 public class GeocodeProviderBaseFactoryTest extends BaseAndroidTestCase {
 
   @Test
-  public void checkUtilityClassWellDefined () throws Exception {
+  public void checkUtilityClassWellDefined() throws Exception {
     assertUtilityClassWellDefined(GeocodeProviderBaseFactory.class, true, true);
   }
 
   @Test
-  public void getProvider () {
+  public void getProvider() {
     LocationProvider locationProvider = GeocodeProviderBaseFactory.getProvider(testContext);
     assertNotEquals(null, locationProvider);
   }
 
   @Test
-  public void checkHighAccuracyLocationProvider () {
-    boolean highAccuracyLocationProviderEnabled = GeocodeProviderBaseFactory.checkHighAccuracyLocationProvider(
-        testContext);
+  public void checkHighAccuracyLocationProvider() {
+    boolean highAccuracyLocationProviderEnabled = GeocodeProviderBaseFactory
+        .checkHighAccuracyLocationProvider(
+            testContext);
     assertTrue(highAccuracyLocationProviderEnabled);
   }
 

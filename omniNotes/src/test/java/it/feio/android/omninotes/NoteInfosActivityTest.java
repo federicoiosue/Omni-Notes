@@ -17,7 +17,7 @@
 
 package it.feio.android.omninotes;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import it.feio.android.omninotes.models.StatsSingleNote;
 import org.junit.Test;
@@ -25,7 +25,7 @@ import org.junit.Test;
 public class NoteInfosActivityTest {
 
   @Test
-  public void getChecklistCompletionState () {
+  public void getChecklistCompletionState() {
     StatsSingleNote infos = new StatsSingleNote();
     infos.setChecklistItemsNumber(42);
     infos.setChecklistCompletedItemsNumber(12);

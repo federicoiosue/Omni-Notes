@@ -17,8 +17,8 @@
 
 package it.feio.android.omninotes.helpers;
 
-import static org.junit.Assert.assertEquals;
 import static java.util.Locale.ITALIAN;
+import static org.junit.Assert.assertEquals;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -35,17 +35,17 @@ import org.junit.runner.RunWith;
 public class LanguageHelperTest extends BaseAndroidTestCase {
 
   @After
-  public void tearDown () {
+  public void tearDown() {
     LanguageHelper.resetSystemLanguage(testContext);
   }
 
   @Test
-  public void checkUtilityClassWellDefined () throws Exception {
+  public void checkUtilityClassWellDefined() throws Exception {
     assertUtilityClassWellDefined(LanguageHelper.class);
   }
 
   @Test
-  public void changeSharedPrefrencesLanguage () {
+  public void changeSharedPrefrencesLanguage() {
     LanguageHelper.updateLanguage(testContext, Locale.ITALY.toString());
     SharedPreferences prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context
         .MODE_MULTI_PROCESS);
@@ -54,7 +54,7 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void changeAppLanguage () {
+  public void changeAppLanguage() {
     assertEquals(PRESET_LOCALE, LanguageHelper.getCurrentLocale(testContext));
 
     LanguageHelper.updateLanguage(testContext, Locale.ITALY.toString());
@@ -63,7 +63,7 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void sameStaticStringToEnsureTranslationsAreCorrect () {
+  public void sameStaticStringToEnsureTranslationsAreCorrect() {
     assertTranslationMatches("ar_SA", R.string.add_note, "إضافة نقطة");
     assertTranslationMatches("es_XA", R.string.add_note, "Amestar Nota");
     assertTranslationMatches("ca_ES", R.string.add_note, "Afegeix una nota");
@@ -100,32 +100,32 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void updateLanguage_systemDefault () {
+  public void updateLanguage_systemDefault() {
     assertEquals(PRESET_LOCALE, LanguageHelper.getCurrentLocale(testContext));
     LanguageHelper.updateLanguage(testContext, null);
     assertEquals(PRESET_LOCALE, LanguageHelper.getCurrentLocale(testContext));
   }
 
   @Test
-  public void resetSystemLanguage () {
+  public void resetSystemLanguage() {
     LanguageHelper.updateLanguage(testContext, ITALIAN.getLanguage());
     LanguageHelper.resetSystemLanguage(testContext);
     assertEquals(PRESET_LOCALE, LanguageHelper.getCurrentLocale(testContext));
   }
 
   @Test
-  public void updateLanguage () {
+  public void updateLanguage() {
     assertEquals(PRESET_LOCALE, LanguageHelper.getCurrentLocale(testContext));
     LanguageHelper.updateLanguage(testContext, ITALIAN.getLanguage());
     assertEquals(ITALIAN, LanguageHelper.getCurrentLocale(testContext));
   }
 
-  private void assertTranslationMatches (String locale, int resourceId) {
+  private void assertTranslationMatches(String locale, int resourceId) {
     assertTranslationMatches(locale, resourceId, testContext.getString(resourceId));
   }
 
-  private void assertTranslationMatches (String locale, int resourceId, String string) {
+  private void assertTranslationMatches(String locale, int resourceId, String string) {
     assertEquals(string, LanguageHelper.getLocalizedString(testContext, locale, resourceId));
   }
-  
+
 }

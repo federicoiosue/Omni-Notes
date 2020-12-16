@@ -36,7 +36,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class Security {
 
-  public static String md5 (String s) {
+  public static String md5(String s) {
     try {
       // Create MD5 Hash
       MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
@@ -56,7 +56,7 @@ public class Security {
     return "";
   }
 
-  public static String encrypt (String value, String password) {
+  public static String encrypt(String value, String password) {
     String encrypedValue = "";
     try {
       DESKeySpec keySpec = new DESKeySpec(password.getBytes(StandardCharsets.UTF_8));
@@ -75,7 +75,7 @@ public class Security {
     return encrypedValue;
   }
 
-  public static String decrypt (String value, String password) {
+  public static String decrypt(String value, String password) {
     String decryptedValue;
     try {
       DESKeySpec keySpec = new DESKeySpec(password.getBytes(StandardCharsets.UTF_8));
