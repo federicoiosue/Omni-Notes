@@ -20,15 +20,11 @@ package it.feio.android.omninotes.ui;
 
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
-import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
-import static androidx.test.espresso.action.ViewActions.replaceText;
-import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.is;
 
@@ -37,11 +33,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import androidx.core.view.GravityCompat;
 import androidx.test.espresso.PerformException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
-import androidx.test.espresso.ViewInteraction;
 import androidx.test.espresso.action.GeneralLocation;
 import androidx.test.espresso.action.GeneralSwipeAction;
 import androidx.test.espresso.action.Press;
@@ -49,7 +43,6 @@ import androidx.test.espresso.action.Swipe;
 import androidx.test.espresso.action.Tap;
 import androidx.test.espresso.action.ViewActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
-import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
 import androidx.test.rule.ActivityTestRule;
@@ -60,7 +53,6 @@ import it.feio.android.omninotes.utils.ClickWithoutDisplayConstraint;
 import java.util.concurrent.TimeoutException;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 import org.junit.Before;
 import org.junit.Rule;
@@ -95,37 +87,6 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
   @Before
   public void setUp() {
     activityRule.launchActivity(null);
-  }
-
-  void createNote(String title, String content) {
-    ViewInteraction viewInteraction = onView(
-        Matchers.allOf(ViewMatchers.withId(R.id.fab_expand_menu_button),
-            withParent(withId(R.id.fab)),
-            isDisplayed()));
-
-    if (activityRule.getActivity().getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
-      viewInteraction.perform(click());
-    }
-    viewInteraction.perform(click());
-
-    onView(allOf(withId(R.id.fab_note),
-        withParent(withId(R.id.fab)),
-        isDisplayed())).perform(click());
-
-    onView(allOf(withId(R.id.detail_title),
-        withParent(allOf(withId(R.id.title_wrapper),
-            withParent(withId(R.id.detail_tile_card)))),
-        isDisplayed())).perform(click());
-
-    onView(allOf(withId(R.id.detail_title),
-        withParent(allOf(withId(R.id.title_wrapper),
-            withParent(withId(R.id.detail_tile_card)))),
-        isDisplayed())).perform(replaceText(title), closeSoftKeyboard());
-
-    onView(withId(R.id.detail_content))
-        .perform(scrollTo(), replaceText(content), closeSoftKeyboard());
-
-    navigateUp();
   }
 
   void selectNoteInList(int number) {

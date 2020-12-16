@@ -35,13 +35,16 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Collections;
 import java.util.Locale;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -77,6 +80,17 @@ public class BaseAndroidTestCase {
     Locale.setDefault(PRESET_LOCALE);
     Configuration config = testContext.getResources().getConfiguration();
     config.locale = PRESET_LOCALE;
+  }
+
+  protected void createNote(String title, String content) {
+    Note note = new Note();
+    note.setTitle(title);
+    note.setContent(content);
+
+    dbHelper.updateNote(note, false);
+
+    EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(note)));
+    EventBus.getDefault().post(new CategoriesUpdatedEvent());
   }
 
   protected void createCategory(String categoryName) {

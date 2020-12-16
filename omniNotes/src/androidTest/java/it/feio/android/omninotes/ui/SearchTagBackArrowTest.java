@@ -25,7 +25,6 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.helpers.LogDelegate;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -33,16 +32,15 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class SearchTagBackArrowTest extends BaseEspressoTest {
 
-
   @Test
   public void tagSearchFlowLinkedText() {
     createNote("A Title", "Some text to test #hashtag");
+
     selectNoteInList(0);
     onView(withId(R.id.detail_content)).perform(click());
     onView(withText("Open")).perform(click());
     navigateUPSearch();
     navigateUPSearch();
-    LogDelegate.d("ends");
   }
 
 }
