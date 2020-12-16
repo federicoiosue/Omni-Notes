@@ -17,7 +17,7 @@
 <changelog bulletedList="true">
 
   <changelogversion
-    changeDate="Nov 17, 2020"
+    changeDate="Dec 16, 2020"
     versionName="6.1.0 Alpha 1">
     <changelogtext>[b]New![/b] Pin your notes on top of notifications</changelogtext>
     <changelogtext>[b]New![/b] Dropped support for Android versions older than KitKat to improve
@@ -26,6 +26,7 @@
     <changelogtext>[b]New![/b] Add reminders with a single touch with new dialogs!</changelogtext>
     <changelogtext>[b]New![/b] Add new note from app's icon shortcut</changelogtext>
     <changelogtext>[b]New![/b] Move to bottom your checked items on demand</changelogtext>
+    <changelogtext>[b]New![/b] Added Urdu language</changelogtext>
     <changelogtext>[i]Improved![/i] Updated to SDK 29 to include framework fixed and improvements
     </changelogtext>
     <changelogtext>[i]Improved![/i] Simplified merging notes: confirmation is no more required

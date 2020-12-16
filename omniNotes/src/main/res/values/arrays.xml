@@ -139,6 +139,7 @@
     <item>Svenska (Swedish)</item>
     <item>Türkçe (Turkish)</item>
     <item>Українська (Ukrainian)</item>
+    <item>اُردُو‎ (Urdu)</item>
   </string-array>
 
   <string-array name="languages_codes">
@@ -180,6 +181,7 @@
     <item>sv_SE</item>
     <item>tr_TR</item>
     <item>uk_UA</item>
+    <item>ur_PK</item>
   </string-array>
 
   <array name="material_colors">
