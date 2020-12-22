@@ -1490,7 +1490,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           if (noteOriginal.get_id() != null) {
             new SaveNoteTask(mFragment, false)
                 .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
-            MainActivity.notifyAppWidgets(mainActivity);
+            BaseActivity.notifyAppWidgets(mainActivity);
           } else {
             goHome();
           }

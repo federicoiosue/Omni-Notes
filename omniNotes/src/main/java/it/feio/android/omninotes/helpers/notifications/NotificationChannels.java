@@ -33,7 +33,7 @@ import java.util.Map;
 public class NotificationChannels {
 
 
-  public static final Map<NotificationChannelNames, NotificationChannel> channels;
+  protected static final Map<NotificationChannelNames, NotificationChannel> channels;
 
   static {
     channels = new EnumMap<>(NotificationChannelNames.class);

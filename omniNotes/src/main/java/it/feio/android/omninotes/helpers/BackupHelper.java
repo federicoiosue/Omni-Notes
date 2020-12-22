@@ -273,10 +273,10 @@ public final class BackupHelper {
   @Deprecated
   public static boolean importDB(Context context, File backupDir) {
     File database = context.getDatabasePath(DATABASE_NAME);
-    if (database.exists()) {
-      database.delete();
+    if (database.exists() && database.delete()) {
+      return (StorageHelper.copyFile(new File(backupDir, DATABASE_NAME), database));
     }
-    return (StorageHelper.copyFile(new File(backupDir, DATABASE_NAME), database));
+    return false;
   }
 
 
