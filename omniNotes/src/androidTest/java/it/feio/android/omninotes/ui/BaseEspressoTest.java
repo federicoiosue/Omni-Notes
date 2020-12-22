@@ -18,14 +18,17 @@
 package it.feio.android.omninotes.ui;
 
 
+import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.scrollTo;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.is;
 
 import android.view.InputDevice;
@@ -193,6 +196,16 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
                     0)),
             1),
         isDisplayed())).perform(click());
+  }
+
+  protected void navigateTo(int menuPosition) {
+    openDrawer();
+    onData(anything())
+        .inAdapterView(allOf(withId(R.id.drawer_nav_list),
+            childAtPosition(
+                withId(R.id.left_drawer),
+                1)))
+        .atPosition(menuPosition).perform(scrollTo(), click());
   }
 
 }

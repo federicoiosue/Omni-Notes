@@ -59,12 +59,10 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
     ButterKnife.bind(this, mFragment.getView());
   }
 
-
   @Override
   protected List<NavigationItem> doInBackground(Void... params) {
     return buildMainMenu();
   }
-
 
   @Override
   protected void onPostExecute(final List<NavigationItem> items) {
@@ -73,20 +71,23 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
       mDrawerList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
         String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
             .navigation_list_codes)[items.get(position).getArrayIndex()];
-        if (mainActivity.updateNavigation(navigation)) {
-          mDrawerList.setItemChecked(position, true);
-          if (mDrawerCategoriesList != null) {
-            mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
-          }
-          mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
-          EventBus.getDefault()
-              .post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
-        }
+        updateNavigation(position, navigation);
       });
       mDrawerList.justifyListViewHeightBasedOnChildren();
     }
   }
 
+  private void updateNavigation(int position, String navigation) {
+    if (mainActivity.updateNavigation(navigation)) {
+      mDrawerList.setItemChecked(position, true);
+      if (mDrawerCategoriesList != null) {
+        mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
+      }
+      mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
+      EventBus.getDefault()
+          .post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
+    }
+  }
 
   private boolean isAlive() {
     return mFragmentWeakReference.get() != null
@@ -94,7 +95,6 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         && mFragmentWeakReference.get().getActivity() != null
         && !mFragmentWeakReference.get().getActivity().isFinishing();
   }
-
 
   private List<NavigationItem> buildMainMenu() {
     if (!isAlive()) {
@@ -118,7 +118,6 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
     }
     return items;
   }
-
 
   private boolean checkSkippableItem(int i) {
     boolean skippable = false;

@@ -35,6 +35,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
@@ -45,6 +46,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -68,21 +70,34 @@ public class BaseAndroidTestCase {
   public static void setUpBeforeClass() {
     testContext = ApplicationProvider.getApplicationContext();
     prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-
     dbHelper = DbHelper.getInstance(testContext);
   }
 
   @Before
   public void setUpBase() {
-    cleanDatabase();
-    assertFalse("Database MUST be writable", dbHelper.getDatabase(true).isReadOnly());
+    prepareDatabase();
+    prepareLocale();
+    preparePreferences();
+  }
 
+  private void preparePreferences() {
+    prefs.edit().clear().commit();
+  }
+
+  private static void prepareDatabase() {
+    dbHelper.getDatabase(true).delete(DbHelper.TABLE_NOTES, null, null);
+    dbHelper.getDatabase(true).delete(DbHelper.TABLE_CATEGORY, null, null);
+    dbHelper.getDatabase(true).delete(DbHelper.TABLE_ATTACHMENTS, null, null);
+    assertFalse("Database MUST be writable", dbHelper.getDatabase(true).isReadOnly());
+  }
+
+  private void prepareLocale() {
     Locale.setDefault(PRESET_LOCALE);
     Configuration config = testContext.getResources().getConfiguration();
     config.locale = PRESET_LOCALE;
   }
 
-  protected void createNote(String title, String content) {
+  protected Note createNote(String title, String content) {
     Note note = new Note();
     note.setTitle(title);
     note.setContent(content);
@@ -90,6 +105,22 @@ public class BaseAndroidTestCase {
     dbHelper.updateNote(note, false);
 
     EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(note)));
+    EventBus.getDefault().post(new CategoriesUpdatedEvent());
+
+    return note;
+  }
+
+  protected void archiveNotes(List<Note> notes, boolean archive) {
+    notes.forEach(n -> dbHelper.archiveNote(n, archive));
+
+    EventBus.getDefault().post(new NotesUpdatedEvent(notes));
+    EventBus.getDefault().post(new CategoriesUpdatedEvent());
+  }
+
+  protected void trashNotes(List<Note> notes, boolean trash) {
+    notes.forEach(n -> dbHelper.trashNote(n, trash));
+
+    EventBus.getDefault().post(new NotesUpdatedEvent(notes));
     EventBus.getDefault().post(new CategoriesUpdatedEvent());
   }
 
@@ -144,12 +175,6 @@ public class BaseAndroidTestCase {
         fail("there exists a non-static method:" + method);
       }
     }
-  }
-
-  private static void cleanDatabase() {
-    dbHelper.getDatabase(true).delete(DbHelper.TABLE_NOTES, null, null);
-    dbHelper.getDatabase(true).delete(DbHelper.TABLE_CATEGORY, null, null);
-    dbHelper.getDatabase(true).delete(DbHelper.TABLE_ATTACHMENTS, null, null);
   }
 
 }
