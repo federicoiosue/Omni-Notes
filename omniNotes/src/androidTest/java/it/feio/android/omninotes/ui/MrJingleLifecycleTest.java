@@ -27,6 +27,11 @@ import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
+import androidx.test.espresso.action.GeneralLocation;
+import androidx.test.espresso.action.GeneralSwipeAction;
+import androidx.test.espresso.action.Press;
+import androidx.test.espresso.action.Swipe;
+import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import it.feio.android.omninotes.R;
@@ -129,4 +134,21 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
         isDisplayed())).check(matches(isDisplayed()));
   }
 
+   @Test
+   public void mrJingle_displayedOnArchiveWhenEmptiedBySwiping() {
+      createNote("title", "content");
+      List<Note> notes = dbHelper.getAllNotes(false);
+      archiveNotes(notes, true);
+
+      navigateTo(1);
+
+      onView(withId(R.id.list)).perform(
+              RecyclerViewActions.actionOnItemAtPosition(0, new GeneralSwipeAction(
+                      Swipe.SLOW, GeneralLocation.BOTTOM_RIGHT, GeneralLocation.BOTTOM_LEFT,
+                      Press.FINGER)));
+
+      onView(allOf(withId(R.id.empty_list), withText(R.string.no_items_in_list),
+              withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout.class))),
+              isDisplayed())).check(matches(isDisplayed()));
+   }
 }
