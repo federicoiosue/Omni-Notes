@@ -32,28 +32,18 @@ import static org.hamcrest.Matchers.startsWith;
 import androidx.test.espresso.matcher.ViewMatchers;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
-import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import org.hamcrest.Matchers;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class RemindersLifecycleTest {
+public class RemindersLifecycleTest extends BaseEspressoTest {
 
-  @Rule
-  public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(
-      MainActivity.class);
 
   @Test
-//  @FlakyTest(detail = "Works on local emulator but is broken on Github Actions CI due to "
-//      + "androidx.test.espresso.NoMatchingViewException: No views in hierarchy found matching: (with id: "
-//      + "it.feio.android.omninotes:id/buttonPositive and with text: is \"Ok\" and is displayed on the screen to the user)."
-//      + "Fixme with Idling Resources or BusyBee") // FIXME")
   public void remindersLifecycle() {
     onView(Matchers.allOf(ViewMatchers.withId(R.id.fab_expand_menu_button),
         withParent(withId(R.id.fab)),
