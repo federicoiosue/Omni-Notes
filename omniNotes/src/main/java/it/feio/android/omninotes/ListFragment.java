@@ -1321,6 +1321,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       trashNote(getSelectedNotes(), false);
     }
 
+    listAdapter.notifyDataSetChanged();
     finishActionMode();
 
     // Advice to user
