@@ -241,7 +241,7 @@ android.productFlavors.each { flavor ->
 }
 
 apply plugin: 'jacoco'
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 'createAlphaDebugCoverageReport']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 'createAlphaDebugCoverageReport', 'connectedPlayDebugAndroidTest']) {
 
     reports {
         xml.enabled = true
@@ -256,7 +256,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 
     classDirectories.from = files([debugTree])
     executionData.from = fileTree(dir: "$buildDir", includes: [
             "jacoco/testAlphaDebugUnitTest.exec",
-            "outputs/code-coverage/alphaDebugAndroidTest/connected/*coverage.ec"
+            "outputs/code_coverage/alphaDebugAndroidTest/connected/*coverage.ec"
     ])
 }
 jacoco {
@@ -265,6 +265,9 @@ jacoco {
 
 apply plugin: 'com.adarshr.test-logger'
 tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
+
     testLogging {
         events "standardOut", "standardError", "started", "passed", "skipped", "failed"
         exceptionFormat "full"
