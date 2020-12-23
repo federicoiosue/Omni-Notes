@@ -31,6 +31,7 @@ import static org.junit.Assert.fail;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
 import de.greenrobot.event.EventBus;
@@ -38,16 +39,24 @@ import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.exceptions.TestException;
+import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -97,10 +106,18 @@ public class BaseAndroidTestCase {
     config.locale = PRESET_LOCALE;
   }
 
-  protected Note createNote(String title, String content) {
+  protected Note createTestNote(String title, String content, int attachmentsNumber) {
     Note note = new Note();
     note.setTitle(title);
     note.setContent(content);
+    long now = Calendar.getInstance().getTimeInMillis();
+    note.setCreation(now);
+    note.setLastModification(now);
+
+    for (int i = 0; i < attachmentsNumber; i++) {
+      Attachment attachment = createTestAttachment("testAttachment" + i);
+      note.addAttachment(attachment);
+    }
 
     dbHelper.updateNote(note, false);
 
@@ -108,6 +125,18 @@ public class BaseAndroidTestCase {
     EventBus.getDefault().post(new CategoriesUpdatedEvent());
 
     return note;
+  }
+
+  private Attachment createTestAttachment(String attachmentName) {
+    try {
+      File testAttachment = File.createTempFile(attachmentName, ".txt");
+      IOUtils.write(
+          String.format("some test content for attachment named %s", attachmentName).toCharArray(),
+          new FileOutputStream(testAttachment));
+      return new Attachment(Uri.fromFile(testAttachment), attachmentName);
+    } catch (IOException e) {
+      throw new TestException(e);
+    }
   }
 
   protected void archiveNotes(List<Note> notes, boolean archive) {

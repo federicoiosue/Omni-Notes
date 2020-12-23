@@ -34,7 +34,7 @@ public class SearchTagBackArrowTest extends BaseEspressoTest {
 
   @Test
   public void tagSearchFlowLinkedText() {
-    createNote("A Title", "Some text to test #hashtag");
+    createTestNote("A Title", "Some text to test #hashtag", 0);
 
     selectNoteInList(0);
     onView(withId(R.id.detail_content)).perform(click());

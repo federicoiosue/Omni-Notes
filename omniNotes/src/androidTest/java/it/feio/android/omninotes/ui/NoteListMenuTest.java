@@ -39,7 +39,7 @@ public class NoteListMenuTest extends BaseEspressoTest {
 
     prefs.edit().putBoolean(Constants.PREF_EXPANDED_VIEW, false).apply();
 
-    createNote("A Title", "A content");
+    createTestNote("A Title", "A content", 0);
 
     // click overflow menu button
     openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());

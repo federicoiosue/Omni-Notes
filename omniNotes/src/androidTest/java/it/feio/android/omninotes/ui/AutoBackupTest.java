@@ -84,9 +84,9 @@ public class AutoBackupTest extends BaseEspressoTest {
 
   @Test
   public void autoBackupWithNotesCheck() throws InterruptedException {
-    createNote("A Title", "A content");
+    createTestNote("A Title", "A content", 0);
     enableAutobackup();
-    createNote("B Title", "B content");
+    createTestNote("B Title", "B content", 0);
 
     // Waiting a little to ensure background service completes auto backup
     Thread.sleep(1200);
@@ -109,7 +109,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 
     enableAutobackup();
 
-    createNote("C Title", "C content");
+    createTestNote("C Title", "C content", 0);
 
     assertAutobackupIsCorrect();
 

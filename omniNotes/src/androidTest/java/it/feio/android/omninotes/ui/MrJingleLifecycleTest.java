@@ -36,6 +36,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Note;
+import java.io.IOException;
 import java.util.List;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
@@ -54,7 +55,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
 
   @Test
   public void mrJingle_hiddenOnNoteCreated() {
-    createNote("title", "content");
+    createTestNote("title", "content", 0);
     onView(allOf(withId(R.id.empty_list), withText(R.string.no_items_in_list),
         withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout.class))),
         isDisplayed())).check(doesNotExist());
@@ -62,7 +63,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
 
   @Test
   public void mrJingle_displayedOnLastNoteArchived() {
-    createNote("title", "content");
+    createTestNote("title", "content", 0);
     archiveNotes(dbHelper.getAllNotes(false), true);
 
     onView(allOf(withId(R.id.empty_list), withText(R.string.no_items_in_list),
@@ -72,7 +73,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
 
   @Test
   public void mrJingle_displayedOnLastNoteTrashed() {
-    createNote("title", "content");
+    createTestNote("title", "content", 0);
     trashNotes(dbHelper.getAllNotes(false), true);
 
     onView(allOf(withId(R.id.empty_list), withText(R.string.no_items_in_list),
@@ -82,7 +83,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
 
   @Test
   public void mrJingle_hiddenOnArchiveWithNotes() {
-    createNote("title", "content");
+    createTestNote("title", "content", 0);
     archiveNotes(dbHelper.getAllNotes(false), true);
 
     navigateTo(1);
@@ -94,7 +95,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
 
   @Test
   public void mrJingle_displayedOnArchiveWhenEmptied() {
-    createNote("title", "content");
+    createTestNote("title", "content", 0);
     List<Note> notes = dbHelper.getAllNotes(false);
     archiveNotes(notes, true);
 
@@ -109,7 +110,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
 
   @Test
   public void mrJingle_hiddenOnTrashWithNotes() {
-    createNote("title", "content");
+    createTestNote("title", "content", 0);
     trashNotes(dbHelper.getAllNotes(false), true);
 
     navigateTo(1);
@@ -121,7 +122,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
 
   @Test
   public void mrJingle_displayedOnTrashWhenEmptied() {
-    createNote("title", "content");
+    createTestNote("title", "content", 0);
     List<Note> notes = dbHelper.getAllNotes(false);
     trashNotes(notes, true);
 
@@ -136,7 +137,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
 
    @Test
    public void mrJingle_displayedOnArchiveWhenEmptiedBySwiping() {
-      createNote("title", "content");
+      createTestNote("title", "content", 0);
       List<Note> notes = dbHelper.getAllNotes(false);
       archiveNotes(notes, true);
 
