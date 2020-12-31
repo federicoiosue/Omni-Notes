@@ -51,7 +51,7 @@ public class NotificationListener extends NotificationListenerService {
 
   @Override
   public void onNotificationRemoved(StatusBarNotification sbn) {
-    if (sbn.getPackageName().equals(getPackageName())) {
+    if (getPackageName().equals(sbn.getPackageName())) {
       EventBus.getDefault().post(new NotificationRemovedEvent(sbn));
       LogDelegate.d("Notification removed for note: " + sbn.getId());
     }

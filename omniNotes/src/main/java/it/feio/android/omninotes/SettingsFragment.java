@@ -29,6 +29,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SHOW_UNCATEGORI
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SNOOZE_DEFAULT;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_TOUR_COMPLETE;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.reverse;
 
 import android.Manifest;
@@ -81,6 +82,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import org.apache.commons.lang3.ArrayUtils;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat {
@@ -571,12 +573,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
   private void importNotes() {
     String[] backupsArray = StorageHelper.getExternalStoragePublicDir().list();
-    final List<String> backups = asList(backupsArray);
-    reverse(backups);
 
-    if (backups.isEmpty()) {
+    if (ArrayUtils.isEmpty(backupsArray)) {
       ((SettingsActivity) getActivity()).showMessage(R.string.no_backups_available, ONStyle.WARN);
     } else {
+      final List<String> backups = asList(backupsArray);
+      reverse(backups);
 
       MaterialAlertDialogBuilder importDialog = new MaterialAlertDialogBuilder(getActivity())
           .setTitle(R.string.settings_import)
@@ -638,7 +640,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
 
   private void export(View v) {
-    final List<String> backups = asList(StorageHelper.getExternalStoragePublicDir().list());
+    String[] backupsArray = StorageHelper.getExternalStoragePublicDir().list();
+    final List<String> backups = ArrayUtils.isEmpty(backupsArray) ? emptyList() : asList(backupsArray);
 
     // Sets default export file name
     SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_EXPORT);

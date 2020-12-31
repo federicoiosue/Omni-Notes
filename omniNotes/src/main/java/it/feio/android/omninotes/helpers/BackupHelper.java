@@ -116,8 +116,8 @@ public final class BackupHelper {
             FilenameUtils.getName(attachment.getUriPath()),
             OmniNotes.getAppContext().getContentResolver().openInputStream(attachment.getUri()));
         ++exported;
-      } catch (FileNotFoundException e) {
-        LogDelegate.w("Attachment not found during backup: " + attachment.getUriPath());
+      } catch (Exception e) {
+        LogDelegate.e("Error during attachment backup: " + attachment.getUriPath(), e);
         ++failed;
         result = false;
       }
