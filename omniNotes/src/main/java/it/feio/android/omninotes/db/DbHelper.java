@@ -69,7 +69,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
   // Database name
   // Database version aligned if possible to software version
-  private static final int DATABASE_VERSION = 560;
+  private static final int DATABASE_VERSION = 610;
   // Sql query file directory
   private static final String SQL_DIR = "sql";
 

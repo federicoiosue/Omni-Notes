@@ -24,6 +24,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.exceptions.BackupException;
+import it.feio.android.omninotes.exceptions.checked.BackupAttachmentException;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
@@ -47,6 +48,8 @@ public class BackupHelperTest extends BaseAndroidTestCase {
 
   private File targetDir;
   private File targetAttachmentsDir;
+  private File backupDir;
+  private File attachmentsBackupDir;
 
 
   @Before
@@ -57,13 +60,25 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     if (targetDir.exists()) {
       FileUtils.forceDelete(targetDir);
     }
+
     targetAttachmentsDir = new File(targetDir, StorageHelper.getAttachmentDir().getName());
     targetAttachmentsDir.mkdirs();
+
+    backupDir = Files.createTempDirectory("backupDir").toFile();
+    attachmentsBackupDir = new File(backupDir, StorageHelper.getAttachmentDir().getName());
   }
 
   @After
   public void tearDown() throws Exception {
-    FileUtils.forceDelete(targetDir);
+    if (targetDir.exists()) {
+      FileUtils.forceDelete(targetDir);
+    }
+    if (targetAttachmentsDir.exists()) {
+      FileUtils.forceDelete(targetAttachmentsDir);
+    }
+    if (backupDir.exists()) {
+      FileUtils.forceDelete(backupDir);
+    }
   }
 
   @Test
@@ -134,18 +149,37 @@ public class BackupHelperTest extends BaseAndroidTestCase {
 
   @Test
   public void importAttachments() throws IOException {
-    File testAttachment = new File(targetAttachmentsDir, "testAttachment");
+    Attachment attachment = createTestAttachmentBackup();
+
+    boolean result = BackupHelper.importAttachments(backupDir, null);
+
+    assertTrue(result);
+    assertTrue(new File(attachment.getUri().getPath()).exists());
+  }
+
+  @Test
+  public void importAttachment() throws IOException, BackupAttachmentException {
+    Attachment attachment = createTestAttachmentBackup();
+
+    BackupHelper.importAttachment(attachmentsBackupDir, targetAttachmentsDir, attachment);
+
+    assertTrue(new File(attachment.getUri().getPath()).exists());
+  }
+
+  private Attachment createTestAttachmentBackup() throws IOException {
+    attachmentsBackupDir.mkdirs();
+
+    File testAttachment = new File(attachmentsBackupDir, "testAttachment");
     if (!testAttachment.createNewFile()) {
       throw new BackupException("Error during test", null);
     }
+
     Attachment attachment = new Attachment(
         Uri.fromFile(new File(StorageHelper.getAttachmentDir(), testAttachment.getName())),
         Constants.MIME_TYPE_FILES);
     dbHelper.updateAttachment(attachment);
 
-    boolean result = BackupHelper.importAttachments(targetDir, null);
-
-    assertTrue(result);
-    assertTrue(new File(attachment.getUriPath().replace("file://", "")).exists());
+    return attachment;
   }
+
 }

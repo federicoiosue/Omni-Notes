@@ -71,7 +71,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 
   @After
   public void tearDown() throws Exception {
-    File backupFolder = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+    File backupFolder = StorageHelper.getOrCreateBackupDir(Constants.AUTO_BACKUP_DIR);
     FileUtils.deleteDirectory(backupFolder);
   }
 
@@ -95,7 +95,7 @@ public class AutoBackupTest extends BaseEspressoTest {
     assertEquals(2, currentNotes.size());
     for (Note currentNote : currentNotes) {
       File backupNoteFile = BackupHelper
-          .getBackupNoteFile(StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR)
+          .getBackupNoteFile(StorageHelper.getOrCreateBackupDir(Constants.AUTO_BACKUP_DIR)
               , currentNote);
       assertTrue(backupNoteFile.exists());
       Note backupNote = BackupHelper.getImportNote(backupNoteFile);
@@ -222,7 +222,7 @@ public class AutoBackupTest extends BaseEspressoTest {
 
   private void assertAutobackupIsCorrect() {
     List<LinkedList<DiffMatchPatch.Diff>> autobackupDifferences = BackupHelper
-        .integrityCheck(StorageHelper.getBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
+        .integrityCheck(StorageHelper.getOrCreateBackupDir(ConstantsBase.AUTO_BACKUP_DIR));
     assertEquals(0, autobackupDifferences.size());
 
   }

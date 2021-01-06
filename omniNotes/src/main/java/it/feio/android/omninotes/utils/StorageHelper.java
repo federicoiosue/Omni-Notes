@@ -29,6 +29,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.exceptions.unchecked.ExternalDirectoryCreationException;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import java.io.File;
@@ -288,20 +289,18 @@ public class StorageHelper {
   }
 
 
-  public static File getExternalStoragePublicDir() {
-    File dir = new File(
-        Environment.getExternalStorageDirectory() + File.separator
-            + Constants.EXTERNAL_STORAGE_FOLDER + File
-            .separator);
-    if (!dir.exists()) {
-      dir.mkdirs();
+  public static File getOrCreateExternalStoragePublicDir() {
+    File dir = new File(Environment.getExternalStorageDirectory() + File.separator
+        + Constants.EXTERNAL_STORAGE_FOLDER + File.separator);
+    if (!dir.exists() && !dir.mkdirs()) {
+        throw new ExternalDirectoryCreationException("Can't create folder " + dir.getAbsolutePath());
     }
     return dir;
   }
 
 
-  public static File getBackupDir(String backupName) {
-    File backupDir = new File(getExternalStoragePublicDir(), backupName);
+  public static File getOrCreateBackupDir(String backupName) {
+    File backupDir = new File(getOrCreateExternalStoragePublicDir(), backupName);
     if (!backupDir.exists() && backupDir.mkdirs()) {
       createNoMediaFile(backupDir);
     }

@@ -98,13 +98,13 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     // Gets backup folder
     String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-    File backupDir = StorageHelper.getBackupDir(backupName);
+    File backupDir = StorageHelper.getOrCreateBackupDir(backupName);
 
     // Directory clean in case of previously used backup name
     StorageHelper.delete(this, backupDir.getAbsolutePath());
 
     // Directory is re-created in case of previously used backup name (removed above)
-    backupDir = StorageHelper.getBackupDir(backupName);
+    backupDir = StorageHelper.getOrCreateBackupDir(backupName);
 
     BackupHelper.exportNotes(backupDir);
 
@@ -126,7 +126,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     // Gets backup folder
     String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-    File backupDir = importLegacy ? new File(backupName) : StorageHelper.getBackupDir(backupName);
+    File backupDir = importLegacy ? new File(backupName) : StorageHelper.getOrCreateBackupDir(backupName);
 
     BackupHelper.importSettings(backupDir);
 
@@ -157,7 +157,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     // Gets backup folder
     String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-    File backupDir = StorageHelper.getBackupDir(backupName);
+    File backupDir = StorageHelper.getOrCreateBackupDir(backupName);
 
     // Backups directory removal
     StorageHelper.delete(this, backupDir.getAbsolutePath());
