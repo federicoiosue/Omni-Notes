@@ -174,7 +174,7 @@ public final class BackupHelper {
       String jsonString = FileUtils.readFileToString(file);
       if (!TextUtils.isEmpty(jsonString)) {
         note.buildFromJson(jsonString);
-        note.setAttachmentsListOld(DbHelper.getInstance().getNoteAttachments(note));
+        //note.setAttachmentsListOld(DbHelper.getInstance().getNoteAttachments(note));
       }
       return note;
     } catch (IOException e) {
