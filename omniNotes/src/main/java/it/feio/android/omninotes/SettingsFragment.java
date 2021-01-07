@@ -572,7 +572,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
 
   private void importNotes() {
-    String[] backupsArray = StorageHelper.getExternalStoragePublicDir().list();
+    String[] backupsArray = StorageHelper.getOrCreateExternalStoragePublicDir().list();
 
     if (ArrayUtils.isEmpty(backupsArray)) {
       ((SettingsActivity) getActivity()).showMessage(R.string.no_backups_available, ONStyle.WARN);
@@ -586,7 +586,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           })
           .setPositiveButton(R.string.data_import_message, (dialog, which) -> {
             int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-            File backupDir = StorageHelper.getBackupDir(backups.get(position));
+            File backupDir = StorageHelper.getOrCreateBackupDir(backups.get(position));
             long size = StorageHelper.getSize(backupDir) / 1024;
             String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
@@ -616,7 +616,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           })
           .setNegativeButton(R.string.delete, (dialog, which) -> {
             int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-            File backupDir = StorageHelper.getBackupDir(backups.get(position));
+            File backupDir = StorageHelper.getOrCreateBackupDir(backups.get(position));
             long size = StorageHelper.getSize(backupDir) / 1024;
             String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
@@ -640,7 +640,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
 
   private void export(View v) {
-    String[] backupsArray = StorageHelper.getExternalStoragePublicDir().list();
+    String[] backupsArray = StorageHelper.getOrCreateExternalStoragePublicDir().list();
     final List<String> backups = ArrayUtils.isEmpty(backupsArray) ? emptyList() : asList(backupsArray);
 
     // Sets default export file name

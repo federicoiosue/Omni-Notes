@@ -28,6 +28,7 @@ import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.exceptions.checked.BackupAttachmentException;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
@@ -61,13 +62,12 @@ public final class BackupHelper {
     }
   }
 
-
   public static void exportNote(File backupDir, Note note) {
     File noteFile = getBackupNoteFile(backupDir, note);
     try {
       FileUtils.write(noteFile, note.toJSON());
     } catch (IOException e) {
-      LogDelegate.e("Error backupping note: " + note.get_id());
+      LogDelegate.e(String.format("Error on note %s backup: %s",  note.get_id(), e.getMessage()));
     }
   }
 
@@ -75,7 +75,6 @@ public final class BackupHelper {
   public static File getBackupNoteFile(File backupDir, Note note) {
     return new File(backupDir, note.get_id() + ".json");
   }
-
 
   /**
    * Export attachments to backup folder
@@ -85,7 +84,6 @@ public final class BackupHelper {
   public static boolean exportAttachments(File backupDir) {
     return exportAttachments(backupDir, null);
   }
-
 
   /**
    * Export attachments to backup folder notifying for each attachment copied
@@ -100,37 +98,25 @@ public final class BackupHelper {
     return true;
   }
 
-
   public static boolean exportAttachments(NotificationsHelper notificationsHelper,
-      File destinationattachmentsDir,
-      List<Attachment> list, List<Attachment> listOld) {
-
+      File destinationattachmentsDir, List<Attachment> list, List<Attachment> listOld) {
     boolean result = true;
-
     listOld = listOld == null ? Collections.emptyList() : listOld;
     int exported = 0;
     int failed = 0;
+    String failedString = "";
+
     for (Attachment attachment : list) {
       try {
-        StorageHelper.copyToBackupDir(destinationattachmentsDir,
-            FilenameUtils.getName(attachment.getUriPath()),
-            OmniNotes.getAppContext().getContentResolver().openInputStream(attachment.getUri()));
+        exportAttachment(destinationattachmentsDir, attachment);
         ++exported;
-      } catch (Exception e) {
-        LogDelegate.e("Error during attachment backup: " + attachment.getUriPath(), e);
+      } catch (BackupAttachmentException e) {
         ++failed;
         result = false;
+        failedString = " (" + failed + " " + OmniNotes.getAppContext().getString(R.string.failed) + ")";
       }
 
-      String failedString =
-          failed > 0 ? " (" + failed + " " + OmniNotes.getAppContext().getString(R.string.failed)
-              + ")" : "";
-      if (notificationsHelper != null) {
-        notificationsHelper.updateMessage(
-            TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string.attachment))
-                + " " + exported + "/" + list.size() + failedString
-        );
-      }
+      notifyAttachmentBackup(notificationsHelper, list, exported, failedString);
     }
 
     Observable.from(listOld)
@@ -140,6 +126,28 @@ public final class BackupHelper {
                 attachment.getUri().getLastPathSegment()).getAbsolutePath()));
 
     return result;
+  }
+
+  private static void notifyAttachmentBackup(NotificationsHelper notificationsHelper,
+      List<Attachment> list, int exported, String failedString) {
+    if (notificationsHelper != null) {
+      String notificationMessage =
+          TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string.attachment)) + " "
+              + exported + "/" + list.size() + failedString;
+      notificationsHelper.updateMessage(notificationMessage);
+    }
+  }
+
+  private static void exportAttachment(File attachmentsDestination, Attachment attachment)
+      throws BackupAttachmentException {
+    try {
+      StorageHelper.copyToBackupDir(attachmentsDestination,
+          FilenameUtils.getName(attachment.getUriPath()),
+          OmniNotes.getAppContext().getContentResolver().openInputStream(attachment.getUri()));
+    } catch (Exception e) {
+      LogDelegate.e("Error during attachment backup: " + attachment.getUriPath(), e);
+      throw new BackupAttachmentException(e);
+    }
   }
 
   public static List<Note> importNotes(File backupDir) {
@@ -191,23 +199,30 @@ public final class BackupHelper {
     rx.Observable.from(attachments)
         .forEach(attachment -> {
           try {
-            File attachmentFile = new File(backupAttachmentsDir.getAbsolutePath(),
-                attachment.getUri().getLastPathSegment());
-            FileUtils.copyFileToDirectory(attachmentFile, attachmentsDir, true);
+            importAttachment(backupAttachmentsDir, attachmentsDir, attachment);
             if (notificationsHelper != null) {
-              notificationsHelper.updateMessage(
-                  TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string.attachment))
-                      + " "
+              notificationsHelper.updateMessage(TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string.attachment)) + " "
                       + imported.incrementAndGet() + "/" + attachments.size());
             }
-          } catch (IOException e) {
-            LogDelegate.e("Error importing the attachment " + attachment.getUriPath(), e);
+          } catch (BackupAttachmentException e) {
             result.set(false);
           }
         });
     return result.get();
   }
 
+  static void importAttachment(File backupAttachmentsDir, File attachmentsDir,
+      Attachment attachment)
+      throws BackupAttachmentException {
+    try {
+      File attachmentFile = new File(backupAttachmentsDir.getAbsolutePath(),
+          attachment.getUri().getLastPathSegment());
+      FileUtils.copyFileToDirectory(attachmentFile, attachmentsDir, true);
+    } catch (Exception e) {
+      LogDelegate.e("Error importing the attachment " + attachment.getUri().getPath(), e);
+      throw new BackupAttachmentException(e);
+    }
+  }
 
   /**
    * Starts backup service
@@ -221,7 +236,6 @@ public final class BackupHelper {
     OmniNotes.getAppContext().startService(service);
   }
 
-
   /**
    * Exports settings if required
    */
@@ -229,7 +243,6 @@ public final class BackupHelper {
     File preferences = StorageHelper.getSharedPreferencesFile(OmniNotes.getAppContext());
     return (StorageHelper.copyFile(preferences, new File(backupDir, preferences.getName())));
   }
-
 
   /**
    * Imports settings
@@ -239,7 +252,6 @@ public final class BackupHelper {
     File preferenceBackup = new File(backupDir, preferences.getName());
     return (StorageHelper.copyFile(preferenceBackup, preferences));
   }
-
 
   public static boolean deleteNoteBackup(File backupDir, Note note) {
     File noteFile = getBackupNoteFile(backupDir, note);
@@ -264,7 +276,6 @@ public final class BackupHelper {
     }
   }
 
-
   /**
    * Import database from backup folder. Used ONLY to restore legacy backup
    *
@@ -278,7 +289,6 @@ public final class BackupHelper {
     }
     return false;
   }
-
 
   public static List<LinkedList<DiffMatchPatch.Diff>> integrityCheck(File backupDir) {
     List<LinkedList<DiffMatchPatch.Diff>> errors = new ArrayList<>();
@@ -308,13 +318,11 @@ public final class BackupHelper {
     return errors;
   }
 
-
   private static void addIntegrityCheckError(List<LinkedList<DiffMatchPatch.Diff>> errors,
       IOException e) {
-    LinkedList l = new LinkedList();
+    LinkedList<DiffMatchPatch.Diff> l = new LinkedList<>();
     l.add(new DiffMatchPatch.Diff(DiffMatchPatch.Operation.DELETE, e.getMessage()));
     errors.add(l);
   }
-
 
 }
