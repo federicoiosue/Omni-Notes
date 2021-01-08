@@ -18,11 +18,13 @@
 package it.feio.android.omninotes.helpers;
 
 import static org.junit.Assert.*;
+import static rx.Observable.from;
 
 import android.net.Uri;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.RetryableAssert;
 import it.feio.android.omninotes.exceptions.BackupException;
 import it.feio.android.omninotes.exceptions.checked.BackupAttachmentException;
 import it.feio.android.omninotes.models.Attachment;
@@ -31,8 +33,11 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.util.Collection;
+import javax.annotation.Nonnull;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
@@ -60,12 +65,13 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     if (targetDir.exists()) {
       FileUtils.forceDelete(targetDir);
     }
-
     targetAttachmentsDir = new File(targetDir, StorageHelper.getAttachmentDir().getName());
-    targetAttachmentsDir.mkdirs();
+    assertTrue(targetAttachmentsDir.mkdirs());
 
     backupDir = Files.createTempDirectory("backupDir").toFile();
     attachmentsBackupDir = new File(backupDir, StorageHelper.getAttachmentDir().getName());
+    assertTrue(attachmentsBackupDir.mkdirs());
+
   }
 
   @After
@@ -115,7 +121,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     Collection<File> noteFiles = FileUtils.listFiles(targetDir, new RegexFileFilter("\\d{13}.json"),
         TrueFileFilter.INSTANCE);
     assertEquals(1, noteFiles.size());
-    Note retrievedNote = rx.Observable.from(noteFiles).map(BackupHelper::importNote).toBlocking()
+    Note retrievedNote = from(noteFiles).map(BackupHelper::importNote).toBlocking()
         .first();
     assertEquals(note, retrievedNote);
   }
@@ -130,9 +136,9 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     Collection<File> files = FileUtils
         .listFiles(targetDir, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
 
-    Note retrievedNote = rx.Observable.from(files).filter(file -> file.getName().equals(note
+    Note retrievedNote = from(files).filter(file -> file.getName().equals(note
         .getCreation() + ".json")).map(BackupHelper::importNote).toBlocking().first();
-    String retrievedAttachmentContent = Observable.from(files)
+    String retrievedAttachmentContent = from(files)
         .filter(file -> file.getName().equals(FilenameUtils
             .getName(note.getAttachmentsList().get(0).getUriPath()))).map(file -> {
           try {
@@ -158,17 +164,16 @@ public class BackupHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void importAttachment() throws IOException, BackupAttachmentException {
+  public void importAttachment()
+      throws IOException, BackupAttachmentException, InvocationTargetException, IllegalAccessException {
     Attachment attachment = createTestAttachmentBackup();
 
     BackupHelper.importAttachment(attachmentsBackupDir, targetAttachmentsDir, attachment);
 
-    assertTrue(new File(attachment.getUri().getPath()).exists());
+    RetryableAssert.assertTrue(1000, new File(attachment.getUri().getPath()), "exists");
   }
 
   private Attachment createTestAttachmentBackup() throws IOException {
-    attachmentsBackupDir.mkdirs();
-
     File testAttachment = new File(attachmentsBackupDir, "testAttachment");
     if (!testAttachment.createNewFile()) {
       throw new BackupException("Error during test", null);
