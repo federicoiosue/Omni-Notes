@@ -84,7 +84,7 @@
   <string name="data_export_completed">Data backup completed</string>
   <string name="data_import_completed">Data restore completed</string>
   <string name="click_to_refresh_application">Click to refresh application</string>
-  <string name="backup_existing">Backup already exist. It\'ll be overwritten</string>
+  <string name="backup_existing">Backup already exists. It\'ll be overwritten</string>
   <string name="tag">Tag</string>
   <string name="tags">Tags</string>
   <string name="add_tag">Add tags</string>
