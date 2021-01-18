@@ -25,8 +25,18 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import org.junit.Assert;
 
+/**
+ * Retry assertions with ease. By using composition and reflection assertions can be retried until a
+ * certain quantum of time is passed, useful when some async processing must complete for example.
+ */
 public class RetryableAssert {
 
+  /**
+   * @param timeoutInMillisec milliseconds to retry within
+   * @param o                 object to call method on
+   * @param methodName        name of the method to call on the passed object
+   * @param args              eventual args
+   */
   public static void assertTrue(long timeoutInMillisec, @Nonnull Object o,
       @Nonnull String methodName,
       @Nullable Object... args)
