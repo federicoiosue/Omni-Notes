@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -15,39 +16,39 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string-array name="navigation_list">
-    <item>笔记</item>
-    <item>归档</item>
-    <item>提醒</item>
-    <item>回收站</item>
-    <item>未分类</item>
-  </string-array>
-  <string-array name="sortable_columns_human_readable">
-    <item>标题</item>
-    <item>创建日期</item>
-    <item>最后修改日期</item>
-    <item>提醒日期</item>
-  </string-array>
-  <string-array name="checked_items_behavior">
-    <item>保持原位</item>
-    <item>移至所有事项末尾</item>
-    <item>移至未勾选事项末尾</item>
-  </string-array>
-  <string-array name="colors_app">
-    <item>禁用</item>
-    <item>仅条状标识</item>
-    <item>仅笔记列表</item>
-    <item>全彩</item>
-  </string-array>
-  <string-array name="colors_widget">
-    <item>禁用</item>
-    <item>仅条状标识</item>
-    <item>仅笔记列表</item>
-  </string-array>
-  <string-array name="attachments_actions">
-    <item>分享</item>
-    <item>删除</item>
-    <item>全部删除</item>
-    <item>编辑</item>
-  </string-array>
+    <string-array name="navigation_list">
+        <item>笔记</item>
+        <item>归档</item>
+        <item>提醒</item>
+        <item>回收站</item>
+        <item>未分类</item>
+    </string-array>
+    <string-array name="sortable_columns_human_readable">
+        <item>标题</item>
+        <item>创建日期</item>
+        <item>最后修改日期</item>
+        <item>提醒日期</item>
+    </string-array>
+    <string-array name="checked_items_behavior">
+        <item>保持原位</item>
+        <item>移至所有事项末尾</item>
+        <item>移至未勾选事项末尾</item>
+    </string-array>
+    <string-array name="colors_app">
+        <item>禁用</item>
+        <item>仅条状标识</item>
+        <item>仅笔记列表</item>
+        <item>全彩</item>
+    </string-array>
+    <string-array name="colors_widget">
+        <item>禁用</item>
+        <item>仅条状标识</item>
+        <item>仅笔记列表</item>
+    </string-array>
+    <string-array name="attachments_actions">
+        <item>分享</item>
+        <item>删除</item>
+        <item>全部删除</item>
+        <item>编辑</item>
+    </string-array>
 </resources>

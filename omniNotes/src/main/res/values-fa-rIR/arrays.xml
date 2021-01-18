@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -15,39 +16,39 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string-array name="navigation_list">
-    <item>یادداشت‌ها</item>
-    <item>بایگانی</item>
-    <item>یادآورها</item>
-    <item>سطل زباله</item>
-    <item>دسته‌بندی نشده</item>
-  </string-array>
-  <string-array name="sortable_columns_human_readable">
-    <item>عنوان</item>
-    <item>تاریخ ایجاد</item>
-    <item>تاریخ آخرین تغییرات</item>
-    <item>تاریخ یادآوری</item>
-  </string-array>
-  <string-array name="checked_items_behavior">
-    <item>حفظ موقعیت</item>
-    <item>انتقال به انتهای سیاهه</item>
-    <item>انتقال به انتهای موارد انتخاب نشده</item>
-  </string-array>
-  <string-array name="colors_app">
-    <item>غیر فعال</item>
-    <item>فقط نوار</item>
-    <item>فقط سیاهه یادداشت‌ها</item>
-    <item>تکمیل شد</item>
-  </string-array>
-  <string-array name="colors_widget">
-    <item>غیر فعال</item>
-    <item>فقط نوار</item>
-    <item>سیاههٔ یادداشت‌ها</item>
-  </string-array>
-  <string-array name="attachments_actions">
-    <item>هم‌رسانی</item>
-    <item>حذف</item>
-    <item>حذف همه</item>
-    <item>ویرایش</item>
-  </string-array>
+    <string-array name="navigation_list">
+        <item>یادداشت‌ها</item>
+        <item>بایگانی</item>
+        <item>یادآورها</item>
+        <item>سطل زباله</item>
+        <item>دسته‌بندی نشده</item>
+    </string-array>
+    <string-array name="sortable_columns_human_readable">
+        <item>عنوان</item>
+        <item>تاریخ ایجاد</item>
+        <item>تاریخ آخرین تغییرات</item>
+        <item>تاریخ یادآوری</item>
+    </string-array>
+    <string-array name="checked_items_behavior">
+        <item>حفظ موقعیت</item>
+        <item>انتقال به انتهای سیاهه</item>
+        <item>انتقال به انتهای موارد انتخاب نشده</item>
+    </string-array>
+    <string-array name="colors_app">
+        <item>غیر فعال</item>
+        <item>فقط نوار</item>
+        <item>فقط سیاهه یادداشت‌ها</item>
+        <item>تکمیل شد</item>
+    </string-array>
+    <string-array name="colors_widget">
+        <item>غیر فعال</item>
+        <item>فقط نوار</item>
+        <item>سیاههٔ یادداشت‌ها</item>
+    </string-array>
+    <string-array name="attachments_actions">
+        <item>هم‌رسانی</item>
+        <item>حذف</item>
+        <item>حذف همه</item>
+        <item>ویرایش</item>
+    </string-array>
 </resources>

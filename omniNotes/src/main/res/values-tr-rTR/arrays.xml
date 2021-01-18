@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
@@ -15,39 +16,39 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-  <string-array name="navigation_list">
-    <item>Notlar</item>
-    <item>Arşiv</item>
-    <item>Hatırlatmalar</item>
-    <item>Çöp kutusu</item>
-    <item>Kategorisiz</item>
-  </string-array>
-  <string-array name="sortable_columns_human_readable">
-    <item>Başlık</item>
-    <item>Oluşturma tarihi</item>
-    <item>Son değiştirme tarihi</item>
-    <item>Hatırlatma tarihi</item>
-  </string-array>
-  <string-array name="checked_items_behavior">
-    <item>Yerinde kalsın</item>
-    <item>En alta taşı</item>
-    <item>Onaylanmışların üstüne, onaylanmamışların altına taşı</item>
-  </string-array>
-  <string-array name="colors_app">
-    <item>Etkisizleştir</item>
-    <item>Sadece şerit</item>
-    <item>Sadece listeler</item>
-    <item>Tamamı</item>
-  </string-array>
-  <string-array name="colors_widget">
-    <item>Devre dışı</item>
-    <item>Sadece şerit</item>
-    <item>Not listesi</item>
-  </string-array>
-  <string-array name="attachments_actions">
-    <item>Paylaş</item>
-    <item>Sil</item>
-    <item>Hepsini Sil</item>
-    <item>Düzenle</item>
-  </string-array>
+    <string-array name="navigation_list">
+        <item>Notlar</item>
+        <item>Arşiv</item>
+        <item>Hatırlatmalar</item>
+        <item>Çöp kutusu</item>
+        <item>Kategorisiz</item>
+    </string-array>
+    <string-array name="sortable_columns_human_readable">
+        <item>Başlık</item>
+        <item>Oluşturma tarihi</item>
+        <item>Son değiştirme tarihi</item>
+        <item>Hatırlatma tarihi</item>
+    </string-array>
+    <string-array name="checked_items_behavior">
+        <item>Yerinde kalsın</item>
+        <item>En alta taşı</item>
+        <item>Onaylanmışların üstüne, onaylanmamışların altına taşı</item>
+    </string-array>
+    <string-array name="colors_app">
+        <item>Etkisizleştir</item>
+        <item>Sadece şerit</item>
+        <item>Sadece listeler</item>
+        <item>Tamamı</item>
+    </string-array>
+    <string-array name="colors_widget">
+        <item>Devre dışı</item>
+        <item>Sadece şerit</item>
+        <item>Not listesi</item>
+    </string-array>
+    <string-array name="attachments_actions">
+        <item>Paylaş</item>
+        <item>Sil</item>
+        <item>Hepsini Sil</item>
+        <item>Düzenle</item>
+    </string-array>
 </resources>
