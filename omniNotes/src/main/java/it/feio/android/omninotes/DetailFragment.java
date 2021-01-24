@@ -1140,10 +1140,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   private void toggleChecklist() {
-
     // In case checklist is active a prompt will ask about many options
     // to decide hot to convert back to simple text
-    if (!noteTmp.isChecklist()) {
+    if (Boolean.FALSE.equals(noteTmp.isChecklist())) {
       toggleChecklist2();
       return;
     }
@@ -1179,21 +1178,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         }).build().show();
   }
 
-  /**
-   * Toggles checklist view
-   */
   private void toggleChecklist2() {
     boolean keepChecked = prefs.getBoolean(PREF_KEEP_CHECKED, true);
     boolean showChecks = prefs.getBoolean(PREF_KEEP_CHECKMARKS, true);
     toggleChecklist2(keepChecked, showChecks);
   }
 
-  @SuppressLint("NewApi")
   private void toggleChecklist2(final boolean keepChecked, final boolean showChecks) {
-    // Get instance and set options to convert EditText to CheckListView
-
-    mChecklistManager =
-        mChecklistManager == null ? new ChecklistManager(mainActivity) : mChecklistManager;
+    mChecklistManager = mChecklistManager == null ? new ChecklistManager(mainActivity) : mChecklistManager;
     int checkedItemsBehavior = Integer
         .parseInt(prefs.getString("settings_checked_items_behavior", String.valueOf
             (it.feio.android.checklistview.Settings.CHECKED_HOLD)));
@@ -1227,14 +1219,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   private void moveCheckedItemsToBottom() {
-    if (noteTmp.isChecklist()) {
+    if (Boolean.TRUE.equals(noteTmp.isChecklist())) {
       mChecklistManager.moveCheckedToBottom();
     }
   }
 
-  /**
-   * Categorize note choosing from a list of previously created categories
-   */
   private void categorizeNote() {
 
     String currentCategory =
@@ -2114,7 +2103,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     Pair<String, List<Tag>> taggingResult = TagsHelper.addTagToNote(tags, selectedTags, note);
 
     StringBuilder sb;
-    if (noteTmp.isChecklist()) {
+    if (Boolean.TRUE.equals(noteTmp.isChecklist())) {
       CheckListViewItem mCheckListViewItem = mChecklistManager.getFocusedItemView();
       if (mCheckListViewItem != null) {
         sb = new StringBuilder(mCheckListViewItem.getText());
@@ -2151,7 +2140,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       return;
     }
 
-    if (Boolean.TRUE.equals(noteTmp.isChecklist())) {
+    boolean currentlyChecklist = Boolean.TRUE.equals(noteTmp.isChecklist());
+    if (currentlyChecklist) {
       toggleChecklist2(true, true);
     }
 
@@ -2160,26 +2150,22 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     String contentWithoutTags = TagsHelper.removeTags(getNoteContent(), tagsToRemove);
     binding.fragmentDetailContent.detailContent.setText(contentWithoutTags);
 
-    if (Boolean.TRUE.equals(noteTmp.isChecklist())) {
+    if (currentlyChecklist) {
       toggleChecklist2();
     }
   }
 
   private int getCursorIndex() {
-    if (!noteTmp.isChecklist()) {
-      return binding.fragmentDetailContent.detailContent.getSelectionStart();
-    } else {
+    if (Boolean.TRUE.equals(noteTmp.isChecklist())) {
       CheckListViewItem mCheckListViewItem = mChecklistManager.getFocusedItemView();
-      if (mCheckListViewItem != null) {
-        return mCheckListViewItem.getEditText().getSelectionStart();
-      } else {
-        return 0;
-      }
+      return mCheckListViewItem != null ? mCheckListViewItem.getEditText().getSelectionStart() : 0;
+    } else {
+      return binding.fragmentDetailContent.detailContent.getSelectionStart();
     }
   }
 
   /**
-   * Used to check currently opened note from activity to avoid openind multiple times the same one
+   * Used to check currently opened note from activity to avoid opening multiple times the same one
    */
   public Note getCurrentNote() {
     return note;
