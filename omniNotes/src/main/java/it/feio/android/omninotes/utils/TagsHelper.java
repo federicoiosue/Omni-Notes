@@ -17,7 +17,7 @@
 
 package it.feio.android.omninotes.utils;
 
-import static it.feio.android.omninotes.utils.ConstantsBase.TAG_SPECIAL_CHARS_TO_REMOVE;
+import static rx.Observable.from;
 
 import androidx.core.util.Pair;
 import it.feio.android.omninotes.db.DbHelper;
@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
-import rx.Observable;
 
 
 public class TagsHelper {
@@ -54,7 +53,6 @@ public class TagsHelper {
     }
     return tagsMap;
   }
-
 
   public static Pair<String, List<Tag>> addTagToNote(List<Tag> tags, Integer[] selectedTags,
       Note note) {
@@ -80,7 +78,6 @@ public class TagsHelper {
     return Pair.create(sbTags.toString(), tagsToRemove);
   }
 
-
   private static boolean mapContainsTag(HashMap<String, Integer> tagsMap, Tag tag) {
     for (String tagsMapItem : tagsMap.keySet()) {
       if (tagsMapItem.equals(tag.getText())) {
@@ -90,32 +87,29 @@ public class TagsHelper {
     return false;
   }
 
-
-  public static Pair<String, String> removeTag(String noteTitle, String noteContent,
-      List<Tag> tagsToRemove) {
-    String title = noteTitle, content = noteContent;
-    for (Tag tagToRemove : tagsToRemove) {
-      if (StringUtils.isNotEmpty(title)) {
-        title = Observable.from(title.replaceAll(TAG_SPECIAL_CHARS_TO_REMOVE, " ").split("\\s"))
-            .map(String::trim)
-            .filter(s -> !s.matches(tagToRemove.getText()))
-            .reduce((s, s2) -> s + " " + s2)
-            .toBlocking()
-            .singleOrDefault("");
-      }
-      if (StringUtils.isNotEmpty(content)) {
-        content = Observable.from(content.replaceAll(TAG_SPECIAL_CHARS_TO_REMOVE, " ").split("\\s"))
-            .map(String::trim)
-            .filter(s -> !s.matches(tagToRemove.getText()))
-            .reduce((s, s2) -> s + " " + s2)
-            .toBlocking()
-            .singleOrDefault("");
-      }
-
+  public static String removeTags(String text, List<Tag> tagsToRemove) {
+    if (StringUtils.isEmpty(text)) {
+      return text;
     }
-    return new Pair<>(title, content);
+    String[] textCopy = new String[]{text};
+    from(tagsToRemove).forEach(tagToRemove -> textCopy[0] = removeTag(textCopy[0], tagToRemove));
+    return textCopy[0];
   }
 
+  private static String removeTag(String textCopy, Tag tagToRemove) {
+    return from(textCopy.split(" "))
+        .map(word -> removeTagFromWord(word, tagToRemove))
+        .reduce((s, s2) -> s + " " + s2)
+        .toBlocking()
+        .singleOrDefault("")
+        .trim();
+  }
+
+  static String removeTagFromWord(String word, Tag tagToRemove) {
+    return word.matches(tagToRemove.getText() + "(\\W+.*)*")
+        ? word.replace(tagToRemove.getText(), "")
+        : word;
+  }
 
   public static String[] getTagsArray(List<Tag> tags) {
     String[] tagsArray = new String[tags.size()];
@@ -124,7 +118,6 @@ public class TagsHelper {
     }
     return tagsArray;
   }
-
 
   public static Integer[] getPreselectedTagsArray(Note note, List<Tag> tags) {
     List<Integer> t = new ArrayList<>();
@@ -139,7 +132,6 @@ public class TagsHelper {
     return t.toArray(new Integer[]{});
   }
 
-
   public static Integer[] getPreselectedTagsArray(List<Note> notes, List<Tag> tags) {
     HashSet<Integer> set = new HashSet<>();
     for (Note note : notes) {
@@ -147,4 +139,5 @@ public class TagsHelper {
     }
     return set.toArray(new Integer[]{});
   }
+
 }

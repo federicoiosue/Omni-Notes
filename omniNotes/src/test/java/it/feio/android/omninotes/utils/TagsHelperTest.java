@@ -93,15 +93,17 @@ public class TagsHelperTest {
   }
 
   @Test
-  public void removesTagsFromNote() {
-    Pair<String, String> pair = TagsHelper.removeTag(note.getTitle(), note.getContent(),
-        singletonList(new Tag(TAG3.getText(), 4)));
-    note.setTitle(pair.first);
-    note.setContent(pair.second);
+  public void removesTags_noteCheck() {
+    String title = TagsHelper.removeTags(note.getTitle(), singletonList(new Tag(TAG3.getText(), 4)));
+    String content = TagsHelper.removeTags(note.getContent(), singletonList(new Tag(TAG3.getText(), 4)));
+    note.setTitle(title);
+    note.setContent(content);
+
     HashMap<String, Integer> tags = TagsHelper.retrieveTags(note);
+
     assertTrue(tags.containsKey(TAG1.getText()));
-    assertFalse(tags.containsKey(TAG_INVALID.getText()));
     assertTrue(tags.containsKey(TAG2.getText()));
+    assertFalse(tags.containsKey(TAG_INVALID.getText()));
     assertFalse(tags.containsKey(TAG3.getText()));
   }
 
@@ -125,6 +127,25 @@ public class TagsHelperTest {
     HashMap<String, Integer> tags1 = TagsHelper.retrieveTags(note);
     assertTrue(newTags.first.contains(newTag));
     assertFalse(tags1.containsKey(newTag));
+  }
+
+  @Test
+  public void removeTags_specialCharsKeeped () {
+    String text = "<>[],-.(){}!?\n\t text";
+    String testString = text + " " + TAG1.getText();
+
+    String result = TagsHelper.removeTags(testString, singletonList(TAG1));
+
+    assertEquals(text, result);
+  }
+
+  @Test
+  public void removeTagFromWord() {
+    String word = TAG3 + "(and";
+
+    String result = TagsHelper.removeTagFromWord(word, TAG3);
+
+    assertEquals("(and", result);
   }
 
 }

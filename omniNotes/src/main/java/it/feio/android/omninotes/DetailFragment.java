@@ -181,6 +181,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.collections4.CollectionUtils;
 import rx.Observable;
 
 
@@ -2142,18 +2143,25 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
     }
 
-    // Removes unchecked tags
-    if (!taggingResult.second.isEmpty()) {
-      if (noteTmp.isChecklist()) {
-        toggleChecklist2(true, true);
-      }
-      Pair<String, String> titleAndContent = TagsHelper.removeTag(getNoteTitle(), getNoteContent(),
-          taggingResult.second);
-      binding.detailTitle.setText(titleAndContent.first);
-      binding.fragmentDetailContent.detailContent.setText(titleAndContent.second);
-      if (noteTmp.isChecklist()) {
-        toggleChecklist2();
-      }
+    eventuallyRemoveDeselectedTags(taggingResult.second);
+  }
+
+  private void eventuallyRemoveDeselectedTags(List<Tag> tagsToRemove) {
+    if (CollectionUtils.isEmpty(tagsToRemove)) {
+      return;
+    }
+
+    if (Boolean.TRUE.equals(noteTmp.isChecklist())) {
+      toggleChecklist2(true, true);
+    }
+
+    String titleWithoutTags = TagsHelper.removeTags(getNoteTitle(), tagsToRemove);
+    binding.detailTitle.setText(titleWithoutTags);
+    String contentWithoutTags = TagsHelper.removeTags(getNoteContent(), tagsToRemove);
+    binding.fragmentDetailContent.detailContent.setText(contentWithoutTags);
+
+    if (Boolean.TRUE.equals(noteTmp.isChecklist())) {
+      toggleChecklist2();
     }
   }
 
