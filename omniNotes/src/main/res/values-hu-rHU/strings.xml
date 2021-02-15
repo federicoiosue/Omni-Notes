@@ -36,7 +36,7 @@
     <string name="delete">Törlés</string>
     <string name="note_deleted">Jegyzet(ek) véglegesen törölve</string>
     <string name="archive">Archívum</string>
-    <string name="unarchive">Visszaállítás archívumból</string>
+    <string name="unarchive">Visszaállítás az archívumból</string>
     <string name="creation">Készült:</string>
     <string name="last_update">Módosítva:</string>
     <string name="delete_note_confirmation">Megerősíti a jegyzet törlését?</string>
@@ -49,7 +49,7 @@
     <string name="empty_note_not_saved">Nem lehet menteni egy üres jegyzetet</string>
     <string name="empty_note_not_shared">Nem lehet megosztani egy üres jegyzetet</string>
     <string name="note_archived">Jegyzet archiválva</string>
-    <string name="note_unarchived">Jegyzet visszaállítva archívumból</string>
+    <string name="note_unarchived">Jegyzet visszaállítva az archívumból</string>
     <string name="note">Jegyzet</string>
     <string name="share_message_chooser">Megosztás ezzel</string>
     <string name="shared_content_sign">\n【Omni Notes】</string>
@@ -122,12 +122,12 @@
     <string name="title_activity_about">Információ</string>
     <string name="deleted">törölve</string>
     <string name="no_items_in_list">Itt nincs semmi!</string>
-    <string name="checklist_on">Feladatlista engedélyezése</string>
-    <string name="checklist_off">Feladatlista letiltása</string>
+    <string name="checklist_on">Ellenőrzőlista engedélyezése</string>
+    <string name="checklist_off">Ellenőrzőlista letiltása</string>
     <string name="checklist_item_hint">Új elem</string>
-    <string name="remove_checklist">Eltávolítja a Feladatlistát?</string>
-    <string name="checklist_keep_checked">Tartsa meg a kijelölt elemeket</string>
-    <string name="checklist_keep_symbols">Tartsa meg a kijelöléseket</string>
+    <string name="remove_checklist">Eltávolítja az ellenőrzőlistát?</string>
+    <string name="checklist_keep_checked">Tartsa meg a bejelölt elemeket</string>
+    <string name="checklist_keep_symbols">Tartsa meg a bejelölő pipákat</string>
     <string name="sketch">Vázlat</string>
     <string name="crash_dialog_text">Valami elromlott az Omni Notes-ben\nKüld automatikus jelentést a fejlesztőnek?</string>
     <string name="crash_dialog_comment_prompt">Írjon ide megjegyzést (nem kötelező):</string>
@@ -152,7 +152,7 @@
     <string name="expanded_view">Bővített nézet</string>
     <string name="grid_view">Rácsnézet</string>
     <string name="add_shortcut">Parancsikon létrehozása</string>
-    <string name="shortcut_added">Parancsikon létrehozása a kezdő képernyőn</string>
+    <string name="shortcut_added">Parancsikon létrehozva a kezdőképernyőn</string>
     <string name="shortcut_note_deleted">Hivatkozás törölt jegyzethez</string>
     <string name="widget_simple_description">Egyszerű widget gombokkal</string>
     <string name="widget_list_description">Gördülő lista widget gombokkal</string>
@@ -172,7 +172,7 @@
     <string name="eraser">Radír</string>
     <string name="image">Kép</string>
     <string name="error">Hiba</string>
-    <string name="archived">archivált</string>
+    <string name="archived">archiválva</string>
     <string name="files">Fájlok</string>
     <string name="merge">Összevonás</string>
     <string name="delete_merged">Eredeti jegyzetek törlése egyesítés után?</string>
@@ -186,7 +186,7 @@
     <string name="imported">Importált</string>
     <string name="synchronize">Szinkronizálás</string>
     <string name="extracted">Kicsomagolt</string>
-    <string name="select_all">Összes kiválasztása</string>
+    <string name="select_all">Összes kijelölése</string>
     <string name="search_location">Helyszín keresése</string>
     <string name="use_current_location">Aktuális helyszín használata</string>
     <string name="filter">Szűrő</string>
@@ -203,7 +203,7 @@
     <string name="checklist">Ellenőrzőlista</string>
     <string name="text_note">Szöveges jegyzet</string>
     <string name="photo">Fénykép</string>
-    <string name="uncompleted_checklists">Befejezetlen feladatlisták</string>
+    <string name="uncompleted_checklists">Befejezetlen ellenőrzőlisták</string>
     <string name="info">Információ</string>
     <string name="completed">Kész</string>
     <string name="undo_changes_note_confirmation">Megerősíti a változtatások visszaállítását?</string>
@@ -295,7 +295,7 @@
     <string name="settings_tour_show_again_summary">Az alkalmazás kalauz megtekintése újra</string>
     <string name="backup_include_settings">Beállításokkal és jelszóval együtt</string>
     <string name="settings_included">beállítások tartalmazza</string>
-    <string name="settings_password_question_instructions">Írjon be egy kérdést és hozzá egy titkos választ, arra az esetre, ha elfelejtené a jelszót</string>
+    <string name="settings_password_question_instructions">Írjon be egy kérdést és hozzá egy titkos választ, arra az esetre, ha elfelejtené a jelszót!</string>
     <string name="settings_password_question">Kérdés</string>
     <string name="settings_password_answer">Válasz</string>
     <string name="settings_password_answer_check">Válasz megerősítése</string>
@@ -316,7 +316,7 @@
     <string name="settings_swipe_to_trash">Húzás az archívumba vagy a lomtárba</string>
     <string name="settings_swipe_to_trash_summary_1">A jegyzetek ujjal történő húzása archiválja őket</string>
     <string name="settings_swipe_to_trash_summary_2">A jegyzetek ujjal történő húzása a lomtárba teszi őket</string>
-    <string name="settings_show_uncategorized">Csoport nincs kategorizálva</string>
+    <string name="settings_show_uncategorized">Kategorizálatlan csoport</string>
     <string name="settings_show_uncategorized_summary">Új elemet ad a navigációs menühöz a kategorizálatlan jegyzetek számára</string>
     <string name="settings_show_category_count">Jegyzetek száma</string>
     <string name="settings_show_category_count_summary">Társított jegyzetek számának megjelenítése a kategória mellett</string>
