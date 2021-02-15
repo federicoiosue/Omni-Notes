@@ -1602,7 +1602,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   @Override
   public void onNoteSaved(Note noteSaved) {
-    MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
     if (!activityPausing) {
       EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(noteSaved)));
       deleteMergedNotes(mergedNotesIds);
@@ -1620,16 +1619,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     ArrayList<Note> notesToDelete = new ArrayList<>();
     if (mergedNotesIds != null) {
       for (String mergedNoteId : mergedNotesIds) {
-        Note note = new Note();
-        note.set_id(Long.valueOf(mergedNoteId));
-        notesToDelete.add(note);
+        Note noteToDelete = new Note();
+        noteToDelete.set_id(Long.valueOf(mergedNoteId));
+        notesToDelete.add(noteToDelete);
       }
       new NoteProcessorDelete(notesToDelete).process();
     }
   }
 
   private String getNoteTitle() {
-    if (binding.detailTitle != null && !TextUtils.isEmpty(binding.detailTitle.getText())) {
+    if (!TextUtils.isEmpty(binding.detailTitle.getText())) {
       return binding.detailTitle.getText().toString();
     } else {
       return "";
