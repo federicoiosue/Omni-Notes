@@ -84,7 +84,7 @@
       <intent-filter>
         <data
           android:scheme="app"
-          android:host="omninotes" />
+          android:host="@string/app_package" />
         <action android:name="android.intent.action.VIEW" />
 
         <category android:name="android.intent.category.DEFAULT" />
