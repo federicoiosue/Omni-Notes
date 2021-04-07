@@ -224,12 +224,8 @@ public class MainActivity extends BaseActivity implements
 
 
   public void initNotesList(Intent intent) {
-    //Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
     if (intent != null) {
-      Fragment searchTagFragment = startSearchView();
-      new Handler(getMainLooper()).post(() -> {
-        ((ListFragment) searchTagFragment).initNotesList(intent);
-      });
+      new Handler(getMainLooper()).post(() -> ((ListFragment) startSearchView()).initNotesList(intent));
     }
   }
 

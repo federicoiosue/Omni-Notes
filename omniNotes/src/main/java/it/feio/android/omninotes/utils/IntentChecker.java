@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import androidx.annotation.Nullable;
 import java.util.List;
 
 
@@ -40,9 +41,9 @@ public class IntentChecker {
   }
 
   /**
-   * Checks intent and features availability
+   * Checks intent and optionally features availability
    */
-  public static boolean isAvailable(Context ctx, Intent intent, String[] features) {
+  public static boolean isAvailable(Context ctx, Intent intent, @Nullable String[] features) {
     boolean res = !getCompatiblePackages(ctx, intent).isEmpty();
 
     if (features != null) {

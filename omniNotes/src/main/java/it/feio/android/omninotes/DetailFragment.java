@@ -131,10 +131,12 @@ import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.databinding.FragmentDetailBinding;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.exceptions.checked.UnhandledIntentException;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.helpers.IntentHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
+import it.feio.android.omninotes.helpers.TagOpenerHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
 import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
@@ -245,28 +247,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           .positiveText(R.string.open)
           .negativeText(R.string.copy)
           .onPositive((dialog, which) -> {
-            boolean error = false;
-            Intent intent = null;
             try {
-              intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-              intent.addCategory(Intent.CATEGORY_BROWSABLE);
-              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            } catch (NullPointerException e) {
-              error = true;
-            }
-
-            if (intent == null
-                || error
-                || !IntentChecker
-                .isAvailable(
-                    mainActivity,
-                    intent,
-                    new String[]{PackageManager.FEATURE_CAMERA})) {
+              Intent intent = TagOpenerHelper.openOrGetIntent(getContext(), url);
+              if (intent != null) {
+                mainActivity.initNotesList(intent);
+              }
+            } catch (UnhandledIntentException e) {
               mainActivity.showMessage(R.string.no_application_can_perform_this_action,
                   ONStyle.ALERT);
-
-            } else {
-              mainActivity.initNotesList(intent);
             }
           })
           .onNegative((dialog, which) -> {
