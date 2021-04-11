@@ -37,7 +37,7 @@ if (signConfigExists) {
 android {
 
     compileSdkVersion Integer.parseInt(project.TARGET_SDK)
-    buildToolsVersion project.BUILD_TOOLS
+//    buildToolsVersion project.BUILD_TOOLS
 
     defaultConfig {
         applicationId project.PACKAGE
