@@ -34,6 +34,7 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
+import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
@@ -78,7 +79,7 @@ public class BaseAndroidTestCase {
   @BeforeClass
   public static void setUpBeforeClass() {
     testContext = ApplicationProvider.getApplicationContext();
-    prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
+    prefs = Prefs.getPreferences();
     dbHelper = DbHelper.getInstance(testContext);
   }
 

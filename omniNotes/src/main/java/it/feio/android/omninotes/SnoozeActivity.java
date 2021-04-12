@@ -17,7 +17,6 @@
 
 package it.feio.android.omninotes;
 
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_DISMISS;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_PINNED;
@@ -30,11 +29,11 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SNOOZE_DEFAULT;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
 import androidx.appcompat.app.AppCompatActivity;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
 import it.feio.android.omninotes.models.Note;
@@ -84,28 +83,26 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
 
     if (getIntent().getParcelableExtra(INTENT_NOTE) != null) {
       note = getIntent().getParcelableExtra(INTENT_NOTE);
-      manageNotification(getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS));
+      manageNotification();
     } else {
       Object[] notesObjs = (Object[]) getIntent().getExtras().get(INTENT_NOTE);
       notes = Arrays.copyOf(notesObjs, notesObjs.length, Note[].class);
-      postpone(getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS), DateUtils.getNextMinute(),
-          null);
+      postpone(DateUtils.getNextMinute(), null);
     }
   }
 
-  private void manageNotification(SharedPreferences prefs) {
+  private void manageNotification() {
     if (ACTION_DISMISS.equals(getIntent().getAction())) {
       setNextRecurrentReminder(note);
       finish();
     } else if (ACTION_SNOOZE.equals(getIntent().getAction())) {
-      String snoozeDelay = prefs
-          .getString("settings_notification_snooze_delay", PREF_SNOOZE_DEFAULT);
+      String snoozeDelay = Prefs.getString("settings_notification_snooze_delay", PREF_SNOOZE_DEFAULT);
       long newReminder =
           Calendar.getInstance().getTimeInMillis() + Integer.parseInt(snoozeDelay) * 60 * 1000;
       updateNoteReminder(newReminder, note);
       finish();
     } else if (ACTION_POSTPONE.equals(getIntent().getAction())) {
-      postpone(prefs, Long.parseLong(note.getAlarm()), note.getRecurrenceRule());
+      postpone(Long.parseLong(note.getAlarm()), note.getRecurrenceRule());
     } else {
       Intent intent = new Intent(this, MainActivity.class);
       intent.putExtra(INTENT_KEY, note.get_id());
@@ -119,7 +116,7 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
     }
   }
 
-  private void postpone(SharedPreferences prefs, Long alarm, String recurrenceRule) {
+  private void postpone(Long alarm, String recurrenceRule) {
     ReminderPickers reminderPicker = new ReminderPickers(this, this);
     reminderPicker.pick(alarm, recurrenceRule);
   }

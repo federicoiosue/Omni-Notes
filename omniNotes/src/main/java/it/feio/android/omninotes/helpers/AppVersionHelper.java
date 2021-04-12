@@ -17,12 +17,12 @@
 
 package it.feio.android.omninotes.helpers;
 
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_CURRENT_APP_VERSION;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import com.pixplicity.easyprefs.library.Prefs;
 import lombok.experimental.UtilityClass;
 
 
@@ -41,17 +41,14 @@ public class AppVersionHelper {
   public static int getAppVersionFromPreferences(Context context)
       throws PackageManager.NameNotFoundException {
     try {
-      return context.getSharedPreferences(PREFS_NAME,
-          Context.MODE_MULTI_PROCESS).getInt(PREF_CURRENT_APP_VERSION, 1);
+      return Prefs.getInt(PREF_CURRENT_APP_VERSION, 1);
     } catch (ClassCastException e) {
       return getCurrentAppVersion(context) - 1;
     }
   }
 
   public static void updateAppVersionInPreferences(Context context)
-      throws PackageManager.NameNotFoundException {
-    context.getSharedPreferences(PREFS_NAME,
-        Context.MODE_MULTI_PROCESS).edit()
+      throws PackageManager.NameNotFoundException {Prefs.edit()
         .putInt(PREF_CURRENT_APP_VERSION, getCurrentAppVersion(context)).apply();
   }
 

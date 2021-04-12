@@ -132,9 +132,9 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
 
-    debugImplementation('com.squareup.leakcanary:leakcanary-android:2.4') {
-        exclude group: "com.android.support"
-    }
+//    debugImplementation('com.squareup.leakcanary:leakcanary-android:2.4') {
+//        exclude group: "com.android.support"
+//    }
 
     compileOnly "org.projectlombok:lombok:1.18.12"
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
@@ -182,6 +182,7 @@ dependencies {
     implementation 'org.bitbucket.cowwoc:diff-match-patch:1.1'
     implementation 'com.github.bosphere.android-filelogger:filelogger:1.0.7'
     implementation 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
+    implementation 'com.pixplicity.easyprefs:library:1.9.0'
 
     implementation('com.github.federicoiosue:simplegallery:3.0.1') {
         exclude group: 'com.android.support'

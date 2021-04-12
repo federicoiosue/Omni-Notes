@@ -17,11 +17,10 @@
 
 package it.feio.android.omninotes.utils;
 
-import static android.content.Context.MODE_MULTI_PROCESS;
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
 
 import android.content.Context;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Category;
@@ -71,8 +70,7 @@ public class Navigation {
     Context mContext = OmniNotes.getAppContext();
     String[] navigationListCodes = mContext.getResources()
         .getStringArray(R.array.navigation_list_codes);
-    return mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS)
-        .getString(PREF_NAVIGATION, navigationListCodes[0]);
+    return Prefs.getString(PREF_NAVIGATION, navigationListCodes[0]);
   }
 
 
@@ -82,13 +80,7 @@ public class Navigation {
    * @return ID of category or null if current navigation is not a category
    */
   public static Long getCategory() {
-    if (getNavigation() == CATEGORY) {
-      return Long.valueOf(
-          OmniNotes.getAppContext().getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS)
-              .getString(PREF_NAVIGATION, ""));
-    } else {
-      return null;
-    }
+    return CATEGORY == getNavigation() ? Long.valueOf(Prefs.getString(PREF_NAVIGATION, "")) : null;
   }
 
 
@@ -120,8 +112,7 @@ public class Navigation {
     Context mContext = OmniNotes.getAppContext();
     String[] navigationListCodes = mContext.getResources()
         .getStringArray(R.array.navigation_list_codes);
-    String navigation = mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(
-        PREF_NAVIGATION, navigationListCodes[0]);
+    String navigation = Prefs.getString(PREF_NAVIGATION, navigationListCodes[0]);
     return (categoryToCheck != null && navigation.equals(String.valueOf(categoryToCheck.getId())));
   }
 

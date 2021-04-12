@@ -17,18 +17,16 @@
 
 package it.feio.android.omninotes.async;
 
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_DYNAMIC_MENU;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SHOW_UNCATEGORIZED;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
@@ -121,9 +119,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
   private boolean checkSkippableItem(int i) {
     boolean skippable = false;
-    SharedPreferences prefs = mainActivity
-        .getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
-    boolean dynamicMenu = prefs.getBoolean(PREF_DYNAMIC_MENU, true);
+    boolean dynamicMenu = Prefs.getBoolean(PREF_DYNAMIC_MENU, true);
     DynamicNavigationLookupTable dynamicNavigationLookupTable = null;
     if (dynamicMenu) {
       dynamicNavigationLookupTable = DynamicNavigationLookupTable.getInstance();
@@ -135,7 +131,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         }
         break;
       case Navigation.UNCATEGORIZED:
-        boolean showUncategorized = prefs.getBoolean(PREF_SHOW_UNCATEGORIZED, false);
+        boolean showUncategorized = Prefs.getBoolean(PREF_SHOW_UNCATEGORIZED, false);
         if (!showUncategorized || (dynamicMenu
             && dynamicNavigationLookupTable.getUncategorized() == 0)) {
           skippable = true;

@@ -115,6 +115,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.edittext.EditText;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.pushbullet.android.extension.MessagingExtension;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -228,7 +229,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private boolean showKeyboard = false;
   private boolean swiping;
   private int startSwipeX;
-  private SharedPreferences prefs;
   private boolean orientationChanged;
   private long audioRecordingTimeStart;
   private long audioRecordingTime;
@@ -314,8 +314,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     super.onActivityCreated(savedInstanceState);
 
     mainActivity = (MainActivity) getActivity();
-
-    prefs = mainActivity.prefs;
 
     mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
     mainActivity.getToolbar().setNavigationOnClickListener(v -> navigateUp());
@@ -435,8 +433,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private void checkNoteLock(Note note) {
     // If note is locked security password will be requested
     if (note.isLocked()
-        && prefs.getString(PREF_PASSWORD, null) != null
-        && !prefs.getBoolean("settings_password_access", false)) {
+        && Prefs.getString(PREF_PASSWORD, null) != null
+        && !Prefs.getBoolean("settings_password_access", false)) {
       PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
         switch (passwordConfirmed) {
           case SUCCEED:
@@ -495,7 +493,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       //  with tags to set tag
       if (i.hasExtra(INTENT_WIDGET)) {
         String widgetId = i.getExtras().get(INTENT_WIDGET).toString();
-        String sqlCondition = prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
+        String sqlCondition = Prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
         String categoryId = TextHelper.checkIntentCategory(sqlCondition);
         if (categoryId != null) {
           Category category;
@@ -579,7 +577,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   @SuppressLint("NewApi")
   private void initViews() {
-
     // Sets onTouchListener to the whole activity to swipe notes
     binding.detailRoot.setOnTouchListener(this);
 
@@ -601,7 +598,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   private void initViewFooter() {
     String creation = DateHelper
-        .getFormattedDate(noteTmp.getCreation(), prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
+        .getFormattedDate(noteTmp.getCreation(), Prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
     binding.creation
         .append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
     if (binding.creation.getText().length() == 0) {
@@ -609,7 +606,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
 
     String lastModification = DateHelper
-        .getFormattedDate(noteTmp.getLastModification(), prefs.getBoolean(
+        .getFormattedDate(noteTmp.getLastModification(), Prefs.getBoolean(
             PREF_PRETTIFIED_DATES, true));
     binding.lastModification
         .append(lastModification.length() > 0 ? getString(R.string.last_update) + " " +
@@ -665,7 +662,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
 
     // Automatic location insertion
-    if (prefs.getBoolean(PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
+    if (Prefs.getBoolean(PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
       getLocation(detailFragment);
     }
 
@@ -704,7 +701,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   private void initViewAttachments() {
     // Attachments position based on preferences
-    if (prefs.getBoolean(PREF_ATTACHMENTS_ON_BOTTOM, false)) {
+    if (Prefs.getBoolean(PREF_ATTACHMENTS_ON_BOTTOM, false)) {
       binding.detailAttachmentsBelow.inflate();
     } else {
       binding.detailAttachmentsAbove.inflate();
@@ -887,7 +884,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    */
   private void setTagMarkerColor(Category tag) {
 
-    String colorsPref = prefs.getString("settings_colors_app", PREF_COLORS_APP_DEFAULT);
+    String colorsPref = Prefs.getString("settings_colors_app", PREF_COLORS_APP_DEFAULT);
 
     // Checking preference
     if (!"disabled".equals(colorsPref)) {
@@ -1151,14 +1148,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     // Retrieves options checkboxes and initialize their values
     final CheckBox keepChecked = layout.findViewById(R.id.checklist_keep_checked);
     final CheckBox keepCheckmarks = layout.findViewById(R.id.checklist_keep_checkmarks);
-    keepChecked.setChecked(prefs.getBoolean(PREF_KEEP_CHECKED, true));
-    keepCheckmarks.setChecked(prefs.getBoolean(PREF_KEEP_CHECKMARKS, true));
+    keepChecked.setChecked(Prefs.getBoolean(PREF_KEEP_CHECKED, true));
+    keepCheckmarks.setChecked(Prefs.getBoolean(PREF_KEEP_CHECKMARKS, true));
 
     new MaterialDialog.Builder(mainActivity)
         .customView(layout, false)
         .positiveText(R.string.ok)
         .onPositive((dialog, which) -> {
-          prefs.edit()
+          Prefs.edit()
               .putBoolean(PREF_KEEP_CHECKED, keepChecked.isChecked())
               .putBoolean(PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
               .apply();
@@ -1167,15 +1164,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   private void toggleChecklist2() {
-    boolean keepChecked = prefs.getBoolean(PREF_KEEP_CHECKED, true);
-    boolean showChecks = prefs.getBoolean(PREF_KEEP_CHECKMARKS, true);
+    boolean keepChecked = Prefs.getBoolean(PREF_KEEP_CHECKED, true);
+    boolean showChecks = Prefs.getBoolean(PREF_KEEP_CHECKMARKS, true);
     toggleChecklist2(keepChecked, showChecks);
   }
 
   private void toggleChecklist2(final boolean keepChecked, final boolean showChecks) {
     mChecklistManager = mChecklistManager == null ? new ChecklistManager(mainActivity) : mChecklistManager;
     int checkedItemsBehavior = Integer
-        .parseInt(prefs.getString("settings_checked_items_behavior", String.valueOf
+        .parseInt(Prefs.getString("settings_checked_items_behavior", String.valueOf
             (it.feio.android.checklistview.Settings.CHECKED_HOLD)));
     mChecklistManager
         .showCheckMarks(showChecks)
@@ -1328,8 +1325,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     attachmentUri = FileProviderHelper.getFileProvider(f);
     takeVideoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
     takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
-    String maxVideoSizeStr = "".equals(prefs.getString("settings_max_video_size",
-        "")) ? "0" : prefs.getString("settings_max_video_size", "");
+    String maxVideoSizeStr = "".equals(Prefs.getString("settings_max_video_size",
+        "")) ? "0" : Prefs.getString("settings_max_video_size", "");
     long maxVideoSize = parseLong(maxVideoSizeStr) * 1024L * 1024L;
     takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, maxVideoSize);
     startActivityForResult(takeVideoIntent, TAKE_VIDEO);
@@ -1569,7 +1566,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    * Checks if nothing is changed to avoid committing if possible (check)
    */
   private boolean saveNotNeeded() {
-    if (noteTmp.get_id() == null && prefs.getBoolean(PREF_AUTO_LOCATION, false)) {
+    if (noteTmp.get_id() == null && Prefs.getBoolean(PREF_AUTO_LOCATION, false)) {
       note.setLatitude(noteTmp.getLatitude());
       note.setLongitude(noteTmp.getLongitude());
     }
@@ -1660,14 +1657,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     LogDelegate.d("Locking or unlocking note " + note.get_id());
 
     // If security password is not set yes will be set right now
-    if (prefs.getString(PREF_PASSWORD, null) == null) {
+    if (Prefs.getString(PREF_PASSWORD, null) == null) {
       Intent passwordIntent = new Intent(mainActivity, PasswordActivity.class);
       startActivityForResult(passwordIntent, SET_PASSWORD);
       return;
     }
 
     // If password has already been inserted will not be asked again
-    if (noteTmp.isPasswordChecked() || prefs.getBoolean("settings_password_access", false)) {
+    if (noteTmp.isPasswordChecked() || Prefs.getBoolean("settings_password_access", false)) {
       lockUnlock();
       return;
     }
@@ -1686,7 +1683,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   private void lockUnlock() {
     // Empty password has been set
-    if (prefs.getString(PREF_PASSWORD, null) == null) {
+    if (Prefs.getString(PREF_PASSWORD, null) == null) {
       mainActivity.showMessage(R.string.password_not_set, ONStyle.WARN);
       return;
     }

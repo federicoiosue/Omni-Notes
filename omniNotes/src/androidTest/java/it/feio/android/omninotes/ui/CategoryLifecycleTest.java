@@ -77,8 +77,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
 
     onView(
         allOf(withId(R.id.menu_category), withContentDescription(R.string.category), isDisplayed()))
-        .perform(
-            click());
+        .perform(click());
 
     // Materialdialog "Add Category"
     onView(isRoot()).perform(waitId(R.id.md_buttonDefaultPositive, 5000));

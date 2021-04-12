@@ -16,7 +16,6 @@
  */
 package it.feio.android.omninotes.models.adapters;
 
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
 
 import android.app.Activity;
@@ -29,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.NavigationItem;
@@ -113,8 +113,7 @@ public class NavDrawerAdapter extends BaseAdapter {
             .getNavigationTmp() : null;
 
     String navigation = navigationTmp != null ? navigationTmp
-        : mActivity.getSharedPreferences(PREFS_NAME, Activity.MODE_MULTI_PROCESS)
-            .getString(PREF_NAVIGATION, navigationListCodes[0]);
+        : Prefs.getString(PREF_NAVIGATION, navigationListCodes[0]);
 
     // Finding selected item from standard navigation items or tags
     int index = Arrays.asList(navigationListCodes).indexOf(navigation);

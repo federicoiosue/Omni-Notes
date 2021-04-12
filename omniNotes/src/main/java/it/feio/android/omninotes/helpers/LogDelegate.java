@@ -25,6 +25,7 @@ import android.util.Log;
 import com.bosphere.filelogger.FL;
 import com.bosphere.filelogger.FLConfig;
 import com.bosphere.filelogger.FLConst;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.exceptions.GenericException;
 import it.feio.android.omninotes.utils.StorageHelper;
@@ -90,8 +91,7 @@ public class LogDelegate {
 
   private static boolean isFileLoggingEnabled() {
     if (fileLoggingEnabled == null) {
-      fileLoggingEnabled = OmniNotes.getSharedPreferences()
-          .getBoolean(PREF_ENABLE_FILE_LOGGING, false);
+      fileLoggingEnabled = Prefs.getBoolean(PREF_ENABLE_FILE_LOGGING, false);
       if (Boolean.TRUE.equals(fileLoggingEnabled)) {
         Context context = OmniNotes.getAppContext();
         FL.init(new FLConfig.Builder(context)

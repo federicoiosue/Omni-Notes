@@ -91,9 +91,8 @@ public class WidgetConfigurationActivity extends Activity {
       CheckBox showThumbnailsCheckBox = findViewById(R.id.show_thumbnails);
       CheckBox showTimestampsCheckBox = findViewById(R.id.show_timestamps);
 
-      // Updating the ListRemoteViewsFactory parameter to get the list
-      // of notes
-      ListRemoteViewsFactory.updateConfiguration(getApplicationContext(), mAppWidgetId,
+      // Updating the ListRemoteViewsFactory parameter to get the list of notes
+      ListRemoteViewsFactory.updateConfiguration(mAppWidgetId,
           sqlCondition, showThumbnailsCheckBox.isChecked(), showTimestampsCheckBox.isChecked());
 
       Intent resultValue = new Intent();
@@ -105,7 +104,7 @@ public class WidgetConfigurationActivity extends Activity {
     });
 
     // Checks if no tags are available and then disable that option
-    if (categories.size() == 0) {
+    if (categories.isEmpty()) {
       mRadioGroup.setVisibility(View.GONE);
       categorySpinner.setVisibility(View.GONE);
     }

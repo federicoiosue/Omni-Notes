@@ -17,7 +17,6 @@
 package it.feio.android.omninotes;
 
 import static androidx.core.view.ViewCompat.animate;
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_MERGE;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_POSTPONE;
@@ -79,6 +78,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -147,7 +147,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   private int listViewPosition;
   private int listViewPositionOffset = 16;
   private boolean sendToArchive;
-  private SharedPreferences prefs;
   private ListFragment mFragment;
   private ActionMode actionMode;
   private boolean keepActionMode = false;
@@ -236,7 +235,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     mainActivity = (MainActivity) getActivity();
-    prefs = mainActivity.prefs;
     if (savedInstanceState != null) {
       mainActivity.navigationTmp = savedInstanceState.getString("navigationTmp");
     }
@@ -252,15 +250,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     initNotesList(mainActivity.getIntent());
     initFab();
     initTitle();
-
-    // Restores again DefaultSharedPreferences too reload in case of data erased from Settings
-    prefs = mainActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
   }
 
 
   private void initFab() {
     fab = new Fab(binding.fab.getRoot(), binding.list,
-        prefs.getBoolean(PREF_FAB_EXPANSION_BEHAVIOR, false));
+        Prefs.getBoolean(PREF_FAB_EXPANSION_BEHAVIOR, false));
     fab.setOnFabItemClickedListener(id -> {
       View v = mainActivity.findViewById(id);
       switch (id) {
@@ -297,9 +292,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   private void initTitle() {
     String[] navigationList = getResources().getStringArray(R.array.navigation_list);
     String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
-    String navigation =
-        mainActivity.navigationTmp != null ? mainActivity.navigationTmp : prefs.getString
-            (PREF_NAVIGATION, navigationListCodes[0]);
+    String navigation = mainActivity.navigationTmp != null
+        ? mainActivity.navigationTmp
+        : Prefs.getString (PREF_NAVIGATION, navigationListCodes[0]);
     int index = Arrays.asList(navigationListCodes).indexOf(navigation);
     String title;
     // If is a traditional navigation item
@@ -578,7 +573,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
     final String[] arrayDialog = getResources()
         .getStringArray(R.array.sortable_columns_human_readable);
-    int selected = Arrays.asList(arrayDb).indexOf(prefs.getString(PREF_SORTING_COLUMN, arrayDb[0]));
+    int selected = Arrays.asList(arrayDb).indexOf(Prefs.getString(PREF_SORTING_COLUMN, arrayDb[0]));
 
     SubMenu sortMenu = this.menu.findItem(R.id.menu_sort).getSubMenu();
     for (int i = 0; i < arrayDialog.length; i++) {
@@ -716,14 +711,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
               @Override
               public boolean onQueryTextSubmit(String arg0) {
 
-                return prefs.getBoolean("settings_instant_search", false);
+                return Prefs.getBoolean("settings_instant_search", false);
               }
 
 
               @Override
               public boolean onQueryTextChange(String pattern) {
 
-                if (prefs.getBoolean("settings_instant_search", false)
+                if (Prefs.getBoolean("settings_instant_search", false)
                     && binding.searchLayout != null &&
                     searchPerformed && mFragment.isAdded()) {
                   searchTags = null;
@@ -747,7 +742,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     boolean drawerOpen =
         mainActivity.getDrawerLayout() != null && mainActivity.getDrawerLayout().isDrawerOpen
             (GravityCompat.START);
-    boolean expandedView = prefs.getBoolean(PREF_EXPANDED_VIEW, true);
+    boolean expandedView = Prefs.getBoolean(PREF_EXPANDED_VIEW, true);
 
     int navigation = Navigation.getNavigation();
     boolean navigationReminders = navigation == Navigation.REMINDERS;
@@ -755,8 +750,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     boolean navigationTrash = navigation == Navigation.TRASH;
     boolean navigationCategory = navigation == Navigation.CATEGORY;
 
-    boolean filterPastReminders = prefs.getBoolean(PREF_FILTER_PAST_REMINDERS, true);
-    boolean filterArchivedInCategory = navigationCategory && prefs
+    boolean filterPastReminders = Prefs.getBoolean(PREF_FILTER_PAST_REMINDERS, true);
+    boolean filterArchivedInCategory = navigationCategory && Prefs
         .getBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), false);
 
     if (isFabAllowed()) {
@@ -914,8 +909,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   private void switchNotesView() {
-    boolean expandedView = prefs.getBoolean(PREF_EXPANDED_VIEW, true);
-    prefs.edit().putBoolean(PREF_EXPANDED_VIEW, !expandedView).commit();
+    boolean expandedView = Prefs.getBoolean(PREF_EXPANDED_VIEW, true);
+    Prefs.edit().putBoolean(PREF_EXPANDED_VIEW, !expandedView).apply();
     // Change list view
     initNotesList(mainActivity.getIntent());
     // Called to switch menu voices
@@ -924,7 +919,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   void editNote(final Note note, final View view) {
-    if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
+    if (note.isLocked() && !Prefs.getBoolean("settings_password_access", false)) {
       PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
         if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
           note.setPasswordChecked(true);
@@ -1009,7 +1004,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   private void checkSortActionPerformed(MenuItem item) {
     if (item.getGroupId() == MENU_SORT_GROUP_ID) {
       final String[] arrayDb = getResources().getStringArray(R.array.sortable_columns);
-      prefs.edit().putString(PREF_SORTING_COLUMN, arrayDb[item.getOrder()]).apply();
+      Prefs.edit().putString(PREF_SORTING_COLUMN, arrayDb[item.getOrder()]).apply();
       initNotesList(mainActivity.getIntent());
       // Resets list scrolling position
       listViewPositionOffset = 16;
@@ -1116,7 +1111,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             intent.hasExtra(INTENT_WIDGET) ? intent.getExtras().get(INTENT_WIDGET).toString()
                 : null;
         if (widgetId != null) {
-          String sqlCondition = prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
+          String sqlCondition = Prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
           String categoryId = TextHelper.checkIntentCategory(sqlCondition);
           mainActivity.navigationTmp = !TextUtils.isEmpty(categoryId) ? categoryId : null;
         }
@@ -1184,7 +1179,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   public void onEvent(NotesLoadedEvent notesLoadedEvent) {
-    listAdapter = new NoteAdapter(mainActivity, prefs.getBoolean(PREF_EXPANDED_VIEW, true),
+    listAdapter = new NoteAdapter(mainActivity, Prefs.getBoolean(PREF_EXPANDED_VIEW, true),
         notesLoadedEvent.getNotes());
 
     initSwipeGesture();
@@ -1224,7 +1219,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     };
     ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
 
-    if (Navigation.getNavigation() != Navigation.UNCATEGORIZED && prefs
+    if (Navigation.getNavigation() != Navigation.UNCATEGORIZED && Prefs
         .getBoolean(PREF_ENABLE_SWIPE, true)) {
       itemTouchHelper.attachToRecyclerView(binding.list);
     } else {
@@ -1264,7 +1259,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       categorizeNotesExecute(null);
     } else {
       // ...trash
-      if (prefs.getBoolean("settings_swipe_to_trash", false)
+      if (Prefs.getBoolean("settings_swipe_to_trash", false)
           || Navigation.checkNavigation(Navigation.ARCHIVE)) {
         trashNotes(true);
         // ...archive
@@ -1432,7 +1427,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       // If actual navigation is not "Notes" the item will not be removed but replaced to fit the new state
       if (Navigation.checkNavigation(Navigation.NOTES)
           || (Navigation.checkNavigation(Navigation.ARCHIVE) && !archive)
-          || (Navigation.checkNavigation(Navigation.CATEGORY) && prefs.getBoolean(
+          || (Navigation.checkNavigation(Navigation.CATEGORY) && Prefs.getBoolean(
           PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), false))) {
         listAdapter.remove(note);
       } else {
@@ -1782,7 +1777,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Excludes past reminders
    */
   private void filterReminders(boolean filter) {
-    prefs.edit().putBoolean(PREF_FILTER_PAST_REMINDERS, filter).apply();
+    Prefs.edit().putBoolean(PREF_FILTER_PAST_REMINDERS, filter).apply();
     // Change list view
     initNotesList(mainActivity.getIntent());
     // Called to switch menu voices
@@ -1795,10 +1790,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    */
   private void filterCategoryArchived(boolean filter) {
     if (filter) {
-      prefs.edit().putBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), true)
+      Prefs.edit().putBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), true)
           .apply();
     } else {
-      prefs.edit().remove(PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory()).apply();
+      Prefs.edit().remove(PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory()).apply();
     }
     // Change list view
     initNotesList(mainActivity.getIntent());

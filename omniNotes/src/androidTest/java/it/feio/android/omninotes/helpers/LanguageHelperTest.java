@@ -23,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
@@ -47,9 +48,7 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
   @Test
   public void changeSharedPrefrencesLanguage() {
     LanguageHelper.updateLanguage(testContext, Locale.ITALY.toString());
-    SharedPreferences prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context
-        .MODE_MULTI_PROCESS);
-    String language = prefs.getString(Constants.PREF_LANG, "");
+    String language = Prefs.getString(Constants.PREF_LANG, "");
     assertEquals(Locale.ITALY.toString(), language);
   }
 

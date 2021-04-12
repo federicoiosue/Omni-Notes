@@ -32,8 +32,8 @@ import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.MainActivity;
-import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
@@ -51,7 +51,7 @@ public class ShortcutHelper {
     String shortcutTitle =
         note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
                 .getCreation(),
-            OmniNotes.getSharedPreferences().getBoolean(PREF_PRETTIFIED_DATES, true));
+            Prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
 
     if (Build.VERSION.SDK_INT < 26) {
       createShortcutPreOreo(context, note, shortcutTitle);
@@ -143,7 +143,7 @@ public class ShortcutHelper {
     String shortcutTitle =
         note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
                 .getCreation(),
-            OmniNotes.getSharedPreferences().getBoolean(PREF_PRETTIFIED_DATES, true));
+            Prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
 
     addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
 

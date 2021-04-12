@@ -17,7 +17,6 @@
 
 package it.feio.android.omninotes.async;
 
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_RESTART_APP;
 
 import android.app.IntentService;
@@ -66,8 +65,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
   @Override
   protected void onHandleIntent(Intent intent) {
-    prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
-
     mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannelNames.BACKUPS,
         R.drawable.ic_content_save_white_24dp, getString(R.string.working));
 

@@ -17,18 +17,16 @@
 
 package it.feio.android.omninotes.helpers;
 
-import static android.content.Context.MODE_MULTI_PROCESS;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_LANG;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
-import it.feio.android.omninotes.utils.Constants;
+import com.pixplicity.easyprefs.library.Prefs;
 import java.util.Locale;
 import lombok.experimental.UtilityClass;
 
@@ -41,15 +39,14 @@ public class LanguageHelper {
    */
   @SuppressLint("ApplySharedPref")
   public static Context updateLanguage(Context ctx, String lang) {
-    SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-    String language = prefs.getString(PREF_LANG, "");
+    String language = Prefs.getString(PREF_LANG, "");
 
     Locale locale = null;
     if (TextUtils.isEmpty(language) && lang == null) {
       locale = Locale.getDefault();
     } else if (lang != null) {
       locale = getLocale(lang);
-      prefs.edit().putString(PREF_LANG, lang).commit();
+      Prefs.edit().putString(PREF_LANG, lang).apply();
     } else if (!TextUtils.isEmpty(language)) {
       locale = getLocale(language);
     }
@@ -58,8 +55,7 @@ public class LanguageHelper {
   }
 
   public static Context resetSystemLanguage(Context ctx) {
-    SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-    prefs.edit().remove(PREF_LANG).apply();
+    Prefs.edit().remove(PREF_LANG).apply();
 
     return setLocale(ctx, Locale.getDefault());
   }

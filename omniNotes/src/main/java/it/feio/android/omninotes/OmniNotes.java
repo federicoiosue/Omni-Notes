@@ -23,10 +23,10 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SEND_ANALYTICS;
 import static it.feio.android.omninotes.utils.ConstantsBase.PROPERTIES_PARAMS_SEPARATOR;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
 import androidx.multidex.MultiDexApplication;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.analitica.AnalyticsHelperFactory;
 import it.feio.android.analitica.MockAnalyticsHelper;
@@ -47,7 +47,6 @@ import org.acra.sender.HttpSender;
 @AcraToast(resText = R.string.crash_toast)
 public class OmniNotes extends MultiDexApplication {
 
-  static SharedPreferences prefs;
   private static Context mContext;
   private AnalyticsHelper analyticsHelper;
 
@@ -57,15 +56,6 @@ public class OmniNotes extends MultiDexApplication {
 
   public static Context getAppContext() {
     return OmniNotes.mContext;
-  }
-
-  /**
-   * Statically returns app's default SharedPreferences instance
-   *
-   * @return SharedPreferences object instance
-   */
-  public static SharedPreferences getSharedPreferences() {
-    return getAppContext().getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
   }
 
   @Override
@@ -78,13 +68,19 @@ public class OmniNotes extends MultiDexApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-
     mContext = getApplicationContext();
-    prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
-
+    initSharedPreferences();
     enableStrictMode();
-
     new NotificationsHelper(this).initNotificationChannels();
+  }
+
+  private void initSharedPreferences() {
+    new Prefs.Builder()
+        .setContext(this)
+        .setMode(MODE_PRIVATE)
+        .setPrefsName(PREFS_NAME)
+        .setUseDefaultSharedPreference(true)
+        .build();
   }
 
   private void enableStrictMode() {
@@ -93,17 +89,16 @@ public class OmniNotes extends MultiDexApplication {
     }
   }
 
-
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    String language = prefs.getString(PREF_LANG, "");
+    String language = Prefs.getString(PREF_LANG, "");
     LanguageHelper.updateLanguage(this, language);
   }
 
   public AnalyticsHelper getAnalyticsHelper() {
     if (analyticsHelper == null) {
-      boolean enableAnalytics = prefs.getBoolean(PREF_SEND_ANALYTICS, true);
+      boolean enableAnalytics = Prefs.getBoolean(PREF_SEND_ANALYTICS, true);
       try {
         String[] analyticsParams = BuildConfig.ANALYTICS_PARAMS.split(PROPERTIES_PARAMS_SEPARATOR);
         analyticsHelper = new AnalyticsHelperFactory().getAnalyticsHelper(this, enableAnalytics,
@@ -114,4 +109,5 @@ public class OmniNotes extends MultiDexApplication {
     }
     return analyticsHelper;
   }
+
 }

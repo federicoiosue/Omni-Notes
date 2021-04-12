@@ -18,7 +18,6 @@ package it.feio.android.omninotes.db;
 
 import static it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
 import static it.feio.android.omninotes.utils.Constants.DATABASE_NAME;
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO;
 import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_FILES;
 import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE;
@@ -32,12 +31,12 @@ import static it.feio.android.omninotes.utils.ConstantsBase.TIMESTAMP_UNIX_EPOCH
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.async.upgrade.UpgradeProcessor;
 import it.feio.android.omninotes.exceptions.DatabaseException;
@@ -119,7 +118,6 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
   private final Context mContext;
-  private final SharedPreferences prefs;
 
   private static DbHelper instance = null;
   private SQLiteDatabase db;
@@ -151,7 +149,6 @@ public class DbHelper extends SQLiteOpenHelper {
   private DbHelper(Context mContext) {
     super(mContext, DATABASE_NAME, null, DATABASE_VERSION);
     this.mContext = mContext;
-    this.prefs = mContext.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
   }
 
 
@@ -218,7 +215,7 @@ public class DbHelper extends SQLiteOpenHelper {
     db = getDatabase(true);
 
     String content = Boolean.TRUE.equals(note.isLocked())
-        ? Security.encrypt(note.getContent(), prefs.getString(PREF_PASSWORD, ""))
+        ? Security.encrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, ""))
         : note.getContent();
 
     // To ensure note and attachments insertions are atomic and boost performances transaction are used
@@ -341,7 +338,7 @@ public class DbHelper extends SQLiteOpenHelper {
         case Navigation.ARCHIVE:
           return getNotesArchived();
         case Navigation.REMINDERS:
-          return getNotesWithReminder(prefs.getBoolean(PREF_FILTER_PAST_REMINDERS, false));
+          return getNotesWithReminder(Prefs.getBoolean(PREF_FILTER_PAST_REMINDERS, false));
         case Navigation.TRASH:
           return getNotesTrashed();
         case Navigation.UNCATEGORIZED:
@@ -405,7 +402,7 @@ public class DbHelper extends SQLiteOpenHelper {
     if (Navigation.checkNavigation(Navigation.REMINDERS)) {
       sortColumn = KEY_REMINDER;
     } else {
-      sortColumn = prefs.getString(PREF_SORTING_COLUMN, KEY_TITLE);
+      sortColumn = Prefs.getString(PREF_SORTING_COLUMN, KEY_TITLE);
     }
     if (order) {
       sortOrder =
@@ -470,7 +467,7 @@ public class DbHelper extends SQLiteOpenHelper {
           // Eventual decryption of content
           if (Boolean.TRUE.equals(note.isLocked())) {
             note.setContent(
-                Security.decrypt(note.getContent(), prefs.getString(PREF_PASSWORD, "")));
+                Security.decrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
           }
 
           // Set category
@@ -672,7 +669,7 @@ public class DbHelper extends SQLiteOpenHelper {
    */
   public List<Note> getNotesByCategory(Long categoryId) {
     List<Note> notes;
-    boolean filterArchived = prefs
+    boolean filterArchived = Prefs
         .getBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
     try {
       String whereCondition = " WHERE "

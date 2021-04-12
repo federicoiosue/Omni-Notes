@@ -16,7 +16,6 @@
  */
 package it.feio.android.omninotes;
 
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_UPDATE_DASHCLOCK;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
 
@@ -26,7 +25,6 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -38,6 +36,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Note;
@@ -54,8 +53,6 @@ public class BaseActivity extends AppCompatActivity {
 
   protected static final int TRANSITION_VERTICAL = 0;
   protected static final int TRANSITION_HORIZONTAL = 1;
-
-  protected SharedPreferences prefs;
 
   protected String navigation;
   protected String navigationTmp; // used for widget navigation
@@ -76,7 +73,6 @@ public class BaseActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
     // Forces menu overflow icon
     try {
       ViewConfiguration config = ViewConfiguration.get(this.getApplicationContext());
@@ -96,13 +92,13 @@ public class BaseActivity extends AppCompatActivity {
   protected void onResume() {
     super.onResume();
     String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
-    navigation = prefs.getString(PREF_NAVIGATION, navNotes);
-    LogDelegate.d(prefs.getAll().toString());
+    navigation = Prefs.getString(PREF_NAVIGATION, navNotes);
+    LogDelegate.d(Prefs.getAll().toString());
   }
 
 
   protected void showToast(CharSequence text, int duration) {
-    if (prefs.getBoolean("settings_enable_info", true)) {
+    if (Prefs.getBoolean("settings_enable_info", true)) {
       Toast.makeText(getApplicationContext(), text, duration).show();
     }
   }
@@ -114,7 +110,7 @@ public class BaseActivity extends AppCompatActivity {
    */
   public void requestPassword(final Activity mActivity, List<Note> notes,
       final PasswordValidator mPasswordValidator) {
-    if (prefs.getBoolean("settings_password_access", false)) {
+    if (Prefs.getBoolean("settings_password_access", false)) {
       mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
       return;
     }
@@ -139,7 +135,7 @@ public class BaseActivity extends AppCompatActivity {
         .equals(nav))) {
       return false;
     }
-    prefs.edit().putString(PREF_NAVIGATION, nav).apply();
+    Prefs.edit().putString(PREF_NAVIGATION, nav).apply();
     navigation = nav;
     navigationTmp = null;
     return true;
@@ -148,8 +144,6 @@ public class BaseActivity extends AppCompatActivity {
 
   /**
    * Retrieves resource by name
-   *
-   * @returnnotifyAppWidgets
    */
   private String getStringResourceByName(String aString) {
     String packageName = getApplicationContext().getPackageName();

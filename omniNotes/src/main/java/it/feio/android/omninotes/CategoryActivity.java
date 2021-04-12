@@ -17,12 +17,10 @@
 
 package it.feio.android.omninotes;
 
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_CATEGORY;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
 import static java.lang.Integer.parseInt;
 
-import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -31,6 +29,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
+import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.databinding.ActivityCategoryBinding;
@@ -152,11 +151,10 @@ public class CategoryActivity extends AppCompatActivity implements
         .positiveColorRes(R.color.colorAccent)
         .onPositive((dialog, which) -> {
           // Changes navigation if actually are shown notes associated with this category
-          SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
           String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
-          String navigation = prefs.getString(PREF_NAVIGATION, navNotes);
+          String navigation = Prefs.getString(PREF_NAVIGATION, navNotes);
           if (String.valueOf(category.getId()).equals(navigation)) {
-            prefs.edit().putString(PREF_NAVIGATION, navNotes).apply();
+            Prefs.edit().putString(PREF_NAVIGATION, navNotes).apply();
           }
           // Removes category and edit notes associated with it
           DbHelper db = DbHelper.getInstance();

@@ -17,12 +17,10 @@
 package it.feio.android.omninotes.models.adapters;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
 import static it.feio.android.omninotes.utils.ConstantsBase.TIMESTAMP_UNIX_EPOCH_FAR;
 
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -35,6 +33,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.TextWorkerTask;
 import it.feio.android.omninotes.helpers.LogDelegate;
@@ -86,8 +85,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
     if (expandedView && holder.attachmentThumbnail != null) {
       // If note is locked or without attachments nothing is shown
-      if ((note.isLocked() && !mActivity.getSharedPreferences(PREFS_NAME,
-          Context.MODE_MULTI_PROCESS).getBoolean("settings_password_access", false))
+      if ((note.isLocked() && !Prefs.getBoolean("settings_password_access", false))
           || note.getAttachmentsList().isEmpty()) {
         holder.attachmentThumbnail.setVisibility(View.GONE);
       } else {
@@ -232,8 +230,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
    */
   private void colorNote(Note note, View v, NoteViewHolder holder) {
 
-    String colorsPref = mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-        .getString("settings_colors_app", PREF_COLORS_APP_DEFAULT);
+    String colorsPref = Prefs.getString("settings_colors_app", PREF_COLORS_APP_DEFAULT);
 
     // Checking preference
     if (!colorsPref.equals("disabled")) {
@@ -261,7 +258,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
   }
 
   public void replace(@NonNull Note note, int index) {
-    if (notes.indexOf(note) != -1) {
+    if (notes.contains(note)) {
       remove(note);
     } else {
       index = notes.size();

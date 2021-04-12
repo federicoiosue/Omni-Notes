@@ -16,7 +16,6 @@
  */
 package it.feio.android.omninotes.models.adapters;
 
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
 
 import android.app.Activity;
@@ -30,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.databinding.DrawerListItemBinding;
@@ -80,7 +80,6 @@ public class CategoryBaseAdapter extends BaseAdapter {
 
 
   public View getView(int position, View convertView, ViewGroup parent) {
-
     Category category = categories.get(position);
 
     CategoryViewHolder holder;
@@ -121,8 +120,7 @@ public class CategoryBaseAdapter extends BaseAdapter {
     }
 
     // Sets category count if set in preferences
-    if (mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean
-        ("settings_show_category_count", true)) {
+    if (Prefs.getBoolean("settings_show_category_count", true)) {
       holder.count.setText(String.valueOf(category.getCount()));
       holder.count.setVisibility(View.VISIBLE);
     }
@@ -132,21 +130,19 @@ public class CategoryBaseAdapter extends BaseAdapter {
 
 
   private boolean isSelected(int position) {
-
     // Getting actual navigation selection
     String[] navigationListCodes = mActivity.getResources().getStringArray(
         R.array.navigation_list_codes);
 
     // Managing temporary navigation indicator when coming from a widget
-    String navigationTmpLocal =
-        MainActivity.class.isAssignableFrom(mActivity.getClass()) ? ((MainActivity)
-            mActivity).getNavigationTmp() : null;
+    String navigationTmpLocal = MainActivity.class.isAssignableFrom(mActivity.getClass())
+        ? ((MainActivity) mActivity).getNavigationTmp()
+        : null;
     navigationTmpLocal = this.navigationTmp != null ? this.navigationTmp : navigationTmpLocal;
 
-    String navigation = navigationTmp != null ? navigationTmpLocal
-        : mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-            .getString(PREF_NAVIGATION,
-                navigationListCodes[0]);
+    String navigation = navigationTmp != null
+        ? navigationTmpLocal
+        : Prefs.getString(PREF_NAVIGATION, navigationListCodes[0]);
 
     return navigation.equals(String.valueOf(categories.get(position).getId()));
   }

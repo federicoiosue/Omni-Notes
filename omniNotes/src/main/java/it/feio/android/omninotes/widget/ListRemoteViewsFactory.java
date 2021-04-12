@@ -17,14 +17,12 @@
 
 package it.feio.android.omninotes.widget;
 
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_WIDGET_PREFIX;
 
 import android.app.Application;
 import android.appwidget.AppWidgetManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -33,6 +31,7 @@ import android.text.Spanned;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
@@ -63,11 +62,9 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
         .getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
   }
 
-  static void updateConfiguration(Context mContext, int mAppWidgetId, String sqlCondition,
-      boolean thumbnails, boolean timestamps) {
+  static void updateConfiguration(int mAppWidgetId, String sqlCondition, boolean thumbnails, boolean timestamps) {
     LogDelegate.d("Widget configuration updated");
-    mContext.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
-        .putString(PREF_WIDGET_PREFIX + mAppWidgetId, sqlCondition).apply();
+    Prefs.edit().putString(PREF_WIDGET_PREFIX + mAppWidgetId, sqlCondition).apply();
     showThumbnails = thumbnails;
     showTimestamps = timestamps;
   }
@@ -75,10 +72,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
   @Override
   public void onCreate() {
     LogDelegate.d("Created widget " + appWidgetId);
-    String condition = app.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-        .getString(
-            PREF_WIDGET_PREFIX
-                + appWidgetId, "");
+    String condition = Prefs.getString(PREF_WIDGET_PREFIX + appWidgetId, "");
     notes = DbHelper.getInstance().getNotes(condition, true);
   }
 
@@ -87,19 +81,13 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
     LogDelegate.d("onDataSetChanged widget " + appWidgetId);
     navigation = Navigation.getNavigation();
 
-    String condition = app.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-        .getString(
-            PREF_WIDGET_PREFIX
-                + appWidgetId, "");
+    String condition = Prefs.getString(PREF_WIDGET_PREFIX + appWidgetId, "");
     notes = DbHelper.getInstance().getNotes(condition, true);
   }
 
   @Override
   public void onDestroy() {
-    app.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-        .edit()
-        .remove(PREF_WIDGET_PREFIX + appWidgetId)
-        .apply();
+    Prefs.edit().remove(PREF_WIDGET_PREFIX + appWidgetId).apply();
   }
 
   @Override
@@ -168,10 +156,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
   }
 
   private void color(Note note, RemoteViews row) {
-
-    String colorsPref = app.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-        .getString("settings_colors_widget",
-            PREF_COLORS_APP_DEFAULT);
+    String colorsPref = Prefs.getString("settings_colors_widget", PREF_COLORS_APP_DEFAULT);
 
     // Checking preference
     if (!colorsPref.equals("disabled")) {
