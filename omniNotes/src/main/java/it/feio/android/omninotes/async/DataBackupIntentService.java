@@ -43,7 +43,6 @@ import java.io.File;
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
 
   public static final String INTENT_BACKUP_NAME = "backup_name";
-  public static final String INTENT_BACKUP_INCLUDE_SETTINGS = "backup_include_settings";
   public static final String ACTION_DATA_EXPORT = "action_data_export";
   public static final String ACTION_DATA_IMPORT = "action_data_import";
   public static final String ACTION_DATA_IMPORT_LEGACY = "action_data_import_legacy";
@@ -91,7 +90,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
   private synchronized void exportData(Intent intent) {
 
-    boolean result = true;
+    boolean result;
 
     // Gets backup folder
     String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
@@ -104,12 +103,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     backupDir = StorageHelper.getOrCreateBackupDir(backupName);
 
     BackupHelper.exportNotes(backupDir);
-
     result = BackupHelper.exportAttachments(backupDir, mNotificationsHelper);
-
-    if (intent.getBooleanExtra(INTENT_BACKUP_INCLUDE_SETTINGS, true)) {
-      BackupHelper.exportSettings(backupDir);
-    }
+    result = result  && BackupHelper.exportSettings(backupDir);
 
     String notificationMessage =
         result ? getString(R.string.data_export_completed) : getString(R.string.data_export_failed);
