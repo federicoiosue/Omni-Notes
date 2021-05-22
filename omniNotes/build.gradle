@@ -16,6 +16,7 @@
  */
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 boolean signConfigExists = project.hasProperty("SIGN_PROPS") && new File(project.property("SIGN_PROPS")).exists()
 if (signConfigExists) {
@@ -223,6 +224,8 @@ dependencies {
     fossImplementation 'com.jakewharton.timber:timber:4.5.1'
 
     testImplementation 'junit:junit:4.12'
+    implementation "androidx.core:core-ktx:+"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 configurations.all {
@@ -273,4 +276,7 @@ tasks.withType(Test) {
         events "standardOut", "standardError", "started", "passed", "skipped", "failed"
         exceptionFormat "full"
     }
+}
+repositories {
+    mavenCentral()
 }
