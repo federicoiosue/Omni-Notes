@@ -17,8 +17,8 @@
 <changelog bulletedList="true">
 
   <changelogversion
-    changeDate="Dec 16, 2020"
-    versionName="6.1.0 Alpha 1">
+    changeDate="May 22, 2021 Beta 1"
+    versionName="6.1.0">
     <changelogtext>[b]New![/b] Pin your notes on top of notifications</changelogtext>
     <changelogtext>[b]New![/b] Dropped support for Android versions older than KitKat to improve
       performances
@@ -31,7 +31,7 @@
     </changelogtext>
     <changelogtext>[i]Improved![/i] Simplified merging notes: confirmation is no more required
     </changelogtext>
-    <changelogtext>[i]Improved![/i] More intuitive bulk tag editing: all notes'tags will be
+    <changelogtext>[i]Improved![/i] More intuitive bulk tag editing: all notes' tags will be
       preselected for easier management
     </changelogtext>
     <changelogtext>[i]Improved![/i] Changed position of sharing action in menu to make it faster to
