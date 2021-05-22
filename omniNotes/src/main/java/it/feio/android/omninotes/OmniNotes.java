@@ -17,7 +17,7 @@
 
 package it.feio.android.omninotes;
 
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
+import static it.feio.android.omninotes.utils.Constants.PACKAGE;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_LANG;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SEND_ANALYTICS;
 import static it.feio.android.omninotes.utils.ConstantsBase.PROPERTIES_PARAMS_SEPARATOR;
@@ -78,7 +78,7 @@ public class OmniNotes extends MultiDexApplication {
     new Prefs.Builder()
         .setContext(this)
         .setMode(MODE_PRIVATE)
-        .setPrefsName(PREFS_NAME)
+        .setPrefsName(PACKAGE)
         .setUseDefaultSharedPreference(true)
         .build();
   }

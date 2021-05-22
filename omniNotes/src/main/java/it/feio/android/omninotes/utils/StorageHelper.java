@@ -33,7 +33,6 @@ import it.feio.android.omninotes.exceptions.unchecked.ExternalDirectoryCreationE
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -154,29 +153,14 @@ public class StorageHelper {
   }
 
   public static boolean copyFile(File source, File destination) {
-    FileInputStream is = null;
-    FileOutputStream os = null;
     try {
-      is = new FileInputStream(source);
-      os = new FileOutputStream(destination);
-      return copyFile(is, os);
-    } catch (FileNotFoundException e) {
-      LogDelegate.e("Error copying file", e);
-      return false;
-    } finally {
-      try {
-        if (is != null) {
-          is.close();
-        }
-        if (os != null) {
-          os.close();
-        }
-      } catch (IOException e) {
-        LogDelegate.e("Error closing streams", e);
-      }
+      FileUtils.copyFile(source, destination);
+      return true;
+    } catch (IOException e) {
+      LogDelegate.e("Error copying file: " + e.getMessage(), e);
     }
+    return false;
   }
-
 
   /**
    * Generic file copy method
