@@ -584,13 +584,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             File backupDir = StorageHelper.getOrCreateBackupDir(backups.get(position));
             long size = StorageHelper.getSize(backupDir) / 1024;
             String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
-
-            // Check preference presence
-            String prefName = StorageHelper.getSharedPreferencesFile(getActivity()).getName();
-            boolean hasPreferences = (new File(backupDir, prefName)).exists();
-
-            String message = String.format("%s (%s %s)", backups.get(position), sizeString,
-                hasPreferences ? getString(R.string.settings_included) : "");
+            String message = String.format("%s (%s)", backups.get(position), sizeString);
 
             new MaterialAlertDialogBuilder(getActivity())
                 .setTitle(R.string.confirm_restoring_backup)

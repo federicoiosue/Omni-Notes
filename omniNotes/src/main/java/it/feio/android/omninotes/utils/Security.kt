@@ -60,7 +60,7 @@ class Security private constructor(){
                 Base64.encodeToString(cipher.doFinal(clearText), Base64.DEFAULT)
             } catch (e: Exception) {
                 LogDelegate.e("Something is gone wrong encrypting", e)
-                ""
+                value
             }
         }
 

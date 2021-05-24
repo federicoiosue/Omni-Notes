@@ -19,11 +19,13 @@ package it.feio.android.omninotes.helpers;
 
 
 import static it.feio.android.omninotes.utils.ConstantsBase.DATABASE_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.DataBackupIntentService;
@@ -32,6 +34,7 @@ import it.feio.android.omninotes.exceptions.checked.BackupAttachmentException;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TextHelper;
 import java.io.File;
@@ -45,7 +48,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
@@ -64,6 +66,9 @@ public final class BackupHelper {
   }
 
   public static void exportNote(File backupDir, Note note) {
+    if (Boolean.TRUE.equals(note.isLocked())) {
+      note.setContent(Security.encrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
+    }
     File noteFile = getBackupNoteFile(backupDir, note);
     try {
       FileUtils.write(noteFile, note.toJSON());
@@ -164,6 +169,9 @@ public final class BackupHelper {
     Note note = getImportNote(file);
     if (note.getCategory() != null) {
       DbHelper.getInstance().updateCategory(note.getCategory());
+    }
+    if (Boolean.TRUE.equals(note.isLocked())) {
+      note.setContent(Security.decrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
     }
     DbHelper.getInstance().updateNote(note, false);
     return note;

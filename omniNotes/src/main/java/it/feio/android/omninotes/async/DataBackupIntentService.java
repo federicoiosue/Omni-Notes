@@ -23,7 +23,7 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
@@ -48,7 +48,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
   public static final String ACTION_DATA_IMPORT_LEGACY = "action_data_import_legacy";
   public static final String ACTION_DATA_DELETE = "action_data_delete";
 
-  private SharedPreferences prefs;
   private NotificationsHelper mNotificationsHelper;
 
 //    {
@@ -138,7 +137,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         getString(R.string.click_to_refresh_application), backupDir);
 
     // Performs auto-backup filling after backup restore
-//        if (prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
+//        if (Prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
 //            File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
 //            BackupHelper.exportNotes(autoBackupDir);
 //            BackupHelper.exportAttachments(autoBackupDir);
@@ -185,9 +184,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
     notificationsHelper.createStandardNotification(NotificationChannelNames.BACKUPS,
         R.drawable.ic_content_save_white_24dp, title, notifyIntent)
-        .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null))
+        .setMessage(message).setRingtone(Prefs.getString("settings_notification_ringtone", null))
         .setLedActive();
-    if (prefs.getBoolean("settings_notification_vibration", true)) {
+    if (Prefs.getBoolean("settings_notification_vibration", true)) {
       notificationsHelper.setVibration();
     }
     notificationsHelper.show();
