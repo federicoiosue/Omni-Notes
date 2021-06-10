@@ -34,7 +34,7 @@ public interface ConstantsBase {
   int SWIPE_OFFSET = 100;
 
   // Floating action button
-  int FAB_ANIMATION_TIME = 200;
+  int FAB_ANIMATION_TIME = 250;
 
   // Notes content masking
   String MASK_CHAR = "*";
