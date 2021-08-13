@@ -20,6 +20,7 @@ package it.feio.android.omninotes.helpers.date;
 import static com.appeaser.sublimepickerlibrary.recurrencepicker.SublimeRecurrencePicker.RecurrenceOption.DOES_NOT_REPEAT;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.text.format.Time;
 import com.appeaser.sublimepickerlibrary.recurrencepicker.EventRecurrence;
 import com.appeaser.sublimepickerlibrary.recurrencepicker.EventRecurrenceFormatter;
@@ -27,6 +28,7 @@ import com.appeaser.sublimepickerlibrary.recurrencepicker.SublimeRecurrencePicke
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.models.Note;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,9 +55,12 @@ public class RecurrenceHelper {
         mContext.getResources(), recurrenceEvent, true);
   }
 
-  public static Long nextReminderFromRecurrenceRule(long reminder, String recurrenceRule) {
-    return nextReminderFromRecurrenceRule(reminder, Calendar.getInstance().getTimeInMillis(),
-        recurrenceRule);
+  public static Long nextReminderFromRecurrenceRule(Note note) {
+    if (!TextUtils.isEmpty(note.getRecurrenceRule()) && note.getAlarm() != null) {
+      return nextReminderFromRecurrenceRule(Long.parseLong(note.getAlarm()),
+          Calendar.getInstance().getTimeInMillis(), note.getRecurrenceRule());
+    }
+    return 0L;
   }
 
   public static Long nextReminderFromRecurrenceRule(long reminder, long currentTime,
