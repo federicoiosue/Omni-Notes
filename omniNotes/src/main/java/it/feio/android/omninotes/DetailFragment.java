@@ -68,7 +68,6 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -259,8 +258,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           })
           .onNegative((dialog, which) -> {
             android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
-                mainActivity
-                    .getSystemService(CLIPBOARD_SERVICE);
+                mainActivity.getSystemService(CLIPBOARD_SERVICE);
             android.content.ClipData clip = android.content.ClipData.newPlainText("text label",
                 clickedString);
             clipboard.setPrimaryClip(clip);
@@ -302,11 +300,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
     binding = FragmentDetailBinding.inflate(inflater, container, false);
-    View view = binding.getRoot();
-    return view;
+    return binding.getRoot();
   }
 
   @Override
@@ -852,7 +848,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   private void initViewContent() {
-
     binding.fragmentDetailContent.detailContent.setText(noteTmp.getContent());
     binding.fragmentDetailContent.detailContent.gatherLinksForText();
     binding.fragmentDetailContent.detailContent.setOnTextLinkClickListener(textLinkClickListener);
