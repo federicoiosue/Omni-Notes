@@ -46,7 +46,7 @@ public class LanguageHelper {
       locale = Locale.getDefault();
     } else if (lang != null) {
       locale = getLocale(lang);
-      Prefs.edit().putString(PREF_LANG, lang).apply();
+      Prefs.edit().putString(PREF_LANG, lang).commit();
     } else if (!TextUtils.isEmpty(language)) {
       locale = getLocale(language);
     }
