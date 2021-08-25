@@ -12,4 +12,6 @@ Richard Zhang (https://github.com/richardzhanguw)
 
 Sachin Jethanandani (https://github.com/sachin-0102)
 
+Mano Bharathi (https://github.com/ManoBharathi93)
+
 See [pull requests](https://github.com/federicoiosue/Omni-Notes/pulls?q=is%3Aclosed) for all contributions.
