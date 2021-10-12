@@ -16,6 +16,8 @@
  */
 package it.feio.android.omninotes;
 
+import static android.text.Html.fromHtml;
+import static android.text.TextUtils.isEmpty;
 import static androidx.core.view.ViewCompat.animate;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_MERGE;
@@ -35,6 +37,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_FILTER_PAST_REM
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SORTING_COLUMN;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_WIDGET_PREFIX;
+import static it.feio.android.omninotes.utils.Navigation.checkNavigation;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -43,7 +46,6 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -52,8 +54,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcelable;
-import android.text.Html;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -139,7 +139,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   private FragmentListBinding binding;
 
-  private List<Note> selectedNotes = new ArrayList<>();
+  private final List<Note> selectedNotes = new ArrayList<>();
   private SearchView searchView;
   private MenuItem searchMenuItem;
   private Menu menu;
@@ -156,11 +156,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   private boolean undoArchive = false;
   private boolean undoCategorize = false;
   private Category undoCategorizeCategory = null;
-  private SortedMap<Integer, Note> undoNotesMap = new TreeMap<>();
+  private final SortedMap<Integer, Note> undoNotesMap = new TreeMap<>();
   // Used to remember removed categories from notes
-  private Map<Note, Category> undoCategoryMap = new HashMap<>();
+  private final Map<Note, Category> undoCategoryMap = new HashMap<>();
   // Used to remember archived state from notes
-  private Map<Note, Boolean> undoArchivedMap = new HashMap<>();
+  private final Map<Note, Boolean> undoArchivedMap = new HashMap<>();
 
   // Search variables
   private String searchQuery;
@@ -235,7 +235,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     mainActivity = (MainActivity) getActivity();
-    if (savedInstanceState != null) {
+    if (mainActivity!= null && savedInstanceState != null) {
       mainActivity.navigationTmp = savedInstanceState.getString("navigationTmp");
     }
     init();
@@ -348,7 +348,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     closeFab();
     if (!keepActionMode) {
       commitPending();
-//      list.clearChoices();
       if (getActionMode() != null) {
         getActionMode().finish();
       }
@@ -357,7 +356,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   @Override
-  public void onSaveInstanceState(Bundle outState) {
+  public void onSaveInstanceState(@NonNull Bundle outState) {
     super.onSaveInstanceState(outState);
     refreshListScrollPosition();
     outState.putInt("listViewPosition", listViewPosition);
@@ -368,7 +367,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   private void refreshListScrollPosition() {
-    if(binding.list != null) {
+    if(binding != null) {
       listViewPosition = ((LinearLayoutManager) binding.list.getLayoutManager())
           .findFirstVisibleItemPosition();
       View v = binding.list.getChildAt(0);
@@ -411,15 +410,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       // deselected/unchecked.
       for (int i = 0; i < listAdapter.getSelectedItems().size(); i++) {
         int key = listAdapter.getSelectedItems().keyAt(i);
-//        View v = list.getChildAt(key - list.getFirstVisiblePosition());
-//        if (listAdapter.getCount() > key && listAdapter.getItem(key) != null && v != null) {
-//          listAdapter.restoreDrawable(listAdapter.getItem(key), v.findViewById(R.id.card_layout));
-//        }
       }
 
       selectedNotes.clear();
       listAdapter.clearSelectedItems();
-//      list.clearChoices();
       listAdapter.notifyDataSetChanged();
 
       fab.setAllowed(isFabAllowed(true));
@@ -941,8 +935,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       LogDelegate.d("Adding new note");
       // if navigation is a category it will be set into note
       try {
-        if (Navigation.checkNavigation(Navigation.CATEGORY) || !TextUtils
-            .isEmpty(mainActivity.navigationTmp)) {
+        if (checkNavigation(Navigation.CATEGORY) || !isEmpty(mainActivity.navigationTmp)) {
           String categoryId = ObjectUtils.defaultIfNull(mainActivity.navigationTmp,
               Navigation.getCategory().toString());
           note.setCategory(DbHelper.getInstance().getCategory(Long.parseLong(categoryId)));
@@ -1108,14 +1101,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     } else {
       // Check if is launched from a widget with categories
       if ((ACTION_WIDGET_SHOW_LIST.equals(intent.getAction()) && intent.hasExtra(INTENT_WIDGET))
-          || !TextUtils.isEmpty(mainActivity.navigationTmp)) {
+          || !isEmpty(mainActivity.navigationTmp)) {
         String widgetId =
             intent.hasExtra(INTENT_WIDGET) ? intent.getExtras().get(INTENT_WIDGET).toString()
                 : null;
         if (widgetId != null) {
           String sqlCondition = Prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
           String categoryId = TextHelper.checkIntentCategory(sqlCondition);
-          mainActivity.navigationTmp = !TextUtils.isEmpty(categoryId) ? categoryId : null;
+          mainActivity.navigationTmp = !isEmpty(categoryId) ? categoryId : null;
         }
         intent.removeExtra(INTENT_WIDGET);
         if (mainActivity.navigationTmp != null) {
@@ -1137,8 +1130,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   public void toggleSearchLabel(boolean activate) {
     if (activate) {
-      binding.searchQuery
-          .setText(Html.fromHtml(getString(R.string.search) + ":<b> " + searchQuery + "</b>"));
+      binding.searchQuery.setText(fromHtml(getString(R.string.search) + ":<b> " + searchQuery + "</b>"));
       binding.searchLayout.setVisibility(View.VISIBLE);
       binding.searchCancel.setOnClickListener(v -> toggleSearchLabel(false));
       searchLabelActive = true;
@@ -1190,7 +1182,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     // Restores listview position when turning back to list or when navigating reminders
     if (!notesLoadedEvent.getNotes().isEmpty()) {
-      if (Navigation.checkNavigation(Navigation.REMINDERS)) {
+      if (checkNavigation(Navigation.REMINDERS)) {
         listViewPosition = listAdapter.getClosestNotePosition();
       }
       restoreListScrollPosition();
@@ -1253,16 +1245,16 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     // Depending on settings and note status this action will...
     // ...restore
-    if (Navigation.checkNavigation(Navigation.TRASH)) {
+    if (checkNavigation(Navigation.TRASH)) {
       trashNotes(false);
     }
     // ...removes category
-    else if (Navigation.checkNavigation(Navigation.CATEGORY)) {
+    else if (checkNavigation(Navigation.CATEGORY)) {
       categorizeNotesExecute(null);
     } else {
       // ...trash
       if (Prefs.getBoolean("settings_swipe_to_trash", false)
-          || Navigation.checkNavigation(Navigation.ARCHIVE)) {
+          || checkNavigation(Navigation.ARCHIVE)) {
         trashNotes(true);
         // ...archive
       } else {
@@ -1427,9 +1419,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       }
 
       // If actual navigation is not "Notes" the item will not be removed but replaced to fit the new state
-      if (Navigation.checkNavigation(Navigation.NOTES)
-          || (Navigation.checkNavigation(Navigation.ARCHIVE) && !archive)
-          || (Navigation.checkNavigation(Navigation.CATEGORY) && Prefs.getBoolean(
+      if (checkNavigation(Navigation.NOTES)
+          || (checkNavigation(Navigation.ARCHIVE) && !archive)
+          || (checkNavigation(Navigation.CATEGORY) && Prefs.getBoolean(
           PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), false))) {
         listAdapter.remove(note);
       } else {
@@ -1469,7 +1461,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   private void archiveNote(List<Note> notes, boolean archive) {
     new NoteProcessorArchive(notes, archive).process();
-    if (!Navigation.checkNavigation(Navigation.CATEGORY)) {
+    if (!checkNavigation(Navigation.CATEGORY)) {
       listAdapter.remove(notes);
     }
     LogDelegate.d("Notes" + (archive ? "archived" : "restored from archive"));
@@ -1532,9 +1524,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       }
       // Update adapter content if actual navigation is the category
       // associated with actually cycled note
-      if ((Navigation.checkNavigation(Navigation.CATEGORY) && !Navigation
+      if ((checkNavigation(Navigation.CATEGORY) && !Navigation
           .checkNavigationCategory(category)) ||
-          Navigation.checkNavigation(Navigation.UNCATEGORIZED)) {
+          checkNavigation(Navigation.UNCATEGORIZED)) {
         listAdapter.remove(note);
       } else {
         note.setCategory(category);
@@ -1658,7 +1650,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       Note currentNote = undoNotesMap.get(notePosition);
       //   Manages uncategorize or archive  undo
       if ((undoCategorize && !Navigation.checkNavigationCategory(undoCategoryMap.get(currentNote)))
-          || undoArchive && !Navigation.checkNavigation(Navigation.NOTES)) {
+          || undoArchive && !checkNavigation(Navigation.NOTES)) {
         if (undoCategorize) {
           currentNote.setCategory(undoCategoryMap.get(currentNote));
         } else if (undoArchive) {
@@ -1715,7 +1707,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       undoNotesMap.clear();
       undoCategoryMap.clear();
       undoArchivedMap.clear();
-//      list.clearChoices();
 
       ubc.hideUndoBar(false);
       fab.showFab();
