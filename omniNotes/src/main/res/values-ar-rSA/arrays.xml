@@ -37,11 +37,11 @@
     <string-array name="colors_app">
         <item>معطل</item>
         <item>شريط فقط</item>
-        <item>قائمة الملاحظات فقط</item>
+        <item>فقط قائمة الملاحظات</item>
         <item>كامل</item>
     </string-array>
     <string-array name="colors_widget">
-        <item>معطل (تعطيل)</item>
+        <item>معطل</item>
         <item>شريط فقط</item>
         <item>قائمة الملاحظات</item>
     </string-array>

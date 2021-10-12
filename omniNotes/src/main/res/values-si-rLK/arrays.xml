@@ -15,4 +15,11 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<resources></resources>
+<resources>
+    <string-array name="attachments_actions">
+        <item>බෙදාගන්න</item>
+        <item>Delete</item>
+        <item>Delete All</item>
+        <item>සංස්කරණය</item>
+    </string-array>
+</resources>
