@@ -36,7 +36,7 @@ buildscript {
 allprojects {
     repositories {
         mavenLocal()
-        jcenter()
+        mavenCentral()
         maven { url "https://jitpack.io" }
         maven { url "https://dl.bintray.com" }
         maven { url "https://plugins.gradle.org/m2/" }
