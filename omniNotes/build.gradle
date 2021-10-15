@@ -189,7 +189,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
     implementation 'com.github.federicoiosue:Springpad-Importer:1.0.1'
-    implementation('com.github.federicoiosue:Omni-Notes-Commons:1.2.0') {
+    implementation('com.github.federicoiosue:Omni-Notes-Commons:1.4.0') {
         exclude group: 'org.projectlombok'
     }
     implementation('com.github.federicoiosue:checklistview:4.1.0') {
