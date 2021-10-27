@@ -1889,7 +1889,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     PendingIntent unpinIntent = IntentHelper
         .getNotePendingIntent(getContext(), SnoozeActivity.class, ACTION_DISMISS, note);
     notificationsHelper.getBuilder()
-        .addAction(R.drawable.ic_material_reminder_time_light, "FATTO", unpinIntent);
+        .addAction(R.drawable.ic_material_reminder_time_light, getContext().getString(R.string.done), unpinIntent);
 
     notificationsHelper.show(note.get_id());
   }
@@ -2342,6 +2342,3 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 }
-
-
-
