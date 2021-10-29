@@ -17,7 +17,7 @@
 <changelog bulletedList="true">
 
   <changelogversion
-    changeDate="Oct 15, 2021"
+    changeDate="Oct 29, 2021"
     versionName="6.1.0">
     <changelogtext>[b]New![/b] Pin your notes on top of notifications</changelogtext>
     <changelogtext>[b]New![/b] Dropped support for Android versions older than KitKat to improve
