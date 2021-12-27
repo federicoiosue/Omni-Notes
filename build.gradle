@@ -16,13 +16,12 @@
  */
 
 buildscript {
-    ext.kotlin_version = '1.5.0-RC'
+    ext.kotlin_version = '1.5.31'
     repositories {
         mavenLocal()
         google()
         mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
-        google()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.3'
