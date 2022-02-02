@@ -37,7 +37,7 @@
         android:supportsRtl="true"
         android:theme="@style/OmniNotesTheme.ApiSpec.Branded"
         tools:replace="android:theme">
-        
+
         <meta-data
             android:name="android.app.default_searchable"
             android:value=".ListActivity" />

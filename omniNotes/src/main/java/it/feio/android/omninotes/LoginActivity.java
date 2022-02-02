@@ -142,9 +142,9 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUiWithUser(LoggedInUserView model, EditText username, EditText password) {
         // TODO: store username and text to filesystem
         System.out.println(username.getText() + " and " + password.getText());
-        String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // intent to go to MainActivity
+        String welcome = getString(R.string.welcome) + " " + username.getText().toString();
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        // intent to go to MainActivity
         Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
     }
