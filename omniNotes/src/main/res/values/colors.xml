@@ -65,4 +65,7 @@
   <color name="card_undobar_material_text_color">#4CAF50</color>
   <color name="card_undobar_material_background_color">#323232</color>
 
+  <!-- login bg -->
+  <color name="login_bg">#D7E1FF</color>
+  <color name="google_signin_btn_bg">#4285F4</color>
 </resources>

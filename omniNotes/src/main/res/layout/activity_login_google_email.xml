@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/navigation_bg"
+    tools:context=".LoginGoogleEmail">
+
+    <ImageView
+        android:id="@+id/google_logo"
+        android:layout_width="101dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/google_2015_logo" />
+
+    <ImageView
+        android:id="@+id/google_text_img"
+        android:layout_width="146dp"
+        android:layout_height="29dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/google_bg1"
+        app:srcCompat="@drawable/powered_by_google_light" />
+
+    <ImageView
+        android:id="@+id/google_bg1"
+        android:layout_width="404dp"
+        android:layout_height="334dp"
+        android:layout_marginTop="164dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/signin_bg" />
+
+    <ImageView
+        android:id="@+id/google_text_bg1"
+        android:layout_width="255dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="116dp"
+        app:layout_constraintEnd_toEndOf="@+id/google_bg1"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="@+id/google_bg1"
+        app:layout_constraintTop_toTopOf="@+id/google_bg1"
+        app:srcCompat="@drawable/signin_input_bg" />
+
+    <EditText
+        android:id="@+id/google_email"
+        android:layout_width="223dp"
+        android:layout_height="36dp"
+        android:background="@null"
+        android:ems="10"
+        android:hint="@string/prompt_email"
+        android:inputType="textEmailAddress"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/google_text_bg1"
+        app:layout_constraintEnd_toEndOf="@+id/google_text_bg1"
+        app:layout_constraintStart_toStartOf="@+id/google_text_bg1"
+        app:layout_constraintTop_toTopOf="@+id/google_text_bg1"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <ImageView
+        android:id="@+id/google_text_bg"
+        android:layout_width="255dp"
+        android:layout_height="110dp"
+        android:layout_marginTop="160dp"
+        app:layout_constraintEnd_toEndOf="@+id/google_bg1"
+        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintStart_toStartOf="@+id/google_bg1"
+        app:layout_constraintTop_toTopOf="@+id/google_bg1"
+        app:srcCompat="@drawable/signin_input_bg" />
+
+    <EditText
+        android:id="@+id/google_password"
+        android:layout_width="223dp"
+        android:layout_height="36dp"
+        android:background="@null"
+        android:ems="10"
+        android:hint="@string/prompt_password"
+        android:inputType="textPassword"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/google_text_bg"
+        app:layout_constraintEnd_toEndOf="@+id/google_text_bg"
+        app:layout_constraintStart_toStartOf="@+id/google_text_bg"
+        app:layout_constraintTop_toTopOf="@+id/google_text_bg"
+        app:layout_constraintVertical_bias="0.527"
+        tools:ignore="TouchTargetSizeCheck" />
+
+    <TextView
+        android:id="@+id/google_text1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/google_login"
+        android:textSize="30sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/google_logo" />
+
+    <TextView
+        android:id="@+id/google_text2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/google_login2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/google_text1" />
+
+    <Button
+        android:id="@+id/google_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:text="@string/action_sign_in_short"
+        android:textAllCaps="false"
+        app:backgroundTint="@color/google_signin_btn_bg"
+        app:layout_constraintBottom_toTopOf="@+id/google_text_img"
+        app:layout_constraintEnd_toEndOf="@+id/google_text_bg"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/google_text_bg" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

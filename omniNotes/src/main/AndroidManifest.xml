@@ -1,321 +1,267 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
-  ~
-  ~ This program is free software: you can redistribute it and/or modify
-  ~ it under the terms of the GNU General Public License as published by
-  ~ the Free Software Foundation, either version 3 of the License, or
-  ~ (at your option) any later version.
-  ~
-  ~ This program is distributed in the hope that it will be useful,
-  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
-  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  ~ GNU General Public License for more details.
-  ~
-  ~ You should have received a copy of the GNU General Public License
-  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
-  -->
-
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  package="it.feio.android.omninotes">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="it.feio.android.omninotes">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
+    <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS" />
+    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
+    <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+    <uses-permission android:name="com.pushbullet.android.permission.READ_MESSAGING_EXTENSION_DATA" />
+    <uses-permission android:name="com.pushbullet.android.permission.SEND_MESSAGES" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-  <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-  <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-  <uses-permission android:name="android.permission.VIBRATE" />
-  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-  <uses-permission android:name="android.permission.RECORD_AUDIO" />
-  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-  <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
-  <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS" />
-  <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-  <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
-  <uses-permission android:name="com.pushbullet.android.permission.READ_MESSAGING_EXTENSION_DATA" />
-  <uses-permission android:name="com.pushbullet.android.permission.SEND_MESSAGES" />
-  <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
 
-  <uses-feature
-    android:name="android.hardware.camera"
-    android:required="false" />
-  <uses-feature
-    android:name="android.hardware.location.gps"
-    android:required="false" />
+    <application
+        android:name=".OmniNotes"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true"
+        android:theme="@style/OmniNotesTheme.ApiSpec.Branded"
+        tools:replace="android:theme">
+        <activity
+            android:name=".LoginGoogleEmail"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-  <application
-    android:name="it.feio.android.omninotes.OmniNotes"
-    android:allowBackup="true"
-    android:requestLegacyExternalStorage="true"
-    android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
-    android:largeHeap="true"
-    android:supportsRtl="true"
-    android:theme="@style/OmniNotesTheme.ApiSpec.Branded"
-    tools:replace="android:theme">
-    <meta-data
-      android:name="android.app.default_searchable"
-      android:value=".ListActivity" />
-    <meta-data
-      android:name="com.google.android.gms.version"
-      android:value="@integer/google_play_services_version"
-      tools:replace="android:value" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> <!-- List and Detail -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="android.app.shortcuts"
+                android:resource="@xml/shortcuts" />
 
-    <!-- List and Detail -->
-    <activity
-      android:name=".MainActivity"
-      android:exported="true"
-      android:label="@string/app_name"
-      android:launchMode="singleTop">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN" />
-        <category android:name="android.intent.category.LAUNCHER" />
-      </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:host="@string/app_package"
+                    android:scheme="app" />
 
-      <meta-data
-        android:name="android.app.shortcuts"
-        android:resource="@xml/shortcuts" />
+                <action android:name="android.intent.action.VIEW" />
 
-      <intent-filter>
-        <action android:name="android.intent.action.SEARCH" />
-      </intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
 
-      <intent-filter>
-        <data
-          android:scheme="app"
-          android:host="@string/app_package" />
-        <action android:name="android.intent.action.VIEW" />
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
 
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
+            <intent-filter>
+                <action android:name="com.google.android.gm.action.AUTO_SEND" />
 
-      </intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
 
-      <meta-data
-        android:name="android.app.searchable"
-        android:resource="@xml/searchable" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
 
-      <intent-filter>
-        <action android:name="com.google.android.gm.action.AUTO_SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
 
-        <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND_MULTIPLE" />
 
-        <data android:mimeType="*/*" />
-      </intent-filter>
-      <intent-filter>
-        <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
 
-        <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="*/*" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
 
-        <data android:mimeType="*/*" />
-      </intent-filter>
-      <intent-filter>
-        <action android:name="android.intent.action.SEND_MULTIPLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-        <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="hashtag" />
+            </intent-filter>
+        </activity> <!-- Gallery -->
+        <activity
+            android:name=".GalleryActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/OmniNotesFullscreenTheme.ApiSpec" />
+        <activity
+            android:name=".CategoryActivity"
+            android:label="@string/title_activity_category"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.Dialog">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity> <!-- Settings -->
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/settings"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity> <!-- Password -->
+        <activity
+            android:name=".PasswordActivity"
+            android:theme="@style/OmniNotesTheme.ApiSpec.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustResize" /> <!-- Info -->
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/title_activity_about"
+            android:launchMode="singleTop" /> <!-- Intro -->
+        <activity
+            android:name=".intro.IntroActivity"
+            android:label="@string/app_name" /> <!-- Snooze reminder -->
+        <activity
+            android:name=".SnoozeActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:noHistory="true"
+            android:theme="@style/OmniNotesTheme.NoDisplay" /> <!-- Home launcher shortcut -->
+        <activity
+            android:name=".ShortcutActivity"
+            android:icon="@drawable/shortcut_icon"
+            android:label="@string/add_note">
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
 
-        <data android:mimeType="*/*" />
-      </intent-filter>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity> <!-- Stats -->
+        <activity
+            android:name=".StatsActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.Dialog" />
+        <activity
+            android:name=".NoteInfosActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.Dialog" /> <!-- Alarm broadcast receiver -->
+        <receiver android:name=".receiver.AlarmReceiver" /> <!-- Reboot broadcast receiver -->
+        <receiver
+            android:name=".receiver.BootCompleteReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:label="BootCompleteReceiver"
+            android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver> <!-- Restore on reboot alarm service -->
+        <service
+            android:name=".async.AlarmRestoreOnRebootService"
+            android:permission="android.permission.BIND_JOB_SERVICE" /> <!-- Notification listener service -->
+        <service
+            android:name=".services.NotificationListener"
+            android:label="@string/app_name"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service> <!-- Data export and import service -->
+        <service android:name=".async.DataBackupIntentService" /> <!-- Widget configuration Activity -->
+        <activity
+            android:name=".widget.WidgetConfigurationActivity"
+            android:theme="@style/Theme.MaterialComponents.Light.Dialog">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
+            </intent-filter>
+        </activity> <!-- Widget Simple -->
+        <receiver
+            android:name=".widget.SimpleWidgetProvider"
+            android:description="@string/widget_simple_description"
+            android:icon="@drawable/logo"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
-      <intent-filter>
-        <action android:name="android.intent.action.VIEW" />
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_simple" />
+        </receiver> <!-- Widget List -->
+        <receiver
+            android:name=".widget.ListWidgetProvider"
+            android:description="@string/widget_list_description"
+            android:icon="@drawable/logo"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
 
-        <category android:name="android.intent.category.DEFAULT" />
-        <category android:name="android.intent.category.BROWSABLE" />
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/appwidget_list" />
+        </receiver>
 
-        <data android:scheme="hashtag" />
-      </intent-filter>
+        <service
+            android:name=".widget.ListWidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" /> <!-- DashClock plugin service -->
+        <service
+            android:name=".extensions.ONDashClockExtension"
+            android:icon="@drawable/ic_stat_literal_icon"
+            android:label="@string/app_name"
+            android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
+            <intent-filter>
+                <action android:name="com.google.android.apps.dashclock.Extension" />
+            </intent-filter>
 
-    </activity>
+            <meta-data
+                android:name="protocolVersion"
+                android:value="2" />
+            <meta-data
+                android:name="worldReadable"
+                android:value="true" />
+            <meta-data
+                android:name="description"
+                android:value="@string/dashclock_description" />
+        </service>
+        <service
+            android:name=".extensions.PushBulletExtension"
+            android:permission="com.pushbullet.android.permission.READ_MESSAGING_EXTENSION_DATA">
+            <intent-filter>
+                <action android:name="com.pushbullet.android.extension.MessagingExtension" />
+            </intent-filter>
 
-    <!-- Gallery -->
-    <activity
-      android:name="it.feio.android.omninotes.GalleryActivity"
-      android:configChanges="orientation|keyboardHidden|screenSize"
-      android:theme="@style/OmniNotesFullscreenTheme.ApiSpec" />
+            <meta-data
+                android:name="protocolVersion"
+                android:value="1" />
+        </service>
 
-    <activity
-      android:name="it.feio.android.omninotes.CategoryActivity"
-      android:label="@string/title_activity_category"
-      android:parentActivityName="it.feio.android.omninotes.MainActivity"
-      android:theme="@style/Theme.MaterialComponents.Light.Dialog">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".MainActivity" />
-    </activity>
-
-    <!-- Settings -->
-    <activity
-      android:name="it.feio.android.omninotes.SettingsActivity"
-      android:label="@string/settings"
-      android:parentActivityName="it.feio.android.omninotes.MainActivity">
-      <meta-data
-        android:name="android.support.PARENT_ACTIVITY"
-        android:value=".MainActivity" />
-    </activity>
-
-    <!-- Password -->
-    <activity
-      android:name="it.feio.android.omninotes.PasswordActivity"
-      android:theme="@style/OmniNotesTheme.ApiSpec.Dialog"
-      android:windowSoftInputMode="stateHidden|adjustResize" />
-
-    <!-- Info -->
-    <activity
-      android:name="it.feio.android.omninotes.AboutActivity"
-      android:label="@string/title_activity_about"
-      android:launchMode="singleTop" />
-
-    <!-- Intro -->
-    <activity
-      android:name=".intro.IntroActivity"
-      android:label="@string/app_name" />
-
-    <!-- Snooze reminder -->
-    <activity
-      android:name="it.feio.android.omninotes.SnoozeActivity"
-      android:excludeFromRecents="true"
-      android:launchMode="singleInstance"
-      android:noHistory="true"
-      android:theme="@style/OmniNotesTheme.NoDisplay" />
-
-    <!-- Home launcher shortcut -->
-    <activity
-      android:name="it.feio.android.omninotes.ShortcutActivity"
-      android:icon="@drawable/shortcut_icon"
-      android:label="@string/add_note">
-      <intent-filter>
-        <action android:name="android.intent.action.CREATE_SHORTCUT" />
-        <category android:name="android.intent.category.DEFAULT" />
-      </intent-filter>
-    </activity>
-
-    <!-- Stats -->
-    <activity
-      android:name="it.feio.android.omninotes.StatsActivity"
-      android:theme="@style/Theme.MaterialComponents.Light.Dialog" />
-    <activity
-      android:name="it.feio.android.omninotes.NoteInfosActivity"
-      android:theme="@style/Theme.MaterialComponents.Light.Dialog" />
-
-    <!-- Alarm broadcast receiver -->
-    <receiver android:name="it.feio.android.omninotes.receiver.AlarmReceiver" />
-
-    <!-- Reboot broadcast receiver -->
-    <receiver
-      android:name=".receiver.BootCompleteReceiver"
-      android:enabled="true"
-      android:exported="false"
-      android:label="BootCompleteReceiver"
-      android:permission="android.permission.RECEIVE_BOOT_COMPLETED">
-      <intent-filter>
-        <action android:name="android.intent.action.BOOT_COMPLETED" />
-      </intent-filter>
-    </receiver>
-
-    <!-- Restore on reboot alarm service -->
-    <service
-      android:name=".async.AlarmRestoreOnRebootService"
-      android:permission="android.permission.BIND_JOB_SERVICE" />
-
-    <!-- Notification listener service -->
-    <service
-      android:name=".services.NotificationListener"
-      android:label="@string/app_name"
-      android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
-      <intent-filter>
-        <action android:name="android.service.notification.NotificationListenerService" />
-      </intent-filter>
-    </service>
-
-    <!-- Data export and import service -->
-    <service android:name="it.feio.android.omninotes.async.DataBackupIntentService" />
-
-    <!-- Widget configuration Activity -->
-    <activity
-      android:name="it.feio.android.omninotes.widget.WidgetConfigurationActivity"
-      android:theme="@style/Theme.MaterialComponents.Light.Dialog">
-      <intent-filter>
-        <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
-      </intent-filter>
-    </activity>
-
-    <!-- Widget Simple -->
-    <receiver
-      android:name="it.feio.android.omninotes.widget.SimpleWidgetProvider"
-      android:description="@string/widget_simple_description"
-      android:icon="@drawable/logo"
-      android:label="@string/app_name">
-      <intent-filter>
-        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-      </intent-filter>
-
-      <meta-data
-        android:name="android.appwidget.provider"
-        android:resource="@xml/appwidget_simple" />
-    </receiver>
-    <!-- Widget List -->
-    <receiver
-      android:name="it.feio.android.omninotes.widget.ListWidgetProvider"
-      android:description="@string/widget_list_description"
-      android:icon="@drawable/logo"
-      android:label="@string/app_name">
-      <intent-filter>
-        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-      </intent-filter>
-
-      <meta-data
-        android:name="android.appwidget.provider"
-        android:resource="@xml/appwidget_list" />
-    </receiver>
-
-    <service
-      android:name="it.feio.android.omninotes.widget.ListWidgetService"
-      android:permission="android.permission.BIND_REMOTEVIEWS" />
-
-    <!-- DashClock plugin service -->
-    <service
-      android:name=".extensions.ONDashClockExtension"
-      android:icon="@drawable/ic_stat_literal_icon"
-      android:label="@string/app_name"
-      android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
-      <intent-filter>
-        <action android:name="com.google.android.apps.dashclock.Extension" />
-      </intent-filter>
-
-      <meta-data
-        android:name="protocolVersion"
-        android:value="2" />
-      <meta-data
-        android:name="worldReadable"
-        android:value="true" />
-      <meta-data
-        android:name="description"
-        android:value="@string/dashclock_description" />
-    </service>
-
-    <service
-      android:name="it.feio.android.omninotes.extensions.PushBulletExtension"
-      android:permission="com.pushbullet.android.permission.READ_MESSAGING_EXTENSION_DATA">
-      <intent-filter>
-        <action android:name="com.pushbullet.android.extension.MessagingExtension" />
-      </intent-filter>
-      <meta-data
-        android:name="protocolVersion"
-        android:value="1" />
-    </service>
-
-    <provider
-      android:name="androidx.core.content.FileProvider"
-      android:authorities="${applicationId}.authority"
-      android:exported="false"
-      android:grantUriPermissions="true">
-      <meta-data
-        android:name="android.support.FILE_PROVIDER_PATHS"
-        android:resource="@xml/file_provider_paths" />
-    </provider>
-
-  </application>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.authority"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
+    </application>
 
 </manifest>

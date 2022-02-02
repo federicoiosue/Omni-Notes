@@ -16,6 +16,7 @@
   -->
 <resources>
 
-  <dimen name="navigation_drawer_image_height">100dp</dimen>
+    <dimen name="navigation_drawer_image_height">100dp</dimen>
+    <dimen name="activity_horizontal_margin">48dp</dimen>
 
 </resources>
