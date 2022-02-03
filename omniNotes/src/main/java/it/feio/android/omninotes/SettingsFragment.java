@@ -33,15 +33,20 @@ import static java.util.Collections.reverse;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.database.Cursor;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +55,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -59,6 +66,9 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.pixplicity.easyprefs.library.Prefs;
+
+import net.fortuna.ical4j.model.property.Contact;
+
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.AppVersionHelper;
@@ -70,6 +80,7 @@ import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.adapters.NoteAdapter;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.PasswordHelper;
@@ -79,6 +90,7 @@ import it.feio.android.omninotes.utils.SystemHelper;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -88,6 +100,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
   private static final int SPRINGPAD_IMPORT = 0;
   private static final int RINGTONE_REQUEST_CODE = 100;
   public static final String XML_NAME = "xmlName";
+  private static final int PERMISSION_REQUEST_READ_CONTACTS = 100;
 
 
   @Override
@@ -100,6 +113,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
               .valueOf(getArguments().get(XML_NAME)));
     }
     addPreferencesFromResource(xmlId);
+
+
+    // contacts perm check
+    int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
+            Manifest.permission.READ_CONTACTS);
+    if(permissionCheck == PackageManager.PERMISSION_GRANTED){
+      getContacts();
+    }else{
+      ActivityCompat.requestPermissions(getActivity(),
+              new String[]{Manifest.permission.READ_CONTACTS},
+              PERMISSION_REQUEST_READ_CONTACTS);
+    }
+
   }
 
   @Override
@@ -708,4 +734,48 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       }
     }
   }
+
+  // get contacts
+  private void getContacts(){
+    Cursor contacts = getActivity().getContentResolver().query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            null,
+            null,
+            null,
+            null
+    );
+
+    // Loop through the contacts
+    while (contacts.moveToNext())
+    {
+      // Get the current contact name
+      String name = contacts.getString(
+              contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY));
+
+      // Get the current contact phone number
+      String phoneNumber = contacts.getString(
+              contacts.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+      // print to log
+      Log.i("phone number is ", phoneNumber);
+      Log.i("name is ", name);
+      System.out.println("phone number is" + phoneNumber);
+      System.out.println("name is" + name);
+
+    }
+    contacts.close();
+  }
+
+
+  @Override
+  public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+
+    if (requestCode == PERMISSION_REQUEST_READ_CONTACTS) {
+      getContacts();
+    } else {
+      Toast.makeText(getActivity(), "Until you grant permission cannot display name", Toast.LENGTH_SHORT).show();
+    }
+
+  }
+
 }
