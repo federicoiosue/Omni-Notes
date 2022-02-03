@@ -30,6 +30,13 @@
       app:iconSpaceReserved="false" />
 
     <PreferenceScreen
+        android:layout_width="wrap_content"
+        android:key="settings"
+        android:title="@string/setting_contact"
+        app:fragment="it.feio.android.omninotes.SettingsFragment"
+        app:iconSpaceReserved="false" />
+
+    <PreferenceScreen
       android:key="settings_interface"
       android:title="@string/settings_screen_interface"
       app:fragment="it.feio.android.omninotes.SettingsFragment"
