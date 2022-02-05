@@ -85,6 +85,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.CalendarContract;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Selection;
@@ -199,6 +200,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private static final int CATEGORY = 5;
   private static final int DETAIL = 6;
   private static final int FILES = 7;
+  //private static final int GCALENDAR = 8;
 
   private FragmentDetailBinding binding;
 
@@ -612,12 +614,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
+
+  //TODO make the sync button appear only if there's a reminder
   private void initViewReminder() {
     binding.fragmentDetailContent.reminderLayout.setOnClickListener(v -> {
       ReminderPickers reminderPicker = new ReminderPickers(mainActivity, mFragment);
       reminderPicker.pick(DateUtils.getPresetReminder(noteTmp.getAlarm()), noteTmp
           .getRecurrenceRule());
     });
+
 
     binding.fragmentDetailContent.reminderLayout.setOnLongClickListener(v -> {
       MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
@@ -629,6 +634,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
             binding.fragmentDetailContent.reminderIcon
                 .setImageResource(R.drawable.ic_alarm_black_18dp);
             binding.fragmentDetailContent.datetime.setText("");
+            binding.fragmentDetailContent.syncReminderLayout.setVisibility(View.GONE);
           }).build();
       dialog.show();
       return true;
@@ -641,6 +647,30 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           .setImageResource(R.drawable.ic_alarm_add_black_18dp);
       binding.fragmentDetailContent.datetime.setText(reminderString);
     }
+
+    //For the sync reminder
+    binding.fragmentDetailContent.syncReminderLayout.setOnClickListener(v -> {
+      syncReminder();
+    });
+
+    //TODO Remove calendar event
+    binding.fragmentDetailContent.syncReminderLayout.setOnLongClickListener(v -> {
+      MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
+              .content(R.string.remove_calendar_event)
+              .positiveText(R.string.ok)
+              .onPositive((dialog1, which) -> {
+                System.out.println("Calendar event removed!");
+              }).build();
+      dialog.show();
+      return true;
+    });
+
+    //Sync Reminder
+    if(noteTmp.getAlarm() != null)
+      binding.fragmentDetailContent.syncReminderLayout.setVisibility(View.VISIBLE);
+    else
+      binding.fragmentDetailContent.syncReminderLayout.setVisibility(View.GONE);
+
   }
 
   private void initViewLocation() {
@@ -986,6 +1016,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         .setVisible(noteTmp.isChecklist() && mChecklistManager.getCheckedCount() > 0);
     menu.findItem(R.id.menu_lock).setVisible(!noteTmp.isLocked());
     menu.findItem(R.id.menu_unlock).setVisible(noteTmp.isLocked());
+
+    //If a reminder had been set for the note, then the "sync reminder option" will appear
+    //menu.findItem(R.id.menu_sync_reminder).setVisible(noteTmp.getAlarm() != null);
+
     // If note is trashed only this options will be available from menu
     if (noteTmp.isTrashed()) {
       menu.findItem(R.id.menu_untrash).setVisible(true);
@@ -1103,6 +1137,23 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
             item.getItemId());
 
     return super.onOptionsItemSelected(item);
+  }
+
+  private void syncReminder() {
+
+    //First save the note, them call the calendar intent
+    saveNote(this);
+
+    Intent intent = new Intent(Intent.ACTION_INSERT)
+      .setData(CalendarContract.Events.CONTENT_URI)
+      .putExtra(CalendarContract.Events.TITLE, noteTmp.getTitle())
+      .putExtra(CalendarContract.Events.DESCRIPTION, noteTmp.getContent())
+      .putExtra(CalendarContract.Events.EVENT_LOCATION, noteTmp.getAddress())
+      .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, parseLong(noteTmp.getAlarm()))
+      .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, parseLong(noteTmp.getAlarm()))
+      .putExtra(CalendarContract.Events.RRULE, noteTmp.getRecurrenceRule());
+
+    startActivity(intent);
   }
 
   private void showNoteInfo() {
@@ -2000,6 +2051,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       binding.fragmentDetailContent.reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
       binding.fragmentDetailContent.datetime
           .setText(RecurrenceHelper.getNoteReminderText(reminder));
+
+      binding.fragmentDetailContent.syncReminderLayout.setVisibility(View.VISIBLE);
     }
   }
 

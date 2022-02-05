@@ -96,4 +96,41 @@
       android:textColor="@color/text_color_lighter"
       pixlui:typeface="Roboto-Regular.ttf" />
   </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="horizontal"
+      android:id="@+id/sync_reminder_layout"
+      android:layout_marginBottom="5dp"
+      android:background="@drawable/icon_selector"
+      android:paddingBottom="10dp"
+      android:paddingTop="10dp"
+      android:paddingStart="@dimen/padding_half"
+      android:paddingLeft="@dimen/padding_half"
+      android:gravity="center_vertical">
+
+    <ImageView
+        android:id="@+id/cal_sync_icon"
+        android:layout_height="20dp"
+        android:layout_width="20dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:contentDescription="@string/sync_reminder"
+        android:src="@drawable/ic_baseline_sync_24" />
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/sync_prompt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:freezesText="true"
+        android:gravity="center_vertical"
+        android:hint="@string/sync_reminder"
+        android:textAppearance="@style/Text.Small"
+        android:textColorHint="@color/text_color_lighter"
+        android:textColor="@color/text_color_lighter"
+        pixlui:typeface="Roboto-Regular.ttf" />
+
+  </LinearLayout>
+
 </LinearLayout>
