@@ -992,9 +992,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       default:
         break;
     }
-
   }
-
 
   private void checkSortActionPerformed(MenuItem item) {
     if (item.getGroupId() == MENU_SORT_GROUP_ID) {
@@ -1008,13 +1006,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       toggleSearchLabel(false);
       // Updates app widgets
       mainActivity.updateWidgets();
-    } else {
-      ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
-          .trackActionFromResourceId(getActivity(),
-              item.getItemId());
     }
   }
-
 
   /**
    * Empties trash deleting all the notes

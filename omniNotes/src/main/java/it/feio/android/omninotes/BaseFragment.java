@@ -23,16 +23,8 @@ import androidx.fragment.app.Fragment;
 
 public class BaseFragment extends Fragment {
 
-
   private static final long OPTIONS_ITEM_CLICK_DELAY_TIME = 1000;
   private long mLastClickTime;
-
-  @Override
-  public void onStart() {
-    super.onStart();
-    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
-        .trackScreenView(getClass().getName());
-  }
 
   @Override
   public void onDestroy() {

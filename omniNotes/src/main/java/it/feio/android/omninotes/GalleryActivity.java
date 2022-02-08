@@ -105,12 +105,6 @@ public class GalleryActivity extends AppCompatActivity {
   }
 
   @Override
-  public void onStart() {
-    ((OmniNotes) getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
-    super.onStart();
-  }
-
-  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.menu_gallery, menu);
