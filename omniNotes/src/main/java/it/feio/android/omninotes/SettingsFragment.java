@@ -59,7 +59,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.pixplicity.easyprefs.library.Prefs;
-import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.AppVersionHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
@@ -488,11 +487,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     Preference changelog = findPreference("settings_changelog");
     if (changelog != null) {
       changelog.setOnPreferenceClickListener(arg0 -> {
-
-        ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
-            .trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
-                "settings_changelog");
-
         new MaterialDialog.Builder(getContext())
             .customView(R.layout.activity_changelog, false)
             .positiveText(R.string.ok)
@@ -555,8 +549,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             .content(getString(R.string.settings_tour_show_again_summary) + "?")
             .positiveText(R.string.confirm)
             .onPositive((dialog, which) -> {
-              ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
-                  AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
               Prefs.edit().putBoolean(PREF_TOUR_COMPLETE, false).apply();
               SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
             }).build().show();
@@ -590,10 +582,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 .setTitle(R.string.confirm_restoring_backup)
                 .setMessage(message)
                 .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
-                  ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
-                      AnalyticsHelper.CATEGORIES.SETTING,
-                      "settings_import_data");
-
                   // An IntentService will be launched to accomplish the import task
                   Intent service = new Intent(getActivity(),
                       DataBackupIntentService.class);
@@ -666,22 +654,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         .setTitle(R.string.data_export_message)
         .setView(v)
         .setPositiveButton(R.string.confirm, (dialog, which) -> {
-          ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
-              AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
           String backupName = TextUtils.isEmpty(fileNameEditText.getText().toString()) ?
               fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();
           BackupHelper.startBackupService(backupName);
         }).show();
   }
-
-
-  @Override
-  public void onStart() {
-    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
-        .trackScreenView(getClass().getName());
-    super.onStart();
-  }
-
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {

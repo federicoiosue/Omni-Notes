@@ -33,20 +33,11 @@ public class AboutActivity extends BaseActivity {
     initUI();
   }
 
-
-  @Override
-  public void onStart() {
-    ((OmniNotes) getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
-    super.onStart();
-  }
-
-
   @Override
   public boolean onNavigateUp() {
     onBackPressed();
     return true;
   }
-
 
   private void initUI() {
     Toolbar toolbar = findViewById(R.id.toolbar);

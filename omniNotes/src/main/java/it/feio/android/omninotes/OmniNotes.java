@@ -19,19 +19,12 @@ package it.feio.android.omninotes;
 
 import static it.feio.android.omninotes.utils.Constants.PACKAGE;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_LANG;
-import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SEND_ANALYTICS;
-import static it.feio.android.omninotes.utils.ConstantsBase.PROPERTIES_PARAMS_SEPARATOR;
 
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.StrictMode;
 import androidx.multidex.MultiDexApplication;
 import com.pixplicity.easyprefs.library.Prefs;
-import it.feio.android.analitica.AnalyticsHelper;
-import it.feio.android.analitica.AnalyticsHelperFactory;
-import it.feio.android.analitica.MockAnalyticsHelper;
-import it.feio.android.analitica.exceptions.AnalyticsInstantiationException;
-import it.feio.android.analitica.exceptions.InvalidIdentifierException;
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import org.acra.ACRA;
@@ -48,7 +41,6 @@ import org.acra.sender.HttpSender;
 public class OmniNotes extends MultiDexApplication {
 
   private static Context mContext;
-  private AnalyticsHelper analyticsHelper;
 
   public static boolean isDebugBuild() {
     return BuildConfig.BUILD_TYPE.equals("debug");
@@ -94,20 +86,6 @@ public class OmniNotes extends MultiDexApplication {
     super.onConfigurationChanged(newConfig);
     String language = Prefs.getString(PREF_LANG, "");
     LanguageHelper.updateLanguage(this, language);
-  }
-
-  public AnalyticsHelper getAnalyticsHelper() {
-    if (analyticsHelper == null) {
-      boolean enableAnalytics = Prefs.getBoolean(PREF_SEND_ANALYTICS, true);
-      try {
-        String[] analyticsParams = BuildConfig.ANALYTICS_PARAMS.split(PROPERTIES_PARAMS_SEPARATOR);
-        analyticsHelper = new AnalyticsHelperFactory().getAnalyticsHelper(this, enableAnalytics,
-            analyticsParams);
-      } catch (AnalyticsInstantiationException | InvalidIdentifierException e) {
-        analyticsHelper = new MockAnalyticsHelper();
-      }
-    }
-    return analyticsHelper;
   }
 
 }
