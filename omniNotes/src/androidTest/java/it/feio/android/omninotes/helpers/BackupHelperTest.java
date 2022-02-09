@@ -23,7 +23,7 @@ import static rx.Observable.from;
 import android.net.Uri;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import it.feio.android.omninotes.BaseAndroidTestCase;
-import it.feio.android.omninotes.RetryableAssert;
+import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.exceptions.BackupException;
 import it.feio.android.omninotes.exceptions.checked.BackupAttachmentException;
 import it.feio.android.omninotes.models.Attachment;
@@ -32,7 +32,6 @@ import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.util.Collection;
 import org.apache.commons.io.FileUtils;
@@ -150,6 +149,19 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     LogDelegate.i("checking " + attachment.getUri().getPath());
 
     assertTrue(new File(attachment.getUri().getPath()).exists());
+  }
+
+  @Test
+  public void importSettings_notFound() throws IOException {
+    BackupHelper.importSettings(backupDir);
+  }
+
+  @Test
+  public void importSettings() throws IOException {
+    new File(backupDir, StorageHelper.getSharedPreferencesFile(OmniNotes.getAppContext()).getName())
+        .createNewFile();
+
+    BackupHelper.importSettings(backupDir);
   }
 
   private Attachment createTestAttachmentBackup() throws IOException {

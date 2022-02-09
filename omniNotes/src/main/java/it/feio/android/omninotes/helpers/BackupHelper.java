@@ -46,6 +46,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
@@ -53,11 +54,8 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import rx.Observable;
 
+@UtilityClass
 public final class BackupHelper {
-
-  private BackupHelper() {
-    // hides public constructor
-  }
 
   public static void exportNotes(File backupDir) {
     for (Note note : DbHelper.getInstance(true).getAllNotes(false)) {
@@ -83,25 +81,12 @@ public final class BackupHelper {
   }
 
   /**
-   * Export attachments to backup folder
-   *
-   * @return True if success, false otherwise
-   */
-  public static boolean exportAttachments(File backupDir) {
-    return exportAttachments(backupDir, null);
-  }
-
-  /**
    * Export attachments to backup folder notifying for each attachment copied
-   *
-   * @return True if success, false otherwise
    */
-  public static boolean exportAttachments(File backupDir, NotificationsHelper notificationsHelper) {
-    File destinationattachmentsDir = new File(backupDir,
-        StorageHelper.getAttachmentDir().getName());
-    ArrayList<Attachment> list = DbHelper.getInstance().getAllAttachments();
-    exportAttachments(notificationsHelper, destinationattachmentsDir, list, null);
-    return true;
+  public static void exportAttachments(File backupDir, NotificationsHelper notificationsHelper) {
+    File attachmentsDestinationDir = new File(backupDir, StorageHelper.getAttachmentDir().getName());
+    List<Attachment> list = DbHelper.getInstance().getAllAttachments();
+    exportAttachments(notificationsHelper, attachmentsDestinationDir, list, null);
   }
 
   public static boolean exportAttachments(NotificationsHelper notificationsHelper,
@@ -244,21 +229,15 @@ public final class BackupHelper {
     OmniNotes.getAppContext().startService(service);
   }
 
-  /**
-   * Exports settings if required
-   */
-  public static boolean exportSettings(File backupDir) {
+  public static void exportSettings(File backupDir) throws IOException {
     File preferences = StorageHelper.getSharedPreferencesFile(OmniNotes.getAppContext());
-    return (StorageHelper.copyFile(preferences, new File(backupDir, preferences.getName())));
+    StorageHelper.copyFile(preferences, new File(backupDir, preferences.getName()), true);
   }
 
-  /**
-   * Imports settings
-   */
-  public static boolean importSettings(File backupDir) {
+  public static void importSettings(File backupDir) throws IOException {
     File preferences = StorageHelper.getSharedPreferencesFile(OmniNotes.getAppContext());
     File preferenceBackup = new File(backupDir, preferences.getName());
-    return (StorageHelper.copyFile(preferenceBackup, preferences));
+    StorageHelper.copyFile(preferenceBackup, preferences, false);
   }
 
   public static boolean deleteNoteBackup(File backupDir, Note note) {
@@ -272,7 +251,6 @@ public final class BackupHelper {
     }
     return result;
   }
-
 
   public static void deleteNote(File file) {
     try {
@@ -290,12 +268,11 @@ public final class BackupHelper {
    * @deprecated {@link BackupHelper#importNotes(File)}
    */
   @Deprecated
-  public static boolean importDB(Context context, File backupDir) {
+  public static void importDB(Context context, File backupDir) throws IOException {
     File database = context.getDatabasePath(DATABASE_NAME);
     if (database.exists() && database.delete()) {
-      return (StorageHelper.copyFile(new File(backupDir, DATABASE_NAME), database));
+      StorageHelper.copyFile(new File(backupDir, DATABASE_NAME), database, true);
     }
-    return false;
   }
 
   public static List<LinkedList<DiffMatchPatch.Diff>> integrityCheck(File backupDir) {

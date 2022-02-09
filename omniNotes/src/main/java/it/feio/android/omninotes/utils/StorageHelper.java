@@ -152,14 +152,13 @@ public class StorageHelper {
     return file;
   }
 
-  public static boolean copyFile(File source, File destination) {
+  public static void copyFile(File source, File destination, boolean failOnError) throws IOException {
     try {
       FileUtils.copyFile(source, destination);
-      return true;
     } catch (IOException e) {
       LogDelegate.e("Error copying file: " + e.getMessage(), e);
+      if (failOnError) throw e;
     }
-    return false;
   }
 
   /**
@@ -363,30 +362,6 @@ public class StorageHelper {
       return 0;
     }
   }
-
-
-  public static boolean copyDirectory(File sourceLocation, File targetLocation) {
-    boolean res = true;
-
-    // If target is a directory the method will be iterated
-    if (sourceLocation.isDirectory()) {
-      if (!targetLocation.exists()) {
-        targetLocation.mkdirs();
-      }
-
-      String[] children = sourceLocation.list();
-      for (int i = 0; i < sourceLocation.listFiles().length; i++) {
-        res = res && copyDirectory(new File(sourceLocation, children[i]), new File(targetLocation,
-            children[i]));
-      }
-
-      // Otherwise a file copy will be performed
-    } else {
-      res = copyFile(sourceLocation, targetLocation);
-    }
-    return res;
-  }
-
 
   /**
    * Retrieves uri mime-type using ContentResolver
