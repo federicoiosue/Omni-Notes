@@ -42,7 +42,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -141,18 +140,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Export notes
     Preference export = findPreference("settings_export_data");
     if (export != null) {
+      export.setSummary(StorageHelper.getOrCreateExternalStoragePublicDir().getAbsolutePath());
       export.setOnPreferenceClickListener(arg0 -> {
-
-        // Inflate layout
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.dialog_backup_layout, null);
+        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup_layout, null);
 
         // Finds actually saved backups names
         PermissionsHelper
             .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
                     .string.permission_external_storage,
-                getActivity().findViewById(R.id.crouton_handle), () -> export
-                    (v));
+                getActivity().findViewById(R.id.crouton_handle), () -> export(v));
 
         return false;
       });
