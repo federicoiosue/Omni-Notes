@@ -20,7 +20,6 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
@@ -43,10 +42,12 @@ import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 
+@UtilityClass
 public class StorageHelper {
 
   public static boolean checkStorage() {
@@ -273,7 +274,7 @@ public class StorageHelper {
 
 
   public static File getOrCreateExternalStoragePublicDir() {
-    File dir = new File(Environment.getExternalStorageDirectory() + File.separator
+    File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator
         + Constants.EXTERNAL_STORAGE_FOLDER + File.separator);
     if (!dir.exists() && !dir.mkdirs()) {
         throw new ExternalDirectoryCreationException("Can't create folder " + dir.getAbsolutePath());
@@ -318,17 +319,11 @@ public class StorageHelper {
   /**
    * Returns a directory size in bytes
    */
-  @SuppressWarnings("deprecation")
   public static long getSize(File directory) {
     StatFs statFs = new StatFs(directory.getAbsolutePath());
     long blockSize = 0;
     try {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-        blockSize = statFs.getBlockSizeLong();
-      } else {
-        blockSize = statFs.getBlockSize();
-      }
-      // Can't understand why on some devices this fails
+      blockSize = statFs.getBlockSizeLong();
     } catch (NoSuchMethodError e) {
       LogDelegate.e("Mysterious error", e);
     }
