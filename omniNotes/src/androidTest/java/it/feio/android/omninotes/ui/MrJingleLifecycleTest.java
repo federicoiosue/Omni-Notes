@@ -22,6 +22,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -66,6 +67,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
     createTestNote("title", "content", 0);
     archiveNotes(dbHelper.getAllNotes(false), true);
 
+    onView(isRoot()).perform(waitId(R.id.empty_list, 2000));
     onView(allOf(withId(R.id.empty_list), withText(R.string.no_items_in_list),
         withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout.class))),
         isDisplayed())).check(matches(isDisplayed()));
