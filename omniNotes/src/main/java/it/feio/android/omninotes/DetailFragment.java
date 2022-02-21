@@ -200,7 +200,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private static final int CATEGORY = 5;
   private static final int DETAIL = 6;
   private static final int FILES = 7;
-  //private static final int GCALENDAR = 8;
+  private static final int GCALENDAR = 8;
 
   private FragmentDetailBinding binding;
 
@@ -614,8 +614,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
-
-  //TODO make the sync button appear only if there's a reminder
   private void initViewReminder() {
     binding.fragmentDetailContent.reminderLayout.setOnClickListener(v -> {
       ReminderPickers reminderPicker = new ReminderPickers(mainActivity, mFragment);
@@ -653,20 +651,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       syncReminder();
     });
 
-    //TODO Remove calendar event
-    binding.fragmentDetailContent.syncReminderLayout.setOnLongClickListener(v -> {
-      MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
-              .content(R.string.remove_calendar_event)
-              .positiveText(R.string.ok)
-              .onPositive((dialog1, which) -> {
-                System.out.println("Calendar event removed!");
-              }).build();
-      dialog.show();
-      return true;
-    });
-
     //Sync Reminder
-    if(noteTmp.getAlarm() != null)
+    if (noteTmp.getAlarm() != null)
       binding.fragmentDetailContent.syncReminderLayout.setVisibility(View.VISIBLE);
     else
       binding.fragmentDetailContent.syncReminderLayout.setVisibility(View.GONE);
@@ -1139,19 +1125,19 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     return super.onOptionsItemSelected(item);
   }
 
-  private void syncReminder() {
+  private void syncReminder () {
 
     //First save the note, them call the calendar intent
     saveNote(this);
 
     Intent intent = new Intent(Intent.ACTION_INSERT)
-      .setData(CalendarContract.Events.CONTENT_URI)
-      .putExtra(CalendarContract.Events.TITLE, noteTmp.getTitle())
-      .putExtra(CalendarContract.Events.DESCRIPTION, noteTmp.getContent())
-      .putExtra(CalendarContract.Events.EVENT_LOCATION, noteTmp.getAddress())
-      .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, parseLong(noteTmp.getAlarm()))
-      .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, parseLong(noteTmp.getAlarm()))
-      .putExtra(CalendarContract.Events.RRULE, noteTmp.getRecurrenceRule());
+        .setData(CalendarContract.Events.CONTENT_URI)
+        .putExtra(CalendarContract.Events.TITLE, noteTmp.getTitle())
+        .putExtra(CalendarContract.Events.DESCRIPTION, noteTmp.getContent())
+        .putExtra(CalendarContract.Events.EVENT_LOCATION, noteTmp.getAddress())
+        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, parseLong(noteTmp.getAlarm()))
+        .putExtra(CalendarContract.EXTRA_EVENT_END_TIME, parseLong(noteTmp.getAlarm()))
+        .putExtra(CalendarContract.Events.RRULE, noteTmp.getRecurrenceRule());
 
     startActivity(intent);
   }
