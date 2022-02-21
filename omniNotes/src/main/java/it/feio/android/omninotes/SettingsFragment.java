@@ -42,7 +42,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -59,7 +58,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.pixplicity.easyprefs.library.Prefs;
-import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.AppVersionHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
@@ -142,18 +140,15 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Export notes
     Preference export = findPreference("settings_export_data");
     if (export != null) {
+      export.setSummary(StorageHelper.getOrCreateExternalStoragePublicDir().getAbsolutePath());
       export.setOnPreferenceClickListener(arg0 -> {
-
-        // Inflate layout
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.dialog_backup_layout, null);
+        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup_layout, null);
 
         // Finds actually saved backups names
         PermissionsHelper
             .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
                     .string.permission_external_storage,
-                getActivity().findViewById(R.id.crouton_handle), () -> export
-                    (v));
+                getActivity().findViewById(R.id.crouton_handle), () -> export(v));
 
         return false;
       });
@@ -488,11 +483,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     Preference changelog = findPreference("settings_changelog");
     if (changelog != null) {
       changelog.setOnPreferenceClickListener(arg0 -> {
-
-        ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
-            .trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
-                "settings_changelog");
-
         new MaterialDialog.Builder(getContext())
             .customView(R.layout.activity_changelog, false)
             .positiveText(R.string.ok)
@@ -555,8 +545,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             .content(getString(R.string.settings_tour_show_again_summary) + "?")
             .positiveText(R.string.confirm)
             .onPositive((dialog, which) -> {
-              ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
-                  AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
               Prefs.edit().putBoolean(PREF_TOUR_COMPLETE, false).apply();
               SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
             }).build().show();
@@ -590,10 +578,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 .setTitle(R.string.confirm_restoring_backup)
                 .setMessage(message)
                 .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
-                  ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
-                      AnalyticsHelper.CATEGORIES.SETTING,
-                      "settings_import_data");
-
                   // An IntentService will be launched to accomplish the import task
                   Intent service = new Intent(getActivity(),
                       DataBackupIntentService.class);
@@ -666,22 +650,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         .setTitle(R.string.data_export_message)
         .setView(v)
         .setPositiveButton(R.string.confirm, (dialog, which) -> {
-          ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
-              AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
           String backupName = TextUtils.isEmpty(fileNameEditText.getText().toString()) ?
               fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();
           BackupHelper.startBackupService(backupName);
         }).show();
   }
-
-
-  @Override
-  public void onStart() {
-    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
-        .trackScreenView(getClass().getName());
-    super.onStart();
-  }
-
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {

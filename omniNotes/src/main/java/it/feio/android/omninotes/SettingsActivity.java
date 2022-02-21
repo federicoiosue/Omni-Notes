@@ -29,7 +29,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.databinding.ActivitySettingsBinding;
 import java.io.File;
@@ -102,9 +101,6 @@ public class SettingsActivity extends AppCompatActivity implements
         .content(folder.getName())
         .positiveText(R.string.confirm)
         .onPositive((dialog1, which) -> {
-          ((OmniNotes) getApplication()).getAnalyticsHelper()
-              .trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
-                  "settings_import_data");
           Intent service = new Intent(getApplicationContext(), DataBackupIntentService.class);
           service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_LEGACY);
           service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, folder.getAbsolutePath());

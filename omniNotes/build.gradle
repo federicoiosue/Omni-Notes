@@ -36,9 +36,7 @@ if (signConfigExists) {
 }
 
 android {
-
     compileSdkVersion Integer.parseInt(project.TARGET_SDK)
-//    buildToolsVersion project.BUILD_TOOLS
 
     defaultConfig {
         applicationId project.PACKAGE
@@ -143,6 +141,8 @@ dependencies {
     annotationProcessor 'org.androidannotations:androidannotations:4.8.0'
     implementation 'org.androidannotations:androidannotations-api:4.8.0'
 
+    implementation "androidx.core:core-ktx:1.6.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'com.larswerkman:HoloColorPicker:1.4'
     implementation 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
@@ -202,30 +202,7 @@ dependencies {
     betaImplementation 'io.nlopez.smartlocation:library:3.2.4'
     alphaImplementation 'io.nlopez.smartlocation:library:3.2.4'
     fossImplementation 'com.github.federicoiosue:smart-location-lib:3.2.6'
-
-    playImplementation('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar') {
-        transitive = true
-    }
-    betaImplementation('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar') {
-        transitive = true
-    }
-    alphaImplementation('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar') {
-        transitive = true
-    }
-    fossImplementation('com.github.federicoiosue:analitica:0.0.3:piwikRelease@aar') {
-        transitive = true
-    }
-    playImplementation 'com.google.android.gms:play-services-analytics:9.0.2'
-    betaImplementation 'com.google.android.gms:play-services-analytics:9.0.2'
-    alphaImplementation 'com.google.android.gms:play-services-analytics:9.0.2'
-    fossImplementation('org.piwik.sdk:piwik-sdk:1.0.2') {
-        exclude group: 'com.jakewharton.timber', module: 'timber'
-    }
     fossImplementation 'com.jakewharton.timber:timber:4.5.1'
-
-    testImplementation 'junit:junit:4.12'
-    implementation "androidx.core:core-ktx:1.6.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
 configurations.all {

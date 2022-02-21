@@ -17,6 +17,16 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="Feb 11, 2022"
+    versionName="6.2.0">
+    <changelogtext>[b]New![/b] Updated to Android 11 to get latest fixes and improvements
+      <![CDATA[[b][font color=red>IMPORTANT:[/font][/b] This will require to move your old backups to the new directory]]>
+    </changelogtext>
+    <changelogtext>[b]New![/b] Removed all analytics</changelogtext>
+    <changelogtext>[u]Fix[/u] Backup import/export error notification</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="Oct 29, 2021"
     versionName="6.1.0">
     <changelogtext>[b]New![/b] Pin your notes on top of notifications</changelogtext>
@@ -27,8 +37,6 @@
     <changelogtext>[b]New![/b] Add new note from app's icon shortcut</changelogtext>
     <changelogtext>[b]New![/b] Move to bottom your checked items on demand</changelogtext>
     <changelogtext>[b]New![/b] Added Urdu language</changelogtext>
-    <changelogtext>[i]Improved![/i] Updated to Android 11 to include framework fixed and improvements
-    </changelogtext>
     <changelogtext>[i]Improved![/i] Simplified merging notes: confirmation is no more required
     </changelogtext>
     <changelogtext>[i]Improved![/i] More intuitive bulk tag editing: all notes' tags will be

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,27 +15,19 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes;
+package it.feio.android.omninotes.utils
 
-import android.os.SystemClock;
-import androidx.fragment.app.Fragment;
+import it.feio.android.omninotes.BaseAndroidTestCase
+import junit.framework.Assert.assertTrue
+import org.junit.Test
 
+class StorageHelperTest : BaseAndroidTestCase() {
 
-public class BaseFragment extends Fragment {
+    @Test
+    fun getOrCreateExternalStoragePublicDir() {
+        val dir = StorageHelper.getOrCreateExternalStoragePublicDir()
 
-  private static final long OPTIONS_ITEM_CLICK_DELAY_TIME = 1000;
-  private long mLastClickTime;
-
-  @Override
-  public void onDestroy() {
-    super.onDestroy();
-  }
-
-  protected boolean isOptionsItemFastClick() {
-    if (SystemClock.elapsedRealtime() - mLastClickTime < OPTIONS_ITEM_CLICK_DELAY_TIME) {
-      return true;
+        assertTrue(dir.canRead())
+        assertTrue(dir.canWrite())
     }
-    mLastClickTime = SystemClock.elapsedRealtime();
-    return false;
-  }
 }

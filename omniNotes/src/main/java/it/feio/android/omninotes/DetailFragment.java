@@ -1117,11 +1117,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       default:
         LogDelegate.w("Invalid menu option selected");
     }
-
-    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
-        .trackActionFromResourceId(getActivity(),
-            item.getItemId());
-
     return super.onOptionsItemSelected(item);
   }
 

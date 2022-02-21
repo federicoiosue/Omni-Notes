@@ -72,15 +72,6 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     setRetainInstance(false);
   }
 
-
-  @Override
-  public void onStart() {
-    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
-        .trackScreenView(getClass().getName());
-
-    super.onStart();
-  }
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {

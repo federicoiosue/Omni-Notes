@@ -28,13 +28,6 @@
     app:iconSpaceReserved="false" />
 
   <SwitchPreference
-    android:defaultValue="true"
-    android:key="settings_send_analytics"
-    android:summary="@string/settings_send_analytics_summary"
-    android:title="@string/settings_send_analytics"
-    app:iconSpaceReserved="false" />
-
-  <SwitchPreference
     android:defaultValue="false"
     android:key="settings_enable_file_logging"
     android:summary="@string/settings_enable_file_logging_summary"
