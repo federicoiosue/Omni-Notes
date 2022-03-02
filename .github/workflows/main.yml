@@ -4,6 +4,8 @@ jobs:
   build-and-test:
     name: Build and run tests
     runs-on: macos-latest
+    env:
+      GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
     steps:
       - name: Checkout current develop branch
         uses: actions/checkout@v1
