@@ -245,7 +245,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 
     ])
 }
 jacoco {
-    toolVersion = "0.8.5"
+    toolVersion = "0.8.7"
 }
 
 apply plugin: 'com.adarshr.test-logger'
