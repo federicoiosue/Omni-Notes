@@ -209,11 +209,18 @@ dependencies {
     fossImplementation 'com.jakewharton.timber:timber:4.5.1'
 }
 
+def jacocoVersion = "0.8.7"
+
 configurations.all {
     exclude group: 'commons-logging', module: 'commons-logging'
     resolutionStrategy {
         force 'com.android.support:support-annotations:28.0.0'
         force 'com.android.support:support-v4:28.0.0'
+        eachDependency { details ->
+            if ('org.jacoco' == details.requested.group) {
+                details.useVersion jacocoVersion
+            }
+        }
     }
 }
 
@@ -226,6 +233,9 @@ android.productFlavors.each { flavor ->
 }
 
 apply plugin: 'jacoco'
+jacoco {
+    toolVersion = jacocoVersion
+}
 task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 'createAlphaDebugCoverageReport', 'connectedPlayDebugAndroidTest']) {
 
     reports {
@@ -243,9 +253,6 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 
             "jacoco/testAlphaDebugUnitTest.exec",
             "outputs/code_coverage/alphaDebugAndroidTest/connected/*coverage.ec"
     ])
-}
-jacoco {
-    toolVersion = "0.8.7"
 }
 
 apply plugin: 'com.adarshr.test-logger'
