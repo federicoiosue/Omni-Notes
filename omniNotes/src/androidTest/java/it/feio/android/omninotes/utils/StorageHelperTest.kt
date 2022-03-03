@@ -18,7 +18,7 @@
 package it.feio.android.omninotes.utils
 
 import it.feio.android.omninotes.BaseAndroidTestCase
-import junit.framework.Assert.assertTrue
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class StorageHelperTest : BaseAndroidTestCase() {

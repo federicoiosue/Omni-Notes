@@ -17,8 +17,8 @@
 
 package it.feio.android.omninotes.utils;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -79,7 +79,7 @@ public class ReminderHelperTest {
   }
 
   private Note buildNote() {
-    Long now = Calendar.getInstance().getTimeInMillis();
+    long now = Calendar.getInstance().getTimeInMillis();
     Note note = new Note();
     note.setCreation(now);
     note.setAlarm(now + 1000);
