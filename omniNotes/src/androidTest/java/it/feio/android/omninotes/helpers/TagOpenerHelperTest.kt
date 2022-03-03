@@ -19,8 +19,8 @@ package it.feio.android.omninotes.helpers
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import it.feio.android.omninotes.BaseAndroidTestCase
 import it.feio.android.omninotes.helpers.TagOpenerHelper.Companion.openOrGetIntent
-import junit.framework.Assert.assertNotNull
-import junit.framework.Assert.assertNull
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
 

@@ -17,8 +17,8 @@
 
 package it.feio.android.omninotes.utils;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -60,6 +60,6 @@ public class SecurityTest extends BaseAndroidTestCase {
   @Test
   public void testDecryptUnencrypted() {
     String result = Security.decrypt(LOREM, PASS);
-    assertFalse(result.length() == 0);
+    assertNotEquals(0, result.length());
   }
 }

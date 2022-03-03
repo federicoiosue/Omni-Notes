@@ -17,7 +17,7 @@
 
 package it.feio.android.omninotes.helpers.count;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import it.feio.android.omninotes.BaseUnitTest;
 import it.feio.android.omninotes.models.Note;
