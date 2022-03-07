@@ -9,7 +9,7 @@ Omni-Notes
 [![Sonarcloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=omni-notes&metric=coverage)](https://sonarcloud.io/dashboard?id=omni-notes)
 [![Sonarcloud Maintainability](https://sonarcloud.io/api/project_badges/measure?project=omni-notes&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=omni-notes)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/omni-notes/localized.png)](https://crowdin.com/project/omni-notes)
-[![GitHub release](https://img.shields.io/github/release/federicoiosue/omni-notes.svg)](https://github.com/federicoiosue/Omni-Notes/releases/latest)
+[![GitHub release](https://badgen.net/github/release/federicoiosue/Omni-Notes)](https://github.com/federicoiosue/Omni-Notes/releases/latest)
 
 Note taking <b>open-source</b> application aimed to have both a <b>simple interface</b> but keeping <b>smart</b> behavior.
 
