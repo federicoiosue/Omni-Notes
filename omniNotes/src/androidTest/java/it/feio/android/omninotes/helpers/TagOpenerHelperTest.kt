@@ -39,6 +39,6 @@ class TagOpenerHelperTest : BaseAndroidTestCase() {
         assertNotNull(openOrGetIntent(testContext, "hashtag:thisCouldBeATag"))
 
     @Test
-    fun openOrGetIntent_other() = assertNull(openOrGetIntent(testContext, "http://somesite.eu"))
+    fun openOrGetIntent_other() = assertNull(openOrGetIntent(testContext, "https://somesite.eu"))
 
 }
