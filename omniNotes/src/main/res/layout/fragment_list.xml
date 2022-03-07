@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -15,118 +15,123 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-             xmlns:wheel="http://schemas.android.com/apk/res-auto"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:layout_marginLeft="@dimen/activity_additional_margin"
-             android:layout_marginRight="@dimen/activity_additional_margin">
+  xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+  xmlns:wheel="http://schemas.android.com/apk/res-auto"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_marginLeft="@dimen/activity_additional_margin"
+  android:layout_marginRight="@dimen/activity_additional_margin">
 
-    <it.feio.android.omninotes.models.views.InterceptorLinearLayout
-            android:id="@+id/list_root"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+  <it.feio.android.omninotes.models.views.InterceptorLinearLayout
+    android:id="@+id/list_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-        <LinearLayout
-                android:id="@+id/search_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone"
-                android:paddingLeft="@dimen/horizontal_margin"
-                android:paddingStart="@dimen/horizontal_margin">
+    <LinearLayout
+      android:id="@+id/search_layout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal"
+      android:visibility="gone"
+      android:paddingEnd="@dimen/horizontal_margin"
+      android:paddingStart="@dimen/horizontal_margin">
 
-            <TextView
-                    android:id="@+id/search_query"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textAppearance="@style/Text.Small"
-                    android:paddingTop="16dp"
-                    android:paddingBottom="8dp"/>
+      <TextView
+        android:id="@+id/search_query"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textAppearance="@style/Text.Small"
+        android:paddingTop="16dp"
+        android:paddingBottom="8dp" />
 
-            <ImageView
-                    android:id="@+id/search_cancel"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/ic_cancel_black_18dp"
-                    android:paddingTop="10dp"
-                    android:paddingRight="@dimen/horizontal_margin"
-                    android:paddingEnd="@dimen/horizontal_margin"/>
-        </LinearLayout>
+      <ImageView
+        android:id="@+id/search_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_cancel_black_18dp"
+        android:paddingTop="10dp"
+        android:paddingStart="@dimen/horizontal_margin"
+        android:paddingEnd="@dimen/horizontal_margin" />
+    </LinearLayout>
 
-        <FrameLayout android:layout_width="match_parent" android:layout_height="match_parent">
-            <com.nhaarman.listviewanimations.itemmanipulation.DynamicListView
-                    android:id="@+id/list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:divider="@null"
-                    android:dividerHeight="8dp"
-                    android:paddingLeft="8dp"
-                    android:paddingRight="8dp"
-                    android:paddingTop="@dimen/padding_half"
-                    android:clipToPadding="false"
-                    android:scrollbarSize="4dp"
-                    android:drawSelectorOnTop="true"
-                    android:listSelector="@drawable/icon_selector"
-                    android:scrollbarStyle="outsideOverlay"
-                    android:scrollbarThumbVertical="@drawable/scroll_bar"
-                    android:fastScrollEnabled="true"
-                    android:smoothScrollbar="true"
-                    android:scrollingCache="false"
-                    android:animationCache="false"/>
+    <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent">
+      <it.feio.android.omninotes.models.views.RecyclerViewEmptySupport
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="@dimen/padding_half"
+        android:clipToPadding="false"
+        android:drawSelectorOnTop="true"
+        android:listSelector="@drawable/icon_selector"
+        android:scrollbars="vertical"
+        android:scrollbarStyle="outsideOverlay"
+        app:fastScrollEnabled="true"
+        app:fastScrollHorizontalThumbDrawable="@drawable/scrollbar_thumb_drawable"
+        app:fastScrollHorizontalTrackDrawable="@drawable/scrollbar_line_drawable"
+        app:fastScrollVerticalThumbDrawable="@drawable/scrollbar_thumb_drawable"
+        app:fastScrollVerticalTrackDrawable="@drawable/scrollbar_line_drawable"
+        android:scrollingCache="false"
+        android:animationCache="false" />
 
-            <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center">
 
-                <com.neopixl.pixlui.components.textview.TextView
-                        android:id="@+id/empty_list"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawablePadding="10dp"
-                        android:drawableTop="@drawable/jingles_animation"
-                        android:gravity="center"
-                        android:text="@string/no_items_in_list"
-                        android:textColor="@color/list_note_dates"
-                        android:textSize="20sp"
-                        android:visibility="gone"
-                        pixlui:typeface="Roboto-Regular.ttf"/>
-            </LinearLayout>
+        <com.neopixl.pixlui.components.textview.TextView
+          android:id="@+id/empty_list"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:drawablePadding="10dp"
+          android:drawableTop="@drawable/jingles_animation"
+          android:gravity="center"
+          android:text="@string/no_items_in_list"
+          android:textColor="@color/list_note_dates"
+          android:textSize="20sp"
+          android:visibility="gone"
+          pixlui:typeface="Roboto-Regular.ttf" />
+      </LinearLayout>
 
 
-            <com.pnikosis.materialishprogress.ProgressWheel
-                    android:id="@+id/progress_wheel"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    wheel:matProg_barColor="@color/colorPrimary"
-                    wheel:matProg_progressIndeterminate="true"/>
+      <com.pnikosis.materialishprogress.ProgressWheel
+        android:id="@+id/progress_wheel"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        wheel:matProg_barColor="@color/colorPrimary"
+        wheel:matProg_progressIndeterminate="true" />
 
-        </FrameLayout>
+    </FrameLayout>
 
-    </it.feio.android.omninotes.models.views.InterceptorLinearLayout>
+  </it.feio.android.omninotes.models.views.InterceptorLinearLayout>
 
-    <include
-            android:id="@+id/undobar"
-            layout="@layout/undobar"/>
+  <include
+    android:id="@+id/undobar"
+    layout="@layout/undobar" />
 
-    <include
-            android:id="@+id/fab"
-            layout="@layout/fab"/>
+  <include
+    android:id="@+id/fab"
+    layout="@layout/fab" />
 
-    <ImageView
-            android:id="@+id/expanded_image"
-            android:layout_width="match_parent"
-            android:scaleType="centerCrop"
-            android:layout_height="match_parent"/>
+  <ImageView
+    android:id="@+id/expanded_image"
+    android:layout_width="match_parent"
+    android:scaleType="centerCrop"
+    android:layout_height="match_parent" />
 
-    <android.support.design.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/snackbar_placeholder"
-            android:layout_gravity="bottom"/>
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:id="@+id/snackbar_placeholder"
+    android:layout_gravity="bottom" />
 
 </FrameLayout>

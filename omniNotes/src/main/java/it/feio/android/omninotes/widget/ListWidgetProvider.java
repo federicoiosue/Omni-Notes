@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@
 
 package it.feio.android.omninotes.widget;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -26,13 +28,12 @@ import android.util.SparseArray;
 import android.widget.RemoteViews;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.utils.Constants;
 
 
 public class ListWidgetProvider extends WidgetProvider {
 
   @Override
-  protected RemoteViews getRemoteViews (Context mContext, int widgetId,
+  protected RemoteViews getRemoteViews(Context mContext, int widgetId,
       boolean isSmall, boolean isSingleLine,
       SparseArray<PendingIntent> pendingIntentsMap) {
     RemoteViews views;
@@ -70,7 +71,7 @@ public class ListWidgetProvider extends WidgetProvider {
       views.setRemoteAdapter(R.id.widget_list, intent);
 
       Intent clickIntent = new Intent(mContext, MainActivity.class);
-      clickIntent.setAction(Constants.ACTION_WIDGET);
+      clickIntent.setAction(ACTION_WIDGET);
       PendingIntent clickPI = PendingIntent.getActivity(mContext, 0,
           clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

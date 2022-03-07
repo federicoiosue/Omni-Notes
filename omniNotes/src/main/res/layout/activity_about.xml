@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,15 +16,18 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:clipToPadding="true"
-             android:fitsSystemWindows="false">
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:clipToPadding="true"
+  android:fitsSystemWindows="false">
 
-    <WebView android:id="@+id/webview"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"/>
+  <WebView
+    android:id="@+id/webview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
 
-    <include android:id="@+id/toolbar" layout="@layout/toolbar"/>
+  <include
+    android:id="@+id/toolbar"
+    layout="@layout/toolbar" />
 
 </FrameLayout>

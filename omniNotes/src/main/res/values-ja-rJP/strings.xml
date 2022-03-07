@@ -207,6 +207,7 @@
     <string name="uncompleted_checklists">チェックリストが未完です</string>
     <string name="info">情報</string>
     <string name="completed">完了</string>
+    <string name="undo_changes_note_confirmation">変更の取り消しますか?</string>
     <!-- Settings -->
     <string name="dashclock_description">統計情報と Omni Notes から期限切れのアラームを表示します</string>
     <string name="settings">設定</string>

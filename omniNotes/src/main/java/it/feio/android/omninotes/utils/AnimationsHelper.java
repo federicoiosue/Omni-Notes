@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,11 +34,14 @@ import it.feio.android.omninotes.R;
 
 public class AnimationsHelper {
 
-  private AnimationsHelper () {}
+  private AnimationsHelper() {
+  }
 
-  public static void zoomListItem (Context context, final View view, ImageView expandedImageView, View targetView,
+  public static void zoomListItem(Context context, final View view, ImageView expandedImageView,
+      View targetView,
       AnimatorListenerAdapter animatorListenerAdapter) {
-    final long animationDuration = context.getResources().getInteger(R.integer.zooming_view_anim_time);
+    final long animationDuration = context.getResources()
+        .getInteger(R.integer.zooming_view_anim_time);
 
     // Calculate the starting and ending bounds for the zoomed-in image.
     final Rect startBounds = new Rect();
@@ -87,9 +90,9 @@ public class AnimationsHelper {
     // scale properties (X, Y, SCALE_X, and SCALE_Y).
     AnimatorSet set = new AnimatorSet();
     set.play(ObjectAnimator.ofFloat(expandedImageView, View.X, startBounds.left, finalBounds.left))
-       .with(ObjectAnimator.ofFloat(expandedImageView, View.Y, startBounds.top, finalBounds.top))
-       .with(ObjectAnimator.ofFloat(expandedImageView, View.SCALE_X, startScale, 1f))
-       .with(ObjectAnimator.ofFloat(expandedImageView, View.SCALE_Y, startScale, 1f));
+        .with(ObjectAnimator.ofFloat(expandedImageView, View.Y, startBounds.top, finalBounds.top))
+        .with(ObjectAnimator.ofFloat(expandedImageView, View.SCALE_X, startScale, 1f))
+        .with(ObjectAnimator.ofFloat(expandedImageView, View.SCALE_Y, startScale, 1f));
     set.setDuration(animationDuration);
     set.setInterpolator(new DecelerateInterpolator());
     set.addListener(animatorListenerAdapter);
@@ -97,7 +100,7 @@ public class AnimationsHelper {
   }
 
 
-  public static void expandOrCollapse (final View v, boolean expand) {
+  public static void expandOrCollapse(final View v, boolean expand) {
     TranslateAnimation anim;
     if (expand) {
       anim = new TranslateAnimation(0.0f, 0.0f, -v.getHeight(), 0.0f);
@@ -106,19 +109,19 @@ public class AnimationsHelper {
       anim = new TranslateAnimation(0.0f, 0.0f, 0.0f, -v.getHeight());
       Animation.AnimationListener collapselistener = new Animation.AnimationListener() {
         @Override
-        public void onAnimationStart (Animation animation) {
+        public void onAnimationStart(Animation animation) {
           // Useless
         }
 
 
         @Override
-        public void onAnimationRepeat (Animation animation) {
+        public void onAnimationRepeat(Animation animation) {
           // Useless
         }
 
 
         @Override
-        public void onAnimationEnd (Animation animation) {
+        public void onAnimationEnd(Animation animation) {
           v.setVisibility(View.GONE);
         }
       };

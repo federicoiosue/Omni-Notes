@@ -46,13 +46,6 @@
         <item>Tylko pasek</item>
         <item>Lista notatek</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Najmniejsza</item>
-        <item>Mała</item>
-        <item>Domyślna</item>
-        <item>Duża</item>
-        <item>Największa</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Udostepnij</item>
         <item>Usuń</item>

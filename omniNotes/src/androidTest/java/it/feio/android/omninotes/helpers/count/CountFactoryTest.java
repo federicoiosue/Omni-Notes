@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ package it.feio.android.omninotes.helpers.count;
 
 import static org.junit.Assert.assertEquals;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.OmniNotes;
 import java.util.Locale;
@@ -31,27 +31,41 @@ import org.junit.runner.RunWith;
 public class CountFactoryTest extends BaseAndroidTestCase {
 
   @Test
-  public void getWordCounterForEnglish () {
+  public void getWordCounter_english() {
     OmniNotes.getAppContext().getResources().getConfiguration().setLocale(Locale.US);
     assertEquals(DefaultWordCounter.class, CountFactory.getWordCounter().getClass());
   }
 
   @Test
-  public void getWordCounterForItalian () {
+  public void getWordCounter_italian() {
     OmniNotes.getAppContext().getResources().getConfiguration().setLocale(Locale.ITALY);
     assertEquals(DefaultWordCounter.class, CountFactory.getWordCounter().getClass());
   }
 
   @Test
-  public void getWordCounterForChineseSimplified () {
-    OmniNotes.getAppContext().getResources().getConfiguration().setLocale(Locale.SIMPLIFIED_CHINESE);
+  public void getWordCounter_chineseSimplified() {
+    OmniNotes.getAppContext().getResources().getConfiguration()
+        .setLocale(Locale.SIMPLIFIED_CHINESE);
     assertEquals(IdeogramsWordCounter.class, CountFactory.getWordCounter().getClass());
   }
 
   @Test
-  public void getWordCounterForChineseTraditional () {
-    OmniNotes.getAppContext().getResources().getConfiguration().setLocale(Locale.TRADITIONAL_CHINESE);
+  public void getWordCounter_chineseTraditional() {
+    OmniNotes.getAppContext().getResources().getConfiguration()
+        .setLocale(Locale.TRADITIONAL_CHINESE);
     assertEquals(IdeogramsWordCounter.class, CountFactory.getWordCounter().getClass());
+  }
+
+  @Test
+  public void getWordCounter_japanese() {
+    OmniNotes.getAppContext().getResources().getConfiguration().setLocale(Locale.JAPAN);
+    assertEquals(IdeogramsWordCounter.class, CountFactory.getWordCounter().getClass());
+  }
+
+  @Test
+  public void getWordCounter_unknowLocale() {
+    OmniNotes.getAppContext().getResources().getConfiguration().setLocale(new Locale("meow"));
+    assertEquals(DefaultWordCounter.class, CountFactory.getWordCounter().getClass());
   }
 
 }

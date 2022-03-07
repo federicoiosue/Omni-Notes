@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,119 +16,119 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-    android:id="@+id/root"
+  xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+  android:id="@+id/root"
+  android:layout_width="match_parent"
+  android:layout_height="@dimen/note_item_min_height"
+  android:paddingBottom="2dp"
+  android:background="@drawable/bg_card">
+
+  <LinearLayout
+    android:id="@+id/card_layout"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/note_item_min_height"
-    android:paddingBottom="2dp"
-    android:background="@drawable/bg_card">
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:minHeight="@dimen/note_item_min_height_inner">
+
+
+    <View
+      android:id="@+id/category_marker"
+      android:layout_width="7dp"
+      android:minHeight="@dimen/note_item_min_height_inner"
+      android:layout_height="match_parent"
+      android:background="@null" />
 
     <LinearLayout
-        android:id="@+id/card_layout"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:minHeight="@dimen/note_item_min_height_inner"
+      android:orientation="vertical"
+      android:paddingBottom="7dp"
+      android:paddingStart="6dp"
+      android:paddingLeft="6dp"
+      android:paddingEnd="16dp"
+      android:paddingRight="16dp"
+      android:paddingTop="7dp">
+
+      <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/note_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:singleLine="true"
+        android:textAppearance="@style/Text.Big"
+        pixlui:typeface="RobotoSlab-Bold.ttf" />
+
+      <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/note_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_gravity="center_vertical"
+        android:maxLines="@integer/textview_max_lines_expanded"
+        android:textAppearance="@style/Text.Normal"
+        android:visibility="invisible"
+        pixlui:typeface="RobotoSlab-Regular.ttf" />
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
         android:orientation="horizontal"
-        android:minHeight="@dimen/note_item_min_height_inner">
+        android:alpha="0.6">
 
+        <com.neopixl.pixlui.components.textview.TextView
+          android:id="@+id/note_date"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="bottom|start"
+          android:layout_marginRight="15dp"
+          android:layout_marginEnd="15dp"
+          android:gravity="bottom|start"
+          android:textAppearance="@style/Text.Small"
+          pixlui:typeface="Roboto-Regular.ttf" />
 
-        <View
-            android:id="@+id/category_marker"
-            android:layout_width="7dp"
-            android:minHeight="@dimen/note_item_min_height_inner"
-            android:layout_height="match_parent"
-            android:background="@null" />
+        <ImageView
+          android:id="@+id/alarmIcon"
+          android:layout_width="15dp"
+          android:layout_height="15dp"
+          android:layout_gravity="bottom|end"
+          android:contentDescription="@string/note_reminder_symbol"
+          android:src="@drawable/ic_alarm_black_18dp"
+          android:visibility="gone" />
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:minHeight="@dimen/note_item_min_height_inner"
-            android:orientation="vertical"
-            android:paddingBottom="7dp"
-            android:paddingStart="6dp"
-            android:paddingLeft="6dp"
-            android:paddingEnd="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="7dp">
+        <ImageView
+          android:id="@+id/locationIcon"
+          android:layout_width="15dp"
+          android:layout_height="15dp"
+          android:layout_gravity="bottom|end"
+          android:src="@drawable/ic_pin_drop_black_18dp"
+          android:visibility="gone" />
 
-            <com.neopixl.pixlui.components.textview.TextView
-                android:id="@+id/note_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|start"
-                android:singleLine="true"
-                android:textAppearance="@style/Text.Big"
-                pixlui:typeface="RobotoSlab-Bold.ttf" />
+        <ImageView
+          android:id="@+id/archivedIcon"
+          android:layout_width="15dp"
+          android:layout_height="15dp"
+          android:layout_gravity="bottom|end"
+          android:src="@drawable/ic_archive_black_18dp"
+          android:visibility="gone" />
 
-            <com.neopixl.pixlui.components.textview.TextView
-                android:id="@+id/note_content"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical"
-                android:maxLines="@integer/textview_max_lines_expanded"
-                android:textAppearance="@style/Text.Normal"
-                android:visibility="invisible"
-                pixlui:typeface="RobotoSlab-Regular.ttf" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|start"
-                android:orientation="horizontal"
-                android:alpha="0.6">
-
-                <com.neopixl.pixlui.components.textview.TextView
-                    android:id="@+id/note_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|start"
-                    android:layout_marginRight="15dp"
-                    android:layout_marginEnd="15dp"
-                    android:gravity="bottom|start"
-                    android:textAppearance="@style/Text.Small"
-                    pixlui:typeface="Roboto-Regular.ttf" />
-
-                <ImageView
-                    android:id="@+id/alarmIcon"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="bottom|end"
-                    android:contentDescription="@string/note_reminder_symbol"
-                    android:src="@drawable/ic_alarm_black_18dp"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/locationIcon"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="bottom|end"
-                    android:src="@drawable/ic_pin_drop_black_18dp"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/archivedIcon"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="bottom|end"
-                    android:src="@drawable/ic_archive_black_18dp"
-                    android:visibility="gone" />
-
-                <ImageView
-                    android:id="@+id/lockedIcon"
-                    android:layout_width="15dp"
-                    android:layout_height="15dp"
-                    android:layout_gravity="bottom|end"
-                    android:src="@drawable/ic_lock_black_24dp"
-                    android:visibility="gone" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <it.feio.android.omninotes.models.views.SquareImageView
-            android:id="@+id/attachmentThumbnail"
-            android:layout_width="@dimen/note_item_min_height_inner"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/note_thumbnail"
-            android:layout_gravity="center_vertical" />
+        <ImageView
+          android:id="@+id/lockedIcon"
+          android:layout_width="15dp"
+          android:layout_height="15dp"
+          android:layout_gravity="bottom|end"
+          android:src="@drawable/ic_lock_black_24dp"
+          android:visibility="gone" />
+      </LinearLayout>
     </LinearLayout>
+
+    <it.feio.android.omninotes.models.views.SquareImageView
+      android:id="@+id/attachmentThumbnail"
+      android:layout_width="@dimen/note_item_min_height_inner"
+      android:layout_height="match_parent"
+      android:contentDescription="@string/note_thumbnail"
+      android:layout_gravity="center_vertical" />
+  </LinearLayout>
 </FrameLayout>

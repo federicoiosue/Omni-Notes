@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,17 +18,21 @@
 package it.feio.android.omninotes.utils;
 
 import android.net.Uri;
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.Attachment;
 import java.io.File;
 
 public class FileProviderHelper {
 
+  private FileProviderHelper() {
+    // hides public constructor
+  }
+
   /**
    * Generates the FileProvider URI for a given existing file
    */
-  public static Uri getFileProvider (File file) {
+  public static Uri getFileProvider(File file) {
     return FileProvider.getUriForFile(OmniNotes.getAppContext(),
         OmniNotes.getAppContext().getPackageName() + ".authority", file);
   }
@@ -36,7 +40,7 @@ public class FileProviderHelper {
   /**
    * Generates a shareable URI for a given attachment by evaluating its stored (into DB) path
    */
-  public static Uri getShareableUri (Attachment attachment) {
+  public static Uri getShareableUri(Attachment attachment) {
     File attachmentFile = new File(attachment.getUri().getPath());
     if (attachmentFile.exists()) {
       return FileProviderHelper.getFileProvider(attachmentFile);

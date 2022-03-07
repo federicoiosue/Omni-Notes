@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -15,147 +15,153 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+  xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+  <LinearLayout
+    android:id="@+id/detail_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    android:layout_marginLeft="@dimen/activity_additional_margin"
+    android:layout_marginRight="@dimen/activity_additional_margin">
 
     <LinearLayout
-            android:id="@+id/detail_root"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:animateLayoutChanges="true"
-            android:focusableInTouchMode="true"
-            android:orientation="vertical"
-            android:layout_marginLeft="@dimen/activity_additional_margin"
-            android:layout_marginRight="@dimen/activity_additional_margin">
+      android:id="@+id/detail_wrapper"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:animateLayoutChanges="true"
+      android:background="@color/gray_bg"
+      android:orientation="vertical"
+      android:paddingLeft="@dimen/padding_half"
+      android:paddingRight="@dimen/padding_half"
+      android:paddingTop="@dimen/padding_half">
+
+      <LinearLayout
+        android:id="@+id/detail_tile_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:background="@drawable/bg_card"
+        android:paddingBottom="2dp">
 
         <LinearLayout
-                android:id="@+id/detail_wrapper"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:animateLayoutChanges="true"
-                android:background="@color/gray_bg"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/padding_half"
-                android:paddingRight="@dimen/padding_half"
-                android:paddingTop="@dimen/padding_half">
+          android:id="@+id/title_wrapper"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
 
-            <LinearLayout
-                    android:id="@+id/detail_tile_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
-                    android:background="@drawable/bg_card"
-                    android:paddingBottom="2dp">
+          <View
+            android:id="@+id/tag_marker"
+            android:layout_width="7dp"
+            android:layout_height="match_parent"
+            android:background="@null" />
 
-                <LinearLayout
-                        android:id="@+id/title_wrapper"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                    <View
-                            android:id="@+id/tag_marker"
-                            android:layout_width="7dp"
-                            android:layout_height="match_parent"
-                            android:background="@null"/>
-
-                    <com.neopixl.pixlui.components.edittext.EditText
-                            android:id="@+id/detail_title"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@null"
-                            android:hint="@string/title"
-                            android:inputType="textCapSentences"
-                            android:linksClickable="false"
-                            android:paddingBottom="6dp"
-                            paddingStart="6dp"
-                            android:paddingLeft="6dp"
-                            android:paddingStart="6dp"
-                            paddingEnd="16dp"
-                            android:paddingRight="16dp"
-                            android:paddingEnd="16dp"
-                            android:paddingTop="6dp"
-                            android:textAppearance="@style/Text.Big"
-                            android:textColorHint="@color/text_color_lighter"
-                            android:textColor="@color/text_color"
-                            pixlui:typeface="RobotoSlab-Bold.ttf"
-                            android:textCursorDrawable="@null"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <android.support.design.widget.CoordinatorLayout
-                    android:id="@+id/detail_content_card"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/bg_card"
-                    android:paddingBottom="2dp">
-
-                <ScrollView
-                        android:id="@+id/content_wrapper"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scrollbarSize="4dp"
-                        android:scrollbarStyle="outsideOverlay"
-                        android:scrollbarThumbVertical="@drawable/scroll_bar">
-
-                    <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="vertical">
-
-                        <ViewStub android:id="@+id/detail_attachments_above" android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:layout="@layout/fragment_detail_attachments"/>
-
-                        <include layout="@layout/fragment_detail_content"/>
-
-                        <ViewStub android:id="@+id/detail_attachments_below" android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:layout="@layout/fragment_detail_attachments"/>
-
-                    </LinearLayout>
-                </ScrollView>
-            </android.support.design.widget.CoordinatorLayout>
-
-            <LinearLayout
-                    android:id="@+id/detail_timestamps"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="3dp"
-                    android:paddingTop="3dp">
-
-                <com.neopixl.pixlui.components.textview.TextView
-                        android:id="@+id/creation"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:padding="0dp"
-                        android:textAppearance="@style/Text.Small"
-                        pixlui:typeface="Roboto-Regular.ttf"/>
-
-                <com.neopixl.pixlui.components.textview.TextView
-                        android:id="@+id/last_modification"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="end"
-                        android:padding="0dp"
-                        android:textAppearance="@style/Text.Small"
-                        pixlui:typeface="Roboto-Regular.ttf"/>
-            </LinearLayout>
+          <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/detail_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/title"
+            android:inputType="textCapSentences"
+            android:linksClickable="false"
+            android:paddingBottom="6dp"
+            paddingStart="6dp"
+            android:paddingLeft="6dp"
+            android:paddingStart="6dp"
+            paddingEnd="16dp"
+            android:paddingRight="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="6dp"
+            android:textAppearance="@style/Text.Big"
+            android:textColorHint="@color/text_color_lighter"
+            android:textColor="@color/text_color"
+            pixlui:typeface="RobotoSlab-Bold.ttf"
+            android:textCursorDrawable="@null" />
         </LinearLayout>
+      </LinearLayout>
 
+      <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/detail_content_card"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_card"
+        android:paddingBottom="2dp">
+
+        <ScrollView
+          android:id="@+id/content_wrapper"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:scrollbarSize="4dp"
+          android:scrollbarStyle="outsideOverlay"
+          android:scrollbarThumbVertical="@drawable/scrollbar_thumb">
+
+          <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ViewStub
+              android:id="@+id/detail_attachments_above"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout="@layout/fragment_detail_attachments" />
+
+            <include
+              android:id="@+id/fragment_detail_content"
+              layout="@layout/fragment_detail_content" />
+
+            <ViewStub
+              android:id="@+id/detail_attachments_below"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout="@layout/fragment_detail_attachments" />
+
+          </LinearLayout>
+        </ScrollView>
+      </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+      <LinearLayout
+        android:id="@+id/detail_timestamps"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp">
+
+        <com.neopixl.pixlui.components.textview.TextView
+          android:id="@+id/creation"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:gravity="start"
+          android:padding="0dp"
+          android:textAppearance="@style/Text.Small"
+          pixlui:typeface="Roboto-Regular.ttf" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+          android:id="@+id/last_modification"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:gravity="end"
+          android:padding="0dp"
+          android:textAppearance="@style/Text.Small"
+          pixlui:typeface="Roboto-Regular.ttf" />
+      </LinearLayout>
     </LinearLayout>
 
-    <android.support.design.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:id="@+id/snackbar_placeholder"
-            android:layout_alignParentBottom="true"/>
+  </LinearLayout>
+
+  <androidx.coordinatorlayout.widget.CoordinatorLayout
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:id="@+id/snackbar_placeholder"
+    android:layout_alignParentBottom="true" />
 
 </RelativeLayout>

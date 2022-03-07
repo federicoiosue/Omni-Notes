@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ import it.feio.android.omninotes.commons.models.BaseCategory;
 
 public class Category extends BaseCategory implements Parcelable {
 
-  private Category (Parcel in) {
+  private Category(Parcel in) {
     setId(in.readLong());
     setName(in.readString());
     setDescription(in.readString());
@@ -31,34 +31,34 @@ public class Category extends BaseCategory implements Parcelable {
   }
 
 
-  public Category () {
+  public Category() {
     super();
   }
 
 
-  public Category (BaseCategory category) {
+  public Category(BaseCategory category) {
     super(category.getId(), category.getName(), category.getDescription(), category.getColor());
   }
 
 
-  public Category (Long id, String title, String description, String color) {
+  public Category(Long id, String title, String description, String color) {
     super(id, title, description, color);
   }
 
 
-  public Category (Long id, String title, String description, String color, int count) {
+  public Category(Long id, String title, String description, String color, int count) {
     super(id, title, description, color, count);
   }
 
 
   @Override
-  public int describeContents () {
+  public int describeContents() {
     return 0;
   }
 
 
   @Override
-  public void writeToParcel (Parcel parcel, int flags) {
+  public void writeToParcel(Parcel parcel, int flags) {
     parcel.writeLong(getId());
     parcel.writeString(getName());
     parcel.writeString(getDescription());
@@ -67,7 +67,7 @@ public class Category extends BaseCategory implements Parcelable {
 
 
   @Override
-  public String toString () {
+  public String toString() {
     return getName();
   }
 
@@ -78,12 +78,12 @@ public class Category extends BaseCategory implements Parcelable {
    */
   public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
 
-    public Category createFromParcel (Parcel in) {
+    public Category createFromParcel(Parcel in) {
       return new Category(in);
     }
 
 
-    public Category[] newArray (int size) {
+    public Category[] newArray(int size) {
       return new Category[size];
     }
   };

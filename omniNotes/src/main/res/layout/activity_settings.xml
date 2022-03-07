@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,21 +16,25 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:clipToPadding="true"
+  android:fitsSystemWindows="false">
+
+  <include
+    android:id="@+id/toolbar"
+    layout="@layout/toolbar" />
+
+  <FrameLayout
+    android:id="@+id/content_frame"
+    android:layout_below="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="true"
-    android:fitsSystemWindows="false">
+    android:background="@color/gray_bg" />
 
-    <include android:id="@+id/toolbar" layout="@layout/toolbar" />
-
-    <FrameLayout
-        android:id="@+id/content_frame"
-        android:layout_below="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gray_bg"/>
-
-    <include android:id="@+id/crouton_handle" layout="@layout/crouton_handle" />
+  <include
+    android:id="@+id/crouton_handle"
+    layout="@layout/crouton_handle" />
 
 </RelativeLayout>

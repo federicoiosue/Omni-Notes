@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,39 +16,39 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/toolbar_widget"
-    android:layout_width="match_parent"
-    android:layout_height="@dimen/widget_height"
-    android:background="@color/colorPrimary"
-    android:elevation="4dp">
+  android:id="@+id/toolbar_widget"
+  android:layout_width="match_parent"
+  android:layout_height="@dimen/widget_height"
+  android:background="@color/colorPrimary"
+  android:elevation="4dp">
 
-    <ImageView
-        android:id="@+id/list"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/icon_selector"
-        android:gravity="center"
-        android:padding="10dp"
-        android:src="@drawable/ic_file_document_white_48dp" />
+  <ImageView
+    android:id="@+id/list"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="@drawable/icon_selector"
+    android:gravity="center"
+    android:padding="10dp"
+    android:src="@drawable/ic_file_document_white_48dp" />
 
-    <ImageView
-        android:id="@+id/add"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/icon_selector"
-        android:gravity="center"
-        android:padding="10dp"
-        android:src="@drawable/ic_add_circle_white_48dp" />
+  <ImageView
+    android:id="@+id/add"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="@drawable/icon_selector"
+    android:gravity="center"
+    android:padding="10dp"
+    android:src="@drawable/ic_add_circle_white_48dp" />
 
-    <ImageView
-        android:id="@+id/camera"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/icon_selector"
-        android:gravity="center"
-        android:padding="10dp"
-        android:src="@drawable/ic_camera_alt_white_48dp" />
+  <ImageView
+    android:id="@+id/camera"
+    android:layout_width="0dp"
+    android:layout_height="match_parent"
+    android:layout_weight="1"
+    android:background="@drawable/icon_selector"
+    android:gravity="center"
+    android:padding="10dp"
+    android:src="@drawable/ic_camera_alt_white_48dp" />
 </LinearLayout>

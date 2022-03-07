@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,12 +33,12 @@ public class Note extends BaseNote implements Parcelable {
    */
   public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<Note>() {
 
-    public Note createFromParcel (Parcel in) {
+    public Note createFromParcel(Parcel in) {
       return new Note(in);
     }
 
 
-    public Note[] newArray (int size) {
+    public Note[] newArray(int size) {
       return new Note[size];
     }
   };
@@ -46,28 +46,30 @@ public class Note extends BaseNote implements Parcelable {
   private boolean passwordChecked = false;
 
 
-  public Note () {
+  public Note() {
     super();
   }
 
 
-  public Note (Long creation, Long lastModification, String title, String content, Integer archived,
-      Integer trashed, String alarm, String recurrenceRule, Integer reminderFired, String latitude, String longitude,
+  public Note(Long creation, Long lastModification, String title, String content, Integer archived,
+      Integer trashed, String alarm, String recurrenceRule, Integer reminderFired, String latitude,
+      String longitude,
       Category
           category, Integer locked, Integer checklist) {
-    super(creation, lastModification, title, content, archived, trashed, alarm, reminderFired, recurrenceRule,
+    super(creation, lastModification, title, content, archived, trashed, alarm, reminderFired,
+        recurrenceRule,
         latitude,
         longitude, category, locked, checklist);
   }
 
 
-  public Note (Note note) {
+  public Note(Note note) {
     super(note);
     setPasswordChecked(note.isPasswordChecked());
   }
 
 
-  private Note (Parcel in) {
+  private Note(Parcel in) {
     setCreation(in.readString());
     setLastModification(in.readString());
     setTitle(in.readString());
@@ -86,7 +88,7 @@ public class Note extends BaseNote implements Parcelable {
     in.readList(getAttachmentsList(), Attachment.class.getClassLoader());
   }
 
-  public List<Attachment> getAttachmentsList () {
+  public List<Attachment> getAttachmentsList() {
 //		List<Attachment> list = new ArrayList<>();
 //		for (it.feio.android.omninotes.commons.models.Attachment attachment : super.getAttachmentsList()) {
 //			if (attachment.getClass().equals(Attachment.class)) {
@@ -100,40 +102,40 @@ public class Note extends BaseNote implements Parcelable {
     return (List<Attachment>) super.getAttachmentsList();
   }
 
-  public void setAttachmentsList (ArrayList<Attachment> attachmentsList) {
+  public void setAttachmentsList(ArrayList<Attachment> attachmentsList) {
     super.setAttachmentsList(attachmentsList);
   }
 
-  public void addAttachment (Attachment attachment) {
+  public void addAttachment(Attachment attachment) {
     List<Attachment> attachmentsList = ((List<Attachment>) super.getAttachmentsList());
     attachmentsList.add(attachment);
     setAttachmentsList(attachmentsList);
   }
 
-  public void removeAttachment (Attachment attachment) {
+  public void removeAttachment(Attachment attachment) {
     List<Attachment> attachmentsList = ((List<Attachment>) super.getAttachmentsList());
     attachmentsList.remove(attachment);
     setAttachmentsList(attachmentsList);
   }
 
-  public List<Attachment> getAttachmentsListOld () {
+  public List<Attachment> getAttachmentsListOld() {
     return (List<Attachment>) super.getAttachmentsListOld();
   }
 
-  public void setAttachmentsListOld (ArrayList<Attachment> attachmentsListOld) {
+  public void setAttachmentsListOld(ArrayList<Attachment> attachmentsListOld) {
     super.setAttachmentsListOld(attachmentsListOld);
   }
 
-  public boolean isPasswordChecked () {
+  public boolean isPasswordChecked() {
     return passwordChecked;
   }
 
-  public void setPasswordChecked (boolean passwordChecked) {
+  public void setPasswordChecked(boolean passwordChecked) {
     this.passwordChecked = passwordChecked;
   }
 
   @Override
-  public Category getCategory () {
+  public Category getCategory() {
     try {
       return (Category) super.getCategory();
     } catch (ClassCastException e) {
@@ -141,7 +143,7 @@ public class Note extends BaseNote implements Parcelable {
     }
   }
 
-  public void setCategory (Category category) {
+  public void setCategory(Category category) {
     if (category != null && category.getClass().equals(BaseCategory.class)) {
       setCategory(new Category(category));
     }
@@ -149,7 +151,7 @@ public class Note extends BaseNote implements Parcelable {
   }
 
   @Override
-  public void buildFromJson (String jsonNote) {
+  public void buildFromJson(String jsonNote) {
     super.buildFromJson(jsonNote);
     List<Attachment> attachments = new ArrayList<>();
     for (BaseAttachment attachment : getAttachmentsList()) {
@@ -159,12 +161,12 @@ public class Note extends BaseNote implements Parcelable {
   }
 
   @Override
-  public int describeContents () {
+  public int describeContents() {
     return 0;
   }
 
   @Override
-  public void writeToParcel (Parcel parcel, int flags) {
+  public void writeToParcel(Parcel parcel, int flags) {
     parcel.writeString(String.valueOf(getCreation()));
     parcel.writeString(String.valueOf(getLastModification()));
     parcel.writeString(getTitle());

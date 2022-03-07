@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -15,51 +15,54 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context=".MainActivity">
+
+  <androidx.drawerlayout.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:layout_height="match_parent">
 
-    <android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical">
+
+      <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar" />
+
+      <FrameLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolbar"
+        android:background="@color/gray_bg" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+      <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/toolbar_dropshadow"
+        android:layout_below="@id/toolbar" />
 
-            <include android:id="@+id/toolbar" layout="@layout/toolbar" />
+      <include
+        android:id="@+id/crouton_handle"
+        layout="@layout/crouton_handle" />
 
-            <FrameLayout
-                android:id="@+id/fragment_container"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@id/toolbar"
-                android:background="@color/gray_bg"/>
+    </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="4dp"
-                android:background="@drawable/toolbar_dropshadow"
-                android:layout_below="@id/toolbar"/>
+    <fragment
+      android:id="@+id/navigation_drawer"
+      android:name="it.feio.android.omninotes.NavigationDrawerFragment"
+      android:layout_width="@dimen/navigation_drawer_width"
+      android:layout_height="match_parent"
+      android:layout_gravity="start"
+      android:fitsSystemWindows="true"
+      android:orientation="vertical" />
 
-            <include android:id="@+id/crouton_handle" layout="@layout/crouton_handle" />
-
-        </RelativeLayout>
-
-        <fragment
-            android:id="@+id/navigation_drawer"
-            android:name="it.feio.android.omninotes.NavigationDrawerFragment"
-            android:layout_width="@dimen/navigation_drawer_width"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            android:orientation="vertical"/>
-
-    </android.support.v4.widget.DrawerLayout>
+  </androidx.drawerlayout.widget.DrawerLayout>
 
 </FrameLayout>

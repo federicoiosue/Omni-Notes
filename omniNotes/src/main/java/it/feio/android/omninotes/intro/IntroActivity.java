@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,17 +17,18 @@
 
 package it.feio.android.omninotes.intro;
 
-import android.content.Context;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_TOUR_COMPLETE;
+
 import android.os.Bundle;
 import com.github.paolorotolo.appintro.AppIntro2;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.utils.Constants;
 
 
 public class IntroActivity extends AppIntro2 {
 
   @Override
-  public void init (Bundle savedInstanceState) {
+  public void init(Bundle savedInstanceState) {
     addSlide(new IntroSlide1(), getApplicationContext());
     addSlide(new IntroSlide2(), getApplicationContext());
     addSlide(new IntroSlide3(), getApplicationContext());
@@ -36,23 +37,19 @@ public class IntroActivity extends AppIntro2 {
     addSlide(new IntroSlide6(), getApplicationContext());
   }
 
-
   @Override
-  public void onDonePressed () {
-    OmniNotes.getAppContext().getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
-             .putBoolean(Constants.PREF_TOUR_COMPLETE, true).apply();
+  public void onDonePressed() {
+    Prefs.edit().putBoolean(PREF_TOUR_COMPLETE, true).apply();
     finish();
   }
 
-
-  public static boolean mustRun () {
-    return !OmniNotes.isDebugBuild() && !OmniNotes.getAppContext().getSharedPreferences(Constants.PREFS_NAME,
-        Context.MODE_MULTI_PROCESS).getBoolean(Constants.PREF_TOUR_COMPLETE, false);
+  public static boolean mustRun() {
+    return !OmniNotes.isDebugBuild() && !Prefs.getBoolean(PREF_TOUR_COMPLETE, false);
   }
-
 
   @Override
-  public void onBackPressed () {
+  public void onBackPressed() {
     // Does nothing, you HAVE TO SEE THE INTRO!
   }
+
 }

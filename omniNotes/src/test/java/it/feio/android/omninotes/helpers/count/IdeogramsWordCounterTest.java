@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,13 +29,13 @@ public class IdeogramsWordCounterTest extends BaseUnitTest {
   private final String UNCHECKED_SYM = it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
 
   @Test
-  public void countChars () {
+  public void countChars() {
     Note note = getNote(1L, "这是中文测试", "這是中文測試\n これは日本語のテストです");
     assertEquals(24, new IdeogramsWordCounter().countChars(note));
   }
 
   @Test
-  public void countChecklistChars () {
+  public void countChecklistChars() {
     String content = CHECKED_SYM + "這是中文測試\n" + UNCHECKED_SYM + "これは日本語のテストです";
     Note note = getNote(1L, "这是中文测试", content);
     note.setChecklist(true);
@@ -43,7 +43,7 @@ public class IdeogramsWordCounterTest extends BaseUnitTest {
   }
 
   @Test
-  public void getWords () {
+  public void getWords() {
     Note note = getNote(1L, "这是中文测试", "這是中文測試\n これは日本語のテストです");
     assertEquals(24, new IdeogramsWordCounter().countWords(note));
     note.setTitle("这");
@@ -51,7 +51,7 @@ public class IdeogramsWordCounterTest extends BaseUnitTest {
   }
 
   @Test
-  public void getChecklistWords () {
+  public void getChecklistWords() {
     String content = CHECKED_SYM + "這是中文測試\n" + UNCHECKED_SYM + "これは日本語のテストです";
     Note note = getNote(1L, "这是中文测试", content);
     note.setChecklist(true);

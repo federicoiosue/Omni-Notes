@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,9 +16,9 @@
   -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="OmniNotesFullscreenTheme.ApiSpec">
-        <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>
-    </style>
+  <style name="OmniNotesFullscreenTheme.ApiSpec">
+    <item name="android:windowTranslucentStatus">true</item>
+    <item name="android:windowTranslucentNavigation">@bool/transparent_nav</item>
+  </style>
 
 </resources>

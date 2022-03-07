@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,17 +16,17 @@
   -->
 
 <it.feio.android.omninotes.models.views.InterceptorFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/gallery_root"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/gallery_root"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="#000000"
+  tools:context="it.feio.android.omninotes.GalleryActivity">
+
+  <it.feio.android.simplegallery.views.GalleryViewPager
+    android:id="@+id/fullscreen_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
-    tools:context="it.feio.android.omninotes.GalleryActivity" >
-
-    <it.feio.android.simplegallery.views.GalleryViewPager
-        android:id="@+id/fullscreen_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"/>
+    android:gravity="center" />
 
 </it.feio.android.omninotes.models.views.InterceptorFrameLayout>

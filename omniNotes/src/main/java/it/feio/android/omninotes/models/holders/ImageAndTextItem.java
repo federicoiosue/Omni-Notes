@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ package it.feio.android.omninotes.models.holders;
 
 public class ImageAndTextItem {
 
-  public ImageAndTextItem (int image, String text) {
+  public ImageAndTextItem(int image, String text) {
     super();
     this.image = image;
     this.text = text;
@@ -30,22 +30,22 @@ public class ImageAndTextItem {
   private String text;
 
 
-  public int getImage () {
+  public int getImage() {
     return image;
   }
 
 
-  public void setImage (int image) {
+  public void setImage(int image) {
     this.image = image;
   }
 
 
-  public String getText () {
+  public String getText() {
     return text;
   }
 
 
-  public void setText (String text) {
+  public void setText(String text) {
     this.text = text;
   }
 

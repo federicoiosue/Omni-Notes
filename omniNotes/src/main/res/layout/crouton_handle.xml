@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,8 +16,8 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/crouton_handle"
-    android:layout_width="match_parent"
-    android:layout_height="?attr/actionBarSize"
-    android:elevation="@dimen/toolbar_elevation"
-    android:background="@null" />
+  android:id="@+id/crouton_handle"
+  android:layout_width="match_parent"
+  android:layout_height="?attr/actionBarSize"
+  android:elevation="@dimen/toolbar_elevation"
+  android:background="@null" />

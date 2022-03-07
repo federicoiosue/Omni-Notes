@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,23 +19,27 @@ package it.feio.android.omninotes.helpers.count;
 
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.helpers.LanguageHelper;
+import it.feio.android.omninotes.helpers.LogDelegate;
 
 public class CountFactory {
 
-  private CountFactory () {
+  private CountFactory() {
   }
 
-  public static WordCounter getWordCounter () {
-    String locale = LanguageHelper.getCurrentLocale(OmniNotes.getAppContext());
-    return getCounterInstanceByLocale(locale);
+  public static WordCounter getWordCounter() {
+    try {
+      String locale = LanguageHelper.getCurrentLocaleAsString(OmniNotes.getAppContext());
+      return getCounterInstanceByLocale(locale);
+    } catch (Exception e) {
+      LogDelegate.w("Error retrieving locale or context: " + e.getLocalizedMessage(), e);
+      return new DefaultWordCounter();
+    }
   }
 
-  static WordCounter getCounterInstanceByLocale (String locale) {
+  static WordCounter getCounterInstanceByLocale(String locale) {
     switch (locale) {
       case "ja_JP":
-        return new IdeogramsWordCounter();
       case "zh_CN":
-        return new IdeogramsWordCounter();
       case "zh_TW":
         return new IdeogramsWordCounter();
       default:

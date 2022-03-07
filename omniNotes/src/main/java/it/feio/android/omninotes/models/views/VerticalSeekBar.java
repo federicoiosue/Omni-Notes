@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,23 +30,23 @@ public class VerticalSeekBar extends SeekBar {
   protected int x, y, z, w;
 
 
-  public VerticalSeekBar (Context context) {
+  public VerticalSeekBar(Context context) {
     super(context);
   }
 
 
-  public VerticalSeekBar (Context context, AttributeSet attrs, int defStyle) {
+  public VerticalSeekBar(Context context, AttributeSet attrs, int defStyle) {
     super(context, attrs, defStyle);
   }
 
 
-  public VerticalSeekBar (Context context, AttributeSet attrs) {
+  public VerticalSeekBar(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
 
   @Override
-  protected synchronized void onSizeChanged (int w, int h, int oldw, int oldh) {
+  protected synchronized void onSizeChanged(int w, int h, int oldw, int oldh) {
     super.onSizeChanged(h, w, oldh, oldw);
 
     this.x = w;
@@ -57,14 +57,14 @@ public class VerticalSeekBar extends SeekBar {
 
 
   @Override
-  protected void onMeasure (int widthMeasureSpec, int heightMeasureSpec) {
+  protected synchronized void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
     super.onMeasure(heightMeasureSpec, widthMeasureSpec);
     setMeasuredDimension(getMeasuredHeight(), getMeasuredWidth());
   }
 
 
   @Override
-  protected void onDraw (Canvas c) {
+  protected synchronized void onDraw(Canvas c) {
     c.rotate(-90);
     c.translate(-getHeight(), 0);
 
@@ -73,7 +73,7 @@ public class VerticalSeekBar extends SeekBar {
 
 
   @Override
-  public boolean onTouchEvent (MotionEvent event) {
+  public boolean onTouchEvent(MotionEvent event) {
     if (!isEnabled()) {
       return false;
     }
@@ -111,14 +111,14 @@ public class VerticalSeekBar extends SeekBar {
 
 
   @Override
-  public synchronized void setOnSeekBarChangeListener (
+  public synchronized void setOnSeekBarChangeListener(
       OnSeekBarChangeListener listener) {
     changeListener = listener;
   }
 
 
   @Override
-  public synchronized void setProgress (int progress) {
+  public synchronized void setProgress(int progress) {
     if (progress >= 0) {
       super.setProgress(progress);
     } else {

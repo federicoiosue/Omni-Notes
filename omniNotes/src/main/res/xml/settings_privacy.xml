@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,25 +16,29 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:fitsSystemWindows="true">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:fitsSystemWindows="true">
 
-    <SwitchPreference
-            android:key="acra.enable"
-            android:title="@string/settings_error_reporting"
-            android:summaryOn="@string/settings_error_reporting_summary_on"
-            android:summaryOff="@string/settings_error_reporting_summary_off"
-            android:defaultValue="true"/>
+  <SwitchPreference
+    android:defaultValue="true"
+    android:key="acra.enable"
+    android:summaryOff="@string/settings_error_reporting_summary_off"
+    android:summaryOn="@string/settings_error_reporting_summary_on"
+    android:title="@string/settings_error_reporting"
+    app:iconSpaceReserved="false" />
 
-    <SwitchPreference
-        android:key="settings_send_analytics"
-        android:title="@string/settings_send_analytics"
-        android:summary="@string/settings_send_analytics_summary"
-        android:defaultValue="true"/>
+  <SwitchPreference
+    android:defaultValue="true"
+    android:key="settings_send_analytics"
+    android:summary="@string/settings_send_analytics_summary"
+    android:title="@string/settings_send_analytics"
+    app:iconSpaceReserved="false" />
 
-    <SwitchPreference
-        android:key="settings_enable_file_logging"
-        android:title="@string/settings_enable_file_logging"
-        android:summary="@string/settings_enable_file_logging_summary"
-        android:defaultValue="false"/>
+  <SwitchPreference
+    android:defaultValue="false"
+    android:key="settings_enable_file_logging"
+    android:summary="@string/settings_enable_file_logging_summary"
+    android:title="@string/settings_enable_file_logging"
+    app:iconSpaceReserved="false" />
 
 </PreferenceScreen>

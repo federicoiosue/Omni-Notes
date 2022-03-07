@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,61 +16,61 @@
   -->
 <resources>
 
-    <dimen name="activity_additional_margin">0dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-    
-    <dimen name="horizontal_margin">16dp</dimen>
-    <dimen name="vertical_margin">16dp</dimen>
-    
-    <dimen name="padding_half">8dp</dimen>
+  <dimen name="activity_additional_margin">0dp</dimen>
+  <!-- Default screen margins, per the Android Design guidelines. -->
+  <dimen name="activity_horizontal_margin">16dp</dimen>
+  <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="actionbar_icon_padding">8dp</dimen>
-    <dimen name="toolbar_elevation">4dp</dimen>
+  <dimen name="horizontal_margin">16dp</dimen>
+  <dimen name="vertical_margin">16dp</dimen>
 
-    <dimen name="icon_text_margin">12dp</dimen>    
+  <dimen name="padding_half">8dp</dimen>
 
-    <dimen name="navigation_drawer_width">264dp</dimen>
-    <dimen name="navigation_drawer_line_height">48dp</dimen>
-    <dimen name="navigation_drawer_icon_size">28dp</dimen>
-    <dimen name="navigation_drawer_header_height">90dp</dimen>
-    <dimen name="navigation_drawer_reserved_space">0dp</dimen>
-    <dimen name="navigation_drawer_image_height">130dp</dimen>
+  <dimen name="actionbar_icon_padding">8dp</dimen>
+  <dimen name="toolbar_elevation">4dp</dimen>
 
-    <dimen name="tag_circle_padding">25dp</dimen>
-    
-    <dimen name="padding_top_kitkat">0dp</dimen>
-    <dimen name="padding_bottom_kitkat">0dp</dimen>
+  <dimen name="icon_text_margin">12dp</dimen>
 
-    <dimen name="widget_height">56dp</dimen>
-    
-    <dimen name="undobar_margin_bottom">20dp</dimen>
+  <dimen name="navigation_drawer_width">264dp</dimen>
+  <dimen name="navigation_drawer_line_height">48dp</dimen>
+  <dimen name="navigation_drawer_icon_size">28dp</dimen>
+  <dimen name="navigation_drawer_header_height">90dp</dimen>
+  <dimen name="navigation_drawer_reserved_space">0dp</dimen>
+  <dimen name="navigation_drawer_image_height">130dp</dimen>
+
+  <dimen name="tag_circle_padding">25dp</dimen>
+
+  <dimen name="padding_top_kitkat">0dp</dimen>
+  <dimen name="padding_bottom_kitkat">0dp</dimen>
+
+  <dimen name="widget_height">56dp</dimen>
+
+  <dimen name="undobar_margin_bottom">20dp</dimen>
 
 
-    <!-- Android values taken from sources -->
+  <!-- Android values taken from sources -->
 
-    <!-- Height of the status bar -->
-    <dimen name="status_bar_height">24dp</dimen>
-    <!-- Width of the navigation bar when it is placed vertically on the screen -->
-    <dimen name="navigation_bar_width">42dp</dimen>
-    
-    <!-- Notes layout in list -->
-    <dimen name="note_item_min_height">102dp</dimen>
-    <dimen name="note_item_min_height_inner">100dp</dimen>
-    <dimen name="note_item_min_height_reduced">71dp</dimen>
+  <!-- Height of the status bar -->
+  <dimen name="status_bar_height">24dp</dimen>
+  <!-- Width of the navigation bar when it is placed vertically on the screen -->
+  <dimen name="navigation_bar_width">42dp</dimen>
 
-    <!-- Attachment dialog -->
-    <dimen name="attachment_dialog_text_size">16sp</dimen>
-    <dimen name="attachment_dialog_drawable_padding">12dp</dimen>
-    <dimen name="attachment_dialog_items_padding">12dp</dimen>
+  <!-- Notes layout in list -->
+  <dimen name="note_item_min_height">102dp</dimen>
+  <dimen name="note_item_min_height_inner">100dp</dimen>
+  <dimen name="note_item_min_height_reduced">71dp</dimen>
 
-    <!-- FAB -->
-    <dimen name="fab_right_margin">8dp</dimen>
+  <!-- Attachment dialog -->
+  <dimen name="attachment_dialog_text_size">16sp</dimen>
+  <dimen name="attachment_dialog_drawable_padding">12dp</dimen>
+  <dimen name="attachment_dialog_items_padding">12dp</dimen>
 
-    <!-- Introduction -->
-    <dimen name="intro_top_padding">32dp</dimen>
-    <dimen name="intro_bottom_padding">24dp</dimen>
-    <dimen name="intro_side_padding">64dp</dimen>
+  <!-- FAB -->
+  <dimen name="fab_right_margin">8dp</dimen>
+
+  <!-- Introduction -->
+  <dimen name="intro_top_padding">32dp</dimen>
+  <dimen name="intro_bottom_padding">24dp</dimen>
+  <dimen name="intro_side_padding">64dp</dimen>
 
 </resources>

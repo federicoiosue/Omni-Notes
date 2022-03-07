@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,13 +17,13 @@
 package it.feio.android.omninotes;
 
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.webkit.WebView;
+import androidx.appcompat.widget.Toolbar;
 
 
 public class AboutActivity extends BaseActivity {
 
-  protected void onCreate (Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_about);
 
@@ -35,20 +35,20 @@ public class AboutActivity extends BaseActivity {
 
 
   @Override
-  public void onStart () {
+  public void onStart() {
     ((OmniNotes) getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
     super.onStart();
   }
 
 
   @Override
-  public boolean onNavigateUp () {
+  public boolean onNavigateUp() {
     onBackPressed();
     return true;
   }
 
 
-  private void initUI () {
+  private void initUI() {
     Toolbar toolbar = findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);

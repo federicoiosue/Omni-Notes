@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,230 +16,208 @@
   -->
 <resources>
 
-    <string-array name="navigation_list">
-        <item>Notes</item>
-        <item>Archive</item>
-        <item>Reminders</item>
-        <item>Trash</item>
-        <item>Uncategorized</item>
-    </string-array>
+  <string-array name="navigation_list">
+    <item>Notes</item>
+    <item>Archive</item>
+    <item>Reminders</item>
+    <item>Trash</item>
+    <item>Uncategorized</item>
+  </string-array>
 
-    <string-array name="navigation_list_codes">
-        <item>Notes</item>
-        <item>Archive</item>
-        <item>Reminders</item>
-        <item>Trash</item>
-        <item>Uncategorized</item>
-    </string-array>
+  <string-array name="navigation_list_codes">
+    <item>Notes</item>
+    <item>Archive</item>
+    <item>Reminders</item>
+    <item>Trash</item>
+    <item>Uncategorized</item>
+  </string-array>
 
-    <integer-array name="navigation_list_icons">
-        <item>@drawable/ic_file_document_black_48dp</item>
-        <item>@drawable/ic_archive_black_48dp</item>
-        <item>@drawable/ic_alarm_black_48dp</item>
-        <item>@drawable/ic_delete_black_48dp</item>
-        <item>@drawable/ic_folder_open_black_48dp</item>
-    </integer-array>
+  <integer-array name="navigation_list_icons">
+    <item>@drawable/ic_file_document_black_48dp</item>
+    <item>@drawable/ic_archive_black_48dp</item>
+    <item>@drawable/ic_alarm_black_48dp</item>
+    <item>@drawable/ic_delete_black_48dp</item>
+    <item>@drawable/ic_folder_open_black_48dp</item>
+  </integer-array>
 
-    <integer-array name="navigation_list_icons_selected">
-        <item>@drawable/ic_file_document_black_48dp</item>
-        <item>@drawable/ic_archive_black_48dp</item>
-        <item>@drawable/ic_alarm_black_48dp</item>
-        <item>@drawable/ic_delete_black_48dp</item>
-        <item>@drawable/ic_folder_open_black_48dp</item>
-    </integer-array>
+  <integer-array name="navigation_list_icons_selected">
+    <item>@drawable/ic_file_document_black_48dp</item>
+    <item>@drawable/ic_archive_black_48dp</item>
+    <item>@drawable/ic_alarm_black_48dp</item>
+    <item>@drawable/ic_delete_black_48dp</item>
+    <item>@drawable/ic_folder_open_black_48dp</item>
+  </integer-array>
 
-    <string-array name="sortable_columns">
-        <item>title</item>
-        <item>creation</item>
-        <item>last_modification</item>
-        <item>alarm</item>
-    </string-array>
+  <string-array name="sortable_columns">
+    <item>title</item>
+    <item>creation</item>
+    <item>last_modification</item>
+    <item>alarm</item>
+  </string-array>
 
-    <string-array name="sortable_columns_human_readable">
-        <item>Title</item>
-        <item>Creation date</item>
-        <item>Last modification date</item>
-        <item>Reminder date</item>
-    </string-array>
+  <string-array name="sortable_columns_human_readable">
+    <item>Title</item>
+    <item>Creation date</item>
+    <item>Last modification date</item>
+    <item>Reminder date</item>
+  </string-array>
 
-    <string-array name="checked_items_behavior">
-        <item>Keep position</item>
-        <item>Move to the end of the list</item>
-        <item>Move to the end of unchecked items</item>
-    </string-array>
+  <string-array name="checked_items_behavior">
+    <item>Keep position</item>
+    <item>Move to the end of the list</item>
+    <item>Move to the end of unchecked items</item>
+  </string-array>
 
-    <string-array name="checked_items_behavior_values">
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
+  <string-array name="checked_items_behavior_values">
+    <item>0</item>
+    <item>1</item>
+    <item>2</item>
+  </string-array>
 
-    <string-array name="colors_app">
-        <item>Disabled</item>
-        <item>Strip only</item>
-        <item>Notes list only</item>
-        <item>Complete</item>
-    </string-array>
+  <string-array name="colors_app">
+    <item>Disabled</item>
+    <item>Strip only</item>
+    <item>Notes list only</item>
+    <item>Complete</item>
+  </string-array>
 
-    <string-array name="colors_app_values">
-        <item>disabled</item>
-        <item>strip</item>
-        <item>list</item>
-        <item>complete</item>
-    </string-array>
+  <string-array name="colors_app_values">
+    <item>disabled</item>
+    <item>strip</item>
+    <item>list</item>
+    <item>complete</item>
+  </string-array>
 
-    <string-array name="colors_widget">
-        <item>Disabled</item>
-        <item>Strip only</item>
-        <item>Notes list</item>
-    </string-array>
+  <string-array name="colors_widget">
+    <item>Disabled</item>
+    <item>Strip only</item>
+    <item>Notes list</item>
+  </string-array>
 
-    <string-array name="colors_widget_values">
-        <item>disabled</item>
-        <item>strip</item>
-        <item>list</item>
-    </string-array>
+  <string-array name="colors_widget_values">
+    <item>disabled</item>
+    <item>strip</item>
+    <item>list</item>
+  </string-array>
 
-    <string-array name="text_size">
-        <item>Smallest</item>
-        <item>Small</item>
-        <item>Default</item>
-        <item>Large</item>
-        <item>Largest</item>
-    </string-array>
+  <string-array name="languages">
+    <item>العربية (Arabic)</item>
+    <item>Asturianu (Asturian)</item>
+    <item>Euskara (Basque)</item>
+    <item>မြန်မာစာ (Burmese)</item>
+    <item>Català (Catalan)</item>
+    <item>中文 (Chinese Simplified)</item>
+    <item>臺灣話 (Chinese Traditional)</item>
+    <item>Hrvatski (Croatian)</item>
+    <item>Čeština (Czech)</item>
+    <item>Nederlands (Dutch)</item>
+    <item>English (English)</item>
+    <item>Suomi (Finnish)</item>
+    <item>Français (French)</item>
+    <item>ភាសាខ្មែរ (Khmer)</item>
+    <item>Deutsch (German)</item>
+    <item>Galego (Galician)</item>
+    <item>ελληνικά (Greek)</item>
+    <item>עברית (Hebrew)</item>
+    <item>हिंदी (Hindi)</item>
+    <item>Magyar (Hungarian)</item>
+    <item>Bahasa Indonesia (Indonesian)</item>
+    <item>Italiano (Italian)</item>
+    <item>日本語 (Japanese)</item>
+    <item>ສ​ປ​ປ​ລາວ (Lao)</item>
+    <item>Latviešu valoda (Latvian)</item>
+    <item>فارسی (Persian)</item>
+    <item>Polszczyzna (Polish)</item>
+    <item>Português (Portuguese Brazil)</item>
+    <item>Português (Portuguese Portugal)</item>
+    <item>Românește (Romanian)</item>
+    <item>Русский (Russian)</item>
+    <item>Српски (Serbian Cyrillic)</item>
+    <item>Slovenčina (Slovak)</item>
+    <item>Slovenščina (Slovenian)</item>
+    <item>Español (Spanish)</item>
+    <item>Svenska (Swedish)</item>
+    <item>Türkçe (Turkish)</item>
+    <item>Українська (Ukrainian)</item>
+    <item>اُردُو‎ (Urdu)</item>
+  </string-array>
 
-    <string-array name="text_size_values">
-        <item>smallest</item>
-        <item>small</item>
-        <item>default</item>
-        <item>large</item>
-        <item>largest</item>
-    </string-array>
+  <string-array name="languages_codes">
+    <item>ar_SA</item>
+    <item>es_XA</item>
+    <item>eu_ES</item>
+    <item>my_MM</item>
+    <item>ca_ES</item>
+    <item>zh_CN</item>
+    <item>zh_TW</item>
+    <item>hr_HR</item>
+    <item>cs_CZ</item>
+    <item>nl_NL</item>
+    <item>en_US</item>
+    <item>fi_FI</item>
+    <item>fr_FR</item>
+    <item>km_KH</item>
+    <item>de_DE</item>
+    <item>gl_ES</item>
+    <item>el_GR</item>
+    <item>iw_IL</item>
+    <item>hi_IN</item>
+    <item>hu_HU</item>
+    <item>in_ID</item>
+    <item>it_IT</item>
+    <item>ja_JP</item>
+    <item>lo_LA</item>
+    <item>lv_LV</item>
+    <item>fa_IR</item>
+    <item>pl_PL</item>
+    <item>pt_BR</item>
+    <item>pt_PT</item>
+    <item>ro_RO</item>
+    <item>ru_RU</item>
+    <item>sr_SP</item>
+    <item>sk_SK</item>
+    <item>sl_SI</item>
+    <item>es_ES</item>
+    <item>sv_SE</item>
+    <item>tr_TR</item>
+    <item>uk_UA</item>
+    <item>ur_PK</item>
+  </string-array>
 
-    <integer-array name="text_size_offset">
-        <item>-3</item>
-        <item>-2</item>
-        <item>0</item>
-        <item>3</item>
-        <item>5</item>
-    </integer-array>
+  <array name="material_colors">
+    <item>#F44336</item>
+    <item>#E91E63</item>
+    <item>#9C27B0</item>
+    <item>#673AB7</item>
+    <item>#3F51B5</item>
+    <item>#2196F3</item>
+    <item>#03A9F4</item>
+    <item>#00BCD4</item>
+    <item>#009688</item>
+    <item>#4CAF50</item>
+    <item>#8BC34A</item>
+    <item>#CDDC39</item>
+    <item>#FFEB3B</item>
+    <item>#FFC107</item>
+    <item>#FF9800</item>
+    <item>#FF5722</item>
+    <item>#795548</item>
+    <item>#9E9E9E</item>
+    <item>#607D8B</item>
+  </array>
 
-    <string-array name="languages">
-        <item>العربية (Arabic)</item>
-        <item>Asturianu (Asturian)</item>
-        <item>Euskara (Basque)</item>
-        <item>မြန်မာစာ (Burmese)</item>
-        <item>Català (Catalan)</item>
-        <item>中文 (Chinese Simplified)</item>
-        <item>臺灣話 (Chinese Traditional)</item>
-        <item>Hrvatski (Croatian)</item>
-        <item>Čeština (Czech)</item>
-        <item>Nederlands (Dutch)</item>
-        <item>English (English)</item>
-        <item>Suomi (Finnish)</item>
-        <item>Français (French)</item>
-        <item>ភាសាខ្មែរ (Khmer)</item>
-        <item>Deutsch (German)</item>
-        <item>Galego (Galician)</item>
-        <item>ελληνικά (Greek)</item>
-        <item>עברית (Hebrew)</item>
-        <item>हिंदी (Hindi)</item>
-        <item>Magyar (Hungarian)</item>
-        <item>Bahasa Indonesia (Indonesian)</item>
-        <item>Italiano (Italian)</item>
-        <item>日本語 (Japanese)</item>
-        <item>ສ​ປ​ປ​ລາວ (Lao)</item>
-        <item>Latviešu valoda (Latvian)</item>
-        <item>فارسی (Persian)</item>
-        <item>Polszczyzna (Polish)</item>
-        <item>Português (Portuguese Brazil)</item>
-        <item>Português (Portuguese Portugal)</item>
-        <item>Românește (Romanian)</item>
-        <item>Русский (Russian)</item>
-        <item>Српски (Serbian Cyrillic)</item>
-        <item>Slovenčina (Slovak)</item>
-        <item>Slovenščina (Slovenian)</item>
-        <item>Español (Spanish)</item>
-        <item>Svenska (Swedish)</item>
-        <item>Türkçe (Turkish)</item>
-        <item>Українська (Ukrainian)</item>
-    </string-array>
+  <string-array name="attachments_actions">
+    <item>Share</item>
+    <item>Delete</item>
+    <item>Delete All</item>
+    <item>Edit</item>
+  </string-array>
 
-    <string-array name="languages_codes">
-        <item>ar_SA</item>
-        <item>es_XA</item>
-        <item>eu_ES</item>
-        <item>my_MM</item>
-        <item>ca_ES</item>
-        <item>zh_CN</item>
-        <item>zh_TW</item>
-        <item>hr_HR</item>
-        <item>cs_CZ</item>
-        <item>nl_NL</item>
-        <item>en_US</item>
-        <item>fi_FI</item>
-        <item>fr_FR</item>
-        <item>km_KH</item>
-        <item>de_DE</item>
-        <item>gl_ES</item>
-        <item>el_GR</item>
-        <item>iw_IL</item>
-        <item>hi_IN</item>
-        <item>hu_HU</item>
-        <item>in_ID</item>
-        <item>it_IT</item>
-        <item>ja_JP</item>
-        <item>lo_LA</item>
-        <item>lv_LV</item>
-        <item>fa_IR</item>
-        <item>pl_PL</item>
-        <item>pt_BR</item>
-        <item>pt_PT</item>
-        <item>ro_RO</item>
-        <item>ru_RU</item>
-        <item>sr_SP</item>
-        <item>sk_SK</item>
-        <item>sl_SI</item>
-        <item>es_ES</item>
-        <item>sv_SE</item>
-        <item>tr_TR</item>
-        <item>uk_UA</item>
-    </string-array>
-
-    <array name="material_colors">
-        <item>#F44336</item>
-        <item>#E91E63</item>
-        <item>#9C27B0</item>
-        <item>#673AB7</item>
-        <item>#3F51B5</item>
-        <item>#2196F3</item>
-        <item>#03A9F4</item>
-        <item>#00BCD4</item>
-        <item>#009688</item>
-        <item>#4CAF50</item>
-        <item>#8BC34A</item>
-        <item>#CDDC39</item>
-        <item>#FFEB3B</item>
-        <item>#FFC107</item>
-        <item>#FF9800</item>
-        <item>#FF5722</item>
-        <item>#795548</item>
-        <item>#9E9E9E</item>
-        <item>#607D8B</item>
-    </array>
-
-    <string-array name="attachments_actions">
-        <item>Share</item>
-        <item>Delete</item>
-        <item>Delete All</item>
-        <item>Edit</item>
-    </string-array>
-
-    <string-array name="attachments_actions_values">
-        <item>share</item>
-        <item>delete</item>
-        <item>delete all</item>
-        <item>edit</item>
-    </string-array>
+  <string-array name="attachments_actions_values">
+    <item>share</item>
+    <item>delete</item>
+    <item>delete all</item>
+    <item>edit</item>
+  </string-array>
 
 </resources>

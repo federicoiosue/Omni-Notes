@@ -95,21 +95,6 @@
 
 
 ###############
-# Butterknife
--keep class butterknife.** { *; }
--dontwarn butterknife.internal.**
--keep class **$$ViewBinder { *; }
-
--keepclasseswithmembernames class * {
-    @butterknife.* <fields>;
-}
-
--keepclasseswithmembernames class * {
-    @butterknife.* <methods>;
-}
-
-
-###############
 # Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
@@ -137,7 +122,15 @@
 # "project.properties" file to get the path to the default "proguard-android-optimize.txt".
 -keepattributes *Annotation*
 # ACRA loads Plugins using reflection, so we need to keep all Plugin classes
--keep class * extends org.acra.plugins.Plugin {*;}
+-keep class * implements org.acra.plugins.Plugin {*;}
 # ACRA uses enum fields in annotations, so we have to keep those
 -keep enum org.acra.** {*;}
 -dontwarn android.support.**
+
+
+###############
+#Sublime Picker
+-keepnames class com.appeaser.sublimepickerlibrary.datepicker.** {
+    <fields>;
+    <methods>;
+}

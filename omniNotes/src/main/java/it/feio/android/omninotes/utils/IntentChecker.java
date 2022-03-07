@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,24 +22,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import androidx.annotation.Nullable;
 import java.util.List;
 
 
 public class IntentChecker {
 
+  private IntentChecker() {
+    // hides public constructor
+  }
+
   /**
    * Retrieves
    */
-  public static String resolveActivityPackage (Context ctx, Intent intent) {
+  public static String resolveActivityPackage(Context ctx, Intent intent) {
     ComponentName activity = intent.resolveActivity(ctx.getPackageManager());
     return activity != null ? activity.getPackageName() : "";
   }
 
   /**
-   * Checks intent and features availability
+   * Checks intent and optionally features availability
    */
-  public static boolean isAvailable (Context ctx, Intent intent, String[] features) {
-    boolean res = getCompatiblePackages(ctx, intent).size() > 0;
+  public static boolean isAvailable(Context ctx, Intent intent, @Nullable String[] features) {
+    boolean res = !getCompatiblePackages(ctx, intent).isEmpty();
 
     if (features != null) {
       for (String feature : features) {
@@ -52,10 +57,10 @@ public class IntentChecker {
   /**
    * Checks Intent's action
    *
-   * @param i Intent to ckeck
+   * @param i      Intent to ckeck
    * @param action Action to compare with
    */
-  public static boolean checkAction (Intent i, String action) {
+  public static boolean checkAction(Intent i, String action) {
     return action.equals(i.getAction());
   }
 
@@ -63,10 +68,10 @@ public class IntentChecker {
   /**
    * Checks Intent's actions
    *
-   * @param i Intent to ckeck
+   * @param i       Intent to ckeck
    * @param actions Multiple actions to compare with
    */
-  public static boolean checkAction (Intent i, String... actions) {
+  public static boolean checkAction(Intent i, String... actions) {
     for (String action : actions) {
       if (checkAction(i, action)) {
         return true;
@@ -75,7 +80,7 @@ public class IntentChecker {
     return false;
   }
 
-  private static List<ResolveInfo> getCompatiblePackages (Context ctx, Intent intent) {
+  private static List<ResolveInfo> getCompatiblePackages(Context ctx, Intent intent) {
     final PackageManager mgr = ctx.getPackageManager();
     return mgr.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
   }

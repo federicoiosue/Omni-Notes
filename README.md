@@ -3,10 +3,12 @@
 Omni-Notes
 ==========
 
-![SLicense](https://img.shields.io/badge/License-GPLv3-red.svg)
+![License](https://img.shields.io/badge/License-GPLv3-red.svg)
+[![CI workflow](https://github.com/federicoiosue/Omni-Notes/workflows/CI/badge.svg)](https://github.com/federicoiosue/Omni-Notes/actions?query=workflow%3ACI)
+[![CodeQL Workflow](https://github.com/federicoiosue/Omni-Notes/workflows/CodeQL/badge.svg)](https://github.com/federicoiosue/Omni-Notes/actions?query=workflow%3ACodeQL)
+[![Sonarcloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=omni-notes&metric=coverage)](https://sonarcloud.io/dashboard?id=omni-notes)
+[![Sonarcloud Maintainability](https://sonarcloud.io/api/project_badges/measure?project=omni-notes&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=omni-notes)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/omni-notes/localized.png)](https://crowdin.com/project/omni-notes)
-[![Build Status](https://travis-ci.org/federicoiosue/Omni-Notes.svg?branch=develop)](https://travis-ci.org/federicoiosue/Omni-Notes)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/8ade707d00ef468fa79d3f6b622444b5)](https://www.codacy.com/app/federico-iosue/Omni-Notes?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=federicoiosue/Omni-Notes&amp;utm_campaign=Badge_Grade)
 [![GitHub release](https://img.shields.io/github/release/federicoiosue/omni-notes.svg)](https://github.com/federicoiosue/Omni-Notes/releases/latest)
 
 Note taking <b>open-source</b> application aimed to have both a <b>simple interface</b> but keeping <b>smart</b> behavior.
@@ -15,11 +17,16 @@ The project was inspired by the absence of such applications compatible with old
 
 **Follow the developments and post your comments and advice on Facebook Community at https://www.facebook.com/OmniNotes**
 
-*Help to keep translations updated is always welcome, if you want give a hand checkout the translation project on **https://translate.omninotes.app.** *
+Help to keep translations updated is always welcome, if you want give a hand checkout the translation project on *https://translate.omninotes.app.*
 
 <a href="https://f-droid.org/repository/browse/?fdid=it.feio.android.omninotes.foss" target="_blank">
 <img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="90"/></a>
 <a href="https://play.google.com/store/apps/details?id=it.feio.android.omninotes" target="_blank">
+<img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/></a>
+
+If you're willing to help speeding up developments please also opt-in for the Alpha version of the app following continuous delivery principles:
+
+<a href="https://play.google.com/store/apps/details?id=it.feio.android.omninotes.alpha" target="_blank">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/></a>
 
 ## Features
@@ -70,13 +77,40 @@ Look into the wiki for GIFs-based tutorials: [LINK](https://github.com/federicoi
 Watch the following terminal session recording on how to compile distributable files
 [![asciicast](https://asciinema.org/a/102898.png)](https://asciinema.org/a/102898)
 
+To be sure that build environment is fully compliant with the project the following command creates a container with all the needed tools to compile the code:
+
+```
+cd {project-folder}; rm local.properties; docker rm android-omninotes; docker run -v $PWD:/workspace --name android-omninotes tabrindle/min-alpine-android-sdk:latest bash -c "mkdir -p ~/.android && touch ~/.android/repositories.cfg && yes | sdkmanager --update &>/dev/null && cd /workspace && ./gradlew clean build --stacktrace -Dorg.gradle.daemon=true -Pandroid.useDeprecatedNdk=true"
+
+```
+
 ## Test
 
 To execute all tests included into the project connect a device or emulator, then run the following command:
 
 ```shell
-./gradlew connectedAndroidTest
+./gradlew testAll
 ```
+
+### Testing Pyramid
+
+To speedup the development more levels of testing are available following the [testing pyramid approach](https://martinfowler.com/articles/practical-test-pyramid.html), each type test requires more time than the previous one.
+
+### Unit Tests
+```shell
+./gradlew --stacktrace test
+```
+
+### Integration Tests
+```shell
+./gradlew --stacktrace -Pandroid.testInstrumentationRunnerArguments.notAnnotation=androidx.test.filters.LargeTest connectedAndroidTest
+```
+
+### UI Tests
+```shell
+./gradlew --stacktrace -Pandroid.testInstrumentationRunnerArguments.annotation=androidx.test.filters.LargeTest connectedPlayDebugAndroidTest
+```
+Notice that in this case I specified a single flavor to run tests on. This could be a useful and faster approach when you're testing specific flavor features.  
 
 ## Contributing
 
@@ -84,7 +118,7 @@ Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as cod
 
 There are many features/improvements that are not on **my** roadmap but someone else could decide to work on them anyway: hunt for issues tagged as [Help Wanted](https://github.com/federicoiosue/Omni-Notes/issues?utf8=✓&q=label%3A"Help+wanted") to find them!
 
-Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/Omni-Notes/blob/develop/contributors.md) file.
+Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/Omni-Notes/blob/develop/CONTRIBUTORS.md) file.
 
 ### New feature or improvements contributions
 
@@ -105,7 +139,6 @@ See the [related section](#test) for more informations or this two pull requests
 When forking the project you'll have to modify some files that are strictly dependent from my own development / build / third-party-services environment. Files that need some attention are the following:
 
   - *gradle.properties*: this is overridden by another file with the same name inside the *omniNotes* module. You can do the same or leave as it is, any missing property will let the app gracefully fallback on a default behavior.
-  - *.travis.yml*: if you use [TravisCI](https://travis-ci.org/) as continuous integration platform and a SonarQUBE instance for code quality analysis you'll have to modify this file according to your needs.
 
 ## Code quality
 
@@ -120,7 +153,6 @@ Pull requests will be automatically analyzed and rejected if they'll rise the co
 They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni-Notes/blob/develop/omniNotes/build.gradle) file but due to the fact that many of the dependences have been customized by me I'd like to say thanks here to the original developers of these great libraries:
 
 * https://github.com/RobotiumTech/robotium
-* https://github.com/flavienlaurent/datetimepicker
 * https://github.com/LarsWerkman/HoloColorPicker
 * https://github.com/keyboardsurfer/Crouton
 * https://github.com/romannurik/dashclock/wiki/API
@@ -130,11 +162,9 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 * https://github.com/greenrobot/EventBus
 * https://github.com/futuresimple/android-floating-action-button
 * https://github.com/keyboardsurfer
-* https://github.com/nhaarman/ListViewAnimations
 * https://github.com/bumptech/glide
 * https://github.com/neopixl/PixlUI
 * https://github.com/afollestad/material-dialogs
-* https://github.com/JakeWharton/butterknife
 * https://github.com/ical4j
 * https://github.com/square/leakcanary
 * https://github.com/pnikosis/materialish-progress
@@ -147,19 +177,29 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 * https://github.com/mrmans0n/smart-location-lib
 
 
+## Mentioned on
+
+[XDA](https://www.xda-developers.com/omni-notes-the-open-source-note-app/)
+[Android Authority](https://www.androidauthority.com/best-note-taking-apps-for-android-205356/)
+[Droid Advisor](https://droidadvisor.com/omni-notes-note-taking-app/)
+[Addictive Tips](https://www.addictivetips.com/android/note-taking-apps-for-android/)
+[Techalook](https://techalook.com/apps/best-sticky-notes-android-iphone/)
+[DZone](https://dzone.com/articles/amazing-open-source-android-apps-written-in-java)
+[Slash Gear](https://www.slashgear.com/best-note-taking-apps-for-android-phones-and-tablets-04529297/)
+[quaap.com](https://quaap.com/D/use-fdroid)
 
 ## Developed with love and passion by
 
 
 * Federico Iosue - [Website](https://federico.iosue.it)
-* [Other contributors](https://github.com/federicoiosue/Omni-Notes/blob/master/https://github.com/federicoiosue/Omni-Notes/blob/master/CONTRIBUTORS.md)
+* [Other contributors](https://github.com/federicoiosue/Omni-Notes/blob/develop/CONTRIBUTORS.md)
 
 
 
 ## License
 
 
-    Copyright 2013-2019 Federico Iosue
+    Copyright 2013-2021 Federico Iosue
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

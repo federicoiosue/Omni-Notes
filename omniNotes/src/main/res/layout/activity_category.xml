@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -15,63 +15,64 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="300dp"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              android:padding="15dp"
-              android:background="@drawable/bg_card"
-              android:gravity="center_horizontal">
+  android:layout_width="300dp"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  android:padding="15dp"
+  android:background="@drawable/bg_card"
+  android:gravity="center_horizontal">
 
-    <EditText
-            android:id="@+id/category_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:hint="@string/category_title"
-            android:inputType="textCapSentences"
-            android:textAppearance="@style/Text.Big"
-            android:textColorHint="@color/text_color_lighter"
-            android:textColor="@color/text_color"
-            android:textCursorDrawable="@null"/>
+  <EditText
+    android:id="@+id/category_title"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:gravity="center_horizontal"
+    android:hint="@string/category_title"
+    android:inputType="textCapSentences"
+    android:textAppearance="@style/Text.Big"
+    android:textColorHint="@color/text_color_lighter"
+    android:textColor="@color/text_color"
+    android:textCursorDrawable="@null" />
 
-    <EditText
-            android:id="@+id/category_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:gravity="center"
-            android:hint="@string/category_description"
-            android:visibility="gone"/>
+  <EditText
+    android:id="@+id/category_description"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:gravity="center"
+    android:hint="@string/category_description"
+    android:visibility="gone" />
 
-    <ImageView android:id="@+id/color_chooser"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="20dp"
-               android:layout_gravity="center_horizontal"
-               android:src="@drawable/gray_circle"/>
+  <ImageView
+    android:id="@+id/color_chooser"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:layout_gravity="center_horizontal"
+    android:src="@drawable/gray_circle" />
 
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal"
-            android:gravity="right|end">
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="20dp"
+    android:orientation="horizontal"
+    android:gravity="end">
 
-        <Button
-                android:id="@+id/delete"
-                style="@style/Button.Dialog.Accent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/delete"
-                android:visibility="gone"/>
+    <Button
+      android:id="@+id/delete"
+      style="@style/Button.Dialog.Accent"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/delete"
+      android:visibility="gone" />
 
-        <Button
-                android:id="@+id/save"
-                style="@style/Button.Dialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/ok"/>
-    </LinearLayout>
+    <Button
+      android:id="@+id/save"
+      style="@style/Button.Dialog"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/ok" />
+  </LinearLayout>
 
 </LinearLayout>

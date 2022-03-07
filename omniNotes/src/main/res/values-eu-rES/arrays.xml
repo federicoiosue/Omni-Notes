@@ -46,13 +46,6 @@
         <item>Marratxoa besterik ez</item>
         <item>Ohar-zerrenda</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Txikiena</item>
-        <item>Txikia</item>
-        <item>Lehenetsia</item>
-        <item>Handia</item>
-        <item>Handiena</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Partekatu</item>
         <item>Ezabatu</item>

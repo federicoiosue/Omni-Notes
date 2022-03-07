@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,13 +16,13 @@
   -->
 
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
-    android:initialLayout="@layout/widget_layout_list"
-    android:minHeight="110dp"
-    android:minWidth="180dp"
-    android:updatePeriodMillis="300000" 
-    android:configure="it.feio.android.omninotes.widget.WidgetConfigurationActivity" 
-    android:widgetCategory="keyguard|home_screen"
-    android:previewImage="@drawable/widget_list"
-    android:resizeMode="horizontal|vertical" >
+  android:initialLayout="@layout/widget_layout_list"
+  android:minHeight="110dp"
+  android:minWidth="180dp"
+  android:updatePeriodMillis="300000"
+  android:configure="it.feio.android.omninotes.widget.WidgetConfigurationActivity"
+  android:widgetCategory="keyguard|home_screen"
+  android:previewImage="@drawable/widget_list"
+  android:resizeMode="horizontal|vertical">
 
 </appwidget-provider>

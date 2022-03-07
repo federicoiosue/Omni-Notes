@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,35 +19,46 @@ package it.feio.android.omninotes.utils;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import it.feio.android.omninotes.BaseAndroidTestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 
 @RunWith(AndroidJUnit4.class)
-public class SecurityTest {
+public class SecurityTest extends BaseAndroidTestCase {
 
   private final String PASS = "12345uselessPasswords";
   private final String TEXT = "Today is a - good - day to test useless things!";
-  private final String LOREM = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, " +
-      "sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+  private final String LOREM =
+      "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor"
+          + " incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"
+          + " laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit "
+          + "esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa "
+          + "qui officia deserunt mollit anim ID est laborum.";
 
   @Test
-  public void testEncrypt () {
-    String encryptedText = Security.encrypt(TEXT, PASS);
-    assertFalse(TEXT.equals(encryptedText));
+  public void checkUtilityClassWellDefined() throws Exception {
+    assertUtilityClassWellDefined(Security.class);
   }
 
   @Test
-  public void testDecrypt () {
+  public void testEncrypt() {
+    String encryptedText = Security.encrypt(TEXT, PASS);
+    assertNotEquals(TEXT, encryptedText);
+  }
+
+  @Test
+  public void testDecrypt() {
     String encryptedText = Security.encrypt(TEXT, PASS);
     assertEquals(TEXT, Security.decrypt(encryptedText, PASS));
-    assertFalse(TEXT.equals(Security.decrypt(encryptedText, "zaza" + PASS)));
+    assertNotEquals(TEXT, Security.decrypt(encryptedText, "zaza" + PASS));
   }
 
   @Test
-  public void testDecryptUnencrypted () {
+  public void testDecryptUnencrypted() {
     String result = Security.decrypt(LOREM, PASS);
     assertFalse(result.length() == 0);
   }

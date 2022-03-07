@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,14 +17,16 @@
 
 package it.feio.android.omninotes.async;
 
-import android.content.Context;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_DYNAMIC_MENU;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SHOW_UNCATEGORIZED;
+
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
@@ -33,7 +35,6 @@ import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
 import it.feio.android.omninotes.models.misc.DynamicNavigationLookupTable;
 import it.feio.android.omninotes.models.views.NonScrollableListView;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Navigation;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -50,74 +51,75 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
   NonScrollableListView mDrawerCategoriesList;
 
 
-  public MainMenuTask (Fragment mFragment) {
+  public MainMenuTask(Fragment mFragment) {
     mFragmentWeakReference = new WeakReference<>(mFragment);
     this.mainActivity = (MainActivity) mFragment.getActivity();
     ButterKnife.bind(this, mFragment.getView());
   }
 
-
   @Override
-  protected List<NavigationItem> doInBackground (Void... params) {
+  protected List<NavigationItem> doInBackground(Void... params) {
     return buildMainMenu();
   }
 
-
   @Override
-  protected void onPostExecute (final List<NavigationItem> items) {
+  protected void onPostExecute(final List<NavigationItem> items) {
     if (isAlive()) {
       mDrawerList.setAdapter(new NavDrawerAdapter(mainActivity, items));
       mDrawerList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
         String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
             .navigation_list_codes)[items.get(position).getArrayIndex()];
-        if (mainActivity.updateNavigation(navigation)) {
-          mDrawerList.setItemChecked(position, true);
-          if (mDrawerCategoriesList != null) {
-            mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
-          }
-          mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
-          EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
-        }
+        updateNavigation(position, navigation);
       });
       mDrawerList.justifyListViewHeightBasedOnChildren();
     }
   }
 
+  private void updateNavigation(int position, String navigation) {
+    if (mainActivity.updateNavigation(navigation)) {
+      mDrawerList.setItemChecked(position, true);
+      if (mDrawerCategoriesList != null) {
+        mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
+      }
+      mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
+      EventBus.getDefault()
+          .post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
+    }
+  }
 
-  private boolean isAlive () {
+  private boolean isAlive() {
     return mFragmentWeakReference.get() != null
         && mFragmentWeakReference.get().isAdded()
         && mFragmentWeakReference.get().getActivity() != null
         && !mFragmentWeakReference.get().getActivity().isFinishing();
   }
 
-
-  private List<NavigationItem> buildMainMenu () {
+  private List<NavigationItem> buildMainMenu() {
     if (!isAlive()) {
       return new ArrayList<>();
     }
 
     String[] mNavigationArray = mainActivity.getResources().getStringArray(R.array.navigation_list);
-    TypedArray mNavigationIconsArray = mainActivity.getResources().obtainTypedArray(R.array.navigation_list_icons);
+    TypedArray mNavigationIconsArray = mainActivity.getResources()
+        .obtainTypedArray(R.array.navigation_list_icons);
     TypedArray mNavigationIconsSelectedArray = mainActivity.getResources().obtainTypedArray(R.array
         .navigation_list_icons_selected);
 
     final List<NavigationItem> items = new ArrayList<>();
     for (int i = 0; i < mNavigationArray.length; i++) {
       if (!checkSkippableItem(i)) {
-        NavigationItem item = new NavigationItem(i, mNavigationArray[i], mNavigationIconsArray.getResourceId(i,
-            0), mNavigationIconsSelectedArray.getResourceId(i, 0));
+        NavigationItem item = new NavigationItem(i, mNavigationArray[i],
+            mNavigationIconsArray.getResourceId(i,
+                0), mNavigationIconsSelectedArray.getResourceId(i, 0));
         items.add(item);
       }
     }
     return items;
   }
 
-
-  private boolean checkSkippableItem (int i) {
+  private boolean checkSkippableItem(int i) {
     boolean skippable = false;
-    SharedPreferences prefs = mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-    boolean dynamicMenu = prefs.getBoolean(Constants.PREF_DYNAMIC_MENU, true);
+    boolean dynamicMenu = Prefs.getBoolean(PREF_DYNAMIC_MENU, true);
     DynamicNavigationLookupTable dynamicNavigationLookupTable = null;
     if (dynamicMenu) {
       dynamicNavigationLookupTable = DynamicNavigationLookupTable.getInstance();
@@ -129,8 +131,9 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         }
         break;
       case Navigation.UNCATEGORIZED:
-        boolean showUncategorized = prefs.getBoolean(Constants.PREF_SHOW_UNCATEGORIZED, false);
-        if (!showUncategorized || (dynamicMenu && dynamicNavigationLookupTable.getUncategorized() == 0)) {
+        boolean showUncategorized = Prefs.getBoolean(PREF_SHOW_UNCATEGORIZED, false);
+        if (!showUncategorized || (dynamicMenu
+            && dynamicNavigationLookupTable.getUncategorized() == 0)) {
           skippable = true;
         }
         break;
@@ -144,8 +147,6 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
           skippable = true;
         }
         break;
-      default:
-        skippable = false;
     }
     return skippable;
   }

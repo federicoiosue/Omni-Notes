@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,10 +22,14 @@ import android.content.Context;
 
 public class ResourcesUtils {
 
-  public enum ResourceIdentifiers {xml, id, array}
+  public enum ResourceIdentifiers {XML, ID, ARRAY}
 
 
-  public static int getXmlId (Context context, ResourceIdentifiers resourceIdentifier, String resourceName) {
-    return context.getResources().getIdentifier(resourceName, resourceIdentifier.name(), context.getPackageName());
+  public static int getXmlId(Context context, ResourceIdentifiers resourceIdentifier,
+      String resourceName) {
+    return context.getResources()
+        .getIdentifier(resourceName, resourceIdentifier.name().toLowerCase(),
+            context.getPackageName());
   }
+
 }

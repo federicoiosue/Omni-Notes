@@ -46,13 +46,6 @@
         <item>Sólo la tira</item>
         <item>Lista de notas</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Más pequeña</item>
-        <item>Pequeño</item>
-        <item>Predeterminado</item>
-        <item>Grande</item>
-        <item>Más grande</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Compartir</item>
         <item>Borrar</item>

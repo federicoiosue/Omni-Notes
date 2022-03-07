@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,8 @@
 package it.feio.android.omninotes.async.bus;
 
 import it.feio.android.omninotes.helpers.LogDelegate;
+import lombok.Getter;
+import lombok.Setter;
 
 public class SwitchFragmentEvent {
 
@@ -25,11 +27,11 @@ public class SwitchFragmentEvent {
     CHILDREN, PARENT
   }
 
+  @Getter
+  @Setter
+  private Direction direction;
 
-  public Direction direction;
-
-
-  public SwitchFragmentEvent (Direction direction) {
+  public SwitchFragmentEvent(Direction direction) {
     LogDelegate.d(this.getClass().getName());
     this.direction = direction;
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@ package it.feio.android.omninotes.db;
 
 import static org.junit.Assert.assertEquals;
 
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.models.Note;
 import org.junit.Test;
@@ -30,7 +30,7 @@ import org.junit.runner.RunWith;
 public class DbHelperTest extends BaseAndroidTestCase {
 
   @Test
-  public void testGetNotesByTag () {
+  public void testGetNotesByTag() {
     Note note = new Note();
     note.setTitle("title with #tag inside");
     note.setContent("useless content");
@@ -48,7 +48,7 @@ public class DbHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void getNotesByPatternEscaped () {
+  public void getNotesByPatternEscaped() {
     Note note1 = new Note();
     note1.setTitle("title one");
     note1.setContent("content with _ (underscore) inside");

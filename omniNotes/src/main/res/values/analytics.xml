@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,13 +16,13 @@
   -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="TypographyDashes">
 
-    <!-- Replace placeholder ID with your tracking ID -->
-    <string name="ga_trackingId">UA-45502770-1</string>
+  <!-- Replace placeholder ID with your tracking ID -->
+  <string name="ga_trackingId">UA-45502770-1</string>
 
-    <!-- Enable automatic activity tracking -->
-    <bool name="ga_autoActivityTracking">true</bool>
+  <!-- Enable automatic activity tracking -->
+  <bool name="ga_autoActivityTracking">true</bool>
 
-    <!-- Enable automatic exception tracking -->
-    <bool name="ga_reportUncaughtExceptions">true</bool>
+  <!-- Enable automatic exception tracking -->
+  <bool name="ga_reportUncaughtExceptions">true</bool>
 
 </resources>

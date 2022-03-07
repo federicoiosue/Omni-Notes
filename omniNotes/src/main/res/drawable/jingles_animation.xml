@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,17 +15,39 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<animation-list
-    xmlns:android="http://schemas.android.com/apk/res/android" android:oneshot="false">
-    <item android:drawable="@drawable/jingles_1" android:duration="170" />
-    <item android:drawable="@drawable/jingles_2" android:duration="170" />
-    <item android:drawable="@drawable/jingles_3" android:duration="170" />
-    <item android:drawable="@drawable/jingles_4" android:duration="170" />
-    <item android:drawable="@drawable/jingles_5" android:duration="170" />
-    <item android:drawable="@drawable/jingles_6" android:duration="170" />
-    <item android:drawable="@drawable/jingles_5" android:duration="170" />
-    <item android:drawable="@drawable/jingles_4" android:duration="170" />
-    <item android:drawable="@drawable/jingles_3" android:duration="170" />
-    <item android:drawable="@drawable/jingles_2" android:duration="170" />
-    <item android:drawable="@drawable/jingles_1" android:duration="170" />
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+  android:oneshot="false">
+  <item
+    android:drawable="@drawable/jingles_1"
+    android:duration="170" />
+  <item
+    android:drawable="@drawable/jingles_2"
+    android:duration="170" />
+  <item
+    android:drawable="@drawable/jingles_3"
+    android:duration="170" />
+  <item
+    android:drawable="@drawable/jingles_4"
+    android:duration="170" />
+  <item
+    android:drawable="@drawable/jingles_5"
+    android:duration="170" />
+  <item
+    android:drawable="@drawable/jingles_6"
+    android:duration="170" />
+  <item
+    android:drawable="@drawable/jingles_5"
+    android:duration="170" />
+  <item
+    android:drawable="@drawable/jingles_4"
+    android:duration="170" />
+  <item
+    android:drawable="@drawable/jingles_3"
+    android:duration="170" />
+  <item
+    android:drawable="@drawable/jingles_2"
+    android:duration="170" />
+  <item
+    android:drawable="@drawable/jingles_1"
+    android:duration="170" />
 </animation-list>

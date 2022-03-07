@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -15,23 +14,22 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<set xmlns:android="http://schemas.android.com/apk/res/android" >
+<set xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <alpha
-        android:duration="@android:integer/config_mediumAnimTime"
-        android:fromAlpha="1.0"
-        android:interpolator="@android:anim/accelerate_interpolator"
-        android:toAlpha="0.0" />
+  <alpha
+    android:duration="@android:integer/config_mediumAnimTime"
+    android:fromAlpha="1.0"
+    android:interpolator="@android:anim/accelerate_interpolator"
+    android:toAlpha="0.0" />
 
-    <scale
-        android:duration="@android:integer/config_mediumAnimTime"
-        android:fromXScale="1"
-        android:fromYScale="1"
-        android:interpolator="@android:anim/accelerate_interpolator"
-        android:pivotX="50%"
-        android:pivotY="50%"
-        android:toXScale="0.2"
-        android:toYScale="0.2" >
-    </scale>
+  <scale
+    android:duration="@android:integer/config_mediumAnimTime"
+    android:fromXScale="1"
+    android:fromYScale="1"
+    android:interpolator="@android:anim/accelerate_interpolator"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:toXScale="0.2"
+    android:toYScale="0.2"></scale>
 
 </set>

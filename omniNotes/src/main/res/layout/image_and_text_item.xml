@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -15,29 +15,29 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+  xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:gravity="center_vertical"
+  android:paddingBottom="@dimen/padding_half"
+  android:paddingTop="@dimen/padding_half">
+
+  <ImageView
+    android:id="@+id/image"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/horizontal_margin"
+    android:paddingStart="@dimen/horizontal_margin" />
+
+  <com.neopixl.pixlui.components.textview.TextView
+    android:id="@+id/text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:paddingBottom="@dimen/padding_half"
-    android:paddingTop="@dimen/padding_half" >
-
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/horizontal_margin"
-        android:paddingStart="@dimen/horizontal_margin"/>
-
-    <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/horizontal_margin"
-        android:paddingStart="@dimen/horizontal_margin"
-        android:textAppearance="@style/Text.Big"
-        android:textColor="@color/drawer_text"
-        pixlui:typeface="Roboto-Regular.ttf" />
+    android:paddingLeft="@dimen/horizontal_margin"
+    android:paddingStart="@dimen/horizontal_margin"
+    android:textAppearance="@style/Text.Big"
+    android:textColor="@color/drawer_text"
+    pixlui:typeface="Roboto-Regular.ttf" />
 
 </LinearLayout>

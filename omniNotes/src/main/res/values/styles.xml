@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -18,169 +18,158 @@
   -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="OmniNotesTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowBackground">@color/colorPrimary</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowActionModeOverlay">true</item>
-        <item name="actionModeBackground">@color/colorPrimaryDark</item>
-        <item name="searchViewStyle">@style/SearchViewStyle</item>
-        <item name="actionBarPopupTheme">@style/ThemeOverlay.AppCompat.Light</item>
-    </style>
+  <style name="OmniNotesTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowBackground">@color/colorPrimary</item>
+    <item name="colorPrimary">@color/colorPrimary</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="windowActionModeOverlay">true</item>
+    <item name="actionModeBackground">@color/colorPrimaryDark</item>
+    <item name="actionBarPopupTheme">@style/ThemeOverlay.MaterialComponents.Light</item>
+    <item name="sublimePickerStyle">@style/ONSublimePickerStyle</item>
+  </style>
 
-    <style name="OmniNotesTheme.ApiSpec"/>
+  <style name="ONSublimePickerStyle" parent="SublimePickerStyleLight">
+    <item name="colorAccent">@color/colorPrimary</item>
+  </style>
 
-    <style name="OmniNotesTheme.ApiSpec.Branded">
-        <item name="android:windowBackground">@drawable/branded_background</item>
-    </style>
+  <style name="OmniNotesTheme.ApiSpec" />
 
-    <style name="PreferencesTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-    </style>
+  <style name="OmniNotesTheme.ApiSpec.Branded">
+    <item name="android:windowBackground">@drawable/branded_background</item>
+  </style>
 
-    <style name="OmniNotesFullscreenTheme" parent="@style/Theme.AppCompat">
-        <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
-        <item name="windowActionBarOverlay">true</item>
-        <item name="background">@color/black_overlay</item>
-    </style>
+  <style name="OmniNotesFullscreenTheme" parent="@style/Theme.MaterialComponents">
+    <item name="actionBarStyle">@style/FullscreenActionBarStyle</item>
+    <item name="windowActionBarOverlay">true</item>
+    <item name="background">@color/black_overlay</item>
+  </style>
 
-    <style name="OmniNotesFullscreenTheme.ApiSpec"/>
+  <style name="OmniNotesFullscreenTheme.ApiSpec" />
 
-    <style name="OmniNotesTheme.NoDisplay">
-        <item name="android:windowBackground">@null</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:windowDisablePreview">true</item>
-        <item name="android:windowNoDisplay">true</item>
-    </style>
+  <style name="OmniNotesTheme.NoDisplay">
+    <item name="android:windowBackground">@null</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowAnimationStyle">@null</item>
+    <item name="android:windowDisablePreview">true</item>
+    <item name="android:windowNoDisplay">true</item>
+  </style>
 
-    <style name="OmniNotesTheme.ApiSpec.Dialog">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@drawable/bg_card</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
-    </style>
+  <style name="OmniNotesTheme.ApiSpec.Dialog">
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowBackground">@drawable/bg_card</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowFrame">@null</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowIsFloating">true</item>
+    <item name="android:backgroundDimEnabled">true</item>
+  </style>
 
-    <style name="Theme.AppCompat.Dialog.NoBackgroundOrDim" parent="AppTheme">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowFrame">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowIsFloating">true</item>
-    </style>
+  <style name="Theme.MaterialComponents.Dialog.NoBackgroundOrDim" parent="AppTheme">
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowFrame">@null</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowIsFloating">true</item>
+  </style>
 
-    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
-        <item name="closeIcon">@drawable/ic_cancel_white_24dp</item>
-    </style>
+  <style name="AppTheme.ActionBar.Fullscreen.TitleTextStyle" parent="@android:style/TextAppearance">
+    <item name="android:textColor">@android:color/white</item>
+  </style>
 
-    <style name="AppTheme.ActionBar.Fullscreen.TitleTextStyle" parent="@android:style/TextAppearance">
-        <item name="android:textColor">@android:color/white</item>
-    </style>
+  <style name="Theme.MaterialComponents.Dialog.About" parent="Theme.MaterialComponents.Dialog">
+    <item name="android:windowBackground">@color/about_bg</item>
+  </style>
 
-    <style name="Theme.AppCompat.Dialog.About" parent="Theme.AppCompat.Dialog">
-        <item name="android:windowBackground">@color/about_bg</item>
-    </style>
+  <style name="Button.Dialog" parent="Widget.MaterialComponents.Button.TextButton" />
 
-    <style name="Button.Dialog" parent="MD_ActionButton">
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="android:background">@null</item>
-        <item name="android:textCursorDrawable">@null</item>
-    </style>
+  <style name="Button.Dialog.Accent" parent="Widget.MaterialComponents.Button.TextButton">
+    <item name="android:textColor">@color/colorAccent</item>
+  </style>
 
-    <style name="Button.Dialog.Accent" parent="MD_ActionButton">
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:background">@null</item>
-        <item name="android:textCursorDrawable">@null</item>
-    </style>
+  <style name="Text" parent="TextAppearance.AppCompat.Medium.Inverse">
+    <item name="android:textColor">@color/text_color</item>
+    <item name="android:textColorHint">@color/text_color_lighter</item>
+    <item name="android:textCursorDrawable">@null</item>
+  </style>
 
-    <style name="Text" parent="android:TextAppearance.Holo.Medium.Inverse">
-        <item name="android:textColor">@color/text_color</item>
-        <item name="android:textColorHint">@color/text_color_lighter</item>
-        <item name="android:textCursorDrawable">@null</item>
-    </style>
+  <style name="Text.Big">
+    <item name="android:textSize">16sp</item>
+  </style>
 
-    <style name="Text.Big">
-        <item name="android:textSize">16sp</item>
-    </style>
+  <style name="Text.Normal">
+    <item name="android:textSize">13sp</item>
+  </style>
 
-    <style name="Text.Normal">
-        <item name="android:textSize">13sp</item>
-    </style>
+  <style name="Text.Small">
+    <item name="android:textSize">11sp</item>
+  </style>
 
-    <style name="Text.Small">
-        <item name="android:textSize">11sp</item>
-    </style>
+  <style name="Text.Big.Widget" parent="@style/Text.Big">
+    <item name="android:textSize">14sp</item>
+  </style>
 
-    <style name="Text.Big.Widget" parent="@style/Text.Big">
-        <item name="android:textSize">14sp</item>
-    </style>
+  <style name="Text.Normal.Widget" parent="@style/Text.Normal">
+    <item name="android:textSize">12sp</item>
+  </style>
 
-    <style name="Text.Normal.Widget" parent="@style/Text.Normal">
-        <item name="android:textSize">12sp</item>
-    </style>
+  <style name="Text.Small.Widget" parent="@style/Text.Small">
+    <item name="android:textSize">10sp</item>
+  </style>
 
-    <style name="Text.Small.Widget" parent="@style/Text.Small">
-        <item name="android:textSize">10sp</item>
-    </style>
+  <style name="UndoBar">
+    <item name="android:layout_width">match_parent</item>
+    <item name="android:layout_height">56dp</item>
+    <item name="android:layout_gravity">bottom</item>
+    <item name="android:layout_marginLeft">16dp</item>
+    <item name="android:layout_marginRight">16dp</item>
+    <item name="android:orientation">horizontal</item>
+    <item name="android:background">@color/card_undobar_material_background_color</item>
+    <item name="android:clickable">true</item>
+  </style>
 
-    <style name="UndoBar">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">56dp</item>
-        <item name="android:layout_gravity">bottom</item>
-        <item name="android:layout_marginLeft">16dp</item>
-        <item name="android:layout_marginRight">16dp</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:background">@color/card_undobar_material_background_color</item>
-        <item name="android:clickable">true</item>
-    </style>
+  <style name="UndoBarMessage">
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_weight">1</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginLeft">16dp</item>
+    <item name="android:layout_gravity">center_vertical</item>
+    <item name="android:layout_marginRight">16dp</item>
+    <item name="android:textAppearance">?android:textAppearanceMedium</item>
+    <item name="android:textColor">#fff</item>
+  </style>
 
-    <style name="UndoBarMessage">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">16dp</item>
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:layout_marginRight">16dp</item>
-        <item name="android:textAppearance">?android:textAppearanceMedium</item>
-        <item name="android:textColor">#fff</item>
-    </style>
+  <style name="UndoBarButton">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">match_parent</item>
+    <item name="android:paddingLeft">16dp</item>
+    <item name="android:paddingRight">16dp</item>
+    <item name="android:background">?android:selectableItemBackground</item>
+    <item name="android:textAllCaps">true</item>
+    <item name="android:textStyle">bold</item>
+    <item name="android:textColor">@color/colorAccent</item>
+    <item name="android:text">@string/undo</item>
+  </style>
 
-    <style name="UndoBarButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:paddingLeft">16dp</item>
-        <item name="android:paddingRight">16dp</item>
-        <item name="android:background">?android:selectableItemBackground</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/colorAccent</item>
-        <item name="android:text">@string/undo</item>
-    </style>
+  <style name="ButtonBar">
+    <item name="android:paddingLeft">2dp</item>
+    <item name="android:paddingTop">5dp</item>
+    <item name="android:paddingRight">2dp</item>
+    <item name="android:paddingBottom">0dp</item>
+    <item name="android:background">@android:drawable/bottom_bar</item>
+  </style>
 
-    <style name="ButtonBar">
-        <item name="android:paddingLeft">2dp</item>
-        <item name="android:paddingTop">5dp</item>
-        <item name="android:paddingRight">2dp</item>
-        <item name="android:paddingBottom">0dp</item>
-        <item name="android:background">@android:drawable/bottom_bar</item>
-    </style>
+  <style name="crouton_text">
+    <item name="android:textAllCaps">true</item>
+    <item name="android:textStyle">bold</item>
+  </style>
 
-    <style name="crouton_text">
-        <item name="android:textAllCaps">true</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="fab_labels_style">
-        <item name="android:background">@drawable/fab_labels_background</item>
-        <item name="android:textColor">@color/text_color</item>
-    </style>
+  <style name="fab_labels_style">
+    <item name="android:background">@drawable/fab_labels_background</item>
+    <item name="android:textColor">@color/text_color</item>
+  </style>
 
 </resources>

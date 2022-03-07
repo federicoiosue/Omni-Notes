@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -89,7 +89,7 @@
     <string name="data_export_failed">Data backup failed: check logcat for details</string>
     <string name="data_import_completed">Data restore completed</string>
     <string name="click_to_refresh_application">Click to refresh application</string>
-    <string name="backup_existing">Backup already exist. It\'ll be overwritten</string>
+    <string name="backup_existing">Backup already exists. It\'ll be overwritten</string>
     <string name="tag">Tag</string>
     <string name="tags">Tags</string>
     <string name="add_tag">Add tags</string>

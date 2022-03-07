@@ -46,13 +46,6 @@
         <item>Samo okleščeno</item>
         <item>Seznam beležk</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Zelo mala</item>
-        <item>Majhna</item>
-        <item>Privzeto</item>
-        <item>Velika</item>
-        <item>Največji</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Deli</item>
         <item>Izbriši</item>

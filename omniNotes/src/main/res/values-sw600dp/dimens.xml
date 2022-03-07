@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,19 +16,19 @@
   -->
 <resources>
 
-    <!--
-         Customize dimensions originally defined in res/values/dimens.xml (such as
-         screen margins) for sw600dp devices (e.g. 7" tablets) here.
-    -->
+  <!--
+       Customize dimensions originally defined in res/values/dimens.xml (such as
+       screen margins) for sw600dp devices (e.g. 7" tablets) here.
+  -->
 
-    <dimen name="activity_additional_margin">24dp</dimen>
-    
-    <!-- Notes layout in list -->
-    <dimen name="note_item_min_height">152dp</dimen>
-    <dimen name="note_item_min_height_inner">150dp</dimen>
-    <dimen name="note_item_min_height_reduced">100dp</dimen>
+  <dimen name="activity_additional_margin">24dp</dimen>
 
-    <!-- FAB -->
-    <dimen name="fab_right_margin">24dp</dimen>
+  <!-- Notes layout in list -->
+  <dimen name="note_item_min_height">152dp</dimen>
+  <dimen name="note_item_min_height_inner">150dp</dimen>
+  <dimen name="note_item_min_height_reduced">100dp</dimen>
+
+  <!-- FAB -->
+  <dimen name="fab_right_margin">24dp</dimen>
 
 </resources>

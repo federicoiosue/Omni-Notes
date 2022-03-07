@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,25 +16,25 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
+
+  <LinearLayout
+    android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/widget_height"
+    android:background="@color/colorPrimary"
+    android:elevation="4dp">
 
-    <LinearLayout
-        android:id="@+id/layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/widget_height"
-        android:background="@color/colorPrimary"
-        android:elevation="4dp">
-
-        <ImageView
-            android:id="@+id/list"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/icon_selector"
-            android:gravity="center"
-            android:padding="10dp"
-            android:src="@drawable/ic_action_on" />
-    </LinearLayout>
+    <ImageView
+      android:id="@+id/list"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:background="@drawable/icon_selector"
+      android:gravity="center"
+      android:padding="10dp"
+      android:src="@drawable/ic_action_on" />
+  </LinearLayout>
 
 </FrameLayout>

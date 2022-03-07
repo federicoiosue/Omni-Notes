@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@ package it.feio.android.omninotes.async;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import androidx.fragment.app.Fragment;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
@@ -31,9 +31,10 @@ import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.adapters.NavDrawerCategoryAdapter;
+import it.feio.android.omninotes.models.adapters.CategoryBaseAdapter;
 import it.feio.android.omninotes.models.views.NonScrollableListView;
 import java.lang.ref.WeakReference;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -47,23 +48,25 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
   private NonScrollableListView mDrawerList;
 
 
-  public CategoryMenuTask (Fragment mFragment) {
+  public CategoryMenuTask(Fragment mFragment) {
     mFragmentWeakReference = new WeakReference<>(mFragment);
     this.mainActivity = (MainActivity) mFragment.getActivity();
   }
 
 
   @Override
-  protected void onPreExecute () {
+  protected void onPreExecute() {
     super.onPreExecute();
     mDrawerList = mainActivity.findViewById(R.id.drawer_nav_list);
-    LayoutInflater inflater = (LayoutInflater) mainActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+    LayoutInflater inflater = (LayoutInflater) mainActivity
+        .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
 
     settingsView = mainActivity.findViewById(R.id.settings_view);
 
     // Settings view when categories are available
     mDrawerCategoriesList = mainActivity.findViewById(R.id.drawer_tag_list);
-    if (mDrawerCategoriesList.getAdapter() == null && mDrawerCategoriesList.getFooterViewsCount() == 0) {
+    if (mDrawerCategoriesList.getAdapter() == null
+        && mDrawerCategoriesList.getFooterViewsCount() == 0) {
       settingsViewCat = inflater.inflate(R.layout.drawer_category_list_footer, null);
       mDrawerCategoriesList.addFooterView(settingsViewCat);
     } else {
@@ -74,22 +77,22 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 
 
   @Override
-  protected List<Category> doInBackground (Void... params) {
+  protected List<Category> doInBackground(Void... params) {
     if (isAlive()) {
       return buildCategoryMenu();
     } else {
       cancel(true);
-      return null;
+      return Collections.emptyList();
     }
   }
 
 
   @Override
-  protected void onPostExecute (final List<Category> categories) {
+  protected void onPostExecute(final List<Category> categories) {
     if (isAlive()) {
-      mDrawerCategoriesList.setAdapter(new NavDrawerCategoryAdapter(mainActivity, categories,
+      mDrawerCategoriesList.setAdapter(new CategoryBaseAdapter(mainActivity, categories,
           mainActivity.getNavigationTmp()));
-      if (categories.size() == 0) {
+      if (categories.isEmpty()) {
         setWidgetVisibility(settingsViewCat, false);
         setWidgetVisibility(settingsView, true);
       } else {
@@ -101,14 +104,14 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
   }
 
 
-  private void setWidgetVisibility (View view, boolean visible) {
+  private void setWidgetVisibility(View view, boolean visible) {
     if (view != null) {
       view.setVisibility(visible ? View.VISIBLE : View.GONE);
     }
   }
 
 
-  private boolean isAlive () {
+  private boolean isAlive() {
     return mFragmentWeakReference.get() != null
         && mFragmentWeakReference.get().isAdded()
         && mFragmentWeakReference.get().getActivity() != null
@@ -116,7 +119,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
   }
 
 
-  private List<Category> buildCategoryMenu () {
+  private List<Category> buildCategoryMenu() {
 
     List<Category> categories = DbHelper.getInstance().getCategories();
 
@@ -124,9 +127,6 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     if (settings == null) {
       return categories;
     }
-//        Fonts.overrideTextSize(mainActivity,
-//                mainActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS),
-//                settings);
 
     mainActivity.runOnUiThread(() -> {
       settings.setOnClickListener(v -> {
@@ -134,37 +134,45 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
         mainActivity.startActivity(settingsIntent);
       });
 
-      // Sets click events
-      mDrawerCategoriesList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+      buildCategoryMenuClickEvent();
 
-        Object item = mDrawerCategoriesList.getAdapter().getItem(position);
-        if (mainActivity.updateNavigation(String.valueOf(((Category) item).getId()))) {
-          mDrawerCategoriesList.setItemChecked(position, true);
-          // Forces redraw
-          if (mDrawerList != null) {
-            mDrawerList.setItemChecked(0, false);
-            EventBus.getDefault().post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
-                (position)));
-          }
-        }
-      });
+      buildCategoryMenuLongClickEvent();
 
-      // Sets long click events
-      mDrawerCategoriesList.setOnItemLongClickListener((arg0, view, position, arg3) -> {
-        if (mDrawerCategoriesList.getAdapter() != null) {
-          Object item = mDrawerCategoriesList.getAdapter().getItem(position);
-          // Ensuring that clicked item is not the ListView header
-          if (item != null) {
-            mainActivity.editTag((Category) item);
-          }
-        } else {
-          mainActivity.showMessage(R.string.category_deleted, ONStyle.ALERT);
-        }
-        return true;
-      });
     });
 
     return categories;
+  }
+
+  private void buildCategoryMenuLongClickEvent() {
+    mDrawerCategoriesList.setOnItemLongClickListener((arg0, view, position, arg3) -> {
+      if (mDrawerCategoriesList.getAdapter() != null) {
+        Object item = mDrawerCategoriesList.getAdapter().getItem(position);
+        // Ensuring that clicked item is not the ListView header
+        if (item != null) {
+          mainActivity.editTag((Category) item);
+        }
+      } else {
+        mainActivity.showMessage(R.string.category_deleted, ONStyle.ALERT);
+      }
+      return true;
+    });
+  }
+
+  private void buildCategoryMenuClickEvent() {
+    mDrawerCategoriesList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+
+      Object item = mDrawerCategoriesList.getAdapter().getItem(position);
+      if (mainActivity.updateNavigation(String.valueOf(((Category) item).getId()))) {
+        mDrawerCategoriesList.setItemChecked(position, true);
+        // Forces redraw
+        if (mDrawerList != null) {
+          mDrawerList.setItemChecked(0, false);
+          EventBus.getDefault()
+              .post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
+                  (position)));
+        }
+      }
+    });
   }
 
 }

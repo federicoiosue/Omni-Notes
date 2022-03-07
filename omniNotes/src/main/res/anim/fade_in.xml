@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,8 +16,8 @@
   -->
 
 <objectAnimator xmlns:android="http://schemas.android.com/apk/res/android"
-    android:interpolator="@android:interpolator/accelerate_quad"
-    android:valueFrom="0"
-    android:valueTo="1"
-    android:propertyName="alpha"
-    android:duration="@android:integer/config_shortAnimTime" />
+  android:interpolator="@android:interpolator/accelerate_quad"
+  android:valueFrom="0"
+  android:valueTo="1"
+  android:propertyName="alpha"
+  android:duration="@android:integer/config_shortAnimTime" />

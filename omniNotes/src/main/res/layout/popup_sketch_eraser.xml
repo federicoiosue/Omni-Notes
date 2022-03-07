@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,39 +15,38 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@drawable/bg_popup"
+  android:orientation="vertical"
+  android:paddingBottom="@dimen/activity_vertical_margin"
+  android:paddingLeft="@dimen/activity_horizontal_margin"
+  android:paddingRight="@dimen/activity_horizontal_margin"
+  android:paddingTop="@dimen/activity_vertical_margin"
+  android:minWidth="210dp">
+
+  <TextView
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/bg_popup"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin" 
-    android:minWidth="210dp">
-            
-    <TextView 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/stroke"        
-        style="@style/Text.Small"/>
+    android:layout_height="wrap_content"
+    android:text="@string/stroke"
+    style="@style/Text.Small" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+  <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/stroke_circle"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/stroke_size"
-            android:src="@drawable/circle" />
+    <ImageView
+      android:id="@+id/stroke_circle"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:contentDescription="@string/stroke_size"
+      android:src="@drawable/circle" />
 
-        <SeekBar
-            android:id="@+id/stroke_seekbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+    <SeekBar
+      android:id="@+id/stroke_seekbar"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+  </LinearLayout>
 
 </LinearLayout>

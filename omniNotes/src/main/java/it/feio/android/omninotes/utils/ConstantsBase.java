@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,7 @@ public interface ConstantsBase {
   int SWIPE_OFFSET = 100;
 
   // Floating action button
-  int FAB_ANIMATION_TIME = 200;
+  int FAB_ANIMATION_TIME = 250;
 
   // Notes content masking
   String MASK_CHAR = "*";
@@ -61,6 +61,7 @@ public interface ConstantsBase {
   String ACTION_DISMISS = "action_dismiss";
   String ACTION_SNOOZE = "action_snooze";
   String ACTION_POSTPONE = "action_postpone";
+  String ACTION_PINNED = "action_pinned";
   String ACTION_SHORTCUT = "action_shortcut";
   String ACTION_WIDGET = "action_widget";
   String ACTION_WIDGET_TAKE_PHOTO = "action_widget_take_photo";
@@ -118,12 +119,11 @@ public interface ConstantsBase {
   String TIMESTAMP_UNIX_EPOCH = "0";
   String TIMESTAMP_UNIX_EPOCH_FAR = "18464193800000";
 
-  String TAG_SPECIAL_CHARS_TO_REMOVE = "[<>\\[\\],-\\.\\(\\)\\[\\]\\{\\}\\!\\?]";
-
   int MENU_SORT_GROUP_ID = 11998811;
 
   String MERGED_NOTES_SEPARATOR = "----------------------";
   String PROPERTIES_PARAMS_SEPARATOR = ",";
 
   String AUTO_BACKUP_DIR = "_autobackup";
+
 }

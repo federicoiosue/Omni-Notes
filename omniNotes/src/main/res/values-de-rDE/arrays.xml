@@ -46,13 +46,6 @@
         <item>Nur Streifen</item>
         <item>Notizliste</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Sehr klein</item>
-        <item>Klein</item>
-        <item>Standard</item>
-        <item>Groß</item>
-        <item>Sehr groß</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Teilen</item>
         <item>Löschen</item>

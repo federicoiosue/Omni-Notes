@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,12 @@
 
 package it.feio.android.omninotes.async.upgrade;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO_EXT;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_FILES;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO;
+
 import android.content.ContentValues;
 import android.net.Uri;
 import android.text.TextUtils;
@@ -25,7 +31,6 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
@@ -37,8 +42,8 @@ import org.apache.commons.io.FilenameUtils;
 
 
 /**
- * Processor used to perform asynchronous tasks on database upgrade. It's not intended to be used to perform actions
- * strictly related to DB (for this {@link it.feio.android.omninotes.db.DbHelper#onUpgrade(android.database.sqlite.SQLiteDatabase,
+ * Processor used to perform asynchronous tasks on database upgrade. It's not intended to be used to
+ * perform actions strictly related to DB (for this {@link it.feio.android.omninotes.db.DbHelper#onUpgrade(android.database.sqlite.SQLiteDatabase,
  * int, int)} DbHelper.onUpgrade()} is used
  */
 public class UpgradeProcessor {
@@ -48,11 +53,11 @@ public class UpgradeProcessor {
   private static UpgradeProcessor instance;
 
 
-  private UpgradeProcessor () {
+  private UpgradeProcessor() {
   }
 
 
-  private static UpgradeProcessor getInstance () {
+  private static UpgradeProcessor getInstance() {
     if (instance == null) {
       instance = new UpgradeProcessor();
     }
@@ -60,7 +65,7 @@ public class UpgradeProcessor {
   }
 
 
-  public static void process (int dbOldVersion, int dbNewVersion)
+  public static void process(int dbOldVersion, int dbNewVersion)
       throws InvocationTargetException, IllegalAccessException {
     try {
       List<Method> methodsToLaunch = getInstance().getMethodsToLaunch(dbOldVersion, dbNewVersion);
@@ -75,12 +80,13 @@ public class UpgradeProcessor {
   }
 
 
-  private List<Method> getMethodsToLaunch (int dbOldVersion, int dbNewVersion) {
+  private List<Method> getMethodsToLaunch(int dbOldVersion, int dbNewVersion) {
     List<Method> methodsToLaunch = new ArrayList<>();
     Method[] declaredMethods = getInstance().getClass().getDeclaredMethods();
     for (Method declaredMethod : declaredMethods) {
       if (declaredMethod.getName().contains(METHODS_PREFIX)) {
-        int methodVersionPostfix = Integer.parseInt(declaredMethod.getName().replace(METHODS_PREFIX, ""));
+        int methodVersionPostfix = Integer
+            .parseInt(declaredMethod.getName().replace(METHODS_PREFIX, ""));
         if (dbOldVersion <= methodVersionPostfix && methodVersionPostfix <= dbNewVersion) {
           methodsToLaunch.add(declaredMethod);
         }
@@ -93,7 +99,7 @@ public class UpgradeProcessor {
   /**
    * Adjustment of all the old attachments without mimetype field set into DB
    */
-  private void onUpgradeTo476 () {
+  private void onUpgradeTo476() {
     final DbHelper dbHelper = DbHelper.getInstance();
     for (Attachment attachment : dbHelper.getAllAttachments()) {
       if (attachment.getMime_type() == null) {
@@ -102,21 +108,21 @@ public class UpgradeProcessor {
           String type = mimeType.replaceFirst("/.*", "");
           switch (type) {
             case "image":
-              attachment.setMime_type(Constants.MIME_TYPE_IMAGE);
+              attachment.setMime_type(MIME_TYPE_IMAGE);
               break;
             case "video":
-              attachment.setMime_type(Constants.MIME_TYPE_VIDEO);
+              attachment.setMime_type(MIME_TYPE_VIDEO);
               break;
             case "audio":
-              attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
+              attachment.setMime_type(MIME_TYPE_AUDIO);
               break;
             default:
-              attachment.setMime_type(Constants.MIME_TYPE_FILES);
+              attachment.setMime_type(MIME_TYPE_FILES);
               break;
           }
           dbHelper.updateAttachment(attachment);
         } else {
-          attachment.setMime_type(Constants.MIME_TYPE_FILES);
+          attachment.setMime_type(MIME_TYPE_FILES);
         }
       }
     }
@@ -124,25 +130,29 @@ public class UpgradeProcessor {
 
 
   /**
-   * Upgrades all the old audio attachments to the new format 3gpp to avoid to exchange them for videos
+   * Upgrades all the old audio attachments to the new format 3gpp to avoid mixing with videos
    */
-  private void onUpgradeTo480 () {
+  private void onUpgradeTo480() {
     final DbHelper dbHelper = DbHelper.getInstance();
     for (Attachment attachment : dbHelper.getAllAttachments()) {
-      if ("audio/3gp".equals(attachment.getMime_type()) || "audio/3gpp".equals(attachment.getMime_type
-          ())) {
+      if ("audio/3gp".equals(attachment.getMime_type()) || "audio/3gpp"
+          .equals(attachment.getMime_type
+              ())) {
 
-        // File renaming
         File from = new File(attachment.getUriPath());
         FilenameUtils.getExtension(from.getName());
         File to = new File(from.getParent(), from.getName().replace(FilenameUtils.getExtension(from
-            .getName()), Constants.MIME_TYPE_AUDIO_EXT));
-        from.renameTo(to);
+            .getName()), MIME_TYPE_AUDIO_EXT));
+        boolean successRenaming = from.renameTo(to);
 
-        // Note's attachment update
-        attachment.setUri(Uri.fromFile(to));
-        attachment.setMime_type(Constants.MIME_TYPE_AUDIO);
-        dbHelper.updateAttachment(attachment);
+        if (successRenaming) {
+          attachment.setUri(Uri.fromFile(to));
+          attachment.setMime_type(MIME_TYPE_AUDIO);
+          dbHelper.updateAttachment(attachment);
+        } else {
+          LogDelegate.e("onUpgradeTo480 - Error renaming attachment: " + attachment.getName());
+        }
+
       }
     }
   }
@@ -151,7 +161,7 @@ public class UpgradeProcessor {
   /**
    * Reschedule reminders after upgrade
    */
-  private void onUpgradeTo482 () {
+  private void onUpgradeTo482() {
     for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
       ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
     }
@@ -159,18 +169,20 @@ public class UpgradeProcessor {
 
 
   /**
-   * Ensures that no duplicates will be found during the creation-to-id transition
+   * Ensures that no duplicates will be found during the creation-to-ID transition
    */
-  private void onUpgradeTo501 () {
+  private void onUpgradeTo501() {
     List<Long> creations = new ArrayList<>();
     for (Note note : DbHelper.getInstance().getAllNotes(false)) {
       if (creations.contains(note.getCreation())) {
 
         ContentValues values = new ContentValues();
         values.put(DbHelper.KEY_CREATION, note.getCreation() + (long) (Math.random() * 999));
-        DbHelper.getInstance().getDatabase().update(DbHelper.TABLE_NOTES, values, DbHelper.KEY_TITLE +
-            " = ? AND " + DbHelper.KEY_CREATION + " = ? AND " + DbHelper.KEY_CONTENT + " = ?", new String[]{note
-            .getTitle(), String.valueOf(note.getCreation()), note.getContent()});
+        DbHelper.getInstance().getDatabase()
+            .update(DbHelper.TABLE_NOTES, values, DbHelper.KEY_TITLE +
+                    " = ? AND " + DbHelper.KEY_CREATION + " = ? AND " + DbHelper.KEY_CONTENT + " = ?",
+                new String[]{note
+                    .getTitle(), String.valueOf(note.getCreation()), note.getContent()});
       }
       creations.add(note.getCreation());
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@ import static org.junit.Assert.assertNotNull;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Looper;
-import android.support.test.internal.runner.junit4.statement.UiThreadStatement;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.models.Attachment;
 import java.io.File;
@@ -47,7 +47,7 @@ public class BitmapHelperTest extends BaseAndroidTestCase {
   private Attachment attachment;
 
   @Before
-  public void setUp () throws IOException {
+  public void setUp() throws IOException {
     File bitmapFile = tempFolder.newFile("bitmapFile.bmp");
 
     Bitmap bmp = Bitmap.createBitmap(100, 200, Bitmap.Config.ARGB_8888);
@@ -58,14 +58,19 @@ public class BitmapHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void getBitmapFromAttachment_backgroundThread () {
+  public void checkUtilityClassWellDefined() throws Exception {
+    assertUtilityClassWellDefined(BitmapHelper.class);
+  }
+
+  @Test
+  public void getBitmapFromAttachment_backgroundThread() {
     Bitmap bmp = BitmapHelper.getBitmapFromAttachment(testContext, attachment, 100, 100);
     assertNotEquals("Thread MUST be a background one", Looper.getMainLooper(), Looper.myLooper());
     assertNotNull("Bitmap should not be null", bmp);
   }
 
   @Test
-  public void getBitmapFromAttachment_mainThread () throws Throwable {
+  public void getBitmapFromAttachment_mainThread() throws Throwable {
     UiThreadStatement.runOnUiThread(() -> {
       Bitmap bmp = BitmapHelper.getBitmapFromAttachment(testContext, attachment, 100, 100);
       assertEquals("Thread MUST be a the main one", Looper.getMainLooper(), Looper.myLooper());

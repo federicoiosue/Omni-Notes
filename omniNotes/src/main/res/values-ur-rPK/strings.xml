@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <!-- Activities -->
+    <string name="title_item_list">نوٹ</string>
+    <string name="add_note">نوٹ شامل کریں</string>
+    <string name="title"> عنوان</string>
+    <string name="title_activity_list">اومنی نوٹس</string>
+    <string name="search">تلاش کیجئے</string>
+    <string name="search_hint">نوٹس تلاش کریں</string>
+    <string name="content">اجزاء:</string>
+    <string name="save">محفوظ</string>
+    <string name="share">بانٹیں</string>
+    <string name="undo">واپس لے آو</string>
+    <string name="trash">ردی ی ٹوکری</string>
+    <string name="trash_action">ردی کی ٹوکری</string>
+    <string name="trashed">ردی کی ٹوکری میں</string>
+    <string name="note_trashed">نوٹس ردی کی ٹوکری میں</string>
+    <string name="note_untrashed">نوٹس ردی کی ٹوکری سے وآپس محفوظ ہوگئے</string>
+    <string name="untrash">ردی کی ٹوکری سے وآپس محفوظ کریں</string>
+    <string name="delete">حذف کریں</string>
+    <string name="note_deleted">نوٹس مستقل طور پر حذف ہوگئے</string>
+    <string name="archive">محفوظ شدہ دستاويزات</string>
+    <string name="unarchive">ردی کی ٹوکری سے وآپس محفوظ کریں</string>
+    <string name="creation">تشکیل دیا</string>
+    <string name="last_update">اپ ڈیٹ کریں</string>
+    <string name="delete_note_confirmation">نوٹ حذف ہونے کی تصدیق کریں؟</string>
+    <string name="confirm">تصدیق کریں</string>
+    <string name="ok">Ok</string>
+    <string name="no">نہیں</string>
+    <string name="failed">ناکام</string>
+    <string name="cancel">منسوخ کریں</string>
+    <string name="note_updated">نوٹ اپ ڈیٹ ہوگیا</string>
+    <string name="empty_note_not_saved">خالی نوٹ محفوظ نہیں کرسکتے ہیں</string>
+    <string name="empty_note_not_shared">خالی نوٹ شیئر نہیں کرسکتے ہیں</string>
+    <string name="note_archived">نوٹ محفوظ شدہ</string>
+    <string name="note_unarchived">محفوظ شدہ دستاویزات سے نوٹ کو بحال کریں</string>
+    <string name="note">نوٹ</string>
+    <string name="share_message_chooser">کسی کے ساتھ شیئر کریں</string>
+    <string name="shared_content_sign">\n【by Omni Notes】</string>
+    <string name="sort">ترتیب دیں</string>
+    <string name="select_sorting_column">بہ ترتیب</string>
+    <string name="tap_to_undo">واپس آنے کے لئے تھپتھپائیں</string>
+    <string name="alarm_set_on">ریمائنڈر سیٹنگز</string>
+    <string name="starting_from">سے شروع ہو رہا ہے</string>
+    <string name="at_time">میں</string>
+    <string name="discard_changes">تبدیلیاں مسترد کریں</string>
+    <string name="attachment">منسلکہ</string>
+    <string name="camera">کیمرا</string>
+    <string name="delete_selected_image">منتخب کردہ اٹیچمنٹ کو حذف کریں؟</string>
+    <string name="delete_all_attachments">تمام منسلکات کو حذف کریں؟</string>
+    <string name="gallery">گیلری</string>
+    <string name="location">مقام</string>
+    <string name="timestamp">وقت مہر</string>
+    <string name="pushbullet">بٹن دباؤ</string>
+    <string name="remove_location">مقام ہٹائیں؟</string>
+    <string name="remove_reminder">یاد دہانی ہٹائیں؟</string>
+    <string name="add_reminder">یاد دہانی شامل کریں</string>
+    <string name="location_not_found">مقام نہیں ملا</string>
+    <string name="record">ریکارڈ کریں</string>
+    <string name="stop">روکیں</string>
+    <string name="no_app_to_handle_intent">فائل کو ہینڈل کرنے کیلئے کوئی ایپلیکیشنز نہیں ہیں</string>
+    <string name="storage_not_available">اسٹوریج دستیاب نہیں ہے</string>
+    <string name="video">ویڈیوز</string>
+    <string name="feature_not_available_on_this_device">معذرت ، اس آلہ پر فیچر دستیاب نہیں ہے</string>
+    <string name="error_occurred_deleting_note">نوٹ حذف کرتے وقت خامی</string>
+    <string name="no_backups_available">کوئی بیک اپ دستیاب نہیں ہے</string>
+    <string name="data_export_message">بیک اپ کا نام داخل کریں</string>
+    <string name="data_import_message">کلک کریں - &amp; gt؛ بحال کریں \ طویل کلک کریں - &amp; gt؛ حذف کریں</string>
+    <string name="data_import_message_warning">انتباہ: یہ تمام موجودہ اعداد و شمار کی جگہ لے لے گا!</string>
+    <string name="data_export_completed">ڈیٹا بیک اپ مکمل ہوگیا</string>
+    <string name="data_export_failed">ڈیٹا بیک اپ ناکام ہوگیا: تفصیلات کیلئے لاک کیٹ چیک کریں</string>
+    <string name="data_import_completed">ڈیٹا کی بحالی مکمل</string>
+    <string name="click_to_refresh_application">درخواست کو تازہ دم کرنے کے لئے دبائیں</string>
+    <string name="backup_existing">بیک اپ پہلے ہی موجود ہے۔ یہ اوور رائٹ ہو جائے گا</string>
+    <string name="tag">ٹیگ</string>
+    <string name="tags">ٹیگز</string>
+    <string name="add_tag">ٹیگ شامل کریں</string>
+    <string name="select_tags">ٹیگ منتخب کریں</string>
+    <string name="categories">اقسام</string>
+    <string name="edit_tag">زمرہ تدوین کریں</string>
+    <string name="add_category">کیٹگیری بڑھائیں</string>
+    <string name="category_title"> عنوان</string>
+    <string name="category_description">تفصیل (وضاحت)</string>
+    <string name="category_color">رنگ</string>
+    <string name="category_saved">زمرہ محفوظ ہوا</string>
+    <string name="title_activity_category">زمرہ تدوین کریں</string>
+    <string name="grid_view">گرڈ ویو</string>
+    <string name="add_shortcut">شارٹ کٹ شامل کریں</string>
+    <string name="shortcut_added">ہوم اسکرین میں شارٹ کٹ شامل کیا گیا.</string>
+    <string name="shortcut_note_deleted">حذف شدہ نوٹ کی طرف شارٹ کٹ پوائنٹس</string>
+    <string name="widget_simple_description">بٹن کے ساتھ سادہ ویجیٹ</string>
+    <string name="widget_list_description">بٹن کے ساتھ فہرست ویجیٹ طومار کر رہا ہے</string>
+    <string name="notes">نوٹ</string>
+    <string name="show_thumbnails">منسلکہ تمبنےل دکھائیں</string>
+    <string name="show_timestamps">ٹائم اسٹیمپس دکھائیں</string>
+    <string name="choose_action">کارروائی چنیں</string>
+    <string name="edit">ترمیم</string>
+    <string name="reminders">یاددہانیاں</string>
+    <string name="not_expired">میعاد ختم نہیں ہوئی</string>
+    <string name="expired">میعاد ختم ہوگئی</string>
+    <string name="today">آج</string>
+    <string name="tomorrow">کل</string>
+    <string name="open">کھولیں</string>
+    <string name="copy">نقل</string>
+    <string name="no_application_can_perform_this_action">اس کارروائی کو نمٹانےکے لیے کوئی اپلیکیشن نہیں ملا۔</string>
+    <string name="eraser">مٹائیں</string>
+    <string name="image">تصاوير</string>
+    <string name="error">خرابی</string>
+    <string name="archived">محفوظ شدہ دستاويزات</string>
+    <string name="files">فائلز</string>
+    <string name="merge">ضم کریں</string>
+    <string name="delete_merged">انضمام کے بعد اصل نوٹوں کو حذف کریں؟</string>
+    <string name="not_set">سیٹ نہیں ہے</string>
+    <string name="empty_trash">خالی ردی کی ٹوکری؟</string>
+    <string name="empty_trash_confirmation">تمام کوڑے دان کے نوٹ کو حذف کرنے کی تصدیق کریں؟</string>
+    <string name="help">مدد</string>
+    <string name="online_manual">آن لائن دستی</string>
+    <string name="tags_added">ٹیگز شامل</string>
+    <string name="working">کام جاری ہے...</string>
+    <string name="imported">درآمد شدہ</string>
+    <string name="synchronize">ہم وقت سازی کریں</string>
+    <string name="extracted">اقتباس: </string>
+    <string name="select_all">تمام منتخب کریں</string>
+    <string name="search_location">تلاش مقام</string>
+    <string name="use_current_location">موجودہ مقام استعمال کریں</string>
+    <string name="filter">فلٹر کریں</string>
+    <string name="remove_filter">فلٹر کو ہٹا دیں</string>
+    <string name="filter_old_reminders">پرانے یاددہانی چھپائیں</string>
+    <string name="remove_filter_old_reminders">پرانی یاددہانی دکھائیں</string>
+    <string name="filter_archived">محفوظ شدہ دستاویزات نوٹ چھپائیں</string>
+    <string name="remove_filter_archived">محفوظ شدہ دستاویزات دکھائیں</string>
+    <string name="permission_external_storage">بیرونی اسٹوریج پر لکھنے کی اجازت عوامی فولڈروں پر بیک اپ کی اجازت دینے کی ضرورت ہے</string>
+    <string name="permission_external_storage_detail_attachment">بیرونی اسٹوریج پر پڑھنے کی اجازت کی ضرورت ہے تاکہ وہاں سے فائلوں کو منسلک کیا جاسکے</string>
+    <string name="permission_audio_recording">آڈیو نوٹ کو ریکارڈ کرنے کیلئے مائکروفون کے استعمال کی اجازت درکار ہے</string>
+    <string name="permission_coarse_location">اپنے نوٹوں میں پوزیشن کی معلومات شامل کرنے کے لئے مقام تک رسائی کی ضرورت ہے</string>
+    <string name="permission_not_granted">اجازت نہیں دی گئی</string>
+    <!-- Settings -->
+    <!-- Stats -->
+    <string name="stats_reminders">یاددہانی</string>
+    <string name="stats_categories">اقسام</string>
+    <string name="stats_tags">ٹیگز</string>
+    <string name="stats_files">فائلز</string>
+    <!-- Instructions -->
+    <string name="tour_listactivity_tag_title">ٹیگز</string>
+    <string name="tour_detailactivity_save_title">محفوظ</string>
+    <!-- Accessibility -->
+    <!-- Various -->
+    <string name="channel_reminders_name">یاددہانی</string>
+</resources>

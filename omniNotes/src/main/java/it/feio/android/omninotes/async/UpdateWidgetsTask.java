@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,23 +27,23 @@ public class UpdateWidgetsTask extends AsyncTask<Void, Void, Void> {
 
   private Context context;
 
-  public UpdateWidgetsTask (Context context) {
+  public UpdateWidgetsTask(Context context) {
     this.context = context;
   }
 
   @Override
-  protected Void doInBackground (Void... params) {
+  protected Void doInBackground(Void... params) {
     WidgetUpdateSubscriber widgetUpdateSubscriber = new WidgetUpdateSubscriber();
     return null;
   }
 
   class WidgetUpdateSubscriber {
 
-    WidgetUpdateSubscriber () {
+    WidgetUpdateSubscriber() {
       EventBus.getDefault().register(this);
     }
 
-    public void onEvent (NotesUpdatedEvent event) {
+    public void onEvent(NotesUpdatedEvent event) {
       BaseActivity.notifyAppWidgets(context);
       EventBus.getDefault().unregister(this);
     }

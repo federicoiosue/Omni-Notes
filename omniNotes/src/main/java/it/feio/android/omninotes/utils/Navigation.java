@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,10 @@
 
 package it.feio.android.omninotes.utils;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
+
 import android.content.Context;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Category;
@@ -26,6 +29,10 @@ import java.util.Arrays;
 
 
 public class Navigation {
+
+  private Navigation() {
+    // hides public constructor
+  }
 
   public static final int NOTES = 0;
   public static final int ARCHIVE = 1;
@@ -38,7 +45,7 @@ public class Navigation {
   /**
    * Returns actual navigation status
    */
-  public static int getNavigation () {
+  public static int getNavigation() {
     String[] navigationListCodes = OmniNotes.getAppContext().getResources().getStringArray(
         R.array.navigation_list_codes);
     String navigation = getNavigationText();
@@ -59,40 +66,33 @@ public class Navigation {
   }
 
 
-  public static String getNavigationText () {
+  public static String getNavigationText() {
     Context mContext = OmniNotes.getAppContext();
-    String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-    @SuppressWarnings("static-access")
-    String navigation = mContext.getSharedPreferences(Constants.PREFS_NAME,
-        mContext.MODE_MULTI_PROCESS).getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
-    return navigation;
+    String[] navigationListCodes = mContext.getResources()
+        .getStringArray(R.array.navigation_list_codes);
+    return Prefs.getString(PREF_NAVIGATION, navigationListCodes[0]);
   }
 
 
   /**
    * Retrieves category currently shown
    *
-   * @return id of category or null if current navigation is not a category
+   * @return ID of category or null if current navigation is not a category
    */
-  public static Long getCategory () {
-    if (getNavigation() == CATEGORY) {
-      return Long.valueOf(OmniNotes.getAppContext().getSharedPreferences(Constants.PREFS_NAME, Context
-          .MODE_MULTI_PROCESS).getString(Constants.PREF_NAVIGATION, ""));
-    } else {
-      return null;
-    }
+  public static Long getCategory() {
+    return CATEGORY == getNavigation() ? Long.valueOf(Prefs.getString(PREF_NAVIGATION, "")) : null;
   }
 
 
   /**
    * Checks if passed parameters is the actual navigation status
    */
-  public static boolean checkNavigation (int navigationToCheck) {
+  public static boolean checkNavigation(int navigationToCheck) {
     return checkNavigation(new Integer[]{navigationToCheck});
   }
 
 
-  public static boolean checkNavigation (Integer[] navigationsToCheck) {
+  public static boolean checkNavigation(Integer[] navigationsToCheck) {
     boolean res = false;
     int navigation = getNavigation();
     for (int navigationToCheck : new ArrayList<>(Arrays.asList(navigationsToCheck))) {
@@ -108,11 +108,11 @@ public class Navigation {
   /**
    * Checks if passed parameters is the category user is actually navigating in
    */
-  public static boolean checkNavigationCategory (Category categoryToCheck) {
+  public static boolean checkNavigationCategory(Category categoryToCheck) {
     Context mContext = OmniNotes.getAppContext();
-    String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-    String navigation = mContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getString(
-        Constants.PREF_NAVIGATION, navigationListCodes[0]);
+    String[] navigationListCodes = mContext.getResources()
+        .getStringArray(R.array.navigation_list_codes);
+    String navigation = Prefs.getString(PREF_NAVIGATION, navigationListCodes[0]);
     return (categoryToCheck != null && navigation.equals(String.valueOf(categoryToCheck.getId())));
   }
 

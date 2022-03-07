@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,64 +16,60 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
-            android:padding="16dp" >
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_margin="16dp"
+  android:padding="16dp">
 
-    <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:shrinkColumns="*"
-            android:stretchColumns="*"
-            android:focusable="true" >
+  <TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:shrinkColumns="*"
+    android:stretchColumns="*"
+    android:focusable="true">
 
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_characters"
-                    android:textStyle="bold" >
-            </TextView>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingRight="7dp"
+        android:text="@string/stats_characters"
+        android:textStyle="bold"></TextView>
 
-            <TextView
-                    android:id="@+id/stat_chars"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
+      <TextView
+        android:id="@+id/stat_chars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
 
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
 
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_images"
-                    android:textStyle="bold" >
-            </TextView>
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingRight="7dp"
+        android:text="@string/stats_images"
+        android:textStyle="bold"></TextView>
 
-            <TextView
-                    android:id="@+id/stat_images"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
+      <TextView
+        android:id="@+id/stat_images"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
 
-    </TableLayout>
+  </TableLayout>
 
 </ScrollView>

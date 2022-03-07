@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,547 +16,501 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="16dp"
-            android:padding="16dp" >
-
-    <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:shrinkColumns="*"
-            android:stretchColumns="*"
-            android:focusable="true" >
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_total_notes"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_notes_total"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_active_notes"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_notes_active"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_archived_notes"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_notes_archived"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_trashed_notes"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_notes_trashed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_reminders"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_reminders"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_future_reminders"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_reminders_futures"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_checklists"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_checklists"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_locked_notes"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_masked"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_categories"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_categories"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_tags"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_tags"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_attachments"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_attachments"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_attachments"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_attachments_images"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_videos"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_attachments_videos"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_audio_recordings"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_attachments_audiorecordings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_sketches"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_attachments_sketches"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_files"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_attachments_files"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_locations"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_locations"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_words"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_words"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_max_words"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_words_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_avg_words"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_words_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_characters"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_chars"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_max_characters"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_chars_max"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-        <TableRow
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:paddingBottom="2dp" >
-
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="end"
-                    android:paddingEnd="7dp"
-                    android:paddingRight="7dp"
-                    android:text="@string/stats_avg_characters"
-                    android:textStyle="bold" >
-            </TextView>
-
-            <TextView
-                    android:id="@+id/stat_chars_avg"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" >
-            </TextView>
-        </TableRow>
-
-    </TableLayout>
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:layout_margin="16dp"
+  android:padding="16dp">
+
+  <TableLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:shrinkColumns="*"
+    android:stretchColumns="*"
+    android:focusable="true">
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_total_notes"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_notes_total"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_active_notes"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_notes_active"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_archived_notes"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_notes_archived"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_trashed_notes"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_notes_trashed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_reminders"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_reminders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingStart="7dp"
+        android:paddingEnd="7dp"
+        android:text="@string/stats_future_reminders"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_reminders_futures"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingStart="7dp"
+        android:paddingEnd="7dp"
+        android:text="@string/stats_checklists"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_checklists"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingStart="7dp"
+        android:paddingEnd="7dp"
+        android:text="@string/stats_locked_notes"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_masked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_categories"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_categories"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_tags"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_attachments"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_attachments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_attachments"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_attachments_images"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_videos"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_attachments_videos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_audio_recordings"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_attachments_audiorecordings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_sketches"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_attachments_sketches"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_files"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_attachments_files"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_locations"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_locations"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_words"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_words"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_max_words"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_words_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_avg_words"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_words_avg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_characters"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_chars"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_max_characters"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_chars_max"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+    <TableRow
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal"
+      android:paddingBottom="2dp">
+
+      <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:paddingEnd="7dp"
+        android:paddingStart="7dp"
+        android:text="@string/stats_avg_characters"
+        android:textStyle="bold"></TextView>
+
+      <TextView
+        android:id="@+id/stat_chars_avg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></TextView>
+    </TableRow>
+
+  </TableLayout>
 
 </ScrollView>

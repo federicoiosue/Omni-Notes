@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,11 +16,11 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content">
 
-    <include
-        android:id="@+id/toolbar"
-        layout="@layout/widget_layout_toolbar" />
+  <include
+    android:id="@+id/toolbar"
+    layout="@layout/widget_layout_toolbar" />
 
 </FrameLayout>

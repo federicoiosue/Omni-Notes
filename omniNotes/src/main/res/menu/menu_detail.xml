@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,102 +15,115 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+  xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <item
-        android:id="@+id/menu_attachment"
-        android:icon="@drawable/ic_attachment_white_24dp"
-        android:orderInCategory="100"
-        android:title="@string/attachment"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/menu_category"
-        android:icon="@drawable/ic_folder_special_white_24dp"
-        android:orderInCategory="200"
-        android:title="@string/category"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/menu_tag"
-        android:icon="@drawable/ic_loyalty_white_24dp"
-        android:orderInCategory="300"
-        android:title="@string/add_tag"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/menu_share"
-        android:icon="@drawable/ic_share_white_24dp"
-        android:orderInCategory="400"
-        android:title="@string/share"
-        app:showAsAction="always"/>
-    <item
-        android:id="@+id/menu_checklist_on"
-        android:icon="@drawable/ic_format_list_bulleted_black_24dp"
-        android:orderInCategory="500"
-        android:title="@string/checklist_on"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_checklist_off"
-        android:icon="@drawable/ic_file_document_box_white_48dp"
-        android:orderInCategory="500"
-        android:title="@string/checklist_off"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_lock"
-        android:icon="@drawable/ic_lock_black_24dp"
-        android:orderInCategory="600"
-        android:title="@string/lock"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_unlock"
-        android:icon="@drawable/ic_lock_black_24dp"
-        android:orderInCategory="600"
-        android:title="@string/unlock"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_add_shortcut"
-        android:orderInCategory="700"
-        android:title="@string/add_shortcut"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_archive"
-        android:icon="@drawable/ic_archive_black_48dp"
-        android:orderInCategory="800"
-        android:title="@string/archive"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_unarchive"
-        android:icon="@drawable/ic_unarchive_grey600_48dp"
-        android:orderInCategory="800"
-        android:title="@string/unarchive"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_trash"
-        android:orderInCategory="900"
-        android:title="@string/trash"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_untrash"
-        android:icon="@drawable/ic_undelete_white_24dp"
-        android:orderInCategory="900"
-        android:title="@string/untrash"
-        android:visible="false"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_discard_changes"
-        android:orderInCategory="1000"
-        android:title="@string/discard_changes"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/menu_note_info"
-        android:orderInCategory="1100"
-        android:title="@string/info"
-        app:showAsAction="ifRoom"/>
+  <item
+    android:id="@+id/menu_attachment"
+    android:icon="@drawable/ic_attachment_white_24dp"
+    android:orderInCategory="100"
+    android:title="@string/attachment"
+    app:showAsAction="always" />
+  <item
+    android:id="@+id/menu_category"
+    android:icon="@drawable/ic_folder_special_white_24dp"
+    android:orderInCategory="200"
+    android:title="@string/category"
+    app:showAsAction="always" />
+  <item
+    android:id="@+id/menu_tag"
+    android:icon="@drawable/ic_loyalty_white_24dp"
+    android:orderInCategory="300"
+    android:title="@string/add_tag"
+    app:showAsAction="always" />
+  <item
+    android:id="@+id/menu_share"
+    android:icon="@drawable/ic_share_white_24dp"
+    android:orderInCategory="400"
+    android:title="@string/share"
+    app:showAsAction="always" />
+  <item
+    android:id="@+id/menu_checklist_on"
+    android:icon="@drawable/ic_format_list_bulleted_black_24dp"
+    android:orderInCategory="500"
+    android:title="@string/checklist_on"
+    android:visible="false"
+    app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/menu_checklist_off"
+    android:icon="@drawable/text_box_white"
+    android:orderInCategory="500"
+    android:title="@string/checklist_off"
+    android:visible="false"
+    app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/menu_checklist_moveToBottom"
+    android:icon="@drawable/text_box_white"
+    android:orderInCategory="550"
+    android:title="@string/checklist_moveToBottom"
+    android:visible="false"
+    app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/menu_lock"
+    android:icon="@drawable/ic_lock_black_24dp"
+    android:orderInCategory="600"
+    android:title="@string/lock"
+    android:visible="false"
+    app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/menu_unlock"
+    android:icon="@drawable/ic_lock_black_24dp"
+    android:orderInCategory="600"
+    android:title="@string/unlock"
+    android:visible="false"
+    app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/menu_add_shortcut"
+    android:orderInCategory="700"
+    android:title="@string/add_shortcut"
+    android:visible="false"
+    app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/menu_pin_note"
+    android:orderInCategory="750"
+    android:title="@string/pin_note"
+    android:visible="false"
+    app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/menu_archive"
+    android:icon="@drawable/ic_archive_black_48dp"
+    android:orderInCategory="800"
+    android:title="@string/archive"
+    android:visible="false"
+    app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/menu_unarchive"
+    android:icon="@drawable/ic_unarchive_grey600_48dp"
+    android:orderInCategory="800"
+    android:title="@string/unarchive"
+    android:visible="false"
+    app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/menu_trash"
+    android:orderInCategory="900"
+    android:title="@string/trash"
+    android:visible="false"
+    app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/menu_untrash"
+    android:icon="@drawable/ic_undelete_white_24dp"
+    android:orderInCategory="900"
+    android:title="@string/untrash"
+    android:visible="false"
+    app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/menu_discard_changes"
+    android:orderInCategory="1000"
+    android:title="@string/discard_changes"
+    app:showAsAction="ifRoom" />
+  <item
+    android:id="@+id/menu_note_info"
+    android:orderInCategory="1100"
+    android:title="@string/info"
+    app:showAsAction="ifRoom" />
 
 </menu>

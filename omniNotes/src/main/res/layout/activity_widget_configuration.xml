@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,68 +16,68 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  android:paddingBottom="@dimen/activity_vertical_margin"
+  android:paddingLeft="@dimen/activity_horizontal_margin"
+  android:paddingStart="@dimen/activity_horizontal_margin"
+  android:paddingRight="@dimen/activity_horizontal_margin"
+  android:paddingEnd="@dimen/activity_horizontal_margin"
+  android:paddingTop="@dimen/activity_vertical_margin"
+  tools:context=".WidgetConfigurationActivity">
+
+  <RadioGroup
+    android:id="@+id/widget_config_radiogroup"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="horizontal">
+
+    <RadioButton
+      android:id="@+id/widget_config_notes"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:checked="true"
+      android:text="@string/title_item_list" />
+
+    <RadioButton
+      android:id="@+id/widget_config_categories"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:text="@string/categories" />
+  </RadioGroup>
+
+  <Spinner
+    android:id="@+id/widget_config_spinner"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingStart="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingEnd="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".WidgetConfigurationActivity" >
+    android:layout_height="wrap_content" />
 
-    <RadioGroup
-        android:id="@+id/widget_config_radiogroup"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="horizontal" >
+  <CheckBox
+    android:id="@+id/show_thumbnails"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:checked="true"
+    android:text="@string/show_thumbnails" />
 
-        <RadioButton
-            android:id="@+id/widget_config_notes"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:checked="true"
-            android:text="@string/title_item_list" />
+  <CheckBox
+    android:id="@+id/show_timestamps"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:checked="true"
+    android:text="@string/show_timestamps" />
 
-        <RadioButton
-            android:id="@+id/widget_config_categories"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/categories" />
-    </RadioGroup>
-
-    <Spinner
-        android:id="@+id/widget_config_spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <CheckBox
-        android:id="@+id/show_thumbnails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:checked="true"
-        android:text="@string/show_thumbnails" />
-
-    <CheckBox
-        android:id="@+id/show_timestamps"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:checked="true"
-        android:text="@string/show_timestamps" />
-
-    <Button
-        android:id="@+id/widget_config_confirm"
-        style="@style/Button.Dialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/confirm" />
+  <Button
+    android:id="@+id/widget_config_confirm"
+    style="@style/Button.Dialog"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:text="@string/confirm" />
 
 </LinearLayout>

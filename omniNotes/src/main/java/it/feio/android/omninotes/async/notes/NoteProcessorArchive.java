@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,14 +27,14 @@ public class NoteProcessorArchive extends NoteProcessor {
   boolean archive;
 
 
-  public NoteProcessorArchive (List<Note> notes, boolean archive) {
+  public NoteProcessorArchive(List<Note> notes, boolean archive) {
     super(notes);
     this.archive = archive;
   }
 
 
   @Override
-  protected void processNote (Note note) {
+  protected void processNote(Note note) {
     DbHelper.getInstance().archiveNote(note, archive);
   }
 }

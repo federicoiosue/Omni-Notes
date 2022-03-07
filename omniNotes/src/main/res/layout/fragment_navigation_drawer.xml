@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,80 +16,75 @@
   -->
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/navigation_bg">
+  xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@color/navigation_bg">
 
-    <LinearLayout
-        android:id="@+id/left_drawer"
+  <LinearLayout
+    android:id="@+id/left_drawer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start"
+    android:orientation="vertical">
+
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="@dimen/navigation_drawer_image_height">
+
+      <ImageView
+        android:id="@+id/navdrawer_image"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/material_wall"
+        android:scaleType="centerCrop" />
+
+      <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/navdrawer_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:orientation="vertical">
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="@dimen/horizontal_margin"
+        android:paddingStart="@dimen/horizontal_margin"
+        android:paddingRight="@dimen/horizontal_margin"
+        android:paddingEnd="@dimen/horizontal_margin"
+        android:paddingBottom="@dimen/padding_half"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        pixlui:typeface="RobotoSlab-Regular.ttf"
+        android:text="@string/app_name" />
 
-        <!--<ImageView-->
-            <!--android:id="@+id/navdrawer_image"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="?attr/actionBarSize"-->
-            <!--android:src="@drawable/material_wall"-->
-            <!--android:scaleType="centerCrop" />-->
+    </RelativeLayout>
 
-        <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/navigation_drawer_image_height">
+    <it.feio.android.omninotes.models.views.NonScrollableListView
+      android:id="@+id/drawer_nav_list"
+      android:layout_width="@dimen/navigation_drawer_width"
+      android:layout_height="wrap_content"
+      android:choiceMode="singleChoice"
+      android:divider="@android:color/transparent"
+      android:dividerHeight="0dp"
+      android:listSelector="@drawable/icon_selector"
+      android:scrollingCache="false"
+      android:animationCache="false" />
 
-            <ImageView
-                    android:id="@+id/navdrawer_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/material_wall"
-                    android:scaleType="centerCrop"/>
+    <include
+      android:id="@+id/settings_view"
+      layout="@layout/drawer_category_list_footer" />
 
-            <com.neopixl.pixlui.components.textview.TextView
-                    android:id="@+id/navdrawer_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:paddingLeft="@dimen/horizontal_margin"
-                    android:paddingStart="@dimen/horizontal_margin"
-                    android:paddingRight="@dimen/horizontal_margin"
-                    android:paddingEnd="@dimen/horizontal_margin"
-                    android:paddingBottom="@dimen/padding_half"
-                    android:textColor="@color/white"
-                    android:textSize="30sp"
-                    pixlui:typeface="RobotoSlab-Regular.ttf"
-                    android:text="@string/app_name"/>
+    <it.feio.android.omninotes.models.views.NonScrollableListView
+      android:id="@+id/drawer_tag_list"
+      android:layout_width="@dimen/navigation_drawer_width"
+      android:layout_height="wrap_content"
+      android:choiceMode="singleChoice"
+      android:divider="@android:color/transparent"
+      android:dividerHeight="0dp"
+      android:listSelector="@drawable/icon_selector"
+      android:overScrollMode="never"
+      android:scrollbarSize="4dp"
+      android:scrollbarStyle="outsideOverlay"
+      android:scrollbarThumbVertical="@drawable/scrollbar_thumb"
+      android:scrollingCache="false"
+      android:animationCache="false" />
 
-        </RelativeLayout>
-
-        <it.feio.android.omninotes.models.views.NonScrollableListView
-            android:id="@+id/drawer_nav_list"
-            android:layout_width="@dimen/navigation_drawer_width"
-            android:layout_height="wrap_content"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:listSelector="@drawable/icon_selector"
-            android:scrollingCache="false"
-            android:animationCache="false" />
-
-        <include android:id="@+id/settings_view" layout="@layout/drawer_category_list_footer"/>
-
-        <it.feio.android.omninotes.models.views.NonScrollableListView
-            android:id="@+id/drawer_tag_list"
-            android:layout_width="@dimen/navigation_drawer_width"
-            android:layout_height="wrap_content"
-            android:choiceMode="singleChoice"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:listSelector="@drawable/icon_selector"
-            android:overScrollMode="never"
-            android:scrollbarSize="4dp"
-            android:scrollbarStyle="outsideOverlay"
-            android:scrollbarThumbVertical="@drawable/scroll_bar"
-            android:scrollingCache="false"
-            android:animationCache="false" />
-
-    </LinearLayout>
+  </LinearLayout>
 </ScrollView>

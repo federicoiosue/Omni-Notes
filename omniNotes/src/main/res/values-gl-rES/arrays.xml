@@ -46,13 +46,6 @@
         <item>Só uns pequenos marcadores</item>
         <item>Listaxe de notas</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Moi pequeno</item>
-        <item>Pequeno</item>
-        <item>Predefinido</item>
-        <item>Grande</item>
-        <item>Moi grande</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Compartir</item>
         <item>Eliminar</item>

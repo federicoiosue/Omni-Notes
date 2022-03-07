@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,55 +16,53 @@
   -->
 <resources>
 
-    <!-- Material -->
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#F44336</color>
-    <color name="colorAccentPressed">#D32F2F</color>
+  <!-- Material -->
+  <color name="colorPrimary">#3F51B5</color>
+  <color name="colorPrimaryDark">#303F9F</color>
+  <color name="colorAccent">#F44336</color>
+  <color name="colorAccentPressed">#D32F2F</color>
+  <color name="materialGrey100">#F5F5F5</color>
 
-    <!-- Statusbar overlay -->
-    <color name="statusbar_overlay">#20000000</color>
+  <!-- Statusbar overlay -->
+  <color name="statusbar_overlay">#20000000</color>
 
-    <!--Floating action button-->
-    <color name="half_black">#808080</color>
-    <color name="white">#fafafa</color>
-    <color name="white_pressed">#f1f1f1</color>
-    <color name="action_color">#B78B00</color>
-    <color name="action_color_pressed">#916E02</color>
-    <color name="white_overlay">#bbFFFFFF</color>
-    <color name="labels_background">#dd222222</color>
+  <!--Floating action button-->
+  <color name="half_black">#808080</color>
+  <color name="white">#fafafa</color>
+  <color name="white_pressed">#f1f1f1</color>
+  <color name="action_color">#B78B00</color>
+  <color name="action_color_pressed">#916E02</color>
+  <color name="white_overlay">#bbFFFFFF</color>
+  <color name="labels_background">#dd222222</color>
 
-    <color name="navigation_bg">#ffffffff</color>
-    <color name="gray_bg">#e2e2e2</color>
-    <color name="list_bg">#eeffffff</color>
-    <color name="holo_blue_dark">#880099CC</color>
-    <color name="holo_blue_light">#8833B5E5</color>
-    <color name="kitkat_gray_dark">#25000000</color>
-    <color name="kitkat_gray_light">#19000000</color>
-    <color name="list_bg_pressed">#88336699</color>
-    <color name="list_bg_selected">#4e3f51b5</color>
-    <color name="list_note_title">#cc000000</color>
-    <color name="list_note_dates">#aa000000</color>
-    <color name="about_bg">#dd222222</color>
-    <color name="drawer_text">@color/text_color</color>
-    <color name="drawer_line">#ee222222</color>
-    <color name="text_gray">#2d2d2d</color>
-    <color name="location_text">@color/text_color_lighter</color>
-    <color name="selected">#8833B5E5</color>
-    <color name="transparent">#00ffffff</color>
-    <color name="audio_attachment_text">#aa000000</color>
-    <color name="text_color">#b9000000</color>
-    <color name="text_color_lighter">#9b000000</color>
+  <color name="navigation_bg">#ffffffff</color>
+  <color name="gray_bg">#e2e2e2</color>
+  <color name="list_bg">#eeffffff</color>
+  <color name="kitkat_gray_light">#19000000</color>
+  <color name="list_bg_pressed">#88336699</color>
+  <color name="list_bg_selected">#4e3f51b5</color>
+  <color name="list_note_title">#cc000000</color>
+  <color name="list_note_dates">#aa000000</color>
+  <color name="about_bg">#dd222222</color>
+  <color name="drawer_text">@color/text_color</color>
+  <color name="drawer_line">#ee222222</color>
+  <color name="text_gray">#2d2d2d</color>
+  <color name="location_text">@color/text_color_lighter</color>
+  <color name="selected">#8833B5E5</color>
+  <color name="transparent">#00ffffff</color>
+  <color name="audio_attachment_text">#aa000000</color>
+  <color name="text_color">#b9000000</color>
+  <color name="text_color_lighter">#9b000000</color>
 
-    <!-- toasts -->
-    <color name="confirm">#303F9F</color>
-    <color name="warning">#ff9800</color>
-    <color name="alert">#e51c23</color>
-    <color name="info">#ee33B5E5</color>
-    <color name="black_overlay">#33000000</color>
+  <!-- toasts -->
+  <color name="confirm">#303F9F</color>
+  <color name="warning">#ff9800</color>
+  <color name="alert">#e51c23</color>
+  <color name="info">#ee33B5E5</color>
+  <color name="black_overlay">#33000000</color>
 
-    <!--Undo bar-->
-    <color name="card_undobar_material_text_color">#4CAF50</color>
-    <color name="card_undobar_material_background_color">#323232</color>
+  <!--Undo bar-->
+  <color name="card_undobar_material_text_color">#4CAF50</color>
+  <color name="card_undobar_material_background_color">#323232</color>
 
 </resources>

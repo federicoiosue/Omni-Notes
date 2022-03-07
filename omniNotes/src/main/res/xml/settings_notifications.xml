@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,29 +16,34 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:fitsSystemWindows="true">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:fitsSystemWindows="true">
 
-    <SwitchPreference
-        android:defaultValue="true"
-        android:key="settings_notification_vibration"
-        android:title="@string/settings_enable_vibration" />
+  <SwitchPreference
+    android:defaultValue="true"
+    android:key="settings_notification_vibration"
+    android:title="@string/settings_enable_vibration"
+    app:iconSpaceReserved="false" />
 
-    <RingtonePreference
-        android:key="settings_notification_ringtone"
-        android:ringtoneType="all"
-        android:title="@string/settings_notification_ringtone" />
+  <Preference
+    android:key="settings_notification_ringtone"
+    android:ringtoneType="all"
+    android:title="@string/settings_notification_ringtone"
+    app:iconSpaceReserved="false" />
 
-    <EditTextPreference
-        android:key="settings_notification_snooze_delay"
-        android:title="@string/settings_notification_snooze_delay"
-        android:inputType="number"
-        android:defaultValue="10"/>
+  <EditTextPreference
+    android:defaultValue="10"
+    android:inputType="number"
+    android:key="settings_notification_snooze_delay"
+    android:title="@string/settings_notification_snooze_delay"
+    app:iconSpaceReserved="false" />
 
-    <Preference
-            android:key="settings_notification_service_listener"
-            android:title="@string/settings_notification_enable_boot_persistence"
-            android:summary="@string/settings_notification_enable_boot_persistence_summary">
-        <intent android:action="android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS"/>
-    </Preference>
+  <Preference
+    android:key="settings_notification_service_listener"
+    android:summary="@string/settings_notification_enable_boot_persistence_summary"
+    android:title="@string/settings_notification_enable_boot_persistence"
+    app:iconSpaceReserved="false">
+    <intent android:action="android.settings.ACTION_NOTIFICATION_LISTENER_SETTINGS" />
+  </Preference>
 
 </PreferenceScreen>

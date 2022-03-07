@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -15,31 +14,20 @@
   ~ You should have received a copy of the GNU General Public License
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
-<set xmlns:android="http://schemas.android.com/apk/res/android" >
+<set xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <translate
-        android:duration="@integer/sliding_anim_time_short"
-        android:fromXDelta="100%"
-        android:fromYDelta="0"
-        android:interpolator="@android:anim/overshoot_interpolator"
-        android:toXDelta="0"
-        android:toYDelta="0" />
+  <translate
+    android:duration="@integer/sliding_anim_time_short"
+    android:fromXDelta="100%"
+    android:fromYDelta="0"
+    android:interpolator="@android:anim/overshoot_interpolator"
+    android:toXDelta="0"
+    android:toYDelta="0" />
 
-
-<!--     <scale -->
-<!--         android:duration="@android:integer/config_shortAnimTime" -->
-<!--         android:fromXScale="0.2" -->
-<!--         android:fromYScale="0.2" -->
-<!--         android:pivotX="50%" -->
-<!--         android:pivotY="50%" -->
-<!--         android:toXScale="1" -->
-<!--         android:toYScale="1" > -->
-<!--     </scale> -->
-    
-    <alpha
-        android:duration="@integer/sliding_anim_time_short"
-        android:fromAlpha="0.0"
-        android:interpolator="@android:anim/overshoot_interpolator"
-        android:toAlpha="1.0" />
+  <alpha
+    android:duration="@integer/sliding_anim_time_short"
+    android:fromAlpha="0.0"
+    android:interpolator="@android:anim/overshoot_interpolator"
+    android:toAlpha="1.0" />
 
 </set>

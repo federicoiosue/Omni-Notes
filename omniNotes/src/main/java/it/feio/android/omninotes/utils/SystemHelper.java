@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ public class SystemHelper {
   /**
    * Performs a full app restart
    */
-  public static void restartApp (final Context mContext, Class activityClass) {
+  public static void restartApp(final Context mContext, Class activityClass) {
 //		Intent intent = new Intent(mContext, activityClass);
 //		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 //		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -49,7 +49,7 @@ public class SystemHelper {
    *
    * @param closeables Objects to close
    */
-  public static void closeCloseable (Closeable... closeables) {
+  public static void closeCloseable(Closeable... closeables) {
     for (Closeable closeable : closeables) {
       if (closeable != null) {
         try {
@@ -61,9 +61,10 @@ public class SystemHelper {
     }
   }
 
-  public static void copyToClipboard (Context context, String text) {
-    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(
-        Activity.CLIPBOARD_SERVICE);
+  public static void copyToClipboard(Context context, String text) {
+    android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context
+        .getSystemService(
+            Activity.CLIPBOARD_SERVICE);
     android.content.ClipData clip = android.content.ClipData.newPlainText("text label", text);
     clipboard.setPrimaryClip(clip);
   }

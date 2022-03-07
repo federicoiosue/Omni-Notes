@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,8 +19,9 @@ package it.feio.android.omninotes.async;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v4.app.JobIntentService;
+import android.os.Build;
+import androidx.annotation.NonNull;
+import androidx.core.app.JobIntentService;
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
@@ -29,17 +30,24 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import java.util.List;
 
-
+/**
+ * Verify version code and add wake lock in manifest is important to avoid crash
+ */
 public class AlarmRestoreOnRebootService extends JobIntentService {
 
   public static final int JOB_ID = 0x01;
 
-  public static void enqueueWork (Context context, Intent work) {
-    enqueueWork(context, AlarmRestoreOnRebootService.class, JOB_ID, work);
+  public static void enqueueWork(Context context, Intent work) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+      enqueueWork(context, AlarmRestoreOnRebootService.class, JOB_ID, work);
+    } else {
+      Intent jobIntent = new Intent(context, AlarmRestoreOnRebootService.class);
+      context.startService(jobIntent);
+    }
   }
 
   @Override
-  protected void onHandleWork (@NonNull Intent intent) {
+  protected void onHandleWork(@NonNull Intent intent) {
     LogDelegate.i("System rebooted: service refreshing reminders");
     Context mContext = getApplicationContext();
 

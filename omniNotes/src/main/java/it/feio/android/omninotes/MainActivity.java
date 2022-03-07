@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,19 @@
 
 package it.feio.android.omninotes;
 
-import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.TimePickerDialog.OnTimeSetListener;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_RESTART_APP;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SEND_AND_EXIT;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_START_APP;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_GOOGLE_NOW;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_KEY;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -26,20 +37,17 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.ViewGroup;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
+import android.view.View;
 import android.widget.Toast;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -47,6 +55,7 @@ import it.feio.android.omninotes.async.UpdateWidgetsTask;
 import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
+import it.feio.android.omninotes.databinding.ActivityMainBinding;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.NotesHelper;
@@ -55,42 +64,43 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileProviderHelper;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
+import it.feio.android.pixlui.links.UrlCompleter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import lombok.Getter;
+import lombok.Setter;
 
 
-public class MainActivity extends BaseActivity implements OnDateSetListener, OnTimeSetListener,
+public class MainActivity extends BaseActivity implements
     SharedPreferences.OnSharedPreferenceChangeListener {
 
-  private static boolean isPasswordAccepted = false;
-  public final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
-  public final String FRAGMENT_LIST_TAG = "fragment_list";
-  public final String FRAGMENT_DETAIL_TAG = "fragment_detail";
-  public final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
-  public Uri sketchUri;
-  @BindView(R.id.crouton_handle)
-  ViewGroup croutonViewContainer;
-  @BindView(R.id.toolbar)
-  Toolbar toolbar;
-  @BindView(R.id.drawer_layout)
-  DrawerLayout drawerLayout;
+  private boolean isPasswordAccepted = false;
+  public final static String FRAGMENT_DRAWER_TAG = "fragment_drawer";
+  public final static String FRAGMENT_LIST_TAG = "fragment_list";
+  public final static String FRAGMENT_DETAIL_TAG = "fragment_detail";
+  public final static String FRAGMENT_SKETCH_TAG = "fragment_sketch";
+  @Getter @Setter
+  private Uri sketchUri;
   boolean prefsChanged = false;
   private FragmentManager mFragmentManager;
 
+  ActivityMainBinding binding;
+
   @Override
-  protected void onCreate (Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTheme(R.style.OmniNotesTheme_ApiSpec);
-    setContentView(R.layout.activity_main);
-    ButterKnife.bind(this);
+
+    binding = ActivityMainBinding.inflate(getLayoutInflater());
+    View view = binding.getRoot();
+    setContentView(view);
+
     EventBus.getDefault().register(this);
-    prefs.registerOnSharedPreferenceChangeListener(this);
+    Prefs.getPreferences().registerOnSharedPreferenceChangeListener(this);
 
     initUI();
 
@@ -98,11 +108,10 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
       startActivity(new Intent(getApplicationContext(), IntroActivity.class));
     }
 
-//		new UpdaterTask(this).execute(); Removed due to missing backend
   }
 
   @Override
-  protected void onResume () {
+  protected void onResume() {
     super.onResume();
     if (isPasswordAccepted) {
       init();
@@ -113,14 +122,14 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
   @Override
-  protected void onStop () {
+  protected void onStop() {
     super.onStop();
     EventBus.getDefault().unregister(this);
   }
 
 
-  private void initUI () {
-    setSupportActionBar(toolbar);
+  private void initUI() {
+    setSupportActionBar(binding.toolbar.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
   }
@@ -129,9 +138,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
   /**
    * This method starts the bootstrap chain.
    */
-  private void checkPassword () {
-    if (prefs.getString(Constants.PREF_PASSWORD, null) != null
-        && prefs.getBoolean("settings_password_access", false)) {
+  private void checkPassword() {
+    if (Prefs.getString(PREF_PASSWORD, null) != null
+        && Prefs.getBoolean("settings_password_access", false)) {
       PasswordHelper.requestPassword(this, passwordConfirmed -> {
         switch (passwordConfirmed) {
           case SUCCEED:
@@ -150,13 +159,13 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
   }
 
 
-  public void onEvent (PasswordRemovedEvent passwordRemovedEvent) {
+  public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
     showMessage(R.string.password_successfully_removed, ONStyle.ALERT);
     init();
   }
 
 
-  private void init () {
+  private void init() {
     isPasswordAccepted = true;
 
     getFragmentManagerInstance();
@@ -171,13 +180,14 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
     if (getFragmentManagerInstance().findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
       FragmentTransaction fragmentTransaction = getFragmentManagerInstance().beginTransaction();
-      fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG).commit();
+      fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG)
+          .commit();
     }
 
     handleIntents();
   }
 
-  private FragmentManager getFragmentManagerInstance () {
+  private FragmentManager getFragmentManagerInstance() {
     if (mFragmentManager == null) {
       mFragmentManager = getSupportFragmentManager();
     }
@@ -185,9 +195,9 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
   }
 
   @Override
-  protected void onNewIntent (Intent intent) {
+  protected void onNewIntent(Intent intent) {
     if (intent.getAction() == null) {
-      intent.setAction(Constants.ACTION_START_APP);
+      intent.setAction(ACTION_START_APP);
     }
     super.onNewIntent(intent);
     setIntent(intent);
@@ -196,7 +206,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
   }
 
 
-  public MenuItem getSearchMenuItem () {
+  public MenuItem getSearchMenuItem() {
     Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
     if (f != null) {
       return ((ListFragment) f).getSearchMenuItem();
@@ -206,26 +216,34 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
   }
 
 
-  public void editTag (Category tag) {
+  public void editTag(Category tag) {
     Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
     if (f != null) {
       ((ListFragment) f).editCategory(tag);
     }
   }
 
-
-  public void initNotesList (Intent intent) {
-    Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
-    if (f != null) {
-      new Handler(getMainLooper()).post(() -> {
-        ((ListFragment) f).toggleSearchLabel(false);
-        ((ListFragment) f).initNotesList(intent);
-      });
+  public void initNotesList(Intent intent) {
+    if (intent != null) {
+      Fragment searchTagFragment = startSearchView();
+      new Handler(getMainLooper()).post(() -> ((ListFragment) searchTagFragment).initNotesList(intent));
     }
   }
 
+  public Fragment startSearchView() {
+    FragmentTransaction transaction = getFragmentManagerInstance().beginTransaction();
+    animateTransition(transaction, TRANSITION_HORIZONTAL);
+    ListFragment mListFragment = new ListFragment();
+    transaction.replace(R.id.fragment_container, mListFragment, FRAGMENT_LIST_TAG).addToBackStack
+        (FRAGMENT_DETAIL_TAG).commit();
+    Bundle args = new Bundle();
+    args.putBoolean("setSearchFocus", true);
+    mListFragment.setArguments(args);
+    return mListFragment;
+  }
 
-  public void commitPending () {
+
+  public void commitPending() {
     Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
     if (f != null) {
       ((ListFragment) f).commitPending();
@@ -236,7 +254,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
   /**
    * Checks if allocated fragment is of the required type and then returns it or returns null
    */
-  private Fragment checkFragmentInstance (int id, Object instanceClass) {
+  private Fragment checkFragmentInstance(int id, Object instanceClass) {
     Fragment result = null;
     Fragment fragment = getFragmentManagerInstance().findFragmentById(id);
     if (fragment != null && instanceClass.equals(fragment.getClass())) {
@@ -245,8 +263,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     return result;
   }
 
-
-  public void onBackPressed () {
+  @Override
+  public void onBackPressed() {
 
     // SketchFragment
     Fragment f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
@@ -273,10 +291,11 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
     if (f != null) {
       // Before exiting from app the navigation drawer is opened
-      if (prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
+      if (Prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
           !getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
         getDrawerLayout().openDrawer(GravityCompat.START);
-      } else if (!prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
+      } else if (!Prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null
+          &&
           getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
         getDrawerLayout().closeDrawer(GravityCompat.START);
       } else {
@@ -292,25 +311,25 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
 
   @Override
-  public void onSaveInstanceState (Bundle outState) {
+  public void onSaveInstanceState(Bundle outState) {
     super.onSaveInstanceState(outState);
     outState.putString("navigationTmp", navigationTmp);
   }
 
 
   @Override
-  protected void onPause () {
+  protected void onPause() {
     super.onPause();
     Crouton.cancelAllCroutons();
   }
 
 
-  public DrawerLayout getDrawerLayout () {
-    return drawerLayout;
+  public DrawerLayout getDrawerLayout() {
+    return binding.drawerLayout;
   }
 
 
-  public ActionBarDrawerToggle getDrawerToggle () {
+  public ActionBarDrawerToggle getDrawerToggle() {
     if (getFragmentManagerInstance().findFragmentById(R.id.navigation_drawer) != null) {
       return ((NavigationDrawerFragment) getFragmentManagerInstance().findFragmentById(
           R.id.navigation_drawer)).mDrawerToggle;
@@ -323,34 +342,35 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
   /**
    * Finishes multiselection mode started by ListFragment
    */
-  public void finishActionMode () {
-    ListFragment fragment = (ListFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_LIST_TAG);
+  public void finishActionMode() {
+    ListFragment fragment = (ListFragment) getFragmentManagerInstance()
+        .findFragmentByTag(FRAGMENT_LIST_TAG);
     if (fragment != null) {
       fragment.finishActionMode();
     }
   }
 
 
-  Toolbar getToolbar () {
-    return toolbar;
+  Toolbar getToolbar() {
+    return binding.toolbar.toolbar;
   }
 
 
-  private void handleIntents () {
+  private void handleIntents() {
     Intent i = getIntent();
 
     if (i.getAction() == null) {
       return;
     }
 
-    if (Constants.ACTION_RESTART_APP.equals(i.getAction())) {
+    if (ACTION_RESTART_APP.equals(i.getAction())) {
       SystemHelper.restartApp(getApplicationContext(), MainActivity.class);
     }
 
     if (receivedIntent(i)) {
-      Note note = i.getParcelableExtra(Constants.INTENT_NOTE);
+      Note note = i.getParcelableExtra(INTENT_NOTE);
       if (note == null) {
-        note = DbHelper.getInstance().getNote(i.getIntExtra(Constants.INTENT_KEY, 0));
+        note = DbHelper.getInstance().getNote(i.getIntExtra(INTENT_KEY, 0));
       }
       // Checks if the same note is already opened to avoid to open again
       if (note != null && noteAlreadyOpened(note)) {
@@ -364,19 +384,32 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
       return;
     }
 
-    if (Constants.ACTION_SEND_AND_EXIT.equals(i.getAction())) {
+    if (ACTION_SEND_AND_EXIT.equals(i.getAction())) {
       saveAndExit(i);
       return;
     }
 
     // Tag search
-    if (Intent.ACTION_VIEW.equals(i.getAction())) {
+    if (Intent.ACTION_VIEW.equals(i.getAction()) && i.getDataString()
+        .startsWith(UrlCompleter.HASHTAG_SCHEME)) {
       switchToList();
       return;
     }
 
     // Home launcher shortcut widget
-    if (Constants.ACTION_SHORTCUT_WIDGET.equals(i.getAction())) {
+    if (Intent.ACTION_VIEW.equals(i.getAction()) && i.getData() != null) {
+      Long id = Long.valueOf(Uri.parse(i.getDataString()).getQueryParameter("id"));
+      Note note = DbHelper.getInstance().getNote(id);
+      if (note == null) {
+        showMessage(R.string.note_doesnt_exist, ONStyle.ALERT);
+        return;
+      }
+      switchToDetail(note);
+      return;
+    }
+
+    // Home launcher "new note" shortcut widget
+    if (ACTION_SHORTCUT_WIDGET.equals(i.getAction())) {
       switchToDetail(new Note());
       return;
     }
@@ -386,7 +419,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
   /**
    * Used to perform a quick text-only note saving (eg. Tasker+Pushbullet)
    */
-  private void saveAndExit (Intent i) {
+  private void saveAndExit(Intent i) {
     Note note = new Note();
     note.setTitle(i.getStringExtra(Intent.EXTRA_SUBJECT));
     note.setContent(i.getStringExtra(Intent.EXTRA_TEXT));
@@ -396,27 +429,27 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
   }
 
 
-  private boolean receivedIntent (Intent i) {
-    return Constants.ACTION_SHORTCUT.equals(i.getAction())
-        || Constants.ACTION_NOTIFICATION_CLICK.equals(i.getAction())
-        || Constants.ACTION_WIDGET.equals(i.getAction())
-        || Constants.ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
+  private boolean receivedIntent(Intent i) {
+    return ACTION_SHORTCUT.equals(i.getAction())
+        || ACTION_NOTIFICATION_CLICK.equals(i.getAction())
+        || ACTION_WIDGET.equals(i.getAction())
+        || ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
         || ((Intent.ACTION_SEND.equals(i.getAction())
         || Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
-        || Constants.INTENT_GOOGLE_NOW.equals(i.getAction()))
+        || INTENT_GOOGLE_NOW.equals(i.getAction()))
         && i.getType() != null)
-        || i.getAction().contains(Constants.ACTION_NOTIFICATION_CLICK);
+        || i.getAction().contains(ACTION_NOTIFICATION_CLICK);
   }
 
 
-  private boolean noteAlreadyOpened (Note note) {
+  private boolean noteAlreadyOpened(Note note) {
     DetailFragment detailFragment = (DetailFragment) getFragmentManagerInstance().findFragmentByTag(
         FRAGMENT_DETAIL_TAG);
     return detailFragment != null && NotesHelper.haveSameId(note, detailFragment.getCurrentNote());
   }
 
 
-  public void switchToList () {
+  public void switchToList() {
     FragmentTransaction transaction = getFragmentManagerInstance().beginTransaction();
     animateTransition(transaction, TRANSITION_HORIZONTAL);
     ListFragment mListFragment = new ListFragment();
@@ -430,22 +463,22 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
   }
 
 
-  public void switchToDetail (Note note) {
+  public void switchToDetail(Note note) {
     FragmentTransaction transaction = getFragmentManagerInstance().beginTransaction();
     animateTransition(transaction, TRANSITION_HORIZONTAL);
     DetailFragment mDetailFragment = new DetailFragment();
     Bundle b = new Bundle();
-    b.putParcelable(Constants.INTENT_NOTE, note);
+    b.putParcelable(INTENT_NOTE, note);
     mDetailFragment.setArguments(b);
     if (getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG) == null) {
       transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
-                 .addToBackStack(FRAGMENT_LIST_TAG)
-                 .commitAllowingStateLoss();
+          .addToBackStack(FRAGMENT_LIST_TAG)
+          .commitAllowingStateLoss();
     } else {
       getFragmentManagerInstance().popBackStackImmediate();
       transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
-                 .addToBackStack(FRAGMENT_DETAIL_TAG)
-                 .commitAllowingStateLoss();
+          .addToBackStack(FRAGMENT_DETAIL_TAG)
+          .commitAllowingStateLoss();
     }
   }
 
@@ -453,7 +486,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
   /**
    * Notes sharing
    */
-  public void shareNote (Note note) {
+  public void shareNote(Note note) {
 
     String titleText = note.getTitle();
 
@@ -463,7 +496,7 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
 
     Intent shareIntent = new Intent();
     // Prepare sharing intent with only text
-    if (note.getAttachmentsList().size() == 0) {
+    if (note.getAttachmentsList().isEmpty()) {
       shareIntent.setAction(Intent.ACTION_SEND);
       shareIntent.setType("text/plain");
 
@@ -496,7 +529,8 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
     shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
     shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
 
-    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+    startActivity(Intent
+        .createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
   }
 
 
@@ -505,50 +539,32 @@ public class MainActivity extends BaseActivity implements OnDateSetListener, OnT
    *
    * @param note Note to be deleted
    */
-  public void deleteNote (Note note) {
+  public void deleteNote(Note note) {
     new NoteProcessorDelete(Collections.singletonList(note)).process();
     BaseActivity.notifyAppWidgets(this);
-    LogDelegate.d("Deleted permanently note with id '" + note.get_id() + "'");
+    LogDelegate.d("Deleted permanently note with ID '" + note.get_id() + "'");
   }
 
 
-  public void updateWidgets () {
+  public void updateWidgets() {
     new UpdateWidgetsTask(getApplicationContext())
         .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
 
 
-  public void showMessage (int messageId, Style style) {
+  public void showMessage(int messageId, Style style) {
     showMessage(getString(messageId), style);
   }
 
 
-  public void showMessage (String message, Style style) {
+  public void showMessage(String message, Style style) {
     // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
-    runOnUiThread(() -> Crouton.makeText(this, message, style, croutonViewContainer).show());
-  }
-
-
-  @Override
-  public void onTimeSet (TimePicker view, int hourOfDay, int minute) {
-    DetailFragment f = (DetailFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG);
-    if (f != null && f.isAdded()) {
-      f.onTimeSetListener.onTimeSet(view, hourOfDay, minute);
-    }
-  }
-
-
-  @Override
-  public void onDateSet (DatePicker view, int year, int monthOfYear,
-      int dayOfMonth) {
-    DetailFragment f = (DetailFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG);
-    if (f != null && f.isAdded() && f.onDateSetListener != null) {
-      f.onDateSetListener.onDateSet(view, year, monthOfYear, dayOfMonth);
-    }
+    runOnUiThread(
+        () -> Crouton.makeText(this, message, style, binding.croutonHandle.croutonHandle).show());
   }
 
   @Override
-  public void onSharedPreferenceChanged (SharedPreferences sharedPreferences, String key) {
+  public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
     prefsChanged = true;
   }
 

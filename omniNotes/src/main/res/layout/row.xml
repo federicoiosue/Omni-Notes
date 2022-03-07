@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,12 +16,11 @@
   -->
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/text1"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceLarge"
-    android:gravity="center_vertical"
-    android:paddingLeft="6dip"
-    android:paddingStart="6dip"
-    android:minHeight="?android:attr/listPreferredItemHeight"
-/>
+  android:id="@+id/text1"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:textAppearance="?android:attr/textAppearanceLarge"
+  android:gravity="center_vertical"
+  android:paddingLeft="6dip"
+  android:paddingStart="6dip"
+  android:minHeight="?android:attr/listPreferredItemHeight" />

@@ -46,13 +46,6 @@
         <item>Маленький індикатор</item>
         <item>У списку нотаток</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Крихітний</item>
-        <item>Малий</item>
-        <item>Звичайний</item>
-        <item>Великий</item>
-        <item>Величезний</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Поділитись</item>
         <item>Видалити</item>

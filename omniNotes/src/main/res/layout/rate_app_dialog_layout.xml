@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,28 +15,27 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ads="http://schemas.android.com/apk/lib/com.google.ads"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+  xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:gravity="center_vertical|center_horizontal"
+  android:orientation="vertical"
+  android:padding="@dimen/horizontal_margin">
+
+  <com.neopixl.pixlui.components.textview.TextView
+    android:id="@+id/rate_message"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical|center_horizontal"
-    android:orientation="vertical"
-    android:padding="@dimen/horizontal_margin" >
+    android:gravity="center"
+    pixlui:typeface="Roboto-Regular.ttf"
+    style="@style/Text.Big" />
 
-    <com.neopixl.pixlui.components.textview.TextView
-        android:id="@+id/rate_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        pixlui:typeface="Roboto-Regular.ttf" 
-        style="@style/Text.Big"/>
-
-    <CheckBox
-        android:id="@+id/rate_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/horizontal_margin"
-        android:layout_marginTop="@dimen/horizontal_margin" 
-        style="@style/Text.Small" />
+  <CheckBox
+    android:id="@+id/rate_checkbox"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/horizontal_margin"
+    android:layout_marginTop="@dimen/horizontal_margin"
+    style="@style/Text.Small" />
 
 </LinearLayout>

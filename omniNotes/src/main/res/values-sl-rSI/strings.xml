@@ -207,6 +207,7 @@
     <string name="uncompleted_checklists">Nedokončani seznami</string>
     <string name="info">Info</string>
     <string name="completed">Dokončano</string>
+    <string name="undo_changes_note_confirmation">Potrdi preklic sprememb?</string>
     <!-- Settings -->
     <string name="dashclock_description">Prikaz nekaterih statistik in bližnjih opomnikov iz Omni Notes</string>
     <string name="settings">Nastavitve</string>

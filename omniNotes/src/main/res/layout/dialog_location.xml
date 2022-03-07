@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
   -->
 
 <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/auto_complete_location"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:textAlignment="center"
-    android:textColor="@color/text_color"
-    android:textColorHint="@color/text_color_lighter"
-    android:padding="@dimen/horizontal_margin"/>
+  android:id="@+id/auto_complete_location"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:textAlignment="center"
+  android:textColor="@color/text_color"
+  android:textColorHint="@color/text_color_lighter"
+  android:padding="@dimen/horizontal_margin" />

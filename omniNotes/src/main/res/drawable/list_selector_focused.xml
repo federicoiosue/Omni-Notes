@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -15,20 +15,10 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<shape
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
- 
-    <!-- view background color -->
-    <solid
-        android:color="@color/kitkat_gray_light" >
-    </solid>
- 
-    <!-- view border color and width -->
-    <!--<stroke-->
-        <!--android:width="2dp"-->
-        <!--android:color="#ffffff" >-->
-    <!--</stroke>-->
->
- 
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+  android:shape="rectangle">
+
+  <!-- view background color -->
+  <solid android:color="@color/kitkat_gray_light"></solid>
+
 </shape>

@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,14 +16,14 @@
   -->
 
 <resources>
-    <integer name="list_view_fade_anim">300</integer>
-    <integer name="sliding_anim_time_short">350</integer>
-    <integer name="sliding_anim_time_medium">500</integer>
-    <integer name="zooming_view_anim_time">110</integer>
-    <integer name="drawer_toggle_animation_time">600</integer>
+  <integer name="list_view_fade_anim">300</integer>
+  <integer name="sliding_anim_time_short">350</integer>
+  <integer name="sliding_anim_time_medium">500</integer>
+  <integer name="zooming_view_anim_time">110</integer>
+  <integer name="drawer_toggle_animation_time">600</integer>
 
-    <integer name="textview_max_lines">1</integer>
-    <integer name="textview_max_lines_expanded">2</integer>
+  <integer name="textview_max_lines">1</integer>
+  <integer name="textview_max_lines_expanded">2</integer>
 
-    <integer name="google_play_services_version">9080000</integer>
+  <integer name="google_play_services_version">9080000</integer>
 </resources>

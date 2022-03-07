@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,29 +15,29 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content"
+  android:gravity="center_vertical|center_horizontal"
+  android:orientation="vertical"
+  android:padding="@dimen/horizontal_margin">
+
+  <CheckBox
+    android:id="@+id/checklist_keep_checked"
+    style="@style/Text.Big"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical|center_horizontal"
-    android:orientation="vertical"
-    android:padding="@dimen/horizontal_margin" >
+    android:layout_gravity="left"
+    android:layout_marginTop="@dimen/horizontal_margin"
+    android:text="@string/checklist_keep_checked" />
 
-    <CheckBox
-        android:id="@+id/checklist_keep_checked"
-        style="@style/Text.Big"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginTop="@dimen/horizontal_margin"
-        android:text="@string/checklist_keep_checked" />
-
-    <CheckBox
-        android:id="@+id/checklist_keep_checkmarks"
-        style="@style/Text.Big"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginBottom="@dimen/horizontal_margin"
-        android:layout_marginTop="@dimen/horizontal_margin"
-        android:text="@string/checklist_keep_symbols" />
+  <CheckBox
+    android:id="@+id/checklist_keep_checkmarks"
+    style="@style/Text.Big"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="left"
+    android:layout_marginBottom="@dimen/horizontal_margin"
+    android:layout_marginTop="@dimen/horizontal_margin"
+    android:text="@string/checklist_keep_symbols" />
 
 </LinearLayout>

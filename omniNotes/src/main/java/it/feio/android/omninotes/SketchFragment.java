@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,9 +24,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -39,14 +36,12 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import com.afollestad.materialdialogs.DialogAction;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.larswerkman.holocolorpicker.ColorPicker;
-import com.larswerkman.holocolorpicker.OpacityBar;
-import com.larswerkman.holocolorpicker.SVBar;
 import it.feio.android.checklistview.utils.AlphaManager;
+import it.feio.android.omninotes.databinding.FragmentSketchBinding;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.listeners.OnDrawChangedListener;
@@ -58,28 +53,20 @@ import java.io.FileOutputStream;
 
 public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
-  @BindView(R.id.sketch_stroke)
-  ImageView stroke;
-  @BindView(R.id.sketch_eraser)
-  ImageView eraser;
-  @BindView(R.id.drawing)
-  SketchView mSketchView;
-  @BindView(R.id.sketch_undo)
-  ImageView undo;
-  @BindView(R.id.sketch_redo)
-  ImageView redo;
-  @BindView(R.id.sketch_erase)
-  ImageView erase;
-  private int seekBarStrokeProgress, seekBarEraserProgress;
-  private View popupLayout, popupEraserLayout;
-  private ImageView strokeImageView, eraserImageView;
+  private int seekBarStrokeProgress;
+  private int seekBarEraserProgress;
+  private View popupLayout;
+  private View popupEraserLayout;
+  private ImageView strokeImageView;
+  private ImageView eraserImageView;
   private int size;
   private ColorPicker mColorPicker;
-  private int oldColor;
+
+  private FragmentSketchBinding binding;
 
 
   @Override
-  public void onCreate (Bundle savedInstanceState) {
+  public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setHasOptionsMenu(true);
     setRetainInstance(false);
@@ -87,35 +74,35 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
 
   @Override
-  public void onStart () {
-    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
+  public void onStart() {
+    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
+        .trackScreenView(getClass().getName());
 
     super.onStart();
   }
 
-
-  @SuppressWarnings("unchecked")
   @Override
-  public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_sketch, container, false);
-    ButterKnife.bind(this, view);
-    return view;
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    binding = FragmentSketchBinding.inflate(inflater, container, false);
+    return binding.getRoot();
   }
 
   @Override
-  public void onActivityCreated (Bundle savedInstanceState) {
+  public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
     getMainActivity().getToolbar().setNavigationOnClickListener(v -> getActivity().onBackPressed());
 
-    mSketchView.setOnDrawChangedListener(this);
+    binding.drawing.setOnDrawChangedListener(this);
 
     Uri baseUri = getArguments().getParcelable("base");
     if (baseUri != null) {
       Bitmap bmp;
       try {
-        bmp = BitmapFactory.decodeStream(getActivity().getContentResolver().openInputStream(baseUri));
-        mSketchView.setBackgroundBitmap(getActivity(), bmp);
+        bmp = BitmapFactory
+            .decodeStream(getActivity().getContentResolver().openInputStream(baseUri));
+        binding.drawing.setBackgroundBitmap(getActivity(), bmp);
       } catch (FileNotFoundException e) {
         LogDelegate.e("Error replacing sketch bitmap background", e);
       }
@@ -128,51 +115,46 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
       getMainActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    stroke.setOnClickListener(v -> {
-      if (mSketchView.getMode() == SketchView.STROKE) {
+    binding.sketchStroke.setOnClickListener(v -> {
+      if (binding.drawing.getMode() == SketchView.STROKE) {
         showPopup(v, SketchView.STROKE);
       } else {
-        mSketchView.setMode(SketchView.STROKE);
-        AlphaManager.setAlpha(eraser, 0.4f);
-        AlphaManager.setAlpha(stroke, 1f);
+        binding.drawing.setMode(SketchView.STROKE);
+        AlphaManager.setAlpha(binding.sketchEraser, 0.4f);
+        AlphaManager.setAlpha(binding.sketchStroke, 1f);
       }
     });
 
-    AlphaManager.setAlpha(eraser, 0.4f);
-    eraser.setOnClickListener(v -> {
-      if (mSketchView.getMode() == SketchView.ERASER) {
+    AlphaManager.setAlpha(binding.sketchEraser, 0.4f);
+    binding.sketchEraser.setOnClickListener(v -> {
+      if (binding.drawing.getMode() == SketchView.ERASER) {
         showPopup(v, SketchView.ERASER);
       } else {
-        mSketchView.setMode(SketchView.ERASER);
-        AlphaManager.setAlpha(stroke, 0.4f);
-        AlphaManager.setAlpha(eraser, 1f);
+        binding.drawing.setMode(SketchView.ERASER);
+        AlphaManager.setAlpha(binding.sketchStroke, 0.4f);
+        AlphaManager.setAlpha(binding.sketchEraser, 1f);
       }
     });
 
-    undo.setOnClickListener(v -> mSketchView.undo());
+    binding.sketchUndo.setOnClickListener(v -> binding.drawing.undo());
 
-    redo.setOnClickListener(v -> mSketchView.redo());
+    binding.sketchRedo.setOnClickListener(v -> binding.drawing.redo());
 
-    erase.setOnClickListener(new OnClickListener() {
+    binding.sketchErase.setOnClickListener(new OnClickListener() {
       @Override
-      public void onClick (View v) {
+      public void onClick(View v) {
         askForErase();
       }
 
-      private void askForErase () {
+      private void askForErase() {
         new MaterialDialog.Builder(getActivity())
             .content(R.string.erase_sketch)
             .positiveText(R.string.confirm)
-            .onPositive(new MaterialDialog.SingleButtonCallback() {
-              @Override
-              public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                mSketchView.erase();
-              }
-            }).build().show();
+            .onPositive((dialog, which) -> binding.drawing.erase()).build().show();
       }
     });
 
-    // Inflate the popup_layout.xml
+    // Inflate the popup_layout.XML
     LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(
         AppCompatActivity.LAYOUT_INFLATER_SERVICE);
     popupLayout = inflater.inflate(R.layout.popup_sketch_stroke, null);
@@ -196,26 +178,24 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     mColorPicker = popupLayout.findViewById(R.id.stroke_color_picker);
     mColorPicker.addSVBar(popupLayout.findViewById(R.id.svbar));
     mColorPicker.addOpacityBar(popupLayout.findViewById(R.id.opacitybar));
-    mColorPicker.setOnColorChangedListener(mSketchView::setStrokeColor);
-    mColorPicker.setColor(mSketchView.getStrokeColor());
-    mColorPicker.setOldCenterColor(mSketchView.getStrokeColor());
+    mColorPicker.setOnColorChangedListener(binding.drawing::setStrokeColor);
+    mColorPicker.setColor(binding.drawing.getStrokeColor());
+    mColorPicker.setOldCenterColor(binding.drawing.getStrokeColor());
   }
 
   @Override
-  public boolean onOptionsItemSelected (MenuItem item) {
-    switch (item.getItemId()) {
-      case android.R.id.home:
-        getActivity().onBackPressed();
-        break;
-      default:
-        LogDelegate.e("Wrong element choosen: " + item.getItemId());
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (item.getItemId() == android.R.id.home) {
+      getActivity().onBackPressed();
+    } else {
+      LogDelegate.e("Wrong element choosen: " + item.getItemId());
     }
     return super.onOptionsItemSelected(item);
   }
 
 
-  public void save () {
-    Bitmap bitmap = mSketchView.getBitmap();
+  public void save() {
+    Bitmap bitmap = binding.drawing.getBitmap();
     if (bitmap != null) {
 
       try {
@@ -225,7 +205,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         bitmap.compress(Bitmap.CompressFormat.PNG, 90, out);
         out.close();
         if (bitmapFile.exists()) {
-          getMainActivity().sketchUri = uri;
+          getMainActivity().setSketchUri(uri);
         } else {
           getMainActivity().showMessage(R.string.error, ONStyle.ALERT);
         }
@@ -237,12 +217,11 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
   }
 
 
-  // The method that displays the popup.
-  private void showPopup (View anchor, final int eraserOrStroke) {
+  private void showPopup(View anchor, final int eraserOrStroke) {
 
     boolean isErasing = eraserOrStroke == SketchView.ERASER;
 
-    oldColor = mColorPicker.getColor();
+    int oldColor = mColorPicker.getColor();
 
     DisplayMetrics metrics = new DisplayMetrics();
     getActivity().getWindowManager().getDefaultDisplay().getMetrics(metrics);
@@ -273,17 +252,19 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         .findViewById(R.id.stroke_seekbar));
     mSeekBar.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
       @Override
-      public void onStopTrackingTouch (SeekBar seekBar) {
+      public void onStopTrackingTouch(SeekBar seekBar) {
+        // Nothing to do
       }
 
 
       @Override
-      public void onStartTrackingTouch (SeekBar seekBar) {
+      public void onStartTrackingTouch(SeekBar seekBar) {
+        // Nothing to do
       }
 
 
       @Override
-      public void onProgressChanged (SeekBar seekBar, int progress,
+      public void onProgressChanged(SeekBar seekBar, int progress,
           boolean fromUser) {
         // When the seekbar is moved a new size is calculated and the new shape
         // is positioned centrally into the ImageView
@@ -295,7 +276,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
   }
 
 
-  protected void setSeekbarProgress (int progress, int eraserOrStroke) {
+  protected void setSeekbarProgress(int progress, int eraserOrStroke) {
     int calcProgress = progress > 1 ? progress : 1;
 
     int newSize = Math.round((size / 100f) * calcProgress);
@@ -312,28 +293,28 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
       seekBarEraserProgress = progress;
     }
 
-    mSketchView.setSize(newSize, eraserOrStroke);
+    binding.drawing.setSize(newSize, eraserOrStroke);
   }
 
 
   @Override
-  public void onDrawChanged () {
+  public void onDrawChanged() {
     // Undo
-    if (mSketchView.getPaths().size() > 0) {
-      AlphaManager.setAlpha(undo, 1f);
+    if (binding.drawing.getPaths().isEmpty()) {
+      AlphaManager.setAlpha(binding.sketchUndo, 1f);
     } else {
-      AlphaManager.setAlpha(undo, 0.4f);
+      AlphaManager.setAlpha(binding.sketchUndo, 0.4f);
     }
     // Redo
-    if (mSketchView.getUndoneCount() > 0) {
-      AlphaManager.setAlpha(redo, 1f);
+    if (binding.drawing.getUndoneCount() > 0) {
+      AlphaManager.setAlpha(binding.sketchRedo, 1f);
     } else {
-      AlphaManager.setAlpha(redo, 0.4f);
+      AlphaManager.setAlpha(binding.sketchRedo, 0.4f);
     }
   }
 
 
-  private MainActivity getMainActivity () {
+  private MainActivity getMainActivity() {
     return (MainActivity) getActivity();
   }
 

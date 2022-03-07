@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,20 +17,23 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.utils.Constants.PACKAGE;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_LANG;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SEND_ANALYTICS;
+import static it.feio.android.omninotes.utils.ConstantsBase.PROPERTIES_PARAMS_SEPARATOR;
+
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
-import android.support.multidex.MultiDexApplication;
-import com.squareup.leakcanary.LeakCanary;
+import androidx.multidex.MultiDexApplication;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.analitica.AnalyticsHelperFactory;
 import it.feio.android.analitica.MockAnalyticsHelper;
 import it.feio.android.analitica.exceptions.AnalyticsInstantiationException;
 import it.feio.android.analitica.exceptions.InvalidIdentifierException;
 import it.feio.android.omninotes.helpers.LanguageHelper;
-import it.feio.android.omninotes.utils.Constants;
-import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraHttpSender;
@@ -44,79 +47,60 @@ import org.acra.sender.HttpSender;
 @AcraToast(resText = R.string.crash_toast)
 public class OmniNotes extends MultiDexApplication {
 
-  static SharedPreferences prefs;
   private static Context mContext;
   private AnalyticsHelper analyticsHelper;
 
-  public static boolean isDebugBuild () {
+  public static boolean isDebugBuild() {
     return BuildConfig.BUILD_TYPE.equals("debug");
   }
 
-  public static Context getAppContext () {
+  public static Context getAppContext() {
     return OmniNotes.mContext;
   }
 
-  /**
-   * Statically returns app's default SharedPreferences instance
-   *
-   * @return SharedPreferences object instance
-   */
-  public static SharedPreferences getSharedPreferences () {
-    return getAppContext().getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-  }
-
   @Override
-  protected void attachBaseContext (Context base) {
+  protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
     ACRA.init(this);
     ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild() ? "1" : "0");
   }
 
   @Override
-  public void onCreate () {
+  public void onCreate() {
     super.onCreate();
-
-    if (initLeakCanary()) {
-      return;
-    }
-
     mContext = getApplicationContext();
-    prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-
+    initSharedPreferences();
     enableStrictMode();
-
     new NotificationsHelper(this).initNotificationChannels();
   }
 
-  private void enableStrictMode () {
+  private void initSharedPreferences() {
+    new Prefs.Builder()
+        .setContext(this)
+        .setMode(MODE_PRIVATE)
+        .setPrefsName(PACKAGE)
+        .setUseDefaultSharedPreference(true)
+        .build();
+  }
+
+  private void enableStrictMode() {
     if (isDebugBuild()) {
       StrictMode.enableDefaults();
     }
   }
 
-  /**
-   * Returns true if the process dedicated to LeakCanary for heap analysis is running and app's init must be skipped
-   */
-  private boolean initLeakCanary () {
-    if (!LeakCanary.isInAnalyzerProcess(this)) {
-      LeakCanary.install(this);
-      return false;
-    }
-    return true;
-  }
-
   @Override
-  public void onConfigurationChanged (Configuration newConfig) {
+  public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    String language = prefs.getString(Constants.PREF_LANG, "");
+    String language = Prefs.getString(PREF_LANG, "");
     LanguageHelper.updateLanguage(this, language);
   }
 
-  public AnalyticsHelper getAnalyticsHelper () {
+  public AnalyticsHelper getAnalyticsHelper() {
     if (analyticsHelper == null) {
-      boolean enableAnalytics = prefs.getBoolean(Constants.PREF_SEND_ANALYTICS, true);
+      boolean enableAnalytics = Prefs.getBoolean(PREF_SEND_ANALYTICS, true);
       try {
-        String[] analyticsParams = BuildConfig.ANALYTICS_PARAMS.split(Constants.PROPERTIES_PARAMS_SEPARATOR);
+        String[] analyticsParams = BuildConfig.ANALYTICS_PARAMS.split(PROPERTIES_PARAMS_SEPARATOR);
         analyticsHelper = new AnalyticsHelperFactory().getAnalyticsHelper(this, enableAnalytics,
             analyticsParams);
       } catch (AnalyticsInstantiationException | InvalidIdentifierException e) {
@@ -125,4 +109,5 @@ public class OmniNotes extends MultiDexApplication {
     }
     return analyticsHelper;
   }
+
 }

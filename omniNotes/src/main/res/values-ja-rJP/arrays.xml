@@ -46,13 +46,6 @@
         <item>ストリップのみ</item>
         <item>ノートのリスト</item>
     </string-array>
-    <string-array name="text_size">
-        <item>最小</item>
-        <item>小</item>
-        <item>デフォルト</item>
-        <item>大</item>
-        <item>最大</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>共有</item>
         <item>削除</item>

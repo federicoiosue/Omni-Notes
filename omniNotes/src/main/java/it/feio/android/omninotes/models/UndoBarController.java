@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,8 @@
 
 package it.feio.android.omninotes.models;
 
-import static com.nineoldandroids.view.ViewPropertyAnimator.animate;
+
+import static androidx.core.view.ViewCompat.animate;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -25,9 +26,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.view.ViewPropertyAnimator;
+import androidx.core.view.ViewPropertyAnimatorCompat;
+import androidx.core.view.ViewPropertyAnimatorListenerAdapter;
 import it.feio.android.checklistview.utils.AlphaManager;
 import it.feio.android.omninotes.R;
 import java.util.Locale;
@@ -37,7 +37,7 @@ public class UndoBarController {
 
   private View mBarView;
   private TextView mMessageView;
-  private ViewPropertyAnimator mBarAnimator;
+  private ViewPropertyAnimatorCompat mBarAnimator;
 //    private Handler mHideHandler = new Handler();
 
   private UndoListener mUndoListener;
@@ -51,11 +51,11 @@ public class UndoBarController {
 
   public interface UndoListener {
 
-    void onUndo (Parcelable token);
+    void onUndo(Parcelable token);
   }
 
 
-  public UndoBarController (View undoBarView, UndoListener undoListener) {
+  public UndoBarController(View undoBarView, UndoListener undoListener) {
     mBarView = undoBarView;
 //        mBarAnimator = mBarView.animate();
     mBarAnimator = animate(mBarView);
@@ -67,7 +67,7 @@ public class UndoBarController {
     mButtonView.setText(mButtonView.getText().toString().toUpperCase(Locale.getDefault()));
     mButtonView.setOnClickListener(new View.OnClickListener() {
       @Override
-      public void onClick (View view) {
+      public void onClick(View view) {
         hideUndoBar(false);
         mUndoListener.onUndo(mUndoToken);
       }
@@ -77,7 +77,7 @@ public class UndoBarController {
   }
 
 
-  public void showUndoBar (boolean immediate, CharSequence message, Parcelable undoToken) {
+  public void showUndoBar(boolean immediate, CharSequence message, Parcelable undoToken) {
     mUndoToken = undoToken;
     mUndoMessage = message;
     mMessageView.setText(mUndoMessage);
@@ -96,14 +96,14 @@ public class UndoBarController {
           .alpha(1)
           .setDuration(
               mBarView.getResources()
-                      .getInteger(android.R.integer.config_shortAnimTime))
+                  .getInteger(android.R.integer.config_shortAnimTime))
           .setListener(null);
     }
     isVisible = true;
   }
 
 
-  public void hideUndoBar (boolean immediate) {
+  public void hideUndoBar(boolean immediate) {
 //        mHideHandler.removeCallbacks(mHideRunnable);
     if (immediate) {
       mBarView.setVisibility(View.GONE);
@@ -116,10 +116,12 @@ public class UndoBarController {
       mBarAnimator
           .alpha(0)
           .setDuration(mBarView.getResources()
-                               .getInteger(android.R.integer.config_shortAnimTime))
-          .setListener(new AnimatorListenerAdapter() {
+              .getInteger(android.R.integer.config_shortAnimTime))
+          .setListener(new ViewPropertyAnimatorListenerAdapter() {
+
             @Override
-            public void onAnimationEnd (Animator animation) {
+            public void onAnimationEnd(View view) {
+              super.onAnimationEnd(view);
               mBarView.setVisibility(View.GONE);
               mUndoMessage = null;
               mUndoToken = null;
@@ -130,13 +132,13 @@ public class UndoBarController {
   }
 
 
-  public void onSaveInstanceState (Bundle outState) {
+  public void onSaveInstanceState(Bundle outState) {
     outState.putCharSequence("undo_message", mUndoMessage);
     outState.putParcelable("undo_token", mUndoToken);
   }
 
 
-  public void onRestoreInstanceState (Bundle savedInstanceState) {
+  public void onRestoreInstanceState(Bundle savedInstanceState) {
     if (savedInstanceState != null) {
       mUndoMessage = savedInstanceState.getCharSequence("undo_message");
       mUndoToken = savedInstanceState.getParcelable("undo_token");
@@ -148,7 +150,7 @@ public class UndoBarController {
   }
 
 
-  public boolean isVisible () {
+  public boolean isVisible() {
     return isVisible;
   }
 

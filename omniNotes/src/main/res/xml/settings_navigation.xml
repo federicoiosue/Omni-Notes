@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,30 +16,35 @@
   -->
 
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:fitsSystemWindows="true">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:fitsSystemWindows="true">
 
-    <SwitchPreference
-            android:defaultValue="true"
-            android:key="settings_dynamic_menu"
-            android:title="@string/settings_dynamic_menu"
-            android:summary="@string/settings_dynamic_menu_summary"/>
+  <SwitchPreference
+    android:defaultValue="true"
+    android:key="settings_dynamic_menu"
+    android:summary="@string/settings_dynamic_menu_summary"
+    android:title="@string/settings_dynamic_menu"
+    app:iconSpaceReserved="false" />
 
-    <SwitchPreference
-            android:defaultValue="true"
-            android:key="settings_show_category_count"
-            android:summary="@string/settings_show_category_count_summary"
-            android:title="@string/settings_show_category_count"/>
+  <SwitchPreference
+    android:defaultValue="true"
+    android:key="settings_show_category_count"
+    android:summary="@string/settings_show_category_count_summary"
+    android:title="@string/settings_show_category_count"
+    app:iconSpaceReserved="false" />
 
-    <SwitchPreference
-            android:defaultValue="false"
-            android:key="settings_show_uncategorized"
-            android:title="@string/settings_show_uncategorized"
-            android:summary="@string/settings_show_uncategorized_summary"/>
+  <SwitchPreference
+    android:defaultValue="false"
+    android:key="settings_show_uncategorized"
+    android:summary="@string/settings_show_uncategorized_summary"
+    android:title="@string/settings_show_uncategorized"
+    app:iconSpaceReserved="false" />
 
-    <SwitchPreference
-            android:defaultValue="false"
-            android:key="settings_navdrawer_on_exit"
-            android:summary="@string/settings_navdrawer_on_exit_summary"
-            android:title="@string/settings_navdrawer_on_exit"/>
+  <SwitchPreference
+    android:defaultValue="false"
+    android:key="settings_navdrawer_on_exit"
+    android:summary="@string/settings_navdrawer_on_exit_summary"
+    android:title="@string/settings_navdrawer_on_exit"
+    app:iconSpaceReserved="false" />
 
 </PreferenceScreen>

@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,5 +16,5 @@
   -->
 
 <resources>
-    <integer name="google_play_services_version">8115000</integer>
+  <integer name="google_play_services_version">8115000</integer>
 </resources>

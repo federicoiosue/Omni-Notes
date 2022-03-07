@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,11 @@ import java.util.Arrays;
 
 public class AssetUtils {
 
-  public static boolean exists (String fileName, String path,
+  private AssetUtils() {
+    // hides public constructor
+  }
+
+  public static boolean exists(String fileName, String path,
       AssetManager assetManager) throws IOException {
     for (String currentFileName : assetManager.list(path)) {
       if (currentFileName.equals(fileName)) {
@@ -33,7 +37,7 @@ public class AssetUtils {
     return false;
   }
 
-  public static String[] list (String path, AssetManager assetManager)
+  public static String[] list(String path, AssetManager assetManager)
       throws IOException {
     String[] files = assetManager.list(path);
     Arrays.sort(files);

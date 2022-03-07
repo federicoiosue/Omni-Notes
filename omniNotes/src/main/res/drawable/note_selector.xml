@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,10 +16,10 @@
   -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!-- Selector style for listrow -->
-    <item android:drawable="@drawable/bg_card" android:state_pressed="false" android:state_selected="false"/>
-    <item android:drawable="@color/list_bg_pressed" android:state_pressed="true"/>
-    <item android:drawable="@color/list_bg_selected" android:state_pressed="false" android:state_selected="true"/>
-    <item android:drawable="@color/list_bg_selected" android:state_checked="true"/>
+  <!-- Selector style for listrow -->
+  <item android:drawable="@drawable/bg_card" android:state_pressed="false" android:state_selected="false" />
+  <item android:drawable="@color/list_bg_pressed" android:state_pressed="true" />
+  <item android:drawable="@color/list_bg_selected" android:state_pressed="false" android:state_selected="true" />
+  <item android:drawable="@color/list_bg_selected" android:state_checked="true" />
 
 </selector>

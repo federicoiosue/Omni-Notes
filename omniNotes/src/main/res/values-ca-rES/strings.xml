@@ -207,6 +207,7 @@
     <string name="uncompleted_checklists">Llistes incompletes</string>
     <string name="info">Informació</string>
     <string name="completed">Completades</string>
+    <string name="undo_changes_note_confirmation">Realment voleu desfer els canvis?</string>
     <!-- Settings -->
     <string name="dashclock_description">Mostra algunes estadístiques i recordatoris expirats de l\'Omni Notes</string>
     <string name="settings">Configuració</string>
@@ -219,6 +220,7 @@
     <string name="settings_export">Còpia de seguretat</string>
     <string name="settings_sync_import_export">Sincronització i còpies de seguretat</string>
     <string name="settings_import">Restaura o suprimeix còpies de seguretat</string>
+    <string name="settings_import_legacy">Restaura una còpia de seguretat</string>
     <string name="settings_import_legacy_summary">Permet restaurar còpies antigues realitzades amb versions anteriors a la 6 de l\'Omni Notes</string>
     <string name="settings_import_from_springpad">Importa les notes des de l\'Springpad</string>
     <string name="settings_import_from_springpad_summary">Seleccioneu l\'arxiu exportat de l\'Springpad i assegureu-vos d\'estar connectat a internet</string>
@@ -248,6 +250,7 @@
     <string name="settings_backup">Còpia de seguretat</string>
     <string name="settings_enable_automatic_backup">Habilita la còpia de seguretat automàtica</string>
     <string name="settings_enable_automatic_backup_summary">Les notes s\'emmagatzemaran a la carpeta \"_autobackup\"</string>
+    <string name="settings_enable_automatic_backup_dialog">Activant aquesta característica es crearà una còpia de seguretat completa de les dades</string>
     <string name="settings_password">Contrasenya</string>
     <string name="settings_password_access">Sol·licita una contrasenya en accedir</string>
     <string name="settings_password_instructions">La contrasenya assegura que les notes no es podran veure ni modificar per altres persones.\n\nEn establir una contrasenya, se us demanarà la contrasenya anterior.</string>
@@ -274,6 +277,7 @@
     <string name="settings_category_preferences">Preferències</string>
     <string name="settings_category_beta">Beta</string>
     <string name="settings_category_about">Quant a</string>
+    <string name="settings_beta">Participació</string>
     <string name="settings_beta_summary">Subscriviu-vos al programa beta per a estar al dia de les darreres característiques</string>
     <string name="donate">Feu un donatiu</string>
     <string name="donate_summary">Doneu suport al desenvolupament d\'aquesta aplicació amb un donatiu sense afany de lucre</string>
@@ -336,6 +340,8 @@
     <string name="settings_error_reporting_summary_off">No s\'enviarà cap informe d\'error. No us queixeu si quelcom va malament!</string>
     <string name="settings_send_analytics">Comparteix dades anònimes</string>
     <string name="settings_send_analytics_summary">Ajudeu al desenvolupador enviant informació no sensible, com ara el model del dispositiu, idioma i programari d\'ús freqüent. Aquesta informació s\'utilitza només per millorar l\'aplicació.</string>
+    <string name="settings_enable_file_logging">Desa els registres a un fitxer</string>
+    <string name="settings_enable_file_logging_summary">Els registres de l\'aplicació es desaran en un fitxer que podreu compartir amb el desenvolupador per investigar els possibles problemes (es requereix reiniciar)</string>
     <string name="settings_statistics">Estadístiques</string>
     <!-- Stats -->
     <string name="stats_total_notes">Notes totals</string>
@@ -376,6 +382,7 @@
     <string name="tour_detailactivity_action_title">Feu més</string>
     <string name="tour_detailactivity_action_detail">Compartiu, etiqueteu, arxiveu, protegiu i més...</string>
     <string name="tour_detailactivity_reminder_title">Només cal que pitgeu</string>
+    <string name="tour_detailactivity_reminder_detail">Un toc llarg té efectes diferents en un objecte (adjunt, ubicació, recordatori) que no pas un toc cur!</string>
     <string name="tour_detailactivity_links_title">Enllaços</string>
     <string name="tour_detailactivity_links_detail">Reconeixement d\'URL, correus electrònics i números de telèfon</string>
     <string name="tour_detailactivity_swipe_title">Llisqueu</string>
@@ -384,6 +391,7 @@
     <string name="tour_detailactivity_save_detail">Per anar enrere, premeu la icona de navegació \"amunt\", o el botó del dispositiu</string>
     <string name="tour_listactivity_final_title">Gaudiu-ne</string>
     <string name="tour_listactivity_final_detail">Gràcies per usar l\'Omni Notes \nL\'alternativa de codi obert que us permet prendre notes de forma productiva i entretinguda!</string>
+    <string name="tour_community">Uniu-vos a la comunitat a participar!</string>
     <!-- Accessibility -->
     <string name="drawer_open">obre el tauler</string>
     <string name="drawer_close">tanca el tauler</string>
@@ -394,5 +402,8 @@
     <string name="navigation_drawer_open">Obre el tauler de navegació</string>
     <string name="navigation_drawer_close">Tanca el tauler de navegació</string>
     <!-- Various -->
+    <string name="channel_backups_name">Còpies de seguretat</string>
+    <string name="channel_backups_description">Notificacions de resultat de les còpies de seguretat</string>
     <string name="channel_reminders_name">Recordatoris</string>
+    <string name="channel_reminders_description">Notificacions per a recordatoris</string>
 </resources>

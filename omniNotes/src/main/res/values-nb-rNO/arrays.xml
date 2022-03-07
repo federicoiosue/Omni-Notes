@@ -46,13 +46,6 @@
         <item>Kun stripe</item>
         <item>Notatliste</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Minste</item>
-        <item>Liten</item>
-        <item>Standard</item>
-        <item>Stor</item>
-        <item>Største</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Del</item>
         <item>Slett</item>

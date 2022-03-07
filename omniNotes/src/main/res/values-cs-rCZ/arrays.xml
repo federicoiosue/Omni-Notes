@@ -46,13 +46,6 @@
         <item>Pouze barevný pruh</item>
         <item>Seznam poznámek</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Nejmenší</item>
-        <item>Malé</item>
-        <item>Výchozí</item>
-        <item>Velké</item>
-        <item>Největší</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Sdílet</item>
         <item>Smazat</item>

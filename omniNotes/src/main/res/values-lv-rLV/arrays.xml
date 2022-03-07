@@ -46,13 +46,6 @@
         <item>Tikai sāna strēmelē</item>
         <item>Piezīmju saraksts</item>
     </string-array>
-    <string-array name="text_size">
-        <item>Vismazākais</item>
-        <item>Mazs</item>
-        <item>Noklusētais</item>
-        <item>Liels</item>
-        <item>Vislielākais</item>
-    </string-array>
     <string-array name="attachments_actions">
         <item>Kopīgot</item>
         <item>Dzēst</item>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -15,85 +15,115 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:fitsSystemWindows="true">
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:fitsSystemWindows="true">
 
-    <PreferenceCategory android:title="@string/settings_category_preferences">
+  <PreferenceCategory
+    android:title="@string/settings_category_preferences"
+    app:iconSpaceReserved="false">
 
-        <PreferenceScreen
-                android:key="settings_data"
-                android:title="@string/settings_screen_data"/>
+    <PreferenceScreen
+      android:layout_width="wrap_content"
+      android:key="settings_data"
+      android:title="@string/settings_screen_data"
+      app:fragment="it.feio.android.omninotes.SettingsFragment"
+      app:iconSpaceReserved="false" />
 
-        <PreferenceScreen
-                android:key="settings_interface"
-                android:title="@string/settings_screen_interface"/>
+    <PreferenceScreen
+      android:key="settings_interface"
+      android:title="@string/settings_screen_interface"
+      app:fragment="it.feio.android.omninotes.SettingsFragment"
+      app:iconSpaceReserved="false" />
 
-        <PreferenceScreen
-                android:key="settings_navigation"
-                android:title="@string/settings_screen_navigation"/>
+    <PreferenceScreen
+      android:key="settings_navigation"
+      android:title="@string/settings_screen_navigation"
+      app:fragment="it.feio.android.omninotes.SettingsFragment"
+      app:iconSpaceReserved="false" />
 
-        <PreferenceScreen
-                android:key="settings_behaviors"
-                android:title="@string/settings_screen_behaviors"/>
+    <PreferenceScreen
+      android:key="settings_behaviors"
+      android:title="@string/settings_screen_behaviors"
+      app:fragment="it.feio.android.omninotes.SettingsFragment"
+      app:iconSpaceReserved="false" />
 
-        <PreferenceScreen
-                android:key="settings_notifications"
-                android:title="@string/settings_screen_notifications"/>
+    <PreferenceScreen
+      android:key="settings_notifications"
+      android:title="@string/settings_screen_notifications"
+      app:fragment="it.feio.android.omninotes.SettingsFragment"
+      app:iconSpaceReserved="false" />
 
-        <PreferenceScreen
-                android:key="settings_privacy"
-                android:title="@string/settings_screen_privacy"/>
+    <PreferenceScreen
+      android:key="settings_privacy"
+      android:title="@string/settings_screen_privacy"
+      app:fragment="it.feio.android.omninotes.SettingsFragment"
+      app:iconSpaceReserved="false" />
 
-    </PreferenceCategory>
-
-
-    <PreferenceCategory android:title="@string/settings_category_beta">
-        <Preference
-                android:key="settings_beta"
-                android:summary="@string/settings_beta_summary"
-                android:title="@string/settings_beta">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="@string/beta_link"/>
-        </Preference>
-    </PreferenceCategory>
-
-
-    <PreferenceCategory android:title="@string/help">
-
-        <Preference
-                android:key="settings_online_manual"
-                android:title="@string/online_manual">
-            <intent
-                    android:action="android.intent.action.VIEW"
-                    android:data="@string/help_online_url"/>
-        </Preference>
-
-        <Preference
-                android:key="settings_tour_show_again"
-                android:title="@string/settings_tour_show_again"
-                android:summary="@string/settings_tour_show_again_summary"/>
-
-    </PreferenceCategory>
+  </PreferenceCategory>
 
 
-    <PreferenceCategory android:title="@string/settings_category_about">
+  <PreferenceCategory
+    android:title="@string/settings_category_beta"
+    app:iconSpaceReserved="false">
+    <Preference
+      android:key="settings_beta"
+      android:summary="@string/settings_beta_summary"
+      android:title="@string/settings_beta"
+      app:iconSpaceReserved="false">
+      <intent
+        android:action="android.intent.action.VIEW"
+        android:data="@string/beta_link" />
+    </Preference>
+  </PreferenceCategory>
 
-        <Preference
-                android:key="settings_changelog"
-                android:title="@string/settings_changelog"/>
 
-        <Preference
-                android:title="@string/settings_statistics">
-            <intent android:targetPackage="@string/app_package"
-                    android:targetClass="it.feio.android.omninotes.StatsActivity"/>
-        </Preference>
+  <PreferenceCategory
+    android:title="@string/help"
+    app:iconSpaceReserved="false">
 
-        <Preference
-                android:title="@string/settings_about">
-            <intent android:targetPackage="@string/app_package"
-                    android:targetClass="it.feio.android.omninotes.AboutActivity"/>
-        </Preference>
+    <Preference
+      android:key="settings_online_manual"
+      android:title="@string/online_manual"
+      app:iconSpaceReserved="false">
+      <intent
+        android:action="android.intent.action.VIEW"
+        android:data="@string/help_online_url" />
+    </Preference>
 
-    </PreferenceCategory>
+    <Preference
+      android:key="settings_tour_show_again"
+      android:summary="@string/settings_tour_show_again_summary"
+      android:title="@string/settings_tour_show_again"
+      app:iconSpaceReserved="false" />
+
+  </PreferenceCategory>
+
+
+  <PreferenceCategory
+    android:title="@string/settings_category_about"
+    app:iconSpaceReserved="false">
+
+    <Preference
+      android:key="settings_changelog"
+      android:title="@string/settings_changelog"
+      app:iconSpaceReserved="false" />
+
+    <Preference
+      android:title="@string/settings_statistics"
+      app:iconSpaceReserved="false">
+      <intent
+        android:targetClass="it.feio.android.omninotes.StatsActivity"
+        android:targetPackage="@string/app_package" />
+    </Preference>
+
+    <Preference
+      android:title="@string/settings_about"
+      app:iconSpaceReserved="false">
+      <intent
+        android:targetClass="it.feio.android.omninotes.AboutActivity"
+        android:targetPackage="@string/app_package" />
+    </Preference>
+
+  </PreferenceCategory>
 
 </PreferenceScreen>

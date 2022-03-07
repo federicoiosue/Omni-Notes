@@ -1,6 +1,6 @@
 
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,99 +35,99 @@ public class StatsSingleNote {
   protected int checklistItemsNumber;
   protected int checklistCompletedItemsNumber;
 
-  public int getTags () {
+  public int getTags() {
     return tags;
   }
 
-  public void setTags (int tags) {
+  public void setTags(int tags) {
     this.tags = tags;
   }
 
-  public int getWords () {
+  public int getWords() {
     return words;
   }
 
-  public void setWords (int words) {
+  public void setWords(int words) {
     this.words = words;
   }
 
-  public int getChars () {
+  public int getChars() {
     return chars;
   }
 
-  public void setChars (int chars) {
+  public void setChars(int chars) {
     this.chars = chars;
   }
 
-  public int getAttachments () {
+  public int getAttachments() {
     return attachments;
   }
 
-  public void setAttachments (int attachments) {
+  public void setAttachments(int attachments) {
     this.attachments = attachments;
   }
 
-  public int getImages () {
+  public int getImages() {
     return images;
   }
 
-  public void setImages (int images) {
+  public void setImages(int images) {
     this.images = images;
   }
 
-  public int getVideos () {
+  public int getVideos() {
     return videos;
   }
 
-  public void setVideos (int videos) {
+  public void setVideos(int videos) {
     this.videos = videos;
   }
 
-  public int getAudioRecordings () {
+  public int getAudioRecordings() {
     return audioRecordings;
   }
 
-  public void setAudioRecordings (int audioRecordings) {
+  public void setAudioRecordings(int audioRecordings) {
     this.audioRecordings = audioRecordings;
   }
 
-  public int getSketches () {
+  public int getSketches() {
     return sketches;
   }
 
-  public void setSketches (int sketches) {
+  public void setSketches(int sketches) {
     this.sketches = sketches;
   }
 
-  public int getFiles () {
+  public int getFiles() {
     return files;
   }
 
-  public void setFiles (int files) {
+  public void setFiles(int files) {
     this.files = files;
   }
 
-  public String getCategoryName () {
+  public String getCategoryName() {
     return categoryName;
   }
 
-  public void setCategoryName (String categoryName) {
+  public void setCategoryName(String categoryName) {
     this.categoryName = categoryName;
   }
 
-  public int getChecklistItemsNumber () {
+  public int getChecklistItemsNumber() {
     return checklistItemsNumber;
   }
 
-  public void setChecklistItemsNumber (int checklistItemsNumber) {
+  public void setChecklistItemsNumber(int checklistItemsNumber) {
     this.checklistItemsNumber = checklistItemsNumber;
   }
 
-  public int getChecklistCompletedItemsNumber () {
+  public int getChecklistCompletedItemsNumber() {
     return checklistCompletedItemsNumber;
   }
 
-  public void setChecklistCompletedItemsNumber (int checklistCompletedItemsNumber) {
+  public void setChecklistCompletedItemsNumber(int checklistCompletedItemsNumber) {
     this.checklistCompletedItemsNumber = checklistCompletedItemsNumber;
   }
 }

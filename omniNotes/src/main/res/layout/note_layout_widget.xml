@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+<?xml version="1.0" encoding="utf-8"?><!--
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,78 +15,78 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/root"
+  android:id="@+id/root"
+  android:layout_width="match_parent"
+  android:layout_height="80dp"
+  android:background="@drawable/bg_card"
+  android:paddingBottom="2dp">
+
+  <LinearLayout
+    android:id="@+id/card_layout"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:background="@drawable/bg_card"
-    android:paddingBottom="2dp" >
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <TextView
+      android:id="@+id/tag_marker"
+      android:layout_width="10dp"
+      android:layout_height="match_parent"
+      android:background="@null"
+      android:orientation="vertical" />
 
     <LinearLayout
-        android:id="@+id/card_layout"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
+      android:orientation="vertical"
+      android:paddingBottom="12dp"
+      android:paddingLeft="6dp"
+      android:paddingStart="6dp"
+      android:paddingRight="16dp"
+      android:paddingEnd="16dp"
+      android:paddingTop="4dp">
+
+      <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/tag_marker"
-            android:layout_width="10dp"
-            android:layout_height="match_parent"
-            android:background="@null"
-            android:orientation="vertical" />
+          android:id="@+id/note_title"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="top|start"
+          android:singleLine="true"
+          android:textAppearance="@style/Text.Big.Widget"
+          android:textColor="@color/list_note_title"
+          android:textStyle="bold" />
+      </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingBottom="12dp"
-            android:paddingLeft="6dp"
-            android:paddingStart="6dp"
-            android:paddingRight="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="4dp" >
+      <TextView
+        android:id="@+id/note_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:maxLines="2"
+        android:textAppearance="@style/Text.Normal.Widget"
+        android:textColor="@color/list_note_title" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+      <TextView
+        android:id="@+id/note_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:alpha="0.5"
+        android:singleLine="true"
+        android:textAppearance="@style/Text.Small.Widget" />
 
-                <TextView
-                    android:id="@+id/note_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="top|start"
-                    android:singleLine="true"
-                    android:textAppearance="@style/Text.Big.Widget"
-                    android:textColor="@color/list_note_title"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/note_content"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:maxLines="2"
-                android:textAppearance="@style/Text.Normal.Widget"
-                android:textColor="@color/list_note_title" />
-
-            <TextView
-                android:id="@+id/note_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|start"
-                android:alpha="0.5"
-                android:singleLine="true"
-                android:textAppearance="@style/Text.Small.Widget" />
-
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/attachmentThumbnail"
-            android:layout_width="80dp"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/note_thumbnail" />
     </LinearLayout>
+
+    <ImageView
+      android:id="@+id/attachmentThumbnail"
+      android:layout_width="80dp"
+      android:layout_height="match_parent"
+      android:contentDescription="@string/note_thumbnail" />
+  </LinearLayout>
 
 </FrameLayout>

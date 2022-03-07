@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <!-- Activities -->
+    <string name="title_item_list">සටහන්</string>
+    <string name="add_note">සටහන එකතු කරන්න</string>
+    <string name="title">සිරැසිය</string>
+    <string name="title_activity_list">ඔම්නි නෝට්ස්</string>
+    <string name="search">සොයන්න</string>
+    <string name="content">අන්තර්ගතය</string>
+    <string name="save">සුරකින්න</string>
+    <string name="share">බෙදාගන්න</string>
+    <string name="undo">පෙරසේ</string>
+    <string name="archive">සංරක්ෂණය</string>
+    <string name="ok">හරි</string>
+    <string name="no">නැහැ</string>
+    <string name="cancel">අවලංගු කරන්න</string>
+    <string name="note">සටහන</string>
+    <string name="share_message_chooser">සමඟ බෙදාගන්න</string>
+    <string name="location">ස්ථානය</string>
+    <string name="pushbullet">පුෂ්බුලට්</string>
+    <string name="categories">ප්‍රවර්ග</string>
+    <string name="edit_tag">ප්‍රවර්ගය සංස්කරණය</string>
+    <string name="add_category">ප්‍රවර්ගය එකතු කරන්න</string>
+    <string name="category_title">සිරැසිය</string>
+    <string name="category">ප්‍රවර්ගය</string>
+    <string name="title_activity_category">ප්‍රවර්ගය සංස්කරණය</string>
+    <string name="remove_category">ප්‍රවර්ගය ඉවත් කරන්න</string>
+    <string name="insert_security_password">මුරපදය ඇතුළු කරන්න</string>
+    <string name="lock">අගුළුලන්න</string>
+    <string name="unlock">අගුළුහරින්න</string>
+    <string name="title_activity_about">තොරතුරු</string>
+    <string name="add_shortcut">කෙටිමඟක් එකතු කරන්න</string>
+    <string name="notes">සටහන්</string>
+    <string name="edit">සංස්කරණය</string>
+    <string name="today">අද</string>
+    <string name="tomorrow">හෙට</string>
+    <string name="open">විවෘත කරන්න</string>
+    <string name="copy">පිටපත්</string>
+    <string name="eraser">මකනය</string>
+    <string name="error">දෝෂය</string>
+    <string name="files">ගොනු</string>
+    <string name="help">උදව්</string>
+    <string name="search_location">ස්ථානය සොයන්න</string>
+    <string name="filter">පෙරහන</string>
+    <string name="remove_filter">පෙරහන ඉවත්කරන්න</string>
+    <string name="info">තොරතුරු</string>
+    <!-- Settings -->
+    <string name="settings_about">තොරතුරු</string>
+    <string name="settings_reset_all_data">සියලුම දත්ත මකන්න</string>
+    <string name="action_settings">සැකසුම්</string>
+    <string name="settings_export">උපස්ථය</string>
+    <string name="settings_screen_interface">මුහුණත</string>
+    <string name="settings_screen_backup">උපස්ථය</string>
+    <string name="settings_screen_notifications">දැනුම්දීම්</string>
+    <string name="settings_screen_navigation">යාත්‍රණය</string>
+    <string name="settings_max_video_size">දෘශ්‍යක ඇමුණුම්</string>
+    <string name="settings_screen_data">දත්ත</string>
+    <string name="settings_backup">උපස්ථය</string>
+    <string name="settings_password">මුරපදය</string>
+    <string name="settings_category_beta">බීටා</string>
+    <string name="settings_category_about">පිළිබඳව</string>
+    <string name="donate">පරිත්‍යාග</string>
+    <string name="settings_choose_language">භාෂාව</string>
+    <string name="minutes">විනාඩි</string>
+    <string name="settings_password_question">ප්‍රශ්නය</string>
+    <string name="settings_password_answer">උත්තරය</string>
+    <string name="password_remove">මුරපදය ඉවත් කරන්න</string>
+    <!-- Stats -->
+    <string name="stats_categories">ප්‍රවර්ග</string>
+    <string name="stats_files">ගොනු</string>
+    <!-- Instructions -->
+    <string name="tour_detailactivity_save_title">සුරකින්න</string>
+    <!-- Accessibility -->
+    <!-- Various -->
+</resources>

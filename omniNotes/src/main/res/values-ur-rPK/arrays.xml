@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <string-array name="navigation_list">
+        <item>نوٹ</item>
+        <item>محفوظ شدہ دستاويزات</item>
+        <item>یاددہانی</item>
+        <item>ردی ی ٹوکری</item>
+        <item>غیر زمرہ بند</item>
+    </string-array>
+    <string-array name="sortable_columns_human_readable">
+        <item> عنوان</item>
+        <item>تاریخ اندراج</item>
+        <item>تاریخِ تبدیلی</item>
+        <item>یاد دھانی کی تاریخ</item>
+    </string-array>
+    <string-array name="checked_items_behavior">
+        <item>آپنی جگہ قائم</item>
+        <item>فہرست کے آخر میں منتقل کریں</item>
+        <item>غیر چیک شدہ اشیاء کے آخری پر جائیں</item>
+    </string-array>
+    <string-array name="colors_app">
+        <item>غیر فعال کریں</item>
+        <item>صرف پٹی</item>
+        <item>نوٹ کی فہرست</item>
+        <item>مكمل</item>
+    </string-array>
+    <string-array name="colors_widget">
+        <item>غیر فعال کریں</item>
+        <item>صرف پٹی</item>
+        <item>نوٹ کی فہرست</item>
+    </string-array>
+    <string-array name="attachments_actions">
+        <item>بانٹیں</item>
+        <item>حذف کریں</item>
+        <item>سب حذف کریں</item>
+        <item>ترمیم</item>
+    </string-array>
+</resources>

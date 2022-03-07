@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,17 +16,17 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/undobar"
-    style="@style/UndoBar"
-    android:orientation="horizontal"
-    android:visibility="gone">
+  android:id="@+id/undobar"
+  style="@style/UndoBar"
+  android:orientation="horizontal"
+  android:visibility="gone">
 
-    <TextView
-        android:id="@+id/undobar_message"
-        style="@style/UndoBarMessage" />
+  <TextView
+    android:id="@+id/undobar_message"
+    style="@style/UndoBarMessage" />
 
-    <Button
-        android:id="@+id/undobar_button"
-        style="@style/UndoBarButton" />
-    
+  <Button
+    android:id="@+id/undobar_button"
+    style="@style/UndoBarButton" />
+
 </LinearLayout>
