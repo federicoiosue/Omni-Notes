@@ -16,10 +16,9 @@ jobs:
       - name: Run unit/instrumentation tests and coverage generation
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
-          arch: x86
-          profile: Nexus 6
-          avd-name: test
+          api-level: 30
+          target: google_apis
+          arch: x86_64
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           disable-animations: true
           script: ./gradlew -Pandroid.testInstrumentationRunnerArguments.notAnnotation=androidx.test.filters.FlakyTest,androidx.test.filters.LargeTest jacocoTestReport --stacktrace
