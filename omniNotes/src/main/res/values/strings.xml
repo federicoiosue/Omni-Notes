@@ -229,6 +229,7 @@
   <string name="completed">Completed</string>
   <string name="undo_changes_note_confirmation">Confirm undoing changes?</string>
   <string name="done">Done</string>
+  <string name="sync_reminder">Sync reminder with Calendar</string>
 
   <!-- Settings -->
   <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
@@ -434,5 +435,7 @@
   <string name="channel_reminders_description">Notifications for notes\' reminders</string>
   <string name="channel_pinned_name">Pinned</string>
   <string name="channel_pinned_description">Notifications for pinned notes</string>
+  <string name="remove_calendar_event">Remove calendar event?</string>
+  <string name="calendar_event_added">Calendar event Added</string>
 
 </resources>
