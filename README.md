@@ -56,6 +56,7 @@ You can find a complete changelog inside the application settings menu!
 
 If you need some help on how to use the application you'll find everything you need in the [Help Online](assets/help/help.md) section.
 
+[![Promo video](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/promo_video_thumb.png)](https://youtu.be/0Z_-SgT3qYs "Promo video")
 ![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/02.png)
 ![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/03.png)
 ![](https://raw.githubusercontent.com/federicoiosue/Omni-Notes/develop/assets/play_store_pics/04.png)
