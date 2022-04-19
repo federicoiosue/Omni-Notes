@@ -144,7 +144,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       export.setOnPreferenceClickListener(arg0 -> {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup_layout, null);
 
-        // Finds actually saved backups names
         PermissionsHelper
             .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
                     .string.permission_external_storage,
