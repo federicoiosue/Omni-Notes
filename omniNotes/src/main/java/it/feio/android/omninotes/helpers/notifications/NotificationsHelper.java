@@ -41,7 +41,7 @@ import lombok.NonNull;
 
 public class NotificationsHelper {
 
-  private Context mContext;
+  private final Context mContext;
   private Builder mBuilder;
   private NotificationManager mNotificationManager;
 
@@ -217,12 +217,13 @@ public class NotificationsHelper {
     mNotificationManager.notify(id, mBuilder.setContentText(message).build());
   }
 
-  public void finish(Intent intent, String message) {
-    finish(0, intent, message);
+  public void finish(String title, String message) {
+    finish(0, title, message);
   }
 
-  public void finish(int id, Intent intent, String message) {
-    mBuilder.setContentTitle(message).setProgress(0, 0, false).setOngoing(false);
+  public void finish(int id, String title, String message) {
+    mBuilder.setContentTitle(title).setContentText(message)
+        .setProgress(0, 0, false).setOngoing(false);
     mNotificationManager.notify(id, mBuilder.build());
   }
 

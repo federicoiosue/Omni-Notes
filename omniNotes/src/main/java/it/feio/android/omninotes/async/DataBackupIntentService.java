@@ -103,9 +103,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
       BackupHelper.exportSettings(backupDir);
     } catch (IOException e) {
       e.printStackTrace();
-      mNotificationsHelper.finish(intent, getString(R.string.data_export_failed));
+      mNotificationsHelper.finish(getString(R.string.data_export_failed), null);
     }
-    mNotificationsHelper.finish(intent, getString(R.string.data_export_completed));
+    mNotificationsHelper.finish(getString(R.string.data_export_completed), backupDir.getAbsolutePath());
   }
 
   private synchronized void importData(Intent intent) {
@@ -139,7 +139,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 //            BackupHelper.exportAttachments(autoBackupDir);
 //        }
     } catch (IOException e) {
-      mNotificationsHelper.finish(intent, getString(R.string.data_export_failed));
+      mNotificationsHelper.finish(getString(R.string.data_export_failed), null);
     }
   }
 
@@ -147,12 +147,10 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
     File backupDir = StorageHelper.getOrCreateBackupDir(backupName);
 
-    // Backups directory removal
     StorageHelper.delete(this, backupDir.getAbsolutePath());
 
-    String title = getString(R.string.data_deletion_completed);
-    String text = backupName + " " + getString(R.string.deleted);
-    createNotification(intent, this, title, text, backupDir);
+    mNotificationsHelper.finish(getString(R.string.data_deletion_completed),
+        backupName + " " + getString(R.string.deleted));
   }
 
   /**
