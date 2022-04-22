@@ -209,6 +209,7 @@
     <string name="completed">Completate</string>
     <string name="undo_changes_note_confirmation">Annullare le modifiche?</string>
     <string name="done">Fatto</string>
+    <string name="nothing_selected">Nessuna selezione</string>
     <!-- Settings -->
     <string name="dashclock_description">Mostra alcune statistiche e i promemoria di Omni Notes</string>
     <string name="settings">Impostazioni</string>

@@ -44,6 +44,8 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -568,10 +570,17 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           })
           .setPositiveButton(R.string.data_import_message, (dialog, which) -> {
             int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-            File backupDir = StorageHelper.getOrCreateBackupDir(backups.get(position));
+
+            if (position == -1) {
+              Toast.makeText(getContext(), R.string.nothing_selected, Toast.LENGTH_LONG).show();
+              return;
+            }
+
+            String backupSelected = backups.get(position);
+            File backupDir = StorageHelper.getOrCreateBackupDir(backupSelected);
             long size = StorageHelper.getSize(backupDir) / 1024;
             String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
-            String message = String.format("%s (%s)", backups.get(position), sizeString);
+            String message = String.format("%s (%s)", backupSelected, sizeString);
 
             new MaterialAlertDialogBuilder(getActivity())
                 .setTitle(R.string.confirm_restoring_backup)
@@ -581,27 +590,32 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                   Intent service = new Intent(getActivity(),
                       DataBackupIntentService.class);
                   service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
-                  service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-                      backups.get(position));
+                  service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupSelected);
                   getActivity().startService(service);
                 }).show();
           })
           .setNegativeButton(R.string.delete, (dialog, which) -> {
             int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-            File backupDir = StorageHelper.getOrCreateBackupDir(backups.get(position));
+
+            if (position == -1) {
+              Toast.makeText(getContext(), R.string.nothing_selected, Toast.LENGTH_LONG).show();
+              return;
+            }
+
+            String backupSelected = backups.get(position);
+            File backupDir = StorageHelper.getOrCreateBackupDir(backupSelected);
             long size = StorageHelper.getSize(backupDir) / 1024;
             String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
 
             new MaterialDialog.Builder(getActivity())
                 .title(R.string.confirm_removing_backup)
-                .content(backups.get(position) + "" + " (" + sizeString + ")")
+                .content(backupSelected + "" + " (" + sizeString + ")")
                 .positiveText(R.string.confirm)
                 .onPositive((dialog12, which1) -> {
                   Intent service = new Intent(getActivity(),
                       DataBackupIntentService.class);
                   service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
-                  service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-                      backups.get(position));
+                  service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupSelected);
                   getActivity().startService(service);
                 }).build().show();
           });
