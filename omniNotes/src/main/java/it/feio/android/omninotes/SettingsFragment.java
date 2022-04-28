@@ -142,7 +142,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Export notes
     Preference export = findPreference("settings_export_data");
     if (export != null) {
-      export.setSummary(StorageHelper.getOrCreateExternalStoragePublicDir().getAbsolutePath());
+      export.setSummary(StorageHelper.getExternalStoragePublicDir().getAbsolutePath());
       export.setOnPreferenceClickListener(arg0 -> {
         View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup_layout, null);
 

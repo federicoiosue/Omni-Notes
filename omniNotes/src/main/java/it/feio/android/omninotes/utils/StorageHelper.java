@@ -272,16 +272,18 @@ public class StorageHelper {
     return dir;
   }
 
-
   public static File getOrCreateExternalStoragePublicDir() {
-    File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS) + File.separator
-        + Constants.EXTERNAL_STORAGE_FOLDER + File.separator);
+    File dir = getExternalStoragePublicDir();
     if (!dir.exists() && !dir.mkdirs()) {
         throw new ExternalDirectoryCreationException("Can't create folder " + dir.getAbsolutePath());
     }
     return dir;
   }
 
+  public static File getExternalStoragePublicDir() {
+    return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+        + File.separator + Constants.EXTERNAL_STORAGE_FOLDER + File.separator);
+  }
 
   public static File getOrCreateBackupDir(String backupName) {
     File backupDir = new File(getOrCreateExternalStoragePublicDir(), backupName);
