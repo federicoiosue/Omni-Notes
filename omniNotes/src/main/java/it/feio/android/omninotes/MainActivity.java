@@ -168,23 +168,28 @@ public class MainActivity extends BaseActivity implements
   private void init() {
     isPasswordAccepted = true;
 
-    getFragmentManagerInstance();
+    initNavigationDrawerFragment();
+    beginListFragmentTransaction();
+    handleIntents();
+  }
 
+  private void initNavigationDrawerFragment() {
     NavigationDrawerFragment mNavigationDrawerFragment = (NavigationDrawerFragment) getFragmentManagerInstance()
-        .findFragmentById(R.id.navigation_drawer);
+            .findFragmentById(R.id.navigation_drawer);
     if (mNavigationDrawerFragment == null) {
       FragmentTransaction fragmentTransaction = getFragmentManagerInstance().beginTransaction();
       fragmentTransaction.replace(R.id.navigation_drawer, new NavigationDrawerFragment(),
-          FRAGMENT_DRAWER_TAG).commit();
+              FRAGMENT_DRAWER_TAG).commit();
     }
+  }
 
-    if (getFragmentManagerInstance().findFragmentByTag(FRAGMENT_LIST_TAG) == null) {
+  private void beginListFragmentTransaction() {
+    ListFragment mListFragment = (ListFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_LIST_TAG);
+    if ( mListFragment == null) {
       FragmentTransaction fragmentTransaction = getFragmentManagerInstance().beginTransaction();
       fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG)
-          .commit();
+              .commit();
     }
-
-    handleIntents();
   }
 
   private FragmentManager getFragmentManagerInstance() {
