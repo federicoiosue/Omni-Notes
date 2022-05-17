@@ -411,7 +411,6 @@ public class MainActivity extends BaseActivity implements
     // Home launcher "new note" shortcut widget
     if (ACTION_SHORTCUT_WIDGET.equals(i.getAction())) {
       switchToDetail(new Note());
-      return;
     }
   }
 
