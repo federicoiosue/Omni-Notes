@@ -235,7 +235,7 @@ public class MainActivity extends BaseActivity implements
     }
   }
 
-  public Fragment startSearchView() {
+  private Fragment startSearchView() {
     FragmentTransaction transaction = getFragmentManagerInstance().beginTransaction();
     animateTransition(transaction, TRANSITION_HORIZONTAL);
     ListFragment mListFragment = new ListFragment();
