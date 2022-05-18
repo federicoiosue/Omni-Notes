@@ -190,6 +190,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     if (bitmap != null) {
 
       try {
+        assert getArguments() != null;
         Uri uri = getArguments().getParcelable(MediaStore.EXTRA_OUTPUT);
         File bitmapFile = new File(uri.getPath());
         FileOutputStream out = new FileOutputStream(bitmapFile);
