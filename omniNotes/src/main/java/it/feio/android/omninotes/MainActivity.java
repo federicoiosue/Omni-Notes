@@ -317,13 +317,11 @@ public class MainActivity extends BaseActivity implements
                 !getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
           getDrawerLayout().openDrawer(GravityCompat.START);
         } else if (!Prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null
-                &&
-                getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+                && getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
           getDrawerLayout().closeDrawer(GravityCompat.START);
         } else {
           if (!((ListFragment) f).closeFab()) {
             isPasswordAccepted = false;
-            super.onBackPressed();
           }
         }
       }
