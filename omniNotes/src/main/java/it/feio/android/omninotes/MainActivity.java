@@ -439,7 +439,6 @@ public class MainActivity extends BaseActivity implements
       note = new Note();
     }
     switchToDetail(note);
-    return;
   }
 
   /**
