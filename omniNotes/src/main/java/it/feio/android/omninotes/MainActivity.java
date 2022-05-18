@@ -387,20 +387,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     if (receivedIntent(intent)) {
-      Note note = intent.getParcelableExtra(INTENT_NOTE);
-      if (note == null) {
-        note = DbHelper.getInstance().getNote(intent.getIntExtra(INTENT_KEY, 0));
-      }
-      // Checks if the same note is already opened to avoid to open again
-      if (note != null && noteAlreadyOpened(note)) {
-        return;
-      }
-      // Empty note instantiation
-      if (note == null) {
-        note = new Note();
-      }
-      switchToDetail(note);
-      return;
+      openNoteFromIntent(intent);
     }
 
     if (ACTION_SEND_AND_EXIT.equals(intent.getAction())) {
@@ -433,6 +420,23 @@ public class MainActivity extends BaseActivity implements
     }
   }
 
+
+  private void openNoteFromIntent(Intent intent) {
+    Note note = intent.getParcelableExtra(INTENT_NOTE);
+    if (note == null) {
+      note = DbHelper.getInstance().getNote(intent.getIntExtra(INTENT_KEY, 0));
+    }
+    // Checks if the same note is already opened to avoid to open again
+    if (note != null && noteAlreadyOpened(note)) {
+      return;
+    }
+    // Empty note instantiation
+    if (note == null) {
+      note = new Note();
+    }
+    switchToDetail(note);
+    return;
+  }
 
   /**
    * Used to perform a quick text-only note saving (eg. Tasker+Pushbullet)
