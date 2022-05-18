@@ -48,6 +48,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import com.pixplicity.easyprefs.library.Prefs;
+
+import org.apache.commons.collections4.ArrayStack;
+
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -520,13 +523,11 @@ public class MainActivity extends BaseActivity implements
       // Intent with multiple images
     } else if (attachmentsList.size() > 1) {
       shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-      ArrayList<Uri> uris = new ArrayList<>();
+      ArrayList<Uri> uris = getShareableUris(attachmentsList);
+
       // A check to decide the mime type of attachments to share is done here
-      HashMap<String, Boolean> mimeTypes = new HashMap<>();
-      for (Attachment attachment : attachmentsList) {
-        uris.add(FileProviderHelper.getShareableUri(attachment));
-        mimeTypes.put(attachment.getMime_type(), true);
-      }
+      HashMap<String, Boolean> mimeTypes = getMimeTypes(attachmentsList);
+
       // If many mime types are present a general type is assigned to intent
       if (mimeTypes.size() > 1) {
         shareIntent.setType("*/*");
@@ -541,6 +542,22 @@ public class MainActivity extends BaseActivity implements
 
     startActivity(Intent
         .createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+  }
+
+  private ArrayList<Uri> getShareableUris(List<Attachment> attachmentsList) {
+    ArrayList<Uri> uris = new ArrayList<>();
+    for (Attachment attachment : attachmentsList) {
+      uris.add(FileProviderHelper.getShareableUri(attachment));
+    }
+    return uris;
+  }
+
+  private HashMap<String, Boolean> getMimeTypes(List<Attachment> attachmentsList) {
+    HashMap<String, Boolean> mimeTypes = new HashMap<>();
+    for (Attachment attachment : attachmentsList) {
+      mimeTypes.put(attachment.getMime_type(), true);
+    }
+    return mimeTypes;
   }
 
 
