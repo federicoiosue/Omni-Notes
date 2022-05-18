@@ -293,8 +293,7 @@ public class MainActivity extends BaseActivity implements
       ((SketchFragment) fragment).save();
 
       // Removes forced portrait orientation for this fragment
-      setRequestedOrientation(
-              ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+      setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
       getFragmentManagerInstance().popBackStack();
     }
@@ -483,8 +482,9 @@ public class MainActivity extends BaseActivity implements
     ListFragment mListFragment = new ListFragment();
     transaction.replace(R.id.fragment_container, mListFragment, FRAGMENT_LIST_TAG).addToBackStack
         (FRAGMENT_DETAIL_TAG).commitAllowingStateLoss();
-    if (getDrawerToggle() != null) {
-      getDrawerToggle().setDrawerIndicatorEnabled(false);
+    ActionBarDrawerToggle mActionBarDrawerToggle = getDrawerToggle();
+    if (mActionBarDrawerToggle != null) {
+      mActionBarDrawerToggle.setDrawerIndicatorEnabled(false);
     }
     EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
   }
