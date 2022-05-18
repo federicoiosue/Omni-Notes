@@ -71,6 +71,8 @@ import it.feio.android.pixlui.links.UrlCompleter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -501,25 +503,27 @@ public class MainActivity extends BaseActivity implements
         + note.getContent();
 
     Intent shareIntent = new Intent();
+    List<Attachment> attachmentsList = note.getAttachmentsList();
+
     // Prepare sharing intent with only text
-    if (note.getAttachmentsList().isEmpty()) {
+    if (attachmentsList.isEmpty()) {
       shareIntent.setAction(Intent.ACTION_SEND);
       shareIntent.setType("text/plain");
 
       // Intent with single image attachment
-    } else if (note.getAttachmentsList().size() == 1) {
+    } else if (attachmentsList.size() == 1) {
       shareIntent.setAction(Intent.ACTION_SEND);
-      Attachment attachment = note.getAttachmentsList().get(0);
+      Attachment attachment = attachmentsList.get(0);
       shareIntent.setType(attachment.getMime_type());
       shareIntent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
 
       // Intent with multiple images
-    } else if (note.getAttachmentsList().size() > 1) {
+    } else if (attachmentsList.size() > 1) {
       shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
       ArrayList<Uri> uris = new ArrayList<>();
       // A check to decide the mime type of attachments to share is done here
       HashMap<String, Boolean> mimeTypes = new HashMap<>();
-      for (Attachment attachment : note.getAttachmentsList()) {
+      for (Attachment attachment : attachmentsList) {
         uris.add(FileProviderHelper.getShareableUri(attachment));
         mimeTypes.put(attachment.getMime_type(), true);
       }
