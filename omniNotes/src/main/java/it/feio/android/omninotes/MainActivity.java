@@ -456,16 +456,16 @@ public class MainActivity extends BaseActivity implements
   }
 
 
-  private boolean receivedIntent(Intent i) {
-    return ACTION_SHORTCUT.equals(i.getAction())
-        || ACTION_NOTIFICATION_CLICK.equals(i.getAction())
-        || ACTION_WIDGET.equals(i.getAction())
-        || ACTION_WIDGET_TAKE_PHOTO.equals(i.getAction())
-        || ((Intent.ACTION_SEND.equals(i.getAction())
-        || Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
-        || INTENT_GOOGLE_NOW.equals(i.getAction()))
-        && i.getType() != null)
-        || i.getAction().contains(ACTION_NOTIFICATION_CLICK);
+  private boolean receivedIntent(Intent intent) {
+    return ACTION_SHORTCUT.equals(intent.getAction())
+        || ACTION_NOTIFICATION_CLICK.equals(intent.getAction())
+        || ACTION_WIDGET.equals(intent.getAction())
+        || ACTION_WIDGET_TAKE_PHOTO.equals(intent.getAction())
+        || ((Intent.ACTION_SEND.equals(intent.getAction())
+        || Intent.ACTION_SEND_MULTIPLE.equals(intent.getAction())
+        || INTENT_GOOGLE_NOW.equals(intent.getAction()))
+        && intent.getType() != null)
+        || intent.getAction().contains(ACTION_NOTIFICATION_CLICK);
   }
 
 
