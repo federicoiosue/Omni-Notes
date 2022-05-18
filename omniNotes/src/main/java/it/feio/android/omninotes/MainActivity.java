@@ -389,6 +389,7 @@ public class MainActivity extends BaseActivity implements
 
     if (receivedIntent(intent)) {
       openNoteFromIntent(intent);
+      return;
     }
 
     boolean isSendAndExitAction = ACTION_SEND_AND_EXIT.equals(intent.getAction());
