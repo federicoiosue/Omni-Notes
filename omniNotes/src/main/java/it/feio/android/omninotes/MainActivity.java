@@ -287,11 +287,11 @@ public class MainActivity extends BaseActivity implements
 
   private void inCaseOfSketchFragment() {
     // SketchFragment
-    Fragment f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
-    if (f != null) {
-      ((SketchFragment) f).save();
+    Fragment fragment = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
+    if (fragment != null) {
+      ((SketchFragment) fragment).save();
 
-      // Removes forced portrait orientation for this f
+      // Removes forced portrait orientation for this fragment
       setRequestedOrientation(
               ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
