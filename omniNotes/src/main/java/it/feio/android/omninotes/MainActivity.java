@@ -107,7 +107,6 @@ public class MainActivity extends BaseActivity implements
     if (IntroActivity.mustRun()) {
       startActivity(new Intent(getApplicationContext(), IntroActivity.class));
     }
-
   }
 
   @Override
@@ -462,7 +461,6 @@ public class MainActivity extends BaseActivity implements
     if (getDrawerToggle() != null) {
       getDrawerToggle().setDrawerIndicatorEnabled(false);
     }
-    getFragmentManagerInstance().getFragments();
     EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.PARENT));
   }
 
@@ -484,6 +482,10 @@ public class MainActivity extends BaseActivity implements
           .addToBackStack(FRAGMENT_DETAIL_TAG)
           .commitAllowingStateLoss();
     }
+  }
+
+  private void animateTransitionHorizontal() {
+
   }
 
 
