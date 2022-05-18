@@ -245,10 +245,14 @@ public class MainActivity extends BaseActivity implements
     ListFragment mListFragment = new ListFragment();
     transaction.replace(R.id.fragment_container, mListFragment, FRAGMENT_LIST_TAG).addToBackStack
         (FRAGMENT_DETAIL_TAG).commit();
+    setListFragmentArguments(mListFragment);
+    return mListFragment;
+  }
+
+  private void setListFragmentArguments(ListFragment mListFragment) {
     Bundle args = new Bundle();
     args.putBoolean("setSearchFocus", true);
     mListFragment.setArguments(args);
-    return mListFragment;
   }
 
 
