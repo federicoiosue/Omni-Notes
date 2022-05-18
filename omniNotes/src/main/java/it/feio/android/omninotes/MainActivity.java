@@ -529,11 +529,7 @@ public class MainActivity extends BaseActivity implements
       HashMap<String, Boolean> mimeTypes = getMimeTypes(attachmentsList);
 
       // If many mime types are present a general type is assigned to intent
-      if (mimeTypes.size() > 1) {
-        shareIntent.setType("*/*");
-      } else {
-        shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
-      }
+      setShareIntentType(shareIntent, mimeTypes);
 
       shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
     }
@@ -542,6 +538,14 @@ public class MainActivity extends BaseActivity implements
 
     startActivity(Intent
         .createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+  }
+
+  private void setShareIntentType(Intent shareIntent, HashMap<String, Boolean> mimeTypes) {
+    if (mimeTypes.size() > 1) {
+      shareIntent.setType("*/*");
+    } else {
+      shareIntent.setType((String) mimeTypes.keySet().toArray()[0]);
+    }
   }
 
   private ArrayList<Uri> getShareableUris(List<Attachment> attachmentsList) {
