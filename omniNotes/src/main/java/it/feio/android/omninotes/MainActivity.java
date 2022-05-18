@@ -68,6 +68,7 @@ import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.utils.FileProviderHelper;
+import it.feio.android.omninotes.utils.Navigation;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
@@ -348,9 +349,10 @@ public class MainActivity extends BaseActivity implements
 
 
   public ActionBarDrawerToggle getDrawerToggle() {
-    if (getFragmentManagerInstance().findFragmentById(R.id.navigation_drawer) != null) {
-      return ((NavigationDrawerFragment) getFragmentManagerInstance().findFragmentById(
-          R.id.navigation_drawer)).mDrawerToggle;
+    NavigationDrawerFragment mNavigationDrawerFragment =
+            (NavigationDrawerFragment) getFragmentManagerInstance().findFragmentById(R.id.navigation_drawer);
+    if (mNavigationDrawerFragment != null) {
+      return mNavigationDrawerFragment.mDrawerToggle;
     } else {
       return null;
     }
