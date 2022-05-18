@@ -363,8 +363,7 @@ public class MainActivity extends BaseActivity implements
    * Finishes multiselection mode started by ListFragment
    */
   public void finishActionMode() {
-    ListFragment fragment = (ListFragment) getFragmentManagerInstance()
-        .findFragmentByTag(FRAGMENT_LIST_TAG);
+    ListFragment fragment = (ListFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_LIST_TAG);
     if (fragment != null) {
       fragment.finishActionMode();
     }
@@ -377,20 +376,20 @@ public class MainActivity extends BaseActivity implements
 
 
   private void handleIntents() {
-    Intent i = getIntent();
+    Intent intent = getIntent();
 
-    if (i.getAction() == null) {
+    if (intent.getAction() == null) {
       return;
     }
 
-    if (ACTION_RESTART_APP.equals(i.getAction())) {
+    if (ACTION_RESTART_APP.equals(intent.getAction())) {
       SystemHelper.restartApp(getApplicationContext(), MainActivity.class);
     }
 
-    if (receivedIntent(i)) {
-      Note note = i.getParcelableExtra(INTENT_NOTE);
+    if (receivedIntent(intent)) {
+      Note note = intent.getParcelableExtra(INTENT_NOTE);
       if (note == null) {
-        note = DbHelper.getInstance().getNote(i.getIntExtra(INTENT_KEY, 0));
+        note = DbHelper.getInstance().getNote(intent.getIntExtra(INTENT_KEY, 0));
       }
       // Checks if the same note is already opened to avoid to open again
       if (note != null && noteAlreadyOpened(note)) {
@@ -404,21 +403,21 @@ public class MainActivity extends BaseActivity implements
       return;
     }
 
-    if (ACTION_SEND_AND_EXIT.equals(i.getAction())) {
-      saveAndExit(i);
+    if (ACTION_SEND_AND_EXIT.equals(intent.getAction())) {
+      saveAndExit(intent);
       return;
     }
 
     // Tag search
-    if (Intent.ACTION_VIEW.equals(i.getAction()) && i.getDataString()
+    if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getDataString()
         .startsWith(UrlCompleter.HASHTAG_SCHEME)) {
       switchToList();
       return;
     }
 
     // Home launcher shortcut widget
-    if (Intent.ACTION_VIEW.equals(i.getAction()) && i.getData() != null) {
-      Long id = Long.valueOf(Uri.parse(i.getDataString()).getQueryParameter("id"));
+    if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
+      Long id = Long.valueOf(Uri.parse(intent.getDataString()).getQueryParameter("id"));
       Note note = DbHelper.getInstance().getNote(id);
       if (note == null) {
         showMessage(R.string.note_doesnt_exist, ONStyle.ALERT);
@@ -429,7 +428,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     // Home launcher "new note" shortcut widget
-    if (ACTION_SHORTCUT_WIDGET.equals(i.getAction())) {
+    if (ACTION_SHORTCUT_WIDGET.equals(intent.getAction())) {
       switchToDetail(new Note());
     }
   }
