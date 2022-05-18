@@ -143,8 +143,9 @@ public class MainActivity extends BaseActivity implements
    * This method starts the bootstrap chain.
    */
   private void checkPassword() {
-    if (Prefs.getString(PREF_PASSWORD, null) != null
-        && Prefs.getBoolean("settings_password_access", false)) {
+    boolean passwordExists = Prefs.getString(PREF_PASSWORD, null) != null
+            && Prefs.getBoolean("settings_password_access", false);
+    if ( passwordExists ) {
       PasswordHelper.requestPassword(this, passwordConfirmed -> {
         switch (passwordConfirmed) {
           case SUCCEED:
@@ -304,7 +305,6 @@ public class MainActivity extends BaseActivity implements
     if (f != null) {
       ((DetailFragment) f).goBack = true;
       ((DetailFragment) f).saveAndExit((DetailFragment) f);
-      return;
     }
   }
 
