@@ -291,7 +291,7 @@ public class MainActivity extends BaseActivity implements
     if (f != null) {
       ((SketchFragment) f).save();
 
-      // Removes forced portrait orientation for this fragment
+      // Removes forced portrait orientation for this f
       setRequestedOrientation(
               ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
@@ -310,8 +310,8 @@ public class MainActivity extends BaseActivity implements
 
     private void inCaseOfListFragment() {
       // ListFragment
-      Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
-      if (f != null) {
+      Fragment fragment = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
+      if (fragment != null) {
         // Before exiting from app the navigation drawer is opened
         if (Prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
                 !getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
@@ -320,7 +320,7 @@ public class MainActivity extends BaseActivity implements
                 && getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
           getDrawerLayout().closeDrawer(GravityCompat.START);
         } else {
-          if (!((ListFragment) f).closeFab()) {
+          if (!((ListFragment) fragment).closeFab()) {
             isPasswordAccepted = false;
           }
         }
