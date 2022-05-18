@@ -469,9 +469,7 @@ public class MainActivity extends BaseActivity implements
     FragmentTransaction transaction = getFragmentManagerInstance().beginTransaction();
     animateTransition(transaction, TRANSITION_HORIZONTAL);
     DetailFragment mDetailFragment = new DetailFragment();
-    Bundle b = new Bundle();
-    b.putParcelable(INTENT_NOTE, note);
-    mDetailFragment.setArguments(b);
+    setDetailFragmentArgument(mDetailFragment, note);
     if (getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG) == null) {
       transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
           .addToBackStack(FRAGMENT_LIST_TAG)
@@ -484,8 +482,10 @@ public class MainActivity extends BaseActivity implements
     }
   }
 
-  private void animateTransitionHorizontal() {
-
+  private void setDetailFragmentArgument(DetailFragment mDetailFragment, Note note) {
+    Bundle b = new Bundle();
+    b.putParcelable(INTENT_NOTE, note);
+    mDetailFragment.setArguments(b);
   }
 
 
