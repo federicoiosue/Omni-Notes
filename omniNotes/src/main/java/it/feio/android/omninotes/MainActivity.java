@@ -278,7 +278,13 @@ public class MainActivity extends BaseActivity implements
 
   @Override
   public void onBackPressed() {
+    inCaseOfSketchFragment();
+    inCaseOfDetailFragment();
+    inCaseOfListFragment();
+    super.onBackPressed();
+  }
 
+  private void inCaseOfSketchFragment() {
     // SketchFragment
     Fragment f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
     if (f != null) {
@@ -286,42 +292,42 @@ public class MainActivity extends BaseActivity implements
 
       // Removes forced portrait orientation for this fragment
       setRequestedOrientation(
-          ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+              ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
       getFragmentManagerInstance().popBackStack();
-      return;
     }
+  }
 
+  private void inCaseOfDetailFragment() {
     // DetailFragment
-    f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
+    Fragment f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
     if (f != null) {
       ((DetailFragment) f).goBack = true;
       ((DetailFragment) f).saveAndExit((DetailFragment) f);
       return;
     }
-
-    // ListFragment
-    f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
-    if (f != null) {
-      // Before exiting from app the navigation drawer is opened
-      if (Prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
-          !getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
-        getDrawerLayout().openDrawer(GravityCompat.START);
-      } else if (!Prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null
-          &&
-          getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
-        getDrawerLayout().closeDrawer(GravityCompat.START);
-      } else {
-        if (!((ListFragment) f).closeFab()) {
-          isPasswordAccepted = false;
-          super.onBackPressed();
-        }
-      }
-      return;
-    }
-    super.onBackPressed();
   }
 
+    private void inCaseOfListFragment() {
+      // ListFragment
+      Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
+      if (f != null) {
+        // Before exiting from app the navigation drawer is opened
+        if (Prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
+                !getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+          getDrawerLayout().openDrawer(GravityCompat.START);
+        } else if (!Prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null
+                &&
+                getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+          getDrawerLayout().closeDrawer(GravityCompat.START);
+        } else {
+          if (!((ListFragment) f).closeFab()) {
+            isPasswordAccepted = false;
+            super.onBackPressed();
+          }
+        }
+      }
+    }
 
   @Override
   public void onSaveInstanceState(Bundle outState) {
