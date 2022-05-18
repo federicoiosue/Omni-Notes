@@ -382,7 +382,8 @@ public class MainActivity extends BaseActivity implements
       return;
     }
 
-    if (ACTION_RESTART_APP.equals(intent.getAction())) {
+    boolean isRestartAppAction = ACTION_RESTART_APP.equals(intent.getAction());
+    if (isRestartAppAction) {
       SystemHelper.restartApp(getApplicationContext(), MainActivity.class);
     }
 
@@ -390,7 +391,8 @@ public class MainActivity extends BaseActivity implements
       openNoteFromIntent(intent);
     }
 
-    if (ACTION_SEND_AND_EXIT.equals(intent.getAction())) {
+    boolean isSendAndExitAction = ACTION_SEND_AND_EXIT.equals(intent.getAction());
+    if (isSendAndExitAction) {
       saveAndExit(intent);
       return;
     }
