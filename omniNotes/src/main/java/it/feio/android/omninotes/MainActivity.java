@@ -400,8 +400,8 @@ public class MainActivity extends BaseActivity implements
 
     // Tag search
     boolean isViewAction = Intent.ACTION_VIEW.equals(intent.getAction());
-    boolean isHashTag = intent.getDataString().startsWith(UrlCompleter.HASHTAG_SCHEME);
-    if (isViewAction && isHashTag) {
+    boolean startsWithHashTag = intent.getDataString().startsWith(UrlCompleter.HASHTAG_SCHEME);
+    if (isViewAction && startsWithHashTag) {
       switchToList();
       return;
     }
@@ -446,10 +446,10 @@ public class MainActivity extends BaseActivity implements
   /**
    * Used to perform a quick text-only note saving (eg. Tasker+Pushbullet)
    */
-  private void saveAndExit(Intent i) {
+  private void saveAndExit(Intent intent) {
     Note note = new Note();
-    note.setTitle(i.getStringExtra(Intent.EXTRA_SUBJECT));
-    note.setContent(i.getStringExtra(Intent.EXTRA_TEXT));
+    note.setTitle(intent.getStringExtra(Intent.EXTRA_SUBJECT));
+    note.setContent(intent.getStringExtra(Intent.EXTRA_TEXT));
     DbHelper.getInstance().updateNote(note, true);
     showToast(getString(R.string.note_updated), Toast.LENGTH_SHORT);
     finish();
