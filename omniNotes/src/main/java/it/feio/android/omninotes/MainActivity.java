@@ -495,7 +495,9 @@ public class MainActivity extends BaseActivity implements
     animateTransition(transaction, TRANSITION_HORIZONTAL);
     DetailFragment mDetailFragment = new DetailFragment();
     setDetailFragmentArgument(mDetailFragment, note);
-    if (getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG) == null) {
+    DetailFragment currentDetailFragment =
+            (DetailFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_DETAIL_TAG);
+    if (currentDetailFragment == null) {
       transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
           .addToBackStack(FRAGMENT_LIST_TAG)
           .commitAllowingStateLoss();
