@@ -472,7 +472,8 @@ public class MainActivity extends BaseActivity implements
   private boolean noteAlreadyOpened(Note note) {
     DetailFragment detailFragment = (DetailFragment) getFragmentManagerInstance().findFragmentByTag(
         FRAGMENT_DETAIL_TAG);
-    return detailFragment != null && NotesHelper.haveSameId(note, detailFragment.getCurrentNote());
+    boolean isSameNote = NotesHelper.haveSameId(note, detailFragment.getCurrentNote());
+    return detailFragment != null && isSameNote;
   }
 
 
