@@ -313,11 +313,12 @@ public class MainActivity extends BaseActivity implements
       Fragment fragment = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
       if (fragment != null) {
         // Before exiting from app the navigation drawer is opened
-        if (Prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null &&
-                !getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+        boolean isNavdrawerOnExitSetted = Prefs.getBoolean("settings_navdrawer_on_exit", false);
+        boolean isDrawerLayoutInExistence = getDrawerLayout() != null;
+        boolean isDrawerOpened = getDrawerLayout().isDrawerOpen(GravityCompat.START);
+        if ( isNavdrawerOnExitSetted && isDrawerLayoutInExistence && !isDrawerOpened) {
           getDrawerLayout().openDrawer(GravityCompat.START);
-        } else if (!Prefs.getBoolean("settings_navdrawer_on_exit", false) && getDrawerLayout() != null
-                && getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
+        } else if (!isNavdrawerOnExitSetted && isDrawerLayoutInExistence && isDrawerOpened) {
           getDrawerLayout().closeDrawer(GravityCompat.START);
         } else {
           if (!((ListFragment) fragment).closeFab()) {
