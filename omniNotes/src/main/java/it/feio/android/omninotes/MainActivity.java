@@ -301,10 +301,10 @@ public class MainActivity extends BaseActivity implements
 
   private void inCaseOfDetailFragment() {
     // DetailFragment
-    Fragment f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
-    if (f != null) {
-      ((DetailFragment) f).goBack = true;
-      ((DetailFragment) f).saveAndExit((DetailFragment) f);
+    Fragment fragment = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
+    if (fragment != null) {
+      ((DetailFragment) fragment).goBack = true;
+      ((DetailFragment) fragment).saveAndExit((DetailFragment) fragment);
     }
   }
 
