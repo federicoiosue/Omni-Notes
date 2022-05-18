@@ -398,14 +398,16 @@ public class MainActivity extends BaseActivity implements
     }
 
     // Tag search
-    if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getDataString()
-        .startsWith(UrlCompleter.HASHTAG_SCHEME)) {
+    boolean isViewAction = Intent.ACTION_VIEW.equals(intent.getAction());
+    boolean isHashTag = intent.getDataString().startsWith(UrlCompleter.HASHTAG_SCHEME);
+    if (isViewAction && isHashTag) {
       switchToList();
       return;
     }
 
     // Home launcher shortcut widget
-    if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null) {
+    boolean hasData = intent.getData() != null;
+    if (isViewAction && hasData) {
       Long id = Long.valueOf(Uri.parse(intent.getDataString()).getQueryParameter("id"));
       Note note = DbHelper.getInstance().getNote(id);
       if (note == null) {
