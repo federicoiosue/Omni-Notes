@@ -536,10 +536,7 @@ public class MainActivity extends BaseActivity implements
 
       // Intent with single image attachment
     } else if (attachmentsList.size() == 1) {
-      shareIntent.setAction(Intent.ACTION_SEND);
-      Attachment attachment = attachmentsList.get(0);
-      shareIntent.setType(attachment.getMime_type());
-      shareIntent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
+      shareIntentWithSingleImageAttachment(shareIntent, attachmentsList);
 
       // Intent with multiple images
     } else if (attachmentsList.size() > 1) {
@@ -559,6 +556,13 @@ public class MainActivity extends BaseActivity implements
 
     startActivity(Intent
         .createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+  }
+
+  private void shareIntentWithSingleImageAttachment(Intent shareIntent, List<Attachment> attachmentsList) {
+    shareIntent.setAction(Intent.ACTION_SEND);
+    Attachment attachment = attachmentsList.get(0);
+    shareIntent.setType(attachment.getMime_type());
+    shareIntent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
   }
 
   private void shareIntentOnlyWithText(Intent shareIntent) {
