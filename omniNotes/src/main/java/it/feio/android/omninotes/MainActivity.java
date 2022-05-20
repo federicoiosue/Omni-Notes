@@ -644,7 +644,7 @@ public class MainActivity extends BaseActivity implements
     prefsChanged = false;
   }
 
-  public boolean getPrefsChangedFalse() {
+  public boolean getPrefsChanged() {
     return prefsChanged;
   }
 }
