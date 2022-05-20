@@ -203,10 +203,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       Bundle savedInstanceState) {
     if (savedInstanceState != null) {
       if (savedInstanceState.containsKey(LIST_VIEW_POSITION)) {
-        listViewPosition = savedInstanceState.getInt(LIST_VIEW_POSITION);
-        listViewPositionOffset = savedInstanceState.getInt(LIST_VIEW_POSITION_OFFSET);
-        searchQuery = savedInstanceState.getString("searchQuery");
-        searchTags = savedInstanceState.getString("searchTags");
+        loadSavedInstanceState(savedInstanceState);
       }
       keepActionMode = false;
     }
@@ -233,6 +230,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     binding.list.setEmptyView(binding.emptyList);
 
     return view;
+  }
+
+
+  private void loadSavedInstanceState(Bundle savedInstanceState) {
+    listViewPosition = savedInstanceState.getInt(LIST_VIEW_POSITION);
+    listViewPositionOffset = savedInstanceState.getInt(LIST_VIEW_POSITION_OFFSET);
+    searchQuery = savedInstanceState.getString("searchQuery");
+    searchTags = savedInstanceState.getString("searchTags");
   }
 
 
