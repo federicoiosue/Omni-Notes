@@ -532,8 +532,7 @@ public class MainActivity extends BaseActivity implements
 
     // Prepare sharing intent with only text
     if (attachmentsList.isEmpty()) {
-      shareIntent.setAction(Intent.ACTION_SEND);
-      shareIntent.setType("text/plain");
+      shareIntentOnlyWithText(shareIntent);
 
       // Intent with single image attachment
     } else if (attachmentsList.size() == 1) {
@@ -560,6 +559,11 @@ public class MainActivity extends BaseActivity implements
 
     startActivity(Intent
         .createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+  }
+
+  private void shareIntentOnlyWithText(Intent shareIntent) {
+    shareIntent.setAction(Intent.ACTION_SEND);
+    shareIntent.setType("text/plain");
   }
 
   private void setShareIntentType(Intent shareIntent, HashMap<String, Boolean> mimeTypes) {
