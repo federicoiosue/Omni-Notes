@@ -380,7 +380,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   @Override
   public void onResume() {
     super.onResume();
-    if (mainActivity.prefsChanged) {
+    if (mainActivity.getPrefsChanged()) {
       mainActivity.prefsChanged = false;
       init();
     } else if (Intent.ACTION_SEARCH.equals(mainActivity.getIntent().getAction())) {
