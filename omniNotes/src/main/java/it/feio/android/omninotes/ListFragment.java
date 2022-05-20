@@ -381,7 +381,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   public void onResume() {
     super.onResume();
     if (mainActivity.getPrefsChanged()) {
-      mainActivity.prefsChanged = false;
+      mainActivity.setPrefsChangedFalse();
       init();
     } else if (Intent.ACTION_SEARCH.equals(mainActivity.getIntent().getAction())) {
       initNotesList(mainActivity.getIntent());
