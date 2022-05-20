@@ -94,15 +94,15 @@ public class MainActivity extends BaseActivity implements
   boolean prefsChanged = false;
   private FragmentManager mFragmentManager;
 
-  ActivityMainBinding binding;
+  private ActivityMainBinding mBinding;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setTheme(R.style.OmniNotesTheme_ApiSpec);
 
-    binding = ActivityMainBinding.inflate(getLayoutInflater());
-    View view = binding.getRoot();
+    mBinding = ActivityMainBinding.inflate(getLayoutInflater());
+    View view = mBinding.getRoot();
     setContentView(view);
 
     EventBus.getDefault().register(this);
@@ -134,7 +134,7 @@ public class MainActivity extends BaseActivity implements
 
 
   private void initUI() {
-    setSupportActionBar(binding.toolbar.toolbar);
+    setSupportActionBar(mBinding.toolbar.toolbar);
     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     getSupportActionBar().setHomeButtonEnabled(true);
   }
@@ -343,7 +343,7 @@ public class MainActivity extends BaseActivity implements
 
 
   public DrawerLayout getDrawerLayout() {
-    return binding.drawerLayout;
+    return mBinding.drawerLayout;
   }
 
 
@@ -370,7 +370,7 @@ public class MainActivity extends BaseActivity implements
 
 
   Toolbar getToolbar() {
-    return binding.toolbar.toolbar;
+    return mBinding.toolbar.toolbar;
   }
 
 
@@ -622,7 +622,7 @@ public class MainActivity extends BaseActivity implements
   public void showMessage(String message, Style style) {
     // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
     runOnUiThread(
-        () -> Crouton.makeText(this, message, style, binding.croutonHandle.croutonHandle).show());
+        () -> Crouton.makeText(this, message, style, mBinding.croutonHandle.croutonHandle).show());
   }
 
   @Override
