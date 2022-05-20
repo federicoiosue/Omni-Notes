@@ -932,14 +932,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
         if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
           note.setPasswordChecked(true);
-          AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
-              binding.listRoot, buildAnimatorListenerAdapter(note));
         }
       });
-    } else {
-      AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
-          binding.listRoot, buildAnimatorListenerAdapter(note));
     }
+    AnimationsHelper.zoomListItem(mainActivity, view, getZoomListItemView(view, note),
+            binding.listRoot, buildAnimatorListenerAdapter(note));
   }
 
 
