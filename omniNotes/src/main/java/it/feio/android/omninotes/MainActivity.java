@@ -89,7 +89,8 @@ public class MainActivity extends BaseActivity implements
   public final static String FRAGMENT_LIST_TAG = "fragment_list";
   public final static String FRAGMENT_DETAIL_TAG = "fragment_detail";
   public final static String FRAGMENT_SKETCH_TAG = "fragment_sketch";
-  @Getter @Setter
+  @Getter
+  @Setter
   private Uri sketchUri;
   boolean prefsChanged = false;
   private FragmentManager mFragmentManager;
@@ -146,7 +147,7 @@ public class MainActivity extends BaseActivity implements
   private void checkPassword() {
     boolean passwordExists = Prefs.getString(PREF_PASSWORD, null) != null
             && Prefs.getBoolean("settings_password_access", false);
-    if ( passwordExists ) {
+    if (passwordExists) {
       PasswordHelper.requestPassword(this, passwordConfirmed -> {
         switch (passwordConfirmed) {
           case SUCCEED:
@@ -164,19 +165,20 @@ public class MainActivity extends BaseActivity implements
     }
   }
 
-
   public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
     showMessage(R.string.password_successfully_removed, ONStyle.ALERT);
     init();
   }
 
-
   private void init() {
-    isPasswordAccepted = true;
-
+    setPasswordAcceptedTrue();
     initNavigationDrawerFragment();
     beginListFragmentTransaction();
     handleIntents();
+  }
+
+  private void setPasswordAcceptedTrue() {
+    isPasswordAccepted = true;
   }
 
   private void initNavigationDrawerFragment() {
@@ -191,7 +193,7 @@ public class MainActivity extends BaseActivity implements
 
   private void beginListFragmentTransaction() {
     ListFragment mListFragment = (ListFragment) getFragmentManagerInstance().findFragmentByTag(FRAGMENT_LIST_TAG);
-    if ( mListFragment == null) {
+    if (mListFragment == null) {
       FragmentTransaction fragmentTransaction = getFragmentManagerInstance().beginTransaction();
       fragmentTransaction.add(R.id.fragment_container, new ListFragment(), FRAGMENT_LIST_TAG)
               .commit();
@@ -246,7 +248,7 @@ public class MainActivity extends BaseActivity implements
     animateTransition(transaction, TRANSITION_HORIZONTAL);
     ListFragment mListFragment = new ListFragment();
     transaction.replace(R.id.fragment_container, mListFragment, FRAGMENT_LIST_TAG).addToBackStack
-        (FRAGMENT_DETAIL_TAG).commit();
+            (FRAGMENT_DETAIL_TAG).commit();
     setListFragmentArguments(mListFragment);
     return mListFragment;
   }
@@ -308,25 +310,29 @@ public class MainActivity extends BaseActivity implements
     }
   }
 
-    private void inCaseOfListFragment() {
-      // ListFragment
-      Fragment fragment = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
-      if (fragment != null) {
-        // Before exiting from app the navigation drawer is opened
-        boolean isNavdrawerOnExitSetted = Prefs.getBoolean("settings_navdrawer_on_exit", false);
-        boolean isDrawerLayoutInExistence = getDrawerLayout() != null;
-        boolean isDrawerOpened = getDrawerLayout().isDrawerOpen(GravityCompat.START);
-        if ( isNavdrawerOnExitSetted && isDrawerLayoutInExistence && !isDrawerOpened) {
-          getDrawerLayout().openDrawer(GravityCompat.START);
-        } else if (!isNavdrawerOnExitSetted && isDrawerLayoutInExistence && isDrawerOpened) {
-          getDrawerLayout().closeDrawer(GravityCompat.START);
-        } else {
-          if (!((ListFragment) fragment).closeFab()) {
-            isPasswordAccepted = false;
-          }
+  private void inCaseOfListFragment() {
+    // ListFragment
+    Fragment fragment = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
+    if (fragment != null) {
+      // Before exiting from app the navigation drawer is opened
+      boolean isNavdrawerOnExitSetted = Prefs.getBoolean("settings_navdrawer_on_exit", false);
+      boolean isDrawerLayoutInExistence = getDrawerLayout() != null;
+      boolean isDrawerOpened = getDrawerLayout().isDrawerOpen(GravityCompat.START);
+      if (isNavdrawerOnExitSetted && isDrawerLayoutInExistence && !isDrawerOpened) {
+        getDrawerLayout().openDrawer(GravityCompat.START);
+      } else if (!isNavdrawerOnExitSetted && isDrawerLayoutInExistence && isDrawerOpened) {
+        getDrawerLayout().closeDrawer(GravityCompat.START);
+      } else {
+        if (!((ListFragment) fragment).closeFab()) {
+          setPasswordAcceptedFalse();
         }
       }
     }
+  }
+
+  private void setPasswordAcceptedFalse() {
+    isPasswordAccepted = false;
+  }
 
   @Override
   public void onSaveInstanceState(Bundle outState) {
@@ -629,5 +635,4 @@ public class MainActivity extends BaseActivity implements
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
     prefsChanged = true;
   }
-
 }
