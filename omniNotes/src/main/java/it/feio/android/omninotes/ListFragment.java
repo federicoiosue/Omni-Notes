@@ -72,6 +72,7 @@ import androidx.appcompat.widget.SearchView.OnQueryTextListener;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -820,10 +821,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     if (actionMode == null) {
       switch (item.getItemId()) {
         case android.R.id.home:
-          if (mainActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
-            mainActivity.getDrawerLayout().closeDrawer(GravityCompat.START);
+          DrawerLayout drawerLayout = mainActivity.getDrawerLayout();
+          if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
           } else {
-            mainActivity.getDrawerLayout().openDrawer(GravityCompat.START);
+            drawerLayout.openDrawer(GravityCompat.START);
           }
           break;
         case R.id.menu_filter:
