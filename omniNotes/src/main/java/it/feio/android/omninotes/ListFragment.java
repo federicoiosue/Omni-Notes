@@ -966,8 +966,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   @Override
-  public// Used to show a Crouton dialog after saved (or tried to) a note
-  void onActivityResult(int requestCode, final int resultCode, Intent intent) {
+  // Used to show a Crouton dialog after saved (or tried to) a note
+  public void onActivityResult(int requestCode, final int resultCode, Intent intent) {
     super.onActivityResult(requestCode, resultCode, intent);
     switch (requestCode) {
       case REQUEST_CODE_CATEGORY:
