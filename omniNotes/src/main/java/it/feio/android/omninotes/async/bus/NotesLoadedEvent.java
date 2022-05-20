@@ -35,4 +35,7 @@ public class NotesLoadedEvent {
     this.notes = notes;
   }
 
+  public List<Note> getNotes() {
+    return notes;
+  }
 }
