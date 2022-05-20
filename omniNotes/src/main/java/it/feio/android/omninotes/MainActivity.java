@@ -530,11 +530,9 @@ public class MainActivity extends BaseActivity implements
     Intent shareIntent = new Intent();
     List<Attachment> attachmentsList = note.getAttachmentsList();
 
-    // Prepare sharing intent with only text
     if (attachmentsList.isEmpty()) {
       shareIntentOnlyWithText(shareIntent);
 
-      // Intent with single image attachment
     } else if (attachmentsList.size() == 1) {
       shareIntentWithSingleImageAttachment(shareIntent, attachmentsList);
 
