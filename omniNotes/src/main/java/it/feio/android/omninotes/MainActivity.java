@@ -640,7 +640,7 @@ public class MainActivity extends BaseActivity implements
     prefsChanged = true;
   }
 
-  private void setPrefsChangedFalse() {
+  public void setPrefsChangedFalse() {
     prefsChanged = false;
   }
 
