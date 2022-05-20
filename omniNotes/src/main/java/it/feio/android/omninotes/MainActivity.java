@@ -536,24 +536,27 @@ public class MainActivity extends BaseActivity implements
     } else if (attachmentsList.size() == 1) {
       shareIntentWithSingleImageAttachment(shareIntent, attachmentsList);
 
-      // Intent with multiple images
     } else if (attachmentsList.size() > 1) {
-      shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
-      ArrayList<Uri> uris = getShareableUris(attachmentsList);
-
-      // A check to decide the mime type of attachments to share is done here
-      HashMap<String, Boolean> mimeTypes = getMimeTypes(attachmentsList);
-
-      // If many mime types are present a general type is assigned to intent
-      setShareIntentType(shareIntent, mimeTypes);
-
-      shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
+      shareIntentWithMultipleImages(shareIntent, attachmentsList);
     }
     shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
     shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
 
     startActivity(Intent
         .createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+  }
+
+  private void shareIntentWithMultipleImages(Intent shareIntent, List<Attachment> attachmentsList) {
+    shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
+    ArrayList<Uri> uris = getShareableUris(attachmentsList);
+
+    // A check to decide the mime type of attachments to share is done here
+    HashMap<String, Boolean> mimeTypes = getMimeTypes(attachmentsList);
+
+    // If many mime types are present a general type is assigned to intent
+    setShareIntentType(shareIntent, mimeTypes);
+
+    shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
   }
 
   private void shareIntentWithSingleImageAttachment(Intent shareIntent, List<Attachment> attachmentsList) {
