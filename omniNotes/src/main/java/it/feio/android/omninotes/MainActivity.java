@@ -639,7 +639,12 @@ public class MainActivity extends BaseActivity implements
   private void setPrefsChangedTrue() {
     prefsChanged = true;
   }
+
   private void setPrefsChangedFalse() {
     prefsChanged = false;
+  }
+
+  public boolean getPrefsChangedFalse() {
+    return prefsChanged;
   }
 }
