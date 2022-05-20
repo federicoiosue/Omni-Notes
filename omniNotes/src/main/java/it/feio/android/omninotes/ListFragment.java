@@ -209,7 +209,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
     binding = FragmentListBinding.inflate(inflater, container, false);
     View view = binding.getRoot();
+    setBindingListContext();
 
+    return view;
+  }
+
+  private void setBindingListContext() {
     binding.list.setHasFixedSize(true);
     LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
     binding.list.setLayoutManager(linearLayoutManager);
@@ -228,8 +233,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     // Replace listview with Mr. Jingles if it is empty
     binding.list.setEmptyView(binding.emptyList);
-
-    return view;
   }
 
 
@@ -344,7 +347,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       jinglesAnimation = null;
       binding.emptyList
           .setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.jingles_animation, 0, 0);
-
     }
   }
 
@@ -488,7 +490,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     if (getSelectedNotes().isEmpty()) {
       finishActionMode();
     }
-
   }
 
 
@@ -690,8 +691,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     searchView.setOnQueryTextFocusChangeListener(
         (v, hasFocus) -> setActionItemsVisibility(menu, hasFocus));
 
-    MenuItemCompat
-        .setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
+    searchMenuItem
+        .setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
 
           boolean searchPerformed = false;
 
