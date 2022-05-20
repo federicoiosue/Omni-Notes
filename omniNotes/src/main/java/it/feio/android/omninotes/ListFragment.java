@@ -179,10 +179,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mFragment = this;
+    setFragment();
     setHasOptionsMenu(true);
     setRetainInstance(true);
     EventBus.getDefault().register(this, 1);
+  }
+
+
+  private void setFragment() {
+    mFragment = this;
   }
 
 
