@@ -92,7 +92,7 @@ public class MainActivity extends BaseActivity implements
   @Getter
   @Setter
   private Uri sketchUri;
-  boolean prefsChanged = false;
+  private boolean prefsChanged = false;
   private FragmentManager mFragmentManager;
 
   private ActivityMainBinding mBinding;
@@ -633,6 +633,13 @@ public class MainActivity extends BaseActivity implements
 
   @Override
   public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+    setPrefsChangedTrue();
+  }
+
+  private void setPrefsChangedTrue() {
     prefsChanged = true;
+  }
+  private void setPrefsChangedFalse() {
+    prefsChanged = false;
   }
 }
