@@ -42,7 +42,7 @@ class Security private constructor(){
                 }
                 hexString.toString()
             } catch (e: NoSuchAlgorithmException) {
-                LogDelegate.w("Something is gone wrong calculating MD5", e)
+                LogDelegate.warningLog("Something is gone wrong calculating MD5", e)
                 ""
             }
         }
@@ -59,7 +59,7 @@ class Security private constructor(){
                 cipher.init(Cipher.ENCRYPT_MODE, key)
                 Base64.encodeToString(cipher.doFinal(clearText), Base64.DEFAULT)
             } catch (e: Exception) {
-                LogDelegate.e("Something is gone wrong encrypting", e)
+                LogDelegate.errorLog("Something is gone wrong encrypting", e)
                 value
             }
         }
@@ -77,7 +77,7 @@ class Security private constructor(){
                 val decrypedValueBytes = cipher.doFinal(encryptedPwdBytes)
                 String(decrypedValueBytes)
             } catch (e: Exception) {
-                LogDelegate.e("Error decrypting", e)
+                LogDelegate.errorLog("Error decrypting", e)
                 value
             }
         }

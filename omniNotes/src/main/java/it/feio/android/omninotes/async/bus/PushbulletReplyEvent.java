@@ -29,7 +29,7 @@ public class PushbulletReplyEvent {
   private String message;
 
   public PushbulletReplyEvent(String message) {
-    LogDelegate.d(this.getClass().getName());
+    LogDelegate.debugLog(this.getClass().getName());
     this.message = message;
   }
 }

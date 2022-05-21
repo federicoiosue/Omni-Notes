@@ -82,7 +82,7 @@ public class BaseActivity extends AppCompatActivity {
         menuKeyField.setBoolean(config, false);
       }
     } catch (Exception e) {
-      LogDelegate.w("Just a little issue in physical menu button management", e);
+      LogDelegate.warningLog("Just a little issue in physical menu button management", e);
     }
     super.onCreate(savedInstanceState);
   }
@@ -93,7 +93,7 @@ public class BaseActivity extends AppCompatActivity {
     super.onResume();
     String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
     navigation = Prefs.getString(PREF_NAVIGATION, navNotes);
-    LogDelegate.d(Prefs.getAll().toString());
+    LogDelegate.debugLog(Prefs.getAll().toString());
   }
 
 
@@ -160,7 +160,7 @@ public class BaseActivity extends AppCompatActivity {
     // Home widgets
     AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
     int[] ids = appWidgetManager.getAppWidgetIds(new ComponentName(context, ListWidgetProvider.class));
-    LogDelegate.d("Notifies AppWidget data changed for widgets " + Arrays.toString(ids));
+    LogDelegate.debugLog("Notifies AppWidget data changed for widgets " + Arrays.toString(ids));
     appWidgetManager.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 
     // Dashclock

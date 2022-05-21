@@ -71,7 +71,7 @@ public final class BackupHelper {
     try {
       FileUtils.write(noteFile, note.toJSON());
     } catch (IOException e) {
-      LogDelegate.e(String.format("Error on note %s backup: %s",  note.get_id(), e.getMessage()));
+      LogDelegate.errorLog(String.format("Error on note %s backup: %s",  note.get_id(), e.getMessage()));
     }
   }
 
@@ -136,7 +136,7 @@ public final class BackupHelper {
           FilenameUtils.getName(attachment.getUriPath()),
           OmniNotes.getAppContext().getContentResolver().openInputStream(attachment.getUri()));
     } catch (Exception e) {
-      LogDelegate.e("Error during attachment backup: " + attachment.getUriPath(), e);
+      LogDelegate.errorLog("Error during attachment backup: " + attachment.getUriPath(), e);
       throw new BackupAttachmentException(e);
     }
   }
@@ -171,7 +171,7 @@ public final class BackupHelper {
       }
       return note;
     } catch (IOException e) {
-      LogDelegate.e("Error parsing note json");
+      LogDelegate.errorLog("Error parsing note json");
       return new Note();
     }
   }
@@ -212,7 +212,7 @@ public final class BackupHelper {
           attachment.getUri().getLastPathSegment());
       FileUtils.copyFileToDirectory(attachmentFile, attachmentsDir, true);
     } catch (Exception e) {
-      LogDelegate.e("Error importing the attachment " + attachment.getUri().getPath(), e);
+      LogDelegate.errorLog("Error importing the attachment " + attachment.getUri().getPath(), e);
       throw new BackupAttachmentException(e);
     }
   }
@@ -258,7 +258,7 @@ public final class BackupHelper {
       note.buildFromJson(FileUtils.readFileToString(file));
       DbHelper.getInstance().deleteNote(note);
     } catch (IOException e) {
-      LogDelegate.e("Error parsing note json");
+      LogDelegate.errorLog("Error parsing note json");
     }
   }
 
@@ -296,7 +296,7 @@ public final class BackupHelper {
           errors.add(new DiffMatchPatch().diffMain(noteString, noteFileString));
         }
       } catch (IOException e) {
-        LogDelegate.e(e.getMessage(), e);
+        LogDelegate.errorLog(e.getMessage(), e);
         addIntegrityCheckError(errors, e);
       }
     }

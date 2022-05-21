@@ -31,7 +31,7 @@ public class NotesDeletedEvent {
   private List<Note> notes;
 
   public NotesDeletedEvent(List<Note> notes) {
-    LogDelegate.d(this.getClass().getName());
+    LogDelegate.debugLog(this.getClass().getName());
     this.notes = notes;
   }
 }

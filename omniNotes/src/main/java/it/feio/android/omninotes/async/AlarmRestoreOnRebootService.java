@@ -48,13 +48,13 @@ public class AlarmRestoreOnRebootService extends JobIntentService {
 
   @Override
   protected void onHandleWork(@NonNull Intent intent) {
-    LogDelegate.i("System rebooted: service refreshing reminders");
+    LogDelegate.informationLog("System rebooted: service refreshing reminders");
     Context mContext = getApplicationContext();
 
     BaseActivity.notifyAppWidgets(mContext);
 
     List<Note> notes = DbHelper.getInstance().getNotesWithReminderNotFired();
-    LogDelegate.d("Found " + notes.size() + " reminders");
+    LogDelegate.debugLog("Found " + notes.size() + " reminders");
     for (Note note : notes) {
       ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
     }

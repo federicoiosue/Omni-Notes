@@ -67,7 +67,7 @@ public class DynamicNavigationLookupTable {
         }
       }
       EventBus.getDefault().post(new DynamicNavigationReadyEvent());
-      LogDelegate.d("Dynamic menu finished counting items");
+      LogDelegate.debugLog("Dynamic menu finished counting items");
     }).run();
   }
 

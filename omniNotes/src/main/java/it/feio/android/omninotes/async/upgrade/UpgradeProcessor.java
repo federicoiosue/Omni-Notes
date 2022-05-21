@@ -70,11 +70,11 @@ public class UpgradeProcessor {
     try {
       List<Method> methodsToLaunch = getInstance().getMethodsToLaunch(dbOldVersion, dbNewVersion);
       for (Method methodToLaunch : methodsToLaunch) {
-        LogDelegate.d("Running upgrade processing method: " + methodToLaunch.getName());
+        LogDelegate.debugLog("Running upgrade processing method: " + methodToLaunch.getName());
         methodToLaunch.invoke(getInstance());
       }
     } catch (SecurityException | IllegalAccessException | InvocationTargetException e) {
-      LogDelegate.e("Explosion processing upgrade!", e);
+      LogDelegate.errorLog("Explosion processing upgrade!", e);
       throw e;
     }
   }
@@ -150,7 +150,7 @@ public class UpgradeProcessor {
           attachment.setMime_type(MIME_TYPE_AUDIO);
           dbHelper.updateAttachment(attachment);
         } else {
-          LogDelegate.e("onUpgradeTo480 - Error renaming attachment: " + attachment.getName());
+          LogDelegate.errorLog("onUpgradeTo480 - Error renaming attachment: " + attachment.getName());
         }
 
       }

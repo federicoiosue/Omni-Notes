@@ -63,7 +63,7 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
   }
 
   static void updateConfiguration(int mAppWidgetId, String sqlCondition, boolean thumbnails, boolean timestamps) {
-    LogDelegate.d("Widget configuration updated");
+    LogDelegate.debugLog("Widget configuration updated");
     Prefs.edit().putString(PREF_WIDGET_PREFIX + mAppWidgetId, sqlCondition).apply();
     showThumbnails = thumbnails;
     showTimestamps = timestamps;
@@ -71,14 +71,14 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
   @Override
   public void onCreate() {
-    LogDelegate.d("Created widget " + appWidgetId);
+    LogDelegate.debugLog("Created widget " + appWidgetId);
     String condition = Prefs.getString(PREF_WIDGET_PREFIX + appWidgetId, "");
     notes = DbHelper.getInstance().getNotes(condition, true);
   }
 
   @Override
   public void onDataSetChanged() {
-    LogDelegate.d("onDataSetChanged widget " + appWidgetId);
+    LogDelegate.debugLog("onDataSetChanged widget " + appWidgetId);
     navigation = Navigation.getNavigation();
 
     String condition = Prefs.getString(PREF_WIDGET_PREFIX + appWidgetId, "");

@@ -30,7 +30,7 @@ public class NotificationRemovedEvent {
   private StatusBarNotification statusBarNotification;
 
   public NotificationRemovedEvent(StatusBarNotification statusBarNotification) {
-    LogDelegate.d(this.getClass().getName());
+    LogDelegate.debugLog(this.getClass().getName());
     this.statusBarNotification = statusBarNotification;
   }
 }

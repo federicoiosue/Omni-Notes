@@ -84,7 +84,7 @@ public class Fab {
               floatingActionsMenu.collapse();
               showFab();
             } else {
-              LogDelegate.d("No Vertical Scrolled");
+              LogDelegate.debugLog("No Vertical Scrolled");
             }
           }
         });

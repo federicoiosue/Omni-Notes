@@ -95,7 +95,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
             .decodeStream(getActivity().getContentResolver().openInputStream(baseUri));
         binding.drawing.setBackgroundBitmap(getActivity(), bmp);
       } catch (FileNotFoundException e) {
-        LogDelegate.e("Error replacing sketch bitmap background", e);
+        LogDelegate.errorLog("Error replacing sketch bitmap background", e);
       }
     }
 
@@ -179,7 +179,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     if (item.getItemId() == android.R.id.home) {
       getActivity().onBackPressed();
     } else {
-      LogDelegate.e("Wrong element choosen: " + item.getItemId());
+      LogDelegate.errorLog("Wrong element choosen: " + item.getItemId());
     }
     return super.onOptionsItemSelected(item);
   }
@@ -202,7 +202,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
         }
 
       } catch (Exception e) {
-        LogDelegate.e("Error writing sketch image data", e);
+        LogDelegate.errorLog("Error writing sketch image data", e);
       }
     }
   }
@@ -272,7 +272,7 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
 
     int newSize = Math.round((size / 100f) * calcProgress);
     int offset = (size - newSize) / 2;
-    LogDelegate.v("Stroke size " + newSize + " (" + calcProgress + "%)");
+    LogDelegate.vervoseLog("Stroke size " + newSize + " (" + calcProgress + "%)");
 
     LayoutParams lp = new LayoutParams(newSize, newSize);
     lp.setMargins(offset, offset, offset, offset);

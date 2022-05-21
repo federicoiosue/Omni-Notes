@@ -55,7 +55,7 @@ public class SystemHelper {
         try {
           closeable.close();
         } catch (IOException e) {
-          LogDelegate.w("Can't close " + closeable, e);
+          LogDelegate.warningLog("Can't close " + closeable, e);
         }
       }
     }

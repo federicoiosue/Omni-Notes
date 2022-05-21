@@ -153,7 +153,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
         }
       }
     } catch (RejectedExecutionException e) {
-      LogDelegate.w("Oversized tasks pool to load texts!", e);
+      LogDelegate.warningLog("Oversized tasks pool to load texts!", e);
     }
   }
 

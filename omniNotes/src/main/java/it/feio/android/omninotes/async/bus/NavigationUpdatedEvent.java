@@ -24,7 +24,7 @@ public class NavigationUpdatedEvent {
   public final Object navigationItem;
 
   public NavigationUpdatedEvent(Object navigationItem) {
-    LogDelegate.d(this.getClass().getName());
+    LogDelegate.debugLog(this.getClass().getName());
     this.navigationItem = navigationItem;
   }
 

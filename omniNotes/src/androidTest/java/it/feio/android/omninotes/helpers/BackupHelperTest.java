@@ -146,7 +146,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     Attachment attachment = createTestAttachmentBackup();
 
     BackupHelper.importAttachment(attachmentsBackupDir, StorageHelper.getAttachmentDir(), attachment);
-    LogDelegate.i("checking " + attachment.getUri().getPath());
+    LogDelegate.informationLog("checking " + attachment.getUri().getPath());
 
     assertTrue(new File(attachment.getUri().getPath()).exists());
   }

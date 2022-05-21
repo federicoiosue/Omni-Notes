@@ -130,11 +130,11 @@ public class StorageHelper {
         try {
           FileUtils.copyFile(new File(uri.getPath()), file);
         } catch (IOException e2) {
-          LogDelegate.e("Error writing " + file, e2);
+          LogDelegate.errorLog("Error writing " + file, e2);
           file = null;
         }
       } catch (IOException e2) {
-        LogDelegate.e("Error writing " + file, e2);
+        LogDelegate.errorLog("Error writing " + file, e2);
         file = null;
       }
     } finally {
@@ -146,7 +146,7 @@ public class StorageHelper {
           contentResolverOutputStream.close();
         }
       } catch (IOException e) {
-        LogDelegate.e("Error closing streams", e);
+        LogDelegate.errorLog("Error closing streams", e);
       }
 
     }
@@ -157,7 +157,7 @@ public class StorageHelper {
     try {
       FileUtils.copyFile(source, destination);
     } catch (IOException e) {
-      LogDelegate.e("Error copying file: " + e.getMessage(), e);
+      LogDelegate.errorLog("Error copying file: " + e.getMessage(), e);
       if (failOnError) throw e;
     }
   }
@@ -174,7 +174,7 @@ public class StorageHelper {
       IOUtils.copy(is, os);
       return true;
     } catch (IOException e) {
-      LogDelegate.e("Error copying file", e);
+      LogDelegate.errorLog("Error copying file", e);
       return false;
     }
   }
@@ -201,7 +201,7 @@ public class StorageHelper {
     try {
       FileUtils.forceDelete(new File(path));
     } catch (IOException e) {
-      LogDelegate.e("Can't delete '" + path + "': " + e.getMessage());
+      LogDelegate.errorLog("Can't delete '" + path + "': " + e.getMessage());
       return false;
     }
     return true;
@@ -298,10 +298,10 @@ public class StorageHelper {
     try {
       boolean created = new File(folder, ".nomedia").createNewFile();
       if (!created) {
-        LogDelegate.w("File .nomedia already existing into " + folder.getAbsolutePath());
+        LogDelegate.warningLog("File .nomedia already existing into " + folder.getAbsolutePath());
       }
     } catch (IOException e) {
-      LogDelegate.e("Error creating .nomedia file into backup folder");
+      LogDelegate.errorLog("Error creating .nomedia file into backup folder");
     }
   }
 
@@ -327,7 +327,7 @@ public class StorageHelper {
     try {
       blockSize = statFs.getBlockSizeLong();
     } catch (NoSuchMethodError e) {
-      LogDelegate.e("Mysterious error", e);
+      LogDelegate.errorLog("Mysterious error", e);
     }
     return getSize(directory, blockSize);
   }
@@ -435,7 +435,7 @@ public class StorageHelper {
       try {
         FileUtils.moveFile(new File(uri.getPath()), f);
       } catch (IOException e) {
-        LogDelegate.e("Can't move file " + uri.getPath());
+        LogDelegate.errorLog("Can't move file " + uri.getPath());
       }
     } else {
       f = StorageHelper.createExternalStoragePrivateFile(mContext, uri, extension);
