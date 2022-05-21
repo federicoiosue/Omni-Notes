@@ -65,9 +65,9 @@ public class NoteInfosActivity extends Activity {
   }
 
   static String getChecklistCompletionState(StatsSingleNote infos) {
-    int percentage = Math.round(
+    int progressPercentage = Math.round(
         (float) infos.getChecklistCompletedItemsNumber() / infos.getChecklistItemsNumber() * 100);
-    return infos.getChecklistCompletedItemsNumber() + " (" + percentage + "%)";
+    return infos.getChecklistCompletedItemsNumber() + " (" + progressPercentage + "%)";
   }
 
   private void populateView(TextView textView, int numberValue) {
