@@ -53,8 +53,7 @@ public class SettingsActivity extends AppCompatActivity implements
     setContentView(view);
 
     initUI();
-    getSupportFragmentManager().beginTransaction()
-        .replace(R.id.content_frame, new SettingsFragment()).commit();
+    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new SettingsFragment()).commit();
   }
 
 
@@ -67,9 +66,7 @@ public class SettingsActivity extends AppCompatActivity implements
 
 
   private void replaceFragment(Fragment sf) {
-    getSupportFragmentManager().beginTransaction()
-        .setCustomAnimations(R.animator.fade_in, R.animator.fade_out,
-            R.animator.fade_in, R.animator.fade_out).replace(R.id.content_frame, sf).commit();
+    getSupportFragmentManager().beginTransaction().setCustomAnimations(R.animator.fade_in, R.animator.fade_out, R.animator.fade_in, R.animator.fade_out).replace(R.id.content_frame, sf).commit();
   }
 
 
@@ -81,19 +78,13 @@ public class SettingsActivity extends AppCompatActivity implements
       super.onBackPressed();
     }
   }
-
-
   public void showMessage(int messageId, Style style) {
     showMessage(getString(messageId), style);
   }
-
-
   public void showMessage(String message, Style style) {
     // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
     Crouton.makeText(this, message, style, binding.croutonHandle.croutonHandle).show();
   }
-
-
   @Override
   public void onFolderSelection(@NonNull FolderChooserDialog dialog, @NonNull File folder) {
     new MaterialDialog.Builder(this)
@@ -107,32 +98,23 @@ public class SettingsActivity extends AppCompatActivity implements
           startService(service);
         }).build().show();
   }
-
   @Override
   public void onFolderChooserDismissed(@NonNull FolderChooserDialog dialog) {
     // Nothing to do
   }
-
   @Override
   public void onPointerCaptureChanged(boolean hasCapture) {
     // Nothing to do
   }
-
   @Override
   public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
-    Bundle b = new Bundle();
-    b.putString(SettingsFragment.XML_NAME, pref.getKey());
+    Bundle bundle = new Bundle();
+    bundle.putString(SettingsFragment.XML_NAME, pref.getKey());
 
-    final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate(
-        getClassLoader(),
-        pref.getFragment());
-    fragment.setArguments(b);
+    final Fragment fragment = getSupportFragmentManager().getFragmentFactory().instantiate(getClassLoader(), pref.getFragment());
+    fragment.setArguments(bundle);
     fragment.setTargetFragment(caller, 0);
-
-    getSupportFragmentManager().beginTransaction()
-        .replace(R.id.content_frame, fragment)
-        .addToBackStack(null)
-        .commit();
+    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
     return true;
   }
 
