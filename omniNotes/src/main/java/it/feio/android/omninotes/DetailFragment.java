@@ -428,9 +428,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    */
   private void checkNoteLock(Note note) {
     // If note is locked security password will be requested
-    if (note.isLocked()
-        && Prefs.getString(PREF_PASSWORD, null) != null
-        && !Prefs.getBoolean("settings_password_access", false)) {
+
+    Boolean isNoteLocked = note.isLocked();
+    String isPasswordExist = Prefs.getString(PREF_PASSWORD, null);
+    Boolean canAccessPassword = !Prefs.getBoolean("settings_password_access", false);
+
+    if (isNoteLocked && (isPasswordExist != null) && canAccessPassword) {
       PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
         switch (passwordConfirmed) {
           case SUCCEED:
