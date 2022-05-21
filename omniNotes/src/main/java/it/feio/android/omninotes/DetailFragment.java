@@ -259,8 +259,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           .onNegative((dialog, which) -> {
             android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
                 mainActivity.getSystemService(CLIPBOARD_SERVICE);
-            android.content.ClipData clip = android.content.ClipData.newPlainText("text label",
-                clickedString);
+            android.content.ClipData clip = android.content.ClipData.newPlainText("text label", clickedString);
             clipboard.setPrimaryClip(clip);
           }).build().show();
       View clickedView = noteTmp.isChecklist() ? toggleChecklistView : binding.contentWrapper;
@@ -316,9 +315,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     // Force the navigation drawer to stay opened if tablet mode is on, otherwise has to stay closed
     if (NavigationDrawerFragment.isDoublePanelActive()) {
-      mainActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
+      getMainActivityDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
     } else {
-      mainActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+      getMainActivityDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     restoreTempNoteAfterOrientationChange(savedInstanceState);
@@ -331,6 +330,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     setHasOptionsMenu(true);
     setRetainInstance(false);
+  }
+
+  private java.lang.Object getMainActivityDrawerLayout() {
+    return mainActivity.getDrawerLayout();
   }
 
   private void addSketchedImageIfPresent() {
