@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.feio.android.omninotes;
-
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_UPDATE_DASHCLOCK;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
 
@@ -47,30 +46,23 @@ import it.feio.android.omninotes.widget.ListWidgetProvider;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
-
 @SuppressLint("Registered")
 public class BaseActivity extends AppCompatActivity {
-
   protected static final int TRANSITION_VERTICAL = 0;
   protected static final int TRANSITION_HORIZONTAL = 1;
-
   protected String navigation;
   protected String navigationTmp; // used for widget navigation
-
-
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.menu_list, menu);
     return super.onCreateOptionsMenu(menu);
   }
-
   @Override
   protected void attachBaseContext(Context newBase) {
     Context context = LanguageHelper.updateLanguage(newBase, null);
     super.attachBaseContext(context);
   }
-
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     // Forces menu overflow icon
@@ -86,8 +78,6 @@ public class BaseActivity extends AppCompatActivity {
     }
     super.onCreate(savedInstanceState);
   }
-
-
   @Override
   protected void onResume() {
     super.onResume();
@@ -95,15 +85,11 @@ public class BaseActivity extends AppCompatActivity {
     navigation = Prefs.getString(PREF_NAVIGATION, navNotes);
     LogDelegate.d(Prefs.getAll().toString());
   }
-
-
   protected void showToast(CharSequence text, int duration) {
     if (Prefs.getBoolean("settings_enable_info", true)) {
       Toast.makeText(getApplicationContext(), text, duration).show();
     }
   }
-
-
   /**
    * Method to validate security password to protect a list of notes. When "Request password on
    * access" in switched on this check not required all the times. It uses an interface callback.
@@ -125,12 +111,9 @@ public class BaseActivity extends AppCompatActivity {
 	    } else {
 	    	mPasswordValidator(mPasswordValidator);    }
 	  }
-
 	private void mPasswordValidator(final PasswordValidator mPasswordValidator) {
 		mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
 	}
-
-
   public boolean updateNavigation(String nav) {
     if (nav.equals(navigationTmp) || (navigationTmp == null && Navigation.getNavigationText()
         .equals(nav))) {
@@ -141,8 +124,6 @@ public class BaseActivity extends AppCompatActivity {
     navigationTmp = null;
     return true;
   }
-
-
   /**
    * Retrieves resource by name
    */
@@ -151,8 +132,6 @@ public class BaseActivity extends AppCompatActivity {
     int resId = getResources().getIdentifier(aString, "string", packageName);
     return getString(resId);
   }
-
-
   /**
    * Notifies App Widgets about data changes so they can update theirselves
    */
@@ -162,25 +141,18 @@ public class BaseActivity extends AppCompatActivity {
     int[] ids = mgr.getAppWidgetIds(new ComponentName(context, ListWidgetProvider.class));
     LogDelegate.d("Notifies AppWidget data changed for widgets " + Arrays.toString(ids));
     mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
-
     // Dashclock
     LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(INTENT_UPDATE_DASHCLOCK));
   }
-
-
   @SuppressLint("InlinedApi")
   protected void animateTransition(FragmentTransaction transaction, int direction) {
     if (direction == TRANSITION_HORIZONTAL) {
-      transaction.setCustomAnimations(R.anim.fade_in_support, R.anim.fade_out_support,
-          R.anim.fade_in_support, R.anim.fade_out_support);
+      transaction.setCustomAnimations(R.anim.fade_in_support, R.anim.fade_out_support, R.anim.fade_in_support, R.anim.fade_out_support);
     }
     if (direction == TRANSITION_VERTICAL) {
-      transaction.setCustomAnimations(
-          R.anim.anim_in, R.anim.anim_out, R.anim.anim_in_pop, R.anim.anim_out_pop);
+      transaction.setCustomAnimations(R.anim.anim_in, R.anim.anim_out, R.anim.anim_in_pop, R.anim.anim_out_pop);
     }
   }
-
-
   protected void setActionBarTitle(String title) {
     // Creating a spannable to support custom fonts on ActionBar
     int actionBarTitle = Resources.getSystem().getIdentifier("action_bar_title", "ID", "android");
@@ -189,18 +161,13 @@ public class BaseActivity extends AppCompatActivity {
     if (actionBarTitleView != null) {
       actionBarTitleView.setTypeface(font);
     }
-
     if (getSupportActionBar() != null) {
       getSupportActionBar().setTitle(title);
     }
   }
-
-
   public String getNavigationTmp() {
     return navigationTmp;
   }
-
-
   @Override
   public boolean onKeyDown(int keyCode, KeyEvent event) {
     return keyCode == KeyEvent.KEYCODE_MENU || super.onKeyDown(keyCode, event);
