@@ -119,8 +119,8 @@ public class CategoryActivity extends AppCompatActivity implements
       category.setColor(String.valueOf(selectedColor));
     }
     // Saved to DB and new ID or update result catched
-    DbHelper db = DbHelper.getInstance();
-    category = db.updateCategory(category);
+    DbHelper dbHelperIn = DbHelper.getInstance();
+    category = dbHelperIn.updateCategory(category);
     // Sets result to show proper message
     getIntent().putExtra(INTENT_CATEGORY, category);
     setResult(RESULT_OK, getIntent());
