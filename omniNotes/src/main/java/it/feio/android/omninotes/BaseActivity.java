@@ -108,26 +108,27 @@ public class BaseActivity extends AppCompatActivity {
    * Method to validate security password to protect a list of notes. When "Request password on
    * access" in switched on this check not required all the times. It uses an interface callback.
    */
-  public void requestPassword(final Activity mActivity, List<Note> notes,
-      final PasswordValidator mPasswordValidator) {
-    if (Prefs.getBoolean("settings_password_access", false)) {
-      mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
-      return;
-    }
+   public void requestPassword(final Activity mActivity, List<Note> notes, final PasswordValidator mPasswordValidator) {
+	    if (Prefs.getBoolean("settings_password_access", false)) {
+	      mPasswordValidator(mPasswordValidator);
+	      return;
+	    }
+	    boolean askForPassword = false;
+	    for (Note note : notes) {
+	      if (note.isLocked()) {
+	        askForPassword = true;
+	        break;
+	      }
+	    }
+	    if (askForPassword) {
+	      PasswordHelper.requestPassword(mActivity, mPasswordValidator);
+	    } else {
+	    	mPasswordValidator(mPasswordValidator);    }
+	  }
 
-    boolean askForPassword = false;
-    for (Note note : notes) {
-      if (note.isLocked()) {
-        askForPassword = true;
-        break;
-      }
-    }
-    if (askForPassword) {
-      PasswordHelper.requestPassword(mActivity, mPasswordValidator);
-    } else {
-      mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
-    }
-  }
+	private void mPasswordValidator(final PasswordValidator mPasswordValidator) {
+		mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
+	}
 
 
   public boolean updateNavigation(String nav) {
