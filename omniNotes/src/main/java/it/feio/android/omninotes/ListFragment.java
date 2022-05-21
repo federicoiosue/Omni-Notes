@@ -257,21 +257,21 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     fab = new Fab(binding.fab.getRoot(), binding.list,
         Prefs.getBoolean(PREF_FAB_EXPANSION_BEHAVIOR, false));
     fab.setOnFabItemClickedListener(id -> {
-      View v = mainActivity.findViewById(id);
+      View viewById = mainActivity.findViewById(id);
       switch (id) {
         case R.id.fab_camera:
           Intent intent = mainActivity.getIntent();
           intent.setAction(ACTION_FAB_TAKE_PHOTO);
           mainActivity.setIntent(intent);
-          editNote(new Note(), v);
+          editNote(new Note(), viewById);
           break;
         case R.id.fab_checklist:
           Note note = new Note();
           note.setChecklist(true);
-          editNote(note, v);
+          editNote(note, viewById);
           break;
         default:
-          editNote(new Note(), v);
+          editNote(new Note(), viewById);
       }
     });
   }
@@ -370,9 +370,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     if(binding != null) {
       listViewPosition = ((LinearLayoutManager) binding.list.getLayoutManager())
           .findFirstVisibleItemPosition();
-      View v = binding.list.getChildAt(0);
+      View viewChild = binding.list.getChildAt(0);
       listViewPositionOffset =
-          (v == null) ? (int) getResources().getDimension(R.dimen.vertical_margin) : v.getTop();
+          (viewChild == null) ? (int) getResources().getDimension(R.dimen.vertical_margin) : viewChild.getTop();
     }
   }
 
