@@ -144,12 +144,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     if (export != null) {
       export.setSummary(StorageHelper.getExternalStoragePublicDir().getAbsolutePath());
       export.setOnPreferenceClickListener(arg0 -> {
-        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup_layout, null);
+        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup_layout, null);
 
         PermissionsHelper
             .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
                     .string.permission_external_storage,
-                getActivity().findViewById(R.id.crouton_handle), () -> export(v));
+                getActivity().findViewById(R.id.crouton_handle), () -> export(view));
 
         return false;
       });
@@ -281,20 +281,16 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     if (swipeToTrash != null) {
       if (Prefs.getBoolean("settings_swipe_to_trash", false)) {
         swipeToTrash.setChecked(true);
-        swipeToTrash
-            .setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
+        swipeToTrashsetSummary(R.string.settings_swipe_to_trash_summary_2);
       } else {
         swipeToTrash.setChecked(false);
-        swipeToTrash
-            .setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
+        swipeToTrashsetSummary(R.string.settings_swipe_to_trash_summary_1);
       }
       swipeToTrash.setOnPreferenceChangeListener((preference, newValue) -> {
         if ((Boolean) newValue) {
-          swipeToTrash
-              .setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
+          swipeToTrashsetSummary(R.string.settings_swipe_to_trash_summary_2);
         } else {
-          swipeToTrash
-              .setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_1));
+          swipeToTrashsetSummary(R.string.settings_swipe_to_trash_summary_1);
         }
         return true;
       });
@@ -552,6 +548,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         return false;
       });
     }
+  }
+
+  private void swipeToTrashsetSummary(String str) {
+    swipeToTrash.setSummary(getResources().getString(str));
   }
 
 
