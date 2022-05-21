@@ -127,13 +127,17 @@ public class PasswordActivity extends BaseActivity {
     });
   }
 
-
-  public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
+  private void initText() {
     passwordCheck.setText("");
     password.setText("");
     question.setText("");
     answer.setText("");
     answerCheck.setText("");
+  }
+
+
+  public void onEvent(PasswordRemovedEvent passwordRemovedEvent) {
+    initText();
     Crouton crouton = Crouton.makeText(mActivity, R.string.password_successfully_removed,
         ONStyle.ALERT, croutonHandle);
     crouton.setLifecycleCallback(new LifecycleCallback() {
@@ -150,7 +154,6 @@ public class PasswordActivity extends BaseActivity {
     });
     crouton.show();
   }
-
 
   @SuppressLint("CommitPrefEdits")
   private void updatePassword(String passwordText, String questionText, String answerText) {
