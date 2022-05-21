@@ -131,8 +131,9 @@ public class BaseActivity extends AppCompatActivity {
 
 
   public boolean updateNavigation(String nav) {
-    if (nav.equals(navigationTmp) || (navigationTmp == null && Navigation.getNavigationText()
-        .equals(nav))) {
+    boolean isSameNavigation = nav.equals(navigationTmp);
+    boolean isNavigationNull = (navigationTmp == null && Navigation.getNavigationText().equals(nav));
+    if (isSameNavigation || isNavigationNull) {
       return false;
     }
     Prefs.edit().putString(PREF_NAVIGATION, nav).apply();
@@ -147,8 +148,8 @@ public class BaseActivity extends AppCompatActivity {
    */
   private String getStringResourceByName(String aString) {
     String packageName = getApplicationContext().getPackageName();
-    int resId = getResources().getIdentifier(aString, "string", packageName);
-    return getString(resId);
+    int resourceID = getResources().getIdentifier(aString, "string", packageName);
+    return getString(resourceID);
   }
 
 
@@ -157,10 +158,10 @@ public class BaseActivity extends AppCompatActivity {
    */
   public static void notifyAppWidgets(Context context) {
     // Home widgets
-    AppWidgetManager mgr = AppWidgetManager.getInstance(context);
-    int[] ids = mgr.getAppWidgetIds(new ComponentName(context, ListWidgetProvider.class));
+    AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
+    int[] ids = appWidgetManager.getAppWidgetIds(new ComponentName(context, ListWidgetProvider.class));
     LogDelegate.d("Notifies AppWidget data changed for widgets " + Arrays.toString(ids));
-    mgr.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
+    appWidgetManager.notifyAppWidgetViewDataChanged(ids, R.id.widget_list);
 
     // Dashclock
     LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent(INTENT_UPDATE_DASHCLOCK));
@@ -169,11 +170,13 @@ public class BaseActivity extends AppCompatActivity {
 
   @SuppressLint("InlinedApi")
   protected void animateTransition(FragmentTransaction transaction, int direction) {
-    if (direction == TRANSITION_HORIZONTAL) {
+    boolean isDirectionHorizontal = direction == TRANSITION_HORIZONTAL;
+    boolean isDirectionVertical = direction == TRANSITION_VERTICAL;
+    if (isDirectionHorizontal) {
       transaction.setCustomAnimations(R.anim.fade_in_support, R.anim.fade_out_support,
           R.anim.fade_in_support, R.anim.fade_out_support);
     }
-    if (direction == TRANSITION_VERTICAL) {
+    if (isDirectionVertical) {
       transaction.setCustomAnimations(
           R.anim.anim_in, R.anim.anim_out, R.anim.anim_in_pop, R.anim.anim_out_pop);
     }
@@ -185,11 +188,15 @@ public class BaseActivity extends AppCompatActivity {
     int actionBarTitle = Resources.getSystem().getIdentifier("action_bar_title", "ID", "android");
     android.widget.TextView actionBarTitleView = getWindow().findViewById(actionBarTitle);
     Typeface font = Typeface.createFromAsset(getAssets(), "fonts/Roboto-Regular.ttf");
-    if (actionBarTitleView != null) {
+
+    boolean notEmptyActionBarTitleView = actionBarTitleView != null;
+    boolean notEmptySupportActionBar = getSupportActionBar() != null;
+
+    if (notEmptyActionBarTitleView) {
       actionBarTitleView.setTypeface(font);
     }
 
-    if (getSupportActionBar() != null) {
+    if (notEmptySupportActionBar) {
       getSupportActionBar().setTitle(title);
     }
   }
