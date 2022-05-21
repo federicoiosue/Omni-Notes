@@ -260,9 +260,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       View v = mainActivity.findViewById(id);
       switch (id) {
         case R.id.fab_camera:
-          Intent i = mainActivity.getIntent();
-          i.setAction(ACTION_FAB_TAKE_PHOTO);
-          mainActivity.setIntent(i);
+          Intent intent = mainActivity.getIntent();
+          intent.setAction(ACTION_FAB_TAKE_PHOTO);
+          mainActivity.setIntent(intent);
           editNote(new Note(), v);
           break;
         case R.id.fab_checklist:
