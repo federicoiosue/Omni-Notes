@@ -394,7 +394,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    if (getResources().getConfiguration().orientation != newConfig.orientation) {
+    boolean isNewConfig = (getResources().getConfiguration().orientation != newConfig.orientation);
+    if (isNewConfig) {
       orientationChanged = true;
     }
   }
