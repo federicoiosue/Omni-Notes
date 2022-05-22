@@ -723,53 +723,53 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       Uri sharableUri = FileProviderHelper.getShareableUri(attachment);
       Intent attachmentIntent;
 
-      if (MIME_TYPE_FILES.equals(attachment.getMime_type())) {
+      switch (attachment.getMime_type()) {
+        case "files/*":
+          attachmentIntent = new Intent(Intent.ACTION_VIEW);
+          attachmentIntent.setDataAndType(sharableUri, StorageHelper.getMimeType(mainActivity,
+                  sharableUri));
+          attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
+                  .FLAG_GRANT_WRITE_URI_PERMISSION);
+          if (IntentChecker
+                  .isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
+            startActivity(attachmentIntent);
+          } else {
+            mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.WARN);
+          }
+          break;
 
-        attachmentIntent = new Intent(Intent.ACTION_VIEW);
-        attachmentIntent.setDataAndType(sharableUri, StorageHelper.getMimeType(mainActivity,
-            sharableUri));
-        attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
-            .FLAG_GRANT_WRITE_URI_PERMISSION);
-        if (IntentChecker
-            .isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
-          startActivity(attachmentIntent);
-        } else {
-          mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.WARN);
-        }
-
-        // Media files will be opened in internal gallery
-      } else if (MIME_TYPE_IMAGE.equals(attachment.getMime_type())
-          || MIME_TYPE_SKETCH.equals(attachment.getMime_type())
-          || MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
-        // Title
-        noteTmp.setTitle(getNoteTitle());
-        noteTmp.setContent(getNoteContent());
-        String title1 = TextHelper.parseTitleAndContent(mainActivity,
-            noteTmp)[0].toString();
-        // Images
-        int clickedImage = 0;
-        ArrayList<Attachment> images = new ArrayList<>();
-        for (Attachment mAttachment : noteTmp.getAttachmentsList()) {
-          if (MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
-              || MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())
-              || MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
-            images.add(mAttachment);
-            if (mAttachment.equals(attachment)) {
-              clickedImage = images.size() - 1;
+        case "image/jpeg":
+        case "image/png":
+        case "video/png":
+          noteTmp.setTitle(getNoteTitle());
+          noteTmp.setContent(getNoteContent());
+          String title1 = TextHelper.parseTitleAndContent(mainActivity,
+                  noteTmp)[0].toString();
+          // Images
+          int clickedImage = 0;
+          ArrayList<Attachment> images = new ArrayList<>();
+          for (Attachment mAttachment : noteTmp.getAttachmentsList()) {
+            if (MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
+                    || MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())
+                    || MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
+              images.add(mAttachment);
+              if (mAttachment.equals(attachment)) {
+                clickedImage = images.size() - 1;
+              }
             }
           }
-        }
-        // Intent
-        attachmentIntent = new Intent(mainActivity, GalleryActivity.class);
-        attachmentIntent.putExtra(GALLERY_TITLE, title1);
-        attachmentIntent.putParcelableArrayListExtra(GALLERY_IMAGES, images);
-        attachmentIntent.putExtra(GALLERY_CLICKED_IMAGE, clickedImage);
-        startActivity(attachmentIntent);
+          // Intent
+          attachmentIntent = new Intent(mainActivity, GalleryActivity.class);
+          attachmentIntent.putExtra(GALLERY_TITLE, title1);
+          attachmentIntent.putParcelableArrayListExtra(GALLERY_IMAGES, images);
+          attachmentIntent.putExtra(GALLERY_CLICKED_IMAGE, clickedImage);
+          startActivity(attachmentIntent);
+          break;
 
-      } else if (MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
-        playback(v, attachment.getUri());
+        case "audio/amr":
+          playback(v, attachment.getUri());
+          break;
       }
-
     });
 
     mGridView.setOnItemLongClickListener((parent, v, position, id) -> {
