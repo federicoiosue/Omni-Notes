@@ -131,8 +131,9 @@ public class BaseActivity extends AppCompatActivity {
 
 
   public boolean updateNavigation(String nav) {
-    if (nav.equals(navigationTmp) || (navigationTmp == null && Navigation.getNavigationText()
-        .equals(nav))) {
+    boolean isNavEqualsTmp = nav.equals(navigationTmp);
+    boolean isnavEqualsNavi = Navigation.getNavigationText().equals(nav);
+    if (isNavEqualsTmp || (navigationTmp == null && isnavEqualsNavi)) {
       return false;
     }
     Prefs.edit().putString(PREF_NAVIGATION, nav).apply();
