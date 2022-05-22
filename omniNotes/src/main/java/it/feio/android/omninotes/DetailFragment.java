@@ -740,7 +740,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
         case "image/jpeg":
         case "image/png":
-        case "video/png":
+        case "video/mp4":
           noteTmp.setTitle(getNoteTitle());
           noteTmp.setContent(getNoteContent());
           String title1 = TextHelper.parseTitleAndContent(mainActivity,
