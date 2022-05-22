@@ -118,7 +118,8 @@ public class CategoryActivity extends AppCompatActivity implements
 
   public void saveCategory() {
 
-    if (binding.categoryTitle.getText().toString().length() == 0) {
+    int lenOfTitle = binding.categoryTitle.getText().toString().length();
+    if (lenOfTitle == 0) {
       binding.categoryTitle.setError(getString(R.string.category_missing_title));
       return;
     }
