@@ -905,7 +905,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
 
       // Coloring the target
-      if (tag != null && tag.getColor() != null) {
+      boolean coloringAvailable = (tag != null && tag.getColor() != null);
+      if (coloringAvailable) {
         for (View view : target) {
           view.setBackgroundColor(parseInt(tag.getColor()));
         }
