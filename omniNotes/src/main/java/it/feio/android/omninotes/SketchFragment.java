@@ -100,10 +100,11 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     }
 
     // Show the Up button in the action bar.
-    if (getMainActivity().getSupportActionBar() != null) {
-      getMainActivity().getSupportActionBar().setDisplayShowTitleEnabled(true);
-      getMainActivity().getSupportActionBar().setTitle(R.string.title_activity_sketch);
-      getMainActivity().getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+    if (getActionBar() != null) {
+      getActionBar().setDisplayShowTitleEnabled(true);
+      getActionBar().setTitle(R.string.title_activity_sketch);
+      getActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     binding.sketchStroke.setOnClickListener(v -> {
@@ -172,6 +173,10 @@ public class SketchFragment extends Fragment implements OnDrawChangedListener {
     mColorPicker.setOnColorChangedListener(binding.drawing::setStrokeColor);
     mColorPicker.setColor(binding.drawing.getStrokeColor());
     mColorPicker.setOldCenterColor(binding.drawing.getStrokeColor());
+  }
+
+  private java.lang.Object getActionBar() {
+    return getMainActivity().getSupportActionBar();
   }
 
   @Override
