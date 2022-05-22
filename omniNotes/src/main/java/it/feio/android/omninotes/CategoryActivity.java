@@ -154,7 +154,8 @@ public class CategoryActivity extends AppCompatActivity implements
           // Changes navigation if actually are shown notes associated with this category
           String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
           String navigation = Prefs.getString(PREF_NAVIGATION, navNotes);
-          if (String.valueOf(category.getId()).equals(navigation)) {
+          boolean isCategoryEqualsNavi = String.valueOf(category.getId()).equals(navigation);
+          if (isCategoryEqualsNavi) {
             Prefs.edit().putString(PREF_NAVIGATION, navNotes).apply();
           }
           // Removes category and edit notes associated with it
