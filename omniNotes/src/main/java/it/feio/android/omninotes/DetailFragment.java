@@ -315,7 +315,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     mainActivity.getToolbar().setNavigationOnClickListener(v -> navigateUp());
 
     // Force the navigation drawer to stay opened if tablet mode is on, otherwise has to stay closed
-    if (NavigationDrawerFragment.isDoublePanelActive()) {
+    boolean isTabletMode = NavigationDrawerFragment.isDoublePanelActive();
+    if (isTabletMode) {
       mainActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_OPEN);
     } else {
       mainActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
