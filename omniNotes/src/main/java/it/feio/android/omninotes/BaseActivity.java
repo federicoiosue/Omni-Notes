@@ -170,13 +170,15 @@ public class BaseActivity extends AppCompatActivity {
 
   @SuppressLint("InlinedApi")
   protected void animateTransition(FragmentTransaction transaction, int direction) {
-    if (direction == TRANSITION_HORIZONTAL) {
-      transaction.setCustomAnimations(R.anim.fade_in_support, R.anim.fade_out_support,
-          R.anim.fade_in_support, R.anim.fade_out_support);
-    }
-    if (direction == TRANSITION_VERTICAL) {
-      transaction.setCustomAnimations(
-          R.anim.anim_in, R.anim.anim_out, R.anim.anim_in_pop, R.anim.anim_out_pop);
+    switch (direction) {
+      case TRANSITION_HORIZONTAL:
+        transaction.setCustomAnimations(R.anim.fade_in_support, R.anim.fade_out_support,
+                R.anim.fade_in_support, R.anim.fade_out_support);
+        break;
+      case TRANSITION_VERTICAL:
+        transaction.setCustomAnimations(
+                R.anim.anim_in, R.anim.anim_out, R.anim.anim_in_pop, R.anim.anim_out_pop);
+        break;
     }
   }
 
