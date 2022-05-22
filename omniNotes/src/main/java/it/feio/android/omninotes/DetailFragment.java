@@ -931,8 +931,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       noteTmp.setLatitude(location.getLatitude());
       noteTmp.setLongitude(location.getLongitude());
       if (!TextUtils.isEmpty(noteTmp.getAddress())) {
-        binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
-        binding.fragmentDetailContent.location.setText(noteTmp.getAddress());
+        setVisibilityAndText(noteTmp.getAddress());
       } else {
         GeocodeHelper.getAddressFromCoordinates(location, mFragment);
       }
@@ -956,8 +955,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     if (!GeocodeHelper.areCoordinates(address)) {
       noteTmp.setAddress(address);
     }
-    binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
-    binding.fragmentDetailContent.location.setText(address);
+    setVisibilityAndText(address);
     fade(binding.fragmentDetailContent.location, true);
   }
 
@@ -967,12 +965,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       noteTmp.setLatitude(location.getLatitude());
       noteTmp.setLongitude(location.getLongitude());
       noteTmp.setAddress(address);
-      binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
-      binding.fragmentDetailContent.location.setText(address);
+      setVisibilityAndText(address);
       fade(binding.fragmentDetailContent.location, true);
     } else {
       mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
     }
+  }
+
+  private void setVisibilityAndText(String address) {
+    binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
+    binding.fragmentDetailContent.location.setText(address);
   }
 
   @Override
