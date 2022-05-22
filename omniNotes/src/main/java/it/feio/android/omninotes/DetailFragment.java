@@ -431,9 +431,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private void checkNoteLock(Note note) {
     // If note is locked security password will be requested
 
-    Boolean isNoteLocked = note.isLocked();
+    boolean isNoteLocked = note.isLocked();
     String isPasswordExist = Prefs.getString(PREF_PASSWORD, null);
-    Boolean canAccessPassword = !Prefs.getBoolean("settings_password_access", false);
+    boolean canAccessPassword = !Prefs.getBoolean("settings_password_access", false);
 
     if (isNoteLocked && (isPasswordExist != null) && canAccessPassword) {
       PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
@@ -722,6 +722,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       Attachment attachment = (Attachment) parent.getAdapter().getItem(position);
       Uri sharableUri = FileProviderHelper.getShareableUri(attachment);
       Intent attachmentIntent;
+
       if (MIME_TYPE_FILES.equals(attachment.getMime_type())) {
 
         attachmentIntent = new Intent(Intent.ACTION_VIEW);
@@ -891,11 +892,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       // Choosing target view depending on another preference
       ArrayList<View> target = new ArrayList<>();
-      if ("complete".equals(colorsPref)) {
-        target.add(binding.titleWrapper);
-        target.add(binding.contentWrapper);
-      } else {
-        target.add(binding.tagMarker);
+
+      switch (colorsPref) {
+        case "complete":
+          target.add(binding.titleWrapper);
+          target.add(binding.contentWrapper);
+          break;
+
+        default:
+          target.add(binding.tagMarker);
+          break;
       }
 
       // Coloring the target
