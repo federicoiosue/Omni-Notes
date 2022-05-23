@@ -203,7 +203,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     if (savedInstanceState != null) {
-      if (savedInstanceState.containsKey(LIST_VIEW_POSITION)) {
+      boolean isInstanceContainKey = savedInstanceState.containsKey(LIST_VIEW_POSITION);
+      if (isInstanceContainKey) {
         loadSavedInstanceState(savedInstanceState);
       }
       keepActionMode = false;

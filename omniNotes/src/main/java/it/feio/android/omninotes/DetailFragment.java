@@ -396,7 +396,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
-    if (getResources().getConfiguration().orientation != newConfig.orientation) {
+    boolean isNewConfig = (getResources().getConfiguration().orientation != newConfig.orientation);
+    if (isNewConfig) {
       orientationChanged = true;
     }
   }
@@ -431,9 +432,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    */
   private void checkNoteLock(Note note) {
     // If note is locked security password will be requested
-    if (note.isLocked()
-        && Prefs.getString(PREF_PASSWORD, null) != null
-        && !Prefs.getBoolean("settings_password_access", false)) {
+
+    boolean isNoteLocked = note.isLocked();
+    String isPasswordExist = Prefs.getString(PREF_PASSWORD, null);
+    boolean canAccessPassword = !Prefs.getBoolean("settings_password_access", false);
+
+    if (isNoteLocked && (isPasswordExist != null) && canAccessPassword) {
       PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
         switch (passwordConfirmed) {
           case SUCCEED:
@@ -722,51 +726,53 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       Intent attachmentIntent;
       if (MIME_TYPE_FILES.equals(attachment.getMime_type())) {
 
-        attachmentIntent = new Intent(Intent.ACTION_VIEW);
-        attachmentIntent.setDataAndType(sharableUri, StorageHelper.getMimeType(mainActivity,
-            sharableUri));
-        attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
-            .FLAG_GRANT_WRITE_URI_PERMISSION);
-        if (IntentChecker
-            .isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
-          startActivity(attachmentIntent);
-        } else {
-          mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.WARN);
-        }
+      switch (attachment.getMime_type()) {
+        case "files/*":
+          attachmentIntent = new Intent(Intent.ACTION_VIEW);
+          attachmentIntent.setDataAndType(sharableUri, StorageHelper.getMimeType(mainActivity,
+                  sharableUri));
+          attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
+                  .FLAG_GRANT_WRITE_URI_PERMISSION);
+          if (IntentChecker
+                  .isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
+            startActivity(attachmentIntent);
+          } else {
+            mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.WARN);
+          }
+          break;
 
-        // Media files will be opened in internal gallery
-      } else if (MIME_TYPE_IMAGE.equals(attachment.getMime_type())
-          || MIME_TYPE_SKETCH.equals(attachment.getMime_type())
-          || MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
-        // Title
-        noteTemporary.setTitle(getNoteTitle());
-        noteTemporary.setContent(getNoteContent());
+        case "image/jpeg":
+        case "image/png":
+        case "video/mp4":
+          noteTemporary.setTitle(getNoteTitle());
+          noteTemporary.setContent(getNoteContent());
         String title1 = TextHelper.parseTitleAndContent(mainActivity,
                 noteTemporary)[0].toString();
-        // Images
-        int clickedImage = 0;
-        ArrayList<Attachment> images = new ArrayList<>();
-        for (Attachment mAttachment : noteTemporary.getAttachmentsList()) {
-          if (MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
-              || MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())
-              || MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
-            images.add(mAttachment);
-            if (mAttachment.equals(attachment)) {
-              clickedImage = images.size() - 1;
+          // Images
+          int clickedImage = 0;
+          ArrayList<Attachment> images = new ArrayList<>();
+          for (Attachment mAttachment : noteTemporary.getAttachmentsList()) {
+            if (MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
+                    || MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())
+                    || MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
+              images.add(mAttachment);
+              if (mAttachment.equals(attachment)) {
+                clickedImage = images.size() - 1;
+              }
             }
           }
-        }
-        // Intent
-        attachmentIntent = new Intent(mainActivity, GalleryActivity.class);
-        attachmentIntent.putExtra(GALLERY_TITLE, title1);
-        attachmentIntent.putParcelableArrayListExtra(GALLERY_IMAGES, images);
-        attachmentIntent.putExtra(GALLERY_CLICKED_IMAGE, clickedImage);
-        startActivity(attachmentIntent);
+          // Intent
+          attachmentIntent = new Intent(mainActivity, GalleryActivity.class);
+          attachmentIntent.putExtra(GALLERY_TITLE, title1);
+          attachmentIntent.putParcelableArrayListExtra(GALLERY_IMAGES, images);
+          attachmentIntent.putExtra(GALLERY_CLICKED_IMAGE, clickedImage);
+          startActivity(attachmentIntent);
+          break;
 
-      } else if (MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
-        playback(v, attachment.getUri());
+        case "audio/amr":
+          playback(v, attachment.getUri());
+          break;
       }
-
     });
 
     mGridView.setOnItemLongClickListener((parent, v, position, id) -> {
@@ -889,15 +895,21 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       // Choosing target view depending on another preference
       ArrayList<View> target = new ArrayList<>();
-      if ("complete".equals(colorsPref)) {
-        target.add(binding.titleWrapper);
-        target.add(binding.contentWrapper);
-      } else {
-        target.add(binding.tagMarker);
+
+      switch (colorsPref) {
+        case "complete":
+          target.add(binding.titleWrapper);
+          target.add(binding.contentWrapper);
+          break;
+
+        default:
+          target.add(binding.tagMarker);
+          break;
       }
 
       // Coloring the target
-      if (tag != null && tag.getColor() != null) {
+      boolean coloringAvailable = (tag != null && tag.getColor() != null);
+      if (coloringAvailable) {
         for (View view : target) {
           view.setBackgroundColor(parseInt(tag.getColor()));
         }
@@ -922,8 +934,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       noteTemporary.setLatitude(location.getLatitude());
       noteTemporary.setLongitude(location.getLongitude());
       if (!TextUtils.isEmpty(noteTemporary.getAddress())) {
-        binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
-        binding.fragmentDetailContent.location.setText(noteTemporary.getAddress());
+        setVisibilityAndText(noteTemporary.getAddress());
       } else {
         GeocodeHelper.getAddressFromCoordinates(location, mFragment);
       }
@@ -947,8 +958,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     if (!GeocodeHelper.areCoordinates(address)) {
       noteTemporary.setAddress(address);
     }
-    binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
-    binding.fragmentDetailContent.location.setText(address);
+    setVisibilityAndText(address);
     fade(binding.fragmentDetailContent.location, true);
   }
 
@@ -958,12 +968,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       noteTemporary.setLatitude(location.getLatitude());
       noteTemporary.setLongitude(location.getLongitude());
       noteTemporary.setAddress(address);
-      binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
-      binding.fragmentDetailContent.location.setText(address);
+      setVisibilityAndText(address);
       fade(binding.fragmentDetailContent.location, true);
     } else {
       mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
     }
+  }
+
+  private void setVisibilityAndText(String address) {
+    binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
+    binding.fragmentDetailContent.location.setText(address);
   }
 
   @Override
