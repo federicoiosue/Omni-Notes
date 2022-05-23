@@ -195,10 +195,10 @@ public class GeocodeHelper implements LocationListener {
         jsonResults.append(buff, 0, read);
       }
     } catch (MalformedURLException e) {
-      LogDelegate.e("Error processing Places API URL");
+      LogDelegate.errorLog("Error processing Places API URL");
       return Collections.emptyList();
     } catch (IOException e) {
-      LogDelegate.e("Error connecting to Places API");
+      LogDelegate.errorLog("Error connecting to Places API");
       return Collections.emptyList();
     } finally {
       if (conn != null) {
@@ -208,7 +208,7 @@ public class GeocodeHelper implements LocationListener {
         try {
           in.close();
         } catch (IOException e) {
-          LogDelegate.e("Error closing address autocompletion InputStream");
+          LogDelegate.errorLog("Error closing address autocompletion InputStream");
         }
       }
     }
@@ -223,7 +223,7 @@ public class GeocodeHelper implements LocationListener {
         resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
       }
     } catch (JSONException e) {
-      LogDelegate.e("Cannot process JSON results", e);
+      LogDelegate.errorLog("Cannot process JSON results", e);
     } finally {
       if (conn != null) {
         conn.disconnect();

@@ -31,7 +31,7 @@ public class PushBulletExtension extends MessagingExtension {
   @Override
   protected void onMessageReceived(final String conversationIden, final String message) {
     LogDelegate
-        .i("Pushbullet MessagingExtension: onMessageReceived(" + conversationIden + ", " + message
+        .informationLog("Pushbullet MessagingExtension: onMessageReceived(" + conversationIden + ", " + message
             + ")");
     EventBus.getDefault().post(new PushbulletReplyEvent(message));
 //        MainActivity runningMainActivity = MainActivity.getInstance();
@@ -44,6 +44,6 @@ public class PushBulletExtension extends MessagingExtension {
   @Override
   protected void onConversationDismissed(final String conversationIden) {
     LogDelegate
-        .i("Pushbullet MessagingExtension: onConversationDismissed(" + conversationIden + ")");
+        .informationLog("Pushbullet MessagingExtension: onConversationDismissed(" + conversationIden + ")");
   }
 }

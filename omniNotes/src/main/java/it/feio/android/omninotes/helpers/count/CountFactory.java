@@ -31,7 +31,7 @@ public class CountFactory {
       String locale = LanguageHelper.getCurrentLocaleAsString(OmniNotes.getAppContext());
       return getCounterInstanceByLocale(locale);
     } catch (Exception e) {
-      LogDelegate.w("Error retrieving locale or context: " + e.getLocalizedMessage(), e);
+      LogDelegate.warningLog("Error retrieving locale or context: " + e.getLocalizedMessage(), e);
       return new DefaultWordCounter();
     }
   }

@@ -76,7 +76,7 @@ public class AttachmentAdapter extends BaseAdapter {
 
   public View getView(int position, View convertView, ViewGroup parent) {
 
-    LogDelegate.v("GridView called for position " + position);
+    LogDelegate.vervoseLog("GridView called for position " + position);
 
     Attachment mAttachment = attachmentsList.get(position);
 

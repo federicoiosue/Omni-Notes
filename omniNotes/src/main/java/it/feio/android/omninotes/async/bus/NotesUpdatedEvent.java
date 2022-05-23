@@ -32,7 +32,7 @@ public class NotesUpdatedEvent {
 
 
   public NotesUpdatedEvent(List<Note> notes) {
-    LogDelegate.d(this.getClass().getName());
+    LogDelegate.debugLog(this.getClass().getName());
     this.notes = notes;
   }
 }

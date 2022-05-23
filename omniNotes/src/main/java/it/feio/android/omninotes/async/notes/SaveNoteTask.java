@@ -81,7 +81,7 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
     // Remove from database deleted attachments
     for (Attachment deletedAttachment : deletedAttachments) {
       StorageHelper.delete(context, deletedAttachment.getUri().getPath());
-      LogDelegate.d("Removed attachment " + deletedAttachment.getUri());
+      LogDelegate.debugLog("Removed attachment " + deletedAttachment.getUri());
     }
   }
 

@@ -120,7 +120,7 @@ public class FileHelper {
         return cursor.getString(column_index);
       }
     } catch (Exception e) {
-      LogDelegate.e("Error retrieving uri path", e);
+      LogDelegate.errorLog("Error retrieving uri path", e);
     }
     return null;
   }
@@ -168,7 +168,7 @@ public class FileHelper {
           }
 
         } catch (Exception e) {
-          LogDelegate.e("Error managing diskk cache", e);
+          LogDelegate.errorLog("Error managing diskk cache", e);
         }
       } else {
         fileName = uri.getLastPathSegment();

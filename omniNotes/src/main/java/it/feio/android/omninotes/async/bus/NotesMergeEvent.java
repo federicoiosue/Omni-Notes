@@ -25,7 +25,7 @@ public class NotesMergeEvent {
 
 
   public NotesMergeEvent(boolean keepMergedNotes) {
-    LogDelegate.d(this.getClass().getName());
+    LogDelegate.debugLog(this.getClass().getName());
     this.keepMergedNotes = keepMergedNotes;
   }
 }

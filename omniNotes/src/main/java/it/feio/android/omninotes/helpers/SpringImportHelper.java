@@ -225,7 +225,7 @@ public class SpringImportHelper {
           note.setLatitude(coords[0]);
           note.setLongitude(coords[1]);
         } catch (IOException e) {
-          LogDelegate.e("An error occurred trying to resolve address to coords during Springpad " +
+          LogDelegate.errorLog("An error occurred trying to resolve address to coords during Springpad " +
               "import");
         }
         note.setAddress(address);
@@ -252,7 +252,7 @@ public class SpringImportHelper {
           uri = Uri.parse(importer.getWorkingPath() + image);
           mAttachment = StorageHelper.createAttachmentFromUri(context, uri, true);
         } catch (IOException e) {
-          LogDelegate.e("Error retrieving Springpad online image");
+          LogDelegate.errorLog("Error retrieving Springpad online image");
         }
         if (mAttachment != null) {
           note.addAttachment(mAttachment);
@@ -282,7 +282,7 @@ public class SpringImportHelper {
           uri = Uri.parse(importer.getWorkingPath() + springpadAttachment.getUrl());
           mAttachment = StorageHelper.createAttachmentFromUri(context, uri, true);
         } catch (IOException e) {
-          LogDelegate.e("Error retrieving Springpad online image");
+          LogDelegate.errorLog("Error retrieving Springpad online image");
         }
         if (mAttachment != null) {
           note.addAttachment(mAttachment);
@@ -310,7 +310,7 @@ public class SpringImportHelper {
     try {
       importer.clean();
     } catch (IOException e) {
-      LogDelegate.w("Springpad import temp files not deleted");
+      LogDelegate.warningLog("Springpad import temp files not deleted");
     }
   }
 

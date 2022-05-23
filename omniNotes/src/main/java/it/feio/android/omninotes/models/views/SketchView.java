@@ -144,7 +144,7 @@ public class SketchView extends View implements OnTouchListener {
         invalidate();
         break;
       default:
-        LogDelegate.e("Wrong element choosen: " + event.getAction());
+        LogDelegate.errorLog("Wrong element choosen: " + event.getAction());
     }
     return true;
   }
@@ -273,7 +273,7 @@ public class SketchView extends View implements OnTouchListener {
         eraserSize = size;
         break;
       default:
-        LogDelegate.e("Wrong element choosen: " + eraserOrStroke);
+        LogDelegate.errorLog("Wrong element choosen: " + eraserOrStroke);
     }
 
   }

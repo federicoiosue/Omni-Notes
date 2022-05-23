@@ -46,14 +46,14 @@ public class NotificationListener extends NotificationListenerService {
 
   @Override
   public void onNotificationPosted(StatusBarNotification sbn) {
-    LogDelegate.d("Notification posted for note: " + sbn.getId());
+    LogDelegate.debugLog("Notification posted for note: " + sbn.getId());
   }
 
   @Override
   public void onNotificationRemoved(StatusBarNotification sbn) {
     if (getPackageName().equals(sbn.getPackageName())) {
       EventBus.getDefault().post(new NotificationRemovedEvent(sbn));
-      LogDelegate.d("Notification removed for note: " + sbn.getId());
+      LogDelegate.debugLog("Notification removed for note: " + sbn.getId());
     }
   }
 

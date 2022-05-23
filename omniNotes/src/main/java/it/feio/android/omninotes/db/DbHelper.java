@@ -177,7 +177,7 @@ public class DbHelper extends SQLiteOpenHelper {
   @Override
   public void onCreate(SQLiteDatabase db) {
     try {
-      LogDelegate.i("Database creation");
+      LogDelegate.informationLog("Database creation");
       execSqlFile(CREATE_QUERY, db);
     } catch (IOException e) {
       throw new DatabaseException("Database creation failed: " + e.getMessage(), e);
@@ -188,7 +188,7 @@ public class DbHelper extends SQLiteOpenHelper {
   @Override
   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     this.db = db;
-    LogDelegate.i("Upgrading database version from " + oldVersion + " to " + newVersion);
+    LogDelegate.informationLog("Upgrading database version from " + oldVersion + " to " + newVersion);
 
     try {
 
@@ -203,7 +203,7 @@ public class DbHelper extends SQLiteOpenHelper {
           }
         }
       }
-      LogDelegate.i("Database upgrade successful");
+      LogDelegate.informationLog("Database upgrade successful");
 
     } catch (IOException | InvocationTargetException | IllegalAccessException e) {
       throw new RuntimeException("Database upgrade failed", e);
@@ -243,7 +243,7 @@ public class DbHelper extends SQLiteOpenHelper {
     values.put(KEY_CHECKLIST, note.isChecklist() != null && note.isChecklist());
 
     db.insertWithOnConflict(TABLE_NOTES, KEY_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
-    LogDelegate.d("Updated note titled '" + note.getTitle() + "'");
+    LogDelegate.debugLog("Updated note titled '" + note.getTitle() + "'");
 
     // Updating attachments
     List<Attachment> deletedAttachments = note.getAttachmentsListOld();
@@ -271,14 +271,14 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
   private void execSqlFile(String sqlFile, SQLiteDatabase db) throws SQLException, IOException {
-    LogDelegate.i("  exec sql file: {}" + sqlFile);
+    LogDelegate.informationLog("  exec sql file: {}" + sqlFile);
     for (String sqlInstruction : SqlParser
         .parseSqlFile(SQL_DIR + "/" + sqlFile, mContext.getAssets())) {
-      LogDelegate.v("    sql: {}" + sqlInstruction);
+      LogDelegate.vervoseLog("    sql: {}" + sqlInstruction);
       try {
         db.execSQL(sqlInstruction);
       } catch (Exception e) {
-        LogDelegate.e("Error executing command: " + sqlInstruction, e);
+        LogDelegate.errorLog("Error executing command: " + sqlInstruction, e);
       }
     }
   }
@@ -441,7 +441,7 @@ public class DbHelper extends SQLiteOpenHelper {
         + whereCondition
         + (order ? " ORDER BY " + sortColumn + " COLLATE NOCASE " + sortOrder : "");
 
-    LogDelegate.v("Query: " + query);
+    LogDelegate.vervoseLog("Query: " + query);
 
     try (Cursor cursor = getDatabase().rawQuery(query, null)) {
 
@@ -489,7 +489,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
 
-    LogDelegate.v("Query: Retrieval finished!");
+    LogDelegate.vervoseLog("Query: Retrieval finished!");
     return noteList;
   }
 

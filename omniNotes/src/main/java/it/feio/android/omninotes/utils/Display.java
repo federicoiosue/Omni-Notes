@@ -56,7 +56,7 @@ public class Display {
         }
       }
     } catch (Exception e) {
-      LogDelegate.e("Error checking display sizes", e);
+      LogDelegate.errorLog("Error checking display sizes", e);
     }
     return displaySize;
   }

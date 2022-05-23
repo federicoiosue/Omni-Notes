@@ -76,7 +76,7 @@ public class RecurrenceHelper {
           .getNextDate(new DateTime(reminder), new DateTime(startTimestamp));
       return nextDate == null ? 0L : nextDate.getTime();
     } catch (ParseException e) {
-      LogDelegate.e("Error parsing rrule");
+      LogDelegate.errorLog("Error parsing rrule");
       return 0L;
     }
   }

@@ -57,11 +57,11 @@ public class CategoryActivity extends AppCompatActivity implements
     setContentView(view);
     category = getIntent().getParcelableExtra(INTENT_CATEGORY);
     if (category == null) {
-      LogDelegate.d("Adding new category");
+      LogDelegate.debugLog("Adding new category");
       category = new Category();
       category.setColor(String.valueOf(getRandomPaletteColor()));
     } else {
-      LogDelegate.d("Editing category " + category.getName());
+      LogDelegate.debugLog("Editing category " + category.getName());
     }
     selectedColor = parseInt(category.getColor());
     populateViews();

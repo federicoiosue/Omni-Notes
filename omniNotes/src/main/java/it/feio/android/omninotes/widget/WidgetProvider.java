@@ -51,7 +51,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
     ComponentName thisWidget = new ComponentName(context, getClass());
     int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
     for (int appWidgetId : allWidgetIds) {
-      LogDelegate.d("WidgetProvider onUpdate() widget " + appWidgetId);
+      LogDelegate.debugLog("WidgetProvider onUpdate() widget " + appWidgetId);
       // Get the layout for and attach an on-click listener to views
       setLayout(context, appWidgetManager, appWidgetId);
     }
@@ -63,7 +63,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
   public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
       int appWidgetId,
       Bundle newOptions) {
-    LogDelegate.d("Widget size changed");
+    LogDelegate.debugLog("Widget size changed");
     setLayout(context, appWidgetManager, appWidgetId);
   }
 

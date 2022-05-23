@@ -68,7 +68,7 @@ public class GalleryActivity extends AppCompatActivity {
         float dx = Math.abs(x - ev.getX());
         float dy = Math.abs(y - ev.getY());
         double dxy = Math.sqrt(dx * dx + dy * dy);
-        LogDelegate.v("Moved of " + dxy);
+        LogDelegate.vervoseLog("Moved of " + dxy);
         if (dxy >= MOVING_THRESHOLD) {
           statusPressed = false;
         }
@@ -175,7 +175,7 @@ public class GalleryActivity extends AppCompatActivity {
         viewMedia();
         break;
       default:
-        LogDelegate.e("Wrong element choosen: " + item.getItemId());
+        LogDelegate.errorLog("Wrong element choosen: " + item.getItemId());
     }
     return super.onOptionsItemSelected(item);
   }

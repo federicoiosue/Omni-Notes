@@ -191,7 +191,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
    * Schedules reminders
    */
   private void resetReminders() {
-    LogDelegate.d("Resettings reminders");
+    LogDelegate.debugLog("Resettings reminders");
     for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
       ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
     }

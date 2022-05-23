@@ -214,7 +214,7 @@ public class MainActivity extends BaseActivity implements
     super.onNewIntent(intent);
     setIntent(intent);
     handleIntents();
-    LogDelegate.d("onNewIntent");
+    LogDelegate.debugLog("onNewIntent");
   }
 
 
@@ -609,7 +609,7 @@ public class MainActivity extends BaseActivity implements
   public void deleteNote(Note note) {
     new NoteProcessorDelete(Collections.singletonList(note)).process();
     BaseActivity.notifyAppWidgets(this);
-    LogDelegate.d("Deleted permanently note with ID '" + note.get_id() + "'");
+    LogDelegate.debugLog("Deleted permanently note with ID '" + note.get_id() + "'");
   }
 
 

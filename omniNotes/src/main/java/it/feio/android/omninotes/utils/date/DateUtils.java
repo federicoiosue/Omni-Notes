@@ -57,10 +57,10 @@ public class DateUtils {
     try {
       cal.setTime(sdf.parse(str));
     } catch (ParseException e) {
-      LogDelegate.e("Malformed datetime string" + e.getMessage());
+      LogDelegate.errorLog("Malformed datetime string" + e.getMessage());
 
     } catch (NullPointerException e) {
-      LogDelegate.e("Date or time not set");
+      LogDelegate.errorLog("Date or time not set");
     }
     return cal;
   }
@@ -77,7 +77,7 @@ public class DateUtils {
       cDate.setTime(sdfDate.parse(date));
       cTime.setTime(sdfTime.parse(time));
     } catch (ParseException e) {
-      LogDelegate.e("Date or time parsing error: " + e.getMessage());
+      LogDelegate.errorLog("Date or time parsing error: " + e.getMessage());
     }
     cal.set(Calendar.YEAR, cDate.get(Calendar.YEAR));
     cal.set(Calendar.MONTH, cDate.get(Calendar.MONTH));
@@ -110,7 +110,7 @@ public class DateUtils {
       try {
         date = sdf.parse(dateString);
       } catch (ParseException e1) {
-        LogDelegate.e("String is not formattable into date");
+        LogDelegate.errorLog("String is not formattable into date");
       }
     }
 

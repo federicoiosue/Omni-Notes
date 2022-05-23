@@ -37,7 +37,7 @@ public class LogDelegate {
 
   private static Boolean fileLoggingEnabled;
 
-  public static void v(String message) {
+  public static void vervoseLog(String message) {
     if (isFileLoggingEnabled()) {
       FL.v(message);
     } else {
@@ -45,7 +45,7 @@ public class LogDelegate {
     }
   }
 
-  public static void d(String message) {
+  public static void debugLog(String message) {
     if (isFileLoggingEnabled()) {
       FL.d(message);
     } else {
@@ -53,7 +53,7 @@ public class LogDelegate {
     }
   }
 
-  public static void i(String message) {
+  public static void informationLog(String message) {
     if (isFileLoggingEnabled()) {
       FL.i(message);
     } else {
@@ -61,7 +61,7 @@ public class LogDelegate {
     }
   }
 
-  public static void w(String message, Throwable e) {
+  public static void warningLog(String message, Throwable e) {
     if (isFileLoggingEnabled()) {
       FL.w(message, e);
     } else {
@@ -69,7 +69,7 @@ public class LogDelegate {
     }
   }
 
-  public static void w(String message) {
+  public static void warningLog(String message) {
     if (isFileLoggingEnabled()) {
       FL.w(message);
     } else {
@@ -77,7 +77,7 @@ public class LogDelegate {
     }
   }
 
-  public static void e(String message, Throwable e) {
+  public static void errorLog(String message, Throwable e) {
     if (isFileLoggingEnabled()) {
       FL.e(message, e);
     } else {
@@ -85,8 +85,8 @@ public class LogDelegate {
     }
   }
 
-  public static void e(String message) {
-    e(message, new GenericException(message));
+  public static void errorLog(String message) {
+    errorLog(message, new GenericException(message));
   }
 
   private static boolean isFileLoggingEnabled() {

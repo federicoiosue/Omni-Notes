@@ -44,8 +44,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -130,7 +128,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     if (item.getItemId() == android.R.id.home) {
       getActivity().onBackPressed();
     } else {
-      LogDelegate.e("Wrong element choosen: " + item.getItemId());
+      LogDelegate.errorLog("Wrong element choosen: " + item.getItemId());
     }
     return super.onOptionsItemSelected(item);
   }
@@ -489,7 +487,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       try {
         changelog.setSummary(AppVersionHelper.getCurrentAppVersionName(getActivity()));
       } catch (NameNotFoundException e) {
-        LogDelegate.e("Error retrieving version", e);
+        LogDelegate.errorLog("Error retrieving version", e);
       }
     }
 
@@ -690,7 +688,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           break;
 
         default:
-          LogDelegate.e("Wrong element choosen: " + requestCode);
+          LogDelegate.errorLog("Wrong element choosen: " + requestCode);
       }
     }
   }

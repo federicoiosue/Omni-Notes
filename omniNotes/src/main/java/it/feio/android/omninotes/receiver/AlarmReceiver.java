@@ -57,7 +57,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         updateNote(note);
       }
     } catch (Exception e) {
-      LogDelegate.e("Error on receiving reminder", e);
+      LogDelegate.errorLog("Error on receiving reminder", e);
     }
   }
 

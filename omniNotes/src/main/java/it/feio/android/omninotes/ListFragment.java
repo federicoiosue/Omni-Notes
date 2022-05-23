@@ -435,7 +435,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       }
 
       actionMode = null;
-      LogDelegate.d("Closed multiselection contextual menu");
+      LogDelegate.debugLog("Closed multiselection contextual menu");
     }
 
 
@@ -563,7 +563,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   @Override
   public void onViewTouchOccurred(MotionEvent ev) {
-    LogDelegate.v("Notes list: onViewTouchOccurred " + ev.getAction());
+    LogDelegate.vervoseLog("Notes list: onViewTouchOccurred " + ev.getAction());
     commitPending();
   }
 
@@ -859,7 +859,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
           emptyTrash();
           break;
         default:
-          LogDelegate.e("Wrong element choosen: " + item.getItemId());
+          LogDelegate.errorLog("Wrong element choosen: " + item.getItemId());
       }
     } else {
       switch (item.getItemId()) {
@@ -900,7 +900,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 //                    synchronizeSelectedNotes();
 //                    break;
         default:
-          LogDelegate.e("Wrong element choosen: " + item.getItemId());
+          LogDelegate.errorLog("Wrong element choosen: " + item.getItemId());
       }
     }
 
@@ -942,7 +942,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   void editNote2(Note note) {
     if (note.get_id() == null) {
-      LogDelegate.d("Adding new note");
+      LogDelegate.debugLog("Adding new note");
       // if navigation is a category it will be set into note
       try {
         if (checkNavigation(Navigation.CATEGORY) || !isEmpty(mainActivity.navigationTmp)) {
@@ -951,10 +951,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
           note.setCategory(DbHelper.getInstance().getCategory(Long.parseLong(categoryId)));
         }
       } catch (NumberFormatException e) {
-        LogDelegate.v("Maybe was not a category!");
+        LogDelegate.vervoseLog("Maybe was not a category!");
       }
     } else {
-      LogDelegate.d("Editing note with ID: " + note.get_id());
+      LogDelegate.debugLog("Editing note with ID: " + note.get_id());
     }
 
     // Current list scrolling position is saved to be restored later
@@ -1052,7 +1052,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * @FIXME: This method is a divine disgrace and MUST be refactored. I'm ashamed by myself.
    */
   void initNotesList(Intent intent) {
-    LogDelegate.d("initNotesList intent: " + intent.getAction());
+    LogDelegate.debugLog("initNotesList intent: " + intent.getAction());
 
     binding.progressWheel.setAlpha(1);
     binding.list.setAlpha(0);
@@ -1239,7 +1239,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         onNoteSwipedPerformAction(note);
       }
     } catch (IndexOutOfBoundsException e) {
-      LogDelegate.d("Please stop swiping in the zone beneath the last card");
+      LogDelegate.debugLog("Please stop swiping in the zone beneath the last card");
     }
   }
 
@@ -1467,7 +1467,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     if (!checkNavigation(Navigation.CATEGORY)) {
       listAdapter.remove(notes);
     }
-    LogDelegate.d("Notes" + (archive ? "archived" : "restored from archive"));
+    LogDelegate.debugLog("Notes" + (archive ? "archived" : "restored from archive"));
   }
 
 
@@ -1714,7 +1714,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       ubc.hideUndoBar(false);
       fab.showFab();
 
-      LogDelegate.d("Changes committed");
+      LogDelegate.debugLog("Changes committed");
     }
     mainActivity.updateWidgets();
   }

@@ -501,7 +501,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
             noteTemporary = new Note();
             noteTemporary.setCategory(category);
           } catch (NumberFormatException e) {
-            LogDelegate.e("Category with not-numeric value!", e);
+            LogDelegate.errorLog("Category with not-numeric value!", e);
           }
         }
       }
@@ -827,7 +827,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         takeSketch(mAttachmentAdapter.getItem(attachmentPosition));
         break;
       default:
-        LogDelegate.w("No action available");
+        LogDelegate.warningLog("No action available");
     }
   }
 
@@ -1098,7 +1098,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         showNoteInfo();
         break;
       default:
-        LogDelegate.w("Invalid menu option selected");
+        LogDelegate.warningLog("Invalid menu option selected");
     }
     return super.onOptionsItemSelected(item);
   }
@@ -1184,7 +1184,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     try {
       newView = mChecklistManager.convert(toggleChecklistView);
     } catch (ViewNotSupportedException e) {
-      LogDelegate.e("Error switching checklist view", e);
+      LogDelegate.errorLog("Error switching checklist view", e);
     }
 
     // Switches the views
@@ -1413,7 +1413,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           mainActivity.showMessage(R.string.note_updated, ONStyle.CONFIRM);
           break;
         default:
-          LogDelegate.e("Wrong element choosen: " + requestCode);
+          LogDelegate.errorLog("Wrong element choosen: " + requestCode);
       }
     }
   }
@@ -1507,7 +1507,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         .positiveText(R.string.ok)
         .onPositive((dialog, which) -> {
           mainActivity.deleteNote(noteTemporary);
-          LogDelegate.d("Deleted note with ID '" + noteTemporary.get_id() + "'");
+          LogDelegate.debugLog("Deleted note with ID '" + noteTemporary.get_id() + "'");
           mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
           goHome();
         }).build().show();
@@ -1534,7 +1534,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     // Check if some text or attachments of any type have been inserted or is an empty note
     if (goBack && TextUtils.isEmpty(noteTemporary.getTitle()) && TextUtils.isEmpty(noteTemporary.getContent())
         && noteTemporary.getAttachmentsList().isEmpty()) {
-      LogDelegate.d("Empty note not saved");
+      LogDelegate.debugLog("Empty note not saved");
       exitMessage = getString(R.string.empty_note_not_saved);
       exitCroutonStyle = ONStyle.INFO;
       goHome();
@@ -1647,7 +1647,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    * Notes locking with security password to avoid viewing, editing or deleting from unauthorized
    */
   private void lockNote() {
-    LogDelegate.d("Locking or unlocking note " + note.get_id());
+    LogDelegate.debugLog("Locking or unlocking note " + note.get_id());
 
     // If security password is not set yes will be set right now
     if (Prefs.getString(PREF_PASSWORD, null) == null) {
@@ -1756,7 +1756,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         }
       });
     } catch (IOException e) {
-      LogDelegate.e("prepare() failed", e);
+      LogDelegate.errorLog("prepare() failed", e);
       mainActivity.showMessage(R.string.error, ONStyle.ALERT);
     }
   }
@@ -1802,7 +1802,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
             mRecorder.prepare();
             mRecorder.start();
           } catch (IOException | IllegalStateException e) {
-            LogDelegate.e("prepare() failed", e);
+            LogDelegate.errorLog("prepare() failed", e);
             mainActivity.showMessage(R.string.error, ONStyle.ALERT);
           }
         });
@@ -1909,7 +1909,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     switch (event.getAction()) {
 
       case MotionEvent.ACTION_DOWN:
-        LogDelegate.v("MotionEvent.ACTION_DOWN");
+        LogDelegate.vervoseLog("MotionEvent.ACTION_DOWN");
         int w;
 
         Point displaySize = Display.getUsableSize(mainActivity);
@@ -1923,7 +1923,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         break;
 
       case MotionEvent.ACTION_UP:
-        LogDelegate.v("MotionEvent.ACTION_UP");
+        LogDelegate.vervoseLog("MotionEvent.ACTION_UP");
         if (swiping) {
           swiping = false;
         }
@@ -1931,7 +1931,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       case MotionEvent.ACTION_MOVE:
         if (swiping) {
-          LogDelegate.v("MotionEvent.ACTION_MOVE at position " + x + ", " + y);
+          LogDelegate.vervoseLog("MotionEvent.ACTION_MOVE at position " + x + ", " + y);
           if (Math.abs(x - startSwipeX) > SWIPE_OFFSET) {
             swiping = false;
             FragmentTransaction transaction = mainActivity.getSupportFragmentManager()
@@ -1949,7 +1949,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         break;
 
       default:
-        LogDelegate.e("Wrong element choosen: " + event.getAction());
+        LogDelegate.errorLog("Wrong element choosen: " + event.getAction());
     }
 
     return true;
@@ -2005,7 +2005,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   public void onRecurrenceReminderPicked(String recurrenceRule) {
     noteTemporary.setRecurrenceRule(recurrenceRule);
     if (!TextUtils.isEmpty(recurrenceRule)) {
-      LogDelegate.d("Recurrent reminder set: " + recurrenceRule);
+      LogDelegate.debugLog("Recurrent reminder set: " + recurrenceRule);
       binding.fragmentDetailContent.datetime.setText(RecurrenceHelper
           .getNoteRecurrentReminderText(Long.parseLong(noteTemporary.getAlarm()), recurrenceRule));
     }
@@ -2332,7 +2332,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
               null, 0);
           break;
         default:
-          LogDelegate.e("Wrong element choosen: " + v.getId());
+          LogDelegate.errorLog("Wrong element choosen: " + v.getId());
       }
       if (!isRecording) {
         attachmentDialog.dismiss();

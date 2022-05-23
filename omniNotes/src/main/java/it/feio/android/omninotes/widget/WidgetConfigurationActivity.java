@@ -62,7 +62,7 @@ public class WidgetConfigurationActivity extends Activity {
           break;
 
         default:
-          LogDelegate.e("Wrong element choosen: " + checkedId);
+          LogDelegate.errorLog("Wrong element choosen: " + checkedId);
       }
     });
 

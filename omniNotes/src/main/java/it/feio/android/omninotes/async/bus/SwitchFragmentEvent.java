@@ -32,7 +32,7 @@ public class SwitchFragmentEvent {
   private Direction direction;
 
   public SwitchFragmentEvent(Direction direction) {
-    LogDelegate.d(this.getClass().getName());
+    LogDelegate.debugLog(this.getClass().getName());
     this.direction = direction;
   }
 }
