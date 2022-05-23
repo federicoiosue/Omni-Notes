@@ -140,7 +140,6 @@ public class MainActivity extends BaseActivity implements
     getSupportActionBar().setHomeButtonEnabled(true);
   }
 
-
   /**
    * This method starts the bootstrap chain.
    */
