@@ -21,10 +21,14 @@ import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_CATEGORY;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
 import static java.lang.Integer.parseInt;
 
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -36,6 +40,7 @@ import it.feio.android.omninotes.databinding.ActivityCategoryBinding;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.utils.Display;
 import it.feio.android.simplegallery.util.BitmapUtils;
 import java.util.Calendar;
 import java.util.Random;
@@ -68,6 +73,16 @@ public class CategoryActivity extends AppCompatActivity implements
     }
     selectedColor = parseInt(category.getColor());
     populateViews();
+    resetWindowSize();
+  }
+
+  private void resetWindowSize() {
+    Point screen = Display.getScreenDimensions(this);
+    Window window = getWindow();
+    WindowManager.LayoutParams params = window.getAttributes();
+    params.width = (int) (screen.x * 0.6);
+    params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+    window.setAttributes(params);
   }
 
   private int getRandomPaletteColor() {
