@@ -11,9 +11,9 @@ Omni-Notes
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/omni-notes/localized.png)](https://crowdin.com/project/omni-notes)
 [![GitHub release](https://badgen.net/github/release/federicoiosue/Omni-Notes)](https://github.com/federicoiosue/Omni-Notes/releases/latest)
 
-Note taking <b>open-source</b> application aimed to have both a <b>simple interface</b> but keeping <b>smart</b> behavior.
+Omni-Notes is a note taking <b>open-source</b> application aimed to have both a <b>simple interface</b> while keeping <b>smart</b> behavior. This application expands on the generic note taking features of other basic applications and allows for users to attach image and video files, use a variety of widgets, tag and organize notes, search through notes, and customize the applications UI.
 
-The project was inspired by the absence of such applications compatible with old phones and old versions of Android. It aims to provide an attractive look and follow the most recent design guidelines of the Google operating system.
+The project was inspired by the absence of such applications compatible with old phones and old versions of Android. It aims to provide an attractive look and follow the most recent design guidelines of the Google operating system that is not currently avaialbe for older devices.
 
 **Follow the developments and post your comments and advice on Facebook Community at https://www.facebook.com/OmniNotes**
 
@@ -33,21 +33,16 @@ If you're willing to help speeding up developments please also opt-in for the Al
 
 Currently the following functions are implemented:
 
-* Material Design interface
-  *Basic add, modify, archive, trash and delete notes actions
-* Share, merge and search notes
-* Image, audio and generic file attachments
-* Manage your notes using tags and categories
-* To-do list
-* Sketch-note mode
-* Notes shortcut on home screen
-* Export/import notes to backup
-* Google Now integration: just tell "write a note" followed by the content
-* Multiple widgets, DashClock extension, Android 4.2 lockscreen compatibility
-* Multilanguage: 30+ languages supported: https://crowdin.com/project/omni-notes
+* <b>Material Design interface:</b> Basic add, modify, archive, trash and delete notes actions
+* <b> Advanced Navigation and Sharing: </b>Share, merge and search notes, Export/import notes to backup
+* <b> Media Attachments: </b> Image, audio and generic file attachments
+* <b>Organization: </b>Manage your notes using tags and categories
+* <b>Specialty Features:</b>To-do list, Sketch-note mode, Google Now integration: just tell "write a note" followed by the content
+* <b> Widget Capabilities: </b>Multiple widgets, DashClock extension, Android 4.2 lockscreen compatibility, Notes shortcut on home screen
+* <b> Internationalization: </b>Multilanguage: 30+ languages supported: https://crowdin.com/project/omni-notes
 
 
-Further developments will include:
+Future Developments:
 
 * Notes sychronization
 * Web interface to manage notes ([stub project](https://github.com/federicoiosue/omni-notes-desktop))
@@ -75,8 +70,19 @@ Look into the wiki for GIFs-based tutorials: [LINK](https://github.com/federicoi
 
 ## Build
 
-Watch the following terminal session recording on how to compile distributable files
+Watch the following terminal session recording on how to compile distributable files or follow the instructions below
 [![asciicast](https://asciinema.org/a/102898.png)](https://asciinema.org/a/102898)
+
+Build instructions:
+* Enter your computer's terminal
+* Clone the application by using the link to the repository (https://github.com/federicoiosue/Omni-Notes), this will take a couple minutes
+* Enter the Omni-Notes folder using the command $cd Omni-Notes
+* Check that the branch is up to date by using the command $git status
+* Enter the command $export ANDROID_HOME=/home/fede/Android/Sdk
+* Enter the command $./gradlew assemble
+* Allow a couple minutes for the application to build.
+* View the outputs of the build using the command $ls -l omniNotes/build/outputs/apk
+
 
 To be sure that build environment is fully compliant with the project the following command creates a container with all the needed tools to compile the code:
 
