@@ -44,6 +44,8 @@
     android:required="false" />
 
   <application
+    android:usesCleartextTraffic="true"
+
     android:name="it.feio.android.omninotes.OmniNotes"
     android:allowBackup="true"
     android:requestLegacyExternalStorage="true"

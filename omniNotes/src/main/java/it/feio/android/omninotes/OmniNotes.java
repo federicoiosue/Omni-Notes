@@ -23,21 +23,18 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_LANG;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.StrictMode;
+import android.text.TextUtils;
 import androidx.multidex.MultiDexApplication;
 import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import org.acra.ACRA;
-import org.acra.annotation.AcraCore;
-import org.acra.annotation.AcraHttpSender;
-import org.acra.annotation.AcraToast;
-import org.acra.sender.HttpSender;
+import org.acra.config.CoreConfigurationBuilder;
+import org.acra.config.HttpSenderConfigurationBuilder;
+import org.acra.config.ToastConfigurationBuilder;
+import org.acra.sender.HttpSender.Method;
 
 
-@AcraCore(buildConfigClass = BuildConfig.class)
-@AcraHttpSender(uri = BuildConfig.CRASH_REPORTING_URL,
-    httpMethod = HttpSender.Method.POST)
-@AcraToast(resText = R.string.crash_toast)
 public class OmniNotes extends MultiDexApplication {
 
   private static Context mContext;
@@ -53,8 +50,7 @@ public class OmniNotes extends MultiDexApplication {
   @Override
   protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
-    ACRA.init(this);
-    ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild() ? "1" : "0");
+    initAcra();
   }
 
   @Override
@@ -64,6 +60,27 @@ public class OmniNotes extends MultiDexApplication {
     initSharedPreferences();
     enableStrictMode();
     new NotificationsHelper(this).initNotificationChannels();
+  }
+
+  private void initAcra() {
+    if (!TextUtils.isEmpty(BuildConfig.CRASH_REPORTING_URL)) {
+      HttpSenderConfigurationBuilder httpBuilder = new HttpSenderConfigurationBuilder()
+          .withUri(BuildConfig.CRASH_REPORTING_URL)
+          .withBasicAuthLogin(BuildConfig.CRASH_REPORTING_LOGIN)
+          .withBasicAuthPassword(BuildConfig.CRASH_REPORTING_PASSWORD)
+          .withHttpMethod(Method.POST)
+          .withEnabled(true);
+
+      ToastConfigurationBuilder toastBuilder = new ToastConfigurationBuilder()
+          .withText(this.getString(R.string.crash_toast))
+          .withEnabled(true);
+
+      CoreConfigurationBuilder builder = new CoreConfigurationBuilder()
+          .withPluginConfigurations(httpBuilder.build(), toastBuilder.build());
+
+      ACRA.init(this, builder);
+      ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild() ? "1" : "0");
+    }
   }
 
   private void initSharedPreferences() {

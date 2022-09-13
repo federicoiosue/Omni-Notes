@@ -151,8 +151,8 @@ dependencies {
     implementation 'com.larswerkman:HoloColorPicker:1.4'
     implementation 'de.keyboardsurfer.android.widget:crouton:1.8.4@aar'
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
-    implementation "ch.acra:acra-http:5.7.0"
-    implementation "ch.acra:acra-toast:5.7.0"
+    implementation "ch.acra:acra-http:5.9.3"
+    implementation "ch.acra:acra-toast:5.9.3"
     implementation 'com.github.gabrielemariotti.changeloglib:changelog:2.0.0'
     implementation 'com.appeaser.sublimepickerlibrary:sublimepickerlibrary:2.1.2'
     implementation 'androidx.preference:preference:1.1.1'
@@ -229,6 +229,8 @@ android.productFlavors.each { flavor ->
     String analyticsUrl = flavor.name == 'foss' && ANALYTICS_PARAMS_FOSS?.trim() ? ANALYTICS_PARAMS_FOSS : ANALYTICS_PARAMS
     flavor.buildConfigField 'String', 'ANALYTICS_PARAMS', '"' + analyticsUrl + '"'
     flavor.buildConfigField 'String', 'CRASH_REPORTING_URL', '"' + CRASH_REPORTING_URL + '"'
+    flavor.buildConfigField 'String', 'CRASH_REPORTING_LOGIN', '"' + CRASH_REPORTING_LOGIN + '"'
+    flavor.buildConfigField 'String', 'CRASH_REPORTING_PASSWORD', '"' + CRASH_REPORTING_PASSWORD + '"'
     flavor.buildConfigField 'String', 'VERSION_CHECK_URL', '"' + VERSION_CHECK_URL + '"'
     flavor.buildConfigField 'String', 'MAPS_API_KEY', '"' + MAPS_API_KEY + '"'
 }
