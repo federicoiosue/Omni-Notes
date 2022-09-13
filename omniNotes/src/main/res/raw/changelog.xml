@@ -17,7 +17,7 @@
 <changelog bulletedList="true">
 
   <changelogversion
-    changeDate="Apr 21, 2022"
+    changeDate="Sep 13, 2022"
     versionName="6.2.0">
     <changelogtext>[b]New![/b] Updated to Android 11 to get latest fixes and improvements
       <![CDATA[[b][font color=red>IMPORTANT:[/font][/b] This will require to move your old backups to the new directory]]>
