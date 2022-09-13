@@ -3,7 +3,7 @@
 Omni-Notes
 ==========
 
-![License](https://img.shields.io/badge/License-GPLv3-red.svg)
+[![License](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 [![CI workflow](https://github.com/federicoiosue/Omni-Notes/workflows/CI/badge.svg)](https://github.com/federicoiosue/Omni-Notes/actions?query=workflow%3ACI)
 [![CodeQL Workflow](https://github.com/federicoiosue/Omni-Notes/workflows/CodeQL/badge.svg)](https://github.com/federicoiosue/Omni-Notes/actions?query=workflow%3ACodeQL)
 [![Sonarcloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=omni-notes&metric=coverage)](https://sonarcloud.io/dashboard?id=omni-notes)
