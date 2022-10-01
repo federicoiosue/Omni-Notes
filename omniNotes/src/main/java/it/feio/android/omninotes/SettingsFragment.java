@@ -39,6 +39,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -87,6 +88,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
   private static final int SPRINGPAD_IMPORT = 0;
   private static final int RINGTONE_REQUEST_CODE = 100;
+  private static final int ACCESS_DATA = 200;
   public static final String XML_NAME = "xmlName";
 
 
@@ -159,10 +161,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     Preference importData = findPreference("settings_import_data");
     if (importData != null) {
       importData.setOnPreferenceClickListener(arg0 -> {
-        PermissionsHelper
-            .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-                    .string.permission_external_storage,
-                getActivity().findViewById(R.id.crouton_handle), this::importNotes);
+//        PermissionsHelper
+//            .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+//                    .string.permission_external_storage,
+//                getActivity().findViewById(R.id.crouton_handle), this::importNotes);
+
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI, BackupHelper.back);
+        startActivityForResult(intent, ACCESS_DATA);
         return false;
       });
     }

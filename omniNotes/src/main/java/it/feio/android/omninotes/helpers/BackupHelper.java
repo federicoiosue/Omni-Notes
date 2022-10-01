@@ -44,13 +44,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.experimental.UtilityClass;
+import net.lingala.zip4j.ZipFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import rx.Observable;
 
@@ -308,6 +311,28 @@ public final class BackupHelper {
     LinkedList<DiffMatchPatch.Diff> l = new LinkedList<>();
     l.add(new DiffMatchPatch.Diff(DiffMatchPatch.Operation.DELETE, e.getMessage()));
     errors.add(l);
+  }
+
+  public static void createCompressedBackup(File backupDir,
+      NotificationsHelper notificationsHelper) throws IOException {
+    if (notificationsHelper != null) {
+      notificationsHelper.updateMessage(OmniNotes.getAppContext().getString(R.string.backup_compressing));
+    }
+    try (var zipFile = new ZipFile(backupDir + ".zip")) {
+      zipFile.addFolder(backupDir);
+    }
+  }
+
+  public static File decompressBackup(File backupZip,
+      NotificationsHelper notificationsHelper) throws IOException {
+    var backupDir = new File(backupZip.getParent(), RandomStringUtils.randomAlphanumeric(10));
+    if (notificationsHelper != null) {
+      notificationsHelper.updateMessage(OmniNotes.getAppContext().getString(R.string.backup_extracting));
+    }
+    try (var zipFile = new ZipFile(backupZip)) {
+      zipFile.extractAll(backupDir.getAbsolutePath());
+      return Objects.requireNonNull(backupDir.listFiles())[0];
+    }
   }
 
 }

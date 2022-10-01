@@ -36,6 +36,7 @@ import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
+import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
@@ -101,6 +102,10 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
       BackupHelper.exportNotes(backupDir);
       BackupHelper.exportAttachments(backupDir, mNotificationsHelper);
       BackupHelper.exportSettings(backupDir);
+
+      BackupHelper.createCompressedBackup(backupDir, mNotificationsHelper);
+      backupDir.deleteOnExit();
+
     } catch (IOException e) {
       e.printStackTrace();
       mNotificationsHelper.finish(getString(R.string.data_export_failed), null);
@@ -111,11 +116,15 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
   private synchronized void importData(Intent intent) {
     boolean importLegacy = ACTION_DATA_IMPORT_LEGACY.equals(intent.getAction());
 
-    // Gets backup folder
     String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-    File backupDir = importLegacy ? new File(backupName) : StorageHelper.getOrCreateBackupDir(backupName);
+    var backup = importLegacy ? new File(backupName) : StorageHelper.getOrCreateBackupDir(backupName);
+    File backupDir = null;
 
     try {
+      backupDir = FileHelper.getFileExtension(backup).equals("zip")
+          ? BackupHelper.decompressBackup(backup, mNotificationsHelper)
+          : backup;
+
       BackupHelper.importSettings(backupDir);
 
       if (importLegacy) {
@@ -140,6 +149,10 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 //        }
     } catch (IOException e) {
       mNotificationsHelper.finish(getString(R.string.data_export_failed), null);
+    } finally {
+      if (backupDir != null) {
+        backupDir.deleteOnExit();
+      }
     }
   }
 

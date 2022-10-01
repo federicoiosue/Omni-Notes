@@ -189,6 +189,7 @@ dependencies {
     implementation 'com.github.bosphere.android-filelogger:filelogger:1.0.7'
     implementation 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
     implementation 'com.pixplicity.easyprefs:library:1.9.0'
+    implementation 'net.lingala.zip4j:zip4j:2.11.2'
 
     implementation('com.github.federicoiosue:simplegallery:3.0.1') {
         exclude group: 'com.android.support'

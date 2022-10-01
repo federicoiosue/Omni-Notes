@@ -366,6 +366,8 @@
   <string name="settings_enable_file_logging">Save logs to file</string>
   <string name="settings_enable_file_logging_summary">The logs of the apps will be saved into a file that you\'ll be able to share with the developer to investigate possible problems (restart required)</string>
   <string name="settings_statistics">Statistics</string>
+  <string name="backup_compressing">Compressing backup</string>
+  <string name="backup_extracting">Extracting backup</string>
 
   <!-- Stats -->
   <string name="stats_total_notes">Total notes</string>
