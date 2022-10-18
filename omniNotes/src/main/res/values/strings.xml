@@ -18,17 +18,17 @@
   -->
 <resources>
 
-  <string name="logo">Logo</string>
-  <string name="version_postfix"></string>
-  <string name="copyleft">Copyleft Feio 2015-2019</string>
-  <string name="dev_site">http://www.iosue.it/federico</string>
-  <string name="dev_github">https://github.com/federicoiosue</string>
-  <string name="beta_link">https://play.google.com/apps/testing/it.feio.android.omninotes</string>
-  <string name="paypal">Paypal</string>
-  <string name="paypal_url">http://goo.gl/ZXgBhz</string>
-  <string name="bitcoin">Bitcoin</string>
-  <string name="bitcoin_url">http://goo.gl/I6Xboe</string>
-  <string name="help_online_url">https://goo.gl/Q843oh</string>
+  <string name="logo" translatable="false">Logo</string>
+  <string name="version_postfix" translatable="false"></string>
+  <string name="copyleft" translatable="false">Copyleft Feio 2015-2019</string>
+  <string name="dev_site" translatable="false">http://www.iosue.it/federico</string>
+  <string name="dev_github" translatable="false">https://github.com/federicoiosue</string>
+  <string name="beta_link" translatable="false">https://play.google.com/apps/testing/it.feio.android.omninotes</string>
+  <string name="paypal" translatable="false">Paypal</string>
+  <string name="paypal_url" translatable="false">http://goo.gl/ZXgBhz</string>
+  <string name="bitcoin" translatable="false">Bitcoin</string>
+  <string name="bitcoin_url" translatable="false">http://goo.gl/I6Xboe</string>
+  <string name="help_online_url" translatable="false">https://goo.gl/Q843oh</string>
 
 
   <!-- Activities -->

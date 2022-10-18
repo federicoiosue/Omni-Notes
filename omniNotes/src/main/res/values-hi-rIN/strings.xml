@@ -389,4 +389,31 @@
     <string name="navigation_drawer_close">नेविगेशन ड्रावर बंद करें</string>
     <!-- Various -->
     <string name="channel_reminders_name">अनुस्मारक</string>
+    <string name="channel_pinned_description">पिन किए गए नोटों के लिए सूचनाएं</string>
+    <string name="channel_pinned_name">पिनड</string>
+    <string name="channel_reminders_description">नोटों के रिमाइंडर के लिए सूचनाएं</string>
+    <string name="channel_backups_description">बैकअप स्थिति और परिणामों के लिए सूचनाएं</string>
+    <string name="channel_backups_name">बैकअप</string>
+    <string name="tour_community">भाग लेने के लिए कम्युनिटीज को सब्सक्राइब करे!</string>
+    <string name="tour_detailactivity_reminder_detail">शॉर्ट प्रेस की तुलना में लॉन्ग प्रेस का किसी ऑब्जेक्ट (अटैचमेंट, लोकेशन, रिमाइंडर) पर अलग-अलग प्रभाव होता है!</string>
+    <string name="settings_enable_file_logging_summary">ऐप्स के लॉग एक फ़ाइल में सहेजे जाएंगे जिसे आप संभावित समस्याओं की जांच के लिए डेवलपर के साथ साझा करने में सक्षम होंगे (पुनरारंभ आवश्यक)</string>
+    <string name="settings_enable_file_logging">फ़ाइल में लॉग सहेजें</string>
+    <string name="settings_beta">चुने</string>
+    <string name="settings_enable_automatic_backup_dialog">इस सुविधा को एक्टिवटे करने से एक बार पूर्ण डेटा का बैकअप किया जाएगा</string>
+    <string name="settings_enable_automatic_backup_summary">नोट्स _autobackup फ़ोल्डर में संग्रहीत किए जाएंगे</string>
+    <string name="settings_enable_automatic_backup">आटोमेटिक बैकअप चालू करें</string>
+    <string name="settings_import_legacy">लीगेसी बैकअप पुनर्स्थापित करें</string>
+    <string name="nothing_selected">कुछ भी सेलेक्ट नहीं किया गया</string>
+    <string name="done">पूरा हुआ</string>
+    <string name="undo_changes_note_confirmation">परिवर्तनों को अनडू करने की पुष्टि करें?</string>
+    <string name="pined_note">नोट्स को नोटिफिकेशन के रूप में पिन किया गया</string>
+    <string name="pin_note">नोट पिन करें</string>
+    <string name="shortcut_disabled">शॉर्टकट अब मान्य नहीं है</string>
+    <string name="checklist_moveToBottom">चेक किए गए आइटम को नीचे ले जाएं</string>
+    <string name="data_export_failed">डेटा बैकअप फ़ैल: डिटेल्स के लिए लॉगकैट जांचें</string>
+    <string name="timestamp">टाइम-स्टैम्प</string>
+    <string name="location_set_high_accuracy">कृपया जारी रखने के लिए लोकेशन मोड को हाई एक्यूरेसी पर सेट करें</string>
+    <string name="note_doesnt_exist">नोट अब मौजूद नहीं है</string>
+    <string name="failed">असफल</string>
+    <string name="settings_import_legacy_summary">वर्शन 6 से पहले Omni Notes के वर्शन के साथ किए गए पुराने बैकअप को पुनर्स्थापित करने की अनुमति देता है</string>
 </resources>
