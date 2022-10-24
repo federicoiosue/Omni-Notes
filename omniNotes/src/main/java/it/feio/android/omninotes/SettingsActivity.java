@@ -17,27 +17,21 @@
 
 package it.feio.android.omninotes;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
-import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.databinding.ActivitySettingsBinding;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class SettingsActivity extends AppCompatActivity implements
-    PreferenceFragmentCompat.OnPreferenceStartFragmentCallback, FolderChooserDialog.FolderCallback {
+    PreferenceFragmentCompat.OnPreferenceStartFragmentCallback {
 
   private List<Fragment> backStack = new ArrayList<>();
 
@@ -91,26 +85,6 @@ public class SettingsActivity extends AppCompatActivity implements
   public void showMessage(String message, Style style) {
     // ViewGroup used to show Crouton keeping compatibility with the new Toolbar
     Crouton.makeText(this, message, style, binding.croutonHandle.croutonHandle).show();
-  }
-
-
-  @Override
-  public void onFolderSelection(@NonNull FolderChooserDialog dialog, @NonNull File folder) {
-    new MaterialDialog.Builder(this)
-        .title(R.string.data_import_message_warning)
-        .content(folder.getName())
-        .positiveText(R.string.confirm)
-        .onPositive((dialog1, which) -> {
-          Intent service = new Intent(getApplicationContext(), DataBackupIntentService.class);
-          service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT_LEGACY);
-          service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, folder.getAbsolutePath());
-          startService(service);
-        }).build().show();
-  }
-
-  @Override
-  public void onFolderChooserDismissed(@NonNull FolderChooserDialog dialog) {
-    // Nothing to do
   }
 
   @Override

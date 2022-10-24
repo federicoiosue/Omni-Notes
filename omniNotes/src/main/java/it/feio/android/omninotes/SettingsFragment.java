@@ -21,6 +21,7 @@ import static android.provider.Settings.System.DEFAULT_NOTIFICATION_URI;
 import static it.feio.android.omninotes.utils.ConstantsBase.DATABASE_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.DATE_FORMAT_EXPORT;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_AUTO_LOCATION;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_BACKUP_FOLDER_URI;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_ENABLE_FILE_LOGGING;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
@@ -32,32 +33,35 @@ import static java.util.Collections.emptyList;
 import static java.util.Collections.reverse;
 
 import android.Manifest;
+import android.Manifest.permission;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.async.DataBackupIntentService;
@@ -69,7 +73,7 @@ import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.PasswordValidator.Result;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.PasswordHelper;
@@ -81,12 +85,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
+import rx.Observable;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
   private static final int SPRINGPAD_IMPORT = 0;
   private static final int RINGTONE_REQUEST_CODE = 100;
+  private static final int ACCESS_DATA_FOR_EXPORT = 200;
+  private static final int ACCESS_DATA_FOR_IMPORT = 210;
   public static final String XML_NAME = "xmlName";
 
 
@@ -144,13 +151,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     if (export != null) {
       export.setSummary(StorageHelper.getExternalStoragePublicDir().getAbsolutePath());
       export.setOnPreferenceClickListener(arg0 -> {
-        View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup_layout, null);
-
-        PermissionsHelper
-            .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-                    .string.permission_external_storage,
-                getActivity().findViewById(R.id.crouton_handle), () -> export(v));
-
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+          DocumentFile backupFolder = scopedStorageFolderChoosen();
+          if (backupFolder == null) {
+            startIntentForScopedStorage(ACCESS_DATA_FOR_EXPORT);
+          } else {
+            exportNotes();
+          }
+        } else {
+          PermissionsHelper
+              .requestPermission(getActivity(), permission.WRITE_EXTERNAL_STORAGE, R
+                      .string.permission_external_storage,
+                  getActivity().findViewById(R.id.crouton_handle), this::exportNotes);
+        }
         return false;
       });
     }
@@ -159,27 +172,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     Preference importData = findPreference("settings_import_data");
     if (importData != null) {
       importData.setOnPreferenceClickListener(arg0 -> {
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+          DocumentFile backupFolder = scopedStorageFolderChoosen();
+          if (backupFolder == null) {
+            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+            intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI,
+                StorageHelper.getOrCreateExternalStoragePublicDir());
+            startActivityForResult(intent, ACCESS_DATA_FOR_IMPORT);
+          } else {
+            importNotes(backupFolder);
+          }
+        } else {
         PermissionsHelper
             .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
                     .string.permission_external_storage,
                 getActivity().findViewById(R.id.crouton_handle), this::importNotes);
-        return false;
-      });
-    }
-
-    // Import legacy notes
-    Preference importLegacyData = findPreference("settings_import_data_legacy");
-    if (importLegacyData != null) {
-      importLegacyData.setOnPreferenceClickListener(arg0 -> {
-
-        // Finds actually saved backups names
-        PermissionsHelper
-            .requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE, R
-                    .string.permission_external_storage,
-                getActivity().findViewById(R.id.crouton_handle), () -> new
-                    FolderChooserDialog.Builder(getActivity())
-                    .chooseButton(R.string.md_choose_label)
-                    .show(getActivity()));
+        }
         return false;
       });
     }
@@ -346,7 +354,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       }
       passwordAccess.setOnPreferenceChangeListener((preference, newValue) -> {
         PasswordHelper.requestPassword(getActivity(), passwordConfirmed -> {
-          if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
+          if (passwordConfirmed.equals(Result.SUCCEED)) {
             passwordAccess.setChecked((Boolean) newValue);
           }
         });
@@ -429,7 +437,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     final Preference ringtone = findPreference("settings_notification_ringtone");
     if (ringtone != null) {
       ringtone.setOnPreferenceClickListener(arg0 -> {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
           new NotificationsHelper(getContext()).updateNotificationChannelsSound();
         } else {
           Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
@@ -527,7 +535,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       enableFileLogging.setOnPreferenceChangeListener((preference, newValue) -> {
         if ((Boolean) newValue) {
           PermissionsHelper
-              .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+              .requestPermission(getActivity(), permission.WRITE_EXTERNAL_STORAGE, R
                       .string.permission_external_storage,
                   getActivity().findViewById(R.id.crouton_handle),
                   () -> enableFileLogging.setChecked(true));
@@ -554,9 +562,33 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
   }
 
+  private void startIntentForScopedStorage(int intentRequestCode) {
+    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+    intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI,
+        StorageHelper.getOrCreateExternalStoragePublicDir());
+    startActivityForResult(intent, intentRequestCode);
+  }
+
+  @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+  private DocumentFile scopedStorageFolderChoosen() {
+    String backupFolderUri = Prefs.getString(PREF_BACKUP_FOLDER_URI,
+        "content://com.android.externalstorage.documents/tree/primary");
+    DocumentFile backupFolder = DocumentFile.fromTreeUri(getContext(), Uri.parse(backupFolderUri));
+    return backupFolder.canWrite() ? backupFolder : null;
+  }
 
   private void importNotes() {
-    String[] backupsArray = StorageHelper.getOrCreateExternalStoragePublicDir().list();
+    importNotes(null);
+  }
+
+  private void importNotes(DocumentFile documentFile) {
+    String[] backupsArray;
+    if (documentFile != null) {
+      backupsArray = Observable.from(documentFile.listFiles()).map(DocumentFile::getName).toList()
+          .toBlocking().single().toArray(new String[0]);
+    } else {
+      backupsArray = StorageHelper.getOrCreateExternalStoragePublicDir().list();
+    }
 
     if (ArrayUtils.isEmpty(backupsArray)) {
       ((SettingsActivity) getActivity()).showMessage(R.string.no_backups_available, ONStyle.WARN);
@@ -577,8 +609,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             }
 
             String backupSelected = backups.get(position);
-            File backupDir = StorageHelper.getOrCreateBackupDir(backupSelected);
-            long size = StorageHelper.getSize(backupDir) / 1024;
+            long size = documentFile != null
+                ? documentFile.findFile(backupSelected).length()
+                : StorageHelper.getSize(StorageHelper.getOrCreateBackupDir(backupSelected)) / 1024;
             String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
             String message = String.format("%s (%s)", backupSelected, sizeString);
 
@@ -625,7 +658,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
   }
 
 
-  private void export(View v) {
+  private void exportNotes() {
+    View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup_layout, null);
+
     String[] backupsArray = StorageHelper.getOrCreateExternalStoragePublicDir().list();
     final List<String> backups = ArrayUtils.isEmpty(backupsArray) ? emptyList() : asList(backupsArray);
 
@@ -689,9 +724,25 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           Prefs.edit().putString("settings_notification_ringtone", notificationSound).apply();
           break;
 
+        case ACCESS_DATA_FOR_EXPORT:
+          saveScopedStorageUriInPreferences(intent);
+          exportNotes();
+          break;
+
+        case ACCESS_DATA_FOR_IMPORT:
+          saveScopedStorageUriInPreferences(intent);
+          importNotes(DocumentFile.fromTreeUri(getContext(), intent.getData()));
+          break;
+
         default:
           LogDelegate.e("Wrong element choosen: " + requestCode);
       }
     }
+  }
+
+  private void saveScopedStorageUriInPreferences(Intent intent) {
+    final int takeFlags = intent.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
+    getActivity().getContentResolver().takePersistableUriPermission(intent.getData(), takeFlags);
+    Prefs.putString(PREF_BACKUP_FOLDER_URI, intent.getData().toString());
   }
 }

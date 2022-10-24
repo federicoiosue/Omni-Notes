@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 import static rx.Observable.from;
 
 import android.net.Uri;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.OmniNotes;
@@ -33,11 +34,9 @@ import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Collection;
+import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.filefilter.RegexFileFilter;
-import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,21 +46,21 @@ import rx.Observable;
 @RunWith(AndroidJUnit4.class)
 public class BackupHelperTest extends BaseAndroidTestCase {
 
-  private File backupDir;
-  private File attachmentsBackupDir;
+  private DocumentFile backupDir;
+  private DocumentFile attachmentsBackupDir;
 
 
   @Before
   public void setUp() throws IOException {
-    backupDir = Files.createTempDirectory("backupDir").toFile();
-    attachmentsBackupDir = new File(backupDir, StorageHelper.getAttachmentDir().getName());
-    assertTrue(attachmentsBackupDir.mkdirs());
+    backupDir = DocumentFile.fromFile(Files.createTempDirectory("backupDir").toFile());
+    attachmentsBackupDir = backupDir.createDirectory(StorageHelper.getAttachmentDir().getName());
+    assertTrue(attachmentsBackupDir.canWrite());
   }
 
   @After
-  public void tearDown() throws Exception {
+  public void tearDown() {
     if (backupDir.exists()) {
-      FileUtils.forceDelete(backupDir);
+      backupDir.delete();
     }
   }
 
@@ -72,7 +71,8 @@ public class BackupHelperTest extends BaseAndroidTestCase {
 
   @Test
   public void exportNotes_nothingToExport() throws IOException {
-    File backupDir = Files.createTempDirectory("testBackupFolder").toFile();
+    DocumentFile backupDir = DocumentFile.fromFile(
+        Files.createTempDirectory("testBackupFolder").toFile());
 
     BackupHelper.exportNotes(backupDir);
 
@@ -83,7 +83,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
   @Test
   public void exportNotes() throws IOException {
     Observable.range(1, 4).forEach(i -> createTestNote("Note" + i, "content" + i, 1));
-    File backupDir = Files.createTempDirectory("testBackupFolder").toFile();
+    DocumentFile backupDir = DocumentFile.fromFile(Files.createTempDirectory("testBackupFolder").toFile());
 
     BackupHelper.exportNotes(backupDir);
 
@@ -96,39 +96,27 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     Note note = createTestNote("test title", "test content", 0);
 
     BackupHelper.exportNote(backupDir, note);
-    Collection<File> noteFiles = FileUtils.listFiles(backupDir, new RegexFileFilter("\\d{13}.json"),
-        TrueFileFilter.INSTANCE);
+    List<DocumentFile> noteFiles = from(backupDir.listFiles())
+        .filter(f -> f.getName().matches("\\d{13}.json")).toList().toBlocking().single();
     assertEquals(1, noteFiles.size());
-    Note retrievedNote = from(noteFiles).map(BackupHelper::importNote).toBlocking()
-        .first();
+    Note retrievedNote = from(noteFiles).map(BackupHelper::importNote).toBlocking().first();
     assertEquals(note, retrievedNote);
   }
 
   @Test
-  public void exportNote_withAttachment() throws IOException {
+  public void exportAttachments() throws IOException {
     Note note = createTestNote("test title", "test content", 1);
 
-    BackupHelper.exportNote(backupDir, note);
     BackupHelper.exportAttachments(null, attachmentsBackupDir,
         note.getAttachmentsList(), note.getAttachmentsListOld());
-    Collection<File> files = FileUtils
-        .listFiles(backupDir, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
 
-    Note retrievedNote = from(files).filter(file -> file.getName().equals(note
-        .getCreation() + ".json")).map(BackupHelper::importNote).toBlocking().first();
-    String retrievedAttachmentContent = from(files)
-        .filter(file -> file.getName().equals(FilenameUtils
-            .getName(note.getAttachmentsList().get(0).getUriPath()))).map(file -> {
-          try {
-            return FileUtils.readFileToString(file);
-          } catch (IOException e) {
-            return "bau";
-          }
-        }).toBlocking().first();
-    assertEquals(2, files.size());
-    assertEquals(note, retrievedNote);
-    assertEquals(retrievedAttachmentContent,
-        FileUtils.readFileToString(new File(note.getAttachmentsList().get(0).getUri().getPath())));
+    String retrievedAttachmentContent = DocumentFileHelper.readContent(testContext,
+        attachmentsBackupDir.findFile(
+            FilenameUtils.getName(note.getAttachmentsList().get(0).getUriPath())));
+    assertEquals(
+        FileUtils.readFileToString(new File(note.getAttachmentsList().get(0).getUri().getPath())),
+        retrievedAttachmentContent
+    );
   }
 
   @Test
@@ -151,22 +139,22 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     assertTrue(new File(attachment.getUri().getPath()).exists());
   }
 
-  @Test
+  @Test(expected = BackupException.class)
   public void importSettings_notFound() throws IOException {
     BackupHelper.importSettings(backupDir);
   }
 
   @Test
   public void importSettings() throws IOException {
-    new File(backupDir, StorageHelper.getSharedPreferencesFile(OmniNotes.getAppContext()).getName())
-        .createNewFile();
+    backupDir.createFile("",
+        StorageHelper.getSharedPreferencesFile(OmniNotes.getAppContext()).getName());
 
     BackupHelper.importSettings(backupDir);
   }
 
   private Attachment createTestAttachmentBackup() throws IOException {
-    File testAttachment = new File(attachmentsBackupDir, "testAttachment");
-    if (!testAttachment.createNewFile()) {
+    DocumentFile testAttachment = attachmentsBackupDir.createFile("", "testAttachment");
+    if (!testAttachment.exists() || !testAttachment.canRead()) {
       throw new BackupException("Error during test", null);
     }
 

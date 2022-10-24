@@ -153,6 +153,17 @@ public class StorageHelper {
     return file;
   }
 
+  public static boolean copyFile(Context context, Uri fileUri, Uri targetUri) {
+    try {
+      ContentResolver content = context.getContentResolver();
+      IOUtils.copy(content.openInputStream(fileUri), content.openOutputStream(targetUri));
+      return true;
+    } catch (IOException e) {
+      LogDelegate.e("Error copying file", e);
+      return false;
+    }
+  }
+
   public static void copyFile(File source, File destination, boolean failOnError) throws IOException {
     try {
       FileUtils.copyFile(source, destination);

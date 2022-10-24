@@ -103,6 +103,7 @@ public interface ConstantsBase {
   String PREF_PRETTIFIED_DATES = "settings_prettified_dates";
   String PREF_ENABLE_AUTOBACKUP = "settings_enable_autobackup";
   String PREF_ENABLE_FILE_LOGGING = "settings_enable_file_logging";
+  String PREF_BACKUP_FOLDER_URI = "backup_folder";
 
   String MIME_TYPE_IMAGE = "image/jpeg";
   String MIME_TYPE_AUDIO = "audio/amr";
