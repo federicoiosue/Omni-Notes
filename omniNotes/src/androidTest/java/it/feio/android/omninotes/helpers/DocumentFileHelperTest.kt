@@ -17,33 +17,33 @@
 
 package it.feio.android.omninotes.helpers
 
-import androidx.documentfile.provider.DocumentFile
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.lazygeniouz.dfc.file.DocumentFileCompat
 import it.feio.android.omninotes.BaseAndroidTestCase
 import org.apache.commons.io.IOUtils.readLines
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.io.File
+import java.util.Calendar
 
 @RunWith(AndroidJUnit4::class)
 class DocumentFileHelperTest : BaseAndroidTestCase() {
 
-    private lateinit var documentFile: DocumentFile
+    private val text: String = "some content for the attachment"
+    private lateinit var documentFile: DocumentFileCompat
 
     @Before
     fun setUp() {
-        documentFile = DocumentFile.fromFile(File.createTempFile("tempFile", "txt"));
+        documentFile = DocumentFileCompat.Companion.fromFile(testContext, File.createTempFile("tempFile", "txt"))
         assertTrue(documentFile.exists())
     }
 
     @Test
     fun readContent() {
-        val text = "some text"
-        val os = testContext.contentResolver.openOutputStream(documentFile.uri)
-        os?.write(text.toByteArray())
-
+        writeIntoFile()
         val riddenText = DocumentFileHelper.readContent(testContext, documentFile);
 
         assertNotNull(riddenText)
@@ -52,7 +52,6 @@ class DocumentFileHelperTest : BaseAndroidTestCase() {
 
     @Test
     fun write() {
-        val text = "some text"
         DocumentFileHelper.write(testContext, documentFile, text);
 
         val riddentText = readLines(testContext.contentResolver.openInputStream(documentFile.uri)).stream().reduce { t, u -> t + u }
@@ -67,4 +66,28 @@ class DocumentFileHelperTest : BaseAndroidTestCase() {
 
         assertFalse(documentFile.exists())
     }
+
+    @Test
+    fun copyFileTo() {
+        writeIntoFile()
+        val destinationFile = File.createTempFile("copyFileTo", Calendar.getInstance().timeInMillis.toString())
+
+        DocumentFileHelper.copyFileTo(testContext, documentFile, destinationFile);
+
+        assertEquals(text, destinationFile.readText())
+    }
+
+    @Test
+    @Ignore("runned manually")
+    fun copyFileTo_performance() {
+        for (i in 1..50) copyFileTo()
+
+        assertTrue(true)
+    }
+
+    private fun writeIntoFile() {
+        val os = testContext.contentResolver.openOutputStream(documentFile.uri)
+        os?.write(text.toByteArray())
+    }
+
 }

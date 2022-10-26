@@ -28,7 +28,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Build.VERSION_CODES;
-import androidx.documentfile.provider.DocumentFile;
+import com.lazygeniouz.dfc.file.DocumentFileCompat;
 import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.OmniNotes;
@@ -103,7 +103,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
   private void exportDataWithScopedStorage(Intent intent) {
     String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-    DocumentFile backupDir = DocumentFile.fromTreeUri(getBaseContext(),
+    var backupDir = DocumentFileCompat.Companion.fromTreeUri(getBaseContext(),
         Uri.parse(Prefs.getString(PREF_BACKUP_FOLDER_URI, null))).createDirectory(backupName);
 
     try {
@@ -127,9 +127,10 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     backupDir = StorageHelper.getOrCreateBackupDir(backupName);
 
     try {
-      BackupHelper.exportNotes(DocumentFile.fromFile(backupDir));
-      BackupHelper.exportAttachments(DocumentFile.fromFile(backupDir), mNotificationsHelper);
-      BackupHelper.exportSettings(DocumentFile.fromFile(backupDir));
+      BackupHelper.exportNotes(DocumentFileCompat.Companion.fromFile(getBaseContext(), backupDir));
+      BackupHelper.exportAttachments(
+          DocumentFileCompat.Companion.fromFile(getBaseContext(), backupDir), mNotificationsHelper);
+      BackupHelper.exportSettings(DocumentFileCompat.Companion.fromFile(getBaseContext(), backupDir));
     } catch (IOException e) {
       e.printStackTrace();
       mNotificationsHelper.finish(getString(R.string.data_export_failed), null);
@@ -149,7 +150,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     File backupDir = StorageHelper.getOrCreateBackupDir(intent.getStringExtra(INTENT_BACKUP_NAME));
 
     try {
-      DocumentFile backupDirDocumentFile = DocumentFile.fromFile(backupDir);
+      var backupDirDocumentFile = DocumentFileCompat.Companion.fromFile(getBaseContext(),
+          backupDir);
       BackupHelper.importSettings(backupDirDocumentFile);
       BackupHelper.importNotes(backupDirDocumentFile);
       BackupHelper.importAttachments(backupDirDocumentFile, mNotificationsHelper);
@@ -173,7 +175,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
   @TargetApi(VERSION_CODES.LOLLIPOP)
   private synchronized void importDataWithScopedStorage(Intent intent) {
-    DocumentFile backupDir = Observable.from(DocumentFile.fromTreeUri(getBaseContext(),
+    var backupDir = Observable.from(DocumentFileCompat.Companion.fromTreeUri(getBaseContext(),
             Uri.parse(Prefs.getString(PREF_BACKUP_FOLDER_URI, null))).listFiles())
         .filter(f -> f.getName().equals(intent.getStringExtra(INTENT_BACKUP_NAME))).toBlocking()
         .single();

@@ -19,10 +19,9 @@ package it.feio.android.omninotes.helpers
 
 import android.content.Context
 import android.net.Uri
-import androidx.documentfile.provider.DocumentFile
+import com.lazygeniouz.dfc.file.DocumentFileCompat
 import lombok.experimental.UtilityClass
 import org.apache.commons.io.IOUtils
-import rx.Observable
 import java.io.File
 import java.io.IOException
 
@@ -49,14 +48,14 @@ class DocumentFileHelper {
     companion object {
         @JvmStatic
         @Throws(IOException::class)
-        fun readContent(context: Context, documentFile: DocumentFile): String {
+        fun readContent(context: Context, documentFile: DocumentFileCompat): String {
             context.contentResolver.openInputStream(documentFile.uri).use { `is` ->
                 return IOUtils.toString(`is`)
             }
         }
 
         @JvmStatic
-        fun copyFileTo(context: Context, file: DocumentFile, destination: File?): Boolean {
+        fun copyFileTo(context: Context, file: DocumentFileCompat, destination: File?): Boolean {
             val contentResolver = context.contentResolver
             try {
                 contentResolver.openInputStream(file.uri).use { `is` ->
@@ -72,7 +71,7 @@ class DocumentFileHelper {
         }
 
         @JvmStatic
-        fun copyFileTo(context: Context, file: File?, destination: DocumentFile): Boolean {
+        fun copyFileTo(context: Context, file: File?, destination: DocumentFileCompat): Boolean {
             val contentResolver = context.contentResolver
             try {
                 contentResolver.openInputStream(Uri.fromFile(file)).use { `is` ->
@@ -89,14 +88,14 @@ class DocumentFileHelper {
 
         @JvmStatic
         @Throws(IOException::class)
-        fun write(context: Context, file: DocumentFile, content: String?) {
+        fun write(context: Context, file: DocumentFileCompat, content: String?) {
             val contentResolver = context.contentResolver
             contentResolver.openOutputStream(file.uri).use { os -> IOUtils.write(content, os) }
         }
 
         @JvmStatic
         @Throws(IOException::class)
-        fun delete(context: Context?, file: DocumentFile): Boolean {
+        fun delete(context: Context?, file: DocumentFileCompat): Boolean {
             return file.delete()
         }
     }

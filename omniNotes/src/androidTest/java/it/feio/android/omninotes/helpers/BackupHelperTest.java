@@ -21,8 +21,8 @@ import static org.junit.Assert.*;
 import static rx.Observable.from;
 
 import android.net.Uri;
-import androidx.documentfile.provider.DocumentFile;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import com.lazygeniouz.dfc.file.DocumentFileCompat;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.exceptions.BackupException;
@@ -34,7 +34,6 @@ import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.After;
@@ -46,13 +45,13 @@ import rx.Observable;
 @RunWith(AndroidJUnit4.class)
 public class BackupHelperTest extends BaseAndroidTestCase {
 
-  private DocumentFile backupDir;
-  private DocumentFile attachmentsBackupDir;
+  private DocumentFileCompat backupDir;
+  private DocumentFileCompat attachmentsBackupDir;
 
 
   @Before
   public void setUp() throws IOException {
-    backupDir = DocumentFile.fromFile(Files.createTempDirectory("backupDir").toFile());
+    backupDir = DocumentFileCompat.Companion.fromFile(testContext, Files.createTempDirectory("backupDir").toFile());
     attachmentsBackupDir = backupDir.createDirectory(StorageHelper.getAttachmentDir().getName());
     assertTrue(attachmentsBackupDir.canWrite());
   }
@@ -71,24 +70,25 @@ public class BackupHelperTest extends BaseAndroidTestCase {
 
   @Test
   public void exportNotes_nothingToExport() throws IOException {
-    DocumentFile backupDir = DocumentFile.fromFile(
+    var backupDir = DocumentFileCompat.Companion.fromFile(testContext,
         Files.createTempDirectory("testBackupFolder").toFile());
 
     BackupHelper.exportNotes(backupDir);
 
     assertTrue(backupDir.exists());
-    assertEquals(0, backupDir.listFiles().length);
+    assertEquals(0, backupDir.listFiles().size());
   }
 
   @Test
   public void exportNotes() throws IOException {
     Observable.range(1, 4).forEach(i -> createTestNote("Note" + i, "content" + i, 1));
-    DocumentFile backupDir = DocumentFile.fromFile(Files.createTempDirectory("testBackupFolder").toFile());
+    var backupDir = DocumentFileCompat.Companion.fromFile(testContext,
+        Files.createTempDirectory("testBackupFolder").toFile());
 
     BackupHelper.exportNotes(backupDir);
 
     assertTrue(backupDir.exists());
-    assertEquals(4, backupDir.listFiles().length);
+    assertEquals(4, backupDir.listFiles().size());
   }
 
   @Test
@@ -96,7 +96,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     Note note = createTestNote("test title", "test content", 0);
 
     BackupHelper.exportNote(backupDir, note);
-    List<DocumentFile> noteFiles = from(backupDir.listFiles())
+    var noteFiles = from(backupDir.listFiles())
         .filter(f -> f.getName().matches("\\d{13}.json")).toList().toBlocking().single();
     assertEquals(1, noteFiles.size());
     Note retrievedNote = from(noteFiles).map(BackupHelper::importNote).toBlocking().first();
@@ -133,7 +133,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
   public void importAttachment() throws IOException, BackupAttachmentException {
     Attachment attachment = createTestAttachmentBackup();
 
-    BackupHelper.importAttachment(attachmentsBackupDir, StorageHelper.getAttachmentDir(), attachment);
+    BackupHelper.importAttachment(attachmentsBackupDir.listFiles(), StorageHelper.getAttachmentDir(), attachment);
     LogDelegate.i("checking " + attachment.getUri().getPath());
 
     assertTrue(new File(attachment.getUri().getPath()).exists());
@@ -153,7 +153,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
   }
 
   private Attachment createTestAttachmentBackup() throws IOException {
-    DocumentFile testAttachment = attachmentsBackupDir.createFile("", "testAttachment");
+    var testAttachment = attachmentsBackupDir.createFile("", "testAttachment");
     if (!testAttachment.exists() || !testAttachment.canRead()) {
       throw new BackupException("Error during test", null);
     }

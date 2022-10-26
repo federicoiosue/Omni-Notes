@@ -26,7 +26,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
-import androidx.documentfile.provider.DocumentFile;
+import com.lazygeniouz.dfc.file.DocumentFileCompat;
 import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
@@ -56,17 +56,17 @@ import rx.Observable;
 @UtilityClass
 public final class BackupHelper {
 
-  public static void exportNotes(DocumentFile backupDir) {
+  public static void exportNotes(DocumentFileCompat backupDir) {
     for (Note note : DbHelper.getInstance(true).getAllNotes(false)) {
       exportNote(backupDir, note);
     }
   }
 
-  public static void exportNote(DocumentFile backupDir, Note note) {
+  public static void exportNote(DocumentFileCompat backupDir, Note note) {
     if (Boolean.TRUE.equals(note.isLocked())) {
       note.setContent(Security.encrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
     }
-    DocumentFile noteFile = getBackupNoteFile(backupDir, note);
+    var noteFile = getBackupNoteFile(backupDir, note);
     try {
       DocumentFileHelper.write(OmniNotes.getAppContext(), noteFile, note.toJSON());
     } catch (IOException e) {
@@ -75,21 +75,21 @@ public final class BackupHelper {
   }
 
   @NonNull
-  public static DocumentFile getBackupNoteFile(DocumentFile backupDir, Note note) {
+  public static DocumentFileCompat getBackupNoteFile(DocumentFileCompat backupDir, Note note) {
     return backupDir.createFile("application/json", String.valueOf(note.get_id()));
   }
 
   /**
    * Export attachments to backup folder notifying for each attachment copied
    */
-  public static void exportAttachments(DocumentFile backupDir, NotificationsHelper notificationsHelper) {
-    DocumentFile attachmentsDestinationDir = backupDir.createDirectory(StorageHelper.getAttachmentDir().getName());
+  public static void exportAttachments(DocumentFileCompat backupDir, NotificationsHelper notificationsHelper) {
+    DocumentFileCompat attachmentsDestinationDir = backupDir.createDirectory(StorageHelper.getAttachmentDir().getName());
     List<Attachment> list = DbHelper.getInstance().getAllAttachments();
     exportAttachments(notificationsHelper, attachmentsDestinationDir, list, null);
   }
 
   public static boolean exportAttachments(NotificationsHelper notificationsHelper,
-      DocumentFile destinationattachmentsDir, List<Attachment> list, List<Attachment> listOld) {
+      DocumentFileCompat destinationattachmentsDir, List<Attachment> list, List<Attachment> listOld) {
     boolean result = true;
     listOld = listOld == null ? Collections.emptyList() : listOld;
     int exported = 0;
@@ -127,11 +127,11 @@ public final class BackupHelper {
     }
   }
 
-  private static void exportAttachment(DocumentFile attachmentsDestination, Attachment attachment)
+  private static void exportAttachment(DocumentFileCompat attachmentsDestination, Attachment attachment)
       throws BackupAttachmentException {
     try {
-      DocumentFile destinationAttachment = attachmentsDestination.createFile(
-          "", attachment.getUri().getLastPathSegment());
+      var destinationAttachment = attachmentsDestination.createFile("",
+          attachment.getUri().getLastPathSegment());
       DocumentFileHelper.copyFileTo(OmniNotes.getAppContext(), new File(attachment.getUri().getPath()),
           destinationAttachment);
     } catch (Exception e) {
@@ -140,16 +140,16 @@ public final class BackupHelper {
     }
   }
 
-  public static List<Note> importNotes(DocumentFile backupDir) {
+  public static List<Note> importNotes(DocumentFileCompat backupDir) {
     List<Note> notes = new ArrayList<>();
-    for (DocumentFile file : Observable.from(backupDir.listFiles())
+    for (var file : Observable.from(backupDir.listFiles())
         .filter(f -> f.getName().matches("\\d{13}.json")).toList().toBlocking().single()) {
       notes.add(importNote(file));
     }
     return notes;
   }
 
-  public static Note importNote(DocumentFile file) {
+  public static Note importNote(DocumentFileCompat file) {
     Note note = getImportNote(file);
     if (note.getCategory() != null) {
       DbHelper.getInstance().updateCategory(note.getCategory());
@@ -161,7 +161,7 @@ public final class BackupHelper {
     return note;
   }
 
-  public static Note getImportNote(DocumentFile file) {
+  public static Note getImportNote(DocumentFileCompat file) {
     try {
       Note note = new Note();
       String jsonString = DocumentFileHelper.readContent(OmniNotes.getAppContext(), file);
@@ -178,20 +178,21 @@ public final class BackupHelper {
   /**
    * Import attachments from backup folder notifying for each imported item
    */
-  public static boolean importAttachments(DocumentFile backupDir, NotificationsHelper notificationsHelper) {
+  public static boolean importAttachments(DocumentFileCompat backupDir, NotificationsHelper notificationsHelper) {
     AtomicBoolean result = new AtomicBoolean(true);
     File attachmentsDir = StorageHelper.getAttachmentDir();
-    DocumentFile backupAttachmentsDir = backupDir.findFile(attachmentsDir.getName());
+    var backupAttachmentsDir = backupDir.findFile(attachmentsDir.getName());
     if (!backupAttachmentsDir.exists()) {
       return false;
     }
 
     AtomicInteger imported = new AtomicInteger();
     ArrayList<Attachment> attachments = DbHelper.getInstance().getAllAttachments();
+    var BackupedAttachments = backupAttachmentsDir.listFiles();
     rx.Observable.from(attachments)
         .forEach(attachment -> {
           try {
-            importAttachment(backupAttachmentsDir, attachmentsDir, attachment);
+            importAttachment(BackupedAttachments, attachmentsDir, attachment);
             if (notificationsHelper != null) {
               notificationsHelper.updateMessage(TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string.attachment)) + " "
                       + imported.incrementAndGet() + "/" + attachments.size());
@@ -203,13 +204,14 @@ public final class BackupHelper {
     return result.get();
   }
 
-  static void importAttachment(DocumentFile backupAttachmentsDir, File attachmentsDir,
+  static void importAttachment(List<DocumentFileCompat> backupedAttachments, File attachmentsDir,
       Attachment attachment) throws BackupAttachmentException {
     String attachmentName = attachment.getUri().getLastPathSegment();
     try {
       File destinationAttachment = new File(attachmentsDir, attachmentName);
-      DocumentFileHelper.copyFileTo(OmniNotes.getAppContext(),
-          backupAttachmentsDir.findFile(attachmentName), destinationAttachment);
+      var backupedAttachment = Observable.from(backupedAttachments)
+          .filter(ba -> attachmentName.equals(ba.getName())).toBlocking().single();
+      DocumentFileHelper.copyFileTo(OmniNotes.getAppContext(), backupedAttachment, destinationAttachment);
     } catch (Exception e) {
       LogDelegate.e("Error importing the attachment " + attachment.getUri().getPath(), e);
       throw new BackupAttachmentException(e);
@@ -228,15 +230,15 @@ public final class BackupHelper {
     OmniNotes.getAppContext().startService(service);
   }
 
-  public static void exportSettings(DocumentFile backupDir) throws IOException {
+  public static void exportSettings(DocumentFileCompat backupDir) throws IOException {
     File preferences = StorageHelper.getSharedPreferencesFile(OmniNotes.getAppContext());
     var destinationSetting = backupDir.createFile("", preferences.getName());
     DocumentFileHelper.copyFileTo(OmniNotes.getAppContext(), preferences, destinationSetting);
   }
 
-  public static void importSettings(DocumentFile backupDir) throws IOException {
+  public static void importSettings(DocumentFileCompat backupDir) throws IOException {
     File preferences = StorageHelper.getSharedPreferencesFile(OmniNotes.getAppContext());
-    DocumentFile preferenceBackup = backupDir.findFile(preferences.getName());
+    DocumentFileCompat preferenceBackup = backupDir.findFile(preferences.getName());
     try {
       StorageHelper.copyFile(OmniNotes.getAppContext(), preferenceBackup.getUri(),
           Uri.fromFile(preferences));
@@ -258,7 +260,7 @@ public final class BackupHelper {
   /**
    * Import database from backup folder. Used ONLY to restore legacy backup
    *
-   * @deprecated {@link BackupHelper#importNotes(DocumentFile)}
+   * @deprecated {@link BackupHelper#importNotes(DocumentFileCompat)}
    */
   @Deprecated
   public static void importDB(Context context, File backupDir) throws IOException {
