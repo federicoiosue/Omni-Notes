@@ -184,7 +184,7 @@
       android:name="it.feio.android.omninotes.ShortcutActivity"
       android:icon="@drawable/shortcut_icon"
       android:label="@string/add_note"
-      android:exported="false">
+      android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.CREATE_SHORTCUT" />
         <category android:name="android.intent.category.DEFAULT" />
