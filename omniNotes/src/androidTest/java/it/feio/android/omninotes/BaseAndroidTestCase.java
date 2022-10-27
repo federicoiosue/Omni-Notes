@@ -22,6 +22,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static it.feio.android.omninotes.utils.Constants.PACKAGE;
 import static java.util.Locale.ENGLISH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -69,10 +70,10 @@ public class BaseAndroidTestCase {
 
   @BeforeClass
   public static void setUpBeforeClass() {
-    testContext = ApplicationProvider.getApplicationContext();
+    setContextForTests();
     grantPermissions();
-    prefs = Prefs.getPreferences();
-    dbHelper = DbHelper.getInstance(testContext);
+    setSharedPreferencesForTests();
+    setDbHelperForTests();
   }
 
   @Before
@@ -204,6 +205,22 @@ public class BaseAndroidTestCase {
         fail("there exists a non-static method:" + method);
       }
     }
+  }
+
+  private static void setContextForTests() {
+    testContext = ApplicationProvider.getApplicationContext();
+  }
+
+  private static void setDbHelperForTests() {
+    dbHelper = DbHelper.getInstance(testContext);
+  }
+
+  private static void setSharedPreferencesForTests() {
+    new Prefs.Builder()
+        .setContext(testContext)
+        .setPrefsName(PACKAGE + ".test")
+        .build();
+    prefs = Prefs.getPreferences();
   }
 
 }

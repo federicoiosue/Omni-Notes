@@ -58,11 +58,9 @@ public class PasswordHelper {
         .positiveText(R.string.ok)
         .positiveColorRes(R.color.colorPrimary)
         .onPositive((dialog12, which) -> {
-          // When positive button is pressed password correctness is checked
-          String oldPassword = Prefs.getString(PREF_PASSWORD, "");
+          String storedPassword = Prefs.getString(PREF_PASSWORD, "");
           String password = passwordEditText.getText().toString();
-          // The check is done on password's hash stored in preferences
-          boolean result = Security.md5(password).equals(oldPassword);
+          boolean result = Security.md5(password).equals(storedPassword);
 
           // In case password is ok dialog is dismissed and result sent to callback
           if (result) {

@@ -17,13 +17,15 @@
 <changelog bulletedList="true">
 
   <changelogversion
-    changeDate="Sep 20, 2022"
+    changeDate="Nov 02, 2022"
     versionName="6.2.0">
     <changelogtext>[b]New![/b] Updated to Android 11 to get latest fixes and improvements
       <![CDATA[[b][font color=red>IMPORTANT:[/font][/b] This will require to move your old backups to the new directory]]>
     </changelogtext>
-    <changelogtext>[b]New![/b] Open source transparent crash reporting on acra.omninotes.app (user: guest, pass: guest)</changelogtext>
+    <changelogtext>[b]New![/b] Open source transparent crashes reporting available on acra.omninotes.app (user: guest, pass: guest)</changelogtext>
     <changelogtext>[b]New![/b] Removed all analytics</changelogtext>
+    <changelogtext>[i]Improved![/i] Password is required when importing backups containing protected notes</changelogtext>
+    <changelogtext>[u]Fix[/u] Backups restoration on Android 12+</changelogtext>
     <changelogtext>[u]Fix[/u] Backup import/export notifications improvements</changelogtext>
   </changelogversion>
 

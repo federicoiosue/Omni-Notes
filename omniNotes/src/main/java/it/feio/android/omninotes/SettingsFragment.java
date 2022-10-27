@@ -85,6 +85,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import rx.Observable;
 
 
@@ -171,6 +172,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Import notes
     Preference importData = findPreference("settings_import_data");
     if (importData != null) {
+      if (StringUtils.isEmpty(Prefs.getString(PREF_PASSWORD, ""))) {
+        importData.setSummary(getString(R.string.settings_import_summary));
+      }
       importData.setOnPreferenceClickListener(arg0 -> {
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
           DocumentFile backupFolder = scopedStorageFolderChoosen();

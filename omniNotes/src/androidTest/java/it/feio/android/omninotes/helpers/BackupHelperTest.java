@@ -17,12 +17,14 @@
 
 package it.feio.android.omninotes.helpers;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 import static org.junit.Assert.*;
 import static rx.Observable.from;
 
 import android.net.Uri;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.lazygeniouz.dfc.file.DocumentFileCompat;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.BaseAndroidTestCase;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.exceptions.BackupException;
@@ -30,12 +32,14 @@ import it.feio.android.omninotes.exceptions.checked.BackupAttachmentException;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -120,7 +124,54 @@ public class BackupHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void importAttachments() throws IOException {
+  public void importNote() throws IOException {
+    var note = createTestNote("test title", "test content", 0);
+    var noteFile = File.createTempFile(String.valueOf(note.get_id()), ".json");
+    FileUtils.write(noteFile, note.toJSON());
+
+    var importedNote = BackupHelper.importNote(DocumentFileCompat.Companion.fromFile(testContext, noteFile));
+
+    assertNotNull(importedNote);
+    assertEquals(note.getTitle(), importedNote.getTitle());
+    assertEquals(note.getContent(), importedNote.getContent());
+  }
+
+  @Test
+  public void importNote_lockedAndPasswordIsSet() throws IOException {
+    var password = "uglypassword";
+    var content = "test content";
+    Prefs.putString(PREF_PASSWORD, Security.md5(password));
+    var note = createTestNote("test title",
+        Security.encrypt(content, Prefs.getString(PREF_PASSWORD, "")), 0);
+    note.setLocked(true);
+    var noteFile = File.createTempFile(String.valueOf(note.get_id()), ".json");
+    FileUtils.write(noteFile, note.toJSON());
+
+    var importedNote = BackupHelper.importNote(DocumentFileCompat.Companion.fromFile(testContext, noteFile));
+
+    assertNotNull(Prefs.getString(PREF_PASSWORD, ""));
+    assertNotNull(importedNote);
+    assertEquals(note.getTitle(), importedNote.getTitle());
+    assertEquals(content, importedNote.getContent());
+  }
+
+  @Test
+  public void importNote_lockedButNoPasswordIsSet() throws IOException {
+    var password = "uglypassword";
+    var content = "test content";
+    var note = createTestNote("test title", Security.encrypt(content, password), 0);
+    note.setLocked(true);
+    var noteFile = File.createTempFile(String.valueOf(note.get_id()), ".json");
+    FileUtils.write(noteFile, note.toJSON());
+
+    var importedNote = BackupHelper.importNote(DocumentFileCompat.Companion.fromFile(testContext, noteFile));
+
+    assertTrue(StringUtils.isBlank(Prefs.getString(PREF_PASSWORD, "")));
+    assertNull(importedNote);
+  }
+
+  @Test
+  public void importAttachments() {
     Attachment attachment = createTestAttachmentBackup();
 
     boolean result = BackupHelper.importAttachments(backupDir, null);
@@ -130,7 +181,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void importAttachment() throws IOException, BackupAttachmentException {
+  public void importAttachment() throws BackupAttachmentException {
     Attachment attachment = createTestAttachmentBackup();
 
     BackupHelper.importAttachment(attachmentsBackupDir.listFiles(), StorageHelper.getAttachmentDir(), attachment);
@@ -152,7 +203,7 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     BackupHelper.importSettings(backupDir);
   }
 
-  private Attachment createTestAttachmentBackup() throws IOException {
+  private Attachment createTestAttachmentBackup() {
     var testAttachment = attachmentsBackupDir.createFile("", "testAttachment");
     if (!testAttachment.exists() || !testAttachment.canRead()) {
       throw new BackupException("Error during test", null);

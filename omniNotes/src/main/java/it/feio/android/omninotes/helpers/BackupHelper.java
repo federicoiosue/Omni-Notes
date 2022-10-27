@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import com.lazygeniouz.dfc.file.DocumentFileCompat;
 import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.OmniNotes;
@@ -50,8 +51,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import rx.Observable;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 @UtilityClass
 public final class BackupHelper {
@@ -141,21 +145,26 @@ public final class BackupHelper {
   }
 
   public static List<Note> importNotes(DocumentFileCompat backupDir) {
-    List<Note> notes = new ArrayList<>();
-    for (var file : Observable.from(backupDir.listFiles())
-        .filter(f -> f.getName().matches("\\d{13}.json")).toList().toBlocking().single()) {
-      notes.add(importNote(file));
-    }
-    return notes;
+    return Observable.from(backupDir.listFiles())
+        .filter(f -> f.getName().matches("\\d{13}.json"))
+        .map(BackupHelper::importNote)
+        .filter(n -> n != null)
+        .toList().toBlocking().single();
   }
 
+  @Nullable
   public static Note importNote(DocumentFileCompat file) {
     Note note = getImportNote(file);
+
+    if (Boolean.TRUE.equals(note.isLocked())) {
+      if (StringUtils.isEmpty(Prefs.getString(PREF_PASSWORD, ""))) {
+        return null;
+      }
+      note.setContent(Security.decrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
+    }
+
     if (note.getCategory() != null) {
       DbHelper.getInstance().updateCategory(note.getCategory());
-    }
-    if (Boolean.TRUE.equals(note.isLocked())) {
-      note.setContent(Security.decrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
     }
     DbHelper.getInstance().updateNote(note, false);
     return note;

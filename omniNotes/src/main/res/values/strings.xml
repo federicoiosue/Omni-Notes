@@ -20,7 +20,7 @@
 
   <string name="logo">Logo</string>
   <string name="version_postfix"></string>
-  <string name="copyleft">Copyleft Feio 2015-2019</string>
+  <string name="copyleft">Copyleft Feio 2015-2022</string>
   <string name="dev_site">http://www.iosue.it/federico</string>
   <string name="dev_github">https://github.com/federicoiosue</string>
   <string name="beta_link">https://play.google.com/apps/testing/it.feio.android.omninotes</string>
@@ -243,6 +243,7 @@
   <string name="settings_export">Backup</string>
   <string name="settings_sync_import_export">Sync and Backups</string>
   <string name="settings_import">Restore or delete backups</string>
+  <string name="settings_import_summary">WARNING: No password is set, protected notes will not be restored from backup for security reasons</string>
   <string name="settings_import_legacy">Restore legacy backup</string>
   <string name="settings_import_legacy_summary">Allows to restore old backups made with versions of Omni Notes prior to version 6</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>
