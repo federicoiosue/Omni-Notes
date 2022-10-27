@@ -27,7 +27,6 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_ENABLE_FILE_LOG
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SHOW_UNCATEGORIZED;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SNOOZE_DEFAULT;
-import static it.feio.android.omninotes.utils.ConstantsBase.PREF_TOUR_COMPLETE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.reverse;
@@ -72,6 +71,7 @@ import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
+import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator.Result;
 import it.feio.android.omninotes.utils.FileHelper;
@@ -554,8 +554,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             .content(getString(R.string.settings_tour_show_again_summary) + "?")
             .positiveText(R.string.confirm)
             .onPositive((dialog, which) -> {
-              Prefs.edit().putBoolean(PREF_TOUR_COMPLETE, false).apply();
-              SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+              startActivity(new Intent(getContext(), IntroActivity.class));
             }).build().show();
         return false;
       });
