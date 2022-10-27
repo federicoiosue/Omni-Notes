@@ -29,12 +29,6 @@
     android:title="@string/settings_import"
     app:iconSpaceReserved="false" />
 
-  <Preference
-    android:key="settings_import_data_legacy"
-    android:summary="@string/settings_import_legacy_summary"
-    android:title="@string/settings_import_legacy"
-    app:iconSpaceReserved="false" />
-
   <!--<Preference-->
   <!--android:key="settings_backup_integrity_check"-->
   <!--app:iconSpaceReserved="false"-->
