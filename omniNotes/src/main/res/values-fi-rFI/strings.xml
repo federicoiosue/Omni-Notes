@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@
     <string name="note_updated">Merkintä päivitetty</string>
     <string name="empty_note_not_saved">Tyhjää merkintää ei voitu tallentaa</string>
     <string name="empty_note_not_shared">Tyhjää merkintää ei voitu jakaa</string>
+    <string name="note_doesnt_exist">Merkintää ei ole enää olemassa</string>
     <string name="note_archived">Merkintä arkistoitu</string>
     <string name="note_unarchived">Merkintä palautettu arkistosta</string>
     <string name="note">Merkintä</string>
@@ -66,6 +67,7 @@
     <string name="delete_all_attachments">Poistetaanko kaikki liitteet?</string>
     <string name="gallery">Galleria</string>
     <string name="location">Sijainti</string>
+    <string name="location_set_high_accuracy">Jatka määrittämällä sijaintitila korkeaan tarkkuuteen</string>
     <string name="timestamp">Aikaleima</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Poistetaanko sijainti?</string>
@@ -124,6 +126,7 @@
     <string name="no_items_in_list">Täällä ei ole mitään!</string>
     <string name="checklist_on">Aktivoi muistilista</string>
     <string name="checklist_off">Poista muistilista käytöstä</string>
+    <string name="checklist_moveToBottom">Siirrä valitut kohteet alimmaiseksi</string>
     <string name="checklist_item_hint">Uusi kohde</string>
     <string name="remove_checklist">Poistetaanko muistilista?</string>
     <string name="checklist_keep_checked">Pidä valitut kohteet</string>
@@ -153,6 +156,9 @@
     <string name="grid_view">Ruudukkonäkymä</string>
     <string name="add_shortcut">Lisää pikakuvake</string>
     <string name="shortcut_added">Pikakuvake lisätty kotinäytölle</string>
+    <string name="shortcut_disabled">Pikakuvake ei ole enää kelvollinen</string>
+    <string name="pin_note">Kiinnitä merkintä</string>
+    <string name="pined_note">Kiinnitetty merkintä ilmoitukseksi</string>
     <string name="shortcut_note_deleted">Pikakuvake viittaa poistettuun merkintään</string>
     <string name="widget_simple_description">Yksinkertainen pienoisohjelma napeilla</string>
     <string name="widget_list_description">Vieritettävä lista -pienoisohjelma napeilla</string>
@@ -207,6 +213,8 @@
     <string name="info">Tietoa</string>
     <string name="completed">Valmis</string>
     <string name="undo_changes_note_confirmation">Vahvistatko muutosten kumoamisen?</string>
+    <string name="done">Valmis</string>
+    <string name="nothing_selected">Mitään ei ole valittu</string>
     <!-- Settings -->
     <string name="dashclock_description">Näyttää joitain tilastotietoja ja vanhentuneita muistutuksia Omni Notesista</string>
     <string name="settings">Asetukset</string>
@@ -219,6 +227,7 @@
     <string name="settings_export">Varmuuskopiointi</string>
     <string name="settings_sync_import_export">Synkronointi ja varmuuskopiointi</string>
     <string name="settings_import">Palauta tai poista varmuuskopiot</string>
+    <string name="settings_import_summary">VAROITUS: Salasanaa ei ole asetettu, suojattuja merkintöjä ei palauteta varmuuskopiosta turvallisuussyistä</string>
     <string name="settings_import_legacy">Palauta vanha varmuuskopio</string>
     <string name="settings_import_legacy_summary">Mahdollistaa entisten varmuuskopioiden palauttamisen, jotka on tehty versiota 6 vanhemmilla Omni Notes -versioilla</string>
     <string name="settings_import_from_springpad">Tuo merkintöjä Springpadista</string>
@@ -405,4 +414,6 @@
     <string name="channel_backups_description">Ilmoitukset varmuuskopion tilasta ja tuloksista</string>
     <string name="channel_reminders_name">Muistutukset</string>
     <string name="channel_reminders_description">Muistiinpanojen muistutusten ilmoitukset</string>
+    <string name="channel_pinned_name">Kiinnitetty</string>
+    <string name="channel_pinned_description">Ilmoitukset kiinnitetyistä merkinnöistä</string>
 </resources>
