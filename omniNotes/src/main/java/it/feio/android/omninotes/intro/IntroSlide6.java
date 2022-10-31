@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,30 +17,31 @@
 
 package it.feio.android.omninotes.intro;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.FACEBOOK_COMMUNITY;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.utils.Constants;
 
 
 public class IntroSlide6 extends IntroFragment {
 
   @Override
-  public void onActivityCreated (Bundle savedInstanceState) {
+  public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    background.setBackgroundColor(Color.parseColor("#222222"));
-    title.setText(R.string.tour_listactivity_final_title);
-    image.setVisibility(View.GONE);
-    image_small.setImageResource(R.drawable.facebook);
-    image_small.setVisibility(View.VISIBLE);
-    image_small.setOnClickListener(v -> {
+    binding.introBackground.setBackgroundColor(Color.parseColor("#222222"));
+    binding.introTitle.setText(R.string.tour_listactivity_final_title);
+    binding.introImage.setVisibility(View.GONE);
+    binding.introImageSmall.setImageResource(R.drawable.facebook);
+    binding.introImageSmall.setVisibility(View.VISIBLE);
+    binding.introImageSmall.setOnClickListener(v -> {
       Intent intent = new Intent(Intent.ACTION_VIEW);
-      intent.setData(Uri.parse(Constants.FACEBOOK_COMMUNITY));
+      intent.setData(Uri.parse(FACEBOOK_COMMUNITY));
       startActivity(intent);
     });
-    description.setText(R.string.tour_community);
+    binding.introDescription.setText(R.string.tour_community);
   }
 }

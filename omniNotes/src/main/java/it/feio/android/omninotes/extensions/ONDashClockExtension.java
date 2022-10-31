@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@
 
 package it.feio.android.omninotes.extensions;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_UPDATE_DASHCLOCK;
+
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,7 +31,6 @@ import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.TextHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import java.util.ArrayList;
@@ -48,20 +49,20 @@ public class ONDashClockExtension extends DashClockExtension {
 
 
   @Override
-  protected void onInitialize (boolean isReconnect) {
+  protected void onInitialize(boolean isReconnect) {
     super.onInitialize(isReconnect);
     LocalBroadcastManager broadcastMgr = LocalBroadcastManager.getInstance(this);
     if (mDashClockReceiver != null) {
       broadcastMgr.unregisterReceiver(mDashClockReceiver);
     }
     mDashClockReceiver = new DashClockUpdateReceiver();
-    broadcastMgr.registerReceiver(mDashClockReceiver, new IntentFilter(Constants.INTENT_UPDATE_DASHCLOCK));
+    broadcastMgr.registerReceiver(mDashClockReceiver, new IntentFilter(INTENT_UPDATE_DASHCLOCK));
   }
 
 
   @SuppressLint("DefaultLocale")
   @Override
-  protected void onUpdateData (int reason) {
+  protected void onUpdateData(int reason) {
 
     Map<Counters, List<Note>> notesCounters = getNotesCounters();
     int reminders = notesCounters.get(Counters.REMINDERS).size();
@@ -70,27 +71,30 @@ public class ONDashClockExtension extends DashClockExtension {
     expandedTitle.append(notesCounters.get(Counters.ACTIVE).size()).append(" ").append(
         getString(R.string.notes).toLowerCase());
     if (reminders > 0) {
-      expandedTitle.append(", ").append(reminders).append(" ").append(getString(R.string.reminders));
+      expandedTitle.append(", ").append(reminders).append(" ")
+          .append(getString(R.string.reminders));
     }
 
     StringBuilder expandedBody = new StringBuilder();
 
-    if (notesCounters.get(Counters.TODAY).size() > 0) {
+    if (!notesCounters.get(Counters.TODAY).isEmpty()) {
       expandedBody.append(notesCounters.get(Counters.TODAY).size()).append(" ").append(
           getString(R.string.today)).append(":");
       for (Note todayReminder : notesCounters.get(Counters.TODAY)) {
-        expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(getNoteTitle(this,
-            todayReminder));
+        expandedBody.append(System.getProperty("line.separator")).append(("☆ "))
+            .append(getNoteTitle(this,
+                todayReminder));
       }
       expandedBody.append("\n");
     }
 
-    if (notesCounters.get(Counters.TOMORROW).size() > 0) {
+    if (!notesCounters.get(Counters.TOMORROW).isEmpty()) {
       expandedBody.append(notesCounters.get(Counters.TOMORROW).size()).append(" ").append(
           getString(R.string.tomorrow)).append(":");
       for (Note tomorrowReminder : notesCounters.get(Counters.TOMORROW)) {
-        expandedBody.append(System.getProperty("line.separator")).append(("☆ ")).append(getNoteTitle(this,
-            tomorrowReminder));
+        expandedBody.append(System.getProperty("line.separator")).append(("☆ "))
+            .append(getNoteTitle(this,
+                tomorrowReminder));
       }
     }
 
@@ -107,12 +111,13 @@ public class ONDashClockExtension extends DashClockExtension {
   }
 
 
-  private String getNoteTitle (Context context, Note note) {
-    return TextHelper.getAlternativeTitle(context, note, TextHelper.parseTitleAndContent(context, note)[0]);
+  private String getNoteTitle(Context context, Note note) {
+    return TextHelper
+        .getAlternativeTitle(context, note, TextHelper.parseTitleAndContent(context, note)[0]);
   }
 
 
-  private Map<Counters, List<Note>> getNotesCounters () {
+  private Map<Counters, List<Note>> getNotesCounters() {
     Map noteCounters = new HashMap<>();
     List<Note> activeNotes = new ArrayList<>();
     List<Note> reminders = new ArrayList<>();
@@ -122,10 +127,13 @@ public class ONDashClockExtension extends DashClockExtension {
       activeNotes.add(note);
       if (note.getAlarm() != null && !note.isReminderFired()) {
         reminders.add(note);
-        if (DateUtils.isSameDay(Long.valueOf(note.getAlarm()), Calendar.getInstance().getTimeInMillis())) {
+        if (DateUtils
+            .isSameDay(Long.valueOf(note.getAlarm()), Calendar.getInstance().getTimeInMillis())) {
           today.add(note);
-        } else if ((Long.valueOf(note.getAlarm()) - Calendar.getInstance().getTimeInMillis()) / (1000 * 60 *
-            60) < 24) {
+        } else if (
+            (Long.valueOf(note.getAlarm()) - Calendar.getInstance().getTimeInMillis()) / (1000 * 60
+                *
+                60) < 24) {
           tomorrow.add(note);
         }
       }
@@ -141,7 +149,7 @@ public class ONDashClockExtension extends DashClockExtension {
   public class DashClockUpdateReceiver extends BroadcastReceiver {
 
     @Override
-    public void onReceive (Context context, Intent intent) {
+    public void onReceive(Context context, Intent intent) {
       onUpdateData(UPDATE_REASON_MANUAL);
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@ public class NavigationItem {
   private int iconSelected;
 
 
-  public NavigationItem (int arrayIndex, String text, int icon, int iconSelected) {
+  public NavigationItem(int arrayIndex, String text, int icon, int iconSelected) {
     this.arrayIndex = arrayIndex;
     this.text = text;
     this.icon = icon;
@@ -34,42 +34,42 @@ public class NavigationItem {
   }
 
 
-  public int getArrayIndex () {
+  public int getArrayIndex() {
     return arrayIndex;
   }
 
 
-  public void setArrayIndex (int arrayIndex) {
+  public void setArrayIndex(int arrayIndex) {
     this.arrayIndex = arrayIndex;
   }
 
 
-  public String getText () {
+  public String getText() {
     return text;
   }
 
 
-  public void setText (String text) {
+  public void setText(String text) {
     this.text = text;
   }
 
 
-  public int getIcon () {
+  public int getIcon() {
     return icon;
   }
 
 
-  public void setIcon (int icon) {
+  public void setIcon(int icon) {
     this.icon = icon;
   }
 
 
-  public int getIconSelected () {
+  public int getIconSelected() {
     return iconSelected;
   }
 
 
-  public void setIconSelected (int iconSelected) {
+  public void setIconSelected(int iconSelected) {
     this.iconSelected = iconSelected;
   }
 }

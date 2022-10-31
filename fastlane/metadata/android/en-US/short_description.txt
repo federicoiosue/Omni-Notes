@@ -1,1 +1,1 @@
-Note taking open-source application aimed to have both a simple interface but keeping smart behavior
+Note taking open-source app simple to use and with killer features!

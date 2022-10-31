@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 
 package it.feio.android.omninotes.helpers.count;
 
-import static junit.framework.Assert.assertEquals;
+import static org.junit.Assert.assertEquals;
 
 import it.feio.android.omninotes.BaseUnitTest;
 import it.feio.android.omninotes.models.Note;
@@ -29,13 +29,13 @@ public class DefaultWordCounterTest extends BaseUnitTest {
   private final String UNCHECKED_SYM = it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
 
   @Test
-  public void countChars () {
+  public void countChars() {
     Note note = getNote(1L, "one two", "three four five\nAnother line");
     assertEquals(30, new DefaultWordCounter().countChars(note));
   }
 
   @Test
-  public void countChecklistChars () {
+  public void countChecklistChars() {
     String content = CHECKED_SYM + "done\n" + UNCHECKED_SYM + "undone yet";
     Note note = getNote(1L, "checklist", content);
     note.setChecklist(true);
@@ -43,7 +43,7 @@ public class DefaultWordCounterTest extends BaseUnitTest {
   }
 
   @Test
-  public void getWords () {
+  public void getWords() {
     Note note = getNote(1L, "one two", "three\n four five");
     assertEquals(5, new DefaultWordCounter().countWords(note));
     note.setTitle("singleword");
@@ -51,7 +51,7 @@ public class DefaultWordCounterTest extends BaseUnitTest {
   }
 
   @Test
-  public void getChecklistWords () {
+  public void getChecklistWords() {
     String content = CHECKED_SYM + "done\n" + UNCHECKED_SYM + "undone yet";
     Note note = getNote(1L, "checklist", content);
     note.setChecklist(true);

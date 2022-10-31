@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,18 +29,18 @@ public class InterceptorLinearLayout extends LinearLayout {
   private OnViewTouchedListener mOnViewTouchedListener;
 
 
-  public InterceptorLinearLayout (Context context) {
+  public InterceptorLinearLayout(Context context) {
     super(context);
   }
 
 
-  public InterceptorLinearLayout (Context context, AttributeSet attrs) {
+  public InterceptorLinearLayout(Context context, AttributeSet attrs) {
     super(context, attrs);
   }
 
 
   @Override
-  public boolean onInterceptTouchEvent (MotionEvent ev) {
+  public boolean onInterceptTouchEvent(MotionEvent ev) {
     if (mOnViewTouchedListener != null) {
       mOnViewTouchedListener.onViewTouchOccurred(ev);
     }
@@ -48,7 +48,7 @@ public class InterceptorLinearLayout extends LinearLayout {
   }
 
 
-  public void setOnViewTouchedListener (OnViewTouchedListener mOnViewTouchedListener) {
+  public void setOnViewTouchedListener(OnViewTouchedListener mOnViewTouchedListener) {
     this.mOnViewTouchedListener = mOnViewTouchedListener;
   }
 

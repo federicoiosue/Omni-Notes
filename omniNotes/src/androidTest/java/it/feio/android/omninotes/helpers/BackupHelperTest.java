@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,27 +17,29 @@
 
 package it.feio.android.omninotes.helpers;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
+import static org.junit.Assert.*;
+import static rx.Observable.from;
 
 import android.net.Uri;
-import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import com.lazygeniouz.dfc.file.DocumentFileCompat;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.exceptions.BackupException;
+import it.feio.android.omninotes.exceptions.checked.BackupAttachmentException;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
+import java.nio.file.Files;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.io.filefilter.RegexFileFilter;
-import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,72 +49,172 @@ import rx.Observable;
 @RunWith(AndroidJUnit4.class)
 public class BackupHelperTest extends BaseAndroidTestCase {
 
-  private File targetDir;
-  private File targetAttachmentsDir;
+  private DocumentFileCompat backupDir;
+  private DocumentFileCompat attachmentsBackupDir;
 
 
   @Before
-  public void setUp () throws Exception {
-    targetDir = new File(StorageHelper.getCacheDir(InstrumentationRegistry.getInstrumentation().getTargetContext()), "_autobackupTest");
-    if (targetDir.exists()) {
-      FileUtils.forceDelete(targetDir);
-    }
-    targetAttachmentsDir = new File(targetDir, StorageHelper.getAttachmentDir().getName());
-    targetAttachmentsDir.mkdirs();
+  public void setUp() throws IOException {
+    backupDir = DocumentFileCompat.Companion.fromFile(testContext, Files.createTempDirectory("backupDir").toFile());
+    attachmentsBackupDir = backupDir.createDirectory(StorageHelper.getAttachmentDir().getName());
+    assertTrue(attachmentsBackupDir.canWrite());
   }
-
-  @Test
-  public void testExportNote () throws IOException {
-    Note note = new Note();
-    note.setTitle("test title");
-    note.setContent("test content");
-    long now = Calendar.getInstance().getTimeInMillis();
-    note.setCreation(now);
-    note.setLastModification(now);
-    BackupHelper.exportNote(targetDir, note);
-    Collection<File> noteFiles = FileUtils.listFiles(targetDir, new RegexFileFilter("\\d{13}.json"),
-        TrueFileFilter.INSTANCE);
-    assertEquals(1, noteFiles.size());
-    Note retrievedNote = rx.Observable.from(noteFiles).map(BackupHelper::importNote).toBlocking().first();
-    assertTrue(note.equals(retrievedNote));
-  }
-
-  @Test
-  public void testExportNoteWithAttachment () throws IOException {
-    Note note = new Note();
-    note.setTitle("test title");
-    note.setContent("test content");
-    File testAttachment = File.createTempFile("testAttachment", ".txt");
-    IOUtils.write("some test content for attachment".toCharArray(), new FileOutputStream(testAttachment));
-    Attachment attachment = new Attachment(Uri.fromFile(testAttachment), "attachmentName");
-    note.setAttachmentsList(Collections.singletonList(attachment));
-
-    long now = Calendar.getInstance().getTimeInMillis();
-    note.setCreation(now);
-    note.setLastModification(now);
-    BackupHelper.exportNote(targetDir, note);
-    BackupHelper.exportAttachments(null, targetAttachmentsDir,
-        note.getAttachmentsList(), note.getAttachmentsListOld());
-    Collection<File> files = FileUtils.listFiles(targetDir, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
-
-    Note retrievedNote = rx.Observable.from(files).filter(file -> file.getName().equals(note
-				.getCreation() + ".json")).map(BackupHelper::importNote).toBlocking().first();
-    String retrievedAttachmentContent = Observable.from(files).filter(file -> file.getName().equals(FilenameUtils
-        .getName(attachment.getUriPath()))).map(file -> {
-      try {
-        return FileUtils.readFileToString(file);
-      } catch (IOException e) {
-        return "bau";
-      }
-    }).toBlocking().first();
-    assertEquals(2, files.size());
-    assertTrue(note.equals(retrievedNote));
-    assertEquals(retrievedAttachmentContent, FileUtils.readFileToString(new File(attachment.getUri().getPath())));
-  }
-
 
   @After
-  public void tearDown () throws Exception {
-    FileUtils.forceDelete(targetDir);
+  public void tearDown() {
+    if (backupDir.exists()) {
+      backupDir.delete();
+    }
   }
+
+  @Test
+  public void checkUtilityClassWellDefined() throws Exception {
+    assertUtilityClassWellDefined(BackupHelper.class);
+  }
+
+  @Test
+  public void exportNotes_nothingToExport() throws IOException {
+    var backupDir = DocumentFileCompat.Companion.fromFile(testContext,
+        Files.createTempDirectory("testBackupFolder").toFile());
+
+    BackupHelper.exportNotes(backupDir);
+
+    assertTrue(backupDir.exists());
+    assertEquals(0, backupDir.listFiles().size());
+  }
+
+  @Test
+  public void exportNotes() throws IOException {
+    Observable.range(1, 4).forEach(i -> createTestNote("Note" + i, "content" + i, 1));
+    var backupDir = DocumentFileCompat.Companion.fromFile(testContext,
+        Files.createTempDirectory("testBackupFolder").toFile());
+
+    BackupHelper.exportNotes(backupDir);
+
+    assertTrue(backupDir.exists());
+    assertEquals(4, backupDir.listFiles().size());
+  }
+
+  @Test
+  public void exportNote() {
+    Note note = createTestNote("test title", "test content", 0);
+
+    BackupHelper.exportNote(backupDir, note);
+    var noteFiles = from(backupDir.listFiles())
+        .filter(f -> f.getName().matches("\\d{13}.json")).toList().toBlocking().single();
+    assertEquals(1, noteFiles.size());
+    Note retrievedNote = from(noteFiles).map(BackupHelper::importNote).toBlocking().first();
+    assertEquals(note, retrievedNote);
+  }
+
+  @Test
+  public void exportAttachments() throws IOException {
+    Note note = createTestNote("test title", "test content", 1);
+
+    BackupHelper.exportAttachments(null, attachmentsBackupDir,
+        note.getAttachmentsList(), note.getAttachmentsListOld());
+
+    String retrievedAttachmentContent = DocumentFileHelper.readContent(testContext,
+        attachmentsBackupDir.findFile(
+            FilenameUtils.getName(note.getAttachmentsList().get(0).getUriPath())));
+    assertEquals(
+        FileUtils.readFileToString(new File(note.getAttachmentsList().get(0).getUri().getPath())),
+        retrievedAttachmentContent
+    );
+  }
+
+  @Test
+  public void importNote() throws IOException {
+    var note = createTestNote("test title", "test content", 0);
+    var noteFile = File.createTempFile(String.valueOf(note.get_id()), ".json");
+    FileUtils.write(noteFile, note.toJSON());
+
+    var importedNote = BackupHelper.importNote(DocumentFileCompat.Companion.fromFile(testContext, noteFile));
+
+    assertNotNull(importedNote);
+    assertEquals(note.getTitle(), importedNote.getTitle());
+    assertEquals(note.getContent(), importedNote.getContent());
+  }
+
+  @Test
+  public void importNote_lockedAndPasswordIsSet() throws IOException {
+    var password = "uglypassword";
+    var content = "test content";
+    Prefs.putString(PREF_PASSWORD, Security.md5(password));
+    var note = createTestNote("test title",
+        Security.encrypt(content, Prefs.getString(PREF_PASSWORD, "")), 0);
+    note.setLocked(true);
+    var noteFile = File.createTempFile(String.valueOf(note.get_id()), ".json");
+    FileUtils.write(noteFile, note.toJSON());
+
+    var importedNote = BackupHelper.importNote(DocumentFileCompat.Companion.fromFile(testContext, noteFile));
+
+    assertNotNull(Prefs.getString(PREF_PASSWORD, ""));
+    assertNotNull(importedNote);
+    assertEquals(note.getTitle(), importedNote.getTitle());
+    assertEquals(content, importedNote.getContent());
+  }
+
+  @Test
+  public void importNote_lockedButNoPasswordIsSet() throws IOException {
+    var password = "uglypassword";
+    var content = "test content";
+    var note = createTestNote("test title", Security.encrypt(content, password), 0);
+    note.setLocked(true);
+    var noteFile = File.createTempFile(String.valueOf(note.get_id()), ".json");
+    FileUtils.write(noteFile, note.toJSON());
+
+    var importedNote = BackupHelper.importNote(DocumentFileCompat.Companion.fromFile(testContext, noteFile));
+
+    assertTrue(StringUtils.isBlank(Prefs.getString(PREF_PASSWORD, "")));
+    assertNull(importedNote);
+  }
+
+  @Test
+  public void importAttachments() {
+    Attachment attachment = createTestAttachmentBackup();
+
+    boolean result = BackupHelper.importAttachments(backupDir, null);
+
+    assertTrue(result);
+    assertTrue(new File(attachment.getUri().getPath()).exists());
+  }
+
+  @Test
+  public void importAttachment() throws BackupAttachmentException {
+    Attachment attachment = createTestAttachmentBackup();
+
+    BackupHelper.importAttachment(attachmentsBackupDir.listFiles(), StorageHelper.getAttachmentDir(), attachment);
+    LogDelegate.i("checking " + attachment.getUri().getPath());
+
+    assertTrue(new File(attachment.getUri().getPath()).exists());
+  }
+
+  @Test(expected = BackupException.class)
+  public void importSettings_notFound() throws IOException {
+    BackupHelper.importSettings(backupDir);
+  }
+
+  @Test
+  public void importSettings() throws IOException {
+    backupDir.createFile("",
+        StorageHelper.getSharedPreferencesFile(OmniNotes.getAppContext()).getName());
+
+    BackupHelper.importSettings(backupDir);
+  }
+
+  private Attachment createTestAttachmentBackup() {
+    var testAttachment = attachmentsBackupDir.createFile("", "testAttachment");
+    if (!testAttachment.exists() || !testAttachment.canRead()) {
+      throw new BackupException("Error during test", null);
+    }
+
+    Attachment attachment = new Attachment(
+        Uri.fromFile(new File(StorageHelper.getAttachmentDir(), testAttachment.getName())),
+        Constants.MIME_TYPE_FILES);
+    dbHelper.updateAttachment(attachment);
+
+    return attachment;
+  }
+
 }

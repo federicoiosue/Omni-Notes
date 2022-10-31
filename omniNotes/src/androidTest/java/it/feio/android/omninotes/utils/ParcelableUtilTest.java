@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,19 +37,24 @@ public class ParcelableUtilTest extends BaseAndroidTestCase {
   private byte[] marshalledNote;
 
   @Before
-  public void setUp () {
+  public void setUp() {
     testNote = new Note();
     testNote.setAttachmentsList(Collections.singletonList(new Attachment(Uri.EMPTY, "")));
     marshalledNote = ParcelableUtil.marshall(testNote);
   }
 
   @Test
-  public void unmarshall () {
+  public void checkUtilityClassWellDefined() throws Exception {
+    assertUtilityClassWellDefined(ParcelableUtil.class);
+  }
+
+  @Test
+  public void unmarshall() {
     assertEquals(testNote, ParcelableUtil.unmarshall(marshalledNote, Note.CREATOR));
   }
 
   @Test
-  public void marshall () {
+  public void marshall() {
     assertArrayEquals(marshalledNote, ParcelableUtil.marshall(testNote));
   }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,16 +30,16 @@ public class NoteProcessorTrash extends NoteProcessor {
   boolean trash;
 
 
-  public NoteProcessorTrash (List<Note> notes, boolean trash) {
+  public NoteProcessorTrash(List<Note> notes, boolean trash) {
     super(notes);
     this.trash = trash;
   }
 
 
   @Override
-  protected void processNote (Note note) {
+  protected void processNote(Note note) {
     if (trash) {
-      ShortcutHelper.removeshortCut(OmniNotes.getAppContext(), note);
+      ShortcutHelper.removeShortcut(OmniNotes.getAppContext(), note);
       ReminderHelper.removeReminder(OmniNotes.getAppContext(), note);
     } else {
       ReminderHelper.addReminder(OmniNotes.getAppContext(), note);

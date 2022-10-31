@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,11 +17,19 @@
 
 package it.feio.android.omninotes.async;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_RESTART_APP;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_BACKUP_FOLDER_URI;
+
+import android.annotation.TargetApi;
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Build.VERSION_CODES;
+import com.lazygeniouz.dfc.file.DocumentFileCompat;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
@@ -29,26 +37,24 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.SpringImportHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
-import it.feio.android.omninotes.utils.notifications.NotificationChannels;
-import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 import java.io.File;
+import java.io.IOException;
+import rx.Observable;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
 
-  public final static String INTENT_BACKUP_NAME = "backup_name";
-  public final static String INTENT_BACKUP_INCLUDE_SETTINGS = "backup_include_settings";
-  public final static String ACTION_DATA_EXPORT = "action_data_export";
-  public final static String ACTION_DATA_IMPORT = "action_data_import";
-  public final static String ACTION_DATA_IMPORT_LEGACY = "action_data_import_legacy";
-  public final static String ACTION_DATA_DELETE = "action_data_delete";
+  public static final String INTENT_BACKUP_NAME = "backup_name";
+  public static final String ACTION_DATA_EXPORT = "action_data_export";
+  public static final String ACTION_DATA_IMPORT = "action_data_import";
+  public static final String ACTION_DATA_DELETE = "action_data_delete";
 
-  private SharedPreferences prefs;
   private NotificationsHelper mNotificationsHelper;
 
 //    {
@@ -58,28 +64,19 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 //    }
 
 
-  public DataBackupIntentService () {
+  public DataBackupIntentService() {
     super("DataBackupIntentService");
   }
 
   @Override
-  protected void onHandleIntent (Intent intent) {
-    prefs = getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-
-    // Creates an indeterminate processing notification until the work is complete
-//        mNotificationsHelper = new NotificationsHelper(this)
-//                .createNotification(NotificationChannels.NotificationChannelNames.Backups,
-//                        R.drawable.ic_content_save_white_24dp, getString(R.string.working),
-//                        null)
-//                .setIndeterminate().setOngoing();
-
-    mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannels.NotificationChannelNames.Backups,
+  protected void onHandleIntent(Intent intent) {
+    mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannelNames.BACKUPS,
         R.drawable.ic_content_save_white_24dp, getString(R.string.working));
 
     // If an alarm has been fired a notification must be generated
     if (ACTION_DATA_EXPORT.equals(intent.getAction())) {
       exportData(intent);
-    } else if (ACTION_DATA_IMPORT.equals(intent.getAction()) || ACTION_DATA_IMPORT_LEGACY.equals(intent.getAction())) {
+    } else if (ACTION_DATA_IMPORT.equals(intent.getAction())) {
       importData(intent);
     } else if (SpringImportHelper.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
       importDataFromSpringpad(intent, mNotificationsHelper);
@@ -88,100 +85,145 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     }
   }
 
-  private void importDataFromSpringpad (Intent intent, NotificationsHelper mNotificationsHelper) {
-    new SpringImportHelper(OmniNotes.getAppContext()).importDataFromSpringpad(intent, mNotificationsHelper);
+  private void importDataFromSpringpad(Intent intent, NotificationsHelper mNotificationsHelper) {
+    new SpringImportHelper(OmniNotes.getAppContext())
+        .importDataFromSpringpad(intent, mNotificationsHelper);
     String title = getString(R.string.data_import_completed);
     String text = getString(R.string.click_to_refresh_application);
     createNotification(intent, this, title, text, null);
   }
 
-  synchronized private void exportData (Intent intent) {
+  private void exportData(Intent intent) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      exportDataWithScopedStorage(intent);
+    } else {
+      exportDataWithoutScopedStorage(intent);
+    }
+  }
 
-    boolean result = true;
-
-    // Gets backup folder
+  private void exportDataWithScopedStorage(Intent intent) {
     String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-    File backupDir = StorageHelper.getBackupDir(backupName);
+    var backupDir = DocumentFileCompat.Companion.fromTreeUri(getBaseContext(),
+        Uri.parse(Prefs.getString(PREF_BACKUP_FOLDER_URI, null))).createDirectory(backupName);
+
+    try {
+      BackupHelper.exportNotes(backupDir);
+      BackupHelper.exportAttachments(backupDir, mNotificationsHelper);
+      BackupHelper.exportSettings(backupDir);
+    } catch (IOException e) {
+      e.printStackTrace();
+      mNotificationsHelper.finish(getString(R.string.data_export_failed), null);
+    }
+    mNotificationsHelper.finish(getString(R.string.data_export_completed), backupDir.getUri().getPath());
+  }
+
+  private synchronized void exportDataWithoutScopedStorage(Intent intent) {
+    String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
+    File backupDir = StorageHelper.getOrCreateBackupDir(backupName);
 
     // Directory clean in case of previously used backup name
     StorageHelper.delete(this, backupDir.getAbsolutePath());
-
     // Directory is re-created in case of previously used backup name (removed above)
-    backupDir = StorageHelper.getBackupDir(backupName);
+    backupDir = StorageHelper.getOrCreateBackupDir(backupName);
 
-    BackupHelper.exportNotes(backupDir);
-
-    result = BackupHelper.exportAttachments(backupDir, mNotificationsHelper);
-
-    if (intent.getBooleanExtra(INTENT_BACKUP_INCLUDE_SETTINGS, true)) {
-      BackupHelper.exportSettings(backupDir);
+    try {
+      BackupHelper.exportNotes(DocumentFileCompat.Companion.fromFile(getBaseContext(), backupDir));
+      BackupHelper.exportAttachments(
+          DocumentFileCompat.Companion.fromFile(getBaseContext(), backupDir), mNotificationsHelper);
+      BackupHelper.exportSettings(DocumentFileCompat.Companion.fromFile(getBaseContext(), backupDir));
+    } catch (IOException e) {
+      e.printStackTrace();
+      mNotificationsHelper.finish(getString(R.string.data_export_failed), null);
     }
-
-    String notificationMessage =
-        result ? getString(R.string.data_export_completed) : getString(R.string.data_export_failed);
-    mNotificationsHelper.finish(intent, notificationMessage);
+    mNotificationsHelper.finish(getString(R.string.data_export_completed), backupDir.getAbsolutePath());
   }
 
-
-  synchronized private void importData (Intent intent) {
-
-    boolean importLegacy = ACTION_DATA_IMPORT_LEGACY.equals(intent.getAction());
-
-    // Gets backup folder
-    String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-    File backupDir = importLegacy ? new File(backupName) : StorageHelper.getBackupDir(backupName);
-
-    BackupHelper.importSettings(backupDir);
-
-    if (importLegacy) {
-      BackupHelper.importDB(this, backupDir);
+  private synchronized void importData(Intent intent) {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      importDataWithScopedStorage(intent);
     } else {
-      BackupHelper.importNotes(backupDir);
+      importDataWithoutScopedStorage(intent);
     }
+  }
 
-    BackupHelper.importAttachments(backupDir, mNotificationsHelper);
+  private synchronized void importDataWithoutScopedStorage(Intent intent) {
+    File backupDir = StorageHelper.getOrCreateBackupDir(intent.getStringExtra(INTENT_BACKUP_NAME));
 
-    resetReminders();
+    try {
+      var backupDirDocumentFile = DocumentFileCompat.Companion.fromFile(getBaseContext(),
+          backupDir);
+      BackupHelper.importSettings(backupDirDocumentFile);
+      BackupHelper.importNotes(backupDirDocumentFile);
+      BackupHelper.importAttachments(backupDirDocumentFile, mNotificationsHelper);
 
-    mNotificationsHelper.cancel();
+      resetReminders();
+      mNotificationsHelper.cancel();
 
-    createNotification(intent, this, getString(R.string.data_import_completed),
-        getString(R.string.click_to_refresh_application), backupDir);
+      createNotification(intent, this, getString(R.string.data_import_completed),
+          getString(R.string.click_to_refresh_application), backupDir);
 
-    // Performs auto-backup filling after backup restore
-//        if (prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
+      // Performs auto-backup filling after backup restore
+//        if (Prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
 //            File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
 //            BackupHelper.exportNotes(autoBackupDir);
 //            BackupHelper.exportAttachments(autoBackupDir);
 //        }
+    } catch (IOException e) {
+      mNotificationsHelper.finish(getString(R.string.data_export_failed), null);
+    }
   }
 
-  synchronized private void deleteData (Intent intent) {
+  @TargetApi(VERSION_CODES.LOLLIPOP)
+  private synchronized void importDataWithScopedStorage(Intent intent) {
+    var backupDir = Observable.from(DocumentFileCompat.Companion.fromTreeUri(getBaseContext(),
+            Uri.parse(Prefs.getString(PREF_BACKUP_FOLDER_URI, null))).listFiles())
+        .filter(f -> f.getName().equals(intent.getStringExtra(INTENT_BACKUP_NAME))).toBlocking()
+        .single();
 
-    // Gets backup folder
+    try {
+      BackupHelper.importSettings(backupDir);
+      BackupHelper.importNotes(backupDir);
+      BackupHelper.importAttachments(backupDir, mNotificationsHelper);
+
+      resetReminders();
+      mNotificationsHelper.cancel();
+
+      createNotification(intent, this, getString(R.string.data_import_completed),
+          getString(R.string.click_to_refresh_application), null);
+
+      // Performs auto-backup filling after backup restore
+//        if (Prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
+//            File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
+//            BackupHelper.exportNotes(autoBackupDir);
+//            BackupHelper.exportAttachments(autoBackupDir);
+//        }
+    } catch (IOException e) {
+      mNotificationsHelper.finish(getString(R.string.data_export_failed), null);
+    }
+  }
+
+  private synchronized void deleteData(Intent intent) {
     String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-    File backupDir = StorageHelper.getBackupDir(backupName);
+    File backupDir = StorageHelper.getOrCreateBackupDir(backupName);
 
-    // Backups directory removal
     StorageHelper.delete(this, backupDir.getAbsolutePath());
 
-    String title = getString(R.string.data_deletion_completed);
-    String text = backupName + " " + getString(R.string.deleted);
-    createNotification(intent, this, title, text, backupDir);
+    mNotificationsHelper.finish(getString(R.string.data_deletion_completed),
+        backupName + " " + getString(R.string.deleted));
   }
-
 
   /**
    * Creation of notification on operations completed
    */
-  private void createNotification (Intent intent, Context mContext, String title, String message, File backupDir) {
+  private void createNotification(Intent intent, Context context, String title, String message,
+      File backupDir) {
 
     // The behavior differs depending on intent action
     Intent intentLaunch;
     if (DataBackupIntentService.ACTION_DATA_IMPORT.equals(intent.getAction())
         || SpringImportHelper.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
-      intentLaunch = new Intent(mContext, MainActivity.class);
-      intentLaunch.setAction(Constants.ACTION_RESTART_APP);
+      intentLaunch = new Intent(context, MainActivity.class);
+      intentLaunch.setAction(ACTION_RESTART_APP);
     } else {
       intentLaunch = new Intent();
     }
@@ -189,25 +231,25 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     intentLaunch.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     intentLaunch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     // Creates the PendingIntent
-    PendingIntent notifyIntent = PendingIntent.getActivity(mContext, 0, intentLaunch,
+    PendingIntent notifyIntent = PendingIntent.getActivity(context, 0, intentLaunch,
         PendingIntent.FLAG_UPDATE_CURRENT);
 
-    NotificationsHelper mNotificationsHelper = new NotificationsHelper(mContext);
-    mNotificationsHelper.createNotification(NotificationChannels.NotificationChannelNames.Backups,
+    NotificationsHelper notificationsHelper = new NotificationsHelper(context);
+    notificationsHelper.createStandardNotification(NotificationChannelNames.BACKUPS,
         R.drawable.ic_content_save_white_24dp, title, notifyIntent)
-                        .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null))
-                        .setLedActive();
-    if (prefs.getBoolean("settings_notification_vibration", true)) {
-      mNotificationsHelper.setVibration();
+        .setMessage(message).setRingtone(Prefs.getString("settings_notification_ringtone", null))
+        .setLedActive();
+    if (Prefs.getBoolean("settings_notification_vibration", true)) {
+      notificationsHelper.setVibration();
     }
-    mNotificationsHelper.show();
+    notificationsHelper.show();
   }
 
 
   /**
    * Schedules reminders
    */
-  private void resetReminders () {
+  private void resetReminders() {
     LogDelegate.d("Resettings reminders");
     for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
       ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
@@ -216,13 +258,13 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
 
   @Override
-  public void onAttachingFileErrorOccurred (Attachment mAttachment) {
+  public void onAttachingFileErrorOccurred(Attachment mAttachment) {
     // TODO Auto-generated method stub
   }
 
 
   @Override
-  public void onAttachingFileFinished (Attachment mAttachment) {
+  public void onAttachingFileFinished(Attachment mAttachment) {
     // TODO Auto-generated method stub
   }
 

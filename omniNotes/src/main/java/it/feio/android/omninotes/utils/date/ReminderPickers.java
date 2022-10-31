@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2018 Federico Iosue (federico.iosue@gmail.com)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,15 +30,12 @@ import java.util.Calendar;
 
 public class ReminderPickers {
 
-  public static final int TYPE_GOOGLE = 0;
-  public static final int TYPE_AOSP = 1;
-
   private FragmentActivity mActivity;
   private OnReminderPickedListener mOnReminderPickedListener;
 
 
   public ReminderPickers(FragmentActivity mActivity,
-      OnReminderPickedListener mOnReminderPickedListener, int pickerType) {
+      OnReminderPickedListener mOnReminderPickedListener) {
     this.mActivity = mActivity;
     this.mOnReminderPickedListener = mOnReminderPickedListener;
   }
@@ -56,18 +53,20 @@ public class ReminderPickers {
     pickerFrag.setCallback(new SublimePickerFragment.Callback() {
       @Override
       public void onCancelled() {
-
+        // Nothing to do
       }
 
       @Override
-      public void onDateTimeRecurrenceSet(SelectedDate selectedDate, int hourOfDay, int minute, SublimeRecurrencePicker.RecurrenceOption recurrenceOption, String recurrenceRule) {
+      public void onDateTimeRecurrenceSet(SelectedDate selectedDate, int hourOfDay, int minute,
+          SublimeRecurrencePicker.RecurrenceOption recurrenceOption, String recurrenceRule) {
         Calendar reminder = selectedDate.getFirstDate();
         reminder.set(Calendar.HOUR_OF_DAY, hourOfDay);
         reminder.set(Calendar.MINUTE, minute);
 
         mOnReminderPickedListener.onReminderPicked(reminder.getTimeInMillis());
         mOnReminderPickedListener.onRecurrenceReminderPicked(
-            RecurrenceHelper.buildRecurrenceRuleByRecurrenceOptionAndRule(recurrenceOption, recurrenceRule));
+            RecurrenceHelper
+                .buildRecurrenceRuleByRecurrenceOptionAndRule(recurrenceOption, recurrenceRule));
       }
     });
 
@@ -80,8 +79,10 @@ public class ReminderPickers {
     sublimeOptions.setPickerToShow(SublimeOptions.Picker.TIME_PICKER);
     sublimeOptions.setDisplayOptions(displayOptions);
     sublimeOptions.setDateParams(reminder);
-    sublimeOptions.setRecurrenceParams(SublimeRecurrencePicker.RecurrenceOption.CUSTOM, recurrenceRule);
-    sublimeOptions.setTimeParams(reminder.get(Calendar.HOUR_OF_DAY), reminder.get(Calendar.MINUTE), DateUtils.is24HourMode(mActivity));
+    sublimeOptions
+        .setRecurrenceParams(SublimeRecurrencePicker.RecurrenceOption.CUSTOM, recurrenceRule);
+    sublimeOptions.setTimeParams(reminder.get(Calendar.HOUR_OF_DAY), reminder.get(Calendar.MINUTE),
+        DateUtils.is24HourMode(mActivity));
 
     Bundle bundle = new Bundle();
     bundle.putParcelable("SUBLIME_OPTIONS", sublimeOptions);

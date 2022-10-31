@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,14 +19,17 @@ package it.feio.android.omninotes.async.bus;
 
 import android.service.notification.StatusBarNotification;
 import it.feio.android.omninotes.helpers.LogDelegate;
+import lombok.Getter;
+import lombok.Setter;
 
 
 public class NotificationRemovedEvent {
 
-  public StatusBarNotification statusBarNotification;
+  @Getter
+  @Setter
+  private StatusBarNotification statusBarNotification;
 
-
-  public NotificationRemovedEvent (StatusBarNotification statusBarNotification) {
+  public NotificationRemovedEvent(StatusBarNotification statusBarNotification) {
     LogDelegate.d(this.getClass().getName());
     this.statusBarNotification = statusBarNotification;
   }

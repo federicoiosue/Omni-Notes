@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,7 +43,7 @@ public class WidgetConfigurationActivity extends Activity {
 
 
   @Override
-  protected void onCreate (Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     setResult(RESULT_CANCELED);
@@ -76,8 +76,9 @@ public class WidgetConfigurationActivity extends Activity {
     configOkButton.setOnClickListener(v -> {
 
       if (mRadioGroup.getCheckedRadioButtonId() == R.id.widget_config_notes) {
-        sqlCondition = " WHERE " + DbHelper.KEY_ARCHIVED + " IS NOT 1 AND " + DbHelper.KEY_TRASHED + " IS" +
-            " NOT 1 ";
+        sqlCondition =
+            " WHERE " + DbHelper.KEY_ARCHIVED + " IS NOT 1 AND " + DbHelper.KEY_TRASHED + " IS" +
+                " NOT 1 ";
 
       } else {
         Category tag = (Category) categorySpinner.getSelectedItem();
@@ -90,9 +91,8 @@ public class WidgetConfigurationActivity extends Activity {
       CheckBox showThumbnailsCheckBox = findViewById(R.id.show_thumbnails);
       CheckBox showTimestampsCheckBox = findViewById(R.id.show_timestamps);
 
-      // Updating the ListRemoteViewsFactory parameter to get the list
-      // of notes
-      ListRemoteViewsFactory.updateConfiguration(getApplicationContext(), mAppWidgetId,
+      // Updating the ListRemoteViewsFactory parameter to get the list of notes
+      ListRemoteViewsFactory.updateConfiguration(mAppWidgetId,
           sqlCondition, showThumbnailsCheckBox.isChecked(), showTimestampsCheckBox.isChecked());
 
       Intent resultValue = new Intent();
@@ -104,7 +104,7 @@ public class WidgetConfigurationActivity extends Activity {
     });
 
     // Checks if no tags are available and then disable that option
-    if (categories.size() == 0) {
+    if (categories.isEmpty()) {
       mRadioGroup.setVisibility(View.GONE);
       categorySpinner.setVisibility(View.GONE);
     }
@@ -116,7 +116,7 @@ public class WidgetConfigurationActivity extends Activity {
           AppWidgetManager.INVALID_APPWIDGET_ID);
     }
 
-    // If they gave us an intent without the widget id, just bail.
+    // If they gave us an intent without the widget ID, just bail.
     if (mAppWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
       finish();
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,14 +27,14 @@ import android.widget.Toast;
 import exceptions.ImportException;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.GeocodeHelper;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
-import it.feio.android.omninotes.utils.notifications.NotificationChannels;
-import it.feio.android.omninotes.utils.notifications.NotificationsHelper;
 import it.feio.android.springpadimporter.Importer;
 import it.feio.android.springpadimporter.models.SpringpadAttachment;
 import it.feio.android.springpadimporter.models.SpringpadComment;
@@ -49,14 +49,14 @@ import java.util.List;
 
 public class SpringImportHelper {
 
-  public final static String ACTION_DATA_IMPORT_SPRINGPAD = "action_data_import_springpad";
-  public final static String EXTRA_SPRINGPAD_BACKUP = "extra_springpad_backup";
+  public static final String ACTION_DATA_IMPORT_SPRINGPAD = "action_data_import_springpad";
+  public static final String EXTRA_SPRINGPAD_BACKUP = "extra_springpad_backup";
   private final Context context;
 
 
   private int importedSpringpadNotes, importedSpringpadNotebooks;
 
-  public SpringImportHelper (Context context) {
+  public SpringImportHelper(Context context) {
     this.context = context;
   }
 
@@ -64,7 +64,8 @@ public class SpringImportHelper {
   /**
    * Imports notes and notebooks from Springpad exported archive
    */
-  public synchronized void importDataFromSpringpad (Intent intent, NotificationsHelper mNotificationsHelper) {
+  public synchronized void importDataFromSpringpad(Intent intent,
+      NotificationsHelper mNotificationsHelper) {
     String backupPath = intent.getStringExtra(EXTRA_SPRINGPAD_BACKUP);
     Importer importer = new Importer();
     try {
@@ -75,15 +76,16 @@ public class SpringImportHelper {
       updateImportNotification(importer, mNotificationsHelper);
     } catch (ImportException e) {
       new NotificationsHelper(context)
-          .createNotification(NotificationChannels.NotificationChannelNames.Backups,
+          .createStandardNotification(NotificationChannelNames.BACKUPS,
               R.drawable.ic_emoticon_sad_white_24dp,
-              context.getString(R.string.import_fail) + ": " + e.getMessage(), null).setLedActive().show();
+              context.getString(R.string.import_fail) + ": " + e.getMessage(), null).setLedActive()
+          .show();
       return;
     }
     List<SpringpadElement> elements = importer.getSpringpadNotes();
 
     // If nothing is retrieved it will exit
-    if (elements == null || elements.size() == 0) {
+    if (elements == null || elements.isEmpty()) {
       return;
     }
 
@@ -120,8 +122,9 @@ public class SpringImportHelper {
 
       // Content dependent from type of Springpad note
       StringBuilder content = new StringBuilder();
-      content.append(TextUtils.isEmpty(springpadElement.getText()) ? "" : Html.fromHtml(springpadElement
-          .getText()));
+      content.append(
+          TextUtils.isEmpty(springpadElement.getText()) ? "" : Html.fromHtml(springpadElement
+              .getText()));
       content.append(TextUtils.isEmpty(springpadElement.getDescription()) ? "" : springpadElement
           .getDescription());
 
@@ -133,7 +136,8 @@ public class SpringImportHelper {
 
       if (springpadElement.getType().equals(SpringpadElement.TYPE_VIDEO)) {
         try {
-          content.append(System.getProperty("line.separator")).append(springpadElement.getVideos().get(0));
+          content.append(System.getProperty("line.separator"))
+              .append(springpadElement.getVideos().get(0));
         } catch (IndexOutOfBoundsException e) {
           content.append(System.getProperty("line.separator")).append(springpadElement.getUrl());
         }
@@ -144,13 +148,13 @@ public class SpringImportHelper {
       }
       if (springpadElement.getType().equals(SpringpadElement.TYPE_BOOK)) {
         content.append(System.getProperty("line.separator")).append("Author: ")
-               .append(springpadElement.getAuthor()).append(System.getProperty("line.separator"))
-               .append("Publication date: ").append(springpadElement.getPublicationDate());
+            .append(springpadElement.getAuthor()).append(System.getProperty("line.separator"))
+            .append("Publication date: ").append(springpadElement.getPublicationDate());
       }
       if (springpadElement.getType().equals(SpringpadElement.TYPE_RECIPE)) {
         content.append(System.getProperty("line.separator")).append("Ingredients: ")
-               .append(springpadElement.getIngredients()).append(System.getProperty("line.separator"))
-               .append("Directions: ").append(springpadElement.getDirections());
+            .append(springpadElement.getIngredients()).append(System.getProperty("line.separator"))
+            .append("Directions: ").append(springpadElement.getDirections());
       }
       if (springpadElement.getType().equals(SpringpadElement.TYPE_BOOKMARK)) {
         content.append(System.getProperty("line.separator")).append(springpadElement.getUrl());
@@ -158,30 +162,30 @@ public class SpringImportHelper {
       if (springpadElement.getType().equals(SpringpadElement.TYPE_BUSINESS)
           && springpadElement.getPhoneNumbers() != null) {
         content.append(System.getProperty("line.separator")).append("Phone number: ")
-               .append(springpadElement.getPhoneNumbers().getPhone());
+            .append(springpadElement.getPhoneNumbers().getPhone());
       }
       if (springpadElement.getType().equals(SpringpadElement.TYPE_PRODUCT)) {
         content.append(System.getProperty("line.separator")).append("Category: ")
-               .append(springpadElement.getCategory()).append(System.getProperty("line.separator"))
-               .append("Manufacturer: ").append(springpadElement.getManufacturer())
-               .append(System.getProperty("line.separator")).append("Price: ")
-               .append(springpadElement.getPrice());
+            .append(springpadElement.getCategory()).append(System.getProperty("line.separator"))
+            .append("Manufacturer: ").append(springpadElement.getManufacturer())
+            .append(System.getProperty("line.separator")).append("Price: ")
+            .append(springpadElement.getPrice());
       }
       if (springpadElement.getType().equals(SpringpadElement.TYPE_WINE)) {
         content.append(System.getProperty("line.separator")).append("Wine type: ")
-               .append(springpadElement.getWine_type()).append(System.getProperty("line.separator"))
-               .append("Varietal: ").append(springpadElement.getVarietal())
-               .append(System.getProperty("line.separator")).append("Price: ")
-               .append(springpadElement.getPrice());
+            .append(springpadElement.getWine_type()).append(System.getProperty("line.separator"))
+            .append("Varietal: ").append(springpadElement.getVarietal())
+            .append(System.getProperty("line.separator")).append("Price: ")
+            .append(springpadElement.getPrice());
       }
       if (springpadElement.getType().equals(SpringpadElement.TYPE_ALBUM)) {
         content.append(System.getProperty("line.separator")).append("Artist: ")
-               .append(springpadElement.getArtist());
+            .append(springpadElement.getArtist());
       }
       for (SpringpadComment springpadComment : springpadElement.getComments()) {
         content.append(System.getProperty("line.separator")).append(springpadComment.getCommenter())
-               .append(" commented at 0").append(springpadComment.getDate()).append(": ")
-               .append(springpadElement.getArtist());
+            .append(" commented at 0").append(springpadComment.getDate()).append(": ")
+            .append(springpadElement.getArtist());
       }
 
       note.setContent(content.toString());
@@ -191,10 +195,12 @@ public class SpringImportHelper {
         StringBuilder sb = new StringBuilder();
         String checkmark;
         for (SpringpadItem mSpringpadItem : springpadElement.getItems()) {
-          checkmark = mSpringpadItem.getComplete() ? it.feio.android.checklistview.interfaces.Constants
-              .CHECKED_SYM
-              : it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
-          sb.append(checkmark).append(mSpringpadItem.getName()).append(System.getProperty("line.separator"));
+          checkmark =
+              mSpringpadItem.getComplete() ? it.feio.android.checklistview.interfaces.Constants
+                  .CHECKED_SYM
+                  : it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
+          sb.append(checkmark).append(mSpringpadItem.getName())
+              .append(System.getProperty("line.separator"));
         }
         note.setContent(sb.toString());
         note.setChecklist(true);
@@ -210,8 +216,9 @@ public class SpringImportHelper {
       }
 
       // Address
-      String address = springpadElement.getAddresses() != null ? springpadElement.getAddresses().getAddress()
-          : "";
+      String address =
+          springpadElement.getAddresses() != null ? springpadElement.getAddresses().getAddress()
+              : "";
       if (!TextUtils.isEmpty(address)) {
         try {
           double[] coords = GeocodeHelper.getCoordinatesFromAddress(context, address);
@@ -266,7 +273,8 @@ public class SpringImportHelper {
 
         // Tries first with online images
         try {
-          File file = StorageHelper.createNewAttachmentFileFromHttp(context, springpadAttachment.getUrl());
+          File file = StorageHelper
+              .createNewAttachmentFileFromHttp(context, springpadAttachment.getUrl());
           uri = Uri.fromFile(file);
           String mimeType = StorageHelper.getMimeType(uri.getPath());
           mAttachment = new Attachment(uri, mimeType);
@@ -283,7 +291,7 @@ public class SpringImportHelper {
       }
 
       // If the note has a category is added to the map to be post-processed
-      if (springpadElement.getNotebooks().size() > 0) {
+      if (!springpadElement.getNotebooks().isEmpty()) {
         note.setCategory(categoriesWithUuid.get(springpadElement.getNotebooks().get(0)));
       } else {
         note.setCategory(defaulCategory);
@@ -307,7 +315,8 @@ public class SpringImportHelper {
   }
 
 
-  private void updateImportNotification (Importer importer, NotificationsHelper mNotificationsHelper) {
+  private void updateImportNotification(Importer importer,
+      NotificationsHelper mNotificationsHelper) {
     mNotificationsHelper.setMessage(
         importer.getNotebooksCount() + " " + context.getString(R.string.categories) + " ("
             + importedSpringpadNotebooks + " " + context.getString(R.string.imported) + "), "

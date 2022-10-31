@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,14 +17,16 @@
 
 buildscript {
     repositories {
-        jcenter()
+        mavenLocal()
         google()
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.5.1'
-        classpath 'me.tatarka.retrolambda.projectlombok:lombok.ast:0.2.3.a2'
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.6"
-        classpath 'com.dicedmelon.gradle:jacoco-android:0.1.4'
+        classpath 'com.android.tools.build:gradle:7.1.3'
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.0"
+        classpath 'com.adarshr:gradle-test-logger-plugin:2.1.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.20"
     }
     // Exclude the version that the android plugin depends on.
     configurations.classpath.exclude group: 'com.android.tools.external.lombok'
@@ -33,9 +35,9 @@ buildscript {
 allprojects {
     repositories {
         mavenLocal()
-        jcenter()
-        maven {url "https://jitpack.io"}
-        maven {url "http://dl.bintray.com/tbruyelle/tbruyelle" }
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+        maven { url "https://plugins.gradle.org/m2/" }
         google()
     }
 }
@@ -45,10 +47,13 @@ sonarqube {
     properties {
         property "sonar.projectName", "Omni Notes"
         property "sonar.projectKey", "omni-notes"
+        property "sonar.organization", "federicoiosue-github"
         property 'sonar.projectVersion', project.VERSION_NAME
         property "sonar.host.url", "https://sonarcloud.io"
         property 'sonar.sourceEncoding', 'UTF-8'
         property 'sonar.language', 'java'
+        property 'sonar.coverage.jacoco.xmlReportPaths', "**/build/reports/coverage/**/debug/report.xml"
+        property 'sonar.exclusions', '**/src/main/assets/**/*.*'
+        property 'sonar.test.exclusions', '**/src/test/**/*.*,**/src/androidTest/**/*.*'
     }
 }
-

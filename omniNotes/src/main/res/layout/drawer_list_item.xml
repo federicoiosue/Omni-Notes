@@ -1,5 +1,5 @@
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -15,58 +15,47 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:orientation="vertical">
+  xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:gravity="center_vertical"
+  android:orientation="horizontal"
+  android:paddingStart="@dimen/horizontal_margin"
+  android:paddingEnd="@dimen/horizontal_margin">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/horizontal_margin"
-        android:paddingStart="@dimen/horizontal_margin">
+  <ImageView
+    android:id="@+id/icon"
+    android:layout_width="@dimen/navigation_drawer_icon_size"
+    android:layout_height="@dimen/navigation_drawer_icon_size" />
 
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="@dimen/navigation_drawer_icon_size"
-            android:layout_height="@dimen/navigation_drawer_icon_size"/>
+  <com.neopixl.pixlui.components.textview.TextView
+    android:id="@+id/title"
+    android:layout_width="0dp"
+    android:layout_height="@dimen/navigation_drawer_line_height"
+    android:layout_weight="1"
+    android:gravity="center_vertical"
+    android:paddingStart="@dimen/icon_text_margin"
+    android:paddingEnd="@dimen/horizontal_margin"
+    android:textAppearance="@style/Text.Big"
+    android:textColor="@color/drawer_text"
+    pixlui:typeface="Roboto-Regular.ttf" />
 
-        <com.neopixl.pixlui.components.textview.TextView
-            android:id="@+id/title"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="@dimen/navigation_drawer_line_height"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/icon_text_margin"
-            android:paddingStart="@dimen/icon_text_margin"
-            android:paddingRight="@dimen/horizontal_margin"
-            android:paddingEnd="@dimen/horizontal_margin"
-            android:textAppearance="@style/Text.Big"
-            android:textColor="@color/drawer_text"
-            pixlui:typeface="Roboto-Regular.ttf"/>
-
-        <TextView
-                android:id="@+id/count"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/horizontal_margin"
-                android:layout_marginRight="@dimen/horizontal_margin"
-                android:textAppearance="@style/Text.Small"
-                android:textColor="@color/white"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/category_count_bg"
-                android:paddingLeft="7dp"
-                android:paddingRight="7dp"
-                android:paddingStart="7dp"
-                android:paddingEnd="7dp"
-                android:paddingTop="1dp"
-                android:paddingBottom="1dp"
-                android:gravity="center"
-                android:visibility="gone"/>
-
-    </LinearLayout>
+  <TextView
+    android:id="@+id/count"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:layout_marginEnd="@dimen/horizontal_margin"
+    android:background="@drawable/category_count_bg"
+    android:gravity="center"
+    android:paddingStart="7dp"
+    android:paddingLeft="7dp"
+    android:paddingTop="1dp"
+    android:paddingEnd="7dp"
+    android:paddingRight="7dp"
+    android:paddingBottom="1dp"
+    android:textAppearance="@style/Text.Small"
+    android:textColor="@color/white"
+    android:visibility="gone" />
 
 </LinearLayout>

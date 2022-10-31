@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,6 +16,8 @@
  */
 package it.feio.android.omninotes.models.adapters;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -26,11 +28,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.NavigationItem;
-import it.feio.android.omninotes.utils.Constants;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,11 +39,11 @@ import java.util.List;
 public class NavDrawerAdapter extends BaseAdapter {
 
   private Activity mActivity;
-  private List<NavigationItem> items = new ArrayList<>();
+  private List<NavigationItem> items;
   private LayoutInflater inflater;
 
 
-  public NavDrawerAdapter (Activity mActivity, List<NavigationItem> items) {
+  public NavDrawerAdapter(Activity mActivity, List<NavigationItem> items) {
     this.mActivity = mActivity;
     this.items = items;
     inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -50,24 +51,24 @@ public class NavDrawerAdapter extends BaseAdapter {
 
 
   @Override
-  public int getCount () {
+  public int getCount() {
     return items.size();
   }
 
 
   @Override
-  public Object getItem (int position) {
+  public Object getItem(int position) {
     return items.get(position);
   }
 
 
   @Override
-  public long getItemId (int position) {
+  public long getItemId(int position) {
     return position;
   }
 
 
-  public View getView (int position, View convertView, ViewGroup parent) {
+  public View getView(int position, View convertView, ViewGroup parent) {
     NoteDrawerAdapterViewHolder holder;
     if (convertView == null) {
       convertView = inflater.inflate(R.layout.drawer_list_item, parent, false);
@@ -100,18 +101,19 @@ public class NavDrawerAdapter extends BaseAdapter {
   }
 
 
-  private boolean isSelected (int position) {
+  private boolean isSelected(int position) {
 
     // Getting actual navigation selection
-    String[] navigationListCodes = mActivity.getResources().getStringArray(R.array.navigation_list_codes);
+    String[] navigationListCodes = mActivity.getResources()
+        .getStringArray(R.array.navigation_list_codes);
 
     // Managing temporary navigation indicator when coming from a widget
-    String navigationTmp = MainActivity.class.isAssignableFrom(mActivity.getClass()) ? ((MainActivity) mActivity)
-        .getNavigationTmp() : null;
+    String navigationTmp =
+        MainActivity.class.isAssignableFrom(mActivity.getClass()) ? ((MainActivity) mActivity)
+            .getNavigationTmp() : null;
 
     String navigation = navigationTmp != null ? navigationTmp
-        : mActivity.getSharedPreferences(Constants.PREFS_NAME, Activity.MODE_MULTI_PROCESS)
-                   .getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
+        : Prefs.getString(PREF_NAVIGATION, navigationListCodes[0]);
 
     // Finding selected item from standard navigation items or tags
     int index = Arrays.asList(navigationListCodes).indexOf(navigation);
@@ -120,7 +122,8 @@ public class NavDrawerAdapter extends BaseAdapter {
       return false;
     }
 
-    String navigationLocalized = mActivity.getResources().getStringArray(R.array.navigation_list)[index];
+    String navigationLocalized = mActivity.getResources()
+        .getStringArray(R.array.navigation_list)[index];
     return navigationLocalized.equals(items.get(position).getText());
   }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,51 +26,51 @@ public class PlayStoreMetadataFetcherResult {
   private String operatingSystems;
   private String contentRating;
 
-  public String getDatePublished () {
+  public String getDatePublished() {
     return datePublished;
   }
 
-  public void setDatePublished (String datePublished) {
+  public void setDatePublished(String datePublished) {
     this.datePublished = datePublished;
   }
 
-  public String getFileSize () {
+  public String getFileSize() {
     return fileSize;
   }
 
-  public void setFileSize (String fileSize) {
+  public void setFileSize(String fileSize) {
     this.fileSize = fileSize;
   }
 
-  public String getNumDownloads () {
+  public String getNumDownloads() {
     return numDownloads;
   }
 
-  public void setNumDownloads (String numDownloads) {
+  public void setNumDownloads(String numDownloads) {
     this.numDownloads = numDownloads;
   }
 
-  public String getSoftwareVersion () {
+  public String getSoftwareVersion() {
     return softwareVersion;
   }
 
-  public void setSoftwareVersion (String softwareVersion) {
+  public void setSoftwareVersion(String softwareVersion) {
     this.softwareVersion = softwareVersion;
   }
 
-  public String getOperatingSystems () {
+  public String getOperatingSystems() {
     return operatingSystems;
   }
 
-  public void setOperatingSystems (String operatingSystems) {
+  public void setOperatingSystems(String operatingSystems) {
     this.operatingSystems = operatingSystems;
   }
 
-  public String getContentRating () {
+  public String getContentRating() {
     return contentRating;
   }
 
-  public void setContentRating (String contentRating) {
+  public void setContentRating(String contentRating) {
     this.contentRating = contentRating;
   }
 

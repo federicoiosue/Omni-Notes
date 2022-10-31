@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ import rx.Observable;
 public class DefaultWordCounter implements WordCounter {
 
   @Override
-  public int countWords (Note note) {
+  public int countWords(Note note) {
     int count = 0;
     String[] fields = {note.getTitle(), note.getContent()};
     for (String field : fields) {
@@ -48,11 +48,12 @@ public class DefaultWordCounter implements WordCounter {
   }
 
   @Override
-  public int countChars (Note note) {
+  public int countChars(Note note) {
     String titleAndContent = note.getTitle() + "\n" + note.getContent();
     return Observable
         .from(sanitizeTextForWordsAndCharsCount(note, titleAndContent).split(""))
-        .filter(s -> !s.matches("\\s"))
+        .map(String::trim)
+        .filter(s -> !s.isEmpty())
         .count().toBlocking().single();
   }
 

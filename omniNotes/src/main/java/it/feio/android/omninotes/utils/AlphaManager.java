@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,10 +23,11 @@ import android.view.View;
 
 public class AlphaManager {
 
-  private AlphaManager () {}
+  private AlphaManager() {
+  }
 
   @SuppressLint("NewApi")
-  public static void setAlpha (View v, float alpha) {
+  public static void setAlpha(View v, float alpha) {
     if (v != null) {
       v.setAlpha(alpha);
     }

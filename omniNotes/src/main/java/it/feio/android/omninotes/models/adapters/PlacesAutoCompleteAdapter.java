@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -32,28 +32,28 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements F
   private List<String> resultList;
 
 
-  public PlacesAutoCompleteAdapter (Context context, int textViewResourceId) {
+  public PlacesAutoCompleteAdapter(Context context, int textViewResourceId) {
     super(context, textViewResourceId);
   }
 
 
   @Override
-  public int getCount () {
+  public int getCount() {
     return resultList.size();
   }
 
 
   @Override
-  public String getItem (int index) {
+  public String getItem(int index) {
     return resultList.get(index);
   }
 
 
   @Override
-  public Filter getFilter () {
+  public Filter getFilter() {
     return new Filter() {
       @Override
-      protected FilterResults performFiltering (CharSequence constraint) {
+      protected FilterResults performFiltering(CharSequence constraint) {
         FilterResults filterResults = new FilterResults();
         if (constraint != null && constraint.length() > MIN_CHARS) {
           // Retrieve the autocomplete results.
@@ -67,7 +67,7 @@ public class PlacesAutoCompleteAdapter extends ArrayAdapter<String> implements F
 
 
       @Override
-      protected void publishResults (CharSequence constraint, FilterResults results) {
+      protected void publishResults(CharSequence constraint, FilterResults results) {
         if (results != null && results.count > 0) {
           notifyDataSetChanged();
         } else {

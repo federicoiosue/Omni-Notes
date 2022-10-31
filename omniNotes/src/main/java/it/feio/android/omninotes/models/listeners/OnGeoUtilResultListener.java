@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,11 +23,11 @@ import android.location.Location;
 
 public interface OnGeoUtilResultListener {
 
-  void onAddressResolved (String address);
+  void onAddressResolved(String address);
 
-  void onCoordinatesResolved (Location location, String address);
+  void onCoordinatesResolved(Location location, String address);
 
-  void onLocationRetrieved (Location location);
+  void onLocationRetrieved(Location location);
 
-  void onLocationUnavailable ();
+  void onLocationUnavailable();
 }

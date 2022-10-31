@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,16 +16,58 @@
  */
 package it.feio.android.omninotes;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static androidx.core.view.ViewCompat.animate;
+import static it.feio.android.omninotes.BaseActivity.TRANSITION_HORIZONTAL;
+import static it.feio.android.omninotes.BaseActivity.TRANSITION_VERTICAL;
+import static it.feio.android.omninotes.MainActivity.FRAGMENT_DETAIL_TAG;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_DISMISS;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_MERGE;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_PINNED;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_SHOW_LIST;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
+import static it.feio.android.omninotes.utils.ConstantsBase.GALLERY_CLICKED_IMAGE;
+import static it.feio.android.omninotes.utils.ConstantsBase.GALLERY_IMAGES;
+import static it.feio.android.omninotes.utils.ConstantsBase.GALLERY_TITLE;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_GOOGLE_NOW;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_KEY;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_WIDGET;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO_EXT;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_FILES;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE_EXT;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_SKETCH;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_SKETCH_EXT;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO_EXT;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_ATTACHMENTS_ON_BOTTOM;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_AUTO_LOCATION;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_KEEP_CHECKED;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_KEEP_CHECKMARKS;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PRETTIFIED_DATES;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_WIDGET_PREFIX;
+import static it.feio.android.omninotes.utils.ConstantsBase.SWIPE_MARGIN;
+import static it.feio.android.omninotes.utils.ConstantsBase.SWIPE_OFFSET;
+import static it.feio.android.omninotes.utils.ConstantsBase.THUMBNAIL_SIZE;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -41,12 +83,12 @@ import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.Selection;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -58,29 +100,21 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.view.ViewManager;
-import android.view.ViewStub;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Toast;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.edittext.EditText;
-import com.neopixl.pixlui.components.textview.TextView;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.pushbullet.android.extension.MessagingExtension;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -95,12 +129,18 @@ import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
+import it.feio.android.omninotes.databinding.FragmentDetailBinding;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.exceptions.checked.UnhandledIntentException;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
+import it.feio.android.omninotes.helpers.IntentHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
+import it.feio.android.omninotes.helpers.TagOpenerHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
@@ -109,15 +149,15 @@ import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.CategoryRecyclerViewAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
-import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
+import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.AlphaManager;
+import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.ConnectionManager;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.FileProviderHelper;
@@ -143,10 +183,12 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.collections4.CollectionUtils;
 import rx.Observable;
 
 
-public class DetailFragment extends BaseFragment implements OnReminderPickedListener, OnTouchListener,
+public class DetailFragment extends BaseFragment implements OnReminderPickedListener,
+    OnTouchListener,
     OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved,
     OnGeoUtilResultListener {
 
@@ -157,47 +199,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private static final int CATEGORY = 5;
   private static final int DETAIL = 6;
   private static final int FILES = 7;
-  public boolean goBack = false;
-  @BindView(R.id.detail_root)
-  ViewGroup root;
-  @BindView(R.id.detail_title)
-  EditText title;
-  @BindView(R.id.detail_content)
-  EditText content;
-  @BindView(R.id.detail_attachments_above)
-  ViewStub attachmentsAbove;
-  @BindView(R.id.detail_attachments_below)
-  ViewStub attachmentsBelow;
-  @Nullable
-  @BindView(R.id.gridview)
-  ExpandableHeightGridView mGridView;
-  @BindView(R.id.location)
-  TextView locationTextView;
-  @BindView(R.id.detail_timestamps)
-  View timestampsView;
-  @BindView(R.id.reminder_layout)
-  LinearLayout reminder_layout;
-  @BindView(R.id.reminder_icon)
-  ImageView reminderIcon;
-  @BindView(R.id.datetime)
-  TextView datetime;
-  @BindView(R.id.detail_tile_card)
-  View titleCardView;
-  @BindView(R.id.content_wrapper)
-  ScrollView scrollView;
-  @BindView(R.id.creation)
-  TextView creationTextView;
-  @BindView(R.id.last_modification)
-  TextView lastModificationTextView;
-  @BindView(R.id.title_wrapper)
-  View titleWrapperView;
-  @BindView(R.id.tag_marker)
-  View tagMarkerView;
-  @BindView(R.id.detail_wrapper)
-  ViewManager detailWrapperView;
-  @BindView(R.id.snackbar_placeholder)
-  View snackBarPlaceholder;
-  View toggleChecklistView;
+
+  private FragmentDetailBinding binding;
+
+  boolean goBack = false;
+  private ExpandableHeightGridView mGridView;
+  private View toggleChecklistView;
   private Uri attachmentUri;
   private AttachmentAdapter mAttachmentAdapter;
   private MaterialDialog attachmentDialog;
@@ -221,7 +228,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private boolean showKeyboard = false;
   private boolean swiping;
   private int startSwipeX;
-  private SharedPreferences prefs;
   private boolean orientationChanged;
   private long audioRecordingTimeStart;
   private long audioRecordingTime;
@@ -233,50 +239,35 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private MainActivity mainActivity;
   TextLinkClickListener textLinkClickListener = new TextLinkClickListener() {
     @Override
-    public void onTextLinkClick (View view, final String clickedString, final String url) {
+    public void onTextLinkClick(View view, final String clickedString, final String url) {
       new MaterialDialog.Builder(mainActivity)
           .content(clickedString)
           .negativeColorRes(R.color.colorPrimary)
           .positiveText(R.string.open)
           .negativeText(R.string.copy)
           .onPositive((dialog, which) -> {
-            boolean error = false;
-            Intent intent = null;
             try {
-              intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-              intent.addCategory(Intent.CATEGORY_BROWSABLE);
-              intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            } catch (NullPointerException e) {
-              error = true;
-            }
-
-            if (intent == null
-                || error
-                || !IntentChecker
-                .isAvailable(
-                    mainActivity,
-                    intent,
-                    new String[]{PackageManager.FEATURE_CAMERA})) {
+              Intent intent = TagOpenerHelper.openOrGetIntent(getContext(), url);
+              if (intent != null) {
+                mainActivity.initNotesList(intent);
+              }
+            } catch (UnhandledIntentException e) {
               mainActivity.showMessage(R.string.no_application_can_perform_this_action,
                   ONStyle.ALERT);
-
-            } else {
-              startActivity(intent);
             }
           })
           .onNegative((dialog, which) -> {
             android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
-                mainActivity
-                    .getSystemService(Activity.CLIPBOARD_SERVICE);
+                mainActivity.getSystemService(CLIPBOARD_SERVICE);
             android.content.ClipData clip = android.content.ClipData.newPlainText("text label",
                 clickedString);
             clipboard.setPrimaryClip(clip);
           }).build().show();
-      View clickedView = noteTmp.isChecklist() ? toggleChecklistView : content;
+      View clickedView = noteTmp.isChecklist() ? toggleChecklistView : binding.contentWrapper;
       clickedView.clearFocus();
       KeyboardUtils.hideKeyboard(clickedView);
       new Handler().post(() -> {
-        View clickedView1 = noteTmp.isChecklist() ? toggleChecklistView : content;
+        View clickedView1 = noteTmp.isChecklist() ? toggleChecklistView : binding.contentWrapper;
         KeyboardUtils.hideKeyboard(clickedView1);
       });
     }
@@ -284,44 +275,41 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private boolean activityPausing;
 
   @Override
-  public void onCreate (Bundle savedInstanceState) {
+  public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mFragment = this;
   }
 
   @Override
-  public void onAttach (Context context) {
+  public void onAttach(Context context) {
     super.onAttach(context);
     EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
   }
 
   @Override
-  public void onStop () {
+  public void onStop() {
     super.onStop();
     GeocodeHelper.stop();
   }
 
   @Override
-  public void onResume () {
+  public void onResume() {
     super.onResume();
     activityPausing = false;
     EventBus.getDefault().register(this);
   }
 
   @Override
-  public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_detail, container, false);
-    ButterKnife.bind(this, view);
-    return view;
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    binding = FragmentDetailBinding.inflate(inflater, container, false);
+    return binding.getRoot();
   }
 
   @Override
-  public void onActivityCreated (Bundle savedInstanceState) {
+  public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
 
     mainActivity = (MainActivity) getActivity();
-
-    prefs = mainActivity.prefs;
 
     mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
     mainActivity.getToolbar().setNavigationOnClickListener(v -> navigateUp());
@@ -333,7 +321,32 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       mainActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
-    // Restored temp note after orientation change
+    restoreTempNoteAfterOrientationChange(savedInstanceState);
+
+    addSketchedImageIfPresent();
+
+    // Ensures that Detail Fragment always have the back Arrow when it's created
+    EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
+    init();
+
+    setHasOptionsMenu(true);
+    setRetainInstance(false);
+  }
+
+  private void addSketchedImageIfPresent() {
+    if (mainActivity.getSketchUri() != null) {
+      Attachment mAttachment = new Attachment(mainActivity.getSketchUri(), MIME_TYPE_SKETCH);
+      addAttachment(mAttachment);
+      mainActivity.setSketchUri(null);
+      // Removes previous version of edited image
+      if (sketchEdited != null) {
+        noteTmp.getAttachmentsList().remove(sketchEdited);
+        sketchEdited = null;
+      }
+    }
+  }
+
+  private void restoreTempNoteAfterOrientationChange(Bundle savedInstanceState) {
     if (savedInstanceState != null) {
       noteTmp = savedInstanceState.getParcelable("noteTmp");
       note = savedInstanceState.getParcelable("note");
@@ -341,27 +354,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       attachmentUri = savedInstanceState.getParcelable("attachmentUri");
       orientationChanged = savedInstanceState.getBoolean("orientationChanged");
     }
-
-    // Added the sketched image if present returning from SketchFragment
-    if (mainActivity.sketchUri != null) {
-      Attachment mAttachment = new Attachment(mainActivity.sketchUri, Constants.MIME_TYPE_SKETCH);
-      addAttachment(mAttachment);
-      mainActivity.sketchUri = null;
-      // Removes previous version of edited image
-      if (sketchEdited != null) {
-        noteTmp.getAttachmentsList().remove(sketchEdited);
-        sketchEdited = null;
-      }
-    }
-
-    init();
-
-    setHasOptionsMenu(true);
-    setRetainInstance(false);
   }
 
   @Override
-  public void onSaveInstanceState (Bundle outState) {
+  public void onSaveInstanceState(Bundle outState) {
     if (noteTmp != null) {
       noteTmp.setTitle(getNoteTitle());
       noteTmp.setContent(getNoteContent());
@@ -375,7 +371,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @Override
-  public void onPause () {
+  public void onPause() {
     super.onPause();
 
     //to prevent memory leak fragment keep refernce of event but until deregister
@@ -390,25 +386,25 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     if (toggleChecklistView != null) {
       KeyboardUtils.hideKeyboard(toggleChecklistView);
-      content.clearFocus();
+      binding.contentWrapper.clearFocus();
     }
   }
 
   @Override
-  public void onConfigurationChanged (Configuration newConfig) {
+  public void onConfigurationChanged(Configuration newConfig) {
     super.onConfigurationChanged(newConfig);
     if (getResources().getConfiguration().orientation != newConfig.orientation) {
       orientationChanged = true;
     }
   }
 
-  private void init () {
+  private void init() {
 
     // Handling of Intent actions
     handleIntents();
 
     if (noteOriginal == null) {
-      noteOriginal = getArguments().getParcelable(Constants.INTENT_NOTE);
+      noteOriginal = getArguments().getParcelable(INTENT_NOTE);
     }
 
     if (note == null) {
@@ -430,11 +426,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   /**
    * Checks note lock and password before showing note content
    */
-  private void checkNoteLock (Note note) {
+  private void checkNoteLock(Note note) {
     // If note is locked security password will be requested
     if (note.isLocked()
-        && prefs.getString(Constants.PREF_PASSWORD, null) != null
-        && !prefs.getBoolean("settings_password_access", false)) {
+        && Prefs.getString(PREF_PASSWORD, null) != null
+        && !Prefs.getBoolean("settings_password_access", false)) {
       PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
         switch (passwordConfirmed) {
           case SUCCEED:
@@ -458,22 +454,22 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
-  private void handleIntents () {
+  private void handleIntents() {
     Intent i = mainActivity.getIntent();
 
-    if (IntentChecker.checkAction(i, Constants.ACTION_MERGE)) {
+    if (IntentChecker.checkAction(i, ACTION_MERGE)) {
       noteOriginal = new Note();
       note = new Note(noteOriginal);
-      noteTmp = getArguments().getParcelable(Constants.INTENT_NOTE);
+      noteTmp = getArguments().getParcelable(INTENT_NOTE);
       if (i.getStringArrayListExtra("merged_notes") != null) {
         mergedNotesIds = i.getStringArrayListExtra("merged_notes");
       }
     }
 
     // Action called from home shortcut
-    if (IntentChecker.checkAction(i, Constants.ACTION_SHORTCUT, Constants.ACTION_NOTIFICATION_CLICK)) {
+    if (IntentChecker.checkAction(i, ACTION_SHORTCUT, ACTION_NOTIFICATION_CLICK)) {
       afterSavedReturnsToList = false;
-      noteOriginal = DbHelper.getInstance().getNote(i.getLongExtra(Constants.INTENT_KEY, 0));
+      noteOriginal = DbHelper.getInstance().getNote(i.getLongExtra(INTENT_KEY, 0));
       // Checks if the note pointed from the shortcut has been deleted
       try {
         note = new Note(noteOriginal);
@@ -485,42 +481,41 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
 
     // Check if is launched from a widget
-    if (IntentChecker.checkAction(i, Constants.ACTION_WIDGET, Constants.ACTION_WIDGET_TAKE_PHOTO)) {
+    if (IntentChecker.checkAction(i, ACTION_WIDGET, ACTION_WIDGET_TAKE_PHOTO)) {
 
       afterSavedReturnsToList = false;
       showKeyboard = true;
 
       //  with tags to set tag
-      if (i.hasExtra(Constants.INTENT_WIDGET)) {
-        String widgetId = i.getExtras().get(Constants.INTENT_WIDGET).toString();
-        if (widgetId != null) {
-          String sqlCondition = prefs.getString(Constants.PREF_WIDGET_PREFIX + widgetId, "");
-          String categoryId = TextHelper.checkIntentCategory(sqlCondition);
-          if (categoryId != null) {
-            Category category;
-            try {
-              category = DbHelper.getInstance().getCategory(parseLong(categoryId));
-              noteTmp = new Note();
-              noteTmp.setCategory(category);
-            } catch (NumberFormatException e) {
-              LogDelegate.e("Category with not-numeric value!", e);
-            }
+      if (i.hasExtra(INTENT_WIDGET)) {
+        String widgetId = i.getExtras().get(INTENT_WIDGET).toString();
+        String sqlCondition = Prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
+        String categoryId = TextHelper.checkIntentCategory(sqlCondition);
+        if (categoryId != null) {
+          Category category;
+          try {
+            category = DbHelper.getInstance().getCategory(parseLong(categoryId));
+            noteTmp = new Note();
+            noteTmp.setCategory(category);
+          } catch (NumberFormatException e) {
+            LogDelegate.e("Category with not-numeric value!", e);
           }
         }
       }
 
       // Sub-action is to take a photo
-      if (IntentChecker.checkAction(i, Constants.ACTION_WIDGET_TAKE_PHOTO)) {
+      if (IntentChecker.checkAction(i, ACTION_WIDGET_TAKE_PHOTO)) {
         takePhoto();
       }
     }
 
-    if (IntentChecker.checkAction(i, Constants.ACTION_FAB_TAKE_PHOTO)) {
+    if (IntentChecker.checkAction(i, ACTION_FAB_TAKE_PHOTO)) {
       takePhoto();
     }
 
     // Handles third party apps requests of sharing
-    if (IntentChecker.checkAction(i, Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE, Constants.INTENT_GOOGLE_NOW)
+    if (IntentChecker
+        .checkAction(i, Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE, INTENT_GOOGLE_NOW)
         && i.getType() != null) {
 
       afterSavedReturnsToList = false;
@@ -545,15 +540,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     }
 
-    if (IntentChecker.checkAction(i, Intent.ACTION_MAIN, Constants.ACTION_WIDGET_SHOW_LIST, Constants
-        .ACTION_SHORTCUT_WIDGET, Constants.ACTION_WIDGET)) {
+    if (IntentChecker
+        .checkAction(i, Intent.ACTION_MAIN, ACTION_WIDGET_SHOW_LIST, ACTION_SHORTCUT_WIDGET,
+            ACTION_WIDGET)) {
       showKeyboard = true;
     }
 
     i.setAction(null);
   }
 
-  private void importAttachments (Intent i) {
+  private void importAttachments(Intent i) {
 
     if (!i.hasExtra(Intent.EXTRA_STREAM)) {
       return;
@@ -562,7 +558,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     if (i.getExtras().get(Intent.EXTRA_STREAM) instanceof Uri) {
       Uri uri = i.getParcelableExtra(Intent.EXTRA_STREAM);
       // Google Now passes Intent as text but with audio recording attached the case must be handled like this
-      if (!Constants.INTENT_GOOGLE_NOW.equals(i.getAction())) {
+      if (!INTENT_GOOGLE_NOW.equals(i.getAction())) {
         String name = FileHelper.getNameFromUri(mainActivity, uri);
         new AttachmentTask(this, uri, name, this).execute();
       }
@@ -576,10 +572,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @SuppressLint("NewApi")
-  private void initViews () {
-
+  private void initViews() {
     // Sets onTouchListener to the whole activity to swipe notes
-    root.setOnTouchListener(this);
+    binding.detailRoot.setOnTouchListener(this);
 
     // Color of tag marker if note is tagged a function is active in preferences
     setTagMarkerColor(noteTmp.getCategory());
@@ -597,45 +592,43 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     initViewFooter();
   }
 
-  private void initViewFooter () {
-    // Footer dates of creation...
-    String creation = DateHelper.getFormattedDate(noteTmp.getCreation(), prefs.getBoolean(Constants
-        .PREF_PRETTIFIED_DATES, true));
-    creationTextView.append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
-    if (creationTextView.getText().length() == 0) {
-      creationTextView.setVisibility(View.GONE);
+  private void initViewFooter() {
+    String creation = DateHelper
+        .getFormattedDate(noteTmp.getCreation(), Prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
+    binding.creation
+        .append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
+    if (binding.creation.getText().length() == 0) {
+      binding.creation.setVisibility(View.GONE);
     }
 
-    // ... and last modification
-    String lastModification = DateHelper.getFormattedDate(noteTmp.getLastModification(), prefs.getBoolean(Constants
-        .PREF_PRETTIFIED_DATES, true));
-    lastModificationTextView.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " +
-        lastModification : "");
-    if (lastModificationTextView.getText().length() == 0) {
-      lastModificationTextView.setVisibility(View.GONE);
+    String lastModification = DateHelper
+        .getFormattedDate(noteTmp.getLastModification(), Prefs.getBoolean(
+            PREF_PRETTIFIED_DATES, true));
+    binding.lastModification
+        .append(lastModification.length() > 0 ? getString(R.string.last_update) + " " +
+            lastModification : "");
+    if (binding.lastModification.getText().length() == 0) {
+      binding.lastModification.setVisibility(View.GONE);
     }
   }
 
-  private void initViewReminder () {
-
-    // Preparation for reminder icon
-    reminder_layout.setOnClickListener(v -> {
-      int pickerType = prefs.getBoolean("settings_simple_calendar", false) ? ReminderPickers.TYPE_AOSP :
-          ReminderPickers.TYPE_GOOGLE;
-      ReminderPickers reminderPicker = new ReminderPickers(mainActivity, mFragment, pickerType);
+  private void initViewReminder() {
+    binding.fragmentDetailContent.reminderLayout.setOnClickListener(v -> {
+      ReminderPickers reminderPicker = new ReminderPickers(mainActivity, mFragment);
       reminderPicker.pick(DateUtils.getPresetReminder(noteTmp.getAlarm()), noteTmp
           .getRecurrenceRule());
     });
 
-    reminder_layout.setOnLongClickListener(v -> {
+    binding.fragmentDetailContent.reminderLayout.setOnLongClickListener(v -> {
       MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
           .content(R.string.remove_reminder)
           .positiveText(R.string.ok)
           .onPositive((dialog1, which) -> {
             ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
             noteTmp.setAlarm(null);
-            reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
-            datetime.setText("");
+            binding.fragmentDetailContent.reminderIcon
+                .setImageResource(R.drawable.ic_alarm_black_18dp);
+            binding.fragmentDetailContent.datetime.setText("");
           }).build();
       dialog.show();
       return true;
@@ -644,12 +637,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     // Reminder
     String reminderString = initReminder(noteTmp);
     if (!TextUtils.isEmpty(reminderString)) {
-      reminderIcon.setImageResource(R.drawable.ic_alarm_add_black_18dp);
-      datetime.setText(reminderString);
+      binding.fragmentDetailContent.reminderIcon
+          .setImageResource(R.drawable.ic_alarm_add_black_18dp);
+      binding.fragmentDetailContent.datetime.setText(reminderString);
     }
   }
 
-  private void initViewLocation () {
+  private void initViewLocation() {
 
     DetailFragment detailFragment = this;
 
@@ -658,17 +652,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         //FIXME: What's this "sasd"?
         GeocodeHelper.getAddressFromCoordinates(new Location("sasd"), detailFragment);
       } else {
-        locationTextView.setText(noteTmp.getAddress());
-        locationTextView.setVisibility(View.VISIBLE);
+        binding.fragmentDetailContent.location.setText(noteTmp.getAddress());
+        binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
       }
     }
 
     // Automatic location insertion
-    if (prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
+    if (Prefs.getBoolean(PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
       getLocation(detailFragment);
     }
 
-    locationTextView.setOnClickListener(v -> {
+    binding.fragmentDetailContent.location.setOnClickListener(v -> {
       String uriString = "geo:" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude()
           + "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
       Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
@@ -679,17 +673,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
       startActivity(locationIntent);
     });
-    locationTextView.setOnLongClickListener(v -> {
+    binding.fragmentDetailContent.location.setOnLongClickListener(v -> {
       MaterialDialog.Builder builder = new MaterialDialog.Builder(mainActivity);
       builder.content(R.string.remove_location);
       builder.positiveText(R.string.ok);
-      builder.onPositive(new MaterialDialog.SingleButtonCallback() {
-        @Override
-        public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-          noteTmp.setLatitude("");
-          noteTmp.setLongitude("");
-          fade(locationTextView, false);
-        }
+      builder.onPositive((dialog, which) -> {
+        noteTmp.setLatitude("");
+        noteTmp.setLongitude("");
+        fade(binding.fragmentDetailContent.location, false);
       });
       MaterialDialog dialog = builder.build();
       dialog.show();
@@ -697,24 +688,25 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     });
   }
 
-  private void getLocation (OnGeoUtilResultListener onGeoUtilResultListener) {
-    PermissionsHelper.requestPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION, R.string
-        .permission_coarse_location, snackBarPlaceholder, () -> GeocodeHelper.getLocation
-        (onGeoUtilResultListener));
+  private void getLocation(OnGeoUtilResultListener onGeoUtilResultListener) {
+    PermissionsHelper
+        .requestPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION, R.string
+                .permission_coarse_location, binding.snackbarPlaceholder,
+            () -> GeocodeHelper.getLocation(onGeoUtilResultListener));
   }
 
-  private void initViewAttachments () {
-
+  private void initViewAttachments() {
     // Attachments position based on preferences
-    if (prefs.getBoolean(Constants.PREF_ATTACHMENTS_ON_BOTTOM, false)) {
-      attachmentsBelow.inflate();
+    if (Prefs.getBoolean(PREF_ATTACHMENTS_ON_BOTTOM, false)) {
+      binding.detailAttachmentsBelow.inflate();
     } else {
-      attachmentsAbove.inflate();
+      binding.detailAttachmentsAbove.inflate();
     }
-    mGridView = root.findViewById(R.id.gridview);
+    mGridView = binding.detailRoot.findViewById(R.id.gridview);
 
     // Some fields can be filled by third party application and are always shown
-    mAttachmentAdapter = new AttachmentAdapter(mainActivity, noteTmp.getAttachmentsList(), mGridView);
+    mAttachmentAdapter = new AttachmentAdapter(mainActivity, noteTmp.getAttachmentsList(),
+        mGridView);
 
     // Initialzation of gridview for images
     mGridView.setAdapter(mAttachmentAdapter);
@@ -725,23 +717,24 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       Attachment attachment = (Attachment) parent.getAdapter().getItem(position);
       Uri sharableUri = FileProviderHelper.getShareableUri(attachment);
       Intent attachmentIntent;
-      if (Constants.MIME_TYPE_FILES.equals(attachment.getMime_type())) {
+      if (MIME_TYPE_FILES.equals(attachment.getMime_type())) {
 
         attachmentIntent = new Intent(Intent.ACTION_VIEW);
         attachmentIntent.setDataAndType(sharableUri, StorageHelper.getMimeType(mainActivity,
             sharableUri));
         attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
             .FLAG_GRANT_WRITE_URI_PERMISSION);
-        if (IntentChecker.isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
+        if (IntentChecker
+            .isAvailable(mainActivity.getApplicationContext(), attachmentIntent, null)) {
           startActivity(attachmentIntent);
         } else {
           mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.WARN);
         }
 
         // Media files will be opened in internal gallery
-      } else if (Constants.MIME_TYPE_IMAGE.equals(attachment.getMime_type())
-          || Constants.MIME_TYPE_SKETCH.equals(attachment.getMime_type())
-          || Constants.MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
+      } else if (MIME_TYPE_IMAGE.equals(attachment.getMime_type())
+          || MIME_TYPE_SKETCH.equals(attachment.getMime_type())
+          || MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
         // Title
         noteTmp.setTitle(getNoteTitle());
         noteTmp.setContent(getNoteContent());
@@ -751,9 +744,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         int clickedImage = 0;
         ArrayList<Attachment> images = new ArrayList<>();
         for (Attachment mAttachment : noteTmp.getAttachmentsList()) {
-          if (Constants.MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
-              || Constants.MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())
-              || Constants.MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
+          if (MIME_TYPE_IMAGE.equals(mAttachment.getMime_type())
+              || MIME_TYPE_SKETCH.equals(mAttachment.getMime_type())
+              || MIME_TYPE_VIDEO.equals(mAttachment.getMime_type())) {
             images.add(mAttachment);
             if (mAttachment.equals(attachment)) {
               clickedImage = images.size() - 1;
@@ -762,12 +755,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         }
         // Intent
         attachmentIntent = new Intent(mainActivity, GalleryActivity.class);
-        attachmentIntent.putExtra(Constants.GALLERY_TITLE, title1);
-        attachmentIntent.putParcelableArrayListExtra(Constants.GALLERY_IMAGES, images);
-        attachmentIntent.putExtra(Constants.GALLERY_CLICKED_IMAGE, clickedImage);
+        attachmentIntent.putExtra(GALLERY_TITLE, title1);
+        attachmentIntent.putParcelableArrayListExtra(GALLERY_IMAGES, images);
+        attachmentIntent.putExtra(GALLERY_CLICKED_IMAGE, clickedImage);
         startActivity(attachmentIntent);
 
-      } else if (Constants.MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
+      } else if (MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
         playback(v, attachment.getUri());
       }
 
@@ -778,8 +771,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       if (mPlayer != null) {
         return false;
       }
-      List<String> items = Arrays.asList(getResources().getStringArray(R.array.attachments_actions));
-      if (!Constants.MIME_TYPE_SKETCH.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
+      List<String> items = Arrays
+          .asList(getResources().getStringArray(R.array.attachments_actions));
+      if (!MIME_TYPE_SKETCH.equals(mAttachmentAdapter.getItem(position).getMime_type())) {
         items = items.subList(0, items.size() - 1);
       }
       Attachment attachment = mAttachmentAdapter.getItem(position);
@@ -799,12 +793,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    *
    * @param i item index
    */
-  private void performAttachmentAction (int attachmentPosition, int i) {
+  private void performAttachmentAction(int attachmentPosition, int i) {
     switch (getResources().getStringArray(R.array.attachments_actions_values)[i]) {
       case "share":
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         Attachment attachment = mAttachmentAdapter.getItem(attachmentPosition);
-        shareIntent.setType(StorageHelper.getMimeType(OmniNotes.getAppContext(), attachment.getUri()));
+        shareIntent
+            .setType(StorageHelper.getMimeType(OmniNotes.getAppContext(), attachment.getUri()));
         shareIntent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
         if (IntentChecker.isAvailable(OmniNotes.getAppContext(), shareIntent, null)) {
           startActivity(shareIntent);
@@ -833,34 +828,34 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
-  private void initViewTitle () {
-    title.setText(noteTmp.getTitle());
-    title.gatherLinksForText();
-    title.setOnTextLinkClickListener(textLinkClickListener);
+  private void initViewTitle() {
+    binding.detailTitle.setText(noteTmp.getTitle());
+    binding.detailTitle.gatherLinksForText();
+    binding.detailTitle.setOnTextLinkClickListener(textLinkClickListener);
     // To avoid dropping here the  dragged checklist items
-    title.setOnDragListener((v, event) -> {
+    binding.detailTitle.setOnDragListener((v, event) -> {
 //					((View)event.getLocalState()).setVisibility(View.VISIBLE);
       return true;
     });
     //When editor action is pressed focus is moved to last character in content field
-    title.setOnEditorActionListener((v, actionId, event) -> {
-      content.requestFocus();
-      content.setSelection(content.getText().length());
+    binding.detailTitle.setOnEditorActionListener((v, actionId, event) -> {
+      binding.fragmentDetailContent.detailContent.requestFocus();
+      binding.fragmentDetailContent.detailContent
+          .setSelection(binding.fragmentDetailContent.detailContent.getText().length());
       return false;
     });
-    requestFocus(title);
+    requestFocus(binding.detailTitle);
   }
 
-  private void initViewContent () {
-
-    content.setText(noteTmp.getContent());
-    content.gatherLinksForText();
-    content.setOnTextLinkClickListener(textLinkClickListener);
+  private void initViewContent() {
+    binding.fragmentDetailContent.detailContent.setText(noteTmp.getContent());
+    binding.fragmentDetailContent.detailContent.gatherLinksForText();
+    binding.fragmentDetailContent.detailContent.setOnTextLinkClickListener(textLinkClickListener);
     // Avoids focused line goes under the keyboard
-    content.addTextChangedListener(this);
+    binding.fragmentDetailContent.detailContent.addTextChangedListener(this);
 
     // Restore checklist
-    toggleChecklistView = content;
+    toggleChecklistView = binding.fragmentDetailContent.detailContent;
     if (noteTmp.isChecklist()) {
       noteTmp.setChecklist(false);
       AlphaManager.setAlpha(toggleChecklistView, 0);
@@ -869,11 +864,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   /**
-   * Force focus and shows soft keyboard. Only happens if it's a new note, without shared content. {@link showKeyboard}
-   * is used to check if the note is created from shared content.
+   * Force focus and shows soft keyboard. Only happens if it's a new note, without shared content.
+   * {@link showKeyboard} is used to check if the note is created from shared content.
    */
   @SuppressWarnings("JavadocReference")
-  private void requestFocus (final EditText view) {
+  private void requestFocus(final EditText view) {
     if (note.get_id() == null && !noteTmp.isChanged(note) && showKeyboard) {
       KeyboardUtils.showKeyboard(view);
     }
@@ -882,9 +877,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   /**
    * Colors tag marker in note's title and content elements
    */
-  private void setTagMarkerColor (Category tag) {
+  private void setTagMarkerColor(Category tag) {
 
-    String colorsPref = prefs.getString("settings_colors_app", Constants.PREF_COLORS_APP_DEFAULT);
+    String colorsPref = Prefs.getString("settings_colors_app", PREF_COLORS_APP_DEFAULT);
 
     // Checking preference
     if (!"disabled".equals(colorsPref)) {
@@ -892,10 +887,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       // Choosing target view depending on another preference
       ArrayList<View> target = new ArrayList<>();
       if ("complete".equals(colorsPref)) {
-        target.add(titleWrapperView);
-        target.add(scrollView);
+        target.add(binding.titleWrapper);
+        target.add(binding.contentWrapper);
       } else {
-        target.add(tagMarkerView);
+        target.add(binding.tagMarker);
       }
 
       // Coloring the target
@@ -911,12 +906,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
-  private void displayLocationDialog () {
+  private void displayLocationDialog() {
     getLocation(new OnGeoUtilResultListenerImpl(mainActivity, mFragment, noteTmp));
   }
 
   @Override
-  public void onLocationRetrieved (Location location) {
+  public void onLocationRetrieved(Location location) {
     if (location == null) {
       mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
     }
@@ -924,8 +919,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       noteTmp.setLatitude(location.getLatitude());
       noteTmp.setLongitude(location.getLongitude());
       if (!TextUtils.isEmpty(noteTmp.getAddress())) {
-        locationTextView.setVisibility(View.VISIBLE);
-        locationTextView.setText(noteTmp.getAddress());
+        binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
+        binding.fragmentDetailContent.location.setText(noteTmp.getAddress());
       } else {
         GeocodeHelper.getAddressFromCoordinates(location, mFragment);
       }
@@ -933,12 +928,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @Override
-  public void onLocationUnavailable () {
+  public void onLocationUnavailable() {
     mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
   }
 
   @Override
-  public void onAddressResolved (String address) {
+  public void onAddressResolved(String address) {
     if (TextUtils.isEmpty(address)) {
       if (!isNoteLocationValid()) {
         mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
@@ -949,33 +944,33 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     if (!GeocodeHelper.areCoordinates(address)) {
       noteTmp.setAddress(address);
     }
-    locationTextView.setVisibility(View.VISIBLE);
-    locationTextView.setText(address);
-    fade(locationTextView, true);
+    binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
+    binding.fragmentDetailContent.location.setText(address);
+    fade(binding.fragmentDetailContent.location, true);
   }
 
   @Override
-  public void onCoordinatesResolved (Location location, String address) {
+  public void onCoordinatesResolved(Location location, String address) {
     if (location != null) {
       noteTmp.setLatitude(location.getLatitude());
       noteTmp.setLongitude(location.getLongitude());
       noteTmp.setAddress(address);
-      locationTextView.setVisibility(View.VISIBLE);
-      locationTextView.setText(address);
-      fade(locationTextView, true);
+      binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
+      binding.fragmentDetailContent.location.setText(address);
+      fade(binding.fragmentDetailContent.location, true);
     } else {
       mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
     }
   }
 
   @Override
-  public void onCreateOptionsMenu (Menu menu, MenuInflater inflater) {
+  public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
     inflater.inflate(R.menu.menu_detail, menu);
     super.onCreateOptionsMenu(menu, inflater);
   }
 
   @Override
-  public void onPrepareOptionsMenu (Menu menu) {
+  public void onPrepareOptionsMenu(Menu menu) {
 
     // Closes search view if left open in List fragment
     MenuItem searchMenuItem = menu.findItem(R.id.menu_search);
@@ -987,6 +982,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
     menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
+    menu.findItem(R.id.menu_checklist_moveToBottom)
+        .setVisible(noteTmp.isChecklist() && mChecklistManager.getCheckedCount() > 0);
     menu.findItem(R.id.menu_lock).setVisible(!noteTmp.isLocked());
     menu.findItem(R.id.menu_unlock).setVisible(noteTmp.isLocked());
     // If note is trashed only this options will be available from menu
@@ -996,7 +993,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       // Otherwise all other actions will be available
     } else {
       // Temporary removed until fixed on Oreo and following
-//			menu.findItem(R.id.menu_add_shortcut).setVisible(!newNote);
+      menu.findItem(R.id.menu_add_shortcut).setVisible(!newNote);
+      menu.findItem(R.id.menu_pin_note).setVisible(!newNote);
       menu.findItem(R.id.menu_archive).setVisible(!newNote && !noteTmp.isArchived());
       menu.findItem(R.id.menu_unarchive).setVisible(!newNote && noteTmp.isArchived());
       menu.findItem(R.id.menu_trash).setVisible(!newNote);
@@ -1004,7 +1002,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @SuppressLint("NewApi")
-  private boolean goHome () {
+  private boolean goHome() {
     stopPlaying();
 
     // The activity has managed a shared intent from third party app and
@@ -1022,7 +1020,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
 
       // Otherwise the result is passed to ListActivity
-      if (mainActivity != null && mainActivity.getSupportFragmentManager() != null) {
+      if (mainActivity != null) {
+        mainActivity.getSupportFragmentManager();
         mainActivity.getSupportFragmentManager().popBackStack();
         if (mainActivity.getSupportFragmentManager().getBackStackEntryCount() == 1) {
           mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -1038,7 +1037,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @Override
-  public boolean onOptionsItemSelected (MenuItem item) {
+  public boolean onOptionsItemSelected(MenuItem item) {
 
     if (isOptionsItemFastClick()) {
       return true;
@@ -1061,9 +1060,15 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       case R.id.menu_checklist_off:
         toggleChecklist();
         break;
+      case R.id.menu_checklist_moveToBottom:
+        moveCheckedItemsToBottom();
+        break;
       case R.id.menu_lock:
       case R.id.menu_unlock:
         lockNote();
+        break;
+      case R.id.menu_pin_note:
+        pinNote();
         break;
       case R.id.menu_add_shortcut:
         addShortcut();
@@ -1092,35 +1097,27 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       default:
         LogDelegate.w("Invalid menu option selected");
     }
-
-    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackActionFromResourceId(getActivity(),
-        item.getItemId());
-
     return super.onOptionsItemSelected(item);
   }
 
-  private void showNoteInfo () {
+  private void showNoteInfo() {
     noteTmp.setTitle(getNoteTitle());
     noteTmp.setContent(getNoteContent());
     Intent intent = new Intent(getContext(), NoteInfosActivity.class);
-    intent.putExtra(Constants.INTENT_NOTE, (android.os.Parcelable) noteTmp);
+    intent.putExtra(INTENT_NOTE, (android.os.Parcelable) noteTmp);
     startActivity(intent);
 
   }
 
-  private void navigateUp () {
+  private void navigateUp() {
     afterSavedReturnsToList = true;
     saveAndExit(this);
   }
 
-  /**
-   *
-   */
-  private void toggleChecklist () {
-
+  private void toggleChecklist() {
     // In case checklist is active a prompt will ask about many options
     // to decide hot to convert back to simple text
-    if (!noteTmp.isChecklist()) {
+    if (Boolean.FALSE.equals(noteTmp.isChecklist())) {
       toggleChecklist2();
       return;
     }
@@ -1132,53 +1129,46 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       return;
     }
 
-    // Inflate the popup_layout.xml
-    LayoutInflater inflater = (LayoutInflater) mainActivity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+    // Inflate the popup_layout.XML
+    LayoutInflater inflater = (LayoutInflater) mainActivity
+        .getSystemService(LAYOUT_INFLATER_SERVICE);
     final View layout = inflater.inflate(R.layout.dialog_remove_checklist_layout,
         getView().findViewById(R.id.layout_root));
 
     // Retrieves options checkboxes and initialize their values
     final CheckBox keepChecked = layout.findViewById(R.id.checklist_keep_checked);
     final CheckBox keepCheckmarks = layout.findViewById(R.id.checklist_keep_checkmarks);
-    keepChecked.setChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true));
-    keepCheckmarks.setChecked(prefs.getBoolean(Constants.PREF_KEEP_CHECKMARKS, true));
+    keepChecked.setChecked(Prefs.getBoolean(PREF_KEEP_CHECKED, true));
+    keepCheckmarks.setChecked(Prefs.getBoolean(PREF_KEEP_CHECKMARKS, true));
 
     new MaterialDialog.Builder(mainActivity)
         .customView(layout, false)
         .positiveText(R.string.ok)
-        .onPositive(new MaterialDialog.SingleButtonCallback() {
-          @Override
-          public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-            prefs.edit()
-                 .putBoolean(Constants.PREF_KEEP_CHECKED, keepChecked.isChecked())
-                 .putBoolean(Constants.PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
-                 .apply();
-            toggleChecklist2();
-          }
+        .onPositive((dialog, which) -> {
+          Prefs.edit()
+              .putBoolean(PREF_KEEP_CHECKED, keepChecked.isChecked())
+              .putBoolean(PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
+              .apply();
+          toggleChecklist2();
         }).build().show();
   }
 
-  /**
-   * Toggles checklist view
-   */
-  private void toggleChecklist2 () {
-    boolean keepChecked = prefs.getBoolean(Constants.PREF_KEEP_CHECKED, true);
-    boolean showChecks = prefs.getBoolean(Constants.PREF_KEEP_CHECKMARKS, true);
+  private void toggleChecklist2() {
+    boolean keepChecked = Prefs.getBoolean(PREF_KEEP_CHECKED, true);
+    boolean showChecks = Prefs.getBoolean(PREF_KEEP_CHECKMARKS, true);
     toggleChecklist2(keepChecked, showChecks);
   }
 
-  @SuppressLint("NewApi")
-  private void toggleChecklist2 (final boolean keepChecked, final boolean showChecks) {
-    // Get instance and set options to convert EditText to CheckListView
-
+  private void toggleChecklist2(final boolean keepChecked, final boolean showChecks) {
     mChecklistManager = mChecklistManager == null ? new ChecklistManager(mainActivity) : mChecklistManager;
-    int checkedItemsBehavior = Integer.valueOf(prefs.getString("settings_checked_items_behavior", String.valueOf
-        (it.feio.android.checklistview.Settings.CHECKED_HOLD)));
+    int checkedItemsBehavior = Integer
+        .parseInt(Prefs.getString("settings_checked_items_behavior", String.valueOf
+            (it.feio.android.checklistview.Settings.CHECKED_HOLD)));
     mChecklistManager
         .showCheckMarks(showChecks)
         .newEntryHint(getString(R.string.checklist_item_hint))
         .keepChecked(keepChecked)
-        .undoBarContainerView(scrollView)
+        .undoBarContainerView(binding.contentWrapper)
         .moveCheckedOnBottom(checkedItemsBehavior);
 
     // Links parsing options
@@ -1203,18 +1193,23 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
-  /**
-   * Categorize note choosing from a list of previously created categories
-   */
-  private void categorizeNote () {
+  private void moveCheckedItemsToBottom() {
+    if (Boolean.TRUE.equals(noteTmp.isChecklist())) {
+      mChecklistManager.moveCheckedToBottom();
+    }
+  }
 
-    String currentCategory = noteTmp.getCategory() != null ? String.valueOf(noteTmp.getCategory().getId()) : null;
-    final List<Category> categories = Observable.from(DbHelper.getInstance().getCategories()).map(category -> {
-      if (String.valueOf(category.getId()).equals(currentCategory)) {
-        category.setCount(category.getCount() + 1);
-      }
-      return category;
-    }).toList().toBlocking().single();
+  private void categorizeNote() {
+
+    String currentCategory =
+        noteTmp.getCategory() != null ? String.valueOf(noteTmp.getCategory().getId()) : null;
+    final List<Category> categories = Observable.from(DbHelper.getInstance().getCategories())
+        .map(category -> {
+          if (String.valueOf(category.getId()).equals(currentCategory)) {
+            category.setCount(category.getCount() + 1);
+          }
+          return category;
+        }).toList().toBlocking().single();
 
     final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
         .title(R.string.categorize_as)
@@ -1233,17 +1228,18 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           setTagMarkerColor(null);
         }).build();
 
-    RecyclerViewItemClickSupport.addTo(dialog.getRecyclerView()).setOnItemClickListener((recyclerView, position, v) -> {
-      noteTmp.setCategory(categories.get(position));
-      setTagMarkerColor(categories.get(position));
-      dialog.dismiss();
-    });
+    RecyclerViewItemClickSupport.addTo(dialog.getRecyclerView())
+        .setOnItemClickListener((recyclerView, position, v) -> {
+          noteTmp.setCategory(categories.get(position));
+          setTagMarkerColor(categories.get(position));
+          dialog.dismiss();
+        });
 
     dialog.show();
 
   }
 
-    private void showAttachmentsPopup () {
+  private void showAttachmentsPopup() {
     LayoutInflater inflater = mainActivity.getLayoutInflater();
     final View layout = inflater.inflate(R.layout.attachment_dialog, null);
 
@@ -1281,16 +1277,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     pushbulletSelection.setOnClickListener(new AttachmentOnClickListener());
   }
 
-  private void takePhoto () {
+  private void takePhoto() {
     // Checks for camera app available
     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-    if (!IntentChecker.isAvailable(mainActivity, intent, new String[]{PackageManager.FEATURE_CAMERA})) {
+    if (!IntentChecker
+        .isAvailable(mainActivity, intent, new String[]{PackageManager.FEATURE_CAMERA})) {
       mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.ALERT);
 
       return;
     }
     // Checks for created file validity
-    File f = StorageHelper.createNewAttachmentFile(mainActivity, Constants.MIME_TYPE_IMAGE_EXT);
+    File f = StorageHelper.createNewAttachmentFile(mainActivity, MIME_TYPE_IMAGE_EXT);
     if (f == null) {
       mainActivity.showMessage(R.string.error, ONStyle.ALERT);
       return;
@@ -1301,15 +1298,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     startActivityForResult(intent, TAKE_PHOTO);
   }
 
-  private void takeVideo () {
+  private void takeVideo() {
     Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-    if (!IntentChecker.isAvailable(mainActivity, takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
+    if (!IntentChecker
+        .isAvailable(mainActivity, takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
       mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.ALERT);
 
       return;
     }
     // File is stored in custom ON folder to speedup the attachment
-    File f = StorageHelper.createNewAttachmentFile(mainActivity, Constants.MIME_TYPE_VIDEO_EXT);
+    File f = StorageHelper.createNewAttachmentFile(mainActivity, MIME_TYPE_VIDEO_EXT);
     if (f == null) {
       mainActivity.showMessage(R.string.error, ONStyle.ALERT);
       return;
@@ -1317,16 +1315,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     attachmentUri = FileProviderHelper.getFileProvider(f);
     takeVideoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
     takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
-    String maxVideoSizeStr = "".equals(prefs.getString("settings_max_video_size",
-        "")) ? "0" : prefs.getString("settings_max_video_size", "");
+    String maxVideoSizeStr = "".equals(Prefs.getString("settings_max_video_size",
+        "")) ? "0" : Prefs.getString("settings_max_video_size", "");
     long maxVideoSize = parseLong(maxVideoSizeStr) * 1024L * 1024L;
     takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, maxVideoSize);
     startActivityForResult(takeVideoIntent, TAKE_VIDEO);
   }
 
-  private void takeSketch (Attachment attachment) {
+  private void takeSketch(Attachment attachment) {
 
-    File f = StorageHelper.createNewAttachmentFile(mainActivity, Constants.MIME_TYPE_SKETCH_EXT);
+    File f = StorageHelper.createNewAttachmentFile(mainActivity, MIME_TYPE_SKETCH_EXT);
     if (f == null) {
       mainActivity.showMessage(R.string.error, ONStyle.ALERT);
       return;
@@ -1338,7 +1336,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     // Fragments replacing
     FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
-    mainActivity.animateTransition(transaction, mainActivity.TRANSITION_HORIZONTAL);
+    mainActivity.animateTransition(transaction, TRANSITION_HORIZONTAL);
     SketchFragment mSketchFragment = new SketchFragment();
     Bundle b = new Bundle();
     b.putParcelable(MediaStore.EXTRA_OUTPUT, attachmentUri);
@@ -1347,12 +1345,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
     mSketchFragment.setArguments(b);
     transaction.replace(R.id.fragment_container, mSketchFragment, mainActivity.FRAGMENT_SKETCH_TAG)
-               .addToBackStack(mainActivity.FRAGMENT_DETAIL_TAG).commit();
+        .addToBackStack(FRAGMENT_DETAIL_TAG).commit();
   }
 
-  private void addTimestamp () {
-    Editable editable = content.getText();
-    int position = content.getSelectionStart();
+  private void addTimestamp() {
+    Editable editable = binding.fragmentDetailContent.detailContent.getText();
+    int position = binding.fragmentDetailContent.detailContent.getSelectionStart();
     DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
     String dateStamp = dateFormat.format(new Date().getTime()) + " ";
     if (noteTmp.isChecklist()) {
@@ -1372,19 +1370,19 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   @SuppressLint("NewApi")
   @Override
-  public void onActivityResult (int requestCode, int resultCode, Intent intent) {
+  public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     // Fetch uri from activities, store into adapter and refresh adapter
     Attachment attachment;
     if (resultCode == Activity.RESULT_OK) {
       switch (requestCode) {
         case TAKE_PHOTO:
-          attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_IMAGE);
+          attachment = new Attachment(attachmentUri, MIME_TYPE_IMAGE);
           addAttachment(attachment);
           mAttachmentAdapter.notifyDataSetChanged();
           mGridView.autoresize();
           break;
         case TAKE_VIDEO:
-          attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_VIDEO);
+          attachment = new Attachment(attachmentUri, MIME_TYPE_VIDEO);
           addAttachment(attachment);
           mAttachmentAdapter.notifyDataSetChanged();
           mGridView.autoresize();
@@ -1397,7 +1395,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           lockUnlock();
           break;
         case SKETCH:
-          attachment = new Attachment(attachmentUri, Constants.MIME_TYPE_SKETCH);
+          attachment = new Attachment(attachmentUri, MIME_TYPE_SKETCH);
           addAttachment(attachment);
           mAttachmentAdapter.notifyDataSetChanged();
           mGridView.autoresize();
@@ -1417,9 +1415,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
-  private void onActivityResultManageReceivedFiles (Intent intent) {
+  private void onActivityResultManageReceivedFiles(Intent intent) {
     List<Uri> uris = new ArrayList<>();
-    if (Build.VERSION.SDK_INT > 16 && intent.getClipData() != null) {
+    if (intent.getClipData() != null) {
       for (int i = 0; i < intent.getClipData().getItemCount(); i++) {
         uris.add(intent.getClipData().getItemAt(i).getUri());
       }
@@ -1435,7 +1433,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   /**
    * Discards changes done to the note and eventually delete new attachments
    */
-  private void discard () {
+  private void discard() {
     new MaterialDialog.Builder(mainActivity)
         .content(R.string.undo_changes_note_confirmation)
         .positiveText(R.string.ok)
@@ -1450,11 +1448,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
           goBack = true;
 
-          if (!noteTmp.equals(noteOriginal)) {
-            if (noteOriginal.get_id() != null) {
-              new SaveNoteTask(mFragment, false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
-            }
-            MainActivity.notifyAppWidgets(mainActivity);
+          if (noteTmp.equals(noteOriginal)) {
+            goHome();
+          }
+
+          if (noteOriginal.get_id() != null) {
+            new SaveNoteTask(mFragment, false)
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
+            BaseActivity.notifyAppWidgets(mainActivity);
           } else {
             goHome();
           }
@@ -1462,7 +1463,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @SuppressLint("NewApi")
-  private void archiveNote (boolean archive) {
+  private void archiveNote(boolean archive) {
     // Simply go back if is a new note
     if (noteTmp.get_id() == null) {
       goHome();
@@ -1477,7 +1478,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @SuppressLint("NewApi")
-  private void trashNote (boolean trash) {
+  private void trashNote(boolean trash) {
     // Simply go back if is a new note
     if (noteTmp.get_id() == null) {
       goHome();
@@ -1489,7 +1490,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     exitMessage = trash ? getString(R.string.note_trashed) : getString(R.string.note_untrashed);
     exitCroutonStyle = trash ? ONStyle.WARN : ONStyle.INFO;
     if (trash) {
-      ShortcutHelper.removeshortCut(OmniNotes.getAppContext(), noteTmp);
+      ShortcutHelper.removeShortcut(OmniNotes.getAppContext(), noteTmp);
       ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
     } else {
       ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
@@ -1497,19 +1498,19 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     saveNote(this);
   }
 
-  private void deleteNote () {
+  private void deleteNote() {
     new MaterialDialog.Builder(mainActivity)
         .content(R.string.delete_note_confirmation)
         .positiveText(R.string.ok)
         .onPositive((dialog, which) -> {
           mainActivity.deleteNote(noteTmp);
-          LogDelegate.d("Deleted note with id '" + noteTmp.get_id() + "'");
+          LogDelegate.d("Deleted note with ID '" + noteTmp.get_id() + "'");
           mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
           goHome();
         }).build().show();
   }
 
-  public void saveAndExit (OnNoteSaved mOnNoteSaved) {
+  public void saveAndExit(OnNoteSaved mOnNoteSaved) {
     if (isAdded()) {
       exitMessage = getString(R.string.note_updated);
       exitCroutonStyle = ONStyle.CONFIRM;
@@ -1521,7 +1522,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   /**
    * Save new notes, modify them or archive
    */
-  void saveNote (OnNoteSaved mOnNoteSaved) {
+  void saveNote(OnNoteSaved mOnNoteSaved) {
 
     // Changed fields
     noteTmp.setTitle(getNoteTitle());
@@ -1529,7 +1530,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     // Check if some text or attachments of any type have been inserted or is an empty note
     if (goBack && TextUtils.isEmpty(noteTmp.getTitle()) && TextUtils.isEmpty(noteTmp.getContent())
-        && noteTmp.getAttachmentsList().size() == 0) {
+        && noteTmp.getAttachmentsList().isEmpty()) {
       LogDelegate.d("Empty note not saved");
       exitMessage = getString(R.string.empty_note_not_saved);
       exitCroutonStyle = ONStyle.INFO;
@@ -1554,8 +1555,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   /**
    * Checks if nothing is changed to avoid committing if possible (check)
    */
-  private boolean saveNotNeeded () {
-    if (noteTmp.get_id() == null && prefs.getBoolean(Constants.PREF_AUTO_LOCATION, false)) {
+  private boolean saveNotNeeded() {
+    if (noteTmp.get_id() == null && Prefs.getBoolean(PREF_AUTO_LOCATION, false)) {
       note.setLatitude(noteTmp.getLatitude());
       note.setLongitude(noteTmp.getLongitude());
     }
@@ -1563,9 +1564,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   /**
-   * Checks if only tag, archive or trash status have been changed and then force to not update last modification date*
+   * Checks if only tag, archive or trash status have been changed and then force to not update last
+   * modification date*
    */
-  private boolean lastModificationUpdatedNeeded () {
+  private boolean lastModificationUpdatedNeeded() {
     note.setCategory(noteTmp.getCategory());
     note.setArchived(noteTmp.isArchived());
     note.setTrashed(noteTmp.isTrashed());
@@ -1574,8 +1576,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @Override
-  public void onNoteSaved (Note noteSaved) {
-    MainActivity.notifyAppWidgets(OmniNotes.getAppContext());
+  public void onNoteSaved(Note noteSaved) {
     if (!activityPausing) {
       EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(noteSaved)));
       deleteMergedNotes(mergedNotesIds);
@@ -1589,32 +1590,32 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
-  private void deleteMergedNotes (List<String> mergedNotesIds) {
+  private void deleteMergedNotes(List<String> mergedNotesIds) {
     ArrayList<Note> notesToDelete = new ArrayList<>();
     if (mergedNotesIds != null) {
       for (String mergedNoteId : mergedNotesIds) {
-        Note note = new Note();
-        note.set_id(Long.valueOf(mergedNoteId));
-        notesToDelete.add(note);
+        Note noteToDelete = new Note();
+        noteToDelete.set_id(Long.valueOf(mergedNoteId));
+        notesToDelete.add(noteToDelete);
       }
       new NoteProcessorDelete(notesToDelete).process();
     }
   }
 
-  private String getNoteTitle () {
-    if (title != null && !TextUtils.isEmpty(title.getText())) {
-      return title.getText().toString();
+  private String getNoteTitle() {
+    if (!TextUtils.isEmpty(binding.detailTitle.getText())) {
+      return binding.detailTitle.getText().toString();
     } else {
       return "";
     }
   }
 
-  private String getNoteContent () {
+  private String getNoteContent() {
     String contentText = "";
     if (!noteTmp.isChecklist()) {
       // Due to checklist library introduction the returned EditText class is no more a
       // com.neopixl.pixlui.components.edittext.EditText but a standard android.widget.EditText
-      View contentView = root.findViewById(R.id.detail_content);
+      View contentView = binding.detailRoot.findViewById(R.id.detail_content);
       if (contentView instanceof EditText) {
         contentText = ((EditText) contentView).getText().toString();
       } else if (contentView instanceof android.widget.EditText) {
@@ -1632,7 +1633,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   /**
    * Updates share intent
    */
-  private void shareNote () {
+  private void shareNote() {
     Note sharedNote = new Note(noteTmp);
     sharedNote.setTitle(getNoteTitle());
     sharedNote.setContent(getNoteContent());
@@ -1642,18 +1643,18 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   /**
    * Notes locking with security password to avoid viewing, editing or deleting from unauthorized
    */
-  private void lockNote () {
+  private void lockNote() {
     LogDelegate.d("Locking or unlocking note " + note.get_id());
 
     // If security password is not set yes will be set right now
-    if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
+    if (Prefs.getString(PREF_PASSWORD, null) == null) {
       Intent passwordIntent = new Intent(mainActivity, PasswordActivity.class);
       startActivityForResult(passwordIntent, SET_PASSWORD);
       return;
     }
 
     // If password has already been inserted will not be asked again
-    if (noteTmp.isPasswordChecked() || prefs.getBoolean("settings_password_access", false)) {
+    if (noteTmp.isPasswordChecked() || Prefs.getBoolean("settings_password_access", false)) {
       lockUnlock();
       return;
     }
@@ -1670,9 +1671,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     });
   }
 
-  private void lockUnlock () {
+  private void lockUnlock() {
     // Empty password has been set
-    if (prefs.getString(Constants.PREF_PASSWORD, null) == null) {
+    if (Prefs.getString(PREF_PASSWORD, null) == null) {
       mainActivity.showMessage(R.string.password_not_set, ONStyle.WARN);
       return;
     }
@@ -1685,7 +1686,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   /**
    * Used to set actual reminder state when initializing a note to be edited
    */
-  private String initReminder (Note note) {
+  private String initReminder(Note note) {
     if (noteTmp.getAlarm() == null) {
       return "";
     }
@@ -1701,7 +1702,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   /**
    * Audio recordings playback
    */
-  private void playback (View v, Uri uri) {
+  private void playback(View v, Uri uri) {
     // Some recording is playing right now
     if (mPlayer != null && mPlayer.isPlaying()) {
       if (isPlayingView != v) {
@@ -1722,7 +1723,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
-  private void replacePlayingAudioBitmap (View v) {
+  private void replacePlayingAudioBitmap(View v) {
     Drawable d = ((ImageView) v.findViewById(R.id.gridview_item_picture)).getDrawable();
     if (BitmapDrawable.class.isAssignableFrom(d.getClass())) {
       recordingBitmap = ((BitmapDrawable) d).getBitmap();
@@ -1731,10 +1732,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
     ((ImageView) v.findViewById(R.id.gridview_item_picture)).setImageBitmap(ThumbnailUtils
         .extractThumbnail(BitmapFactory.decodeResource(mainActivity.getResources(),
-            R.drawable.stop), Constants.THUMBNAIL_SIZE, Constants.THUMBNAIL_SIZE));
+            R.drawable.stop), THUMBNAIL_SIZE, THUMBNAIL_SIZE));
   }
 
-  private void startPlaying (Uri uri) {
+  private void startPlaying(Uri uri) {
     if (mPlayer == null) {
       mPlayer = new MediaPlayer();
     }
@@ -1757,10 +1758,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
-  private void stopPlaying () {
+  private void stopPlaying() {
     if (mPlayer != null) {
       if (isPlayingView != null) {
-        ((ImageView) isPlayingView.findViewById(R.id.gridview_item_picture)).setImageBitmap(recordingBitmap);
+        ((ImageView) isPlayingView.findViewById(R.id.gridview_item_picture))
+            .setImageBitmap(recordingBitmap);
       }
       isPlayingView = null;
       recordingBitmap = null;
@@ -1769,14 +1771,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
-  private void startRecording (View v) {
+  private void startRecording(View v) {
     PermissionsHelper.requestPermission(getActivity(), Manifest.permission.RECORD_AUDIO,
-        R.string.permission_audio_recording, snackBarPlaceholder, () -> {
+        R.string.permission_audio_recording, binding.snackbarPlaceholder, () -> {
 
           isRecording = true;
           toggleAudioRecordingStop(v);
 
-          File f = StorageHelper.createNewAttachmentFile(mainActivity, Constants.MIME_TYPE_AUDIO_EXT);
+          File f = StorageHelper.createNewAttachmentFile(mainActivity, MIME_TYPE_AUDIO_EXT);
           if (f == null) {
             mainActivity.showMessage(R.string.error, ONStyle.ALERT);
             return;
@@ -1803,14 +1805,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         });
   }
 
-  private void toggleAudioRecordingStop (View v) {
+  private void toggleAudioRecordingStop(View v) {
     if (isRecording) {
       ((android.widget.TextView) v).setText(getString(R.string.stop));
       ((android.widget.TextView) v).setTextColor(Color.parseColor("#ff0000"));
     }
   }
 
-  private void stopRecording () {
+  private void stopRecording() {
     isRecording = false;
     if (mRecorder != null) {
       mRecorder.stop();
@@ -1820,7 +1822,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
-  private void fade (final View v, boolean fadeIn) {
+  private void fade(final View v, boolean fadeIn) {
 
     int anim = R.animator.fade_out_support;
     int visibilityTemp = View.GONE;
@@ -1837,17 +1839,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       Animation mAnimation = AnimationUtils.loadAnimation(mainActivity, anim);
       mAnimation.setAnimationListener(new AnimationListener() {
         @Override
-        public void onAnimationStart (Animation animation) {
+        public void onAnimationStart(Animation animation) {
           // Nothing to do
         }
 
         @Override
-        public void onAnimationRepeat (Animation animation) {
+        public void onAnimationRepeat(Animation animation) {
           // Nothing to do
         }
 
         @Override
-        public void onAnimationEnd (Animation animation) {
+        public void onAnimationEnd(Animation animation) {
           v.setVisibility(visibility);
         }
       });
@@ -1856,16 +1858,48 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   /**
+   * Pin note as ongoing notifications
+   */
+  private void pinNote() {
+    PendingIntent notifyIntent = IntentHelper
+        .getNotePendingIntent(getContext(), SnoozeActivity.class, ACTION_PINNED, note);
+
+    Spanned[] titleAndContent = TextHelper.parseTitleAndContent(getContext(), note);
+    String pinnedTitle = titleAndContent[0].toString();
+    String pinnedContent = titleAndContent[1].toString();
+
+    NotificationsHelper notificationsHelper = new NotificationsHelper(getContext());
+    notificationsHelper
+        .createOngoingNotification(NotificationChannelNames.PINNED, R.drawable.ic_stat_notification,
+            pinnedTitle, notifyIntent).setMessage(pinnedContent);
+
+    List<Attachment> attachments = note.getAttachmentsList();
+    if (!attachments.isEmpty() && !attachments.get(0).getMime_type().equals(MIME_TYPE_FILES)) {
+      Bitmap notificationIcon = BitmapHelper
+          .getBitmapFromAttachment(getContext(), note.getAttachmentsList().get(0), 128,
+              128);
+      notificationsHelper.setLargeIcon(notificationIcon);
+    }
+
+    PendingIntent unpinIntent = IntentHelper
+        .getNotePendingIntent(getContext(), SnoozeActivity.class, ACTION_DISMISS, note);
+    notificationsHelper.getBuilder()
+        .addAction(R.drawable.ic_material_reminder_time_light, getContext().getString(R.string.done), unpinIntent);
+
+    notificationsHelper.show(note.get_id());
+  }
+
+  /**
    * Adding shortcut on Home screen
    */
-  private void addShortcut () {
+  private void addShortcut() {
     ShortcutHelper.addShortcut(OmniNotes.getAppContext(), noteTmp);
     mainActivity.showMessage(R.string.shortcut_added, ONStyle.INFO);
   }
 
   @SuppressLint("NewApi")
   @Override
-  public boolean onTouch (View v, MotionEvent event) {
+  public boolean onTouch(View v, MotionEvent event) {
     int x = (int) event.getX();
     int y = (int) event.getY();
 
@@ -1878,7 +1912,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         Point displaySize = Display.getUsableSize(mainActivity);
         w = displaySize.x;
 
-        if (x < Constants.SWIPE_MARGIN || x > w - Constants.SWIPE_MARGIN) {
+        if (x < SWIPE_MARGIN || x > w - SWIPE_MARGIN) {
           swiping = true;
           startSwipeX = x;
         }
@@ -1895,17 +1929,18 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       case MotionEvent.ACTION_MOVE:
         if (swiping) {
           LogDelegate.v("MotionEvent.ACTION_MOVE at position " + x + ", " + y);
-          if (Math.abs(x - startSwipeX) > Constants.SWIPE_OFFSET) {
+          if (Math.abs(x - startSwipeX) > SWIPE_OFFSET) {
             swiping = false;
-            FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
-            mainActivity.animateTransition(transaction, mainActivity.TRANSITION_VERTICAL);
+            FragmentTransaction transaction = mainActivity.getSupportFragmentManager()
+                .beginTransaction();
+            mainActivity.animateTransition(transaction, TRANSITION_VERTICAL);
             DetailFragment mDetailFragment = new DetailFragment();
             Bundle b = new Bundle();
-            b.putParcelable(Constants.INTENT_NOTE, new Note());
+            b.putParcelable(INTENT_NOTE, new Note());
             mDetailFragment.setArguments(b);
-            transaction.replace(R.id.fragment_container, mDetailFragment,
-                mainActivity.FRAGMENT_DETAIL_TAG).addToBackStack(mainActivity
-                .FRAGMENT_DETAIL_TAG).commit();
+            transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG)
+                .addToBackStack(
+                    FRAGMENT_DETAIL_TAG).commit();
           }
         }
         break;
@@ -1918,7 +1953,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @Override
-  public void onAttachingFileErrorOccurred (Attachment mAttachment) {
+  public void onAttachingFileErrorOccurred(Attachment mAttachment) {
     mainActivity.showMessage(R.string.error_saving_attachments, ONStyle.ALERT);
     if (noteTmp.getAttachmentsList().contains(mAttachment)) {
       removeAttachment(mAttachment);
@@ -1927,19 +1962,19 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 
-  private void addAttachment (Attachment attachment) {
+  private void addAttachment(Attachment attachment) {
     noteTmp.addAttachment(attachment);
   }
 
-  private void removeAttachment (Attachment mAttachment) {
+  private void removeAttachment(Attachment mAttachment) {
     noteTmp.removeAttachment(mAttachment);
   }
 
-  private void removeAttachment (int position) {
+  private void removeAttachment(int position) {
     noteTmp.removeAttachment(noteTmp.getAttachmentsList().get(position));
   }
 
-  private void removeAllAttachments () {
+  private void removeAllAttachments() {
     noteTmp.setAttachmentsList(new ArrayList<>());
     mAttachmentAdapter = new AttachmentAdapter(mainActivity, new ArrayList<>(), mGridView);
     mGridView.invalidateViews();
@@ -1947,75 +1982,75 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @Override
-  public void onAttachingFileFinished (Attachment mAttachment) {
+  public void onAttachingFileFinished(Attachment mAttachment) {
     addAttachment(mAttachment);
     mAttachmentAdapter.notifyDataSetChanged();
     mGridView.autoresize();
   }
 
   @Override
-  public void onReminderPicked (long reminder) {
+  public void onReminderPicked(long reminder) {
     noteTmp.setAlarm(reminder);
     if (mFragment.isAdded()) {
-      reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
-      datetime.setText(RecurrenceHelper.getNoteReminderText(reminder));
+      binding.fragmentDetailContent.reminderIcon.setImageResource(R.drawable.ic_alarm_black_18dp);
+      binding.fragmentDetailContent.datetime
+          .setText(RecurrenceHelper.getNoteReminderText(reminder));
     }
   }
 
   @Override
-  public void onRecurrenceReminderPicked (String recurrenceRule) {
+  public void onRecurrenceReminderPicked(String recurrenceRule) {
     noteTmp.setRecurrenceRule(recurrenceRule);
     if (!TextUtils.isEmpty(recurrenceRule)) {
       LogDelegate.d("Recurrent reminder set: " + recurrenceRule);
-      datetime.setText(RecurrenceHelper.getNoteRecurrentReminderText(Long.parseLong(noteTmp.getAlarm()), recurrenceRule));
+      binding.fragmentDetailContent.datetime.setText(RecurrenceHelper
+          .getNoteRecurrentReminderText(Long.parseLong(noteTmp.getAlarm()), recurrenceRule));
     }
   }
 
   @Override
-  public void onTextChanged (CharSequence s, int start, int before, int count) {
+  public void onTextChanged(CharSequence s, int start, int before, int count) {
     scrollContent();
   }
 
   @Override
-  public void beforeTextChanged (CharSequence s, int start, int count, int after) {
+  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     // Nothing to do
   }
 
   @Override
-  public void afterTextChanged (Editable s) {
+  public void afterTextChanged(Editable s) {
     // Nothing to do
   }
 
   @Override
-  public void onCheckListChanged () {
+  public void onCheckListChanged() {
     scrollContent();
   }
 
-  private void scrollContent () {
+  private void scrollContent() {
     if (noteTmp.isChecklist()) {
       if (mChecklistManager.getCount() > contentLineCounter) {
-        scrollView.scrollBy(0, 60);
+        binding.contentWrapper.scrollBy(0, 60);
       }
       contentLineCounter = mChecklistManager.getCount();
     } else {
-      if (content.getLineCount() > contentLineCounter) {
-        scrollView.scrollBy(0, 60);
+      if (binding.fragmentDetailContent.detailContent.getLineCount() > contentLineCounter) {
+        binding.contentWrapper.scrollBy(0, 60);
       }
-      contentLineCounter = content.getLineCount();
+      contentLineCounter = binding.fragmentDetailContent.detailContent.getLineCount();
     }
   }
 
   /**
    * Add previously created tags to content
    */
-  private void addTags () {
+  private void addTags() {
     contentCursorPosition = getCursorIndex();
 
-    // Retrieves all available categories
     final List<Tag> tags = TagsHelper.getAllTags();
 
-    // If there is no tag a message will be shown
-    if (tags.size() == 0) {
+    if (tags.isEmpty()) {
       mainActivity.showMessage(R.string.no_tags_created, ONStyle.WARN);
       return;
     }
@@ -2038,80 +2073,86 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     dialog.show();
   }
 
-  private void tagNote (List<Tag> tags, Integer[] selectedTags, Note note) {
+  private void tagNote(List<Tag> tags, Integer[] selectedTags, Note note) {
     Pair<String, List<Tag>> taggingResult = TagsHelper.addTagToNote(tags, selectedTags, note);
 
     StringBuilder sb;
-    if (noteTmp.isChecklist()) {
+    if (Boolean.TRUE.equals(noteTmp.isChecklist())) {
       CheckListViewItem mCheckListViewItem = mChecklistManager.getFocusedItemView();
       if (mCheckListViewItem != null) {
         sb = new StringBuilder(mCheckListViewItem.getText());
         sb.insert(contentCursorPosition, " " + taggingResult.first + " ");
         mCheckListViewItem.setText(sb.toString());
-        mCheckListViewItem.getEditText().setSelection(contentCursorPosition + taggingResult.first.length()
-            + 1);
+        mCheckListViewItem.getEditText()
+            .setSelection(contentCursorPosition + taggingResult.first.length()
+                + 1);
       } else {
-        title.append(" " + taggingResult.first);
+        binding.detailTitle.append(" " + taggingResult.first);
       }
     } else {
       sb = new StringBuilder(getNoteContent());
-      if (content.hasFocus()) {
+      if (binding.fragmentDetailContent.detailContent.hasFocus()) {
         sb.insert(contentCursorPosition, " " + taggingResult.first + " ");
-        content.setText(sb.toString());
-        content.setSelection(contentCursorPosition + taggingResult.first.length() + 1);
+        binding.fragmentDetailContent.detailContent.setText(sb.toString());
+        binding.fragmentDetailContent.detailContent
+            .setSelection(contentCursorPosition + taggingResult.first.length() + 1);
       } else {
         if (getNoteContent().trim().length() > 0) {
           sb.append(System.getProperty("line.separator"))
-            .append(System.getProperty("line.separator"));
+              .append(System.getProperty("line.separator"));
         }
         sb.append(taggingResult.first);
-        content.setText(sb.toString());
+        binding.fragmentDetailContent.detailContent.setText(sb.toString());
       }
     }
 
-    // Removes unchecked tags
-    if (taggingResult.second.size() > 0) {
-      if (noteTmp.isChecklist()) {
-        toggleChecklist2(true, true);
-      }
-      Pair<String, String> titleAndContent = TagsHelper.removeTag(getNoteTitle(), getNoteContent(),
-          taggingResult.second);
-      title.setText(titleAndContent.first);
-      content.setText(titleAndContent.second);
-      if (noteTmp.isChecklist()) {
-        toggleChecklist2();
-      }
+    eventuallyRemoveDeselectedTags(taggingResult.second);
+  }
+
+  private void eventuallyRemoveDeselectedTags(List<Tag> tagsToRemove) {
+    if (CollectionUtils.isEmpty(tagsToRemove)) {
+      return;
+    }
+
+    boolean currentlyChecklist = Boolean.TRUE.equals(noteTmp.isChecklist());
+    if (currentlyChecklist) {
+      toggleChecklist2(true, true);
+    }
+
+    String titleWithoutTags = TagsHelper.removeTags(getNoteTitle(), tagsToRemove);
+    binding.detailTitle.setText(titleWithoutTags);
+    String contentWithoutTags = TagsHelper.removeTags(getNoteContent(), tagsToRemove);
+    binding.fragmentDetailContent.detailContent.setText(contentWithoutTags);
+
+    if (currentlyChecklist) {
+      toggleChecklist2();
     }
   }
 
-  private int getCursorIndex () {
-    if (!noteTmp.isChecklist()) {
-      return content.getSelectionStart();
-    } else {
+  private int getCursorIndex() {
+    if (Boolean.TRUE.equals(noteTmp.isChecklist())) {
       CheckListViewItem mCheckListViewItem = mChecklistManager.getFocusedItemView();
-      if (mCheckListViewItem != null) {
-        return mCheckListViewItem.getEditText().getSelectionStart();
-      } else {
-        return 0;
-      }
+      return mCheckListViewItem != null ? mCheckListViewItem.getEditText().getSelectionStart() : 0;
+    } else {
+      return binding.fragmentDetailContent.detailContent.getSelectionStart();
     }
   }
 
   /**
-   * Used to check currently opened note from activity to avoid openind multiple times the same one
+   * Used to check currently opened note from activity to avoid opening multiple times the same one
    */
-  public Note getCurrentNote () {
+  public Note getCurrentNote() {
     return note;
   }
 
-  private boolean isNoteLocationValid () {
+  private boolean isNoteLocationValid() {
     return noteTmp.getLatitude() != null
         && noteTmp.getLatitude() != 0
         && noteTmp.getLongitude() != null
         && noteTmp.getLongitude() != 0;
   }
 
-  public void startGetContentAction () {
+  public void startGetContentAction() {
     Intent filesIntent;
     filesIntent = new Intent(Intent.ACTION_GET_CONTENT);
     filesIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -2120,15 +2161,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     startActivityForResult(filesIntent, FILES);
   }
 
-  private void askReadExternalStoragePermission () {
+  private void askReadExternalStoragePermission() {
     PermissionsHelper.requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE,
         R.string.permission_external_storage_detail_attachment,
-        snackBarPlaceholder, this::startGetContentAction);
+        binding.snackbarPlaceholder, this::startGetContentAction);
   }
 
-  public void onEventMainThread (PushbulletReplyEvent pushbulletReplyEvent) {
-    String text = getNoteContent() + System.getProperty("line.separator") + pushbulletReplyEvent.message;
-    content.setText(text);
+  public void onEventMainThread(PushbulletReplyEvent pushbulletReplyEvent) {
+    String text =
+        getNoteContent() + System.getProperty("line.separator") + pushbulletReplyEvent.getMessage();
+    binding.fragmentDetailContent.detailContent.setText(text);
   }
 
   private static class OnGeoUtilResultListenerImpl implements OnGeoUtilResultListener {
@@ -2137,27 +2179,29 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     private final WeakReference<DetailFragment> detailFragmentWeakReference;
     private final WeakReference<Note> noteTmpWeakReference;
 
-    OnGeoUtilResultListenerImpl (MainActivity activity, DetailFragment mFragment, Note noteTmp) {
+    OnGeoUtilResultListenerImpl(MainActivity activity, DetailFragment mFragment, Note noteTmp) {
       mainActivityWeakReference = new WeakReference<>(activity);
       detailFragmentWeakReference = new WeakReference<>(mFragment);
       noteTmpWeakReference = new WeakReference<>(noteTmp);
     }
 
     @Override
-    public void onAddressResolved (String address) {
+    public void onAddressResolved(String address) {
+      // Nothing to do
     }
 
     @Override
-    public void onCoordinatesResolved (Location location, String address) {
+    public void onCoordinatesResolved(Location location, String address) {
+      // Nothing to do
     }
 
     @Override
-    public void onLocationUnavailable () {
+    public void onLocationUnavailable() {
       mainActivityWeakReference.get().showMessage(R.string.location_not_found, ONStyle.ALERT);
     }
 
     @Override
-    public void onLocationRetrieved (Location location) {
+    public void onLocationRetrieved(Location location) {
 
       if (!checkWeakReferences()) {
         return;
@@ -2177,51 +2221,54 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       final AutoCompleteTextView autoCompView = v.findViewById(R.id
           .auto_complete_location);
       autoCompView.setHint(mainActivityWeakReference.get().getString(R.string.search_location));
-      autoCompView.setAdapter(new PlacesAutoCompleteAdapter(mainActivityWeakReference.get(), R.layout
-          .simple_text_layout));
+      autoCompView
+          .setAdapter(new PlacesAutoCompleteAdapter(mainActivityWeakReference.get(), R.layout
+              .simple_text_layout));
       final MaterialDialog dialog = new MaterialDialog.Builder(mainActivityWeakReference.get())
           .customView(autoCompView, false)
           .positiveText(R.string.use_current_location)
-          .onPositive(new MaterialDialog.SingleButtonCallback() {
-            @Override
-            public void onClick (@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-              if (TextUtils.isEmpty(autoCompView.getText().toString())) {
-                noteTmpWeakReference.get().setLatitude(location.getLatitude());
-                noteTmpWeakReference.get().setLongitude(location.getLongitude());
-                GeocodeHelper.getAddressFromCoordinates(location, detailFragmentWeakReference.get());
-              } else {
-                GeocodeHelper.getCoordinatesFromAddress(autoCompView.getText().toString(),
-                    detailFragmentWeakReference.get());
-              }
+          .onPositive((dialog1, which) -> {
+            if (TextUtils.isEmpty(autoCompView.getText().toString())) {
+              noteTmpWeakReference.get().setLatitude(location.getLatitude());
+              noteTmpWeakReference.get().setLongitude(location.getLongitude());
+              GeocodeHelper.getAddressFromCoordinates(location, detailFragmentWeakReference.get());
+            } else {
+              GeocodeHelper.getCoordinatesFromAddress(autoCompView.getText().toString(),
+                  detailFragmentWeakReference.get());
             }
           })
           .build();
       autoCompView.addTextChangedListener(new TextWatcher() {
         @Override
-        public void beforeTextChanged (CharSequence s, int start, int count, int after) {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+          // Nothing to do
         }
 
         @Override
-        public void onTextChanged (CharSequence s, int start, int before, int count) {
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
           if (s.length() != 0) {
-            dialog.setActionButton(DialogAction.POSITIVE, mainActivityWeakReference.get().getString(R
-                .string.confirm));
+            dialog
+                .setActionButton(DialogAction.POSITIVE, mainActivityWeakReference.get().getString(R
+                    .string.confirm));
           } else {
-            dialog.setActionButton(DialogAction.POSITIVE, mainActivityWeakReference.get().getString(R
-                .string
-                .use_current_location));
+            dialog
+                .setActionButton(DialogAction.POSITIVE, mainActivityWeakReference.get().getString(R
+                    .string
+                    .use_current_location));
           }
         }
 
         @Override
-        public void afterTextChanged (Editable s) {
+        public void afterTextChanged(Editable s) {
+          // Nothing to do
         }
       });
       dialog.show();
     }
 
-    private boolean checkWeakReferences () {
-      return mainActivityWeakReference.get() != null && !mainActivityWeakReference.get().isFinishing()
+    private boolean checkWeakReferences() {
+      return mainActivityWeakReference.get() != null && !mainActivityWeakReference.get()
+          .isFinishing()
           && detailFragmentWeakReference.get() != null && noteTmpWeakReference.get() != null;
     }
   }
@@ -2233,7 +2280,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private class AttachmentOnClickListener implements OnClickListener {
 
     @Override
-    public void onClick (View v) {
+    public void onClick(View v) {
 
       switch (v.getId()) {
         // Photo from camera
@@ -2245,8 +2292,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
             startRecording(v);
           } else {
             stopRecording();
-            Attachment attachment = new Attachment(Uri.fromFile(new File(recordName)), Constants
-                .MIME_TYPE_AUDIO);
+            Attachment attachment = new Attachment(Uri.fromFile(new File(recordName)),
+                MIME_TYPE_AUDIO);
             attachment.setLength(audioRecordingTime);
             addAttachment(attachment);
             mAttachmentAdapter.notifyDataSetChanged();
@@ -2257,7 +2304,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           takeVideo();
           break;
         case R.id.files:
-          if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ==
+          if (ContextCompat
+              .checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ==
               PackageManager.PERMISSION_GRANTED) {
             startGetContentAction();
           } else {
@@ -2289,6 +2337,3 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
   }
 }
-
-
-

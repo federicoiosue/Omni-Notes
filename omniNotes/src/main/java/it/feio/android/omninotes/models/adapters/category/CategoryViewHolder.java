@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,20 +17,21 @@
 
 package it.feio.android.omninotes.models.adapters.category;
 
-import android.view.View;
 import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView.ViewHolder;
-import butterknife.ButterKnife;
 import com.neopixl.pixlui.components.textview.TextView;
+import it.feio.android.omninotes.databinding.DrawerListItemBinding;
 
 public class CategoryViewHolder extends ViewHolder {
-
-  public CategoryViewHolder (View view) {
-    super(view);
-    ButterKnife.bind(this, view);
-  }
 
   public ImageView imgIcon;
   public TextView txtTitle;
   public android.widget.TextView count;
+
+  public CategoryViewHolder(DrawerListItemBinding binding) {
+    super(binding.getRoot());
+    imgIcon = binding.icon;
+    txtTitle = binding.title;
+    count = binding.count;
+  }
 }

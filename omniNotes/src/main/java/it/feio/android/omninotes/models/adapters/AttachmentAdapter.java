@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,6 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 package it.feio.android.omninotes.models.adapters;
+
+import static it.feio.android.omninotes.utils.ConstantsBase.DATE_FORMAT_SORTABLE;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_FILES;
 
 import android.app.Activity;
 import android.content.Context;
@@ -32,7 +36,6 @@ import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.models.views.SquareImageView;
 import it.feio.android.omninotes.utils.BitmapHelper;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.date.DateUtils;
 import java.util.Collections;
 import java.util.List;
@@ -45,7 +48,8 @@ public class AttachmentAdapter extends BaseAdapter {
   private LayoutInflater inflater;
 
 
-  public AttachmentAdapter (Activity mActivity, List<Attachment> attachmentsList, ExpandableHeightGridView mGridView) {
+  public AttachmentAdapter(Activity mActivity, List<Attachment> attachmentsList,
+      ExpandableHeightGridView mGridView) {
     this.mActivity = mActivity;
     if (attachmentsList == null) {
       attachmentsList = Collections.emptyList();
@@ -55,22 +59,22 @@ public class AttachmentAdapter extends BaseAdapter {
   }
 
 
-  public int getCount () {
+  public int getCount() {
     return attachmentsList.size();
   }
 
 
-  public Attachment getItem (int position) {
+  public Attachment getItem(int position) {
     return attachmentsList.get(position);
   }
 
 
-  public long getItemId (int position) {
+  public long getItemId(int position) {
     return 0;
   }
 
 
-  public View getView (int position, View convertView, ViewGroup parent) {
+  public View getView(int position, View convertView, ViewGroup parent) {
 
     LogDelegate.v("GridView called for position " + position);
 
@@ -89,7 +93,7 @@ public class AttachmentAdapter extends BaseAdapter {
     }
 
     // Draw name in case the type is an audio recording
-    if (mAttachment.getMime_type() != null && mAttachment.getMime_type().equals(Constants.MIME_TYPE_AUDIO)) {
+    if (mAttachment.getMime_type() != null && mAttachment.getMime_type().equals(MIME_TYPE_AUDIO)) {
       String text;
 
       if (mAttachment.getLength() > 0) {
@@ -98,8 +102,7 @@ public class AttachmentAdapter extends BaseAdapter {
       } else {
         // Recording date otherwise
         text = DateUtils.getLocalizedDateTime(mActivity, mAttachment
-                .getUri().getLastPathSegment().split("\\.")[0],
-            Constants.DATE_FORMAT_SORTABLE);
+            .getUri().getLastPathSegment().split("\\.")[0], DATE_FORMAT_SORTABLE);
       }
 
       if (text == null) {
@@ -112,7 +115,7 @@ public class AttachmentAdapter extends BaseAdapter {
     }
 
     // Draw name in case the type is an audio recording (or file in the future)
-    if (mAttachment.getMime_type() != null && mAttachment.getMime_type().equals(Constants.MIME_TYPE_FILES)) {
+    if (mAttachment.getMime_type() != null && mAttachment.getMime_type().equals(MIME_TYPE_FILES)) {
       holder.text.setText(mAttachment.getName());
       holder.text.setVisibility(View.VISIBLE);
     }
@@ -120,16 +123,14 @@ public class AttachmentAdapter extends BaseAdapter {
     // Starts the AsyncTask to draw bitmap into ImageView
     Uri thumbnailUri = BitmapHelper.getThumbnailUri(mActivity, mAttachment);
     Glide.with(mActivity.getApplicationContext())
-         .load(thumbnailUri)
-//                .centerCrop()
-//                .crossFade()
-         .into(holder.image);
+        .load(thumbnailUri)
+        .into(holder.image);
 
     return convertView;
   }
 
 
-  public List<Attachment> getAttachmentsList () {
+  public List<Attachment> getAttachmentsList() {
     return attachmentsList;
   }
 

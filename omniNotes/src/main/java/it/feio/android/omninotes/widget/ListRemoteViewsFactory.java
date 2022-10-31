@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,14 +17,12 @@
 
 package it.feio.android.omninotes.widget;
 
-import static it.feio.android.omninotes.utils.Constants.PREFS_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_WIDGET_PREFIX;
 
 import android.app.Application;
 import android.appwidget.AppWidgetManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -33,6 +31,7 @@ import android.text.Spanned;
 import android.view.View;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService.RemoteViewsFactory;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
@@ -47,6 +46,7 @@ import java.util.List;
 
 public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
+  private static final String SET_BACKGROUND_COLOR = "setBackgroundColor";
   private static boolean showThumbnails = true;
   private static boolean showTimestamps = true;
   private final int WIDTH = 80;
@@ -56,57 +56,47 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
   private List<Note> notes;
   private int navigation;
 
-  public ListRemoteViewsFactory (Application app, Intent intent) {
+  public ListRemoteViewsFactory(Application app, Intent intent) {
     this.app = (OmniNotes) app;
-    appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+    appWidgetId = intent
+        .getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
   }
 
-  static void updateConfiguration (Context mContext, int mAppWidgetId, String sqlCondition,
-      boolean thumbnails, boolean timestamps) {
+  static void updateConfiguration(int mAppWidgetId, String sqlCondition, boolean thumbnails, boolean timestamps) {
     LogDelegate.d("Widget configuration updated");
-    mContext.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
-            .putString(PREF_WIDGET_PREFIX + mAppWidgetId, sqlCondition).apply();
+    Prefs.edit().putString(PREF_WIDGET_PREFIX + mAppWidgetId, sqlCondition).apply();
     showThumbnails = thumbnails;
     showTimestamps = timestamps;
   }
 
   @Override
-  public void onCreate () {
+  public void onCreate() {
     LogDelegate.d("Created widget " + appWidgetId);
-    String condition = app.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                          .getString(
-                              PREF_WIDGET_PREFIX
-                                  + appWidgetId, "");
+    String condition = Prefs.getString(PREF_WIDGET_PREFIX + appWidgetId, "");
     notes = DbHelper.getInstance().getNotes(condition, true);
   }
 
   @Override
-  public void onDataSetChanged () {
+  public void onDataSetChanged() {
     LogDelegate.d("onDataSetChanged widget " + appWidgetId);
     navigation = Navigation.getNavigation();
 
-    String condition = app.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                          .getString(
-                              PREF_WIDGET_PREFIX
-                                  + appWidgetId, "");
+    String condition = Prefs.getString(PREF_WIDGET_PREFIX + appWidgetId, "");
     notes = DbHelper.getInstance().getNotes(condition, true);
   }
 
   @Override
-  public void onDestroy () {
-    app.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-       .edit()
-       .remove(PREF_WIDGET_PREFIX + appWidgetId)
-       .apply();
+  public void onDestroy() {
+    Prefs.edit().remove(PREF_WIDGET_PREFIX + appWidgetId).apply();
   }
 
   @Override
-  public int getCount () {
+  public int getCount() {
     return notes.size();
   }
 
   @Override
-  public RemoteViews getViewAt (int position) {
+  public RemoteViews getViewAt(int position) {
     RemoteViews row = new RemoteViews(app.getPackageName(), R.layout.note_layout_widget);
 
     Note note = notes.get(position);
@@ -120,13 +110,6 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
 
     if (!note.isLocked() && showThumbnails && !note.getAttachmentsList().isEmpty()) {
       Attachment mAttachment = note.getAttachmentsList().get(0);
-//      AppWidgetTarget awt = new AppWidgetTarget(app, R.id.attachmentThumbnail, row, appWidgetId) {
-//        @Override
-//        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-//          super.onResourceReady(resource, transition);
-//        }
-//      };
-//      BitmapHelper.loadAttachmentIntoWidget(mAttachment, awt);
       Bitmap bmp = BitmapHelper.getBitmapFromAttachment(app, mAttachment, WIDTH, HEIGHT);
       row.setBitmap(R.id.attachmentThumbnail, "setImageBitmap", bmp);
       row.setInt(R.id.attachmentThumbnail, "setVisibility", View.VISIBLE);
@@ -153,46 +136,45 @@ public class ListRemoteViewsFactory implements RemoteViewsFactory {
   }
 
   @Override
-  public RemoteViews getLoadingView () {
+  public RemoteViews getLoadingView() {
     return null;
   }
 
   @Override
-  public int getViewTypeCount () {
+  public int getViewTypeCount() {
     return 1;
   }
 
   @Override
-  public long getItemId (int position) {
+  public long getItemId(int position) {
     return position;
   }
 
   @Override
-  public boolean hasStableIds () {
+  public boolean hasStableIds() {
     return false;
   }
 
-  private void color (Note note, RemoteViews row) {
-
-    String colorsPref = app.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                           .getString("settings_colors_widget",
-                               PREF_COLORS_APP_DEFAULT);
+  private void color(Note note, RemoteViews row) {
+    String colorsPref = Prefs.getString("settings_colors_widget", PREF_COLORS_APP_DEFAULT);
 
     // Checking preference
     if (!colorsPref.equals("disabled")) {
 
       // Resetting transparent color to the view
-      row.setInt(R.id.tag_marker, "setBackgroundColor", Color.parseColor("#00000000"));
+      row.setInt(R.id.tag_marker, SET_BACKGROUND_COLOR, Color.parseColor("#00000000"));
 
       // If tag is set the color will be applied on the appropriate target
       if (note.getCategory() != null && note.getCategory().getColor() != null) {
         if (colorsPref.equals("list")) {
-          row.setInt(R.id.card_layout, "setBackgroundColor", Integer.parseInt(note.getCategory().getColor()));
+          row.setInt(R.id.card_layout, SET_BACKGROUND_COLOR,
+              Integer.parseInt(note.getCategory().getColor()));
         } else {
-          row.setInt(R.id.tag_marker, "setBackgroundColor", Integer.parseInt(note.getCategory().getColor()));
+          row.setInt(R.id.tag_marker, SET_BACKGROUND_COLOR,
+              Integer.parseInt(note.getCategory().getColor()));
         }
       } else {
-        row.setInt(R.id.tag_marker, "setBackgroundColor", 0);
+        row.setInt(R.id.tag_marker, SET_BACKGROUND_COLOR, 0);
       }
     }
   }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,45 +20,67 @@ package it.feio.android.omninotes.models.holders;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.annotation.Nullable;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 import com.neopixl.pixlui.components.textview.TextView;
-import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.databinding.NoteLayoutBinding;
+import it.feio.android.omninotes.databinding.NoteLayoutExpandedBinding;
 import it.feio.android.omninotes.models.views.SquareImageView;
 
 
-public class NoteViewHolder {
+public class NoteViewHolder extends ViewHolder {
 
-  public NoteViewHolder (View view) {
-    ButterKnife.bind(this, view);
-  }
-
-  @BindView(R.id.root)
   public View root;
-  @BindView(R.id.card_layout)
   public View cardLayout;
-  @BindView(R.id.category_marker)
   public View categoryMarker;
 
-  @BindView(R.id.note_title)
   public TextView title;
-  @BindView(R.id.note_content)
   public TextView content;
-  @BindView(R.id.note_date)
   public TextView date;
 
-  @BindView(R.id.archivedIcon)
   public ImageView archiveIcon;
-  @BindView(R.id.locationIcon)
   public ImageView locationIcon;
-  @BindView(R.id.alarmIcon)
   public ImageView alarmIcon;
-  @BindView(R.id.lockedIcon)
   public ImageView lockedIcon;
   @Nullable
-  @BindView(R.id.attachmentIcon)
   public ImageView attachmentIcon;
   @Nullable
-  @BindView(R.id.attachmentThumbnail)
   public SquareImageView attachmentThumbnail;
+
+  public NoteViewHolder(View view, boolean expandedView) {
+    super(view);
+
+    if (expandedView) {
+      NoteLayoutExpandedBinding binding = NoteLayoutExpandedBinding.bind(view);
+      root = binding.root;
+      cardLayout = binding.cardLayout;
+      categoryMarker = binding.categoryMarker;
+      title = binding.noteTitle;
+      content = binding.noteContent;
+      date = binding.noteDate;
+      archiveIcon = binding.archivedIcon;
+      locationIcon = binding.locationIcon;
+      alarmIcon = binding.alarmIcon;
+      lockedIcon = binding.lockedIcon;
+      attachmentThumbnail = binding.attachmentThumbnail;
+      lockedIcon = binding.lockedIcon;
+      lockedIcon = binding.lockedIcon;
+    } else {
+      NoteLayoutBinding binding = NoteLayoutBinding.bind(view);
+      root = binding.root;
+      cardLayout = binding.cardLayout;
+      categoryMarker = binding.categoryMarker;
+      title = binding.noteTitle;
+      content = binding.noteContent;
+      date = binding.noteDate;
+      archiveIcon = binding.archivedIcon;
+      locationIcon = binding.locationIcon;
+      alarmIcon = binding.alarmIcon;
+      lockedIcon = binding.lockedIcon;
+      attachmentIcon = binding.attachmentIcon;
+      lockedIcon = binding.lockedIcon;
+      lockedIcon = binding.lockedIcon;
+    }
+
+  }
+
 }

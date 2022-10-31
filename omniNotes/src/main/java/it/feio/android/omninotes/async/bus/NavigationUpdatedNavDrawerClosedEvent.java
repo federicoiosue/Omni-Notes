@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@ public class NavigationUpdatedNavDrawerClosedEvent {
   public final Object navigationItem;
 
 
-  public NavigationUpdatedNavDrawerClosedEvent (Object navigationItem) {
+  public NavigationUpdatedNavDrawerClosedEvent(Object navigationItem) {
     LogDelegate.d(this.getClass().getName());
     this.navigationItem = navigationItem;
   }

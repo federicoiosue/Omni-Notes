@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,12 @@
 package it.feio.android.omninotes.widget;
 
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_SHOW_LIST;
+import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
+import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_WIDGET;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -30,7 +36,6 @@ import android.widget.RemoteViews;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.LogDelegate;
-import it.feio.android.omninotes.utils.Constants;
 
 
 public abstract class WidgetProvider extends AppWidgetProvider {
@@ -41,7 +46,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
 
   @Override
-  public void onUpdate (Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+  public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
     // Get all ids
     ComponentName thisWidget = new ComponentName(context, getClass());
     int[] allWidgetIds = appWidgetManager.getAppWidgetIds(thisWidget);
@@ -55,35 +60,37 @@ public abstract class WidgetProvider extends AppWidgetProvider {
 
 
   @Override
-  public void onAppWidgetOptionsChanged (Context context, AppWidgetManager appWidgetManager, int appWidgetId,
+  public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
+      int appWidgetId,
       Bundle newOptions) {
     LogDelegate.d("Widget size changed");
     setLayout(context, appWidgetManager, appWidgetId);
   }
 
 
-  private void setLayout (Context context, AppWidgetManager appWidgetManager, int widgetId) {
+  private void setLayout(Context context, AppWidgetManager appWidgetManager, int widgetId) {
 
     // Create an Intent to launch DetailActivity
     Intent intentDetail = new Intent(context, MainActivity.class);
-    intentDetail.setAction(Constants.ACTION_WIDGET);
-    intentDetail.putExtra(Constants.INTENT_WIDGET, widgetId);
-    PendingIntent pendingIntentDetail = PendingIntent.getActivity(context, widgetId, intentDetail,
-        Intent.FLAG_ACTIVITY_NEW_TASK);
+    intentDetail.setAction(ACTION_WIDGET);
+    intentDetail.putExtra(INTENT_WIDGET, widgetId);
+    PendingIntent pendingIntentDetail = PendingIntent
+        .getActivity(context, widgetId, intentDetail, FLAG_ACTIVITY_NEW_TASK);
 
     // Create an Intent to launch ListActivity
     Intent intentList = new Intent(context, MainActivity.class);
-    intentList.setAction(Constants.ACTION_WIDGET_SHOW_LIST);
-    intentList.putExtra(Constants.INTENT_WIDGET, widgetId);
-    PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList,
-        Intent.FLAG_ACTIVITY_NEW_TASK);
+    intentList.setAction(ACTION_WIDGET_SHOW_LIST);
+    intentList.putExtra(INTENT_WIDGET, widgetId);
+    PendingIntent pendingIntentList = PendingIntent
+        .getActivity(context, widgetId, intentList, FLAG_ACTIVITY_NEW_TASK);
 
     // Create an Intent to launch DetailActivity to take a photo
     Intent intentDetailPhoto = new Intent(context, MainActivity.class);
-    intentDetailPhoto.setAction(Constants.ACTION_WIDGET_TAKE_PHOTO);
-    intentDetailPhoto.putExtra(Constants.INTENT_WIDGET, widgetId);
-    PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, widgetId, intentDetailPhoto,
-        Intent.FLAG_ACTIVITY_NEW_TASK);
+    intentDetailPhoto.setAction(ACTION_WIDGET_TAKE_PHOTO);
+    intentDetailPhoto.putExtra(INTENT_WIDGET, widgetId);
+    PendingIntent pendingIntentDetailPhoto = PendingIntent
+        .getActivity(context, widgetId, intentDetailPhoto,
+            FLAG_ACTIVITY_NEW_TASK);
 
     // Check various dimensions aspect of widget to choose between layouts
     boolean isSmall = false;
@@ -107,7 +114,8 @@ public abstract class WidgetProvider extends AppWidgetProvider {
   }
 
 
-  abstract protected RemoteViews getRemoteViews (Context context, int widgetId, boolean isSmall, boolean isSingleLine,
+  abstract protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall,
+      boolean isSingleLine,
       SparseArray<PendingIntent> pendingIntentsMap);
 
 }

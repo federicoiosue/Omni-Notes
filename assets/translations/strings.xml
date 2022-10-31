@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <resources>
-    
+
     <!-- Activities -->
     <string name="title_item_list">Notes</string>
     <string name="add_note">Add Note</string>
@@ -50,6 +50,7 @@
     <string name="note_updated">Note updated</string>
     <string name="empty_note_not_saved">Can\'t save an empty note</string>
     <string name="empty_note_not_shared">Can\'t share an empty note</string>
+    <string name="note_doesnt_exist">Note doesn\'t exists anymore</string>
     <string name="note_archived">Note archived</string>
     <string name="note_unarchived">Note restored from archive</string>
     <string name="note">Note</string>
@@ -68,6 +69,7 @@
     <string name="delete_all_attachments">Delete all the attachments?</string>
     <string name="gallery">Gallery</string>
     <string name="location">Location</string>
+    <string name="location_set_high_accuracy">Please set Location mode to high accuracy to continue</string>
     <string name="timestamp">Timestamp</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Remove location?</string>
@@ -83,13 +85,13 @@
     <string name="error_occurred_deleting_note">Error while deleting note</string>
     <string name="no_backups_available">No backups available</string>
     <string name="data_export_message">Insert backup name</string>
-    <string name="data_import_message">Click -&gt; restore\nLong-click -&gt; delete</string>
+    <string name="data_import_message">Restore</string>
     <string name="data_import_message_warning">WARNING: This will replace all current data!</string>
     <string name="data_export_completed">Data backup completed</string>
     <string name="data_export_failed">Data backup failed: check logcat for details</string>
     <string name="data_import_completed">Data restore completed</string>
     <string name="click_to_refresh_application">Click to refresh application</string>
-    <string name="backup_existing">Backup already exist. It\'ll be overwritten</string>
+    <string name="backup_existing">Backup already exists. It\'ll be overwritten</string>
     <string name="tag">Tag</string>
     <string name="tags">Tags</string>
     <string name="add_tag">Add tags</string>
@@ -126,6 +128,7 @@
     <string name="no_items_in_list">Nothing here!</string>
     <string name="checklist_on">Enable checklist</string>
     <string name="checklist_off">Disable checklist</string>
+    <string name="checklist_moveToBottom">Move checked items to bottom</string>
     <string name="checklist_item_hint">New item</string>
     <string name="remove_checklist">Remove checklist?</string>
     <string name="checklist_keep_checked">Keep checked items</string>
@@ -155,6 +158,9 @@
     <string name="grid_view">Grid view</string>
     <string name="add_shortcut">Add shortcut</string>
     <string name="shortcut_added">Shortcut added to home screen</string>
+    <string name="shortcut_disabled">Shortcut not valid anymore</string>
+    <string name="pin_note">Pin note</string>
+    <string name="pined_note">Pinned note as notification</string>
     <string name="shortcut_note_deleted">Shortcut points to deleted note</string>
     <string name="widget_simple_description">Simple widget with buttons</string>
     <string name="widget_list_description">Scrolling list widget with buttons</string>
@@ -209,6 +215,8 @@
     <string name="info">Info</string>
     <string name="completed">Completed</string>
     <string name="undo_changes_note_confirmation">Confirm undoing changes?</string>
+    <string name="done">Done</string>
+    <string name="nothing_selected">Nothing selected</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
@@ -222,6 +230,7 @@
     <string name="settings_export">Backup</string>
     <string name="settings_sync_import_export">Sync and Backups</string>
     <string name="settings_import">Restore or delete backups</string>
+    <string name="settings_import_summary">WARNING: No password is set, protected notes will not be restored from backup for security reasons</string>
     <string name="settings_import_legacy">Restore legacy backup</string>
     <string name="settings_import_legacy_summary">Allows to restore old backups made with versions of Omni Notes prior to version 6</string>
     <string name="settings_import_from_springpad">Import notes from Springpad</string>
@@ -412,5 +421,7 @@
     <string name="channel_backups_description">Notifications for backup status and results</string>
     <string name="channel_reminders_name">Reminders</string>
     <string name="channel_reminders_description">Notifications for notes\' reminders</string>
+    <string name="channel_pinned_name">Pinned</string>
+    <string name="channel_pinned_description">Notifications for pinned notes</string>
 
 </resources>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,9 +17,7 @@
 
 package it.feio.android.omninotes.services;
 
-import android.annotation.TargetApi;
 import android.content.ContentResolver;
-import android.os.Build;
 import android.provider.Settings;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
@@ -32,53 +30,48 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.date.DateUtils;
 
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR2)
 public class NotificationListener extends NotificationListenerService {
 
-
   @Override
-  public void onCreate () {
+  public void onCreate() {
     super.onCreate();
     EventBus.getDefault().register(this);
   }
 
-
   @Override
-  public void onDestroy () {
+  public void onDestroy() {
     super.onDestroy();
     EventBus.getDefault().unregister(this);
   }
 
-
   @Override
-  public void onNotificationPosted (StatusBarNotification sbn) {
+  public void onNotificationPosted(StatusBarNotification sbn) {
     LogDelegate.d("Notification posted for note: " + sbn.getId());
   }
 
-
   @Override
-  public void onNotificationRemoved (StatusBarNotification sbn) {
-    if (sbn.getPackageName().equals(getPackageName())) {
+  public void onNotificationRemoved(StatusBarNotification sbn) {
+    if (getPackageName().equals(sbn.getPackageName())) {
       EventBus.getDefault().post(new NotificationRemovedEvent(sbn));
       LogDelegate.d("Notification removed for note: " + sbn.getId());
     }
   }
 
-
-  public void onEventAsync (NotificationRemovedEvent event) {
-    Long nodeId = Long.valueOf(event.statusBarNotification.getTag());
+  public void onEventAsync(NotificationRemovedEvent event) {
+    long nodeId = Long.parseLong(event.getStatusBarNotification().getTag());
     Note note = DbHelper.getInstance().getNote(nodeId);
     if (!DateUtils.isFuture(note.getAlarm())) {
       DbHelper.getInstance().setReminderFired(nodeId, true);
     }
   }
 
-
-  public static boolean isRunning () {
+  public static boolean isRunning() {
     ContentResolver contentResolver = OmniNotes.getAppContext().getContentResolver();
-    String enabledNotificationListeners = Settings.Secure.getString(contentResolver, "enabled_notification_listeners");
-    return enabledNotificationListeners != null && enabledNotificationListeners.contains(NotificationListener
-        .class.getSimpleName());
+    String enabledNotificationListeners = Settings.Secure
+        .getString(contentResolver, "enabled_notification_listeners");
+    return enabledNotificationListeners != null && enabledNotificationListeners
+        .contains(NotificationListener
+            .class.getSimpleName());
   }
 
 }

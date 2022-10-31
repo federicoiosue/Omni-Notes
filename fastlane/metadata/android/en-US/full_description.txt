@@ -23,3 +23,6 @@ Further developments will include:
 ☆ You can find a complete changelog inside the application settings menu!
 
 If you need some help on how to use the application you'll find everything you need in the Help Online section
+
+Anti Features:
+* Tracking - 'Error reporting' and 'Share anonymous data' are opt-out, enabled by default in Settings - Privacy.

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,7 +26,11 @@ import it.feio.android.omninotes.MainActivity;
 
 public class KeyboardUtils {
 
-  public static void showKeyboard (View view) {
+  private KeyboardUtils() {
+    // hides public constructor
+  }
+
+  public static void showKeyboard(View view) {
     if (view == null) {
       return;
     }
@@ -37,7 +41,8 @@ public class KeyboardUtils {
         Context.INPUT_METHOD_SERVICE);
     inputManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
 
-    ((InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).showSoftInput(view, 0);
+    ((InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+        .showSoftInput(view, 0);
 
     if (!isKeyboardShowed(view)) {
       inputManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
@@ -45,7 +50,7 @@ public class KeyboardUtils {
   }
 
 
-  public static boolean isKeyboardShowed (View view) {
+  public static boolean isKeyboardShowed(View view) {
     if (view == null) {
       return false;
     }
@@ -55,24 +60,20 @@ public class KeyboardUtils {
   }
 
 
-  public static void hideKeyboard (View view) {
+  public static void hideKeyboard(View view) {
     if (view == null) {
       return;
     }
-    InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+    InputMethodManager imm = (InputMethodManager) view.getContext()
+        .getSystemService(Context.INPUT_METHOD_SERVICE);
     if (!imm.isActive()) {
       return;
     }
     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
-//		if (!isKeyboardShowed(view)) {
-//			imm.toggleSoftInput(InputMethodManager.HIDE_NOT_ALWAYS, InputMethodManager.RESULT_HIDDEN);
-//		}
-
   }
 
 
-  public static void hideKeyboard (MainActivity mActivity) {
+  public static void hideKeyboard(MainActivity mActivity) {
     mActivity.getWindow().setSoftInputMode(
         WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
   }

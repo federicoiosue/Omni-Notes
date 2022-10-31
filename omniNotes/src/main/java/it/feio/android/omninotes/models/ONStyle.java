@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,6 +25,10 @@ import it.feio.android.omninotes.R;
 
 
 public class ONStyle {
+
+  private ONStyle() {
+    // hides public constructor
+  }
 
   public static final int DURATION_INFINITE = -1;
   public static final int DURATION_SHORT = 950;
