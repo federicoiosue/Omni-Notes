@@ -154,9 +154,10 @@ public class StorageHelper {
   }
 
   public static boolean copyFile(Context context, Uri fileUri, Uri targetUri) {
-    try {
-      ContentResolver content = context.getContentResolver();
-      IOUtils.copy(content.openInputStream(fileUri), content.openOutputStream(targetUri));
+    ContentResolver content = context.getContentResolver();
+    try (var is = content.openInputStream(fileUri);
+        var os = content.openOutputStream(targetUri)) {
+      IOUtils.copy(is, os);
       return true;
     } catch (IOException e) {
       LogDelegate.e("Error copying file", e);

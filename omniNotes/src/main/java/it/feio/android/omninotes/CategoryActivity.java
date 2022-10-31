@@ -41,6 +41,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.utils.Display;
+import it.feio.android.omninotes.utils.RandomUtils;
 import it.feio.android.simplegallery.util.BitmapUtils;
 import java.util.Calendar;
 import java.util.Random;
@@ -87,7 +88,7 @@ public class CategoryActivity extends AppCompatActivity implements
 
   private int getRandomPaletteColor() {
     int[] paletteArray = getResources().getIntArray(R.array.material_colors);
-    return paletteArray[new Random().nextInt((paletteArray.length))];
+    return paletteArray[RandomUtils.getRandomInt(paletteArray.length)];
   }
 
   public void showColorChooserCustomColors() {
