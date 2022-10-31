@@ -35,6 +35,7 @@ import android.provider.Settings;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationCompat.Builder;
 import com.pixplicity.easyprefs.library.Prefs;
+import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import lombok.NonNull;
 
@@ -191,13 +192,14 @@ public class NotificationsHelper {
   }
 
   public NotificationsHelper show(long id) {
-    Notification mNotification = mBuilder.build();
+    var mNotification = mBuilder.build();
     if (mNotification.contentIntent == null) {
       var pIntentFlags = PendingIntent.FLAG_UPDATE_CURRENT;
       if (android.os.Build.VERSION.SDK_INT >= 23) {
-       pIntentFlags = pIntentFlags | PendingIntent.FLAG_IMMUTABLE;
+        pIntentFlags = pIntentFlags | PendingIntent.FLAG_IMMUTABLE;
       }
-      var pendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(), pIntentFlags);
+      var emptyExplicitIntent = new Intent(mContext, MainActivity.class);
+      var pendingIntent = PendingIntent.getActivity(mContext, 0, emptyExplicitIntent, pIntentFlags);
       mBuilder.setContentIntent(pendingIntent);
     }
     mNotificationManager.notify(String.valueOf(id), 0, mBuilder.build());
