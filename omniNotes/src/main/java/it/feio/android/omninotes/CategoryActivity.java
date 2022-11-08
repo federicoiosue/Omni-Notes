@@ -44,7 +44,6 @@ import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.RandomUtils;
 import it.feio.android.simplegallery.util.BitmapUtils;
 import java.util.Calendar;
-import java.util.Random;
 
 
 public class CategoryActivity extends AppCompatActivity implements
