@@ -129,6 +129,7 @@ Notice that in this case I specified a single flavor to run tests on. This could
 [DZone](https://dzone.com/articles/amazing-open-source-android-apps-written-in-java)
 [Slash Gear](https://www.slashgear.com/best-note-taking-apps-for-android-phones-and-tablets-04529297/)
 [quaap.com](https://quaap.com/D/use-fdroid)
+[Best productivity apps](https://freeappsforme.com/productivity-apps-android-ios-2017/#omni-notes) by freeappsforme.com
 
 ## Developed with love and passion by
 
