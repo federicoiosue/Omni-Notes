@@ -123,13 +123,12 @@ Notice that in this case I specified a single flavor to run tests on. This could
 
 [XDA](https://www.xda-developers.com/omni-notes-the-open-source-note-app/)
 [Android Authority](https://www.androidauthority.com/best-note-taking-apps-for-android-205356/)
-[Droid Advisor](https://droidadvisor.com/omni-notes-note-taking-app/)
 [Addictive Tips](https://www.addictivetips.com/android/note-taking-apps-for-android/)
 [Techalook](https://techalook.com/apps/best-sticky-notes-android-iphone/)
 [DZone](https://dzone.com/articles/amazing-open-source-android-apps-written-in-java)
 [Slash Gear](https://www.slashgear.com/best-note-taking-apps-for-android-phones-and-tablets-04529297/)
 [quaap.com](https://quaap.com/D/use-fdroid)
-[Best productivity apps](https://freeappsforme.com/productivity-apps-android-ios-2017/#omni-notes) by freeappsforme.com
+[Freeappsforme.com](https://freeappsforme.com/productivity-apps-android-ios-2017)
 
 ## Developed with love and passion by
 
