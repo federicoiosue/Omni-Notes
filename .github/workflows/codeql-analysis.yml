@@ -31,6 +31,9 @@ jobs:
           # a pull request then we can checkout the head.
           fetch-depth: 2
 
+       - name: Delombok
+         uses: advanced-security/delombok@main
+
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v2
@@ -49,7 +52,7 @@ jobs:
         #    and modify them (or add more) to build your code if your project
         #    uses a compiled language
 
-        run: ./gradlew build
+        run: ./gradlew assembleDebug
 
 
       - name: Perform CodeQL Analysis
