@@ -137,7 +137,7 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
 
-    debugImplementation('com.squareup.leakcanary:leakcanary-android:2.4') {
+    debugImplementation('com.squareup.leakcanary:leakcanary-android:2.10') {
         exclude group: "com.android.support"
     }
 

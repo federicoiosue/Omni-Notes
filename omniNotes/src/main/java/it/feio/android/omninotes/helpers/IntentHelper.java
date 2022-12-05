@@ -50,8 +50,11 @@ public class IntentHelper {
       String action,
       Note note) {
     Intent intent = getNoteIntent(context, target, action, note);
-    return PendingIntent.getActivity(context, getUniqueRequestCode(note), intent,
-        PendingIntent.FLAG_UPDATE_CURRENT);
+    int pIntentFlags = PendingIntent.FLAG_UPDATE_CURRENT;
+    if (android.os.Build.VERSION.SDK_INT >= 23) {
+      pIntentFlags = pIntentFlags | PendingIntent.FLAG_IMMUTABLE;
+    }
+    return PendingIntent.getActivity(context, getUniqueRequestCode(note), intent, pIntentFlags);
   }
 
   static int getUniqueRequestCode(Note note) {
