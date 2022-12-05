@@ -201,7 +201,7 @@ dependencies {
     implementation('com.github.federicoiosue:checklistview:4.1.0') {
         transitive = false
     }
-    implementation 'com.github.federicoiosue:pixlui:3.0.0'
+    implementation 'com.github.federicoiosue:pixlui:3.0.1'
 
     // Flavors specific dependencies
     playImplementation 'io.nlopez.smartlocation:library:3.2.4'
