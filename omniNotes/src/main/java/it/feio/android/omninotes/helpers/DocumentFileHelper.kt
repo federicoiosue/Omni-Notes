@@ -95,7 +95,7 @@ class DocumentFileHelper {
 
         @JvmStatic
         @Throws(IOException::class)
-        fun delete(context: Context?, file: DocumentFileCompat): Boolean {
+        fun delete(file: DocumentFileCompat): Boolean {
             return file.delete()
         }
     }

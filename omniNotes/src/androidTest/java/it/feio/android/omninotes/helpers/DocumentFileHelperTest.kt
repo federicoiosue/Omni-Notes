@@ -62,7 +62,7 @@ class DocumentFileHelperTest : BaseAndroidTestCase() {
 
     @Test
     fun delete() {
-        DocumentFileHelper.delete(testContext, documentFile);
+        DocumentFileHelper.delete(documentFile);
 
         assertFalse(documentFile.exists())
     }
