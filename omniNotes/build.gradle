@@ -116,6 +116,7 @@ android {
         abortOnError false
         disable 'MissingTranslation'
     }
+    namespace 'it.feio.android.omninotes'
 }
 
 dependencies {
