@@ -17,6 +17,9 @@
 
 package it.feio.android.omninotes.helpers.notifications;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+import static it.feio.android.omninotes.helpers.IntentHelper.immutablePendingIntentFlag;
+
 import android.annotation.TargetApi;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -193,12 +196,9 @@ public class NotificationsHelper {
   public NotificationsHelper show(long id) {
     var mNotification = mBuilder.build();
     if (mNotification.contentIntent == null) {
-      var pIntentFlags = PendingIntent.FLAG_UPDATE_CURRENT;
-      if (android.os.Build.VERSION.SDK_INT >= 23) {
-        pIntentFlags = pIntentFlags | PendingIntent.FLAG_IMMUTABLE;
-      }
       var emptyExplicitIntent = new Intent(mContext, MainActivity.class);
-      var pendingIntent = PendingIntent.getActivity(mContext, 0, emptyExplicitIntent, pIntentFlags);
+      var pendingIntent = PendingIntent.getActivity(mContext, 0, emptyExplicitIntent,
+          immutablePendingIntentFlag(FLAG_UPDATE_CURRENT));
       mBuilder.setContentIntent(pendingIntent);
     }
     mNotificationManager.notify(String.valueOf(id), 0, mBuilder.build());

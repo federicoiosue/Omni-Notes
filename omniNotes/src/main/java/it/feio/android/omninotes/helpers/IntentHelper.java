@@ -17,6 +17,9 @@
 
 package it.feio.android.omninotes.helpers;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
+import static android.app.PendingIntent.FLAG_MUTABLE;
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
 
 import android.app.PendingIntent;
@@ -50,11 +53,24 @@ public class IntentHelper {
       String action,
       Note note) {
     Intent intent = getNoteIntent(context, target, action, note);
-    int pIntentFlags = PendingIntent.FLAG_UPDATE_CURRENT;
+    return PendingIntent.getActivity(context, getUniqueRequestCode(note), intent,
+        immutablePendingIntentFlag(FLAG_UPDATE_CURRENT));
+  }
+
+  public static int immutablePendingIntentFlag(final int flag) {
+    int pIntentFlags = flag;
     if (android.os.Build.VERSION.SDK_INT >= 23) {
-      pIntentFlags = pIntentFlags | PendingIntent.FLAG_IMMUTABLE;
+      pIntentFlags = pIntentFlags | FLAG_IMMUTABLE;
     }
-    return PendingIntent.getActivity(context, getUniqueRequestCode(note), intent, pIntentFlags);
+    return pIntentFlags;
+  }
+
+  public static int mutablePendingIntentFlag(final int flag) {
+    int pIntentFlags = flag;
+    if (android.os.Build.VERSION.SDK_INT >= 31) {
+      pIntentFlags = pIntentFlags | FLAG_MUTABLE;
+    }
+    return pIntentFlags;
   }
 
   static int getUniqueRequestCode(Note note) {

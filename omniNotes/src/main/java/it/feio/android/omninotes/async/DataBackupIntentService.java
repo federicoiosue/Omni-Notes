@@ -17,6 +17,8 @@
 
 package it.feio.android.omninotes.async;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+import static it.feio.android.omninotes.helpers.IntentHelper.immutablePendingIntentFlag;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_RESTART_APP;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_BACKUP_FOLDER_URI;
 
@@ -230,9 +232,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     // Add this bundle to the intent
     intentLaunch.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
     intentLaunch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    // Creates the PendingIntent
     PendingIntent notifyIntent = PendingIntent.getActivity(context, 0, intentLaunch,
-        PendingIntent.FLAG_UPDATE_CURRENT);
+        immutablePendingIntentFlag(FLAG_UPDATE_CURRENT));
 
     NotificationsHelper notificationsHelper = new NotificationsHelper(context);
     notificationsHelper.createStandardNotification(NotificationChannelNames.BACKUPS,

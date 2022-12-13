@@ -17,6 +17,8 @@
 
 package it.feio.android.omninotes.widget;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+import static it.feio.android.omninotes.helpers.IntentHelper.mutablePendingIntentFlag;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
 
 import android.app.PendingIntent;
@@ -73,7 +75,7 @@ public class ListWidgetProvider extends WidgetProvider {
       Intent clickIntent = new Intent(mContext, MainActivity.class);
       clickIntent.setAction(ACTION_WIDGET);
       PendingIntent clickPI = PendingIntent.getActivity(mContext, 0,
-          clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+          clickIntent, mutablePendingIntentFlag(FLAG_UPDATE_CURRENT));
 
       views.setPendingIntentTemplate(R.id.widget_list, clickPI);
     }

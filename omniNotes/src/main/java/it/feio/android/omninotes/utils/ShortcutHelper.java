@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes.utils;
 
+import static it.feio.android.omninotes.helpers.IntentHelper.immutablePendingIntentFlag;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SHORTCUT;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_KEY;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PRETTIFIED_DATES;
@@ -81,7 +82,7 @@ public class ShortcutHelper {
           .createShortcutResultIntent(pinShortcutInfo);
       //Get notified when a shortcut is pinned successfully//
       PendingIntent successCallback = PendingIntent
-          .getBroadcast(context, 0, pinnedShortcutCallbackIntent, 0);
+          .getBroadcast(context, 0, pinnedShortcutCallbackIntent, immutablePendingIntentFlag(0));
       shortcutManager.requestPinShortcut(pinShortcutInfo, successCallback.getIntentSender()
       );
     }

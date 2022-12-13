@@ -17,9 +17,9 @@
 <changelog bulletedList="true">
 
   <changelogversion
-    changeDate="Nov 02, 2022"
+    changeDate="Dec 13, 2022"
     versionName="6.2.0">
-    <changelogtext>[b]New![/b] Updated to Android 11 to get latest fixes and improvements
+    <changelogtext>[b]New![/b] Updated to Android 12 to get latest fixes and improvements
       <![CDATA[[b][font color=red>IMPORTANT:[/font][/b] This will require to move your old backups to the new directory]]>
     </changelogtext>
     <changelogtext>[b]New![/b] Open source transparent crashes reporting available on acra.omninotes.app (user: guest, pass: guest)</changelogtext>

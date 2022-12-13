@@ -96,8 +96,7 @@ public class WidgetConfigurationActivity extends Activity {
           sqlCondition, showThumbnailsCheckBox.isChecked(), showTimestampsCheckBox.isChecked());
 
       Intent resultValue = new Intent();
-      resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-          mAppWidgetId);
+      resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
       setResult(RESULT_OK, resultValue);
 
       finish();
