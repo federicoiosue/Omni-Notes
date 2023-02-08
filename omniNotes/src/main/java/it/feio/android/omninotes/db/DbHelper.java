@@ -776,7 +776,8 @@ public class DbHelper extends SQLiteOpenHelper {
    */
   public List<Note> getNotesByUncompleteChecklist() {
     String whereCondition =
-        " WHERE " + KEY_CHECKLIST + " = 1 AND " + KEY_CONTENT + " LIKE '%" + UNCHECKED_SYM + "%'";
+        " WHERE " + KEY_CHECKLIST + " = 1 AND " + KEY_CONTENT + " LIKE '%" + UNCHECKED_SYM + "%' AND "
+    + KEY_TRASHED + (Navigation.checkNavigation(Navigation.TRASH) ? " IS 1" : " IS NOT 1");
     return getNotes(whereCondition, true);
   }
 
