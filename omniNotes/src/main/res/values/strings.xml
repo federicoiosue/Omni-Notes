@@ -293,8 +293,9 @@
   <string name="settings_enable_animations_summary">Enable/disable animations in notes list</string>
   <string name="settings_enable_tag_marker_summary">Show/hide colored markers for categories</string>
   <string name="settings_enable_editor_links_summary">Make typed URLs and e-mail addresses automatically clickable</string>
-  <string name="confirm_removing_backup">Really delete backup?</string>
-  <string name="confirm_restoring_backup">Really restore from backup?</string>
+  <string name="confirm_removing_backup">Proceed deleting backup?</string>
+  <string name="confirm_restoring_backup">Proceed restoring from backup?</string>
+  <string name="confirm_restoring_backup_warning">WARNING: Be sure to have set a password into settings or protected notes will be skipped for security reasons!</string>
   <string name="data_deletion_completed">Data erasing completed</string>
   <string name="settings_checked_items_behavior">Checklists</string>
   <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>

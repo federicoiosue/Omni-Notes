@@ -280,6 +280,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
     <string name="settings_enable_editor_links_summary">Attiva o disattiva l\'evidenziazione automatica di links ed indirizzi e-mail nell\'editor</string>
     <string name="confirm_removing_backup">Conferma la cancellazione del backup</string>
     <string name="confirm_restoring_backup">Confermare il ripristino del backup</string>
+    <string name="confirm_restoring_backup_warning">ATTENZIONE: Assicurati di aver impostato la password dalle impostazioni o le note protette non verranno ripristinate per sicurezza!</string>
     <string name="data_deletion_completed">Cancellazione dei dati completata</string>
     <string name="settings_checked_items_behavior">Liste di controllo</string>
     <string name="settings_checked_items_behavior_summary">Cosa fare quando un elemento delle liste di controllo viene selezionato?</string>

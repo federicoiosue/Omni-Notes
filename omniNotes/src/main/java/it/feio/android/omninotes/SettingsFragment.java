@@ -620,7 +620,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
             new MaterialAlertDialogBuilder(getActivity())
                 .setTitle(R.string.confirm_restoring_backup)
-                .setMessage(message)
+                .setMessage(message + "\n\n" + getString(R.string.confirm_restoring_backup_warning))
                 .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
                   // An IntentService will be launched to accomplish the import task
                   Intent service = new Intent(getActivity(),
