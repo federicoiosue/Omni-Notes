@@ -23,7 +23,6 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,7 +32,6 @@ import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.exceptions.BackupException;
 import it.feio.android.omninotes.exceptions.checked.BackupAttachmentException;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -54,8 +52,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import rx.Observable;
-import rx.functions.Action1;
-import rx.functions.Func1;
 
 @UtilityClass
 public final class BackupHelper {
@@ -237,23 +233,6 @@ public final class BackupHelper {
     service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
     service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupFolderName);
     OmniNotes.getAppContext().startService(service);
-  }
-
-  public static void exportSettings(DocumentFileCompat backupDir) throws IOException {
-    File preferences = StorageHelper.getSharedPreferencesFile(OmniNotes.getAppContext());
-    var destinationSetting = backupDir.createFile("", preferences.getName());
-    DocumentFileHelper.copyFileTo(OmniNotes.getAppContext(), preferences, destinationSetting);
-  }
-
-  public static void importSettings(DocumentFileCompat backupDir) throws IOException {
-    File preferences = StorageHelper.getSharedPreferencesFile(OmniNotes.getAppContext());
-    DocumentFileCompat preferenceBackup = backupDir.findFile(preferences.getName());
-    try {
-      StorageHelper.copyFile(OmniNotes.getAppContext(), preferenceBackup.getUri(),
-          Uri.fromFile(preferences));
-    } catch (Exception e) {
-      throw new BackupException("Impossible to find settings file on " + backupDir.getName(), e);
-    }
   }
 
   public static void deleteNote(File file) {
