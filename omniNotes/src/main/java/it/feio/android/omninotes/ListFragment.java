@@ -58,6 +58,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MenuItem.OnActionExpandListener;
 import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.view.View;
@@ -71,7 +72,6 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -661,18 +661,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     searchMenuItem = menu.findItem(R.id.menu_search);
 
     Bundle args = getArguments();
-    if (args != null) {
-      Boolean setSearchFocus = args.getBoolean("setSearchFocus");
-      if (setSearchFocus == true) {
-        searchMenuItem.expandActionView();
-        KeyboardUtils.hideKeyboard(this.getView());
-      }
+    if (args != null && args.getBoolean("setSearchFocus")) {
+      searchMenuItem.expandActionView();
+      KeyboardUtils.hideKeyboard(this.getView());
     }
 
     // Associate searchable configuration with the SearchView
     SearchManager searchManager = (SearchManager) mainActivity
         .getSystemService(Context.SEARCH_SERVICE);
-    searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
+    searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
     searchView.setSearchableInfo(searchManager.getSearchableInfo(mainActivity.getComponentName()));
     searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
@@ -680,8 +677,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     searchView.setOnQueryTextFocusChangeListener(
         (v, hasFocus) -> setActionItemsVisibility(menu, hasFocus));
 
-    MenuItemCompat
-        .setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
+    searchMenuItem.setOnActionExpandListener(new OnActionExpandListener() {
 
           boolean searchPerformed = false;
 
@@ -844,6 +840,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
           break;
         case R.id.menu_empty_trash:
           emptyTrash();
+          break;
+        case R.id.menu_search:
+          // Nothing to do, it's all managed by SearchView component
           break;
         default:
           LogDelegate.e("Wrong element choosen: " + item.getItemId());
