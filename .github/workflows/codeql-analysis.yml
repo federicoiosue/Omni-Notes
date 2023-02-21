@@ -31,8 +31,8 @@ jobs:
           # a pull request then we can checkout the head.
           fetch-depth: 2
 
-       - name: Delombok
-         uses: advanced-security/delombok@main
+      - name: Delombok
+        uses: advanced-security/delombok@main
 
       # Initializes the CodeQL tools for scanning.
       - name: Initialize CodeQL
