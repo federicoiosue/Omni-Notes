@@ -72,6 +72,15 @@ public class BackupHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
+  public void getBackupNoteFile() {
+    Note note = createTestNote("Note", "content", 0);
+    DocumentFileCompat backupFile = BackupHelper.getBackupNoteFile(backupDir, note);
+
+    assertTrue(backupFile.exists());
+    assertTrue(StringUtils.isNotEmpty(backupFile.getExtension()));
+  }
+
+  @Test
   public void exportNotes_nothingToExport() throws IOException {
     var backupDir = DocumentFileCompat.Companion.fromFile(testContext,
         Files.createTempDirectory("testBackupFolder").toFile());

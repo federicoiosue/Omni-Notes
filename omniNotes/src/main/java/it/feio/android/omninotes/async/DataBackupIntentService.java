@@ -128,7 +128,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
   }
 
   private synchronized void importData(Intent intent) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+    if (Build.VERSION.SDK_INT >= VERSION_CODES.O) {
       importDataWithScopedStorage(intent);
     } else {
       importDataWithoutScopedStorage(intent);

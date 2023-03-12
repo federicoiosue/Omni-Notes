@@ -24,6 +24,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.webkit.MimeTypeMap;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.lazygeniouz.dfc.file.DocumentFileCompat;
@@ -76,7 +77,9 @@ public final class BackupHelper {
 
   @NonNull
   public static DocumentFileCompat getBackupNoteFile(DocumentFileCompat backupDir, Note note) {
-    return backupDir.createFile("application/json", String.valueOf(note.get_id()));
+    String backupFileMimetype = "application/json";
+    String backupFileExtension = MimeTypeMap.getSingleton().hasMimeType(backupFileMimetype) ? "" : ".json";
+    return backupDir.createFile(backupFileMimetype, note.get_id() + backupFileExtension);
   }
 
   /**
