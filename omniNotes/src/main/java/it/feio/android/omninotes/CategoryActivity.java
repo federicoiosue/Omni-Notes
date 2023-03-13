@@ -62,7 +62,9 @@ public class CategoryActivity extends AppCompatActivity implements
     View view = binding.getRoot();
     setContentView(view);
 
-    category = getIntent().getParcelableExtra(INTENT_CATEGORY);
+    category = savedInstanceState != null
+        ? savedInstanceState.getParcelable("category")
+        : getIntent().getParcelableExtra(INTENT_CATEGORY);
 
     if (category == null) {
       LogDelegate.d("Adding new category");
@@ -74,6 +76,12 @@ public class CategoryActivity extends AppCompatActivity implements
     selectedColor = parseInt(category.getColor());
     populateViews();
     resetWindowSize();
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    outState.putParcelable("category", category);
+    super.onSaveInstanceState(outState);
   }
 
   private void resetWindowSize() {
