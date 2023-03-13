@@ -112,7 +112,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-    setTitle();
+    // Nothing to do, init is performed into onResume
   }
 
   private void setTitle() {
@@ -146,6 +146,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
   @Override
   public void onResume() {
     super.onResume();
+
+    setTitle();
 
     // Export notes
     Preference export = findPreference("settings_export_data");
