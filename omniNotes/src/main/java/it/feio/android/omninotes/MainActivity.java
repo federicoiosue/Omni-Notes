@@ -17,6 +17,9 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.helpers.AppVersionHelper.isAppUpdated;
+import static it.feio.android.omninotes.helpers.AppVersionHelper.updateAppVersionInPreferences;
+import static it.feio.android.omninotes.helpers.ChangelogHelper.showChangelog;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_RESTART_APP;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SEND_AND_EXIT;
@@ -37,9 +40,11 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.PersistableBundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -79,10 +84,10 @@ public class MainActivity extends BaseActivity implements
     SharedPreferences.OnSharedPreferenceChangeListener {
 
   private boolean isPasswordAccepted = false;
-  public final static String FRAGMENT_DRAWER_TAG = "fragment_drawer";
-  public final static String FRAGMENT_LIST_TAG = "fragment_list";
-  public final static String FRAGMENT_DETAIL_TAG = "fragment_detail";
-  public final static String FRAGMENT_SKETCH_TAG = "fragment_sketch";
+  public static final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
+  public static final String FRAGMENT_LIST_TAG = "fragment_list";
+  public static final String FRAGMENT_DETAIL_TAG = "fragment_detail";
+  public static final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
   @Getter @Setter
   private Uri sketchUri;
   boolean prefsChanged = false;
@@ -103,11 +108,28 @@ public class MainActivity extends BaseActivity implements
     Prefs.getPreferences().registerOnSharedPreferenceChangeListener(this);
 
     initUI();
+  }
 
+  @Override
+  protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+
+    if (!launchIntroIfRequired() && isAppUpdated(getApplicationContext())) {
+      showChangelogAndUpdateCurrentVersion();
+    }
+  }
+
+  private void showChangelogAndUpdateCurrentVersion() {
+    showChangelog(this);
+    updateAppVersionInPreferences(getApplicationContext());
+  }
+
+  private boolean launchIntroIfRequired() {
     if (IntroActivity.mustRun()) {
       startActivity(new Intent(getApplicationContext(), IntroActivity.class));
+      return true;
     }
-
+    return false;
   }
 
   @Override

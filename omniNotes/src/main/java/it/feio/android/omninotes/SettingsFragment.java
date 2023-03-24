@@ -36,7 +36,6 @@ import android.Manifest.permission;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build.VERSION;
@@ -65,6 +64,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.AppVersionHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
+import it.feio.android.omninotes.helpers.ChangelogHelper;
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
@@ -498,17 +498,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     Preference changelog = findPreference("settings_changelog");
     if (changelog != null) {
       changelog.setOnPreferenceClickListener(arg0 -> {
-        new MaterialDialog.Builder(getContext())
-            .customView(R.layout.activity_changelog, false)
-            .positiveText(R.string.ok)
-            .build().show();
+        ChangelogHelper.showChangelog(getActivity());
         return false;
       });
-      try {
-        changelog.setSummary(AppVersionHelper.getCurrentAppVersionName(getActivity()));
-      } catch (NameNotFoundException e) {
-        LogDelegate.e("Error retrieving version", e);
-      }
+      changelog.setSummary(AppVersionHelper.getCurrentAppVersionName(getActivity()));
     }
 
     // Settings reset
