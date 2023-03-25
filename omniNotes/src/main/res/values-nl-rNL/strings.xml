@@ -279,6 +279,7 @@
     <string name="settings_enable_editor_links_summary">In- of uitschakelen automatisch highlighten van links en e-mail in editor</string>
     <string name="confirm_removing_backup">Bevestig backup verwijderen</string>
     <string name="confirm_restoring_backup">Bevestig back-up terugzetten</string>
+    <string name="confirm_restoring_backup_warning">WAARSCHUWING: Zorg ervoor dat u een wachtwoord in de instellingen heeft ingesteld anders worden beveiligde notities om veiligheidsredenen overgeslagen !</string>
     <string name="data_deletion_completed">Data verwijdering compleet</string>
     <string name="settings_checked_items_behavior">Checklists</string>
     <string name="settings_checked_items_behavior_summary">Wat te doen wanneer een item is aangevinkt?</string>

@@ -279,6 +279,7 @@
     <string name="settings_enable_editor_links_summary">Gjør nettadresser og e-postadresser automatisk klikkbare</string>
     <string name="confirm_removing_backup">Vil du slette backupen?</string>
     <string name="confirm_restoring_backup">Vil du gjenopprette fra backupen?</string>
+    <string name="confirm_restoring_backup_warning">ADVARSEL: Pass på at du har angitt et passord i innstillingene ellers vil beskyttede notater bli ekskludert av sikkerhetsgrunner!</string>
     <string name="data_deletion_completed">Datasletting fullført</string>
     <string name="settings_checked_items_behavior">Sjekklister</string>
     <string name="settings_checked_items_behavior_summary">Hva skal gjøres når et element er merket?</string>
