@@ -26,6 +26,7 @@ import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.exceptions.unchecked.ExternalDirectoryCreationException;
@@ -428,19 +429,18 @@ public class StorageHelper {
   /**
    * Creates a new attachment file copying data from source file
    */
-  public static Attachment createAttachmentFromUri(Context mContext, Uri uri) {
+  public static @Nullable Attachment createAttachmentFromUri(Context mContext, Uri uri) {
     return createAttachmentFromUri(mContext, uri, false);
   }
 
 
   /**
-   * Creates a fiile to be used as attachment.
+   * Creates a file to be used as attachment.
    */
-  public static Attachment createAttachmentFromUri(Context mContext, Uri uri, boolean moveSource) {
+  public static @Nullable Attachment createAttachmentFromUri(Context mContext, Uri uri, boolean moveSource) {
     String name = FileHelper.getNameFromUri(mContext, uri);
     String extension = FileHelper.getFileExtension(FileHelper.getNameFromUri(mContext, uri))
-        .toLowerCase(
-            Locale.getDefault());
+        .toLowerCase(Locale.getDefault());
     File f;
     if (moveSource) {
       f = createNewAttachmentFile(mContext, extension);
