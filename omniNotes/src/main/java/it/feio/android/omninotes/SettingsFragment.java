@@ -41,7 +41,6 @@ import android.net.Uri;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -181,10 +180,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
           var backupFolder = scopedStorageFolderChoosen();
           if (backupFolder == null) {
-            Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-            intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI,
-                StorageHelper.getOrCreateExternalStoragePublicDir());
-            startActivityForResult(intent, ACCESS_DATA_FOR_IMPORT);
+            startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), ACCESS_DATA_FOR_IMPORT);
           } else {
             importNotes(backupFolder);
           }
@@ -562,8 +558,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
   private void startIntentForScopedStorage(int intentRequestCode) {
     Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-    intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI,
-        StorageHelper.getOrCreateExternalStoragePublicDir());
     startActivityForResult(intent, intentRequestCode);
   }
 
@@ -722,8 +716,8 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           break;
 
         case ACCESS_DATA_FOR_IMPORT:
-          saveScopedStorageUriInPreferences(intent);
-          importNotes(DocumentFileCompat.Companion.fromTreeUri(getContext(), intent.getData()));
+          var backupDocumentFile = saveScopedStorageUriInPreferences(intent);
+          importNotes(backupDocumentFile);
           break;
 
         default:
@@ -732,7 +726,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
   }
 
-  private void saveScopedStorageUriInPreferences(Intent intent) {
+  private DocumentFileCompat saveScopedStorageUriInPreferences(Intent intent) {
     final int takeFlags = intent.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
     getActivity().getContentResolver().takePersistableUriPermission(intent.getData(), takeFlags);
     var backupFolder = DocumentFileCompat.Companion.fromTreeUri(getContext(), intent.getData())
@@ -742,5 +736,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           .createDirectory(Constants.EXTERNAL_STORAGE_FOLDER);
     }
     Prefs.putString(PREF_BACKUP_FOLDER_URI, backupFolder.getUri().toString());
+    return backupFolder;
   }
+
 }

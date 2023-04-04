@@ -91,18 +91,10 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         .importDataFromSpringpad(intent, mNotificationsHelper);
     String title = getString(R.string.data_import_completed);
     String text = getString(R.string.click_to_refresh_application);
-    createNotification(intent, this, title, text, null);
+    createNotification(intent, this, title, text);
   }
 
   private void exportData(Intent intent) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-      exportDataWithScopedStorage(intent);
-    } else {
-      exportDataWithoutScopedStorage(intent);
-    }
-  }
-
-  private void exportDataWithScopedStorage(Intent intent) {
     String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
     var backupDir = DocumentFileCompat.Companion.fromTreeUri(getBaseContext(),
         Uri.parse(Prefs.getString(PREF_BACKUP_FOLDER_URI, null))).createDirectory(backupName);
@@ -112,53 +104,8 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     mNotificationsHelper.finish(getString(R.string.data_export_completed), backupDir.getUri().getPath());
   }
 
-  private synchronized void exportDataWithoutScopedStorage(Intent intent) {
-    String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-    File backupDir = StorageHelper.getOrCreateBackupDir(backupName);
-
-    // Directory clean in case of previously used backup name
-    StorageHelper.delete(this, backupDir.getAbsolutePath());
-    // Directory is re-created in case of previously used backup name (removed above)
-    backupDir = StorageHelper.getOrCreateBackupDir(backupName);
-
-    BackupHelper.exportNotes(DocumentFileCompat.Companion.fromFile(getBaseContext(), backupDir));
-    BackupHelper.exportAttachments(
-        DocumentFileCompat.Companion.fromFile(getBaseContext(), backupDir), mNotificationsHelper);
-    mNotificationsHelper.finish(getString(R.string.data_export_completed), backupDir.getAbsolutePath());
-  }
-
+  @TargetApi(VERSION_CODES.O)
   private synchronized void importData(Intent intent) {
-    if (Build.VERSION.SDK_INT >= VERSION_CODES.O) {
-      importDataWithScopedStorage(intent);
-    } else {
-      importDataWithoutScopedStorage(intent);
-    }
-  }
-
-  private synchronized void importDataWithoutScopedStorage(Intent intent) {
-    File backupDir = StorageHelper.getOrCreateBackupDir(intent.getStringExtra(INTENT_BACKUP_NAME));
-
-    var backupDirDocumentFile = DocumentFileCompat.Companion.fromFile(getBaseContext(),
-        backupDir);
-    BackupHelper.importNotes(backupDirDocumentFile);
-    BackupHelper.importAttachments(backupDirDocumentFile, mNotificationsHelper);
-
-    resetReminders();
-    mNotificationsHelper.cancel();
-
-    createNotification(intent, this, getString(R.string.data_import_completed),
-        getString(R.string.click_to_refresh_application), backupDir);
-
-    // Performs auto-backup filling after backup restore
-//        if (Prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
-//            File autoBackupDir = StorageHelper.getBackupDir(Constants.AUTO_BACKUP_DIR);
-//            BackupHelper.exportNotes(autoBackupDir);
-//            BackupHelper.exportAttachments(autoBackupDir);
-//        }
-  }
-
-  @TargetApi(VERSION_CODES.LOLLIPOP)
-  private synchronized void importDataWithScopedStorage(Intent intent) {
     var backupDir = Observable.from(DocumentFileCompat.Companion.fromTreeUri(getBaseContext(),
             Uri.parse(Prefs.getString(PREF_BACKUP_FOLDER_URI, null))).listFiles())
         .filter(f -> f.getName().equals(intent.getStringExtra(INTENT_BACKUP_NAME))).toBlocking()
@@ -171,7 +118,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     mNotificationsHelper.cancel();
 
     createNotification(intent, this, getString(R.string.data_import_completed),
-        getString(R.string.click_to_refresh_application), null);
+        getString(R.string.click_to_refresh_application));
 
     // Performs auto-backup filling after backup restore
 //        if (Prefs.getBoolean(Constants.PREF_ENABLE_AUTOBACKUP, false)) {
@@ -191,13 +138,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
         backupName + " " + getString(R.string.deleted));
   }
 
-  /**
-   * Creation of notification on operations completed
-   */
-  private void createNotification(Intent intent, Context context, String title, String message,
-      File backupDir) {
-
-    // The behavior differs depending on intent action
+  private void createNotification(Intent intent, Context context, String title, String message) {
     Intent intentLaunch;
     if (DataBackupIntentService.ACTION_DATA_IMPORT.equals(intent.getAction())
         || SpringImportHelper.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
