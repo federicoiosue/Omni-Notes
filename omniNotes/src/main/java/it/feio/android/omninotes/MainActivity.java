@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.OmniNotes.isDebugBuild;
 import static it.feio.android.omninotes.helpers.AppVersionHelper.isAppUpdated;
 import static it.feio.android.omninotes.helpers.AppVersionHelper.updateAppVersionInPreferences;
 import static it.feio.android.omninotes.helpers.ChangelogHelper.showChangelog;
@@ -114,7 +115,7 @@ public class MainActivity extends BaseActivity implements
   protected void onPostCreate(@Nullable Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
 
-    if (!launchIntroIfRequired() && isAppUpdated(getApplicationContext())) {
+    if (!launchIntroIfRequired() && isAppUpdated(getApplicationContext()) && !isDebugBuild()) {
       showChangelogAndUpdateCurrentVersion();
     }
   }
