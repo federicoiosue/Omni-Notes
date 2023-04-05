@@ -1200,10 +1200,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   private void categorizeNote() {
-
-    String currentCategory =
-        noteTmp.getCategory() != null ? String.valueOf(noteTmp.getCategory().getId()) : null;
-    final List<Category> categories = Observable.from(DbHelper.getInstance().getCategories())
+    var currentCategory = noteTmp.getCategory() != null ? String.valueOf(noteTmp.getCategory().getId()) : null;
+    final var categories = Observable.from(DbHelper.getInstance().getCategories())
         .map(category -> {
           if (String.valueOf(category.getId()).equals(currentCategory)) {
             category.setCount(category.getCount() + 1);
@@ -1211,9 +1209,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           return category;
         }).toList().toBlocking().single();
 
-    final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
+    var dialogBuilder = new MaterialDialog.Builder(mainActivity)
         .title(R.string.categorize_as)
-        .adapter(new CategoryRecyclerViewAdapter(mainActivity, categories), null)
         .positiveText(R.string.add_category)
         .positiveColorRes(R.color.colorPrimary)
         .negativeText(R.string.remove_category)
@@ -1226,17 +1223,24 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         .onNegative((dialog12, which) -> {
           noteTmp.setCategory(null);
           setTagMarkerColor(null);
-        }).build();
-
-    RecyclerViewItemClickSupport.addTo(dialog.getRecyclerView())
-        .setOnItemClickListener((recyclerView, position, v) -> {
-          noteTmp.setCategory(categories.get(position));
-          setTagMarkerColor(categories.get(position));
-          dialog.dismiss();
         });
 
-    dialog.show();
+    if (CollectionUtils.isNotEmpty(categories)) {
+      dialogBuilder.adapter(new CategoryRecyclerViewAdapter(mainActivity, categories), null);
+    }
 
+    final var dialog = dialogBuilder.build();
+
+    if (CollectionUtils.isNotEmpty(categories)) {
+      RecyclerViewItemClickSupport.addTo(dialog.getRecyclerView())
+          .setOnItemClickListener((recyclerView, position, v) -> {
+            noteTmp.setCategory(categories.get(position));
+            setTagMarkerColor(categories.get(position));
+            dialog.dismiss();
+          });
+    }
+
+    dialog.show();
   }
 
   private void showAttachmentsPopup() {

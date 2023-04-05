@@ -18,6 +18,7 @@
 package it.feio.android.omninotes.models.listeners;
 
 import android.view.View;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import it.feio.android.omninotes.R;
 
@@ -26,30 +27,30 @@ public class RecyclerViewItemClickSupport {
   private final RecyclerView mRecyclerView;
   private OnItemClickListener mOnItemClickListener;
   private OnItemLongClickListener mOnItemLongClickListener;
-  private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+  private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
     @Override
     public void onClick(View v) {
       if (mOnItemClickListener != null) {
-        RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(v);
+        var holder = mRecyclerView.getChildViewHolder(v);
         mOnItemClickListener.onItemClicked(mRecyclerView, holder.getAdapterPosition(), v);
       }
     }
   };
-  private View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
+  private final View.OnLongClickListener mOnLongClickListener = new View.OnLongClickListener() {
     @Override
     public boolean onLongClick(View v) {
       if (mOnItemLongClickListener != null) {
-        RecyclerView.ViewHolder holder = mRecyclerView.getChildViewHolder(v);
+        var holder = mRecyclerView.getChildViewHolder(v);
         return mOnItemLongClickListener
             .onItemLongClicked(mRecyclerView, holder.getAdapterPosition(), v);
       }
       return false;
     }
   };
-  private RecyclerView.OnChildAttachStateChangeListener mAttachListener
+  private final RecyclerView.OnChildAttachStateChangeListener mAttachListener
       = new RecyclerView.OnChildAttachStateChangeListener() {
     @Override
-    public void onChildViewAttachedToWindow(View view) {
+    public void onChildViewAttachedToWindow(@NonNull View view) {
       if (mOnItemClickListener != null) {
         view.setOnClickListener(mOnClickListener);
       }
@@ -72,21 +73,11 @@ public class RecyclerViewItemClickSupport {
   }
 
   public static RecyclerViewItemClickSupport addTo(RecyclerView view) {
-    RecyclerViewItemClickSupport support = (RecyclerViewItemClickSupport) view
-        .getTag(R.id.item_click_support);
-    if (support == null) {
-      support = new RecyclerViewItemClickSupport(view);
+    var item = (RecyclerViewItemClickSupport) view.getTag(R.id.item_click_support);
+    if (item == null) {
+      item = new RecyclerViewItemClickSupport(view);
     }
-    return support;
-  }
-
-  public static RecyclerViewItemClickSupport removeFrom(RecyclerView view) {
-    RecyclerViewItemClickSupport support = (RecyclerViewItemClickSupport) view
-        .getTag(R.id.item_click_support);
-    if (support != null) {
-      support.detach(view);
-    }
-    return support;
+    return item;
   }
 
   public RecyclerViewItemClickSupport setOnItemClickListener(OnItemClickListener listener) {
@@ -99,11 +90,6 @@ public class RecyclerViewItemClickSupport {
     return this;
   }
 
-  private void detach(RecyclerView view) {
-    view.removeOnChildAttachStateChangeListener(mAttachListener);
-    view.setTag(R.id.item_click_support, null);
-  }
-
   public interface OnItemClickListener {
 
     void onItemClicked(RecyclerView recyclerView, int position, View v);
@@ -113,4 +99,5 @@ public class RecyclerViewItemClickSupport {
 
     boolean onItemLongClicked(RecyclerView recyclerView, int position, View v);
   }
+
 }

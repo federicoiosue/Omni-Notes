@@ -1474,12 +1474,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Associates to or removes categories
    */
   private void categorizeNotes() {
-    // Retrieves all available categories
-    final ArrayList<Category> categories = DbHelper.getInstance().getCategories();
+    var categories = DbHelper.getInstance().getCategories();
 
-    final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
+    var dialogBuilder = new MaterialDialog.Builder(mainActivity)
         .title(R.string.categorize_as)
-        .adapter(new CategoryRecyclerViewAdapter(mainActivity, categories), null)
         .positiveText(R.string.add_category)
         .positiveColorRes(R.color.colorPrimary)
         .negativeText(R.string.remove_category)
@@ -1489,13 +1487,21 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
           Intent intent = new Intent(mainActivity, CategoryActivity.class);
           intent.putExtra("noHome", true);
           startActivityForResult(intent, REQUEST_CODE_CATEGORY_NOTES);
-        }).onNegative((dialog12, which) -> categorizeNotesExecute(null)).build();
+        }).onNegative((dialog12, which) -> categorizeNotesExecute(null));
 
-    RecyclerViewItemClickSupport.addTo(dialog.getRecyclerView())
-        .setOnItemClickListener((recyclerView, position, v) -> {
-          dialog.dismiss();
-          categorizeNotesExecute(categories.get(position));
-        });
+    if (CollectionUtils.isNotEmpty(categories)) {
+      dialogBuilder.adapter(new CategoryRecyclerViewAdapter(mainActivity, categories), null);
+    }
+
+    final var dialog = dialogBuilder.build();
+
+    if (CollectionUtils.isNotEmpty(categories)) {
+      RecyclerViewItemClickSupport.addTo(dialog.getRecyclerView())
+          .setOnItemClickListener((recyclerView, position, v) -> {
+            dialog.dismiss();
+            categorizeNotesExecute(categories.get(position));
+          });
+    }
 
     dialog.show();
   }
