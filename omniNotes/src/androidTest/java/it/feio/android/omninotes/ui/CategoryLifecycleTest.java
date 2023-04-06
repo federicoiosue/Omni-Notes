@@ -50,6 +50,7 @@ import androidx.test.filters.LargeTest;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Category;
+import it.feio.android.omninotes.testutils.NoRealDeviceTest;
 import java.util.ArrayList;
 import java.util.Calendar;
 import org.hamcrest.Description;
@@ -64,6 +65,7 @@ import org.junit.runner.RunWith;
 public class CategoryLifecycleTest extends BaseEspressoTest {
 
   @Test
+  @NoRealDeviceTest
   public void addNewCategory() {
     String categoryName = "Cat_" + Calendar.getInstance().getTimeInMillis();
 
@@ -194,7 +196,7 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
 
   @TargetApi(Build.VERSION_CODES.LOLLIPOP)
   private static Matcher<View> withBackgroundColor(final int backgroundColor) {
-    return new TypeSafeMatcher<View>() {
+    return new TypeSafeMatcher<>() {
 
       @Override
       public boolean matchesSafely(View view) {
@@ -210,4 +212,5 @@ public class CategoryLifecycleTest extends BaseEspressoTest {
       }
     };
   }
+
 }

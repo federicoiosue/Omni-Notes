@@ -19,7 +19,7 @@ package it.feio.android.omninotes.helpers
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.lazygeniouz.dfc.file.DocumentFileCompat
-import it.feio.android.omninotes.BaseAndroidTestCase
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase
 import org.apache.commons.io.IOUtils.readLines
 import org.junit.Assert.*
 import org.junit.Before

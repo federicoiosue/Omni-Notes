@@ -25,7 +25,7 @@ import android.net.Uri;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.lazygeniouz.dfc.file.DocumentFileCompat;
 import com.pixplicity.easyprefs.library.Prefs;
-import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase;
 import it.feio.android.omninotes.exceptions.BackupException;
 import it.feio.android.omninotes.exceptions.checked.BackupAttachmentException;
 import it.feio.android.omninotes.models.Attachment;

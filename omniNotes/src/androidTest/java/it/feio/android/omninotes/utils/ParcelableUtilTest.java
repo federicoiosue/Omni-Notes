@@ -22,7 +22,7 @@ import static org.junit.Assert.assertEquals;
 
 import android.net.Uri;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import java.util.Collections;

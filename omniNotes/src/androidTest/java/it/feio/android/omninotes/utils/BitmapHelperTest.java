@@ -27,7 +27,7 @@ import android.net.Uri;
 import android.os.Looper;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.internal.runner.junit4.statement.UiThreadStatement;
-import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase;
 import it.feio.android.omninotes.models.Attachment;
 import java.io.File;
 import java.io.FileOutputStream;

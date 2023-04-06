@@ -19,7 +19,7 @@ package it.feio.android.omninotes.utils;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.FlakyTest;
-import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase;
 import it.feio.android.omninotes.OmniNotes;
 import java.io.IOException;
 import org.junit.Assert;

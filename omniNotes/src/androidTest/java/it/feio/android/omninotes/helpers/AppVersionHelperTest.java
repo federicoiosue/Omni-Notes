@@ -20,7 +20,7 @@ package it.feio.android.omninotes.helpers;
 import static org.junit.Assert.*;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase;
 import it.feio.android.omninotes.utils.Constants;
 import org.junit.Test;
 import org.junit.runner.RunWith;

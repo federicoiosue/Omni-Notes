@@ -34,6 +34,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.testutils.NoRealDeviceTest;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,6 +45,7 @@ public class RemindersLifecycleTest extends BaseEspressoTest {
 
 
   @Test
+  @NoRealDeviceTest
   public void remindersLifecycle() {
     onView(Matchers.allOf(ViewMatchers.withId(R.id.fab_expand_menu_button),
         withParent(withId(R.id.fab)),

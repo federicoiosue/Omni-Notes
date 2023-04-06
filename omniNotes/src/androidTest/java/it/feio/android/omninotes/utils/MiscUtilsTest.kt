@@ -17,7 +17,7 @@
 
 package it.feio.android.omninotes.utils
 
-import it.feio.android.omninotes.BaseAndroidTestCase
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase
 import org.junit.Assert.*
 
 import org.junit.Test

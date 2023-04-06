@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2023 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,19 +15,15 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.utils
+package it.feio.android.omninotes.testutils;
 
-import it.feio.android.omninotes.testutils.BaseAndroidTestCase
-import org.junit.Assert.assertTrue
-import org.junit.Test
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-class StorageHelperTest : BaseAndroidTestCase() {
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.TYPE, ElementType.METHOD})
+public @interface NoRealDeviceTest {
 
-    @Test
-    fun getOrCreateExternalStoragePublicDir() {
-        val dir = StorageHelper.getOrCreateExternalStoragePublicDir()
-
-        assertTrue(dir.canRead())
-        assertTrue(dir.canWrite())
-    }
 }

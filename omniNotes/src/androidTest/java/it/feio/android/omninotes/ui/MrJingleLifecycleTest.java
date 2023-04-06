@@ -37,6 +37,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.testutils.NoRealDeviceTest;
 import java.io.IOException;
 import java.util.List;
 import org.hamcrest.core.IsInstanceOf;
@@ -138,6 +139,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
   }
 
    @Test
+   @NoRealDeviceTest
    public void mrJingle_displayedOnArchiveWhenEmptiedBySwiping() {
       createTestNote("title", "content", 0);
       List<Note> notes = dbHelper.getAllNotes(false);

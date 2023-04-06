@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2023 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes;
+package it.feio.android.omninotes.testutils;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
@@ -38,6 +38,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
 import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
