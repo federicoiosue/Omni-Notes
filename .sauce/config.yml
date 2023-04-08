@@ -2,7 +2,7 @@ apiVersion: v1alpha
 kind: espresso
 sauce:
   region: eu-central-1
-  concurrency: 10
+  retries: 2
 espresso:
   app: ./omniNotes/build/intermediates/apk/play/debug/OmniNotes-playDebug-6.2.1.apk
   testApp: ./omniNotes/build/intermediates/apk/androidTest/play/debug/omniNotes-play-debug-androidTest.apk
