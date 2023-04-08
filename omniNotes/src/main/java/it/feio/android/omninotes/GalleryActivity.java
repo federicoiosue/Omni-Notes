@@ -21,6 +21,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.GALLERY_CLICKED_IMAG
 import static it.feio.android.omninotes.utils.ConstantsBase.GALLERY_IMAGES;
 import static it.feio.android.omninotes.utils.ConstantsBase.GALLERY_TITLE;
 import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO;
+import static it.feio.android.omninotes.utils.StorageHelper.getMimeType;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -30,6 +31,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 import it.feio.android.omninotes.databinding.ActivityGalleryBinding;
@@ -37,8 +40,8 @@ import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.utils.FileProviderHelper;
-import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.simplegallery.models.GalleryPagerAdapter;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -182,19 +185,34 @@ public class GalleryActivity extends AppCompatActivity {
 
   private void viewMedia() {
     Attachment attachment = images.get(binding.fullscreenContent.getCurrentItem());
-    Intent intent = new Intent(Intent.ACTION_VIEW);
-    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    intent.setDataAndType(FileProviderHelper.getShareableUri(attachment),
-        StorageHelper.getMimeType(this, attachment.getUri()));
-    startActivity(intent);
+    Uri shareableAttachmentUri = getShareableAttachmentUri(attachment);
+    if (shareableAttachmentUri != null) {
+      Intent intent = new Intent(Intent.ACTION_VIEW);
+      intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+      intent.setDataAndType(shareableAttachmentUri, getMimeType(this, attachment.getUri()));
+      startActivity(intent);
+    }
   }
 
   private void shareMedia() {
     Attachment attachment = images.get(binding.fullscreenContent.getCurrentItem());
-    Intent intent = new Intent(Intent.ACTION_SEND);
-    intent.setType(StorageHelper.getMimeType(this, attachment.getUri()));
-    intent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
-    startActivity(intent);
+    Uri shareableAttachmentUri = getShareableAttachmentUri(attachment);
+    if (shareableAttachmentUri != null) {
+      Intent intent = new Intent(Intent.ACTION_SEND);
+      intent.setType(getMimeType(this, attachment.getUri()));
+      intent.putExtra(Intent.EXTRA_STREAM, shareableAttachmentUri);
+      startActivity(intent);
+    }
   }
+
+    private @Nullable Uri getShareableAttachmentUri(Attachment attachment) {
+      try {
+        return FileProviderHelper.getShareableUri(attachment);
+      } catch (FileNotFoundException e) {
+        LogDelegate.e(e.getMessage());
+        Toast.makeText(this, R.string.attachment_not_found, Toast.LENGTH_SHORT).show();
+        return null;
+      }
+    }
 
 }

@@ -22,6 +22,7 @@ import static androidx.core.view.ViewCompat.animate;
 import static it.feio.android.omninotes.BaseActivity.TRANSITION_HORIZONTAL;
 import static it.feio.android.omninotes.BaseActivity.TRANSITION_VERTICAL;
 import static it.feio.android.omninotes.MainActivity.FRAGMENT_DETAIL_TAG;
+import static it.feio.android.omninotes.OmniNotes.getAppContext;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_DISMISS;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_MERGE;
@@ -624,7 +625,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           .content(R.string.remove_reminder)
           .positiveText(R.string.ok)
           .onPositive((dialog1, which) -> {
-            ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
+            ReminderHelper.removeReminder(getAppContext(), noteTmp);
             noteTmp.setAlarm(null);
             binding.fragmentDetailContent.reminderIcon
                 .setImageResource(R.drawable.ic_alarm_black_18dp);
@@ -715,13 +716,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     // Click events for images in gridview (zooms image)
     mGridView.setOnItemClickListener((parent, v, position, id) -> {
       Attachment attachment = (Attachment) parent.getAdapter().getItem(position);
-      Uri sharableUri = FileProviderHelper.getShareableUri(attachment);
+      Uri shareableAttachmentUri = mainActivity.getShareableAttachmentUri(attachment);
+      if (shareableAttachmentUri == null) {
+        return;
+      }
       Intent attachmentIntent;
       if (MIME_TYPE_FILES.equals(attachment.getMime_type())) {
 
         attachmentIntent = new Intent(Intent.ACTION_VIEW);
-        attachmentIntent.setDataAndType(sharableUri, StorageHelper.getMimeType(mainActivity,
-            sharableUri));
+        attachmentIntent.setDataAndType(shareableAttachmentUri, StorageHelper.getMimeType(mainActivity,
+            shareableAttachmentUri));
         attachmentIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent
             .FLAG_GRANT_WRITE_URI_PERMISSION);
         if (IntentChecker
@@ -798,10 +802,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       case "share":
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         Attachment attachment = mAttachmentAdapter.getItem(attachmentPosition);
-        shareIntent
-            .setType(StorageHelper.getMimeType(OmniNotes.getAppContext(), attachment.getUri()));
-        shareIntent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
-        if (IntentChecker.isAvailable(OmniNotes.getAppContext(), shareIntent, null)) {
+        Uri shareableAttachmentUri = mainActivity.getShareableAttachmentUri(attachment);
+        if (shareableAttachmentUri == null) {
+          Toast.makeText(getActivity(), R.string.error_saving_attachments, Toast.LENGTH_SHORT).show();
+          break;
+        }
+        shareIntent.setType(StorageHelper.getMimeType(getAppContext(), attachment.getUri()));
+        shareIntent.putExtra(Intent.EXTRA_STREAM, shareableAttachmentUri);
+        if (IntentChecker.isAvailable(getAppContext(), shareIntent, null)) {
           startActivity(shareIntent);
         } else {
           mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.WARN);
@@ -1494,10 +1502,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     exitMessage = trash ? getString(R.string.note_trashed) : getString(R.string.note_untrashed);
     exitCroutonStyle = trash ? ONStyle.WARN : ONStyle.INFO;
     if (trash) {
-      ShortcutHelper.removeShortcut(OmniNotes.getAppContext(), noteTmp);
-      ReminderHelper.removeReminder(OmniNotes.getAppContext(), noteTmp);
+      ShortcutHelper.removeShortcut(getAppContext(), noteTmp);
+      ReminderHelper.removeReminder(getAppContext(), noteTmp);
     } else {
-      ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+      ReminderHelper.addReminder(getAppContext(), note);
     }
     saveNote(this);
   }
@@ -1897,7 +1905,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    * Adding shortcut on Home screen
    */
   private void addShortcut() {
-    ShortcutHelper.addShortcut(OmniNotes.getAppContext(), noteTmp);
+    ShortcutHelper.addShortcut(getAppContext(), noteTmp);
     mainActivity.showMessage(R.string.shortcut_added, ONStyle.INFO);
   }
 

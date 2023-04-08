@@ -41,7 +41,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.PersistableBundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -74,6 +73,7 @@ import it.feio.android.omninotes.utils.FileProviderHelper;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -506,11 +506,7 @@ public class MainActivity extends BaseActivity implements
   }
 
 
-  /**
-   * Notes sharing
-   */
   public void shareNote(Note note) {
-
     String titleText = note.getTitle();
 
     String contentText = titleText
@@ -525,11 +521,13 @@ public class MainActivity extends BaseActivity implements
 
       // Intent with single image attachment
     } else if (note.getAttachmentsList().size() == 1) {
-      shareIntent.setAction(Intent.ACTION_SEND);
       Attachment attachment = note.getAttachmentsList().get(0);
-      shareIntent.setType(attachment.getMime_type());
-      shareIntent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
-
+      Uri shareableAttachmentUri = getShareableAttachmentUri(attachment);
+      if (shareableAttachmentUri != null) {
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType(attachment.getMime_type());
+        shareIntent.putExtra(Intent.EXTRA_STREAM, shareableAttachmentUri);
+      }
       // Intent with multiple images
     } else if (note.getAttachmentsList().size() > 1) {
       shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
@@ -537,8 +535,11 @@ public class MainActivity extends BaseActivity implements
       // A check to decide the mime type of attachments to share is done here
       HashMap<String, Boolean> mimeTypes = new HashMap<>();
       for (Attachment attachment : note.getAttachmentsList()) {
-        uris.add(FileProviderHelper.getShareableUri(attachment));
-        mimeTypes.put(attachment.getMime_type(), true);
+        Uri shareableAttachmentUri = getShareableAttachmentUri(attachment);
+        if (shareableAttachmentUri != null) {
+          uris.add(shareableAttachmentUri);
+          mimeTypes.put(attachment.getMime_type(), true);
+        }
       }
       // If many mime types are present a general type is assigned to intent
       if (mimeTypes.size() > 1) {
@@ -552,8 +553,17 @@ public class MainActivity extends BaseActivity implements
     shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
     shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
 
-    startActivity(Intent
-        .createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+  }
+
+  public @Nullable Uri getShareableAttachmentUri(Attachment attachment) {
+    try {
+      return FileProviderHelper.getShareableUri(attachment);
+    } catch (FileNotFoundException e) {
+      LogDelegate.e(e.getMessage());
+      Toast.makeText(this, R.string.attachment_not_found, Toast.LENGTH_SHORT).show();
+      return null;
+    }
   }
 
 

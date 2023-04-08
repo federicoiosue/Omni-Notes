@@ -50,6 +50,7 @@
     <string name="note_updated">Note updated</string>
     <string name="empty_note_not_saved">Can\'t save an empty note</string>
     <string name="empty_note_not_shared">Can\'t share an empty note</string>
+    <string name="attachment_not_found">Attachment not found</string>
     <string name="note_doesnt_exist">Note doesn\'t exists anymore</string>
     <string name="note_archived">Note archived</string>
     <string name="note_unarchived">Note restored from archive</string>
