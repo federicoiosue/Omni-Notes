@@ -18,7 +18,11 @@
 package it.feio.android.omninotes.helpers;
 
 
+import static android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION;
+import static android.content.Intent.FLAG_GRANT_WRITE_URI_PERMISSION;
+import static it.feio.android.omninotes.OmniNotes.getAppContext;
 import static it.feio.android.omninotes.utils.ConstantsBase.DATABASE_NAME;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_BACKUP_FOLDER_URI;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 
 import android.content.Context;
@@ -29,7 +33,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.lazygeniouz.dfc.file.DocumentFileCompat;
 import com.pixplicity.easyprefs.library.Prefs;
-import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.db.DbHelper;
@@ -37,6 +40,7 @@ import it.feio.android.omninotes.exceptions.checked.BackupAttachmentException;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TextHelper;
@@ -69,7 +73,7 @@ public final class BackupHelper {
     }
     var noteFile = getBackupNoteFile(backupDir, note);
     try {
-      DocumentFileHelper.write(OmniNotes.getAppContext(), noteFile, note.toJSON());
+      DocumentFileHelper.write(getAppContext(), noteFile, note.toJSON());
     } catch (IOException e) {
       LogDelegate.e(String.format("Error on note %s backup: %s",  note.get_id(), e.getMessage()));
     }
@@ -106,7 +110,7 @@ public final class BackupHelper {
       } catch (BackupAttachmentException e) {
         ++failed;
         result = false;
-        failedString = " (" + failed + " " + OmniNotes.getAppContext().getString(R.string.failed) + ")";
+        failedString = " (" + failed + " " + getAppContext().getString(R.string.failed) + ")";
       }
 
       notifyAttachmentBackup(notificationsHelper, list, exported, failedString);
@@ -124,7 +128,7 @@ public final class BackupHelper {
       List<Attachment> list, int exported, String failedString) {
     if (notificationsHelper != null) {
       String notificationMessage =
-          TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string.attachment)) + " "
+          TextHelper.capitalize(getAppContext().getString(R.string.attachment)) + " "
               + exported + "/" + list.size() + failedString;
       notificationsHelper.updateMessage(notificationMessage);
     }
@@ -135,7 +139,7 @@ public final class BackupHelper {
     try {
       var destinationAttachment = attachmentsDestination.createFile("",
           attachment.getUri().getLastPathSegment());
-      DocumentFileHelper.copyFileTo(OmniNotes.getAppContext(), new File(attachment.getUri().getPath()),
+      DocumentFileHelper.copyFileTo(getAppContext(), new File(attachment.getUri().getPath()),
           destinationAttachment);
     } catch (Exception e) {
       LogDelegate.e("Error during attachment backup: " + attachment.getUriPath(), e);
@@ -172,7 +176,7 @@ public final class BackupHelper {
   public static Note getImportNote(DocumentFileCompat file) {
     try {
       Note note = new Note();
-      String jsonString = DocumentFileHelper.readContent(OmniNotes.getAppContext(), file);
+      String jsonString = DocumentFileHelper.readContent(getAppContext(), file);
       if (!TextUtils.isEmpty(jsonString)) {
         note.buildFromJson(jsonString);
       }
@@ -202,7 +206,7 @@ public final class BackupHelper {
           try {
             importAttachment(BackupedAttachments, attachmentsDir, attachment);
             if (notificationsHelper != null) {
-              notificationsHelper.updateMessage(TextHelper.capitalize(OmniNotes.getAppContext().getString(R.string.attachment)) + " "
+              notificationsHelper.updateMessage(TextHelper.capitalize(getAppContext().getString(R.string.attachment)) + " "
                       + imported.incrementAndGet() + "/" + attachments.size());
             }
           } catch (BackupAttachmentException e) {
@@ -219,7 +223,7 @@ public final class BackupHelper {
       File destinationAttachment = new File(attachmentsDir, attachmentName);
       var backupedAttachment = Observable.from(backupedAttachments)
           .filter(ba -> attachmentName.equals(ba.getName())).toBlocking().single();
-      DocumentFileHelper.copyFileTo(OmniNotes.getAppContext(), backupedAttachment, destinationAttachment);
+      DocumentFileHelper.copyFileTo(getAppContext(), backupedAttachment, destinationAttachment);
     } catch (Exception e) {
       LogDelegate.e("Error importing the attachment " + attachment.getUri().getPath(), e);
       throw new BackupAttachmentException(e);
@@ -232,10 +236,10 @@ public final class BackupHelper {
    * @param backupFolderName subfolder of the app's external sd folder where notes will be stored
    */
   public static void startBackupService(String backupFolderName) {
-    Intent service = new Intent(OmniNotes.getAppContext(), DataBackupIntentService.class);
+    Intent service = new Intent(getAppContext(), DataBackupIntentService.class);
     service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT);
     service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupFolderName);
-    OmniNotes.getAppContext().startService(service);
+    getAppContext().startService(service);
   }
 
   public static void deleteNote(File file) {
@@ -258,6 +262,29 @@ public final class BackupHelper {
     File database = context.getDatabasePath(DATABASE_NAME);
     if (database.exists() && database.delete()) {
       StorageHelper.copyFile(new File(backupDir, DATABASE_NAME), database, true);
+    }
+  }
+
+  public static DocumentFileCompat saveScopedStorageUriInPreferences(Intent intent) {
+    var context = getAppContext();
+    final int takeFlags = FLAG_GRANT_READ_URI_PERMISSION & FLAG_GRANT_WRITE_URI_PERMISSION;
+    context.getContentResolver().takePersistableUriPermission(intent.getData(), takeFlags);
+
+    var currentlySelected = DocumentFileCompat.Companion.fromTreeUri(getAppContext(),
+        intent.getData());
+
+    // Selected a folder already name "Omni Notes" (ex. from previous backups)
+    if(Constants.EXTERNAL_STORAGE_FOLDER.equals(currentlySelected.getName())) {
+      Prefs.putString(PREF_BACKUP_FOLDER_URI, currentlySelected.getUri().toString());
+      return currentlySelected;
+    } else {
+      var childFolder = currentlySelected.findFile(Constants.EXTERNAL_STORAGE_FOLDER);
+      if (childFolder == null || !childFolder.isDirectory()) {
+        childFolder = DocumentFileCompat.Companion.fromTreeUri(context, intent.getData())
+            .createDirectory(Constants.EXTERNAL_STORAGE_FOLDER);
+      }
+      Prefs.putString(PREF_BACKUP_FOLDER_URI, childFolder.getUri().toString());
+      return childFolder;
     }
   }
 

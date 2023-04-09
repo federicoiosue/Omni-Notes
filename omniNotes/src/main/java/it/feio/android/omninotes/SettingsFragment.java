@@ -72,7 +72,6 @@ import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator.Result;
-import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.PasswordHelper;
@@ -711,12 +710,12 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           break;
 
         case ACCESS_DATA_FOR_EXPORT:
-          saveScopedStorageUriInPreferences(intent);
+          BackupHelper.saveScopedStorageUriInPreferences(intent);
           exportNotes();
           break;
 
         case ACCESS_DATA_FOR_IMPORT:
-          var backupDocumentFile = saveScopedStorageUriInPreferences(intent);
+          var backupDocumentFile = BackupHelper.saveScopedStorageUriInPreferences(intent);
           importNotes(backupDocumentFile);
           break;
 
@@ -726,17 +725,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
   }
 
-  private DocumentFileCompat saveScopedStorageUriInPreferences(Intent intent) {
-    final int takeFlags = intent.getFlags() & Intent.FLAG_GRANT_READ_URI_PERMISSION;
-    getActivity().getContentResolver().takePersistableUriPermission(intent.getData(), takeFlags);
-    var backupFolder = DocumentFileCompat.Companion.fromTreeUri(getContext(), intent.getData())
-        .findFile(Constants.EXTERNAL_STORAGE_FOLDER);
-    if (backupFolder == null || !backupFolder.isDirectory()) {
-      backupFolder = DocumentFileCompat.Companion.fromTreeUri(getContext(), intent.getData())
-          .createDirectory(Constants.EXTERNAL_STORAGE_FOLDER);
-    }
-    Prefs.putString(PREF_BACKUP_FOLDER_URI, backupFolder.getUri().toString());
-    return backupFolder;
-  }
+
 
 }
