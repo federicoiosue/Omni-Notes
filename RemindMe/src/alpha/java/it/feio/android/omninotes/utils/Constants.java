@@ -20,8 +20,8 @@ package it.feio.android.omninotes.utils;
 
 public interface Constants extends ConstantsBase {
 
-  String TAG = "Omni Notes Alpha";
-  String EXTERNAL_STORAGE_FOLDER = "Omni Notes Alpha";
+  String TAG = "Remind Me";
+  String EXTERNAL_STORAGE_FOLDER = "Remind Me";
   String PACKAGE = "it.feio.android.omninotes.alpha";
 
   String CHANNEL_BACKUPS_ID = PACKAGE + ".backups";
