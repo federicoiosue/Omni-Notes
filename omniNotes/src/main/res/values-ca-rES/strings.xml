@@ -48,6 +48,7 @@
     <string name="note_updated">S\'ha actualitzat la nota</string>
     <string name="empty_note_not_saved">No es pot desar una nota buida</string>
     <string name="empty_note_not_shared">No es pot compartir una nota buida</string>
+    <string name="attachment_not_found">No s\'ha trobat el fitxer adjunt</string>
     <string name="note_archived">S\'ha arxivat la nota</string>
     <string name="note_unarchived">S\'ha recuperat la nota de l\'arxiu</string>
     <string name="note">Nota</string>

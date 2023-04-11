@@ -48,6 +48,7 @@
     <string name="note_updated">Nota aggiornata</string>
     <string name="empty_note_not_saved">Nota vuota non salvata</string>
     <string name="empty_note_not_shared">Nota vuota non condivisibile</string>
+    <string name="attachment_not_found">Allegato non trovato</string>
     <string name="note_doesnt_exist">La nota non esiste più</string>
     <string name="note_archived">Nota archiviata</string>
     <string name="note_unarchived">Nota ripristinata dall\'archivio</string>

@@ -48,6 +48,7 @@
     <string name="note_updated">Merkintä päivitetty</string>
     <string name="empty_note_not_saved">Tyhjää merkintää ei voitu tallentaa</string>
     <string name="empty_note_not_shared">Tyhjää merkintää ei voitu jakaa</string>
+    <string name="attachment_not_found">Liitetiedostoa ei löytynyt</string>
     <string name="note_doesnt_exist">Merkintää ei ole enää olemassa</string>
     <string name="note_archived">Merkintä arkistoitu</string>
     <string name="note_unarchived">Merkintä palautettu arkistosta</string>
@@ -279,6 +280,7 @@
     <string name="settings_enable_editor_links_summary">Lisää automaattisesti linkit syötettyihin verkko- ja sähköpostiosoitteihin</string>
     <string name="confirm_removing_backup">Haluatko varmasti poistaa varmuuskopion?</string>
     <string name="confirm_restoring_backup">Haluatko varmasti palauttaa varmuuskopiosta?</string>
+    <string name="confirm_restoring_backup_warning">VAROITUS: Muista asettaa salasana asetuksiin tai suojatut muistiinpanot ohitetaan turvallisuussyistä!</string>
     <string name="data_deletion_completed">Tietojen poistaminen valmis</string>
     <string name="settings_checked_items_behavior">Muistilistat</string>
     <string name="settings_checked_items_behavior_summary">Mitä tehdä, kun kohde on valittu?</string>
