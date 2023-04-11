@@ -146,6 +146,7 @@ Send automatic report to developer?\"</string>
     <string name="settings_export">រក្សាទុក(Backup)</string>
     <string name="settings_enable_swype">Enable swipe</string>
     <string name="settings_screen_backup">រក្សាទុក(Backup)</string>
+    <string name="settings_screen_data">ទិន្នន័យ</string>
     <string name="settings_backup">រក្សាទុក(Backup)</string>
     <string name="settings_password">ពាក្យសំងាត់</string>
     <string name="settings_password_access">ត្រូវការ ពាក្យសំងាត់ទើបអាចប្រើបាន</string>

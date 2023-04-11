@@ -107,6 +107,8 @@
     <string name="notes_categorized_as">הערות סווגו כ</string>
     <string name="insert_security_password">הזנת סיסמה</string>
     <string name="lock">נעול</string>
+    <string name="save_note_to_lock_it">שמירת הערה כדי לנעול אותה</string>
+    <string name="save_note_to_unlock_it">שמירת הערה לביטול הנעילה שלה</string>
     <string name="unlock">בטל נעילה</string>
     <string name="title_activity_password">עריכת סיסמת האבטחה</string>
     <string name="title_activity_about">מידע</string>

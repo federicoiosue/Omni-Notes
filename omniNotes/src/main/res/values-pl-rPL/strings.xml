@@ -208,6 +208,8 @@
     <string name="settings_export">Kopia</string>
     <string name="settings_sync_import_export">Synchronizacja i kopie zapasowe</string>
     <string name="settings_import">Przywracanie lub usuwanie kopii zapasowych</string>
+    <string name="settings_import_legacy">Przywróć kopię zapasową</string>
+    <string name="settings_import_legacy_summary">Pozwala przywrócić stare kopie zapasowe wykonane w Omni Notes w wersji wcześniejszej niż 6</string>
     <string name="settings_import_from_springpad">Importowanie notatek z Springpad</string>
     <string name="settings_import_from_springpad_summary">Wybierz swoje archiwum Springpad i pamiętaj żeby pozostać podłączonym do Internetu</string>
     <string name="settings_sync_drive">Synchronizacja z Google Drive</string>

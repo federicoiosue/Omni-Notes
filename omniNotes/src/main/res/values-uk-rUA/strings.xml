@@ -298,6 +298,7 @@
     <string name="settings_navdrawer_on_exit_summary">Натиснення кнопки \"назад\" у списку нотаток відкриває панель навігації замість виходу з програми</string>
     <string name="settings_text_size">Розмір тексту</string>
     <string name="settings_screen_behaviors">Поведінка</string>
+    <string name="settings_swipe_to_trash">Перетягувати у сміття</string>
     <string name="settings_swipe_to_trash_summary_1">Протягуйте по нотатках пальцем, щоб заархівувати їх</string>
     <string name="settings_swipe_to_trash_summary_2">Протягуйте по нотатках пальцем, щоб видалити їх</string>
     <string name="settings_show_uncategorized">Групувати без категорій</string>

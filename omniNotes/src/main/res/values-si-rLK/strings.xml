@@ -61,6 +61,7 @@
     <string name="remove_filter">පෙරහන ඉවත්කරන්න</string>
     <string name="info">තොරතුරු</string>
     <!-- Settings -->
+    <string name="settings">සැකසුම්</string>
     <string name="settings_about">තොරතුරු</string>
     <string name="settings_reset_all_data">සියලුම දත්ත මකන්න</string>
     <string name="action_settings">සැකසුම්</string>

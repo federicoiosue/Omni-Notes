@@ -48,6 +48,7 @@
     <string name="note_updated">Notat oppdatert</string>
     <string name="empty_note_not_saved">Kan ikke lagre et tomt notat</string>
     <string name="empty_note_not_shared">Kan ikke dele et tomt notat</string>
+    <string name="attachment_not_found">Vedlegget ble ikke funnet</string>
     <string name="note_doesnt_exist">Notatet finnes ikke lenger</string>
     <string name="note_archived">Notat arkivert</string>
     <string name="note_unarchived">Notat gjenopprettet fra arkiv</string>

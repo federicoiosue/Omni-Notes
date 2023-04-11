@@ -48,6 +48,7 @@
     <string name="note_updated">Notitie bijgewerkt</string>
     <string name="empty_note_not_saved">Kan geen lege notitie opslaan</string>
     <string name="empty_note_not_shared">Kan geen lege notitie delen</string>
+    <string name="attachment_not_found">Bijlage niet gevonden</string>
     <string name="note_doesnt_exist">Notitie is bestaat niet meer</string>
     <string name="note_archived">Notitie in archief geplaatst</string>
     <string name="note_unarchived">Notitie hersteld uit archief</string>
