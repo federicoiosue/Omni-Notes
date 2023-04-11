@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,10 +17,11 @@
 
 package it.feio.android.omninotes.utils.date;
 
+import static org.junit.Assert.*;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase;
 import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -31,10 +32,11 @@ public class RecurrenceHelperTest extends BaseAndroidTestCase {
   public void getNoteRecurrentReminderText() {
     long reminder = 1577369824425L;
     String rrule = "FREQ=WEEKLY;WKST=MO;BYDAY=MO,TU,TH";
+    String expectedRegex = "Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 2019 [2|3]:17 PM";
     String alarmText = RecurrenceHelper.getNoteRecurrentReminderText(reminder, rrule);
+    String errorMsg = String.format("%s not matching %s", alarmText, expectedRegex);
 
-    Assert.assertTrue(
-        alarmText.matches("Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 2019 [2|3]:17 PM"));
+    assertTrue(errorMsg, alarmText.matches(expectedRegex));
   }
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@
     <string name="note_updated">Poznámka bola aktualizovaná</string>
     <string name="empty_note_not_saved">Prázdna poznámka nebola uložená</string>
     <string name="empty_note_not_shared">Prázdna poznámka nie je zdieľateľná</string>
+    <string name="note_doesnt_exist">Poznámka už neexistuje</string>
     <string name="note_archived">Poznámka bola archivovaná</string>
     <string name="note_unarchived">Poznámka bola obnovená z archívu</string>
     <string name="note">Poznámka</string>
@@ -66,6 +67,7 @@
     <string name="delete_all_attachments">Vymazať všetky prílohy?</string>
     <string name="gallery">Galéria</string>
     <string name="location">Poloha</string>
+    <string name="location_set_high_accuracy">Pre pokračovanie, nastavte lokalizačný mód na vyššiu presnosť</string>
     <string name="timestamp">Časová pečiatka</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Odstrániť polohu?</string>
@@ -124,6 +126,7 @@
     <string name="no_items_in_list">Nič tu nie je!</string>
     <string name="checklist_on">Povoliť zaškrtávací zoznam</string>
     <string name="checklist_off">Zakázať zaškrtávací zoznam</string>
+    <string name="checklist_moveToBottom">Označené položky presuň na koniec zoznamu</string>
     <string name="checklist_item_hint">Nová položka</string>
     <string name="remove_checklist">Odstrániť zaškrtávací zoznam?</string>
     <string name="checklist_keep_checked">Ponechať zaškrtnuté položky</string>
@@ -153,6 +156,9 @@
     <string name="grid_view">Mriežkové zobrazenie</string>
     <string name="add_shortcut">Pridať odkaz</string>
     <string name="shortcut_added">Odkaz bol pridaný na domovskú obrazovku</string>
+    <string name="shortcut_disabled">Odkaz už nie je platný</string>
+    <string name="pin_note">Pripnúť poznámku</string>
+    <string name="pined_note">Pripnutá poznámka ako notifikácia</string>
     <string name="shortcut_note_deleted">Odkaz odkazuje na vymazanú poznámku</string>
     <string name="widget_simple_description">Jednoduchá miniaplikácia s tlačidlami</string>
     <string name="widget_list_description">Miniaplikácia s posuvným zoznamom a tlačidlami</string>
@@ -207,6 +213,8 @@
     <string name="info">Informácie</string>
     <string name="completed">Kompletné</string>
     <string name="undo_changes_note_confirmation">Zahodiť zmeny?</string>
+    <string name="done">Hotovo</string>
+    <string name="nothing_selected">Nič nie je vybrané</string>
     <!-- Settings -->
     <string name="dashclock_description">Zobrazí niektoré štatistiky a blížiace sa pripomienky z Omni Notes</string>
     <string name="settings">Nastavenia</string>
@@ -219,6 +227,7 @@
     <string name="settings_export">Zálohovať</string>
     <string name="settings_sync_import_export">Synchronizácia a zálohovanie</string>
     <string name="settings_import">Obnoviť alebo vymazať zálohy</string>
+    <string name="settings_import_summary">UPOZORNENIE: Heslo nie je nastavené, heslom chránené poznámky nebudú obnovené kôli bezpečnosti.</string>
     <string name="settings_import_legacy">Obnoviť zálohu vytvorenú zastaranou metódou</string>
     <string name="settings_import_legacy_summary">Umožňuje obnoviť staré zálohy vytvorené verziami Omni Notes staršími ako verzia 6</string>
     <string name="settings_import_from_springpad">Importovať poznámky zo Springpad</string>
@@ -405,4 +414,6 @@
     <string name="channel_backups_description">Notifikácie pre stav a výsledok zalohovania</string>
     <string name="channel_reminders_name">Pripomienky</string>
     <string name="channel_reminders_description">Notifikácie pre pripomienky</string>
+    <string name="channel_pinned_name">Pripnuté</string>
+    <string name="channel_pinned_description">Notifikácie pre pripnuté poznámky</string>
 </resources>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.GALLERY_CLICKED_IMAG
 import static it.feio.android.omninotes.utils.ConstantsBase.GALLERY_IMAGES;
 import static it.feio.android.omninotes.utils.ConstantsBase.GALLERY_TITLE;
 import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO;
+import static it.feio.android.omninotes.utils.StorageHelper.getMimeType;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -30,6 +31,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
 import it.feio.android.omninotes.databinding.ActivityGalleryBinding;
@@ -37,26 +40,24 @@ import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.listeners.OnViewTouchedListener;
 import it.feio.android.omninotes.utils.FileProviderHelper;
-import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.simplegallery.models.GalleryPagerAdapter;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
-/**
- * An example full-screen activity that shows and hides the system UI (i.e. status bar and
- * navigation/system bar) * with user interaction.
- */
 public class GalleryActivity extends AppCompatActivity {
 
   private ActivityGalleryBinding binding;
 
   private List<Attachment> images;
   OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
-    private final int MOVING_THRESHOLD = 30;
+
+    private static final int MOVING_THRESHOLD = 30;
     float x;
     float y;
-    private boolean status_pressed = false;
+    private boolean statusPressed = false;
 
 
     @Override
@@ -64,22 +65,20 @@ public class GalleryActivity extends AppCompatActivity {
       if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
         x = ev.getX();
         y = ev.getY();
-        status_pressed = true;
+        statusPressed = true;
       }
       if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_MOVE) {
         float dx = Math.abs(x - ev.getX());
         float dy = Math.abs(y - ev.getY());
         double dxy = Math.sqrt(dx * dx + dy * dy);
-        LogDelegate.d("Moved of " + dxy);
+        LogDelegate.v("Moved of " + dxy);
         if (dxy >= MOVING_THRESHOLD) {
-          status_pressed = false;
+          statusPressed = false;
         }
       }
-      if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-        if (status_pressed) {
-          click();
-          status_pressed = false;
-        }
+      if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP && statusPressed) {
+        click();
+        statusPressed = false;
       }
     }
 
@@ -105,12 +104,6 @@ public class GalleryActivity extends AppCompatActivity {
   }
 
   @Override
-  public void onStart() {
-    ((OmniNotes) getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
-    super.onStart();
-  }
-
-  @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.menu_gallery, menu);
@@ -118,7 +111,6 @@ public class GalleryActivity extends AppCompatActivity {
   }
 
   private void initViews() {
-    // Show the Up button in the action bar.
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowTitleEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -132,14 +124,14 @@ public class GalleryActivity extends AppCompatActivity {
         getSupportActionBar().setSubtitle("(" + (arg0 + 1) + "/" + images.size() + ")");
       }
 
-
       @Override
       public void onPageScrolled(int arg0, float arg1, int arg2) {
+        // Nothing to do
       }
-
 
       @Override
       public void onPageScrollStateChanged(int arg0) {
+        // Nothing to do
       }
     });
   }
@@ -149,7 +141,9 @@ public class GalleryActivity extends AppCompatActivity {
    */
   private void initData() {
     String title = getIntent().getStringExtra(GALLERY_TITLE);
-    images = getIntent().getParcelableArrayListExtra(GALLERY_IMAGES);
+    images = getIntent().getParcelableArrayListExtra(GALLERY_IMAGES) != null
+        ? getIntent().getParcelableArrayListExtra(GALLERY_IMAGES)
+        : Collections.emptyList();
     int clickedImage = getIntent().getIntExtra(GALLERY_CLICKED_IMAGE, 0);
 
     ArrayList<Uri> imageUris = new ArrayList<>();
@@ -191,19 +185,34 @@ public class GalleryActivity extends AppCompatActivity {
 
   private void viewMedia() {
     Attachment attachment = images.get(binding.fullscreenContent.getCurrentItem());
-    Intent intent = new Intent(Intent.ACTION_VIEW);
-    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    intent.setDataAndType(FileProviderHelper.getShareableUri(attachment),
-        StorageHelper.getMimeType(this, attachment.getUri()));
-    startActivity(intent);
+    Uri shareableAttachmentUri = getShareableAttachmentUri(attachment);
+    if (shareableAttachmentUri != null) {
+      Intent intent = new Intent(Intent.ACTION_VIEW);
+      intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+      intent.setDataAndType(shareableAttachmentUri, getMimeType(this, attachment.getUri()));
+      startActivity(intent);
+    }
   }
 
   private void shareMedia() {
     Attachment attachment = images.get(binding.fullscreenContent.getCurrentItem());
-    Intent intent = new Intent(Intent.ACTION_SEND);
-    intent.setType(StorageHelper.getMimeType(this, attachment.getUri()));
-    intent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
-    startActivity(intent);
+    Uri shareableAttachmentUri = getShareableAttachmentUri(attachment);
+    if (shareableAttachmentUri != null) {
+      Intent intent = new Intent(Intent.ACTION_SEND);
+      intent.setType(getMimeType(this, attachment.getUri()));
+      intent.putExtra(Intent.EXTRA_STREAM, shareableAttachmentUri);
+      startActivity(intent);
+    }
   }
+
+    private @Nullable Uri getShareableAttachmentUri(Attachment attachment) {
+      try {
+        return FileProviderHelper.getShareableUri(attachment);
+      } catch (FileNotFoundException e) {
+        LogDelegate.e(e.getMessage());
+        Toast.makeText(this, R.string.attachment_not_found, Toast.LENGTH_SHORT).show();
+        return null;
+      }
+    }
 
 }

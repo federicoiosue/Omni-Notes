@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -96,8 +96,7 @@ public class WidgetConfigurationActivity extends Activity {
           sqlCondition, showThumbnailsCheckBox.isChecked(), showTimestampsCheckBox.isChecked());
 
       Intent resultValue = new Intent();
-      resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID,
-          mAppWidgetId);
+      resultValue.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, mAppWidgetId);
       setResult(RESULT_OK, resultValue);
 
       finish();

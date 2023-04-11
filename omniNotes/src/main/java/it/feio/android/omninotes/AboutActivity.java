@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -33,20 +33,11 @@ public class AboutActivity extends BaseActivity {
     initUI();
   }
 
-
-  @Override
-  public void onStart() {
-    ((OmniNotes) getApplication()).getAnalyticsHelper().trackScreenView(getClass().getName());
-    super.onStart();
-  }
-
-
   @Override
   public boolean onNavigateUp() {
     onBackPressed();
     return true;
   }
-
 
   private void initUI() {
     Toolbar toolbar = findViewById(R.id.toolbar);

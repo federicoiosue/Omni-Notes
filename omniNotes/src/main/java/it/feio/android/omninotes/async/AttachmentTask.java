@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,7 +54,9 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
   @Override
   protected Attachment doInBackground(Void... params) {
     Attachment attachment = StorageHelper.createAttachmentFromUri(OmniNotes.getAppContext(), uri);
-    attachment.setName(this.fileName);
+    if (attachment != null) {
+      attachment.setName(this.fileName);
+    }
     return attachment;
   }
 

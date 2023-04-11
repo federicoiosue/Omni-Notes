@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,9 @@
 
 package it.feio.android.omninotes.utils;
 
+import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
+import static android.app.PendingIntent.FLAG_NO_CREATE;
+import static it.feio.android.omninotes.helpers.IntentHelper.immutablePendingIntentFlag;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
 
 import android.app.AlarmManager;
@@ -52,7 +55,7 @@ public class ReminderHelper {
       Intent intent = new Intent(context, AlarmReceiver.class);
       intent.putExtra(INTENT_NOTE, ParcelableUtil.marshall(note));
       PendingIntent sender = PendingIntent.getBroadcast(context, getRequestCode(note), intent,
-          PendingIntent.FLAG_CANCEL_CURRENT);
+          immutablePendingIntentFlag(FLAG_CANCEL_CURRENT));
       AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
       am.setExact(AlarmManager.RTC_WAKEUP, reminder, sender);
     }
@@ -64,7 +67,7 @@ public class ReminderHelper {
   public static boolean checkReminder(Context context, Note note) {
     return
         PendingIntent.getBroadcast(context, getRequestCode(note), new Intent(context, AlarmReceiver
-            .class), PendingIntent.FLAG_NO_CREATE) != null;
+            .class), immutablePendingIntentFlag(FLAG_NO_CREATE)) != null;
   }
 
   static int getRequestCode(Note note) {
@@ -77,7 +80,8 @@ public class ReminderHelper {
     if (!TextUtils.isEmpty(note.getAlarm())) {
       AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
       Intent intent = new Intent(context, AlarmReceiver.class);
-      PendingIntent p = PendingIntent.getBroadcast(context, getRequestCode(note), intent, 0);
+      PendingIntent p = PendingIntent.getBroadcast(context, getRequestCode(note), intent,
+          immutablePendingIntentFlag(0));
       am.cancel(p);
       p.cancel();
     }

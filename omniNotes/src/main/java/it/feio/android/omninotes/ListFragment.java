@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,6 +58,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MenuItem.OnActionExpandListener;
 import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.view.View;
@@ -71,7 +72,6 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
 import androidx.core.util.Pair;
 import androidx.core.view.GravityCompat;
-import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -661,18 +661,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     searchMenuItem = menu.findItem(R.id.menu_search);
 
     Bundle args = getArguments();
-    if (args != null) {
-      Boolean setSearchFocus = args.getBoolean("setSearchFocus");
-      if (setSearchFocus == true) {
-        searchMenuItem.expandActionView();
-        KeyboardUtils.hideKeyboard(this.getView());
-      }
+    if (args != null && args.getBoolean("setSearchFocus")) {
+      searchMenuItem.expandActionView();
+      KeyboardUtils.hideKeyboard(this.getView());
     }
 
     // Associate searchable configuration with the SearchView
     SearchManager searchManager = (SearchManager) mainActivity
         .getSystemService(Context.SEARCH_SERVICE);
-    searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.menu_search));
+    searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
     searchView.setSearchableInfo(searchManager.getSearchableInfo(mainActivity.getComponentName()));
     searchView.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 
@@ -680,8 +677,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     searchView.setOnQueryTextFocusChangeListener(
         (v, hasFocus) -> setActionItemsVisibility(menu, hasFocus));
 
-    MenuItemCompat
-        .setOnActionExpandListener(searchMenuItem, new MenuItemCompat.OnActionExpandListener() {
+    searchMenuItem.setOnActionExpandListener(new OnActionExpandListener() {
 
           boolean searchPerformed = false;
 
@@ -845,6 +841,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         case R.id.menu_empty_trash:
           emptyTrash();
           break;
+        case R.id.menu_search:
+          // Nothing to do, it's all managed by SearchView component
+          break;
         default:
           LogDelegate.e("Wrong element choosen: " + item.getItemId());
       }
@@ -992,9 +991,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       default:
         break;
     }
-
   }
-
 
   private void checkSortActionPerformed(MenuItem item) {
     if (item.getGroupId() == MENU_SORT_GROUP_ID) {
@@ -1008,13 +1005,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       toggleSearchLabel(false);
       // Updates app widgets
       mainActivity.updateWidgets();
-    } else {
-      ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
-          .trackActionFromResourceId(getActivity(),
-              item.getItemId());
     }
   }
-
 
   /**
    * Empties trash deleting all the notes
@@ -1482,12 +1474,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Associates to or removes categories
    */
   private void categorizeNotes() {
-    // Retrieves all available categories
-    final ArrayList<Category> categories = DbHelper.getInstance().getCategories();
+    var categories = DbHelper.getInstance().getCategories();
 
-    final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
+    var dialogBuilder = new MaterialDialog.Builder(mainActivity)
         .title(R.string.categorize_as)
-        .adapter(new CategoryRecyclerViewAdapter(mainActivity, categories), null)
         .positiveText(R.string.add_category)
         .positiveColorRes(R.color.colorPrimary)
         .negativeText(R.string.remove_category)
@@ -1497,13 +1487,21 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
           Intent intent = new Intent(mainActivity, CategoryActivity.class);
           intent.putExtra("noHome", true);
           startActivityForResult(intent, REQUEST_CODE_CATEGORY_NOTES);
-        }).onNegative((dialog12, which) -> categorizeNotesExecute(null)).build();
+        }).onNegative((dialog12, which) -> categorizeNotesExecute(null));
 
-    RecyclerViewItemClickSupport.addTo(dialog.getRecyclerView())
-        .setOnItemClickListener((recyclerView, position, v) -> {
-          dialog.dismiss();
-          categorizeNotesExecute(categories.get(position));
-        });
+    if (CollectionUtils.isNotEmpty(categories)) {
+      dialogBuilder.adapter(new CategoryRecyclerViewAdapter(mainActivity, categories), null);
+    }
+
+    final var dialog = dialogBuilder.build();
+
+    if (CollectionUtils.isNotEmpty(categories)) {
+      RecyclerViewItemClickSupport.addTo(dialog.getRecyclerView())
+          .setOnItemClickListener((recyclerView, position, v) -> {
+            dialog.dismiss();
+            categorizeNotesExecute(categories.get(position));
+          });
+    }
 
     dialog.show();
   }

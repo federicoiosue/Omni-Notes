@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,8 +17,10 @@
 
 package it.feio.android.omninotes.helpers.notifications;
 
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
+import static it.feio.android.omninotes.helpers.IntentHelper.immutablePendingIntentFlag;
+
 import android.annotation.TargetApi;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -35,13 +37,14 @@ import android.provider.Settings;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationCompat.Builder;
 import com.pixplicity.easyprefs.library.Prefs;
+import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import lombok.NonNull;
 
 
 public class NotificationsHelper {
 
-  private Context mContext;
+  private final Context mContext;
   private Builder mBuilder;
   private NotificationManager mNotificationManager;
 
@@ -191,13 +194,13 @@ public class NotificationsHelper {
   }
 
   public NotificationsHelper show(long id) {
-    Notification mNotification = mBuilder.build();
+    var mNotification = mBuilder.build();
     if (mNotification.contentIntent == null) {
-      // Creates a dummy PendingIntent
-      mBuilder.setContentIntent(PendingIntent.getActivity(mContext, 0, new Intent(),
-          PendingIntent.FLAG_UPDATE_CURRENT));
+      var emptyExplicitIntent = new Intent(mContext, MainActivity.class);
+      var pendingIntent = PendingIntent.getActivity(mContext, 0, emptyExplicitIntent,
+          immutablePendingIntentFlag(FLAG_UPDATE_CURRENT));
+      mBuilder.setContentIntent(pendingIntent);
     }
-    // Builds an anonymous Notification object from the builder, and passes it to the NotificationManager
     mNotificationManager.notify(String.valueOf(id), 0, mBuilder.build());
     return this;
   }
@@ -217,12 +220,13 @@ public class NotificationsHelper {
     mNotificationManager.notify(id, mBuilder.setContentText(message).build());
   }
 
-  public void finish(Intent intent, String message) {
-    finish(0, intent, message);
+  public void finish(String title, String message) {
+    finish(0, title, message);
   }
 
-  public void finish(int id, Intent intent, String message) {
-    mBuilder.setContentTitle(message).setProgress(0, 0, false).setOngoing(false);
+  public void finish(int id, String title, String message) {
+    mBuilder.setContentTitle(title).setContentText(message)
+        .setProgress(0, 0, false).setOngoing(false);
     mNotificationManager.notify(id, mBuilder.build());
   }
 

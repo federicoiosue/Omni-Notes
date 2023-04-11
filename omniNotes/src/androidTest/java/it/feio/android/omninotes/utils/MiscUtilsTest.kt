@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2021 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 
 package it.feio.android.omninotes.utils
 
-import it.feio.android.omninotes.BaseAndroidTestCase
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase
 import org.junit.Assert.*
 
 import org.junit.Test

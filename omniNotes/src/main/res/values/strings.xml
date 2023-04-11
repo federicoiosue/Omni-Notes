@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
 
   <string name="logo">Logo</string>
   <string name="version_postfix"></string>
-  <string name="copyleft">Copyleft Feio 2015-2019</string>
+  <string name="copyleft">Copyleft Feio 2015-2022</string>
   <string name="dev_site">http://www.iosue.it/federico</string>
   <string name="dev_github">https://github.com/federicoiosue</string>
   <string name="beta_link">https://play.google.com/apps/testing/it.feio.android.omninotes</string>
@@ -63,6 +63,7 @@
   <string name="note_updated">Note updated</string>
   <string name="empty_note_not_saved">Can\'t save an empty note</string>
   <string name="empty_note_not_shared">Can\'t share an empty note</string>
+  <string name="attachment_not_found">Attachment not found</string>
   <string name="note_doesnt_exist">Note doesn\'t exists anymore</string>
   <string name="note_archived">Note archived</string>
   <string name="note_unarchived">Note restored from archive</string>
@@ -229,6 +230,7 @@
   <string name="completed">Completed</string>
   <string name="undo_changes_note_confirmation">Confirm undoing changes?</string>
   <string name="done">Done</string>
+  <string name="nothing_selected">Nothing selected</string>
 
   <!-- Settings -->
   <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
@@ -242,6 +244,7 @@
   <string name="settings_export">Backup</string>
   <string name="settings_sync_import_export">Sync and Backups</string>
   <string name="settings_import">Restore or delete backups</string>
+  <string name="settings_import_summary">WARNING: No password is set, protected notes will not be restored from backup for security reasons</string>
   <string name="settings_import_legacy">Restore legacy backup</string>
   <string name="settings_import_legacy_summary">Allows to restore old backups made with versions of Omni Notes prior to version 6</string>
   <string name="settings_import_from_springpad">Import notes from Springpad</string>
@@ -291,8 +294,9 @@
   <string name="settings_enable_animations_summary">Enable/disable animations in notes list</string>
   <string name="settings_enable_tag_marker_summary">Show/hide colored markers for categories</string>
   <string name="settings_enable_editor_links_summary">Make typed URLs and e-mail addresses automatically clickable</string>
-  <string name="confirm_removing_backup">Really delete backup?</string>
-  <string name="confirm_restoring_backup">Really restore from backup?</string>
+  <string name="confirm_removing_backup">Proceed deleting backup?</string>
+  <string name="confirm_restoring_backup">Proceed restoring from backup?</string>
+  <string name="confirm_restoring_backup_warning">WARNING: Be sure to have set a password into settings or protected notes will be skipped for security reasons!</string>
   <string name="data_deletion_completed">Data erasing completed</string>
   <string name="settings_checked_items_behavior">Checklists</string>
   <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>

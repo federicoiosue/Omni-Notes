@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,11 +20,9 @@ package it.feio.android.omninotes.helpers;
 import static java.util.Locale.ITALIAN;
 import static org.junit.Assert.assertEquals;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.pixplicity.easyprefs.library.Prefs;
-import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.utils.Constants;
 import java.util.Locale;

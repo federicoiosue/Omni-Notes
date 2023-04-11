@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,15 +16,15 @@
  */
 package it.feio.android.omninotes.models.adapters;
 
+import static android.graphics.Color.parseColor;
+import static android.view.LayoutInflater.from;
+import static it.feio.android.omninotes.databinding.DrawerListItemBinding.inflate;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
+import static java.lang.Integer.parseInt;
 
 import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
@@ -32,7 +32,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.databinding.DrawerListItemBinding;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.adapters.category.CategoryViewHolder;
 import java.util.List;
@@ -40,10 +39,9 @@ import java.util.List;
 
 public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryViewHolder> {
 
-  private Activity mActivity;
-  private List<Category> categories;
-  private String navigationTmp;
-
+  private final Activity mActivity;
+  private final List<Category> categories;
+  private final String navigationTmp;
 
   public CategoryRecyclerViewAdapter(Activity mActivity, List<Category> categories) {
     this(mActivity, categories, null);
@@ -64,19 +62,18 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryVi
   @NonNull
   @Override
   public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    return new CategoryViewHolder(
-        DrawerListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
+    return new CategoryViewHolder(inflate(from(parent.getContext()), parent, false));
   }
 
   @Override
   public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
-    Category category = categories.get(position);
+    var category = categories.get(position);
 
     holder.txtTitle.setText(category.getName());
 
     if (isSelected(position)) {
       holder.txtTitle.setTypeface(null, Typeface.BOLD);
-      holder.txtTitle.setTextColor(Integer.parseInt(category.getColor()));
+      holder.txtTitle.setTextColor(parseInt(category.getColor()));
     } else {
       holder.txtTitle.setTypeface(null, Typeface.NORMAL);
       holder.txtTitle.setTextColor(mActivity.getResources().getColor(R.color.drawer_text));
@@ -84,13 +81,11 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryVi
 
     // Set the results into ImageView checking if an icon is present before
     if (category.getColor() != null && category.getColor().length() > 0) {
-      Drawable img = mActivity.getResources().getDrawable(R.drawable.ic_folder_special_black_24dp);
-      ColorFilter cf = new LightingColorFilter(Color.parseColor("#000000"),
-          Integer.parseInt(category.getColor()));
+      var img = mActivity.getResources().getDrawable(R.drawable.ic_folder_special_black_24dp);
+      var cf = new LightingColorFilter(parseColor("#000000"), parseInt(category.getColor()));
       img.mutate().setColorFilter(cf);
       holder.imgIcon.setImageDrawable(img);
-      int padding = 4;
-      holder.imgIcon.setPadding(padding, padding, padding, padding);
+      holder.imgIcon.setPadding(4, 4, 4, 4);
     }
     showCategoryCounter(holder, category);
   }
@@ -108,16 +103,16 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryVi
   }
 
   private boolean isSelected(int position) {
-    String[] navigationListCodes = mActivity.getResources()
+    var navigationListCodes = mActivity.getResources()
         .getStringArray(R.array.navigation_list_codes);
 
     // Managing temporary navigation indicator when coming from a widget
-    String navigationTmpLocal =
-        MainActivity.class.isAssignableFrom(mActivity.getClass()) ? ((MainActivity)
-            mActivity).getNavigationTmp() : null;
+    var navigationTmpLocal = MainActivity.class.isAssignableFrom(mActivity.getClass())
+        ? ((MainActivity) mActivity).getNavigationTmp()
+        : null;
     navigationTmpLocal = this.navigationTmp != null ? this.navigationTmp : navigationTmpLocal;
 
-    String navigation = navigationTmp != null
+    var navigation = navigationTmp != null
         ? navigationTmpLocal
         : Prefs.getString(PREF_NAVIGATION, navigationListCodes[0]);
 

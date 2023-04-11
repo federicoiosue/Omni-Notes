@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@
     <string name="note_updated">Белешка измењена</string>
     <string name="empty_note_not_saved">Не могу да сачувам празну белешку</string>
     <string name="empty_note_not_shared">Не могу да делим празну белешку</string>
+    <string name="note_doesnt_exist">Белешка више не постоји</string>
     <string name="note_archived">Белешка архивирана</string>
     <string name="note_unarchived">Белешка враћена из архиве</string>
     <string name="note">Белешка</string>
@@ -66,6 +67,7 @@
     <string name="delete_all_attachments">Обрисати све прилоге?</string>
     <string name="gallery">Галерија</string>
     <string name="location">Локација</string>
+    <string name="location_set_high_accuracy">За наставак, поставите режим локације на високу прецизност</string>
     <string name="timestamp">Временски жиг</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Уклонити локацију?</string>
@@ -124,6 +126,7 @@
     <string name="no_items_in_list">Овде нема ничега!</string>
     <string name="checklist_on">Укључи списак</string>
     <string name="checklist_off">Искључи списак</string>
+    <string name="checklist_moveToBottom">Помери откачене ставке на дно</string>
     <string name="checklist_item_hint">нова ставка</string>
     <string name="remove_checklist">Уклонити списак?</string>
     <string name="checklist_keep_checked">Остави откачене ставке</string>
@@ -153,6 +156,9 @@
     <string name="grid_view">Приказ мреже</string>
     <string name="add_shortcut">Додај пречицу</string>
     <string name="shortcut_added">Пречица додата на почетни екран</string>
+    <string name="shortcut_disabled">Пречица није више исправна</string>
+    <string name="pin_note">Закачи белешку</string>
+    <string name="pined_note">Белешка закачена у обавештења</string>
     <string name="shortcut_note_deleted">Пречица указује на избрисану белешку</string>
     <string name="widget_simple_description">Једноставан виџет с дугмадима</string>
     <string name="widget_list_description">Клизајућа листа са дугмадима</string>
@@ -207,6 +213,8 @@
     <string name="info">Инфо</string>
     <string name="completed">Завршени</string>
     <string name="undo_changes_note_confirmation">Потврђујете враћање измена?</string>
+    <string name="done">Завршено</string>
+    <string name="nothing_selected">Ништа није изабрано</string>
     <!-- Settings -->
     <string name="dashclock_description">Приказује статистику и истекле подсетнике из Омни белешки</string>
     <string name="settings">Поставке</string>
@@ -219,6 +227,7 @@
     <string name="settings_export">Резервна копија</string>
     <string name="settings_sync_import_export">Синхронизација и резервне копије</string>
     <string name="settings_import">Врати или обриши резерве</string>
+    <string name="settings_import_summary">УПОЗОРЕЊЕ: лозинка није подешена. Заштићене белешке неће бити враћене из резерве из безбедносних разлога</string>
     <string name="settings_import_legacy">Враћање старијих резерви</string>
     <string name="settings_import_legacy_summary">Омогућава враћање резервних копија направљених пре верзије 6</string>
     <string name="settings_import_from_springpad">Увези белешке из Спрингпеда</string>
@@ -405,4 +414,6 @@
     <string name="channel_backups_description">Обавештења о стању резерви и резултатима</string>
     <string name="channel_reminders_name">Подсетници</string>
     <string name="channel_reminders_description">Обавештења за подсетнике белешки</string>
+    <string name="channel_pinned_name">Закачено</string>
+    <string name="channel_pinned_description">Обавештења за закачене белешке</string>
 </resources>

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,9 @@
 
 package it.feio.android.omninotes.helpers;
 
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
+import static android.app.PendingIntent.FLAG_MUTABLE;
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
 
 import android.app.PendingIntent;
@@ -51,7 +54,23 @@ public class IntentHelper {
       Note note) {
     Intent intent = getNoteIntent(context, target, action, note);
     return PendingIntent.getActivity(context, getUniqueRequestCode(note), intent,
-        PendingIntent.FLAG_UPDATE_CURRENT);
+        immutablePendingIntentFlag(FLAG_UPDATE_CURRENT));
+  }
+
+  public static int immutablePendingIntentFlag(final int flag) {
+    int pIntentFlags = flag;
+    if (android.os.Build.VERSION.SDK_INT >= 23) {
+      pIntentFlags = pIntentFlags | FLAG_IMMUTABLE;
+    }
+    return pIntentFlags;
+  }
+
+  public static int mutablePendingIntentFlag(final int flag) {
+    int pIntentFlags = flag;
+    if (android.os.Build.VERSION.SDK_INT >= 31) {
+      pIntentFlags = pIntentFlags | FLAG_MUTABLE;
+    }
+    return pIntentFlags;
   }
 
   static int getUniqueRequestCode(Note note) {

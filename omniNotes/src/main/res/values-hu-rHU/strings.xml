@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -48,6 +48,7 @@
     <string name="note_updated">Jegyzet frissítve</string>
     <string name="empty_note_not_saved">Nem lehet menteni egy üres jegyzetet</string>
     <string name="empty_note_not_shared">Nem lehet megosztani egy üres jegyzetet</string>
+    <string name="note_doesnt_exist">A jegyzet már nem létezik</string>
     <string name="note_archived">Jegyzet archiválva</string>
     <string name="note_unarchived">Jegyzet visszaállítva az archívumból</string>
     <string name="note">Jegyzet</string>
@@ -153,6 +154,8 @@
     <string name="grid_view">Rácsnézet</string>
     <string name="add_shortcut">Parancsikon létrehozása</string>
     <string name="shortcut_added">Parancsikon létrehozva a kezdőképernyőn</string>
+    <string name="pin_note">Jegyzet rögzítése</string>
+    <string name="pined_note">Rögzített jegyzet mint értesítés</string>
     <string name="shortcut_note_deleted">Hivatkozás törölt jegyzethez</string>
     <string name="widget_simple_description">Egyszerű widget gombokkal</string>
     <string name="widget_list_description">Gördülő lista widget gombokkal</string>
@@ -407,4 +410,6 @@ A nyílt forráskódú alternatíva irodai vagy személyes jegyzetek készítés
     <string name="channel_backups_description">Értesítések a biztonsági mentések állapotáról és eredményeiről</string>
     <string name="channel_reminders_name">Emlékeztetők</string>
     <string name="channel_reminders_description">Értesítések a jegyzetek emlékeztetőihez</string>
+    <string name="channel_pinned_name">Rögzített</string>
+    <string name="channel_pinned_description">Értesítés rögzített jegyzetekhez </string>
 </resources>

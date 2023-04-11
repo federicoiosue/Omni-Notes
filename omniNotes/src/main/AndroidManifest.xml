@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -16,26 +16,25 @@
   -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  package="it.feio.android.omninotes">
+  xmlns:tools="http://schemas.android.com/tools">
 
 
   <uses-permission android:name="android.permission.INTERNET" />
   <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29"/>
   <uses-permission android:name="android.permission.VIBRATE" />
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
   <uses-permission android:name="android.permission.RECORD_AUDIO" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
   <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />
-  <uses-permission android:name="com.google.android.apps.photos.permission.GOOGLE_PHOTOS" />
   <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
   <uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
   <uses-permission android:name="com.pushbullet.android.permission.READ_MESSAGING_EXTENSION_DATA" />
   <uses-permission android:name="com.pushbullet.android.permission.SEND_MESSAGES" />
   <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
   <uses-feature
     android:name="android.hardware.camera"
@@ -67,7 +66,8 @@
       android:name=".MainActivity"
       android:exported="true"
       android:label="@string/app_name"
-      android:launchMode="singleTop">
+      android:launchMode="singleTop"
+        android:configChanges="screenSize|orientation|keyboardHidden">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
         <category android:name="android.intent.category.LAUNCHER" />
@@ -184,7 +184,8 @@
     <activity
       android:name="it.feio.android.omninotes.ShortcutActivity"
       android:icon="@drawable/shortcut_icon"
-      android:label="@string/add_note">
+      android:label="@string/add_note"
+      android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.CREATE_SHORTCUT" />
         <category android:name="android.intent.category.DEFAULT" />
@@ -223,7 +224,8 @@
     <service
       android:name=".services.NotificationListener"
       android:label="@string/app_name"
-      android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+      android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+      android:exported="false">
       <intent-filter>
         <action android:name="android.service.notification.NotificationListenerService" />
       </intent-filter>
@@ -235,7 +237,8 @@
     <!-- Widget configuration Activity -->
     <activity
       android:name="it.feio.android.omninotes.widget.WidgetConfigurationActivity"
-      android:theme="@style/Theme.MaterialComponents.Light.Dialog">
+      android:theme="@style/Theme.MaterialComponents.Light.Dialog"
+      android:exported="false">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
       </intent-filter>
@@ -246,7 +249,8 @@
       android:name="it.feio.android.omninotes.widget.SimpleWidgetProvider"
       android:description="@string/widget_simple_description"
       android:icon="@drawable/logo"
-      android:label="@string/app_name">
+      android:label="@string/app_name"
+      android:exported="false">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
       </intent-filter>
@@ -260,7 +264,8 @@
       android:name="it.feio.android.omninotes.widget.ListWidgetProvider"
       android:description="@string/widget_list_description"
       android:icon="@drawable/logo"
-      android:label="@string/app_name">
+      android:label="@string/app_name"
+      android:exported="false">
       <intent-filter>
         <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
       </intent-filter>
@@ -279,7 +284,8 @@
       android:name=".extensions.ONDashClockExtension"
       android:icon="@drawable/ic_stat_literal_icon"
       android:label="@string/app_name"
-      android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
+      android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA"
+      android:exported="false">
       <intent-filter>
         <action android:name="com.google.android.apps.dashclock.Extension" />
       </intent-filter>
@@ -297,7 +303,8 @@
 
     <service
       android:name="it.feio.android.omninotes.extensions.PushBulletExtension"
-      android:permission="com.pushbullet.android.permission.READ_MESSAGING_EXTENSION_DATA">
+      android:permission="com.pushbullet.android.permission.READ_MESSAGING_EXTENSION_DATA"
+      android:exported="false">
       <intent-filter>
         <action android:name="com.pushbullet.android.extension.MessagingExtension" />
       </intent-filter>
@@ -317,5 +324,19 @@
     </provider>
 
   </application>
+
+  <queries>
+    <intent>
+      <action android:name="android.intent.action.DIAL" />
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.SENDTO"/>
+      <data android:scheme="mailto"/>
+    </intent>
+    <intent>
+      <action android:name="android.intent.action.VIEW" />
+      <data android:scheme="http"/>
+    </intent>
+  </queries>
 
 </manifest>

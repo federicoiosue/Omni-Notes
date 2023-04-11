@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.OmniNotes.isDebugBuild;
+import static it.feio.android.omninotes.helpers.AppVersionHelper.isAppUpdated;
+import static it.feio.android.omninotes.helpers.AppVersionHelper.updateAppVersionInPreferences;
+import static it.feio.android.omninotes.helpers.ChangelogHelper.showChangelog;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_RESTART_APP;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_SEND_AND_EXIT;
@@ -40,6 +44,7 @@ import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
@@ -68,6 +73,7 @@ import it.feio.android.omninotes.utils.FileProviderHelper;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -79,10 +85,10 @@ public class MainActivity extends BaseActivity implements
     SharedPreferences.OnSharedPreferenceChangeListener {
 
   private boolean isPasswordAccepted = false;
-  public final static String FRAGMENT_DRAWER_TAG = "fragment_drawer";
-  public final static String FRAGMENT_LIST_TAG = "fragment_list";
-  public final static String FRAGMENT_DETAIL_TAG = "fragment_detail";
-  public final static String FRAGMENT_SKETCH_TAG = "fragment_sketch";
+  public static final String FRAGMENT_DRAWER_TAG = "fragment_drawer";
+  public static final String FRAGMENT_LIST_TAG = "fragment_list";
+  public static final String FRAGMENT_DETAIL_TAG = "fragment_detail";
+  public static final String FRAGMENT_SKETCH_TAG = "fragment_sketch";
   @Getter @Setter
   private Uri sketchUri;
   boolean prefsChanged = false;
@@ -103,11 +109,28 @@ public class MainActivity extends BaseActivity implements
     Prefs.getPreferences().registerOnSharedPreferenceChangeListener(this);
 
     initUI();
+  }
 
+  @Override
+  protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+    super.onPostCreate(savedInstanceState);
+
+    if (!launchIntroIfRequired() && isAppUpdated(getApplicationContext()) && !isDebugBuild()) {
+      showChangelogAndUpdateCurrentVersion();
+    }
+  }
+
+  private void showChangelogAndUpdateCurrentVersion() {
+    showChangelog(this);
+    updateAppVersionInPreferences(getApplicationContext());
+  }
+
+  private boolean launchIntroIfRequired() {
     if (IntroActivity.mustRun()) {
       startActivity(new Intent(getApplicationContext(), IntroActivity.class));
+      return true;
     }
-
+    return false;
   }
 
   @Override
@@ -483,11 +506,7 @@ public class MainActivity extends BaseActivity implements
   }
 
 
-  /**
-   * Notes sharing
-   */
   public void shareNote(Note note) {
-
     String titleText = note.getTitle();
 
     String contentText = titleText
@@ -502,11 +521,13 @@ public class MainActivity extends BaseActivity implements
 
       // Intent with single image attachment
     } else if (note.getAttachmentsList().size() == 1) {
-      shareIntent.setAction(Intent.ACTION_SEND);
       Attachment attachment = note.getAttachmentsList().get(0);
-      shareIntent.setType(attachment.getMime_type());
-      shareIntent.putExtra(Intent.EXTRA_STREAM, FileProviderHelper.getShareableUri(attachment));
-
+      Uri shareableAttachmentUri = getShareableAttachmentUri(attachment);
+      if (shareableAttachmentUri != null) {
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType(attachment.getMime_type());
+        shareIntent.putExtra(Intent.EXTRA_STREAM, shareableAttachmentUri);
+      }
       // Intent with multiple images
     } else if (note.getAttachmentsList().size() > 1) {
       shareIntent.setAction(Intent.ACTION_SEND_MULTIPLE);
@@ -514,8 +535,11 @@ public class MainActivity extends BaseActivity implements
       // A check to decide the mime type of attachments to share is done here
       HashMap<String, Boolean> mimeTypes = new HashMap<>();
       for (Attachment attachment : note.getAttachmentsList()) {
-        uris.add(FileProviderHelper.getShareableUri(attachment));
-        mimeTypes.put(attachment.getMime_type(), true);
+        Uri shareableAttachmentUri = getShareableAttachmentUri(attachment);
+        if (shareableAttachmentUri != null) {
+          uris.add(shareableAttachmentUri);
+          mimeTypes.put(attachment.getMime_type(), true);
+        }
       }
       // If many mime types are present a general type is assigned to intent
       if (mimeTypes.size() > 1) {
@@ -529,8 +553,17 @@ public class MainActivity extends BaseActivity implements
     shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
     shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
 
-    startActivity(Intent
-        .createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+    startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
+  }
+
+  public @Nullable Uri getShareableAttachmentUri(Attachment attachment) {
+    try {
+      return FileProviderHelper.getShareableUri(attachment);
+    } catch (FileNotFoundException e) {
+      LogDelegate.e(e.getMessage());
+      Toast.makeText(this, R.string.attachment_not_found, Toast.LENGTH_SHORT).show();
+      return null;
+    }
   }
 
 

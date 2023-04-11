@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2023 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,13 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes;
+package it.feio.android.omninotes.testutils;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static it.feio.android.omninotes.utils.Constants.PACKAGE;
 import static java.util.Locale.ENGLISH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -32,21 +33,20 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
+import android.os.Build;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
 import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
+import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
-import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.exceptions.TestException;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.utils.Constants;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -60,7 +60,6 @@ import java.util.Locale;
 import org.apache.commons.io.IOUtils;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 
 
 public class BaseAndroidTestCase {
@@ -70,17 +69,12 @@ public class BaseAndroidTestCase {
   protected static Context testContext;
   protected static SharedPreferences prefs;
 
-  @Rule
-  public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
-      ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE,
-      RECORD_AUDIO
-  );
-
   @BeforeClass
   public static void setUpBeforeClass() {
-    testContext = ApplicationProvider.getApplicationContext();
-    prefs = Prefs.getPreferences();
-    dbHelper = DbHelper.getInstance(testContext);
+    setContextForTests();
+    grantPermissions();
+    setSharedPreferencesForTests();
+    setDbHelperForTests();
   }
 
   @Before
@@ -88,6 +82,13 @@ public class BaseAndroidTestCase {
     prepareDatabase();
     prepareLocale();
     preparePreferences();
+  }
+
+  private static void grantPermissions() {
+    GrantPermissionRule.grant(ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_EXTERNAL_STORAGE, RECORD_AUDIO);
+    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+      GrantPermissionRule.grant(WRITE_EXTERNAL_STORAGE);
+    }
   }
 
   private void preparePreferences() {
@@ -205,6 +206,22 @@ public class BaseAndroidTestCase {
         fail("there exists a non-static method:" + method);
       }
     }
+  }
+
+  private static void setContextForTests() {
+    testContext = ApplicationProvider.getApplicationContext();
+  }
+
+  private static void setDbHelperForTests() {
+    dbHelper = DbHelper.getInstance(testContext);
+  }
+
+  private static void setSharedPreferencesForTests() {
+    new Prefs.Builder()
+        .setContext(testContext)
+        .setPrefsName(PACKAGE + ".test")
+        .build();
+    prefs = Prefs.getPreferences();
   }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,28 +21,29 @@ import static android.provider.Settings.System.DEFAULT_NOTIFICATION_URI;
 import static it.feio.android.omninotes.utils.ConstantsBase.DATABASE_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.DATE_FORMAT_EXPORT;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_AUTO_LOCATION;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_BACKUP_FOLDER_URI;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_ENABLE_FILE_LOGGING;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SHOW_UNCATEGORIZED;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SNOOZE_DEFAULT;
-import static it.feio.android.omninotes.utils.ConstantsBase.PREF_TOUR_COMPLETE;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.reverse;
 
 import android.Manifest;
+import android.Manifest.permission;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -56,20 +57,21 @@ import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreference;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.lazygeniouz.dfc.file.DocumentFileCompat;
 import com.pixplicity.easyprefs.library.Prefs;
-import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.omninotes.async.DataBackupIntentService;
 import it.feio.android.omninotes.helpers.AppVersionHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
+import it.feio.android.omninotes.helpers.ChangelogHelper;
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
+import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.ONStyle;
-import it.feio.android.omninotes.models.PasswordValidator;
+import it.feio.android.omninotes.models.PasswordValidator.Result;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.PasswordHelper;
@@ -81,12 +83,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+import rx.Observable;
 
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
   private static final int SPRINGPAD_IMPORT = 0;
   private static final int RINGTONE_REQUEST_CODE = 100;
+  private static final int ACCESS_DATA_FOR_EXPORT = 200;
+  private static final int ACCESS_DATA_FOR_IMPORT = 210;
   public static final String XML_NAME = "xmlName";
 
 
@@ -104,7 +110,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-    setTitle();
+    // Nothing to do, init is performed into onResume
   }
 
   private void setTitle() {
@@ -139,22 +145,26 @@ public class SettingsFragment extends PreferenceFragmentCompat {
   public void onResume() {
     super.onResume();
 
+    setTitle();
+
     // Export notes
     Preference export = findPreference("settings_export_data");
     if (export != null) {
+      export.setSummary(StorageHelper.getExternalStoragePublicDir().getAbsolutePath());
       export.setOnPreferenceClickListener(arg0 -> {
-
-        // Inflate layout
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View v = inflater.inflate(R.layout.dialog_backup_layout, null);
-
-        // Finds actually saved backups names
-        PermissionsHelper
-            .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-                    .string.permission_external_storage,
-                getActivity().findViewById(R.id.crouton_handle), () -> export
-                    (v));
-
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+          var backupFolder = scopedStorageFolderChoosen();
+          if (backupFolder == null) {
+            startIntentForScopedStorage(ACCESS_DATA_FOR_EXPORT);
+          } else {
+            exportNotes();
+          }
+        } else {
+          PermissionsHelper
+              .requestPermission(getActivity(), permission.WRITE_EXTERNAL_STORAGE, R
+                      .string.permission_external_storage,
+                  getActivity().findViewById(R.id.crouton_handle), this::exportNotes);
+        }
         return false;
       });
     }
@@ -162,28 +172,23 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Import notes
     Preference importData = findPreference("settings_import_data");
     if (importData != null) {
+      if (StringUtils.isEmpty(Prefs.getString(PREF_PASSWORD, ""))) {
+        importData.setSummary(getString(R.string.settings_import_summary));
+      }
       importData.setOnPreferenceClickListener(arg0 -> {
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
+          var backupFolder = scopedStorageFolderChoosen();
+          if (backupFolder == null) {
+            startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), ACCESS_DATA_FOR_IMPORT);
+          } else {
+            importNotes(backupFolder);
+          }
+        } else {
         PermissionsHelper
             .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
                     .string.permission_external_storage,
                 getActivity().findViewById(R.id.crouton_handle), this::importNotes);
-        return false;
-      });
-    }
-
-    // Import legacy notes
-    Preference importLegacyData = findPreference("settings_import_data_legacy");
-    if (importLegacyData != null) {
-      importLegacyData.setOnPreferenceClickListener(arg0 -> {
-
-        // Finds actually saved backups names
-        PermissionsHelper
-            .requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE, R
-                    .string.permission_external_storage,
-                getActivity().findViewById(R.id.crouton_handle), () -> new
-                    FolderChooserDialog.Builder(getActivity())
-                    .chooseButton(R.string.md_choose_label)
-                    .show(getActivity()));
+        }
         return false;
       });
     }
@@ -350,7 +355,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       }
       passwordAccess.setOnPreferenceChangeListener((preference, newValue) -> {
         PasswordHelper.requestPassword(getActivity(), passwordConfirmed -> {
-          if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
+          if (passwordConfirmed.equals(Result.SUCCEED)) {
             passwordAccess.setChecked((Boolean) newValue);
           }
         });
@@ -433,7 +438,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     final Preference ringtone = findPreference("settings_notification_ringtone");
     if (ringtone != null) {
       ringtone.setOnPreferenceClickListener(arg0 -> {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (VERSION.SDK_INT >= VERSION_CODES.O) {
           new NotificationsHelper(getContext()).updateNotificationChannelsSound();
         } else {
           Intent intent = new Intent(RingtoneManager.ACTION_RINGTONE_PICKER);
@@ -488,22 +493,10 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     Preference changelog = findPreference("settings_changelog");
     if (changelog != null) {
       changelog.setOnPreferenceClickListener(arg0 -> {
-
-        ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
-            .trackEvent(AnalyticsHelper.CATEGORIES.SETTING,
-                "settings_changelog");
-
-        new MaterialDialog.Builder(getContext())
-            .customView(R.layout.activity_changelog, false)
-            .positiveText(R.string.ok)
-            .build().show();
+        ChangelogHelper.showChangelog(getActivity());
         return false;
       });
-      try {
-        changelog.setSummary(AppVersionHelper.getCurrentAppVersionName(getActivity()));
-      } catch (NameNotFoundException e) {
-        LogDelegate.e("Error retrieving version", e);
-      }
+      changelog.setSummary(AppVersionHelper.getCurrentAppVersionName(getActivity()));
     }
 
     // Settings reset
@@ -536,7 +529,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       enableFileLogging.setOnPreferenceChangeListener((preference, newValue) -> {
         if ((Boolean) newValue) {
           PermissionsHelper
-              .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+              .requestPermission(getActivity(), permission.WRITE_EXTERNAL_STORAGE, R
                       .string.permission_external_storage,
                   getActivity().findViewById(R.id.crouton_handle),
                   () -> enableFileLogging.setChecked(true));
@@ -555,19 +548,40 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             .content(getString(R.string.settings_tour_show_again_summary) + "?")
             .positiveText(R.string.confirm)
             .onPositive((dialog, which) -> {
-              ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
-                  AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
-              Prefs.edit().putBoolean(PREF_TOUR_COMPLETE, false).apply();
-              SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+              startActivity(new Intent(getContext(), IntroActivity.class));
             }).build().show();
         return false;
       });
     }
   }
 
+  private void startIntentForScopedStorage(int intentRequestCode) {
+    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+    startActivityForResult(intent, intentRequestCode);
+  }
+
+  @TargetApi(VERSION_CODES.O)
+  private DocumentFileCompat scopedStorageFolderChoosen() {
+    var backupFolderUri = Prefs.getString(PREF_BACKUP_FOLDER_URI, null);
+    if (backupFolderUri == null) {
+      return null;
+    }
+    var backupFolder = DocumentFileCompat.Companion.fromTreeUri(getContext(), Uri.parse(backupFolderUri));
+    return backupFolder.canWrite() ? backupFolder : null;
+  }
 
   private void importNotes() {
-    String[] backupsArray = StorageHelper.getOrCreateExternalStoragePublicDir().list();
+    importNotes(null);
+  }
+
+  private void importNotes(DocumentFileCompat documentFile) {
+    String[] backupsArray;
+    if (documentFile != null) {
+      backupsArray = Observable.from(documentFile.listFiles()).map(DocumentFileCompat::getName).toList()
+          .toBlocking().single().toArray(new String[0]);
+    } else {
+      backupsArray = StorageHelper.getOrCreateExternalStoragePublicDir().list();
+    }
 
     if (ArrayUtils.isEmpty(backupsArray)) {
       ((SettingsActivity) getActivity()).showMessage(R.string.no_backups_available, ONStyle.WARN);
@@ -581,44 +595,45 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           })
           .setPositiveButton(R.string.data_import_message, (dialog, which) -> {
             int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-            File backupDir = StorageHelper.getOrCreateBackupDir(backups.get(position));
-            long size = StorageHelper.getSize(backupDir) / 1024;
-            String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
-            String message = String.format("%s (%s)", backups.get(position), sizeString);
+
+            if (position == -1) {
+              Toast.makeText(getContext(), R.string.nothing_selected, Toast.LENGTH_LONG).show();
+              return;
+            }
+
+            String backupSelected = backups.get(position);
 
             new MaterialAlertDialogBuilder(getActivity())
                 .setTitle(R.string.confirm_restoring_backup)
-                .setMessage(message)
+                .setMessage(backupSelected + "\n\n" + getString(R.string.confirm_restoring_backup_warning))
                 .setPositiveButton(R.string.confirm, (dialog1, which1) -> {
-                  ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
-                      AnalyticsHelper.CATEGORIES.SETTING,
-                      "settings_import_data");
-
                   // An IntentService will be launched to accomplish the import task
                   Intent service = new Intent(getActivity(),
                       DataBackupIntentService.class);
                   service.setAction(DataBackupIntentService.ACTION_DATA_IMPORT);
-                  service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-                      backups.get(position));
+                  service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupSelected);
                   getActivity().startService(service);
                 }).show();
           })
           .setNegativeButton(R.string.delete, (dialog, which) -> {
             int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-            File backupDir = StorageHelper.getOrCreateBackupDir(backups.get(position));
-            long size = StorageHelper.getSize(backupDir) / 1024;
-            String sizeString = size > 1024 ? size / 1024 + "Mb" : size + "Kb";
+
+            if (position == -1) {
+              Toast.makeText(getContext(), R.string.nothing_selected, Toast.LENGTH_LONG).show();
+              return;
+            }
+
+            String backupSelected = backups.get(position);
 
             new MaterialDialog.Builder(getActivity())
                 .title(R.string.confirm_removing_backup)
-                .content(backups.get(position) + "" + " (" + sizeString + ")")
+                .content(backupSelected)
                 .positiveText(R.string.confirm)
                 .onPositive((dialog12, which1) -> {
                   Intent service = new Intent(getActivity(),
                       DataBackupIntentService.class);
                   service.setAction(DataBackupIntentService.ACTION_DATA_DELETE);
-                  service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME,
-                      backups.get(position));
+                  service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupSelected);
                   getActivity().startService(service);
                 }).build().show();
           });
@@ -628,7 +643,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
   }
 
 
-  private void export(View v) {
+  private void exportNotes() {
+    View v = getActivity().getLayoutInflater().inflate(R.layout.dialog_backup_layout, null);
+
     String[] backupsArray = StorageHelper.getOrCreateExternalStoragePublicDir().list();
     final List<String> backups = ArrayUtils.isEmpty(backupsArray) ? emptyList() : asList(backupsArray);
 
@@ -666,22 +683,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         .setTitle(R.string.data_export_message)
         .setView(v)
         .setPositiveButton(R.string.confirm, (dialog, which) -> {
-          ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
-              AnalyticsHelper.CATEGORIES.SETTING, "settings_export_data");
           String backupName = TextUtils.isEmpty(fileNameEditText.getText().toString()) ?
               fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();
           BackupHelper.startBackupService(backupName);
         }).show();
   }
-
-
-  @Override
-  public void onStart() {
-    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
-        .trackScreenView(getClass().getName());
-    super.onStart();
-  }
-
 
   @Override
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -703,9 +709,22 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           Prefs.edit().putString("settings_notification_ringtone", notificationSound).apply();
           break;
 
+        case ACCESS_DATA_FOR_EXPORT:
+          BackupHelper.saveScopedStorageUriInPreferences(intent);
+          exportNotes();
+          break;
+
+        case ACCESS_DATA_FOR_IMPORT:
+          var backupDocumentFile = BackupHelper.saveScopedStorageUriInPreferences(intent);
+          importNotes(backupDocumentFile);
+          break;
+
         default:
           LogDelegate.e("Wrong element choosen: " + requestCode);
       }
     }
   }
+
+
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,16 +23,8 @@ import androidx.fragment.app.Fragment;
 
 public class BaseFragment extends Fragment {
 
-
   private static final long OPTIONS_ITEM_CLICK_DELAY_TIME = 1000;
   private long mLastClickTime;
-
-  @Override
-  public void onStart() {
-    super.onStart();
-    ((OmniNotes) getActivity().getApplication()).getAnalyticsHelper()
-        .trackScreenView(getClass().getName());
-  }
 
   @Override
   public void onDestroy() {

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@ package it.feio.android.omninotes.widget;
 
 
 import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+import static it.feio.android.omninotes.helpers.IntentHelper.immutablePendingIntentFlag;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_SHOW_LIST;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
@@ -75,22 +76,21 @@ public abstract class WidgetProvider extends AppWidgetProvider {
     intentDetail.setAction(ACTION_WIDGET);
     intentDetail.putExtra(INTENT_WIDGET, widgetId);
     PendingIntent pendingIntentDetail = PendingIntent
-        .getActivity(context, widgetId, intentDetail, FLAG_ACTIVITY_NEW_TASK);
+        .getActivity(context, widgetId, intentDetail, immutablePendingIntentFlag(FLAG_ACTIVITY_NEW_TASK));
 
     // Create an Intent to launch ListActivity
     Intent intentList = new Intent(context, MainActivity.class);
     intentList.setAction(ACTION_WIDGET_SHOW_LIST);
     intentList.putExtra(INTENT_WIDGET, widgetId);
     PendingIntent pendingIntentList = PendingIntent
-        .getActivity(context, widgetId, intentList, FLAG_ACTIVITY_NEW_TASK);
+        .getActivity(context, widgetId, intentList, immutablePendingIntentFlag(FLAG_ACTIVITY_NEW_TASK));
 
     // Create an Intent to launch DetailActivity to take a photo
     Intent intentDetailPhoto = new Intent(context, MainActivity.class);
     intentDetailPhoto.setAction(ACTION_WIDGET_TAKE_PHOTO);
     intentDetailPhoto.putExtra(INTENT_WIDGET, widgetId);
     PendingIntent pendingIntentDetailPhoto = PendingIntent
-        .getActivity(context, widgetId, intentDetailPhoto,
-            FLAG_ACTIVITY_NEW_TASK);
+        .getActivity(context, widgetId, intentDetailPhoto, immutablePendingIntentFlag(FLAG_ACTIVITY_NEW_TASK));
 
     // Check various dimensions aspect of widget to choose between layouts
     boolean isSmall = false;

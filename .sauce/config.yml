@@ -1,0 +1,45 @@
+apiVersion: v1alpha
+kind: espresso
+sauce:
+  region: eu-central-1
+  retries: 2
+espresso:
+  app: ./omniNotes/build/intermediates/apk/play/debug/OmniNotes-playDebug-6.2.1.apk
+  testApp: ./omniNotes/build/intermediates/apk/androidTest/play/debug/omniNotes-play-debug-androidTest.apk
+suites:
+  - name: "All tests (no flaky, real device only) on Android 13"
+    testOptions:
+      size: large
+      clearPackageData: true
+      useTestOrchestrator: true
+      notAnnotation: it.feio.android.omninotes.testutils.NoRealDeviceTest
+    devices:
+      - name: ".*"
+        platformVersion: "13"
+  - name: "All tests (no flaky, real device only) on Android 12"
+    testOptions:
+      size: large
+      clearPackageData: true
+      useTestOrchestrator: true
+      notAnnotation: it.feio.android.omninotes.testutils.NoRealDeviceTest
+    devices:
+      - name: ".*"
+        platformVersion: "12"
+  - name: "All tests (no flaky, real device only) on Android 10"
+    testOptions:
+      size: large
+      clearPackageData: true
+      useTestOrchestrator: true
+      notAnnotation: it.feio.android.omninotes.testutils.NoRealDeviceTest
+    devices:
+      - name: ".*"
+        platformVersion: "10"
+  - name: "All tests (no flaky, real device only) on Android 9"
+    testOptions:
+      size: large
+      clearPackageData: true
+      useTestOrchestrator: true
+      notAnnotation: it.feio.android.omninotes.testutils.NoRealDeviceTest
+    devices:
+      - name: ".*"
+        platformVersion: "9"

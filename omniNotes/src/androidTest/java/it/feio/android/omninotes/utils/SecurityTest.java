@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,12 +17,12 @@
 
 package it.feio.android.omninotes.utils;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import it.feio.android.omninotes.BaseAndroidTestCase;
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -60,6 +60,6 @@ public class SecurityTest extends BaseAndroidTestCase {
   @Test
   public void testDecryptUnencrypted() {
     String result = Security.decrypt(LOREM, PASS);
-    assertFalse(result.length() == 0);
+    assertNotEquals(0, result.length());
   }
 }

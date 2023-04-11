@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,7 @@ import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.isRoot;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
@@ -36,6 +37,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.testutils.NoRealDeviceTest;
 import java.io.IOException;
 import java.util.List;
 import org.hamcrest.core.IsInstanceOf;
@@ -66,6 +68,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
     createTestNote("title", "content", 0);
     archiveNotes(dbHelper.getAllNotes(false), true);
 
+    onView(isRoot()).perform(waitId(R.id.empty_list, 2000));
     onView(allOf(withId(R.id.empty_list), withText(R.string.no_items_in_list),
         withParent(withParent(IsInstanceOf.instanceOf(android.widget.FrameLayout.class))),
         isDisplayed())).check(matches(isDisplayed()));
@@ -136,6 +139,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
   }
 
    @Test
+   @NoRealDeviceTest
    public void mrJingle_displayedOnArchiveWhenEmptiedBySwiping() {
       createTestNote("title", "content", 0);
       List<Note> notes = dbHelper.getAllNotes(false);

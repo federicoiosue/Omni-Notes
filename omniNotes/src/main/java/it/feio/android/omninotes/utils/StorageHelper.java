@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,13 +20,13 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
+import androidx.annotation.Nullable;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.exceptions.unchecked.ExternalDirectoryCreationException;
@@ -43,10 +43,12 @@ import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 
+@UtilityClass
 public class StorageHelper {
 
   public static boolean checkStorage() {
@@ -152,14 +154,25 @@ public class StorageHelper {
     return file;
   }
 
-  public static boolean copyFile(File source, File destination) {
-    try {
-      FileUtils.copyFile(source, destination);
+  public static boolean copyFile(Context context, Uri fileUri, Uri targetUri) {
+    ContentResolver content = context.getContentResolver();
+    try (var is = content.openInputStream(fileUri);
+        var os = content.openOutputStream(targetUri)) {
+      IOUtils.copy(is, os);
       return true;
     } catch (IOException e) {
-      LogDelegate.e("Error copying file: " + e.getMessage(), e);
+      LogDelegate.e("Error copying file", e);
+      return false;
     }
-    return false;
+  }
+
+  public static void copyFile(File source, File destination, boolean failOnError) throws IOException {
+    try {
+      FileUtils.copyFile(source, destination);
+    } catch (IOException e) {
+      LogDelegate.e("Error copying file: " + e.getMessage(), e);
+      if (failOnError) throw e;
+    }
   }
 
   /**
@@ -272,16 +285,18 @@ public class StorageHelper {
     return dir;
   }
 
-
   public static File getOrCreateExternalStoragePublicDir() {
-    File dir = new File(Environment.getExternalStorageDirectory() + File.separator
-        + Constants.EXTERNAL_STORAGE_FOLDER + File.separator);
+    File dir = getExternalStoragePublicDir();
     if (!dir.exists() && !dir.mkdirs()) {
         throw new ExternalDirectoryCreationException("Can't create folder " + dir.getAbsolutePath());
     }
     return dir;
   }
 
+  public static File getExternalStoragePublicDir() {
+    return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS)
+        + File.separator + Constants.EXTERNAL_STORAGE_FOLDER + File.separator);
+  }
 
   public static File getOrCreateBackupDir(String backupName) {
     File backupDir = new File(getOrCreateExternalStoragePublicDir(), backupName);
@@ -319,17 +334,11 @@ public class StorageHelper {
   /**
    * Returns a directory size in bytes
    */
-  @SuppressWarnings("deprecation")
   public static long getSize(File directory) {
     StatFs statFs = new StatFs(directory.getAbsolutePath());
     long blockSize = 0;
     try {
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
-        blockSize = statFs.getBlockSizeLong();
-      } else {
-        blockSize = statFs.getBlockSize();
-      }
-      // Can't understand why on some devices this fails
+      blockSize = statFs.getBlockSizeLong();
     } catch (NoSuchMethodError e) {
       LogDelegate.e("Mysterious error", e);
     }
@@ -363,30 +372,6 @@ public class StorageHelper {
       return 0;
     }
   }
-
-
-  public static boolean copyDirectory(File sourceLocation, File targetLocation) {
-    boolean res = true;
-
-    // If target is a directory the method will be iterated
-    if (sourceLocation.isDirectory()) {
-      if (!targetLocation.exists()) {
-        targetLocation.mkdirs();
-      }
-
-      String[] children = sourceLocation.list();
-      for (int i = 0; i < sourceLocation.listFiles().length; i++) {
-        res = res && copyDirectory(new File(sourceLocation, children[i]), new File(targetLocation,
-            children[i]));
-      }
-
-      // Otherwise a file copy will be performed
-    } else {
-      res = copyFile(sourceLocation, targetLocation);
-    }
-    return res;
-  }
-
 
   /**
    * Retrieves uri mime-type using ContentResolver
@@ -444,19 +429,18 @@ public class StorageHelper {
   /**
    * Creates a new attachment file copying data from source file
    */
-  public static Attachment createAttachmentFromUri(Context mContext, Uri uri) {
+  public static @Nullable Attachment createAttachmentFromUri(Context mContext, Uri uri) {
     return createAttachmentFromUri(mContext, uri, false);
   }
 
 
   /**
-   * Creates a fiile to be used as attachment.
+   * Creates a file to be used as attachment.
    */
-  public static Attachment createAttachmentFromUri(Context mContext, Uri uri, boolean moveSource) {
+  public static @Nullable Attachment createAttachmentFromUri(Context mContext, Uri uri, boolean moveSource) {
     String name = FileHelper.getNameFromUri(mContext, uri);
     String extension = FileHelper.getFileExtension(FileHelper.getNameFromUri(mContext, uri))
-        .toLowerCase(
-            Locale.getDefault());
+        .toLowerCase(Locale.getDefault());
     File f;
     if (moveSource) {
       f = createNewAttachmentFile(mContext, extension);

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,26 +20,19 @@ package it.feio.android.omninotes.helpers;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_CURRENT_APP_VERSION;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import com.pixplicity.easyprefs.library.Prefs;
 import lombok.experimental.UtilityClass;
 
 
-/**
- * Class used to manage application version code and name
- */
 @UtilityClass
 public class AppVersionHelper {
 
-  public static boolean isAppUpdated(Context context) throws PackageManager.NameNotFoundException {
-    int currentAppVersion = getCurrentAppVersion(context);
-    int savedAppVersion = getAppVersionFromPreferences(context);
-    return currentAppVersion > savedAppVersion;
+  public static boolean isAppUpdated(Context context) {
+    return getCurrentAppVersion(context) > getAppVersionFromPreferences(context);
   }
 
-  public static int getAppVersionFromPreferences(Context context)
-      throws PackageManager.NameNotFoundException {
+  public static int getAppVersionFromPreferences(Context context) {
     try {
       return Prefs.getInt(PREF_CURRENT_APP_VERSION, 1);
     } catch (ClassCastException e) {
@@ -47,20 +40,26 @@ public class AppVersionHelper {
     }
   }
 
-  public static void updateAppVersionInPreferences(Context context)
-      throws PackageManager.NameNotFoundException {Prefs.edit()
-        .putInt(PREF_CURRENT_APP_VERSION, getCurrentAppVersion(context)).apply();
+  public static void updateAppVersionInPreferences(Context context) {
+    Prefs.edit().putInt(PREF_CURRENT_APP_VERSION, getCurrentAppVersion(context)).apply();
   }
 
-  public static int getCurrentAppVersion(Context context)
-      throws PackageManager.NameNotFoundException {
-    return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+  public static int getCurrentAppVersion(Context context) {
+    try {
+      return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+    } catch (NameNotFoundException e) {
+      // Cannot happen, it's just this app, but, ok...
+      return 1;
+    }
   }
 
-  public static String getCurrentAppVersionName(Context context)
-      throws PackageManager.NameNotFoundException {
-    PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
-    return pInfo.versionName;
+  public static String getCurrentAppVersionName(Context context) {
+    try {
+      return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+    } catch (NameNotFoundException e) {
+      // Cannot happen, it's just this app, but, ok...
+      return "1.0.0";
+    }
   }
 
 }
