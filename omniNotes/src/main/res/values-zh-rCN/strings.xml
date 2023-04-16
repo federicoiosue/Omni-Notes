@@ -48,6 +48,8 @@
     <string name="note_updated">已更新此笔记</string>
     <string name="empty_note_not_saved">无法保存空白笔记</string>
     <string name="empty_note_not_shared">无法分享空白笔记</string>
+    <string name="attachment_not_found">找不到附件</string>
+    <string name="note_doesnt_exist">备注不再存在</string>
     <string name="note_archived">笔记已归档</string>
     <string name="note_unarchived">笔记已从归档中还原</string>
     <string name="note">笔记</string>
@@ -66,6 +68,7 @@
     <string name="delete_all_attachments">删除所有附件?</string>
     <string name="gallery">图库</string>
     <string name="location">位置</string>
+    <string name="location_set_high_accuracy">请设置位置模式为高精度以继续</string>
     <string name="timestamp">时间戳</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">删除位置？</string>
@@ -124,6 +127,7 @@
     <string name="no_items_in_list">暂无内容！</string>
     <string name="checklist_on">启用待办事项列表</string>
     <string name="checklist_off">禁用待办事项列表</string>
+    <string name="checklist_moveToBottom">将选中的项目移至底部</string>
     <string name="checklist_item_hint">新项目</string>
     <string name="remove_checklist">删除待办事项列表？</string>
     <string name="checklist_keep_checked">保留已勾选事项</string>
@@ -153,6 +157,9 @@
     <string name="grid_view">网格视图</string>
     <string name="add_shortcut">添加快捷方式</string>
     <string name="shortcut_added">快捷方式已添加到桌面</string>
+    <string name="shortcut_disabled">快捷方式不再有效</string>
+    <string name="pin_note">置顶笔记</string>
+    <string name="pined_note">已置顶的便笺为通知</string>
     <string name="shortcut_note_deleted">快捷方式指向的记事已删除</string>
     <string name="widget_simple_description">带按钮的简单小部件</string>
     <string name="widget_list_description">带按钮的可滚动列表小部件</string>
@@ -207,6 +214,8 @@
     <string name="info">信息</string>
     <string name="completed">已完成</string>
     <string name="undo_changes_note_confirmation">确定要撤销更改吗？</string>
+    <string name="done">完成</string>
+    <string name="nothing_selected">未选择</string>
     <!-- Settings -->
     <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
     <string name="settings">设置</string>
@@ -219,6 +228,8 @@
     <string name="settings_export">备份</string>
     <string name="settings_sync_import_export">同步和备份</string>
     <string name="settings_import">还原或删除备份</string>
+    <string name="settings_import_summary">警告：没有设置密码，由于安全原因将不会从备份中恢复受保护的笔记</string>
+    <string name="settings_change_backup_folder">更改备份文件夹</string>
     <string name="settings_import_legacy">恢复旧版备份</string>
     <string name="settings_import_legacy_summary">允许恢复 Omni Note 6 之前的旧版备份</string>
     <string name="settings_import_from_springpad">从 Springpad 中导入笔记</string>
@@ -270,6 +281,7 @@
     <string name="settings_enable_editor_links_summary">将输入的链接与邮件地址自动转换为可点击的链接</string>
     <string name="confirm_removing_backup">真的要删除备份吗？</string>
     <string name="confirm_restoring_backup">真的要还原备份吗？</string>
+    <string name="confirm_restoring_backup_warning">警告：一定要在设置中设置密码，否则受保护的笔记会因安全原因而跳过！</string>
     <string name="data_deletion_completed">数据删除完成</string>
     <string name="settings_checked_items_behavior">待办事项列表</string>
     <string name="settings_checked_items_behavior_summary">选中一条事项时进行何种操作？</string>
@@ -405,4 +417,6 @@
     <string name="channel_backups_description">备份状态和结果通知</string>
     <string name="channel_reminders_name">提醒</string>
     <string name="channel_reminders_description">笔记提醒通知</string>
+    <string name="channel_pinned_name">固定的</string>
+    <string name="channel_pinned_description">置顶笔记通知</string>
 </resources>

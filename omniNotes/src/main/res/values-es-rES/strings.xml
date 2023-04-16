@@ -48,6 +48,8 @@
     <string name="note_updated">Nota actualizada</string>
     <string name="empty_note_not_saved">La nota estaba vacía, por lo que no se ha guardado</string>
     <string name="empty_note_not_shared">No se pueden compartir notas vacías</string>
+    <string name="attachment_not_found">Adjunto no encontrado</string>
+    <string name="note_doesnt_exist">La nota ya no existe</string>
     <string name="note_archived">Nota archivado</string>
     <string name="note_unarchived">Nota restaurada desde archivo</string>
     <string name="note">Nota</string>
@@ -67,6 +69,8 @@
     <string name="delete_all_attachments">¿Borrar todos los archivos adjuntos?</string>
     <string name="gallery">Galeria</string>
     <string name="location">Lugar/País</string>
+    <string name="location_set_high_accuracy">Por favor, establece el modo Ubicación a alta precisión para continuar</string>
+    <string name="timestamp">Timestamp</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">¿Eliminar ubicación?</string>
     <string name="remove_reminder">¿Eliminar recordatorio?</string>
@@ -84,6 +88,7 @@
     <string name="data_import_message">Clic -&gt; restaura\nClick largo -&gt; borra</string>
     <string name="data_import_message_warning">ADVERTENCIA: ¡Esto reemplazará todos los datos actuales!</string>
     <string name="data_export_completed">Copia de seguridad completa</string>
+    <string name="data_export_failed">Copia de seguridad de datos fallida: compruebe logcat para más detalles</string>
     <string name="data_import_completed">Importación de datos completada</string>
     <string name="click_to_refresh_application">Haga clic para refrescar la aplicación</string>
     <string name="backup_existing">Se ha detectado una copia de seguridad, la copia de seguridad será sobreescrita</string>
@@ -108,6 +113,7 @@
     <string name="delete_category_confirmation">Esta categoría está en uso por algunas notas.\n¿Descategorizar las notas y eliminar la categoría?</string>
     <string name="discard">Descartar</string>
     <string name="remove_category">Eliminar categoría</string>
+    <string name="no_tags_created">Aún no hay etiquetas disponibles\nCámbielas escribiendo hashtags en tus notas</string>
     <string name="no_categories_created">Aún no has creado ninguna categoría</string>
     <string name="notes_category_removed">Nota eliminada de la categoría</string>
     <string name="notes_categorized_as">Notas categorizadas como</string>
@@ -122,6 +128,7 @@
     <string name="no_items_in_list">¡No hay notas!</string>
     <string name="checklist_on">Habilitar lista de verificación</string>
     <string name="checklist_off">Desactivar lista de verificación</string>
+    <string name="checklist_moveToBottom">Mover elementos marcados al final</string>
     <string name="checklist_item_hint">Nueva nota</string>
     <string name="remove_checklist">Retire lista?</string>
     <string name="checklist_keep_checked">Mantener elementos seleccionados</string>
@@ -151,11 +158,15 @@
     <string name="grid_view">Vista en cuadrícula</string>
     <string name="add_shortcut">Agregar un acceso directo</string>
     <string name="shortcut_added">Atajo añadido a pantalla de inicio</string>
+    <string name="shortcut_disabled">Acceso directo ya no válido</string>
+    <string name="pin_note">Anclar nota</string>
+    <string name="pined_note">Nota fijada como notificación</string>
     <string name="shortcut_note_deleted">El acceso directo apunta a una nota eliminada</string>
     <string name="widget_simple_description">Widget simple con botones</string>
     <string name="widget_list_description">Widget de lista desplazable con botones</string>
     <string name="notes">notas</string>
     <string name="show_thumbnails">Mostrar miniaturas de adjuntos</string>
+    <string name="show_timestamps">Mostrar marcas de tiempo</string>
     <string name="choose_action">Elegir la acción a realizar</string>
     <string name="edit">Editar</string>
     <string name="reminders">recordatorios</string>
@@ -193,15 +204,19 @@
     <string name="filter_archived">Ocultar notas archivadas</string>
     <string name="remove_filter_archived">Mostrar notas archivadas</string>
     <string name="permission_external_storage">El permiso para escribir en almacenamiento externo es necesario para permitir copias de seguridad en carpetas públicas</string>
+    <string name="permission_external_storage_detail_attachment">Se necesita permiso para leer en almacenamiento externo para permitir adjuntar archivos desde allí</string>
     <string name="permission_audio_recording">El permiso para usar el micrófono es necesario para grabar notas de audio</string>
     <string name="permission_coarse_location">El permiso para acceder a la localización es necesario para agregar la ubicación a tus notas</string>
     <string name="permission_not_granted">Permiso no concedido</string>
     <string name="checklist">Lista de comprobación</string>
     <string name="text_note">Nota de texto</string>
     <string name="photo">Foto</string>
+    <string name="uncompleted_checklists">Listas de verificación incompletas</string>
     <string name="info">Información</string>
     <string name="completed">Completado</string>
+    <string name="undo_changes_note_confirmation">¿Confirmar deshaciendo cambios?</string>
     <string name="done">Aceptar</string>
+    <string name="nothing_selected">Nada seleccionado</string>
     <!-- Settings -->
     <string name="dashclock_description">Muestra algunas estadísticas y recordatorios cercanos de Omni Notes</string>
     <string name="settings">Configuración</string>
@@ -214,6 +229,10 @@
     <string name="settings_export">Copia de seguridad</string>
     <string name="settings_sync_import_export">Sincronización y copias de seguridad</string>
     <string name="settings_import">Restaurar o eliminar copias de seguridad</string>
+    <string name="settings_import_summary">ADVERTENCIA: No se ha establecido una contraseña, las notas protegidas no serán restauradas de la copia de seguridad por razones de seguridad</string>
+    <string name="settings_change_backup_folder">Cambiar carpeta de respaldo</string>
+    <string name="settings_import_legacy">Restaurar copia de seguridad antigua</string>
+    <string name="settings_import_legacy_summary">Permite restaurar copias de seguridad antiguas realizadas con versiones de Omni Notes anteriores a la versión 6</string>
     <string name="settings_import_from_springpad">Importar notas de Springpad</string>
     <string name="settings_import_from_springpad_summary">Selecciona tu archivo exportado de Springpad y asegúrate de estar conectado a Internet</string>
     <string name="settings_sync_drive">Sincronizar con Google Drive</string>
@@ -240,6 +259,9 @@
     <string name="settings_max_video_size">Vídeos adjuntados</string>
     <string name="settings_screen_data">Datos</string>
     <string name="settings_backup">Copia de seguridad</string>
+    <string name="settings_enable_automatic_backup">Activar copia de seguridad automática</string>
+    <string name="settings_enable_automatic_backup_summary">Las notas se almacenarán en la carpeta de copia de seguridad \"_autobackup\"</string>
+    <string name="settings_enable_automatic_backup_dialog">Al activar esta característica se realizará una copia de seguridad de datos completa</string>
     <string name="settings_password">Contraseña</string>
     <string name="settings_password_access">Solicitar contraseña de acceso</string>
     <string name="settings_password_instructions">Contraseña asegura que las notas no serán vistass o modificadas por otras personas.\n\nCuando se establece una nueva contraseña, se pedirá el anterior.</string>
@@ -247,6 +269,7 @@
     <string name="insert_new_password">Introduzca una nueva contraseña dde seguridad</string>
     <string name="confirm_new_password">Confirme la nueva contraseña de seguridad</string>
     <string name="password_successfully_changed">La contraseña se ha cambiado correctamente</string>
+    <string name="password_successfully_removed">Contraseña eliminada: todas las notas han sido desbloqueadas</string>
     <string name="wrong_password">Contraseña incorrecta</string>
     <string name="empty_password">La contraseña está vacía</string>
     <string name="agree_unlocking_all_notes">¿Quitar la contraseña\ny desbloquear todas las notas bloqueadas?</string>
@@ -259,12 +282,14 @@
     <string name="settings_enable_editor_links_summary">Activar o desactivar el resaltado automático de enlaces y e-mail en el editor</string>
     <string name="confirm_removing_backup">¿Está seguro de querer eliminar la copias de seguridad?</string>
     <string name="confirm_restoring_backup">Confirmar restaurar copia de seguridad</string>
+    <string name="confirm_restoring_backup_warning">ADVERTENCIA: Asegúrate de haber configurado una contraseña en ajustes o las notas protegidas se omitirán por razones de seguridad!</string>
     <string name="data_deletion_completed">Borrado de datos completado</string>
     <string name="settings_checked_items_behavior">Listas de comprobación</string>
     <string name="settings_checked_items_behavior_summary">¿Qué desea hacer cuando se selecciona un elemento?</string>
     <string name="settings_category_preferences">Preferencias</string>
     <string name="settings_category_beta">Beta</string>
     <string name="settings_category_about">Sobre</string>
+    <string name="settings_beta">Opt-In</string>
     <string name="settings_beta_summary">Suscribirse al beta program para mantenerse al día con las últimas características</string>
     <string name="donate">Donar</string>
     <string name="donate_summary">Contribuye al desarrollo de la aplicación con una donación sin ánimo de lucro</string>
@@ -327,6 +352,8 @@
     <string name="settings_error_reporting_summary_off">No informes de crash serán enviados ¡No quejes si algo sale mal!</string>
     <string name="settings_send_analytics">Compartir datos anónimos</string>
     <string name="settings_send_analytics_summary">Ayudar a los desarrolladores enviando datos no sensibles como modelo, idioma, características de la aplicación frecuentemente usadas. Estos datos se utilizan sólo para mejorar la aplicación de código abierto.</string>
+    <string name="settings_enable_file_logging">Guardar registros en archivo</string>
+    <string name="settings_enable_file_logging_summary">Los registros de las aplicaciones se guardarán en un archivo que podrás compartir con el desarrollador para investigar posibles problemas (se requiere reiniciar)</string>
     <string name="settings_statistics">Estadísticas</string>
     <!-- Stats -->
     <string name="stats_total_notes">Notas totales</string>
@@ -359,19 +386,24 @@
     <string name="tour_listactivity_actions_title">Acciones</string>
     <string name="tour_listactivity_actions_detail">Crear nuevas notas, ordenarlas, acceder a las preferencias</string>
     <string name="tour_listactivity_home_title">Navegar</string>
+    <string name="tour_listactivity_home_detail">El menú de navegación le permite moverse a través de notas con filtros y categorías</string>
     <string name="tour_listactivity_tag_title">Etiquetas</string>
+    <string name="tour_listactivity_tag_detail">Añadir categorías de colores para organizar notas a simple vista</string>
     <string name="tour_detailactivity_attachment_title">Mejorar</string>
     <string name="tour_detailactivity_attachment_detail">Añadir un montón de tipos diferentes de archivos adjuntos a sus notas!</string>
     <string name="tour_detailactivity_action_title">Hacer más</string>
     <string name="tour_detailactivity_action_detail">Compartir, etiquetar, archivar y proteger, y&#8230;</string>
     <string name="tour_detailactivity_reminder_title">Solo presione</string>
+    <string name="tour_detailactivity_reminder_detail">¡Las pulsaciones largas tienen efectos diferentes sobre un objeto (adjunto, ubicación, recordatorio) que las pulsaciones cortas!</string>
     <string name="tour_detailactivity_links_title">Enlaces</string>
+    <string name="tour_detailactivity_links_detail">URL, direcciones de correo electrónico y reconocimiento de números de teléfono</string>
     <string name="tour_detailactivity_swipe_title">Deslizar</string>
     <string name="tour_detailactivity_swipe_detail">Crear notas sin dejar \n la que estás editando</string>
     <string name="tour_detailactivity_save_title">Guardar</string>
     <string name="tour_detailactivity_save_detail">Simplemente pulse el icono de navegación \"arriba\"  o el botón de regresar de su dispositivo</string>
     <string name="tour_listactivity_final_title">Disfrute</string>
     <string name="tour_listactivity_final_detail">Gracias por usar Omni Notes\nLa alternativa de código abierto para productividad y ocio para tomar notas!</string>
+    <string name="tour_community">¡Suscríbete a las comunidades para participar!</string>
     <!-- Accessibility -->
     <string name="drawer_open">Editor abierto</string>
     <string name="drawer_close">Editor cerrado</string>
@@ -382,5 +414,10 @@
     <string name="navigation_drawer_open">Abrir cajón de navegación</string>
     <string name="navigation_drawer_close">Cerrar cajón de navegación</string>
     <!-- Various -->
+    <string name="channel_backups_name">Copias de seguridad</string>
+    <string name="channel_backups_description">Notificaciones para el estado de la copia de seguridad y resultados</string>
     <string name="channel_reminders_name">Recordatorios</string>
+    <string name="channel_reminders_description">Notificaciones para recordatorios de notas</string>
+    <string name="channel_pinned_name">Fijado</string>
+    <string name="channel_pinned_description">Notificaciones para notas fijadas</string>
 </resources>

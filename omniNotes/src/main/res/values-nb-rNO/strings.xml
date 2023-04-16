@@ -229,6 +229,7 @@
     <string name="settings_sync_import_export">Synkronisering og backuper</string>
     <string name="settings_import">Gjenopprett eller slett backuper</string>
     <string name="settings_import_summary">Advarsel: Ingen passord er angitt, beskyttede notater vil ikke bli gjenopprettet fra sikkerhetskopi av sikkerhetsgrunner</string>
+    <string name="settings_change_backup_folder">Bytt sikkerhetskopimappen</string>
     <string name="settings_import_legacy">Gjenopprett eldre backup</string>
     <string name="settings_import_legacy_summary">Tillater å gjenopprette gamle backuper laget med versjoner av Omni Notes før versjon 6</string>
     <string name="settings_import_from_springpad">Importer notater fra Springpad</string>

@@ -17,7 +17,14 @@
 <changelog bulletedList="true">
 
   <changelogversion
-    changeDate="Mar 24, 2022"
+    changeDate="Apr 16, 2023"
+    versionName="6.2.3">
+    <changelogtext>[b]New![/b] Backup folder is modifiable on Android Oreo and higher</changelogtext>
+    <changelogtext>[u]Fix[/u] Backups management for installations upgraded from version 6.1.0</changelogtext>
+  </changelogversion>
+
+  <changelogversion
+    changeDate="Mar 24, 2023"
     versionName="6.2.0">
     <changelogtext>[b]New![/b] Updated to Android 12 to get latest fixes and improvements
       <![CDATA[[b][font color=red>IMPORTANT:[/font][/b] This will require to move your old backups to the new directory]]>

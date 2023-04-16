@@ -48,6 +48,8 @@
     <string name="note_updated">Заметка обновлена</string>
     <string name="empty_note_not_saved">Пустые заметки не сохраняются</string>
     <string name="empty_note_not_shared">Нельзя поделиться пустой заметкой</string>
+    <string name="attachment_not_found">Вложение не найдено</string>
+    <string name="note_doesnt_exist">Заметка больше не существует</string>
     <string name="note_archived">Заметка перемещена в архив</string>
     <string name="note_unarchived">Заметка возвращена из архива</string>
     <string name="note">Заметка</string>
@@ -66,6 +68,7 @@
     <string name="delete_all_attachments">Убрать все вложения?</string>
     <string name="gallery">Выбрать из галереи</string>
     <string name="location">Размещение</string>
+    <string name="location_set_high_accuracy">Пожалуйста, установите в режим геолокации высокую точность, чтобы продолжить</string>
     <string name="timestamp">Временная метка</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Удалить размещение?</string>
@@ -124,6 +127,7 @@
     <string name="no_items_in_list">Здесь пока ничего нет!</string>
     <string name="checklist_on">Список дел</string>
     <string name="checklist_off">Отключить список</string>
+    <string name="checklist_moveToBottom">Переместить отмеченные элементы в конец</string>
     <string name="checklist_item_hint">Добавить пункт</string>
     <string name="remove_checklist">Как убрать список?</string>
     <string name="checklist_keep_checked">Оставляя выделенные пункты</string>
@@ -153,6 +157,9 @@
     <string name="grid_view">В виде сетки</string>
     <string name="add_shortcut">Вывести ярлык</string>
     <string name="shortcut_added">Ярлык вынесен на главный экран</string>
+    <string name="shortcut_disabled">Ярлык больше не действителен</string>
+    <string name="pin_note">Закрепить заметку</string>
+    <string name="pined_note">Заметьте, как уведомление</string>
     <string name="shortcut_note_deleted">Ярлык ссылается на отсутствующую заметку</string>
     <string name="widget_simple_description">Простой кнопочный виджет</string>
     <string name="widget_list_description">Прокручиваемый список с кнопками</string>
@@ -206,6 +213,9 @@
     <string name="uncompleted_checklists">Незавершенные списки дел</string>
     <string name="info">Информация</string>
     <string name="completed">Завершено</string>
+    <string name="undo_changes_note_confirmation">Подтвердить отмену изменений?</string>
+    <string name="done">Готово</string>
+    <string name="nothing_selected">Ничего не выбрано</string>
     <!-- Settings -->
     <string name="dashclock_description">Отображает некоторую статистику и ближайшие напоминания из Omni Notes</string>
     <string name="settings">Настройки</string>
@@ -218,6 +228,8 @@
     <string name="settings_export">Создать копию</string>
     <string name="settings_sync_import_export">Синхронизация и резервирование</string>
     <string name="settings_import">Управление копиями</string>
+    <string name="settings_import_summary">ВНИМАНИЕ: Пароль не установлен, защищенные заметки не будут восстановлены из резервной копии по соображениям безопасности</string>
+    <string name="settings_change_backup_folder">Изменить папку резервного копирования</string>
     <string name="settings_import_legacy">Восстановить старую резервную копию</string>
     <string name="settings_import_legacy_summary">Позволяет восстановить старые резервные копии, сделанные в Omni Notes до версии 6</string>
     <string name="settings_import_from_springpad">Перенести заметки из Springpad</string>
@@ -269,6 +281,7 @@
     <string name="settings_enable_editor_links_summary">Включение или отключение автовыделения ссылок и адресов эл. почты в редакторе заметок</string>
     <string name="confirm_removing_backup">Удалить резервную копию?</string>
     <string name="confirm_restoring_backup">Начать восстановление?</string>
+    <string name="confirm_restoring_backup_warning">ПРЕДУПРЕЖДЕНИЕ: Убедитесь, что вы установили пароль в настройках или заметки будут пропущены по соображениям безопасности!</string>
     <string name="data_deletion_completed">Удаление данных завершено</string>
     <string name="settings_checked_items_behavior">Поведение выбранных пунктов</string>
     <string name="settings_checked_items_behavior_summary">При выборе пункта</string>
@@ -404,4 +417,6 @@
     <string name="channel_backups_description">Уведомления о статусе и результате резервного копирования</string>
     <string name="channel_reminders_name">Напоминания</string>
     <string name="channel_reminders_description">Уведомления для напоминаний</string>
+    <string name="channel_pinned_name">Прикреплено</string>
+    <string name="channel_pinned_description">Уведомления для прикрепленных заметок</string>
 </resources>

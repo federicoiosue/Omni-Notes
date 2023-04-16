@@ -48,6 +48,8 @@
     <string name="note_updated">Note mise à jour</string>
     <string name="empty_note_not_saved">Impossible d\'enregistrer une note vide</string>
     <string name="empty_note_not_shared">Impossible de partager une note vide</string>
+    <string name="attachment_not_found">Pièce jointe introuvable</string>
+    <string name="note_doesnt_exist">La note n\'existe plus</string>
     <string name="note_archived">Note archivée</string>
     <string name="note_unarchived">Note restaurée depuis l\'archive</string>
     <string name="note">Note</string>
@@ -66,6 +68,7 @@
     <string name="delete_all_attachments">Supprimer toutes les pièces jointes ?</string>
     <string name="gallery">Galerie</string>
     <string name="location">Localisation</string>
+    <string name="location_set_high_accuracy">Veuillez définir le mode de localisation à haute précision pour continuer</string>
     <string name="timestamp">Horodatage</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Supprimer la localisation ?</string>
@@ -124,6 +127,7 @@
     <string name="no_items_in_list">Aucune note !</string>
     <string name="checklist_on">Activer la liste à cocher</string>
     <string name="checklist_off">Désactiver la liste à cocher</string>
+    <string name="checklist_moveToBottom">Déplacer les éléments cochés en bas</string>
     <string name="checklist_item_hint">Nouvel élément</string>
     <string name="remove_checklist">Supprimer la liste à cocher ?</string>
     <string name="checklist_keep_checked">Garder les éléments cochés</string>
@@ -153,6 +157,9 @@
     <string name="grid_view">Vue grille</string>
     <string name="add_shortcut">Ajouter un raccourci</string>
     <string name="shortcut_added">Raccourci ajouté à l\'écran d\'accueil</string>
+    <string name="shortcut_disabled">Raccourci non valide plus</string>
+    <string name="pin_note">Épingler la note</string>
+    <string name="pined_note">Note épinglée comme notification</string>
     <string name="shortcut_note_deleted">Le raccourci pointe vers une note supprimée</string>
     <string name="widget_simple_description">Simple widget avec boutons</string>
     <string name="widget_list_description">Widget avec liste déroulante et boutons</string>
@@ -207,6 +214,8 @@
     <string name="info">Informations</string>
     <string name="completed">Terminées</string>
     <string name="undo_changes_note_confirmation">Confirmer l\'annulation des modifications ?</string>
+    <string name="done">Fait</string>
+    <string name="nothing_selected">Rien de sélectionné</string>
     <!-- Settings -->
     <string name="dashclock_description">Affiche des statistiques et des rappels à venir de Omni Notes.</string>
     <string name="settings">Paramètres</string>
@@ -219,6 +228,8 @@
     <string name="settings_export">Sauvegarder</string>
     <string name="settings_sync_import_export">Synchro et sauvegarde</string>
     <string name="settings_import">Restaurer ou supprimer les sauvegardes</string>
+    <string name="settings_import_summary">AVERTISSEMENT : Aucun mot de passe n\'est défini, les notes protégées ne seront pas restaurées à partir de la sauvegarde pour des raisons de sécurité</string>
+    <string name="settings_change_backup_folder">Changer le dossier de sauvegarde</string>
     <string name="settings_import_legacy">Restaurer une ancienne sauvegarde</string>
     <string name="settings_import_legacy_summary">Permet de restaurer les anciennes sauvegardes effectuées avec les versions d\'Omni Notes antérieures à la version 6</string>
     <string name="settings_import_from_springpad">Importer les notes de Springpad</string>
@@ -270,6 +281,7 @@
     <string name="settings_enable_editor_links_summary">Rendre les adresses internet et courriel automatiquement cliquable</string>
     <string name="confirm_removing_backup">Certain de supprimer la sauvegarde ?</string>
     <string name="confirm_restoring_backup">Certain de restaurer la sauvegarde ?</string>
+    <string name="confirm_restoring_backup_warning">AVERTISSEMENT : Assurez-vous d\'avoir défini un mot de passe dans les paramètres ou les notes protégées seront ignorées pour des raisons de sécurité !</string>
     <string name="data_deletion_completed">Suppression des données terminée</string>
     <string name="settings_checked_items_behavior">Listes à cocher</string>
     <string name="settings_checked_items_behavior_summary">Que faire quand un élément est vérifié ?</string>
@@ -405,4 +417,6 @@
     <string name="channel_backups_description">Notifications sur les statuts et les résultats des sauvegardes</string>
     <string name="channel_reminders_name">Rappels</string>
     <string name="channel_reminders_description">Notifications pour les rappels des notes</string>
+    <string name="channel_pinned_name">Épinglé</string>
+    <string name="channel_pinned_description">Notifications pour les notes épinglées</string>
 </resources>

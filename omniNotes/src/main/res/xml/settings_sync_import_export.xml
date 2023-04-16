@@ -29,6 +29,12 @@
     android:title="@string/settings_import"
     app:iconSpaceReserved="false" />
 
+  <Preference
+    android:key="settings_change_backup_folder"
+    android:title="@string/settings_change_backup_folder"
+    app:isPreferenceVisible="false"
+    app:iconSpaceReserved="false" />
+
   <!--<Preference-->
   <!--android:key="settings_backup_integrity_check"-->
   <!--app:iconSpaceReserved="false"-->

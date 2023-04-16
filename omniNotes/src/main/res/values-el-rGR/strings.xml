@@ -48,6 +48,8 @@
     <string name="note_updated">Η σημείωση ενημερώθηκε</string>
     <string name="empty_note_not_saved">Δεν είναι δυνατή η αποθήκευση κενής σημείωσης</string>
     <string name="empty_note_not_shared">Δεν είναι δυνατός ο διαμοιρασμός κενής σημείωσης</string>
+    <string name="attachment_not_found">Δεν βρέθηκε συνημμένο</string>
+    <string name="note_doesnt_exist">Η σημείωση δεν υπάρχει πια</string>
     <string name="note_archived">Αρχειοθετημένη σημείωση</string>
     <string name="note_unarchived">Σημείωση που επαναφέρθηκε από το αρχείο</string>
     <string name="note">Σημείωση</string>
@@ -66,6 +68,7 @@
     <string name="delete_all_attachments">Διαγραφή όλων των συνημμένων;</string>
     <string name="gallery">Φωτογραφική Συλλογή</string>
     <string name="location">Τοποθεσία</string>
+    <string name="location_set_high_accuracy">Ορίστε τη λειτουργία τοποθεσίας σε υψηλή ακρίβεια για να συνεχίσετε</string>
     <string name="timestamp">Χρονοσήμανση</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Αφαίρεση τοποθεσίας;</string>
@@ -124,6 +127,7 @@
     <string name="no_items_in_list">Δεν υπάρχει τίποτα εδώ!</string>
     <string name="checklist_on">Ενεργοποίηση λίστας ελέγχου</string>
     <string name="checklist_off">Απενεργοποίηση λίστας ελέγχου</string>
+    <string name="checklist_moveToBottom">Μετακίνηση επιλεγμένων αντικειμένων στο κάτω μέρος</string>
     <string name="checklist_item_hint">Νέο στοιχείο</string>
     <string name="remove_checklist">Κατάργηση λίστας ελέγχου;</string>
     <string name="checklist_keep_checked">Διατήρηση επιλεγμένων στοιχείων</string>
@@ -153,6 +157,9 @@
     <string name="grid_view">Προβολή πλέγματος</string>
     <string name="add_shortcut">Προσθήκη συντόμευσης</string>
     <string name="shortcut_added">Η συντόμευση προστέθηκε στην αρχική οθόνη</string>
+    <string name="shortcut_disabled">Μη έγκυρη συντόμευση</string>
+    <string name="pin_note">Καρφίτσωμα σημείωσης</string>
+    <string name="pined_note">Καρφιτσωμένη σημείωση ως ειδοποίηση</string>
     <string name="shortcut_note_deleted">Η συντόμευση παραπέμπει σε διεγραμμένη σημείωση</string>
     <string name="widget_simple_description">Απλό γραφικό οθόνης με κουμπιά</string>
     <string name="widget_list_description">Γραφικό οθόνης κυλιόμενης λίστας με κουμπιά</string>
@@ -207,6 +214,8 @@
     <string name="info">Πληροφορίες</string>
     <string name="completed">Ολοκληρωμένες</string>
     <string name="undo_changes_note_confirmation">Επιβεβαίωση αναίρεσης αλλαγών;</string>
+    <string name="done">Ολοκληρώθηκε</string>
+    <string name="nothing_selected">Τίποτα δεν επιλέχθηκε</string>
     <!-- Settings -->
     <string name="dashclock_description">Εμφανίζει κάποια στατιστικά στοιχεία και ληγμένες υπενθυμίσεις από τις σημειώσεις Omni</string>
     <string name="settings">Ρυθμίσεις</string>
@@ -219,6 +228,8 @@
     <string name="settings_export">Δημιουργία αντιγράφου ασφαλείας</string>
     <string name="settings_sync_import_export">Συγχρονισμός και αντίγραφα ασφαλείας</string>
     <string name="settings_import">Επαναφορά ή διαγραφή αντιγράφων ασφαλείας</string>
+    <string name="settings_import_summary">ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Δεν έχει οριστεί κωδικός πρόσβασης, οι προστατευμένες σημειώσεις δεν θα αποκατασταθούν από αντίγραφα ασφαλείας για λόγους ασφαλείας</string>
+    <string name="settings_change_backup_folder">Αλλαγή φακέλου αντιγράφου ασφαλείας</string>
     <string name="settings_import_legacy">Επαναφορά αντιγράφου ασφαλείας παλαιού τύπου</string>
     <string name="settings_import_legacy_summary">Επιτρέπει την επαναφορά παλαιών αντιγράφων ασφαλείας που έγιναν με τις εκδόσεις των Omni Notes πριν από την έκδοση 6</string>
     <string name="settings_import_from_springpad">Εισαγωγή σημειώσεων από Springpad</string>
@@ -270,6 +281,7 @@
     <string name="settings_enable_editor_links_summary">Να γίνονται οι διευθύνσεις ιστότοπων και ηλεκτρονικού ταχυδρομείου αυτόματα ενεργές</string>
     <string name="confirm_removing_backup">Να γίνει πραγματικά διαγραφή του αντιγράφου ασφαλείας;</string>
     <string name="confirm_restoring_backup">Να γίνει πραγματικά επαναφορά από το αντίγραφο ασφαλείας;</string>
+    <string name="confirm_restoring_backup_warning">ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Βεβαιωθείτε ότι έχετε ορίσει έναν κωδικό πρόσβασης στις ρυθμίσεις ή ότι οι προστατευμένες σημειώσεις θα παραλειφθούν για λόγους ασφαλείας!</string>
     <string name="data_deletion_completed">Η διαγραφή δεδομένων ολοκληρώθηκε</string>
     <string name="settings_checked_items_behavior">Λίστες ελέγχου</string>
     <string name="settings_checked_items_behavior_summary">Τι να γίνεται όταν ένα στοιχείο είναι επιλεγμένο;</string>
@@ -405,4 +417,6 @@
     <string name="channel_backups_description">Ειδοποιήσεις για κατάσταση αντιγράφων ασφαλείας και αποτελέσματα</string>
     <string name="channel_reminders_name">Υπενθυμίσεις</string>
     <string name="channel_reminders_description">Ειδοποιήσεις για υπενθυμίσεις σημειώσεων</string>
+    <string name="channel_pinned_name">Καρφιτσωμένο</string>
+    <string name="channel_pinned_description">Ειδοποιήσεις για καρφιτσωμένες σημειώσεις</string>
 </resources>

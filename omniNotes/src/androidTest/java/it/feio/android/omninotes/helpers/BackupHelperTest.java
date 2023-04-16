@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes.helpers;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_BACKUP_FOLDER_URI;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 import static org.junit.Assert.*;
 import static rx.Observable.from;
@@ -196,6 +197,15 @@ public class BackupHelperTest extends BaseAndroidTestCase {
     LogDelegate.i("checking " + attachment.getUri().getPath());
 
     assertTrue(new File(attachment.getUri().getPath()).exists());
+  }
+
+  @Test
+  public void getBackupFolderPath() {
+    Prefs.putString(PREF_BACKUP_FOLDER_URI, "content://com.android.externalstorage.documents/tree/primary%3ADocuments%2FOmni%20Notes/document/primary%3ADocuments%2FOmni%20Notes");
+
+    var backupFolder = BackupHelper.getBackupFolderPath();
+
+    assertEquals("Documents/Omni Notes", backupFolder);
   }
 
   private Attachment createTestAttachmentBackup() {

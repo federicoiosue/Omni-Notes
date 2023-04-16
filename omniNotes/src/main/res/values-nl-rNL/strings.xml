@@ -229,6 +229,7 @@
     <string name="settings_sync_import_export">Synchronisatie en back-ups</string>
     <string name="settings_import">Terugplaatsen of verwijderen van back-ups</string>
     <string name="settings_import_summary">LET OP: er is geen wachtwoord ingesteld, beveiligde notities zullen niet worden opgehaald uit de backup omwille van veilgheid.</string>
+    <string name="settings_change_backup_folder">Back-upmap wijzigen</string>
     <string name="settings_import_legacy">Herstel voorgaande backup</string>
     <string name="settings_import_legacy_summary">Maakt het mogelijk om oude backups van Omni notes van voor versie 6 te herstellen</string>
     <string name="settings_import_from_springpad">Notities importeren uit Springpad</string>

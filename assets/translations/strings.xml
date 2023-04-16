@@ -232,6 +232,7 @@
     <string name="settings_sync_import_export">Sync and Backups</string>
     <string name="settings_import">Restore or delete backups</string>
     <string name="settings_import_summary">WARNING: No password is set, protected notes will not be restored from backup for security reasons</string>
+    <string name="settings_change_backup_folder">Change backup folder</string>
     <string name="settings_import_legacy">Restore legacy backup</string>
     <string name="settings_import_legacy_summary">Allows to restore old backups made with versions of Omni Notes prior to version 6</string>
     <string name="settings_import_from_springpad">Import notes from Springpad</string>
