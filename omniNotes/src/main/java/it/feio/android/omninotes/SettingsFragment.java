@@ -61,6 +61,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.lazygeniouz.dfc.file.DocumentFileCompat;
 import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.async.DataBackupIntentService;
+import it.feio.android.omninotes.exceptions.checked.ExternalStorageProviderException;
 import it.feio.android.omninotes.helpers.AppVersionHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.helpers.ChangelogHelper;
@@ -150,20 +151,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Export notes
     Preference export = findPreference("settings_export_data");
     if (export != null) {
-      export.setSummary(StorageHelper.getExternalStoragePublicDir().getAbsolutePath());
+      export.setSummary(BackupHelper.getBackupFolderPath());
       export.setOnPreferenceClickListener(arg0 -> {
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
-          var backupFolder = scopedStorageFolderChoosen();
-          if (backupFolder == null) {
-            startIntentForScopedStorage(ACCESS_DATA_FOR_EXPORT);
-          } else {
+          try {
+            scopedStorageFolderChoosen();
             exportNotes();
+          } catch (ExternalStorageProviderException e) {
+            startIntentForScopedStorage(ACCESS_DATA_FOR_EXPORT);
           }
         } else {
-          PermissionsHelper
-              .requestPermission(getActivity(), permission.WRITE_EXTERNAL_STORAGE, R
-                      .string.permission_external_storage,
-                  getActivity().findViewById(R.id.crouton_handle), this::exportNotes);
+          PermissionsHelper.requestPermission(getActivity(), permission.WRITE_EXTERNAL_STORAGE,
+              R.string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle),
+              this::exportNotes);
         }
         return false;
       });
@@ -177,20 +177,32 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       }
       importData.setOnPreferenceClickListener(arg0 -> {
         if (VERSION.SDK_INT >= VERSION_CODES.O) {
-          var backupFolder = scopedStorageFolderChoosen();
-          if (backupFolder == null) {
-            startActivityForResult(new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE), ACCESS_DATA_FOR_IMPORT);
-          } else {
+          DocumentFileCompat backupFolder;
+          try {
+            backupFolder = scopedStorageFolderChoosen();
             importNotes(backupFolder);
+          } catch (ExternalStorageProviderException e) {
+            startIntentForScopedStorage(ACCESS_DATA_FOR_IMPORT);
           }
         } else {
-        PermissionsHelper
-            .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-                    .string.permission_external_storage,
-                getActivity().findViewById(R.id.crouton_handle), this::importNotes);
+          PermissionsHelper
+              .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+                      .string.permission_external_storage,
+                  getActivity().findViewById(R.id.crouton_handle), this::importNotes);
         }
         return false;
       });
+    }
+
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      Preference changeBackupFolder = findPreference("settings_change_backup_folder");
+      if (changeBackupFolder != null) {
+        changeBackupFolder.setVisible(true);
+        changeBackupFolder.setOnPreferenceClickListener(arg0 -> {
+          startIntentForScopedStorage(ACCESS_DATA_FOR_IMPORT);
+          return false;
+        });
+      }
     }
 
 //		// Autobackup feature integrity check
@@ -561,13 +573,18 @@ public class SettingsFragment extends PreferenceFragmentCompat {
   }
 
   @TargetApi(VERSION_CODES.O)
-  private DocumentFileCompat scopedStorageFolderChoosen() {
+  private DocumentFileCompat scopedStorageFolderChoosen() throws ExternalStorageProviderException {
     var backupFolderUri = Prefs.getString(PREF_BACKUP_FOLDER_URI, null);
-    if (backupFolderUri == null) {
-      return null;
+    try {
+      var backupFolder = DocumentFileCompat.Companion.fromTreeUri(getContext(),
+          Uri.parse(backupFolderUri));
+      if (backupFolder == null || !backupFolder.canWrite()) {
+        throw new ExternalStorageProviderException("Can't write into " + backupFolder);
+      }
+      return backupFolder;
+    } catch (SecurityException | NullPointerException e) {
+      throw new ExternalStorageProviderException(e);
     }
-    var backupFolder = DocumentFileCompat.Companion.fromTreeUri(getContext(), Uri.parse(backupFolderUri));
-    return backupFolder.canWrite() ? backupFolder : null;
   }
 
   private void importNotes() {

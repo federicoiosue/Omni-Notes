@@ -27,6 +27,8 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 import androidx.annotation.NonNull;
@@ -46,7 +48,9 @@ import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TextHelper;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -315,6 +319,16 @@ public final class BackupHelper {
 //    }
 //    return errors;
 //  }
+
+  public static String getBackupFolderPath() {
+    if (VERSION.SDK_INT >= VERSION_CODES.O) {
+      var backupFolder = Prefs.getString(PREF_BACKUP_FOLDER_URI, "");
+      var paths =URI.create(backupFolder).getPath().split(":");
+      return paths[paths.length - 1];
+    } else {
+      return StorageHelper.getExternalStoragePublicDir().getAbsolutePath();
+    }
+  }
 
   private static void addIntegrityCheckError(List<LinkedList<DiffMatchPatch.Diff>> errors,
       IOException e) {
