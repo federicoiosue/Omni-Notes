@@ -43,10 +43,13 @@
     <string name="confirm">Potvrdit</string>
     <string name="ok">Ok</string>
     <string name="no">Ne</string>
+    <string name="failed">selhalo</string>
     <string name="cancel">Zrušit</string>
     <string name="note_updated">Poznámka aktualizována</string>
     <string name="empty_note_not_saved">Nelze uložit prázdnou poznámku</string>
     <string name="empty_note_not_shared">Nelze sdílet prázdnou poznámku</string>
+    <string name="attachment_not_found">Příloha nebyla nalezena</string>
+    <string name="note_doesnt_exist">Poznámka již neexistuje</string>
     <string name="note_archived">Poznámka archivována</string>
     <string name="note_unarchived">Poznámka obnovena z archivu</string>
     <string name="note">Poznámka</string>
@@ -65,6 +68,8 @@
     <string name="delete_all_attachments">Odstranit všechny přílohy?</string>
     <string name="gallery">Galerie</string>
     <string name="location">Poloha</string>
+    <string name="location_set_high_accuracy">Chcete-li pokračovat, nastavte režim určování polohy na vysokou přesnost</string>
+    <string name="timestamp">Časové razítko</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Odstranit informace o poloze?</string>
     <string name="remove_reminder">Odstranit připomenutí?</string>
@@ -82,6 +87,7 @@
     <string name="data_import_message">Klepněte pro&gt; obnovení\nPodržte pro&gt; smazání</string>
     <string name="data_import_message_warning">POZOR: Touto akcí nahradíte všechna aktuální data!</string>
     <string name="data_export_completed">Zálohování dat bylo dokončeno</string>
+    <string name="data_export_failed">Zálohování dat se nezdařilo: zkontrolujte logcat pro podrobnosti</string>
     <string name="data_import_completed">Obnovení dat bylo dokončeno</string>
     <string name="click_to_refresh_application">Klepnutím provedete obnovení aplikace</string>
     <string name="backup_existing">Záloha již existuje. Bude přepsána</string>
@@ -121,6 +127,7 @@
     <string name="no_items_in_list">Nic tu není!</string>
     <string name="checklist_on">Zapnout seznam</string>
     <string name="checklist_off">Vypnout seznam</string>
+    <string name="checklist_moveToBottom">Přesunout kontrolované položky na konec</string>
     <string name="checklist_item_hint">Nová položka</string>
     <string name="remove_checklist">Odstranit seznam?</string>
     <string name="checklist_keep_checked">Ponechat zaškrtnuté položky</string>
@@ -150,6 +157,9 @@
     <string name="grid_view">Mřížkové zobrazení</string>
     <string name="add_shortcut">Přidat zástupce</string>
     <string name="shortcut_added">Zástupce přidán na domovskou obrazovku</string>
+    <string name="shortcut_disabled">Zástupce již není platný</string>
+    <string name="pin_note">Připnout poznámka</string>
+    <string name="pined_note">Připnutá poznámka jako oznámení</string>
     <string name="shortcut_note_deleted">Zástupce odkazuje na smazanou poznámku</string>
     <string name="widget_simple_description">Jednoduchý widget s tlačítky</string>
     <string name="widget_list_description">Rolovací seznam s tlačítky</string>
@@ -193,13 +203,19 @@
     <string name="filter_archived">Skrýt archivované poznámky</string>
     <string name="remove_filter_archived">Zobrazit archivované poznámky</string>
     <string name="permission_external_storage">Oprávnění k zápisu na externí úložiště je nutné pro povolení záloh do veřejných složek</string>
+    <string name="permission_external_storage_detail_attachment">Oprávnění ke čtení na externím úložišti je nutné pro povolení přiložených souborů</string>
     <string name="permission_audio_recording">Je potřeba oprávnění používat mikrofon k nahrávání zvukových poznámek</string>
     <string name="permission_coarse_location">Oprávnění k přístupu k umístění je zapotřebí pro přidání informace o pozici do poznámek</string>
     <string name="permission_not_granted">Oprávnění není uděleno</string>
     <string name="checklist">Seznam úkolů</string>
     <string name="text_note">Textová poznámka</string>
     <string name="photo">Fotka</string>
+    <string name="uncompleted_checklists">Nedokončené kontrolní seznamy</string>
     <string name="info">Informace</string>
+    <string name="completed">Dokončeno</string>
+    <string name="undo_changes_note_confirmation">Potvrdit zrušení změn?</string>
+    <string name="done">Hotovo</string>
+    <string name="nothing_selected">Nic nebylo vybráno</string>
     <!-- Settings -->
     <string name="dashclock_description">Zobrazí statistiky a připomenutí kterým brzy vyprší platnost z Omni Notes</string>
     <string name="settings">Nastavení</string>
@@ -212,6 +228,10 @@
     <string name="settings_export">Zálohování</string>
     <string name="settings_sync_import_export">Synchronizace a zálohování</string>
     <string name="settings_import">Obnovit nebo odstranit zálohy</string>
+    <string name="settings_import_summary">VAROVÁNÍ: Není nastaveno žádné heslo, chráněné poznámky nebudou z bezpečnostních důvodů obnoveny ze zálohy</string>
+    <string name="settings_change_backup_folder">Změnit složku zálohy</string>
+    <string name="settings_import_legacy">Obnovit starší zálohu</string>
+    <string name="settings_import_legacy_summary">Umožňuje obnovit staré zálohy vytvořené s verzemi Omni Notes před verzí 6</string>
     <string name="settings_import_from_springpad">Importovat poznámky z aplikace Springpad</string>
     <string name="settings_import_from_springpad_summary">Vyberte archiv exportovaný z aplikace Springpad a ujistěte se, že připojení k Internetu</string>
     <string name="settings_sync_drive">Synchronizovat s Google Drive</string>
@@ -238,6 +258,9 @@
     <string name="settings_max_video_size">Video přílohy</string>
     <string name="settings_screen_data">Data</string>
     <string name="settings_backup">Zálohování</string>
+    <string name="settings_enable_automatic_backup">Povolit automatické zálohování</string>
+    <string name="settings_enable_automatic_backup_summary">Poznámky budou uloženy do záložní složky \"_autobackup\"</string>
+    <string name="settings_enable_automatic_backup_dialog">Aktivací této funkce bude provedena úplná záloha dat</string>
     <string name="settings_password">Heslo</string>
     <string name="settings_password_access">Požadovat heslo</string>
     <string name="settings_password_instructions">Heslo zajišťuje, že poznámky nebudou zobrazeny nebo měněny ostatními osobami.\n\nKdyž se nastavuje nové heslo, bude požadováno předchozí heslo.</string>
@@ -245,6 +268,7 @@
     <string name="insert_new_password">Zadejte nové heslo</string>
     <string name="confirm_new_password">Potvrďte nové heslo</string>
     <string name="password_successfully_changed">Heslo bylo úspěšně změněno</string>
+    <string name="password_successfully_removed">Heslo odstraněno: všechny poznámky byly odemčeny</string>
     <string name="wrong_password">Chybné heslo</string>
     <string name="empty_password">Heslo je prázdné</string>
     <string name="agree_unlocking_all_notes">Odebrat heslo\na odemknout všechny uzamčené poznámky?</string>
@@ -257,12 +281,14 @@
     <string name="settings_enable_editor_links_summary">Převeďte URL a emailové adresy automaticky na funkční odkazy</string>
     <string name="confirm_removing_backup">Opravdu chcete zálohu smazat?</string>
     <string name="confirm_restoring_backup">Opravdu chcete obnovit data ze zálohy?</string>
+    <string name="confirm_restoring_backup_warning">VAROVÁNÍ: Nezapomeňte nastavit heslo do nastavení nebo chráněné poznámky budou z bezpečnostních důvodů přeskočeny!</string>
     <string name="data_deletion_completed">Mazání dat dokončeno</string>
     <string name="settings_checked_items_behavior">Seznamy</string>
     <string name="settings_checked_items_behavior_summary">Co dělat, když je položka zaškrtnuta?</string>
     <string name="settings_category_preferences">Vlastnosti</string>
     <string name="settings_category_beta">Beta</string>
     <string name="settings_category_about">O aplikaci</string>
+    <string name="settings_beta">Přihlásit se</string>
     <string name="settings_beta_summary">Přihlásit se k programu beta a držet tak krok s novinkami</string>
     <string name="donate">Přispět</string>
     <string name="donate_summary">Podpořte vývojáře této aplikace neziskovým příspěvkem</string>
@@ -325,6 +351,8 @@
     <string name="settings_error_reporting_summary_off">Nebudou odesílány žádné zprávy o selháních programu. Nestěžute si pak, pokud aplikace nebude fungovat správně!</string>
     <string name="settings_send_analytics">Sdílet anonymní údaje</string>
     <string name="settings_send_analytics_summary">Pomoc vývojáři odesíláním dat bez citlivého obsahu jako je model zařízení, jazyk, často používané funkce aplikace. Tyto údaje se používají pouze pro zlepšení open-source aplikace.</string>
+    <string name="settings_enable_file_logging">Uložit logy do souboru</string>
+    <string name="settings_enable_file_logging_summary">Protokoly aplikací budou uloženy do souboru, který budete moci sdílet s vývojářem, abyste mohli prozkoumat možné problémy (vyžadován restart)</string>
     <string name="settings_statistics">Statistika</string>
     <!-- Stats -->
     <string name="stats_total_notes">Celkový počet poznámek</string>
@@ -357,19 +385,24 @@
     <string name="tour_listactivity_actions_title">Akce</string>
     <string name="tour_listactivity_actions_detail">Vytváření nových poznámek, řazení a vlastnosti</string>
     <string name="tour_listactivity_home_title">Navigace</string>
+    <string name="tour_listactivity_home_detail">Navigační menu umožňuje přesun poznámek s filtry a kategoriemi</string>
     <string name="tour_listactivity_tag_title">Značky</string>
+    <string name="tour_listactivity_tag_detail">Přidat barevné kategorie k organizaci poznámek na pohled</string>
     <string name="tour_detailactivity_attachment_title">Vylepšení</string>
     <string name="tour_detailactivity_attachment_detail">Přidejte do Vašich poznámek různé druhy příloh!</string>
     <string name="tour_detailactivity_action_title">Více</string>
     <string name="tour_detailactivity_action_detail">Sdílejte, značte, archivujte, chraňte, a více&#8230;</string>
     <string name="tour_detailactivity_reminder_title">Stačí stisknout</string>
+    <string name="tour_detailactivity_reminder_detail">Dlouhé stisknutí mají na objekt (příloha, umístění, připomenutí) různé efekty než krátké stisknutí!</string>
     <string name="tour_detailactivity_links_title">Odkazy</string>
+    <string name="tour_detailactivity_links_detail">Adresa URL, e-mailové adresy a rozpoznávání telefonních čísel</string>
     <string name="tour_detailactivity_swipe_title">Tažení prstem</string>
     <string name="tour_detailactivity_swipe_detail">Vytvořte novou poznámku \nbez opuštění té, kterou \nprávě upravujete</string>
     <string name="tour_detailactivity_save_title">Uložit</string>
     <string name="tour_detailactivity_save_detail">Pro návrat stiskněte tlačíto \"zpět\", nebo tlačítko vašeho zařízení</string>
     <string name="tour_listactivity_final_title">Užijte si aplikaci</string>
     <string name="tour_listactivity_final_detail">Děkujeme, že používáte Omni Notes \n\nOpen-source alternativu pro psaní \npoznámek v práci i ve voném čase!</string>
+    <string name="tour_community">Přihlaste se k účasti komunity!</string>
     <!-- Accessibility -->
     <string name="drawer_open">lišta otevřena</string>
     <string name="drawer_close">lišta zavřena</string>
@@ -380,5 +413,10 @@
     <string name="navigation_drawer_open">Otevřít navigační lištu</string>
     <string name="navigation_drawer_close">Zavřít navigační lištu</string>
     <!-- Various -->
+    <string name="channel_backups_name">Zálohy</string>
+    <string name="channel_backups_description">Oznámení o stavu zálohy a výsledcích</string>
     <string name="channel_reminders_name">Upomínky</string>
+    <string name="channel_reminders_description">Oznámení pro připomenutí poznámek</string>
+    <string name="channel_pinned_name">Připnuté</string>
+    <string name="channel_pinned_description">Upozornění na připnuté poznámky</string>
 </resources>

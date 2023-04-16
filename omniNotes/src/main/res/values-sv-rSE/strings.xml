@@ -43,10 +43,13 @@
     <string name="confirm">Bekräfta</string>
     <string name="ok">Okej</string>
     <string name="no">Nej</string>
+    <string name="failed">misslyckades</string>
     <string name="cancel">Avbryt</string>
     <string name="note_updated">Anteckning uppdaterad</string>
     <string name="empty_note_not_saved">Tom anteckning sparades inte</string>
     <string name="empty_note_not_shared">Tomma anteckningar delas inte</string>
+    <string name="attachment_not_found">Bilaga hittades inte</string>
+    <string name="note_doesnt_exist">Anteckningen finns inte längre</string>
     <string name="note_archived">Anteckning arkiverad</string>
     <string name="note_unarchived">Anteckning återställd från arkiv</string>
     <string name="note">Anteckning</string>
@@ -65,6 +68,7 @@
     <string name="delete_all_attachments">Radera alla bilagor?</string>
     <string name="gallery">Galleri</string>
     <string name="location">Plats</string>
+    <string name="location_set_high_accuracy">Ställ in läge med hög noggrannhet för att fortsätta</string>
     <string name="timestamp">Tidsstämpel</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Ta bort plats?</string>
@@ -83,6 +87,7 @@
     <string name="data_import_message">Klicka -&gt; återställa \nLång Klick -&gt; Ta bort</string>
     <string name="data_import_message_warning">VARNING: Det här kommer att ersätta alla aktuella uppgifter!</string>
     <string name="data_export_completed">Backup klar</string>
+    <string name="data_export_failed">Säkerhetskopiering av data misslyckades: kontrollera logcat för detaljer</string>
     <string name="data_import_completed">Importering klar</string>
     <string name="click_to_refresh_application">Klicka för att uppdatera program</string>
     <string name="backup_existing">Backup finns, kommer skrivas över</string>
@@ -122,6 +127,7 @@
     <string name="no_items_in_list">Ingenting här!</string>
     <string name="checklist_on">Aktivera checklista</string>
     <string name="checklist_off">Inaktivera checklista</string>
+    <string name="checklist_moveToBottom">Flytta markerade objekt till botten</string>
     <string name="checklist_item_hint">Nytt objekt</string>
     <string name="remove_checklist">Ta bort checklista?</string>
     <string name="checklist_keep_checked">Behåll markerade objekt</string>
@@ -151,6 +157,9 @@
     <string name="grid_view">Rutnätsvy</string>
     <string name="add_shortcut">Lägg till genväg</string>
     <string name="shortcut_added">Genväg tillagd till hemskärm</string>
+    <string name="shortcut_disabled">Genvägen är inte giltig längre</string>
+    <string name="pin_note">Fäst anteckning</string>
+    <string name="pined_note">Klistrad anteckning som avisering</string>
     <string name="shortcut_note_deleted">Genvägen hänvisar till en raderad anteckning</string>
     <string name="widget_simple_description">Enkel widget med knappar</string>
     <string name="widget_list_description">Scrollbar listwidget med knappar</string>
@@ -194,14 +203,19 @@
     <string name="filter_archived">Göm arkiverade anteckningar</string>
     <string name="remove_filter_archived">Visa arkiverade anteckningar</string>
     <string name="permission_external_storage">Skrivbehörighet på extern lagring krävs för att tillåta säkerhetskopieringar på offentliga mappar</string>
+    <string name="permission_external_storage_detail_attachment">Behörighet att läsa på extern lagring behövs för att tillåta bifogade filer därifrån</string>
     <string name="permission_audio_recording">Tillåtelse att använda mikrofon behövs för att spela in ljudanteckningar</string>
     <string name="permission_coarse_location">Behörighet att komma åt plats behövs för att lägga till platsinformation i dina anteckningar</string>
     <string name="permission_not_granted">Tillåtelse inte beviljad</string>
     <string name="checklist">Checklista</string>
     <string name="text_note">Textanteckning</string>
     <string name="photo">Bild</string>
+    <string name="uncompleted_checklists">Oavslutade checklistor</string>
     <string name="info">Information</string>
     <string name="completed">Slutförd</string>
+    <string name="undo_changes_note_confirmation">Bekräfta ångra ändringar?</string>
+    <string name="done">Klar</string>
+    <string name="nothing_selected">Ingenting valt</string>
     <!-- Settings -->
     <string name="dashclock_description">Visar statistik och närliggande påminnelser från Omni Tools</string>
     <string name="settings">Inställningar</string>
@@ -214,6 +228,10 @@
     <string name="settings_export">Säkerhetskopiera</string>
     <string name="settings_sync_import_export">Synkronisering och säkerhetskopiering</string>
     <string name="settings_import">Återställ eller radera säkerhetskopior</string>
+    <string name="settings_import_summary">VARNING: Inget lösenord är satt, skyddade anteckningar kommer inte att återställas från säkerhetskopiering av säkerhetsskäl</string>
+    <string name="settings_change_backup_folder">Ändra säkerhetskopieringsmapp</string>
+    <string name="settings_import_legacy">Återställ äldre säkerhetskopior</string>
+    <string name="settings_import_legacy_summary">Tillåter att återställa gamla säkerhetskopior gjorda med versioner av Omni Notes före version 6</string>
     <string name="settings_import_from_springpad">Importera anteckningar från Springpad</string>
     <string name="settings_import_from_springpad_summary">Välj ditt exporterade arkiv från Springpad och se till att vara ansluten till internet</string>
     <string name="settings_sync_drive">Synka med Google Drive</string>
@@ -240,6 +258,9 @@
     <string name="settings_max_video_size">Videobilagor</string>
     <string name="settings_screen_data">Data</string>
     <string name="settings_backup">Säkerhetskopiera</string>
+    <string name="settings_enable_automatic_backup">Aktivera automatisk säkerhetskopiering</string>
+    <string name="settings_enable_automatic_backup_summary">Anteckningar kommer att lagras i säkerhetskopieringsmappen \"_autobackup\"</string>
+    <string name="settings_enable_automatic_backup_dialog">Genom att aktivera denna funktion kommer en fullständig säkerhetskopiering av data att utföras</string>
     <string name="settings_password">Lösenord</string>
     <string name="settings_password_access">Begär lösenord för att få tillgång</string>
     <string name="settings_password_instructions">Lösenord ser till att dina anteckningar inte visas eller ändras av obehöriga.\n\nNär du ställer in ett nytt lösenord kommer det förra begäras.</string>
@@ -247,6 +268,7 @@
     <string name="insert_new_password">Skrv in ett nytt lösenord</string>
     <string name="confirm_new_password">Bekräfta det nya lösenordet</string>
     <string name="password_successfully_changed">Lösenord ändrades framgångsrikt</string>
+    <string name="password_successfully_removed">Lösenord borttaget: alla anteckningar har låsts upp</string>
     <string name="wrong_password">Fel lösenord</string>
     <string name="empty_password">Lösenordet är tomt</string>
     <string name="agree_unlocking_all_notes">Ta bort lösenord\n och lås upp alla anteckningar?</string>
@@ -259,12 +281,14 @@
     <string name="settings_enable_editor_links_summary">Aktivera eller inaktivera automatisk markering av länkar och e-post i editorn</string>
     <string name="confirm_removing_backup">Bekräfta att ta bort säkerhetskopia</string>
     <string name="confirm_restoring_backup">Acceptera återställning till backup</string>
+    <string name="confirm_restoring_backup_warning">VARNING: Se till att du har satt ett lösenord i inställningar eller att skyddade anteckningar kommer att hoppas över av säkerhetsskäl!</string>
     <string name="data_deletion_completed">Borttagning av data klar</string>
     <string name="settings_checked_items_behavior">Checklistor</string>
     <string name="settings_checked_items_behavior_summary">Vad händer när ett objekt är markerat?</string>
     <string name="settings_category_preferences">Inställningar</string>
     <string name="settings_category_beta">Beta</string>
     <string name="settings_category_about">Om</string>
+    <string name="settings_beta">Opt-In</string>
     <string name="settings_beta_summary">Anmäl dig till beta-programmet för att få tillgång till de senaste funktionerna</string>
     <string name="donate">Donera</string>
     <string name="donate_summary">Stöd utvecklingen av appen med en \"non-profit\" donation</string>
@@ -327,6 +351,8 @@
     <string name="settings_error_reporting_summary_off">Inga kraschrapporter kommer skickas. Klaga inte om något går fel igen!</string>
     <string name="settings_send_analytics">Dela anonym data</string>
     <string name="settings_send_analytics_summary">Hjälp utvecklaren genom att skicka okänslig data som enhetsmodell, språk och ofta använda funktioner i appen. Den här datan används endast för att förbättra den här appen som är open-source.</string>
+    <string name="settings_enable_file_logging">Spara loggar till fil</string>
+    <string name="settings_enable_file_logging_summary">Loggarna för apparna kommer att sparas i en fil som du kommer att kunna dela med utvecklaren för att undersöka eventuella problem (omstart krävs)</string>
     <string name="settings_statistics">Statistik</string>
     <!-- Stats -->
     <string name="stats_total_notes">Totala anteckningar</string>
@@ -359,19 +385,24 @@
     <string name="tour_listactivity_actions_title">Val</string>
     <string name="tour_listactivity_actions_detail">Skapa nya anteckningar, sortera dem, kom åt preferenserna</string>
     <string name="tour_listactivity_home_title">Navigera</string>
+    <string name="tour_listactivity_home_detail">Navigeringsmenyn låter dig gå igenom anteckningar med filter och kategorier</string>
     <string name="tour_listactivity_tag_title">Ettiktetter</string>
+    <string name="tour_listactivity_tag_detail">Lägg till färgade kategorier för att organisera anteckningar i korthet</string>
     <string name="tour_detailactivity_attachment_title">Förbättra</string>
     <string name="tour_detailactivity_attachment_detail">Lägg till en mängd olika typer av bifogningar till dina anteckningar!</string>
     <string name="tour_detailactivity_action_title">Gör mer</string>
     <string name="tour_detailactivity_action_detail">Dela och lägg till etikett, arkivera,  och skydda, och&#8230;</string>
     <string name="tour_detailactivity_reminder_title">Bara tryck</string>
+    <string name="tour_detailactivity_reminder_detail">Långa pressar har olika effekter på ett objekt (fäste, plats, påminnelse) än korta pressar!</string>
     <string name="tour_detailactivity_links_title">Länkar</string>
+    <string name="tour_detailactivity_links_detail">URL, e-postadresser och telefonnummer igenkänning</string>
     <string name="tour_detailactivity_swipe_title">Dra</string>
     <string name="tour_detailactivity_swipe_detail">Skapa nya anteckningar \n utan att stänga den du skriver</string>
     <string name="tour_detailactivity_save_title">Spara</string>
     <string name="tour_detailactivity_save_detail">Tryck helt enkelt på navigationsikonen som pekar \"Upp\" eller gå tillbaka med din Androids tillbakaknapp</string>
     <string name="tour_listactivity_final_title">Njut!</string>
     <string name="tour_listactivity_final_detail">Tack för att du använder Omni Notes \nOpen-source alternativet för produktivitets- och fritidsanteckningar!</string>
+    <string name="tour_community">Prenumerera på gemenskaperna för att delta!</string>
     <!-- Accessibility -->
     <string name="drawer_open">drawer öppen</string>
     <string name="drawer_close">drawer stängd</string>
@@ -382,5 +413,10 @@
     <string name="navigation_drawer_open">Öppna navigeringsbyrån</string>
     <string name="navigation_drawer_close">Stäng navigationsbyrån</string>
     <!-- Various -->
+    <string name="channel_backups_name">Säkerhetskopior</string>
+    <string name="channel_backups_description">Aviseringar för säkerhetskopieringsstatus och resultat</string>
     <string name="channel_reminders_name">Påminnelser</string>
+    <string name="channel_reminders_description">Aviseringar för anteckningar påminnelser</string>
+    <string name="channel_pinned_name">Klistrad</string>
+    <string name="channel_pinned_description">Aviseringar för fästa anteckningar</string>
 </resources>

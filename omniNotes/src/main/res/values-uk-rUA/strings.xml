@@ -48,6 +48,7 @@
     <string name="note_updated">Нотатку оновлено</string>
     <string name="empty_note_not_saved">Порожні нотатки не зберігаються</string>
     <string name="empty_note_not_shared">Порожніми нотатками неможливо ділитися</string>
+    <string name="attachment_not_found">Вкладення не знайдено</string>
     <string name="note_doesnt_exist">Замітки більше не існує</string>
     <string name="note_archived">Нотатку заархівовано</string>
     <string name="note_unarchived">Нотатку відновлено з архіву</string>
@@ -108,8 +109,10 @@
     <string name="categorize_as">Класифікувати за</string>
     <string name="title_activity_category">Змінити категорію</string>
     <string name="delete_unused_category_confirmation">Ви дійсно хочете видалити категорію?</string>
+    <string name="delete_category_confirmation">Ця категорія використовується деякими нотатками.\nПідтверджуєте видалення категорії?</string>
     <string name="discard">Відхилити</string>
     <string name="remove_category">Вилучити категорію</string>
+    <string name="no_tags_created">Немає доступних тегів\nстворити їх за допомогою хештеґів у ваші нотатки</string>
     <string name="no_categories_created">Поки що категорії відсутні</string>
     <string name="notes_category_removed">Категорію вилучено з нотаток</string>
     <string name="notes_categorized_as">Нотататки класифіковані як</string>
@@ -124,6 +127,7 @@
     <string name="no_items_in_list">Поки що тут порожньо!</string>
     <string name="checklist_on">Увімкнути список</string>
     <string name="checklist_off">Вимкнути список</string>
+    <string name="checklist_moveToBottom">Перемістити відмічені елементи вниз</string>
     <string name="checklist_item_hint">Новий елемент</string>
     <string name="remove_checklist">Яким чином вилучити список?</string>
     <string name="checklist_keep_checked">Залишити відзначені пункти</string>
@@ -153,11 +157,15 @@
     <string name="grid_view">У вигляді сітки</string>
     <string name="add_shortcut">Додати ярличок</string>
     <string name="shortcut_added">Ярличок додано на робочий стіл</string>
+    <string name="shortcut_disabled">Ярлик не дійсний</string>
+    <string name="pin_note">Закріпити записку</string>
+    <string name="pined_note">Закріплена нотатка як сповіщення</string>
     <string name="shortcut_note_deleted">Ярличок пов\'язаний із видаленою нотаткою</string>
     <string name="widget_simple_description">Зручний віджет з кнопками</string>
     <string name="widget_list_description">Прокручуваний віджет з кнопками</string>
     <string name="notes">нотатки</string>
     <string name="show_thumbnails">Показувати ескізи вкладених файлів</string>
+    <string name="show_timestamps">Показувати час</string>
     <string name="choose_action">Виберіть дію</string>
     <string name="edit">Редагувати</string>
     <string name="reminders">нагадування</string>
@@ -194,11 +202,20 @@
     <string name="remove_filter_old_reminders">Показати старі нагадування</string>
     <string name="filter_archived">Сховати архівовані нотатки</string>
     <string name="remove_filter_archived">Показати архівовані нотатки</string>
+    <string name="permission_external_storage">Дозвіл на запис на зовнішній носій потрібен для дозволу резервних копій у публічних теках</string>
+    <string name="permission_external_storage_detail_attachment">Дозвіл на читання з зовнішньої пам\'яті необхідний для дозволу прив\'язування файлів</string>
+    <string name="permission_audio_recording">Для використання мікрофону потрібен аудіонотатки</string>
+    <string name="permission_coarse_location">Дозвіл на доступ до місцезнаходження необхідний, щоб додати інформацію про позицію до ваших нотаток</string>
     <string name="permission_not_granted">Дозвіл не надано</string>
     <string name="checklist">Список</string>
     <string name="text_note">Текстова нотатка</string>
     <string name="photo">Фото</string>
+    <string name="uncompleted_checklists">Незавершені контрольні списки</string>
     <string name="info">Інформація</string>
+    <string name="completed">Завершені</string>
+    <string name="undo_changes_note_confirmation">Підтвердити скасування змін?</string>
+    <string name="done">Виконано</string>
+    <string name="nothing_selected">Нічого не вибрано</string>
     <!-- Settings -->
     <string name="dashclock_description">Відображає деяку статистику і найближчі події в Omni Notes</string>
     <string name="settings">Налаштування</string>
@@ -211,6 +228,10 @@
     <string name="settings_export">Резервування</string>
     <string name="settings_sync_import_export">Синхронізація і резервне копіювання</string>
     <string name="settings_import">Відновлення/видалення резервних копій</string>
+    <string name="settings_import_summary">УВАГА: Не встановлено пароль, захищені нотатки не будуть відновлені з резервної копії з міркувань безпеки</string>
+    <string name="settings_change_backup_folder">Змінити папку з резервними копіями</string>
+    <string name="settings_import_legacy">Відновити збережену резервну копію</string>
+    <string name="settings_import_legacy_summary">Дозволяє відновити старі резервні копії, зроблені за допомогою версій Omni Notes перед версії 6</string>
     <string name="settings_import_from_springpad">Імпорт нотаток зі Springpad</string>
     <string name="settings_import_from_springpad_summary">Виберіть експортований зі Springpad архів і переконайтеся, що ви під\'єднані до інтернету</string>
     <string name="settings_sync_drive">Синхр. з Google Drive</string>
@@ -229,12 +250,17 @@
     <string name="settings_screen_backup">Резервні копії</string>
     <string name="settings_screen_notifications">Сповіщення</string>
     <string name="settings_enable_vibration">Вібрація</string>
+    <string name="settings_notification_enable_boot_persistence">Увімкнути збереження сповіщень</string>
+    <string name="settings_notification_enable_boot_persistence_summary">Дозволити застосунку доступ до сповіщень, щоб дозволити їх перезавантаженню</string>
     <string name="settings_screen_navigation">Навігація</string>
     <string name="settings_changelog">Історія змін</string>
     <string name="settings_enable_editor_links">Розпізнавання посилань</string>
     <string name="settings_max_video_size">Вкладені відеофайли</string>
     <string name="settings_screen_data">Дані</string>
     <string name="settings_backup">Резервні копії</string>
+    <string name="settings_enable_automatic_backup">Автоматичне резервне копіювання</string>
+    <string name="settings_enable_automatic_backup_summary">Нотатки будуть зберігатися в теці з резервної копії \"_autobackup\"</string>
+    <string name="settings_enable_automatic_backup_dialog">При активації цієї функції буде виконано повне резервне копіювання даних</string>
     <string name="settings_password">Пароль</string>
     <string name="settings_password_access">Запитувати пароль при вході</string>
     <string name="settings_password_instructions">\"Пароль безпеки використовується, щоб захищені нотатки не можна було переглядати чи редагувати без дозволу.
@@ -246,6 +272,7 @@
     <string name="insert_new_password">Введіть новий пароль</string>
     <string name="confirm_new_password">Підтвердіть новий пароль</string>
     <string name="password_successfully_changed">Пароль змінено успішно</string>
+    <string name="password_successfully_removed">Пароль вилучено: всі нотатки були розблоковані</string>
     <string name="wrong_password">Неправильний пароль</string>
     <string name="empty_password">Пароль пустий</string>
     <string name="agree_unlocking_all_notes">\"Ви згодні вилучити пароль безпеки
@@ -259,12 +286,15 @@
     <string name="settings_enable_editor_links_summary">Увімкнути або вимкнути підсвічування посилань та адрес електронної пошти в редакторі</string>
     <string name="confirm_removing_backup">Видалити резервну копію?</string>
     <string name="confirm_restoring_backup">Підтвердження відновлення</string>
+    <string name="confirm_restoring_backup_warning">УВАГА: Не забудьте встановити пароль у налаштування або захищені нотатки будуть пропущені з міркувань безпеки!</string>
     <string name="data_deletion_completed">Видалення даних завершене</string>
     <string name="settings_checked_items_behavior">Контрольні списки</string>
     <string name="settings_checked_items_behavior_summary">Що виконувати, коли елемент позначений?</string>
     <string name="settings_category_preferences">Параметри</string>
     <string name="settings_category_beta">Бета-тестування</string>
     <string name="settings_category_about">Про програму</string>
+    <string name="settings_beta">За заявкою</string>
+    <string name="settings_beta_summary">Підпишіться на бета-програму, щоб бути в курсі останніх можливостей</string>
     <string name="donate">Підтримати</string>
     <string name="donate_summary">Підтримайте розробку цієї програми некомерційною пожертвою</string>
     <string name="settings_choose_language">Вибір мови</string>
@@ -298,6 +328,8 @@
     <string name="settings_navdrawer_on_exit_summary">Натиснення кнопки \"назад\" у списку нотаток відкриває панель навігації замість виходу з програми</string>
     <string name="settings_text_size">Розмір тексту</string>
     <string name="settings_screen_behaviors">Поведінка</string>
+    <string name="settings_enable_swipe">Провести нотатки</string>
+    <string name="settings_enable_swipe_summary">Проведіть по нотатках, щоб виконати дії</string>
     <string name="settings_swipe_to_trash">Перетягувати у сміття</string>
     <string name="settings_swipe_to_trash_summary_1">Протягуйте по нотатках пальцем, щоб заархівувати їх</string>
     <string name="settings_swipe_to_trash_summary_2">Протягуйте по нотатках пальцем, щоб видалити їх</string>
@@ -323,6 +355,9 @@
     <string name="settings_error_reporting_summary_on">Коли програма видасть помилку розробник про це дізнається</string>
     <string name="settings_error_reporting_summary_off">Ніякі дані про помилки не будуть надсилатися</string>
     <string name="settings_send_analytics">Надсилати анонімні дані</string>
+    <string name="settings_send_analytics_summary">Допоможіть розробникові шляхом відправлення неконфіденційних даних, таких як модель пристроїв, мова, часто використовуваних функцій додатка. Ці дані використовуються лише для покращення програми з відкритим вихідним кодом.</string>
+    <string name="settings_enable_file_logging">Зберегти журнали у файл</string>
+    <string name="settings_enable_file_logging_summary">Журнали додатків будуть збережені у файл, яким ви зможете поділитися з розробником для дослідження можливих проблем (необхідно перезапуску)</string>
     <string name="settings_statistics">Статистика</string>
     <!-- Stats -->
     <string name="stats_total_notes">Всього нотаток</string>
@@ -343,6 +378,11 @@
     <string name="stats_files">Файли</string>
     <string name="stats_locations">Місця</string>
     <string name="stats_words">Слова</string>
+    <string name="stats_max_words">Максимум слів</string>
+    <string name="stats_avg_words">Середні слова</string>
+    <string name="stats_characters">Шар</string>
+    <string name="stats_max_characters">Максимум символів</string>
+    <string name="stats_avg_characters">Середні символи</string>
     <!-- Instructions -->
     <string name="tour_request_start">Ви запустили Omni Notes вперше, бажаєте ознайомитись з коротким довідником?</string>
     <string name="tour_listactivity_intro_title">Ласкаво просимо до Omni Notes!</string>
@@ -350,18 +390,24 @@
     <string name="tour_listactivity_actions_title">Дії</string>
     <string name="tour_listactivity_actions_detail">Створюйте нові нотатки, сортуйте їх, налаштовуйте</string>
     <string name="tour_listactivity_home_title">Навігація</string>
+    <string name="tour_listactivity_home_detail">Меню навігації дозволяє вам переглядати нотатки за допомогою фільтрів та категорій</string>
     <string name="tour_listactivity_tag_title">Ярлички</string>
+    <string name="tour_listactivity_tag_detail">Додати кольорові категорії для організації нотаток відблиском</string>
     <string name="tour_detailactivity_attachment_title">Покращення</string>
     <string name="tour_detailactivity_attachment_detail">Додавайте різноманітні вкладення до ваших нотаток!</string>
     <string name="tour_detailactivity_action_title">Ще більше</string>
     <string name="tour_detailactivity_action_detail">Обмінюйтеся, відзначайте, архівуйте, захищайте і&#8230;</string>
     <string name="tour_detailactivity_reminder_title">Просто натисніть</string>
+    <string name="tour_detailactivity_reminder_detail">Тривале натискання має різні ефекти на об\'єкт (вкладення, розташування, нагадування), ніж короткий тиск!</string>
     <string name="tour_detailactivity_links_title">Посилання</string>
+    <string name="tour_detailactivity_links_detail">URL, email адреси та розпізнавання телефонів</string>
     <string name="tour_detailactivity_swipe_title">Провести пальцем</string>
     <string name="tour_detailactivity_swipe_detail">Створюйте нові нататки \n без потреби збереження попередньої</string>
     <string name="tour_detailactivity_save_title">Збереження</string>
     <string name="tour_detailactivity_save_detail">Лише натисніть навігаційну іконку \"вгору\" чи натисніть кнопку \"назад\" на вашому пристрої</string>
     <string name="tour_listactivity_final_title">Насолоджуйтесь</string>
+    <string name="tour_listactivity_final_detail">Дякуємо за використання Omni Notes \nАльтернатива створення нотаток з відкритим кодом для продуктивності та зберігання інформації про дозвіл!</string>
+    <string name="tour_community">Підпишіться на спільноти, щоб прийняти участь!</string>
     <!-- Accessibility -->
     <string name="drawer_open">сп. програм відкритий</string>
     <string name="drawer_close">сп. програм закритий</string>
@@ -372,5 +418,10 @@
     <string name="navigation_drawer_open">Відкрити панель навігації</string>
     <string name="navigation_drawer_close">Закрити панель навігації</string>
     <!-- Various -->
+    <string name="channel_backups_name">Резервні копії</string>
+    <string name="channel_backups_description">Оповіщення про статус резервної копії та результати</string>
     <string name="channel_reminders_name">Нагадування</string>
+    <string name="channel_reminders_description">Оповіщення для нагадувань нотаток</string>
+    <string name="channel_pinned_name">Закріплено</string>
+    <string name="channel_pinned_description">Сповіщення для прикріплених нотаток</string>
 </resources>

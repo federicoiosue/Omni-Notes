@@ -43,10 +43,13 @@
     <string name="confirm">Potwierdź</string>
     <string name="ok">Ok</string>
     <string name="no">Nie</string>
+    <string name="failed">nie powiodło się</string>
     <string name="cancel">Anuluj</string>
     <string name="note_updated">Notatka zaktualizowana</string>
     <string name="empty_note_not_saved">Nie można zapisać pustej notatki</string>
     <string name="empty_note_not_shared">Nie można udostępnić pustej notatki</string>
+    <string name="attachment_not_found">Nie znaleziono załącznika</string>
+    <string name="note_doesnt_exist">Notatka już nie istnieje</string>
     <string name="note_archived">Notatka w archiwum</string>
     <string name="note_unarchived">Notatka przywrócona z archiwum</string>
     <string name="note">Notatka</string>
@@ -65,6 +68,8 @@
     <string name="delete_all_attachments">Usunąć wszystkie załączniki?</string>
     <string name="gallery">Galeria</string>
     <string name="location">Lokalizacja</string>
+    <string name="location_set_high_accuracy">Ustaw tryb lokalizacji na wysoką dokładność, aby kontynuować</string>
+    <string name="timestamp">Znacznik czasu</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">Usunąć lokalizację?</string>
     <string name="remove_reminder">Usunąć przypomnienie?</string>
@@ -82,6 +87,7 @@
     <string name="data_import_message">Kliknij -&gt; przywróć\nDłużej kliknij -&gt; usuń</string>
     <string name="data_import_message_warning">Ostrzeżenie: To zastąpi wszystkie bieżące dane!</string>
     <string name="data_export_completed">Kopia zapasowa danych zakończona</string>
+    <string name="data_export_failed">Kopia zapasowa danych nie powiodła się: sprawdź logcat po szczegóły</string>
     <string name="data_import_completed">Przywracanie danych zakończone</string>
     <string name="click_to_refresh_application">Kliknij żeby odświeżyć aplikację</string>
     <string name="backup_existing">Kopia zapasowa już istnieje. Będzie zastąpiona</string>
@@ -103,8 +109,10 @@
     <string name="categorize_as">Sklasyfikować jako</string>
     <string name="title_activity_category">Edytuj kategorię</string>
     <string name="delete_unused_category_confirmation">Potwierdź usunięcie kategorii?</string>
+    <string name="delete_category_confirmation">Ta kategoria jest używana przez niektóre notatki.\nPotwierdź aktualizację kategoryzacji i usunięcie kategorii?</string>
     <string name="discard">Odrzuć</string>
     <string name="remove_category">Usuń kategorię</string>
+    <string name="no_tags_created">Brak dostępnych tagów\nUtwórz je wpisując hasztagi do notatek</string>
     <string name="no_categories_created">Nie ma jeszcze utworzonych kategorii</string>
     <string name="notes_category_removed">Kategoria usunięta z notatki</string>
     <string name="notes_categorized_as">Notatki klasyfikowane jako</string>
@@ -119,6 +127,7 @@
     <string name="no_items_in_list">Nic tutaj nie ma!</string>
     <string name="checklist_on">Włącz listę zadań</string>
     <string name="checklist_off">Wyłącz listę zadań</string>
+    <string name="checklist_moveToBottom">Przenieś zaznaczone elementy na dół</string>
     <string name="checklist_item_hint">Nowa pozycja</string>
     <string name="remove_checklist">Usunąć listę zadań?</string>
     <string name="checklist_keep_checked">Zachowaj zaznaczone elementy</string>
@@ -145,13 +154,18 @@
     <string name="proceed">Kontynuuj</string>
     <string name="contracted_view">Widok pomniejszony</string>
     <string name="expanded_view">Widok rozszerzony</string>
+    <string name="grid_view">Widok siatki</string>
     <string name="add_shortcut">Utwórz skrót</string>
     <string name="shortcut_added">Skrót dodany do ekranu głównego</string>
+    <string name="shortcut_disabled">Skrót już nieważny</string>
+    <string name="pin_note">Przypnij notatkę</string>
+    <string name="pined_note">Przypięta notatka jako powiadomienie</string>
     <string name="shortcut_note_deleted">Skrót odnosi się do usuniętej notatki</string>
     <string name="widget_simple_description">Prosty widżet z przyciskami</string>
     <string name="widget_list_description">Przewijanie listy w widżecie z przyciskami</string>
     <string name="notes">notatki</string>
     <string name="show_thumbnails">Pokaż załączniki miniaturek</string>
+    <string name="show_timestamps">Pokaż znaczniki czasu</string>
     <string name="choose_action">Wybierz czynność</string>
     <string name="edit">Edytuj</string>
     <string name="reminders">przypomnienia</string>
@@ -189,13 +203,19 @@
     <string name="filter_archived">Ukryj zarchiwizowane notatki</string>
     <string name="remove_filter_archived">Pokaż zarchiwizowane notatki</string>
     <string name="permission_external_storage">Uprawnienia do zapisu na zewnętrznej pamięci masowej są niezbędne, aby umożliwić tworzenie kopii zapasowych w folderach publicznych</string>
+    <string name="permission_external_storage_detail_attachment">Pozwolenie na odczyt pamięci zewnętrznej jest potrzebne, aby umożliwić dołączanie plików z tej strony</string>
     <string name="permission_audio_recording">Nagrywanie notatek audio wymaga uprawnienia do używania mikrofonu</string>
     <string name="permission_coarse_location">Uprawnienie dostępu do lokalizacji jest potrzebne, aby dodać informację o pozycji do notatek</string>
     <string name="permission_not_granted">Nie przyznano uprawnień</string>
     <string name="checklist">Lista zadań</string>
     <string name="text_note">Notatka tekstowa</string>
     <string name="photo">Zdjęcie</string>
+    <string name="uncompleted_checklists">Niewypełnione listy kontrolne</string>
     <string name="info">Info</string>
+    <string name="completed">Zakończone</string>
+    <string name="undo_changes_note_confirmation">Potwierdzić cofnięcie zmian?</string>
+    <string name="done">Gotowe</string>
+    <string name="nothing_selected">Nic nie wybrano</string>
     <!-- Settings -->
     <string name="dashclock_description">Wyświetla niektóre statystyki i wygasłe przypomnienia z Omni Notes</string>
     <string name="settings">Ustawienia</string>
@@ -208,6 +228,8 @@
     <string name="settings_export">Kopia</string>
     <string name="settings_sync_import_export">Synchronizacja i kopie zapasowe</string>
     <string name="settings_import">Przywracanie lub usuwanie kopii zapasowych</string>
+    <string name="settings_import_summary">OSTRZEŻENIE: Nie ustawiono hasła, chronione notatki nie zostaną przywrócone z kopii zapasowej ze względów bezpieczeństwa</string>
+    <string name="settings_change_backup_folder">Zmień folder kopii zapasowej</string>
     <string name="settings_import_legacy">Przywróć kopię zapasową</string>
     <string name="settings_import_legacy_summary">Pozwala przywrócić stare kopie zapasowe wykonane w Omni Notes w wersji wcześniejszej niż 6</string>
     <string name="settings_import_from_springpad">Importowanie notatek z Springpad</string>
@@ -236,6 +258,9 @@
     <string name="settings_max_video_size">Wideo załączniki</string>
     <string name="settings_screen_data">Dane</string>
     <string name="settings_backup">Kopia</string>
+    <string name="settings_enable_automatic_backup">Włącz automatyczną kopię zapasową</string>
+    <string name="settings_enable_automatic_backup_summary">Notatki będą przechowywane w folderze zapasowym \"_autobackup\"</string>
+    <string name="settings_enable_automatic_backup_dialog">Aktywując tę funkcję, zostanie wykonana pełna kopia zapasowa danych</string>
     <string name="settings_password">Hasło</string>
     <string name="settings_password_access">Uzyskaj hasło dostępu</string>
     <string name="settings_password_instructions">Hasło zapewnia, że notatek nie będą mogły zobaczyć i modyfikować inne osoby.\n\nPrzy ustawianiu nowego hasła, poprzednie będzie wymagane.</string>
@@ -243,6 +268,7 @@
     <string name="insert_new_password">Wstaw nowe hasło</string>
     <string name="confirm_new_password">Potwierdź nowe hasło</string>
     <string name="password_successfully_changed">Hasło zostało pomyślnie zmienione</string>
+    <string name="password_successfully_removed">Hasło usunięte: wszystkie notatki zostały odblokowane</string>
     <string name="wrong_password">Nieprawidłowe hasło</string>
     <string name="empty_password">Hasło jest puste</string>
     <string name="agree_unlocking_all_notes">Usunąć hasło\ni odblokować wszystkie notatki?</string>
@@ -255,12 +281,14 @@
     <string name="settings_enable_editor_links_summary">Utworzyć wpisywane adresy URL i e-mail automatycznie aktywne</string>
     <string name="confirm_removing_backup">Naprawdę usunąć kopię zapasową?</string>
     <string name="confirm_restoring_backup">Naprawdę przywrócić z kopii zapasowej?</string>
+    <string name="confirm_restoring_backup_warning">OSTRZEŻENIE: Upewnij się, że hasło zostało ustawione w ustawieniach lub chronione notatki zostaną pominięte ze względów bezpieczeństwa!</string>
     <string name="data_deletion_completed">Kasowanie danych zakończone</string>
     <string name="settings_checked_items_behavior">Lista zadań</string>
     <string name="settings_checked_items_behavior_summary">Co zrobić, gdy dany element jest zaznaczony?</string>
     <string name="settings_category_preferences">Ustawienia</string>
     <string name="settings_category_beta">Beta</string>
     <string name="settings_category_about">O aplikacji</string>
+    <string name="settings_beta">Wyłączony</string>
     <string name="settings_beta_summary">Zapisz się do wspólnoty i bądź na bieżąco z najnowszymi funkcjami</string>
     <string name="donate">Dotacja</string>
     <string name="donate_summary">Wsparcie rozwoju tej aplikacji z darowizny non-profit</string>
@@ -274,6 +302,7 @@
     <string name="minutes">minuty</string>
     <string name="settings_simple_calendar">Prosty kalendarz i czas</string>
     <string name="settings_simple_calendar_summary">Użyj interfejsu Androida (prostsze) do wyboru daty/czasu, zamiast interfejsu Google</string>
+    <string name="settings_first_day_of_week">Pierwszy dzień tygodnia</string>
     <string name="settings_tour_show_again">Przewodnik po aplikacji</string>
     <string name="settings_tour_show_again_summary">Pokaż mi przewodnik po aplikacji ponownie</string>
     <string name="backup_include_settings">Uwzględnione ustawienia i hasła</string>
@@ -322,14 +351,33 @@
     <string name="settings_error_reporting_summary_off">Raporty awarii nie będą wysyłane. Nie narzekam, jeśli coś pójdzie nie tak!</string>
     <string name="settings_send_analytics">Udostępniaj anonimowe dane</string>
     <string name="settings_send_analytics_summary">Pomóż autorowi poprzez wysyłanie danych niewrażliwych, takich jak model urządzenia, język, często używane funkcje aplikacji. Dane te są używane tylko po to, aby poprawić aplikację open source.</string>
+    <string name="settings_enable_file_logging">Zapisz logi do pliku</string>
+    <string name="settings_enable_file_logging_summary">Dzienniki aplikacji zostaną zapisane w pliku, który będziesz mógł udostępnić deweloperowi w celu zbadania możliwych problemów (wymagane ponowne uruchomienie)</string>
     <string name="settings_statistics">Statystyki</string>
     <!-- Stats -->
+    <string name="stats_total_notes">Łącznie notatki</string>
+    <string name="stats_active_notes">Aktywne notatki</string>
+    <string name="stats_archived_notes">Zarchiwizowane notatki</string>
+    <string name="stats_trashed_notes">Notatki w koszu</string>
     <string name="stats_reminders">Powiadomienia</string>
+    <string name="stats_future_reminders">Przyszłe przypomnienia</string>
     <string name="stats_checklists">Lista zadań</string>
+    <string name="stats_locked_notes">Zablokowane notatki</string>
     <string name="stats_categories">Kategorie</string>
     <string name="stats_tags">Znaczniki</string>
     <string name="stats_attachments">Załączniki</string>
+    <string name="stats_images">Obrazy</string>
+    <string name="stats_videos">Filmy</string>
+    <string name="stats_audio_recordings">Nagrania audio</string>
+    <string name="stats_sketches">Szkice</string>
     <string name="stats_files">Pliki</string>
+    <string name="stats_locations">Lokalizacje</string>
+    <string name="stats_words">Słowa</string>
+    <string name="stats_max_words">Maksymalna ilość słów</string>
+    <string name="stats_avg_words">Średnie słowa</string>
+    <string name="stats_characters">Char</string>
+    <string name="stats_max_characters">Maksymalna liczba znaków</string>
+    <string name="stats_avg_characters">Średnia liczba znaków</string>
     <!-- Instructions -->
     <string name="tour_request_start">Uruchomiono Omni Notes po raz pierwszy, masz ochotę na przewodnik po aplikacji?</string>
     <string name="tour_listactivity_intro_title">Witamy w Omni Notes!</string>
@@ -337,19 +385,24 @@
     <string name="tour_listactivity_actions_title">Działania</string>
     <string name="tour_listactivity_actions_detail">Tworzenie nowych notatek, sortowanie ich, dostęp do preferencji</string>
     <string name="tour_listactivity_home_title">Nawiguj</string>
+    <string name="tour_listactivity_home_detail">Menu nawigacji pozwala na przenoszenie notatek z filtrami i kategoriami</string>
     <string name="tour_listactivity_tag_title">Znaczniki</string>
+    <string name="tour_listactivity_tag_detail">Dodaj kolorowe kategorie, aby zorganizować notatki na pierwszy rzut oka</string>
     <string name="tour_detailactivity_attachment_title">Ulepszenia</string>
     <string name="tour_detailactivity_attachment_detail">Dodaj załącznik do kilku rodzajów notatek!</string>
     <string name="tour_detailactivity_action_title">Więcej</string>
     <string name="tour_detailactivity_action_detail">Udostępniaj, znaczniki, archiwum, ochrona i inne&#8230;</string>
     <string name="tour_detailactivity_reminder_title">Po prostu naciśnij</string>
+    <string name="tour_detailactivity_reminder_detail">Długie naciśnięcia mają różny wpływ na obiekt (załącznik, lokalizacja, przypomnienie) niż krótkie naciśnięcia!</string>
     <string name="tour_detailactivity_links_title">Linki</string>
+    <string name="tour_detailactivity_links_detail">Adres URL, adresy e-mail i rozpoznawanie numerów telefonów</string>
     <string name="tour_detailactivity_swipe_title">Przeciągnij</string>
     <string name="tour_detailactivity_swipe_detail">Tworzenie nowych notatek bez \n pozostawiając jedną, którą edytujesz</string>
     <string name="tour_detailactivity_save_title">Zapisz</string>
     <string name="tour_detailactivity_save_detail">Aby wrócić, naciśnij ikonę nawigacji \"góra\", lub przycisk urządzenia</string>
     <string name="tour_listactivity_final_title">Korzystaj z przyjemnością</string>
     <string name="tour_listactivity_final_detail">Dziękujemy za korzystanie z Omni Notes \nThe opensource alternative for productivity and leisure note-taking!</string>
+    <string name="tour_community">Zapisz się do społeczności, aby wziąć udział!</string>
     <!-- Accessibility -->
     <string name="drawer_open">otwarta szuflada</string>
     <string name="drawer_close">zamknięta szuflada</string>
@@ -360,5 +413,10 @@
     <string name="navigation_drawer_open">Otwórz panel nawigacyjny</string>
     <string name="navigation_drawer_close">Zamknij panel nawigacyjny</string>
     <!-- Various -->
+    <string name="channel_backups_name">Kopie zapasowe</string>
+    <string name="channel_backups_description">Powiadomienia o statusie i wynikach kopii zapasowej</string>
     <string name="channel_reminders_name">Powiadomienia</string>
+    <string name="channel_reminders_description">Powiadomienia dla przypomnień notatek</string>
+    <string name="channel_pinned_name">Przypięte</string>
+    <string name="channel_pinned_description">Powiadomienia dla przypiętych notatek</string>
 </resources>

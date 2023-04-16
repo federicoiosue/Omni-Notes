@@ -48,6 +48,7 @@
     <string name="note_updated">Notă actualizată</string>
     <string name="empty_note_not_saved">Nu se poate salva o notă goală</string>
     <string name="empty_note_not_shared">Nu se poate distribui o notă goală</string>
+    <string name="attachment_not_found">Atașamentul nu a fost găsit</string>
     <string name="note_doesnt_exist">Nota nu mai există</string>
     <string name="note_archived">Nota a fost arhivată</string>
     <string name="note_unarchived">Notă restaurată din arhivă</string>
@@ -228,6 +229,7 @@
     <string name="settings_sync_import_export">Sincronizare și Copii de rezervă</string>
     <string name="settings_import">Restaurează sau șterge copii de rezervă</string>
     <string name="settings_import_summary">AVERTISMENT: Nicio parolă nu a fost setată, notele protejate nu vor fi restaurate din copia de rezervă din motive de securitate</string>
+    <string name="settings_change_backup_folder">Schimbă dosarul de rezervă</string>
     <string name="settings_import_legacy">Restaurează o copie de rezervă de tip vechi</string>
     <string name="settings_import_legacy_summary">Permite restaurarea copiilor de rezervă create cu o versiune Omni Notes mai veche de 6</string>
     <string name="settings_import_from_springpad">Importă note din Springpad</string>
@@ -279,6 +281,7 @@
     <string name="settings_enable_editor_links_summary">Transformă auotmat adresele URL introduse manual în legături web accesabile</string>
     <string name="confirm_removing_backup">Chiar dorești să ștergi copia de rezervă?</string>
     <string name="confirm_restoring_backup">Chiar dorești să restaurezi date din copia de rezervă?</string>
+    <string name="confirm_restoring_backup_warning">AVERTISMENT: Asigură-te că ai setat o parolă în setări sau notele protejate vor fi ignorate din motive de securitate!</string>
     <string name="data_deletion_completed">Ștergerea datelor a fost finalizată</string>
     <string name="settings_checked_items_behavior">Liste de activități</string>
     <string name="settings_checked_items_behavior_summary">Ce acțiune dorești să fie efectuată când un element e bifat?</string>

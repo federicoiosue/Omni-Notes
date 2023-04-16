@@ -48,6 +48,8 @@
     <string name="note_updated">ノートを更新しました</string>
     <string name="empty_note_not_saved">空のノートを保存できません</string>
     <string name="empty_note_not_shared">空のノートを共有できません</string>
+    <string name="attachment_not_found">添付ファイルが見つかりません</string>
+    <string name="note_doesnt_exist">メモはもう存在しません</string>
     <string name="note_archived">ノートをアーカイブしました</string>
     <string name="note_unarchived">ノートをアーカイブから復元しました</string>
     <string name="note">ノート</string>
@@ -66,6 +68,7 @@
     <string name="delete_all_attachments">すべての添付ファイルを削除しますか?</string>
     <string name="gallery">ギャラリー</string>
     <string name="location">場所</string>
+    <string name="location_set_high_accuracy">続行するには位置情報モードを高精度に設定してください</string>
     <string name="timestamp">タイムスタンプ</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">場所を削除しますか?</string>
@@ -124,6 +127,7 @@
     <string name="no_items_in_list">何もありません!</string>
     <string name="checklist_on">チェックリストを有効にする</string>
     <string name="checklist_off">チェックリストを無効にする</string>
+    <string name="checklist_moveToBottom">チェックした項目を下に移動</string>
     <string name="checklist_item_hint">新しい項目</string>
     <string name="remove_checklist">チェックリストを削除しますか?</string>
     <string name="checklist_keep_checked">チェックした項目を保持</string>
@@ -153,6 +157,9 @@
     <string name="grid_view">グリッド表示</string>
     <string name="add_shortcut">ショートカットを追加</string>
     <string name="shortcut_added">ホーム画面にショートカットを追加しました</string>
+    <string name="shortcut_disabled">ショートカットはもう有効ではありません</string>
+    <string name="pin_note">メモをピン留めする</string>
+    <string name="pined_note">通知としてピン留めされたノート</string>
     <string name="shortcut_note_deleted">ショートカットは削除済のノートを指しています</string>
     <string name="widget_simple_description">ボタンのあるシンプルなウィジェット</string>
     <string name="widget_list_description">ボタンのあるスクロール リスト ウィジェット</string>
@@ -207,6 +214,8 @@
     <string name="info">情報</string>
     <string name="completed">完了</string>
     <string name="undo_changes_note_confirmation">変更の取り消しますか?</string>
+    <string name="done">完了</string>
+    <string name="nothing_selected">何も選択されていません</string>
     <!-- Settings -->
     <string name="dashclock_description">統計情報と Omni Notes から期限切れのアラームを表示します</string>
     <string name="settings">設定</string>
@@ -219,6 +228,8 @@
     <string name="settings_export">バックアップ</string>
     <string name="settings_sync_import_export">同期とバックアップ</string>
     <string name="settings_import">バックアップを復元または削除</string>
+    <string name="settings_import_summary">警告: パスワードが設定されていません。セキュリティ上の理由から、保護されたメモはバックアップから復元されません</string>
+    <string name="settings_change_backup_folder">バックアップフォルダの変更</string>
     <string name="settings_import_legacy">従来のバックアップを復元</string>
     <string name="settings_import_legacy_summary">Omni Notes のバージョン 6 より前のバージョンで作成された、古いバックアップを復元することができます</string>
     <string name="settings_import_from_springpad">Springpad からノートをインポート</string>
@@ -270,6 +281,7 @@
     <string name="settings_enable_editor_links_summary">入力した URL とメールアドレスを自動的にクリック可能にします</string>
     <string name="confirm_removing_backup">バックアップを削除してもよろしいですか?</string>
     <string name="confirm_restoring_backup">バックアップから復元してもよろしいですか?</string>
+    <string name="confirm_restoring_backup_warning">警告：セキュリティ上の理由により、設定または保護されたメモにパスワードを設定していることを確認してください！</string>
     <string name="data_deletion_completed">データの消去が完了しました</string>
     <string name="settings_checked_items_behavior">チェックリスト</string>
     <string name="settings_checked_items_behavior_summary">項目がチェックされたときにどうしますか?</string>
@@ -405,4 +417,6 @@
     <string name="channel_backups_description">バックアップの状態と結果の通知</string>
     <string name="channel_reminders_name">アラーム</string>
     <string name="channel_reminders_description">ノートのアラームの通知</string>
+    <string name="channel_pinned_name">ピン留めしました</string>
+    <string name="channel_pinned_description">ピン留めされたノートの通知</string>
 </resources>

@@ -230,6 +230,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
     <string name="settings_sync_import_export">Sincronizzazione e backup</string>
     <string name="settings_import">Ripristina o cancella backup</string>
     <string name="settings_import_summary">ATTENZIONE: Nessuna password impostata, le note protette non verranno ripristinate dal backup per motivi di sicurezza</string>
+    <string name="settings_change_backup_folder">Cambia cartella di backup</string>
     <string name="settings_import_legacy">Ripristino vecchio backup</string>
     <string name="settings_import_legacy_summary">Consente il ripristino di backup effettuati con versioni di Omni Notes precedenti la 6</string>
     <string name="settings_import_from_springpad">Importa le note da Springpad</string>
