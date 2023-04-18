@@ -101,7 +101,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     BackupHelper.exportNotes(backupDir);
     BackupHelper.exportAttachments(backupDir, mNotificationsHelper);
-    mNotificationsHelper.finish(getString(R.string.data_export_completed), backupDir.getUri().getPath());
+
+    var readableBackupFolder = BackupHelper.getBackupFolderPath() + "/" + backupName;
+    mNotificationsHelper.finish(getString(R.string.data_export_completed), readableBackupFolder);
   }
 
   @TargetApi(VERSION_CODES.O)
