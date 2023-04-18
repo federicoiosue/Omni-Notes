@@ -17,6 +17,12 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="Apr 19, 2023"
+    versionName="6.2.4">
+    <changelogtext>[u]Fix[/u] Take camera picture action from some devices</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="Apr 16, 2023"
     versionName="6.2.3">
     <changelogtext>[b]New![/b] Backup folder is modifiable on Android Oreo and higher</changelogtext>

@@ -18,6 +18,7 @@ package it.feio.android.omninotes;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+import static android.content.pm.PackageManager.FEATURE_CAMERA;
 import static androidx.core.view.ViewCompat.animate;
 import static it.feio.android.omninotes.BaseActivity.TRANSITION_HORIZONTAL;
 import static it.feio.android.omninotes.BaseActivity.TRANSITION_VERTICAL;
@@ -1292,10 +1293,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private void takePhoto() {
     // Checks for camera app available
     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-    if (!IntentChecker
-        .isAvailable(mainActivity, intent, new String[]{PackageManager.FEATURE_CAMERA})) {
+    if (!IntentChecker.isAvailable(mainActivity, intent, new String[]{FEATURE_CAMERA})) {
       mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.ALERT);
-
       return;
     }
     // Checks for created file validity
@@ -1313,7 +1312,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private void takeVideo() {
     Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
     if (!IntentChecker
-        .isAvailable(mainActivity, takeVideoIntent, new String[]{PackageManager.FEATURE_CAMERA})) {
+        .isAvailable(mainActivity, takeVideoIntent, new String[]{FEATURE_CAMERA})) {
       mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.ALERT);
 
       return;
