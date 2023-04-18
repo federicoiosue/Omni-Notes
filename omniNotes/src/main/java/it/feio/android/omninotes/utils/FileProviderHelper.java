@@ -17,37 +17,42 @@
 
 package it.feio.android.omninotes.utils;
 
+import static androidx.core.content.FileProvider.getUriForFile;
+import static it.feio.android.omninotes.OmniNotes.getAppContext;
+
 import android.net.Uri;
 import androidx.annotation.Nullable;
-import androidx.core.content.FileProvider;
-import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.Attachment;
 import java.io.File;
 import java.io.FileNotFoundException;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class FileProviderHelper {
-
-  private FileProviderHelper() {
-    // hides public constructor
-  }
 
   /**
    * Generates the FileProvider URI for a given existing file
    */
   public static Uri getFileProvider(File file) {
-    return FileProvider.getUriForFile(OmniNotes.getAppContext(),
-        OmniNotes.getAppContext().getPackageName() + ".authority", file);
+    return getUriForFile(getAppContext(), getAppContext().getPackageName() + ".authority", file);
   }
 
   /**
    * Generates a shareable URI for a given attachment by evaluating its stored (into DB) path
    */
   public static @Nullable Uri getShareableUri(Attachment attachment) throws FileNotFoundException {
-    File attachmentFile = new File(attachment.getUri().getPath());
+    var uri = attachment.getUri();
+
+    if (uri.getScheme().equals("content")
+        && uri.getAuthority().equals(getAppContext().getPackageName() + ".authority")) {
+      return uri;
+    }
+
+    File attachmentFile = new File(uri.getPath());
     if (!attachmentFile.exists()) {
       throw new FileNotFoundException("Required attachment not found in " + attachment.getUriPath());
     }
-    return  FileProviderHelper.getFileProvider(attachmentFile);
+    return  getFileProvider(attachmentFile);
   }
 
 }

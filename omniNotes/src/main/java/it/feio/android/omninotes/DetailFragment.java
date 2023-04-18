@@ -1291,7 +1291,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   private void takePhoto() {
-    // Checks for camera app available
     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
     if (!IntentChecker.isAvailable(mainActivity, intent, new String[]{FEATURE_CAMERA})) {
       mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.ALERT);
@@ -1303,18 +1302,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       mainActivity.showMessage(R.string.error, ONStyle.ALERT);
       return;
     }
-    attachmentUri = FileProviderHelper.getFileProvider(f);
+    attachmentUri = Uri.fromFile(f);
     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    intent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
+    intent.putExtra(MediaStore.EXTRA_OUTPUT,  FileProviderHelper.getFileProvider(f));
     startActivityForResult(intent, TAKE_PHOTO);
   }
 
   private void takeVideo() {
     Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-    if (!IntentChecker
-        .isAvailable(mainActivity, takeVideoIntent, new String[]{FEATURE_CAMERA})) {
+    if (!IntentChecker.isAvailable(mainActivity, takeVideoIntent, new String[]{FEATURE_CAMERA})) {
       mainActivity.showMessage(R.string.feature_not_available_on_this_device, ONStyle.ALERT);
-
       return;
     }
     // File is stored in custom ON folder to speedup the attachment
@@ -1323,18 +1320,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       mainActivity.showMessage(R.string.error, ONStyle.ALERT);
       return;
     }
-    attachmentUri = FileProviderHelper.getFileProvider(f);
+    attachmentUri = Uri.fromFile(f);
     takeVideoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-    takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
-    String maxVideoSizeStr = "".equals(Prefs.getString("settings_max_video_size",
-        "")) ? "0" : Prefs.getString("settings_max_video_size", "");
+    takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT,  FileProviderHelper.getFileProvider(f));
+    String maxVideoSizeStr = "".equals(Prefs.getString("settings_max_video_size", ""))
+        ? "0" : Prefs.getString("settings_max_video_size", "");
     long maxVideoSize = parseLong(maxVideoSizeStr) * 1024L * 1024L;
     takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, maxVideoSize);
     startActivityForResult(takeVideoIntent, TAKE_VIDEO);
   }
 
   private void takeSketch(Attachment attachment) {
-
     File f = StorageHelper.createNewAttachmentFile(mainActivity, MIME_TYPE_SKETCH_EXT);
     if (f == null) {
       mainActivity.showMessage(R.string.error, ONStyle.ALERT);

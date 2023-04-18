@@ -129,7 +129,7 @@ public class BaseAndroidTestCase {
     return note;
   }
 
-  private Attachment createTestAttachment(String attachmentName) {
+  protected Attachment createTestAttachment(String attachmentName) {
     try {
       File testAttachment = File.createTempFile(attachmentName, ".txt");
       IOUtils.write(

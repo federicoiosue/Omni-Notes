@@ -29,13 +29,11 @@ import android.text.TextUtils;
 import it.feio.android.omninotes.factory.MediaStoreFactory;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import java.io.File;
+import lombok.experimental.UtilityClass;
 
 
+@UtilityClass
 public class FileHelper {
-
-  private FileHelper() {
-    // hides public constructor
-  }
 
   /**
    * Get a file path from a Uri. This will get the the path for Storage Access Framework Documents,

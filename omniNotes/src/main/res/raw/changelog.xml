@@ -17,7 +17,7 @@
 <changelog bulletedList="true">
 
   <changelogversion
-    changeDate="Apr 19, 2023"
+    changeDate="Apr 18, 2023"
     versionName="6.2.4">
     <changelogtext>[u]Fix[/u] Take camera picture action from some devices</changelogtext>
   </changelogversion>
