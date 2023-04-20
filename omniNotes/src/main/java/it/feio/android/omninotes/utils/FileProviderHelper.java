@@ -52,7 +52,7 @@ public class FileProviderHelper {
     if (!attachmentFile.exists()) {
       throw new FileNotFoundException("Required attachment not found in " + attachment.getUriPath());
     }
-    return  getFileProvider(attachmentFile);
+    return getFileProvider(attachmentFile);
   }
 
 }

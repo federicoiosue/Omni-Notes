@@ -16,6 +16,7 @@
  */
 package it.feio.android.omninotes.db;
 
+import static android.database.sqlite.SQLiteDatabase.CONFLICT_REPLACE;
 import static it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
 import static it.feio.android.omninotes.utils.Constants.DATABASE_NAME;
 import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO;
@@ -68,7 +69,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
   // Database name
   // Database version aligned if possible to software version
-  private static final int DATABASE_VERSION = 560;
+  private static final int DATABASE_VERSION = 625;
   // Sql query file directory
   private static final String SQL_DIR = "sql";
 
@@ -191,7 +192,6 @@ public class DbHelper extends SQLiteOpenHelper {
     LogDelegate.i("Upgrading database version from " + oldVersion + " to " + newVersion);
 
     try {
-
       UpgradeProcessor.process(oldVersion, newVersion);
 
       for (String sqlFile : AssetUtils.list(SQL_DIR, mContext.getAssets())) {
@@ -242,7 +242,7 @@ public class DbHelper extends SQLiteOpenHelper {
     values.put(KEY_LOCKED, note.isLocked() != null && note.isLocked());
     values.put(KEY_CHECKLIST, note.isChecklist() != null && note.isChecklist());
 
-    db.insertWithOnConflict(TABLE_NOTES, KEY_ID, values, SQLiteDatabase.CONFLICT_REPLACE);
+    db.insertWithOnConflict(TABLE_NOTES, KEY_ID, values, CONFLICT_REPLACE);
     LogDelegate.d("Updated note titled '" + note.getTitle() + "'");
 
     // Updating attachments
@@ -285,29 +285,28 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
   /**
-   * Attachments update
+   * New attachment insertion
    */
   public Attachment updateAttachment(Attachment attachment) {
-    return updateAttachment(-1, attachment, getDatabase(true));
+    var noteId = attachment.getNoteId() != null ? attachment.getNoteId() : -1;
+    return updateAttachment(noteId, attachment, getDatabase(true));
   }
 
 
   /**
-   * New attachment insertion
+   * Attachments update
    */
   public Attachment updateAttachment(long noteId, Attachment attachment, SQLiteDatabase db) {
-    ContentValues valuesAttachments = new ContentValues();
-    valuesAttachments
-        .put(KEY_ATTACHMENT_ID, attachment.getId() != null ? attachment.getId() : Calendar
-            .getInstance().getTimeInMillis());
+    var valuesAttachments = new ContentValues();
+    valuesAttachments.put(KEY_ATTACHMENT_ID,
+        attachment.getId() != null ? attachment.getId() : Calendar.getInstance().getTimeInMillis());
     valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, noteId);
     valuesAttachments.put(KEY_ATTACHMENT_URI, attachment.getUri().toString());
     valuesAttachments.put(KEY_ATTACHMENT_MIME_TYPE, attachment.getMime_type());
     valuesAttachments.put(KEY_ATTACHMENT_NAME, attachment.getName());
     valuesAttachments.put(KEY_ATTACHMENT_SIZE, attachment.getSize());
     valuesAttachments.put(KEY_ATTACHMENT_LENGTH, attachment.getLength());
-    db.insertWithOnConflict(TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID, valuesAttachments,
-        SQLiteDatabase.CONFLICT_REPLACE);
+    db.insertWithOnConflict(TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID, valuesAttachments, CONFLICT_REPLACE);
     return attachment;
   }
 
@@ -796,7 +795,6 @@ public class DbHelper extends SQLiteOpenHelper {
    * @return List of attachments
    */
   public ArrayList<Attachment> getAttachments(String whereCondition) {
-
     ArrayList<Attachment> attachmentsList = new ArrayList<>();
     String sql = "SELECT "
         + KEY_ATTACHMENT_ID + ","
@@ -804,24 +802,24 @@ public class DbHelper extends SQLiteOpenHelper {
         + KEY_ATTACHMENT_NAME + ","
         + KEY_ATTACHMENT_SIZE + ","
         + KEY_ATTACHMENT_LENGTH + ","
-        + KEY_ATTACHMENT_MIME_TYPE
+        + KEY_ATTACHMENT_MIME_TYPE + ","
+        + KEY_ATTACHMENT_NOTE_ID
         + " FROM " + TABLE_ATTACHMENTS
         + whereCondition;
-    SQLiteDatabase db;
+
     Cursor cursor = null;
 
     try {
-
       cursor = getDatabase().rawQuery(sql, null);
 
       // Looping through all rows and adding to list
       if (cursor.moveToFirst()) {
-        Attachment mAttachment;
         do {
-          mAttachment = new Attachment(cursor.getLong(0),
+          var attachment = new Attachment(cursor.getLong(0),
               Uri.parse(cursor.getString(1)), cursor.getString(2), cursor.getInt(3),
               (long) cursor.getInt(4), cursor.getString(5));
-          attachmentsList.add(mAttachment);
+          attachment.setNoteId(cursor.getLong(6));
+          attachmentsList.add(attachment);
         } while (cursor.moveToNext());
       }
 
@@ -894,8 +892,7 @@ public class DbHelper extends SQLiteOpenHelper {
     values.put(KEY_CATEGORY_NAME, category.getName());
     values.put(KEY_CATEGORY_DESCRIPTION, category.getDescription());
     values.put(KEY_CATEGORY_COLOR, category.getColor());
-    getDatabase(true).insertWithOnConflict(TABLE_CATEGORY, KEY_CATEGORY_ID, values, SQLiteDatabase
-        .CONFLICT_REPLACE);
+    getDatabase(true).insertWithOnConflict(TABLE_CATEGORY, KEY_CATEGORY_ID, values, CONFLICT_REPLACE);
     return category;
   }
 

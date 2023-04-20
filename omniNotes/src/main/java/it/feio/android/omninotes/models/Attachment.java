@@ -26,6 +26,7 @@ import java.util.Calendar;
 public class Attachment extends BaseAttachment implements Parcelable {
 
   private Uri uri;
+  private Long noteId;
 
 
   public Attachment(Uri uri, String mimeType) {
@@ -64,6 +65,13 @@ public class Attachment extends BaseAttachment implements Parcelable {
     setUriPath(uri != null ? uri.toString() : "");
   }
 
+  public Long getNoteId() {
+    return noteId;
+  }
+
+  public void setNoteId(Long noteId) {
+    this.noteId = noteId;
+  }
 
   @Override
   public int describeContents() {
