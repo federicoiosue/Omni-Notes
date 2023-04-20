@@ -52,7 +52,7 @@ class FileProviderHelperTest : BaseAndroidTestCase() {
 
         val res = FileProviderHelper.getShareableUri(attachment)
 
-        assertEquals(uri, res)
+        assertEquals(uri, res.toString())
     }
 
 }
