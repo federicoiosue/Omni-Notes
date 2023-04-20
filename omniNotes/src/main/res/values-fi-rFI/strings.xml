@@ -229,7 +229,7 @@
     <string name="settings_sync_import_export">Synkronointi ja varmuuskopiointi</string>
     <string name="settings_import">Palauta tai poista varmuuskopiot</string>
     <string name="settings_import_summary">VAROITUS: Salasanaa ei ole asetettu, suojattuja merkintöjä ei palauteta varmuuskopiosta turvallisuussyistä</string>
-    <string name="settings_change_backup_folder">Vaihda varmuuskopio kansio</string>
+    <string name="settings_change_backup_folder">Vaihda varmuuskopiokansio</string>
     <string name="settings_import_legacy">Palauta vanha varmuuskopio</string>
     <string name="settings_import_legacy_summary">Mahdollistaa entisten varmuuskopioiden palauttamisen, jotka on tehty versiota 6 vanhemmilla Omni Notes -versioilla</string>
     <string name="settings_import_from_springpad">Tuo merkintöjä Springpadista</string>

@@ -229,6 +229,7 @@
     <string name="settings_sync_import_export">Sincronització i còpies de seguretat</string>
     <string name="settings_import">Restaura o suprimeix còpies de seguretat</string>
     <string name="settings_import_summary">ATENCIÓ: Si no establiu una contrasenya, per seguretat no es restauraran les notes protegides</string>
+    <string name="settings_change_backup_folder">Canvia la carpeta de còpies de seguretat</string>
     <string name="settings_import_legacy">Restaura una còpia de seguretat</string>
     <string name="settings_import_legacy_summary">Permet restaurar còpies antigues realitzades amb versions anteriors a la 6 de l\'Omni Notes</string>
     <string name="settings_import_from_springpad">Importa les notes des de l\'Springpad</string>
