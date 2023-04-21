@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-  ~ Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2023 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -229,6 +229,7 @@
     <string name="settings_sync_import_export">Sincronització i còpies de seguretat</string>
     <string name="settings_import">Restaura o suprimeix còpies de seguretat</string>
     <string name="settings_import_summary">ATENCIÓ: Si no establiu una contrasenya, per seguretat no es restauraran les notes protegides</string>
+    <string name="settings_change_backup_folder">Canvia la carpeta de còpies de seguretat</string>
     <string name="settings_import_legacy">Restaura una còpia de seguretat</string>
     <string name="settings_import_legacy_summary">Permet restaurar còpies antigues realitzades amb versions anteriors a la 6 de l\'Omni Notes</string>
     <string name="settings_import_from_springpad">Importa les notes des de l\'Springpad</string>

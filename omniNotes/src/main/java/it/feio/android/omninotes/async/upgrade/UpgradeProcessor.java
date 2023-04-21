@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2023 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,8 @@ import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO_EXT;
 import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_FILES;
 import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE;
 import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO;
+import static java.lang.Integer.parseInt;
+import static rx.Observable.from;
 
 import android.content.ContentValues;
 import android.net.Uri;
@@ -48,7 +50,7 @@ import org.apache.commons.io.FilenameUtils;
  */
 public class UpgradeProcessor {
 
-  private final static String METHODS_PREFIX = "onUpgradeTo";
+  private static final String METHODS_PREFIX = "onUpgradeTo";
 
   private static UpgradeProcessor instance;
 
@@ -64,11 +66,10 @@ public class UpgradeProcessor {
     return instance;
   }
 
-
   public static void process(int dbOldVersion, int dbNewVersion)
       throws InvocationTargetException, IllegalAccessException {
     try {
-      List<Method> methodsToLaunch = getInstance().getMethodsToLaunch(dbOldVersion, dbNewVersion);
+      var methodsToLaunch = getInstance().getMethodsToLaunch(dbOldVersion, dbNewVersion);
       for (Method methodToLaunch : methodsToLaunch) {
         LogDelegate.d("Running upgrade processing method: " + methodToLaunch.getName());
         methodToLaunch.invoke(getInstance());
@@ -79,22 +80,14 @@ public class UpgradeProcessor {
     }
   }
 
-
   private List<Method> getMethodsToLaunch(int dbOldVersion, int dbNewVersion) {
-    List<Method> methodsToLaunch = new ArrayList<>();
-    Method[] declaredMethods = getInstance().getClass().getDeclaredMethods();
-    for (Method declaredMethod : declaredMethods) {
-      if (declaredMethod.getName().contains(METHODS_PREFIX)) {
-        int methodVersionPostfix = Integer
-            .parseInt(declaredMethod.getName().replace(METHODS_PREFIX, ""));
-        if (dbOldVersion <= methodVersionPostfix && methodVersionPostfix <= dbNewVersion) {
-          methodsToLaunch.add(declaredMethod);
-        }
-      }
-    }
-    return methodsToLaunch;
+    return from(getInstance().getClass().getDeclaredMethods())
+        .filter(method -> method.getName().matches(METHODS_PREFIX + "\\d+"))
+        .filter(method -> {
+          int methodVersionPostfix = parseInt(method.getName().replace(METHODS_PREFIX, ""));
+          return dbOldVersion <= methodVersionPostfix && methodVersionPostfix <= dbNewVersion;
+        }).toList().toBlocking().single();
   }
-
 
   /**
    * Adjustment of all the old attachments without mimetype field set into DB
@@ -128,7 +121,6 @@ public class UpgradeProcessor {
     }
   }
 
-
   /**
    * Upgrades all the old audio attachments to the new format 3gpp to avoid mixing with videos
    */
@@ -157,7 +149,6 @@ public class UpgradeProcessor {
     }
   }
 
-
   /**
    * Reschedule reminders after upgrade
    */
@@ -166,7 +157,6 @@ public class UpgradeProcessor {
       ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
     }
   }
-
 
   /**
    * Ensures that no duplicates will be found during the creation-to-ID transition
@@ -186,6 +176,24 @@ public class UpgradeProcessor {
       }
       creations.add(note.getCreation());
     }
+  }
+
+  /**
+   * Attachment uri replacement
+   */
+  private void onUpgradeTo625() {
+    var attachmentsDir = StorageHelper.getAttachmentDir();
+    var dbHelper = DbHelper.getInstance();
+    from(dbHelper.getAllAttachments())
+        .filter(attachment -> "content".equals(attachment.getUri().getScheme()))
+        .forEach(attachment -> {
+      var fileName = attachment.getUri().getPathSegments().get(attachment.getUri().getPathSegments().size() - 1);
+      var file = new File(attachmentsDir + "/" + fileName);
+      if (file.exists()) {
+        attachment.setUri(Uri.fromFile(file));
+        dbHelper.updateAttachment(attachment);
+      }
+    });
   }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2022 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2023 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,7 +52,7 @@ public class FileProviderHelper {
     if (!attachmentFile.exists()) {
       throw new FileNotFoundException("Required attachment not found in " + attachment.getUriPath());
     }
-    return  getFileProvider(attachmentFile);
+    return getFileProvider(attachmentFile);
   }
 
 }
