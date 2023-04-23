@@ -78,7 +78,7 @@ Build instructions:
 * Clone the application by using the link to the repository (https://github.com/federicoiosue/Omni-Notes), this will take a couple minutes
 * Enter the Omni-Notes folder using the command $cd Omni-Notes
 * Check that the branch is up to date by using the command $git status
-* Enter the command $export ANDROID_HOME=/home/fede/Android/Sdk
+* Enter the command $export ANDROID_HOME=/home/fede/Android/Sdk (for Windows $set ANDROID_HOME=/home/fede/Android/Sdk)
 * Enter the command $./gradlew assemble
 * Allow a couple minutes for the application to build.
 * View the outputs of the build using the command $ls -l omniNotes/build/outputs/apk
