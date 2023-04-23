@@ -46,6 +46,7 @@ import it.feio.android.omninotes.exceptions.TestException;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -58,6 +59,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import org.apache.commons.io.IOUtils;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
 
@@ -68,6 +70,7 @@ public class BaseAndroidTestCase {
   protected static DbHelper dbHelper;
   protected static Context testContext;
   protected static SharedPreferences prefs;
+  private File testAttachment;
 
   @BeforeClass
   public static void setUpBeforeClass() {
@@ -82,6 +85,13 @@ public class BaseAndroidTestCase {
     prepareDatabase();
     prepareLocale();
     preparePreferences();
+  }
+
+  @After
+  public void tearDown() {
+    if (testAttachment != null && testAttachment.exists()) {
+      testAttachment.delete();
+    }
   }
 
   private static void grantPermissions() {
@@ -131,7 +141,7 @@ public class BaseAndroidTestCase {
 
   protected Attachment createTestAttachment(String attachmentName) {
     try {
-      File testAttachment = File.createTempFile(attachmentName, ".txt");
+      testAttachment = new File(StorageHelper.getAttachmentDir(), attachmentName);
       IOUtils.write(
           String.format("some test content for attachment named %s", attachmentName).toCharArray(),
           new FileOutputStream(testAttachment));

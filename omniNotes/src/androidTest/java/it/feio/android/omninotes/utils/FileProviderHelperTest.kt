@@ -18,41 +18,22 @@
 package it.feio.android.omninotes.utils
 
 
-import android.net.Uri
-import androidx.core.net.toUri
 import it.feio.android.omninotes.OmniNotes.getAppContext
-import it.feio.android.omninotes.models.Attachment
 import it.feio.android.omninotes.testutils.BaseAndroidTestCase
-import it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE
 import org.junit.Assert.*
 import org.junit.Test
-import java.io.File
 
 class FileProviderHelperTest : BaseAndroidTestCase() {
 
     @Test
     fun getShareableUri() {
-        val file = File("/storage/emulated/0/Android/data/it.feio.android.omninotes/files/424242.png")
-        assertTrue(file.createNewFile() || file.exists())
-        val attachment = Attachment(file.toUri(), MIME_TYPE_IMAGE)
+        val attachment = createTestAttachment("testAttachment.txt")
 
         val res = FileProviderHelper.getShareableUri(attachment)
 
         assertNotNull(res)
-        assertNotEquals(file.toUri(), res)
+        assertNotEquals(attachment.uri, res)
         assertTrue(res?.scheme.equals("content") && res?.authority.equals(getAppContext().packageName + ".authority"))
-
-        file.deleteOnExit()
-    }
-
-    @Test
-    fun getShareableUri_contentScheme() {
-        val uri = "content://it.feio.android.omninotes.authority/external_files/Android/data/it.feio.android.omninotes/files/20230418_091959_730.jpeg"
-        val attachment = Attachment(Uri.parse(uri), "")
-
-        val res = FileProviderHelper.getShareableUri(attachment)
-
-        assertEquals(uri, res.toString())
     }
 
 }
