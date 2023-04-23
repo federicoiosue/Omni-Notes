@@ -4,7 +4,7 @@ sauce:
   region: eu-central-1
   retries: 2
 espresso:
-  app: ./omniNotes/build/intermediates/apk/play/debug/OmniNotes-playDebug-6.2.1.apk
+  app: ./omniNotes/build/intermediates/apk/play/debug/OmniNotes-playDebug-6.2.6.apk
   testApp: ./omniNotes/build/intermediates/apk/androidTest/play/debug/omniNotes-play-debug-androidTest.apk
 suites:
   - name: "All tests (no flaky, real device only) on Android 13"
