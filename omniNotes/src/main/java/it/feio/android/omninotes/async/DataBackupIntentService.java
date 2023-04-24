@@ -136,8 +136,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     StorageHelper.delete(this, backupDir.getAbsolutePath());
 
-    mNotificationsHelper.finish(getString(R.string.data_deletion_completed),
-        backupName + " " + getString(R.string.deleted));
+    mNotificationsHelper.finish(getString(R.string.data_deletion_completed), backupName + " " + getString(R.string.deleted));
   }
 
   private void createNotification(Intent intent, Context context, String title, String message) {

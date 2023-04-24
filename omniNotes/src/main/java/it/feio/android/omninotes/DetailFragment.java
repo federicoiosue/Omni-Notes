@@ -159,7 +159,6 @@ import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.BitmapHelper;
-import it.feio.android.omninotes.utils.ConnectionManager;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.FileProviderHelper;
@@ -2209,18 +2208,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     @Override
     public void onLocationRetrieved(Location location) {
-
       if (!checkWeakReferences()) {
         return;
       }
 
       if (location == null) {
-        return;
-      }
-      if (!ConnectionManager.internetAvailable(mainActivityWeakReference.get())) {
-        noteTmpWeakReference.get().setLatitude(location.getLatitude());
-        noteTmpWeakReference.get().setLongitude(location.getLongitude());
-        onAddressResolved("");
         return;
       }
       LayoutInflater inflater = mainActivityWeakReference.get().getLayoutInflater();

@@ -45,7 +45,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,12 +84,12 @@ public class GeocodeHelper implements LocationListener {
 
 
   public static void getLocation(OnGeoUtilResultListener onGeoUtilResultListener) {
-    SmartLocation.LocationControl bod = SmartLocation.with(OmniNotes.getAppContext())
+      SmartLocation.LocationControl bod = SmartLocation.with(OmniNotes.getAppContext())
         .location(getProvider(OmniNotes.getAppContext()))
         .config(LocationParams.NAVIGATION).oneFix();
 
     Observable<Location> locations = ObservableFactory.from(bod).timeout(2, TimeUnit.SECONDS);
-    locations.subscribe(new Subscriber<Location>() {
+    locations.subscribe(new Subscriber<>() {
       @Override
       public void onNext(Location location) {
         onGeoUtilResultListener.onLocationRetrieved(location);
@@ -141,7 +140,7 @@ public class GeocodeHelper implements LocationListener {
     } else {
       SmartLocation.with(OmniNotes.getAppContext()).geocoding()
           .reverse(location, (location1, list) -> {
-            String address = list.size() > 0 ? list.get(0).getAddressLine(0) : null;
+            String address = !list.isEmpty() ? list.get(0).getAddressLine(0) : null;
             onGeoUtilResultListener.onAddressResolved(address);
           });
     }
@@ -225,9 +224,7 @@ public class GeocodeHelper implements LocationListener {
     } catch (JSONException e) {
       LogDelegate.e("Cannot process JSON results", e);
     } finally {
-      if (conn != null) {
-        conn.disconnect();
-      }
+      conn.disconnect();
       SystemHelper.closeCloseable(in);
     }
     return resultList;
@@ -235,11 +232,9 @@ public class GeocodeHelper implements LocationListener {
 
 
   public static boolean areCoordinates(String string) {
-    Pattern p = Pattern
-        .compile("^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|" +
-            "([1-9]?\\d))(\\.\\d+)?)$");
-    Matcher m = p.matcher(string);
-    return m.matches();
+    var p = Pattern.compile(
+        "^[-+]?([1-8]?\\d(\\.\\d+)?|90(\\.0+)?),\\s*[-+]?(180(\\.0+)?|((1[0-7]\\d)|([1-9]?\\d))(\\.\\d+)?)$");
+    return p.matcher(string).matches();
   }
 
   /**
@@ -247,8 +242,7 @@ public class GeocodeHelper implements LocationListener {
    * etc...
    */
   public static boolean checkLocationProviderEnabled(Context context, String provider) {
-    LocationManager locationManager = (LocationManager) context
-        .getSystemService(Context.LOCATION_SERVICE);
+    var locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
     return locationManager.isProviderEnabled(provider);
   }
 
