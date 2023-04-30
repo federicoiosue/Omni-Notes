@@ -32,11 +32,10 @@ public class GeocodeHelperTest extends BaseAndroidTestCase {
 
   @Test
   public void testGetAddressFromCoordinates() throws IOException {
-    if (ConnectionManager.internetAvailable(OmniNotes.getAppContext())) {
-      double LAT = 43.799328;
-      double LON = 11.171552;
-      String address = GeocodeHelper.getAddressFromCoordinates(OmniNotes.getAppContext(), LAT, LON);
-      Assert.assertTrue(address.length() > 0);
-    }
+    double LAT = 43.799328;
+    double LON = 11.171552;
+    String address = GeocodeHelper.getAddressFromCoordinates(OmniNotes.getAppContext(), LAT, LON);
+    Assert.assertTrue(address.length() > 0);
   }
+
 }

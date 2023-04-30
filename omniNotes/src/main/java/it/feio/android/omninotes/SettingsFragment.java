@@ -582,7 +582,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         throw new ExternalStorageProviderException("Can't write into " + backupFolder);
       }
       return backupFolder;
-    } catch (SecurityException | NullPointerException e) {
+    } catch (SecurityException | NullPointerException | IllegalArgumentException e) {
       throw new ExternalStorageProviderException(e);
     }
   }
