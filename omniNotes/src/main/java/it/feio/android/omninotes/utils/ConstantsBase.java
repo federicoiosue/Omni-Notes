@@ -86,6 +86,7 @@ public interface ConstantsBase {
   String PREF_KEEP_CHECKED = "keep_checked";
   String PREF_KEEP_CHECKMARKS = "show_checkmarks";
   String PREF_EXPANDED_VIEW = "expanded_view";
+  String PREF_MINIMAL_VIEW = "minimal_view";
   String PREF_COLORS_APP_DEFAULT = "strip";
   String PREF_WIDGET_PREFIX = "widget_";
   String PREF_SHOW_UNCATEGORIZED = "settings_show_uncategorized";

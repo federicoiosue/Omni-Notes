@@ -46,7 +46,7 @@ public class NoteViewHolder extends ViewHolder {
   @Nullable
   public SquareImageView attachmentThumbnail;
 
-  public NoteViewHolder(View view, boolean expandedView) {
+  public NoteViewHolder(View view, boolean expandedView, boolean minimalView) {
     super(view);
 
     if (expandedView) {
@@ -64,7 +64,22 @@ public class NoteViewHolder extends ViewHolder {
       attachmentThumbnail = binding.attachmentThumbnail;
       lockedIcon = binding.lockedIcon;
       lockedIcon = binding.lockedIcon;
-    } else {
+    } else if (minimalView){
+      NoteLayoutExpandedBinding binding = NoteLayoutExpandedBinding.bind(view);
+      root = binding.root;
+      cardLayout = binding.cardLayout;
+      categoryMarker = binding.categoryMarker;
+      title = binding.noteTitle;
+      content = binding.noteContent;
+      date = binding.noteDate;
+      archiveIcon = binding.archivedIcon;
+      locationIcon = binding.locationIcon;
+      alarmIcon = binding.alarmIcon;
+      lockedIcon = binding.lockedIcon;
+      attachmentThumbnail = binding.attachmentThumbnail;
+      lockedIcon = binding.lockedIcon;
+      lockedIcon = binding.lockedIcon;
+    }else {
       NoteLayoutBinding binding = NoteLayoutBinding.bind(view);
       root = binding.root;
       cardLayout = binding.cardLayout;
