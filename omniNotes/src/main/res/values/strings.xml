@@ -90,6 +90,7 @@
   <string name="remove_reminder">Remove reminder?</string>
   <string name="add_reminder">Add reminder</string>
   <string name="location_not_found">Location not found</string>
+  <string name="device_position_warning">Device position is turned off</string>
   <string name="record">Record</string>
   <string name="stop">Stop</string>
   <string name="no_app_to_handle_intent">No applications to handle file</string>
