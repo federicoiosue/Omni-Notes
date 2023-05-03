@@ -53,7 +53,7 @@
     changeDate="Apr 30, 2023"
     versionName="6.2.6">
     <changelogtext>[i]Improved![/i] Reduced required permissions and removed some legacy code</changelogtext>
-    <changelogtext>[u]Fix[/u] Minor backup related fixes</changelogtext>
+    <changelogtext>[u]Fix[/u] Backup folder management</changelogtext>
   </changelogversion>
 
   <changelogversion
