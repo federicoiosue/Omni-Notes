@@ -173,8 +173,6 @@ dependencies {
         transitive = true
         exclude group: "com.android.support"
     }
-    implementation 'com.jakewharton:butterknife:10.2.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
     implementation('org.mnode.ical4j:ical4j:3.0.11') {
         exclude group: 'commons.io'
     }
