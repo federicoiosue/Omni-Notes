@@ -20,6 +20,7 @@
     changeDate="May 03, 2023"
     versionName="6.3.0">
     <changelogtext>[b]New![/b] Targeting Android 13 API with improved performances and security updates</changelogtext>
+    <changelogtext>[b]New![/b] Telegram channel (removed Facebook, never used...)</changelogtext>
   </changelogversion>
 
   <changelogversion
