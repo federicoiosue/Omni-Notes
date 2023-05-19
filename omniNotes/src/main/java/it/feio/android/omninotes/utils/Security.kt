@@ -17,15 +17,20 @@
 
 package it.feio.android.omninotes.utils
 
+import android.net.Uri
 import android.util.Base64
+import it.feio.android.omninotes.exceptions.checked.ContentSecurityException
 import it.feio.android.omninotes.helpers.LogDelegate
 import java.nio.charset.StandardCharsets
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import javax.crypto.*
+import javax.crypto.Cipher
+import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.DESKeySpec
+import kotlin.jvm.Throws
 
-class Security private constructor(){
+
+class Security private constructor() {
 
     companion object {
         @JvmStatic
@@ -79,6 +84,15 @@ class Security private constructor(){
             } catch (e: Exception) {
                 LogDelegate.e("Error decrypting", e)
                 value
+            }
+        }
+
+        @JvmStatic
+        @Throws(ContentSecurityException::class)
+        fun validatePath(path: String?) {
+            val uri = Uri.parse(path).path
+            if (uri?.startsWith("/data")!! || uri.contains("../")) {
+                throw ContentSecurityException("Invalid")
             }
         }
 
