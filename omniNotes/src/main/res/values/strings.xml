@@ -231,6 +231,7 @@
   <string name="undo_changes_note_confirmation">Confirm undoing changes?</string>
   <string name="done">Done</string>
   <string name="nothing_selected">Nothing selected</string>
+  <string name="insecure_content_found">Some of the received content was dangerous, it has been ignored</string>
 
   <!-- Settings -->
   <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>

@@ -61,6 +61,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_WIDGET_PREFIX;
 import static it.feio.android.omninotes.utils.ConstantsBase.SWIPE_MARGIN;
 import static it.feio.android.omninotes.utils.ConstantsBase.SWIPE_OFFSET;
 import static it.feio.android.omninotes.utils.ConstantsBase.THUMBNAIL_SIZE;
+import static it.feio.android.omninotes.utils.Security.validatePath;
 import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 
@@ -133,6 +134,7 @@ import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
 import it.feio.android.omninotes.async.notes.SaveNoteTask;
 import it.feio.android.omninotes.databinding.FragmentDetailBinding;
 import it.feio.android.omninotes.db.DbHelper;
+import it.feio.android.omninotes.exceptions.checked.ContentSecurityException;
 import it.feio.android.omninotes.exceptions.checked.UnhandledIntentException;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.helpers.IntentHelper;
@@ -167,6 +169,7 @@ import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.ReminderHelper;
+import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.utils.ShortcutHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TagsHelper;
@@ -551,7 +554,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   private void importAttachments(Intent i) {
-
     if (!i.hasExtra(Intent.EXTRA_STREAM)) {
       return;
     }
@@ -559,16 +561,28 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     if (i.getExtras().get(Intent.EXTRA_STREAM) instanceof Uri) {
       Uri uri = i.getParcelableExtra(Intent.EXTRA_STREAM);
       // Google Now passes Intent as text but with audio recording attached the case must be handled like this
-      if (!INTENT_GOOGLE_NOW.equals(i.getAction())) {
+      if (validatePath(uri.getPath()) && !INTENT_GOOGLE_NOW.equals(i.getAction())) {
         String name = FileHelper.getNameFromUri(mainActivity, uri);
         new AttachmentTask(this, uri, name, this).execute();
       }
     } else {
       ArrayList<Uri> uris = i.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
       for (Uri uriSingle : uris) {
-        String name = FileHelper.getNameFromUri(mainActivity, uriSingle);
-        new AttachmentTask(this, uriSingle, name, this).execute();
+        if (validatePath(uriSingle.getPath())) {
+          String name = FileHelper.getNameFromUri(mainActivity, uriSingle);
+          new AttachmentTask(this, uriSingle, name, this).execute();
+        }
       }
+    }
+  }
+
+  private boolean validatePath(String path) {
+    try {
+      Security.validatePath(path);
+      return true;
+    } catch (ContentSecurityException e) {
+      mainActivity.showMessage(R.string.insecure_content_found, ONStyle.WARN);
+      return false;
     }
   }
 
