@@ -75,17 +75,21 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.pdf.PdfDocument;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -93,6 +97,7 @@ import android.text.Selection;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -108,6 +113,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
@@ -175,6 +181,8 @@ import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
@@ -1102,10 +1110,89 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       case R.id.menu_note_info:
         showNoteInfo();
         break;
+      case R.id.menu_convert_PDF:
+        convertNoteToPDF();
+        break;
       default:
         LogDelegate.w("Invalid menu option selected");
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  private void convertNoteToPDF() {
+
+    String head = getNoteTitle();
+    String context = getNoteContent();
+
+    LayoutInflater inflater = LayoutInflater.from(this.getContext());
+
+    View view = inflater.inflate(R.layout.pdf_template_text_note, null);
+
+    TextView headView = view.findViewById(R.id.txtHead);
+    TextView contextView = view.findViewById(R.id.txtContext);
+
+    headView.setText(head);
+    contextView.setText(context);
+
+    DisplayMetrics displayMetrics = new DisplayMetrics();
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      this.getContext().getDisplay().getRealMetrics(displayMetrics);
+    }
+    else{
+      this.getActivity().getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
+    }
+    view.measure(
+            View.MeasureSpec.makeMeasureSpec(
+                    displayMetrics.widthPixels, View.MeasureSpec.EXACTLY
+            ),
+            View.MeasureSpec.makeMeasureSpec(
+                    displayMetrics.heightPixels, View.MeasureSpec.EXACTLY
+            )
+    );
+
+    view.layout(0,0,displayMetrics.widthPixels,displayMetrics.heightPixels);
+
+    Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(),view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+    Canvas canvas = new Canvas(bitmap);
+    view.draw(canvas);
+
+    Bitmap.createScaledBitmap(bitmap,view.getMeasuredWidth(),view.getMeasuredHeight(),true);
+
+    PdfDocument pdf = new PdfDocument();
+    PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(view.getMeasuredWidth(),view.getMeasuredHeight(),1).create();
+    PdfDocument.Page page = pdf.startPage(pageInfo);
+
+    Canvas canvasPage = page.getCanvas();
+    canvasPage.drawBitmap(bitmap,0,0,null);
+    pdf.finishPage(page);
+
+    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),head + ".pdf");
+
+    try {
+      FileOutputStream fileOutPut = new FileOutputStream(file);
+      pdf.writeTo(fileOutPut);
+      pdf.close();
+      fileOutPut.flush();
+      fileOutPut.close();
+      Toast.makeText(getContext(), "PDF file generated successfully.", Toast.LENGTH_SHORT).show();
+
+      Intent intent = new Intent(Intent.ACTION_VIEW);
+      Uri uri = Uri.fromFile(file);
+      intent.setDataAndType(uri,"application/pdf");
+      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+      startActivity(intent);
+    }
+    catch (FileNotFoundException e) {
+      e.printStackTrace();
+      Toast.makeText(getContext(), "file: PDF file did not generate", Toast.LENGTH_SHORT).show();
+      pdf.close();
+    }
+    catch (IOException e) {
+      e.printStackTrace();
+      Toast.makeText(getContext(), "I/0: PDF file did not generate", Toast.LENGTH_SHORT).show();
+      pdf.close();
+    }
   }
 
   private void showNoteInfo() {
