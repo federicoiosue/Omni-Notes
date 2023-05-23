@@ -25,11 +25,18 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           # We must fetch at least the immediate parents so that if this is
           # a pull request then we can checkout the head.
           fetch-depth: 2
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3.11.0
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
 
       - name: Delombok
         uses: advanced-security/delombok@main
@@ -53,7 +60,6 @@ jobs:
         #    uses a compiled language
 
         run: ./gradlew assembleDebug
-
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v2
