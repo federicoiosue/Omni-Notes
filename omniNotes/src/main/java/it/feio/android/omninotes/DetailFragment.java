@@ -143,6 +143,7 @@ import it.feio.android.omninotes.exceptions.checked.UnhandledIntentException;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.helpers.IntentHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.helpers.NoteToPdfHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.TagOpenerHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
@@ -1111,7 +1112,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         showNoteInfo();
         break;
       case R.id.menu_convert_PDF:
-        convertNoteToPDF();
+        createPDF();
         break;
       default:
         LogDelegate.w("Invalid menu option selected");
@@ -1119,79 +1120,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     return super.onOptionsItemSelected(item);
   }
 
-  private void convertNoteToPDF() {
-
-    String head = getNoteTitle();
-    String context = getNoteContent();
-
-    LayoutInflater inflater = LayoutInflater.from(this.getContext());
-
-    View view = inflater.inflate(R.layout.pdf_template_text_note, null);
-
-    TextView headView = view.findViewById(R.id.txtHead);
-    TextView contextView = view.findViewById(R.id.txtContext);
-
-    headView.setText(head);
-    contextView.setText(context);
-
-    DisplayMetrics displayMetrics = new DisplayMetrics();
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-      this.getContext().getDisplay().getRealMetrics(displayMetrics);
-    }
-    else{
-      this.getActivity().getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
-    }
-    view.measure(
-            View.MeasureSpec.makeMeasureSpec(
-                    displayMetrics.widthPixels, View.MeasureSpec.EXACTLY
-            ),
-            View.MeasureSpec.makeMeasureSpec(
-                    displayMetrics.heightPixels, View.MeasureSpec.EXACTLY
-            )
-    );
-
-    view.layout(0,0,displayMetrics.widthPixels,displayMetrics.heightPixels);
-
-    Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(),view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-    Canvas canvas = new Canvas(bitmap);
-    view.draw(canvas);
-
-    Bitmap.createScaledBitmap(bitmap,view.getMeasuredWidth(),view.getMeasuredHeight(),true);
-
-    PdfDocument pdf = new PdfDocument();
-    PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(view.getMeasuredWidth(),view.getMeasuredHeight(),1).create();
-    PdfDocument.Page page = pdf.startPage(pageInfo);
-
-    Canvas canvasPage = page.getCanvas();
-    canvasPage.drawBitmap(bitmap,0,0,null);
-    pdf.finishPage(page);
-
-    File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),head + ".pdf");
-
-    try {
-      FileOutputStream fileOutPut = new FileOutputStream(file);
-      pdf.writeTo(fileOutPut);
-      pdf.close();
-      fileOutPut.flush();
-      fileOutPut.close();
-      Toast.makeText(getContext(), "PDF file generated successfully.", Toast.LENGTH_SHORT).show();
-
-      Intent intent = new Intent(Intent.ACTION_VIEW);
-      Uri uri = Uri.fromFile(file);
-      intent.setDataAndType(uri,"application/pdf");
-      intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
+  private void createPDF(){
+    NoteToPdfHelper pdfHelper = new NoteToPdfHelper();
+    Intent intent = pdfHelper.convertStringToPDF(getNoteTitle(),getNoteContent(),this.getContext());
+    if(intent != null){
       startActivity(intent);
     }
-    catch (FileNotFoundException e) {
-      e.printStackTrace();
-      Toast.makeText(getContext(), "file: PDF file did not generate", Toast.LENGTH_SHORT).show();
-      pdf.close();
-    }
-    catch (IOException e) {
-      e.printStackTrace();
-      Toast.makeText(getContext(), "I/0: PDF file did not generate", Toast.LENGTH_SHORT).show();
-      pdf.close();
+    else{
+      Toast.makeText(getContext(), "PDF file wasnt created.", Toast.LENGTH_SHORT).show();
     }
   }
 
