@@ -21,8 +21,9 @@ import java.io.IOException;
 
 import it.feio.android.omninotes.BaseFragment;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.databinding.PdfTemplateTextNoteBinding;
 
-public class NoteToPdfHelper extends BaseFragment {
+public class NoteToPdfHelper {
 
     public Intent convertStringToPDF(String head, String contents, Context context) {
 
@@ -36,8 +37,54 @@ public class NoteToPdfHelper extends BaseFragment {
         headView.setText(head);
         contextView.setText(contents);
 
+        PdfDocument pdf = createPdfFromView(view, context);
+
+        File file = createFilePath(head);
+
+        if(file != null) {
+            writePdfToFillePath(pdf, file);
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            Uri uri = Uri.fromFile(file);
+            intent.setDataAndType(uri,"application/pdf");
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+            return intent;
+        }
+        else{
+            return null;
+        }
+    }
+
+    public File createFilePath(String head){
+        if(head.contains(".") || head.contains("/")){
+            return null;
+        }
+        else {
+            return new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), head + ".pdf");
+        }
+    }
+
+    public void writePdfToFillePath(PdfDocument pdf,File file){
+        try {
+            FileOutputStream fileOutPut = new FileOutputStream(file);
+            pdf.writeTo(fileOutPut);
+            pdf.close();
+            fileOutPut.flush();
+            fileOutPut.close();
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+            pdf.close();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            pdf.close();
+        }
+    }
+
+    public PdfDocument createPdfFromView(View view,Context context){
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             context.getDisplay().getRealMetrics(displayMetrics);
         }
@@ -67,39 +114,6 @@ public class NoteToPdfHelper extends BaseFragment {
         canvasPage.drawBitmap(bitmap,0,0,null);
         pdf.finishPage(page);
 
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),head + ".pdf");
-
-        try {
-            FileOutputStream fileOutPut = new FileOutputStream(file);
-            pdf.writeTo(fileOutPut);
-            pdf.close();
-            fileOutPut.flush();
-            fileOutPut.close();
-            Toast.makeText(context, "PDF file generated successfully.", Toast.LENGTH_SHORT).show();
-
-            Intent intent = new Intent(Intent.ACTION_VIEW);
-            Uri uri = Uri.fromFile(file);
-            intent.setDataAndType(uri,"application/pdf");
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            return intent;
-        }
-        catch (FileNotFoundException e) {
-            e.printStackTrace();
-            Toast.makeText(context, "file: PDF file did not generate", Toast.LENGTH_SHORT).show();
-            pdf.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-            Toast.makeText(context, "I/0: PDF file did not generate", Toast.LENGTH_SHORT).show();
-            pdf.close();
-        }
-        return null;
-    }
-
-    public File CreateFillePath(String title){
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),title + ".pdf");
-        System.out.println(file);
-        return file;
+        return pdf;
     }
 }
