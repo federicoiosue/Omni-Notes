@@ -95,6 +95,8 @@ public class OmniNotes extends MultiDexApplication {
   private void enableStrictMode() {
     if (isDebugBuild()) {
       StrictMode.enableDefaults();
+      StrictMode.allowThreadDiskWrites();
+      StrictMode.allowThreadDiskReads();
     }
   }
 

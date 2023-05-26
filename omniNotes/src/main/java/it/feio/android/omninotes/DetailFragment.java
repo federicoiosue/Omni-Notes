@@ -75,17 +75,21 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.pdf.PdfDocument;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
@@ -93,6 +97,7 @@ import android.text.Selection;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -108,6 +113,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
@@ -137,6 +143,7 @@ import it.feio.android.omninotes.exceptions.checked.UnhandledIntentException;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.helpers.IntentHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.helpers.NoteToPdfHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.TagOpenerHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
@@ -175,6 +182,8 @@ import it.feio.android.omninotes.utils.date.DateUtils;
 import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.DateFormat;
@@ -1102,10 +1111,24 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       case R.id.menu_note_info:
         showNoteInfo();
         break;
+      case R.id.menu_convert_PDF:
+        createPDF();
+        break;
       default:
         LogDelegate.w("Invalid menu option selected");
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  private void createPDF(){
+    NoteToPdfHelper pdfHelper = new NoteToPdfHelper();
+    Intent intent = pdfHelper.convertStringToPDF(getNoteTitle(),getNoteContent(),this.getContext());
+    if(intent != null){
+      startActivity(intent);
+    }
+    else{
+      Toast.makeText(getContext(), "PDF file wasnt created.", Toast.LENGTH_SHORT).show();
+    }
   }
 
   private void showNoteInfo() {

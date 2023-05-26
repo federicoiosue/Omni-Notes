@@ -17,6 +17,19 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="May 03, 2023"
+    versionName="6.3.0">
+    <changelogtext>[b]New![/b] Targeting Android 13 API with improved performances and security updates</changelogtext>
+    <changelogtext>[b]New![/b] Telegram channel (removed Facebook, never used...)</changelogtext>
+  </changelogversion>
+
+  <changelogversion
+    changeDate="Apr 23, 2023"
+    versionName="6.2.6">
+    <changelogtext>[u]Fix[/u] Backup folder management</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="Apr 20, 2023"
     versionName="6.2.5">
     <changelogtext>[u]Fix[/u] Bulk attachments modification in database to fix backup</changelogtext>

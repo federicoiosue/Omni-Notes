@@ -6,7 +6,7 @@ Your help in translating the app is welcome. Send me an e-mail If you want to le
 
 Current features:
 ☆ Material Design interface
-☆ Basic add, modify, archive, trash and delete notes actions
+☆ Basic add, modify, archive, trash and delete notes actions,
 ☆ Share, merge and search notes
 ☆ Image, audio and generic file attachments
 ☆ Manage your notes using tags and categories
