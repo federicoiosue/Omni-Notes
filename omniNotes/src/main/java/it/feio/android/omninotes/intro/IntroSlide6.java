@@ -17,7 +17,7 @@
 
 package it.feio.android.omninotes.intro;
 
-import static it.feio.android.omninotes.utils.ConstantsBase.COMMUNITY_LINK;
+import static it.feio.android.omninotes.utils.ConstantsBase.FACEBOOK_COMMUNITY;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -35,11 +35,11 @@ public class IntroSlide6 extends IntroFragment {
     binding.introBackground.setBackgroundColor(Color.parseColor("#222222"));
     binding.introTitle.setText(R.string.tour_listactivity_final_title);
     binding.introImage.setVisibility(View.GONE);
-    binding.introImageSmall.setImageResource(R.drawable.community);
+    binding.introImageSmall.setImageResource(R.drawable.facebook);
     binding.introImageSmall.setVisibility(View.VISIBLE);
     binding.introImageSmall.setOnClickListener(v -> {
       Intent intent = new Intent(Intent.ACTION_VIEW);
-      intent.setData(Uri.parse(COMMUNITY_LINK));
+      intent.setData(Uri.parse(FACEBOOK_COMMUNITY));
       startActivity(intent);
     });
     binding.introDescription.setText(R.string.tour_community);
