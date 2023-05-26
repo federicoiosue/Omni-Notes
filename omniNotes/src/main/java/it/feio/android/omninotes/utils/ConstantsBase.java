@@ -20,7 +20,13 @@ public interface ConstantsBase {
 
   String DATABASE_NAME = "omni-notes";
   String APP_STORAGE_DIRECTORY_SB_SYNC = "db_sync";
-  String COMMUNITY_LINK = "https://t.me/omninotes";
+  SString DEV_EMAIL = "omninotes@iosue.it";
+  String GOOGLE_PLUS_COMMUNITY = "https://plus.google.com/communities/112276053772152071903";
+  String FACEBOOK_COMMUNITY = "https://www.facebook.com/OmniNotes/";
+
+  // Used for updates retrieval
+  long UPDATE_MIN_FREQUENCY = 24L * 60L * 60L * 1000L; // 1 day
+  String DRIVE_FOLDER_LAST_BUILD = "https://goo.gl/gB55RE";
 
   // Notes swipe
   int SWIPE_MARGIN = 30;
