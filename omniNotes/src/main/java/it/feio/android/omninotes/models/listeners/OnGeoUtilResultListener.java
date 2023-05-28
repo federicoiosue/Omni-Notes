@@ -30,4 +30,5 @@ public interface OnGeoUtilResultListener {
   void onLocationRetrieved(Location location);
 
   void onLocationUnavailable();
+  void onLocationNotEnabled();
 }

@@ -24,6 +24,8 @@ import static it.feio.android.omninotes.BaseActivity.TRANSITION_HORIZONTAL;
 import static it.feio.android.omninotes.BaseActivity.TRANSITION_VERTICAL;
 import static it.feio.android.omninotes.MainActivity.FRAGMENT_DETAIL_TAG;
 import static it.feio.android.omninotes.OmniNotes.getAppContext;
+import static it.feio.android.omninotes.helpers.GeocodeProviderBaseFactory.checkHighAccuracyLocationProvider;
+import static it.feio.android.omninotes.helpers.GeocodeProviderBaseFactory.getProvider;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_DISMISS;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_MERGE;
@@ -115,11 +117,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
+import com.google.android.gms.tasks.Task;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.pushbullet.android.extension.MessagingExtension;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import io.nlopez.smartlocation.location.LocationProvider;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
 import it.feio.android.checklistview.interfaces.CheckListChangedListener;
 import it.feio.android.checklistview.models.CheckListView;
@@ -940,6 +950,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
   }
 
+  public void onLocationNotEnabled(){
+    mainActivity.showMessage(R.string.location_not_enabled, ONStyle.ALERT);
+  }
   @Override
   public void onAddressResolved(String address) {
     if (TextUtils.isEmpty(address)) {
@@ -2205,7 +2218,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     public void onLocationUnavailable() {
       mainActivityWeakReference.get().showMessage(R.string.location_not_found, ONStyle.ALERT);
     }
-
+    @Override
+    public void onLocationNotEnabled(){
+      mainActivityWeakReference.get().showMessage(R.string.location_not_enabled,ONStyle.ALERT);
+    }
     @Override
     public void onLocationRetrieved(Location location) {
       if (!checkWeakReferences()) {

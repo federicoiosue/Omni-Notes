@@ -18,6 +18,7 @@
 package it.feio.android.omninotes.utils;
 
 import static it.feio.android.omninotes.BuildConfig.MAPS_API_KEY;
+import static it.feio.android.omninotes.helpers.GeocodeProviderBaseFactory.checkHighAccuracyLocationProvider;
 import static it.feio.android.omninotes.helpers.GeocodeProviderBaseFactory.getProvider;
 
 import android.content.Context;
@@ -103,7 +104,11 @@ public class GeocodeHelper implements LocationListener {
 
       @Override
       public void onError(Throwable e) {
-        onGeoUtilResultListener.onLocationUnavailable();
+        if(checkHighAccuracyLocationProvider(OmniNotes.getAppContext()) == true) {
+          onGeoUtilResultListener.onLocationUnavailable();
+        }else{
+          onGeoUtilResultListener.onLocationNotEnabled();
+        }
         unsubscribe();
       }
     });
