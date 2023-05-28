@@ -105,7 +105,11 @@ public class GeocodeHelper implements LocationListener {
 
       @Override
       public void onError(Throwable e) {
-        onGeoUtilResultListener.onLocationUnavailable();
+        if(checkHighAccuracyLocationProvider(OmniNotes.getAppContext()) == true) {
+          onGeoUtilResultListener.onLocationUnavailable();
+        }else{
+          onGeoUtilResultListener.onLocationNotEnabled();
+        }
         unsubscribe();
       }
     });
