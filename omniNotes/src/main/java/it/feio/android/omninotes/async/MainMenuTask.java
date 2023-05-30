@@ -24,17 +24,15 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import androidx.fragment.app.Fragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
+import it.feio.android.omninotes.databinding.FragmentNavigationDrawerBinding;
 import it.feio.android.omninotes.models.NavigationItem;
 import it.feio.android.omninotes.models.adapters.NavDrawerAdapter;
 import it.feio.android.omninotes.models.misc.DynamicNavigationLookupTable;
-import it.feio.android.omninotes.models.views.NonScrollableListView;
 import it.feio.android.omninotes.utils.Navigation;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -43,18 +41,15 @@ import java.util.List;
 
 public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
-  private final WeakReference<Fragment> mFragmentWeakReference;
+  private final WeakReference<Fragment> fragmentWeakReference;
   private final MainActivity mainActivity;
-  @BindView(R.id.drawer_nav_list)
-  NonScrollableListView mDrawerList;
-  @BindView(R.id.drawer_tag_list)
-  NonScrollableListView mDrawerCategoriesList;
 
+  FragmentNavigationDrawerBinding navDrawer;
 
-  public MainMenuTask(Fragment mFragment) {
-    mFragmentWeakReference = new WeakReference<>(mFragment);
-    this.mainActivity = (MainActivity) mFragment.getActivity();
-    ButterKnife.bind(this, mFragment.getView());
+  public MainMenuTask(Fragment fragment) {
+    fragmentWeakReference = new WeakReference<>(fragment);
+    mainActivity = (MainActivity) fragment.getActivity();
+    navDrawer = FragmentNavigationDrawerBinding.inflate(fragment.getLayoutInflater());
   }
 
   @Override
@@ -65,33 +60,31 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
   @Override
   protected void onPostExecute(final List<NavigationItem> items) {
     if (isAlive()) {
-      mDrawerList.setAdapter(new NavDrawerAdapter(mainActivity, items));
-      mDrawerList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
-        String navigation = mFragmentWeakReference.get().getResources().getStringArray(R.array
+      navDrawer.drawerNavList.setAdapter(new NavDrawerAdapter(mainActivity, items));
+      navDrawer.drawerNavList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
+        String navigation = fragmentWeakReference.get().getResources().getStringArray(R.array
             .navigation_list_codes)[items.get(position).getArrayIndex()];
         updateNavigation(position, navigation);
       });
-      mDrawerList.justifyListViewHeightBasedOnChildren();
+      navDrawer.drawerNavList.justifyListViewHeightBasedOnChildren();
     }
   }
 
   private void updateNavigation(int position, String navigation) {
     if (mainActivity.updateNavigation(navigation)) {
-      mDrawerList.setItemChecked(position, true);
-      if (mDrawerCategoriesList != null) {
-        mDrawerCategoriesList.setItemChecked(0, false); // Called to force redraw
-      }
+      navDrawer.drawerNavList.setItemChecked(position, true);
+      navDrawer.drawerTagList.setItemChecked(0, false); // Called to force redraw
       mainActivity.getIntent().setAction(Intent.ACTION_MAIN);
       EventBus.getDefault()
-          .post(new NavigationUpdatedEvent(mDrawerList.getItemAtPosition(position)));
+          .post(new NavigationUpdatedEvent(navDrawer.drawerNavList.getItemAtPosition(position)));
     }
   }
 
   private boolean isAlive() {
-    return mFragmentWeakReference.get() != null
-        && mFragmentWeakReference.get().isAdded()
-        && mFragmentWeakReference.get().getActivity() != null
-        && !mFragmentWeakReference.get().getActivity().isFinishing();
+    return fragmentWeakReference.get() != null
+        && fragmentWeakReference.get().isAdded()
+        && fragmentWeakReference.get().getActivity() != null
+        && !fragmentWeakReference.get().getActivity().isFinishing();
   }
 
   private List<NavigationItem> buildMainMenu() {

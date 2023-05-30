@@ -188,9 +188,8 @@ public class BaseAndroidTestCase {
   }
 
   protected static void assertUtilityClassWellDefined(final Class<?> clazz,
-      boolean weakClassModifier,
-      boolean weakConstructorModifier)
-      throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+      boolean weakClassModifier, boolean weakConstructorModifier)
+      throws NoSuchMethodException, InstantiationException, IllegalAccessException {
     if (!weakClassModifier) {
       assertTrue("class must be final", Modifier.isFinal(clazz.getModifiers()));
     }

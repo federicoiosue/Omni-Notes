@@ -17,6 +17,20 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="May 31, 2023"
+    versionName="6.2.7">
+    <changelogtext>[u]Fix[/u] Security path traversal vulnerability</changelogtext>
+    <changelogtext>[u]Fix[/u] Attachments' count in statistics (thanks to S.Vago)</changelogtext>
+  </changelogversion>
+
+  <changelogversion
+    changeDate="Apr 30, 2023"
+    versionName="6.2.6">
+    <changelogtext>[i]Improved![/i] Reduced required permissions and removed some legacy code</changelogtext>
+    <changelogtext>[u]Fix[/u] Minor backup related fixes</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="Apr 20, 2023"
     versionName="6.2.5">
     <changelogtext>[u]Fix[/u] Bulk attachments modification in database to fix backup</changelogtext>
