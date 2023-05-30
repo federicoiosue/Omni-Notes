@@ -1046,7 +1046,6 @@ public class DbHelper extends SQLiteOpenHelper {
     mStats.setCharsAvg(avgChars);
 
     // Everything about attachments
-    int attachmentsAll = 0;
     int images = 0;
     int videos = 0;
     int audioRecordings = 0;
@@ -1067,7 +1066,7 @@ public class DbHelper extends SQLiteOpenHelper {
         files++;
       }
     }
-    mStats.setAttachments(attachmentsAll);
+    mStats.setAttachments(attachments.size());
     mStats.setImages(images);
     mStats.setVideos(videos);
     mStats.setAudioRecordings(audioRecordings);
