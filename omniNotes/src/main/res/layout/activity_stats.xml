@@ -271,7 +271,7 @@
         android:gravity="end"
         android:paddingEnd="7dp"
         android:paddingStart="7dp"
-        android:text="@string/stats_attachments"
+        android:text="@string/stats_images"
         android:textStyle="bold"></TextView>
 
       <TextView
