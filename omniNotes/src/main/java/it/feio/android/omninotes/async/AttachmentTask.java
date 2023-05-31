@@ -62,6 +62,7 @@ public class AttachmentTask extends AsyncTask<Void, Void, Attachment> {
 
 
   @Override
+  @Deprecated
   protected void onPostExecute(Attachment mAttachment) {
     if (isAlive()) {
       if (mAttachment != null) {

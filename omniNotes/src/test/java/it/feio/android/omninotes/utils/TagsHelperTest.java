@@ -28,7 +28,7 @@ import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.Tag;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -55,18 +55,17 @@ public class TagsHelperTest {
 
   @Test
   public void retrievesTagsFromNote() {
-    HashMap<String, Integer> tags = TagsHelper.retrieveTags(note);
-    assertEquals(tags.size(), 4);
-    assertTrue(tags.containsKey(TAG1.getText()) && tags.containsKey(TAG2.getText()) && tags
-        .containsKey(TAG3.getText())
-        && tags.containsKey(TAG4.getText()));
+    Map<String, Integer> tags = TagsHelper.retrieveTags(note);
+    assertEquals(4, tags.size());
+    assertTrue(tags.containsKey(TAG1.getText()) && tags.containsKey(TAG2.getText())
+        && tags.containsKey(TAG3.getText()) && tags.containsKey(TAG4.getText()));
     assertFalse(tags.containsKey(TAG_INVALID.getText()));
   }
 
   @Test
   public void retrievesTagsFromNoteMultilanguage() {
     note.setContent("#привет");
-    HashMap<String, Integer> tags = TagsHelper.retrieveTags(note);
+    Map<String, Integer> tags = TagsHelper.retrieveTags(note);
     assertTrue(tags.containsKey("#привет"));
 
     note.setContent("#中华人民共和国");
@@ -86,7 +85,7 @@ public class TagsHelperTest {
 
     Integer[] preselectedTags = TagsHelper.getPreselectedTagsArray(notes, tags);
 
-    assertEquals(preselectedTags.length, 4);
+    assertEquals(4, preselectedTags.length);
     for (Integer preselectedTag : preselectedTags) {
       assertNotEquals((int) preselectedTag, tags.indexOf(TAG4));
     }
@@ -99,7 +98,7 @@ public class TagsHelperTest {
     note.setTitle(title);
     note.setContent(content);
 
-    HashMap<String, Integer> tags = TagsHelper.retrieveTags(note);
+    Map<String, Integer> tags = TagsHelper.retrieveTags(note);
 
     assertTrue(tags.containsKey(TAG1.getText()));
     assertTrue(tags.containsKey(TAG2.getText()));
@@ -124,7 +123,7 @@ public class TagsHelperTest {
     List<Tag> tags = new ArrayList<>();
     tags.add(new Tag(newTag, 1));
     Pair<String, List<Tag>> newTags = TagsHelper.addTagToNote(tags, new Integer[]{0, 1}, note);
-    HashMap<String, Integer> tags1 = TagsHelper.retrieveTags(note);
+    Map<String, Integer> tags1 = TagsHelper.retrieveTags(note);
     assertTrue(newTags.first.contains(newTag));
     assertFalse(tags1.containsKey(newTag));
   }

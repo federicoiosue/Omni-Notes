@@ -18,6 +18,7 @@
 package it.feio.android.omninotes.utils;
 
 import static it.feio.android.omninotes.BuildConfig.MAPS_API_KEY;
+import static it.feio.android.omninotes.helpers.GeocodeProviderBaseFactory.checkHighAccuracyLocationProvider;
 import static it.feio.android.omninotes.helpers.GeocodeProviderBaseFactory.getProvider;
 
 import android.content.Context;
@@ -66,6 +67,7 @@ public class GeocodeHelper implements LocationListener {
 
 
   @Override
+  @Deprecated
   public void onStatusChanged(String provider, int status, Bundle extras) {
     // Nothing to do
   }

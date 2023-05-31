@@ -114,7 +114,7 @@ public abstract class WidgetProvider extends AppWidgetProvider {
   }
 
 
-  abstract protected RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall,
+  protected abstract RemoteViews getRemoteViews(Context context, int widgetId, boolean isSmall,
       boolean isSingleLine,
       SparseArray<PendingIntent> pendingIntentsMap);
 

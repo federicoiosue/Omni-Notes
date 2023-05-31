@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import com.appeaser.sublimepickerlibrary.SublimePicker;
@@ -35,8 +36,8 @@ import java.util.TimeZone;
 
 public class SublimePickerFragment extends DialogFragment {
 
-  public static final String DEFAULT_TIME = "default_time";
-  DateFormat mDateFormatter, mTimeFormatter;
+  DateFormat mDateFormatter;
+  DateFormat mTimeFormatter;
 
   SublimePicker mSublimePicker;
 
@@ -77,7 +78,7 @@ public class SublimePickerFragment extends DialogFragment {
 
   @Nullable
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     mSublimePicker = (SublimePicker) getActivity().getLayoutInflater()
         .inflate(R.layout.sublime_picker, container);

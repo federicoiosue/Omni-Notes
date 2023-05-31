@@ -387,7 +387,7 @@ public class MainActivity extends BaseActivity implements
     }
 
     if (ACTION_RESTART_APP.equals(i.getAction())) {
-      SystemHelper.restartApp(getApplicationContext(), MainActivity.class);
+      SystemHelper.restartApp();
     }
 
     if (receivedIntent(i)) {

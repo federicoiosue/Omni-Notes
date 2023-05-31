@@ -43,13 +43,12 @@ import java.util.List;
 
 public class AttachmentAdapter extends BaseAdapter {
 
-  private Activity mActivity;
-  private List<Attachment> attachmentsList;
-  private LayoutInflater inflater;
+  private final Activity mActivity;
+  private final List<Attachment> attachmentsList;
+  private final LayoutInflater inflater;
 
 
-  public AttachmentAdapter(Activity mActivity, List<Attachment> attachmentsList,
-      ExpandableHeightGridView mGridView) {
+  public AttachmentAdapter(Activity mActivity, List<Attachment> attachmentsList) {
     this.mActivity = mActivity;
     if (attachmentsList == null) {
       attachmentsList = Collections.emptyList();
@@ -58,21 +57,17 @@ public class AttachmentAdapter extends BaseAdapter {
     inflater = (LayoutInflater) mActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
   }
 
-
   public int getCount() {
     return attachmentsList.size();
   }
-
 
   public Attachment getItem(int position) {
     return attachmentsList.get(position);
   }
 
-
   public long getItemId(int position) {
     return 0;
   }
-
 
   public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -129,17 +124,13 @@ public class AttachmentAdapter extends BaseAdapter {
     return convertView;
   }
 
-
   public List<Attachment> getAttachmentsList() {
     return attachmentsList;
   }
 
-
   public class AttachmentHolder {
-
     TextView text;
     SquareImageView image;
   }
-
 
 }

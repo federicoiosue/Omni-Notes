@@ -16,6 +16,12 @@
  */
 package it.feio.android.omninotes.utils;
 
+import static android.os.Environment.DIRECTORY_DOWNLOADS;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_FILES;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE;
+import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_VIDEO;
+
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -78,10 +84,7 @@ public class StorageHelper {
 
 
   public static String getStorageDir() {
-    // return Environment.getExternalStorageDirectory() + File.separator +
-    // Constants.TAG + File.separator;
-    return Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-        .toString();
+    return Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS).toString();
   }
 
 
@@ -402,24 +405,23 @@ public class StorageHelper {
    */
   public static String getMimeTypeInternal(Context mContext, Uri uri) {
     String mimeType = getMimeType(mContext, uri);
-    mimeType = getMimeTypeInternal(mContext, mimeType);
-    return mimeType;
+    return getMimeTypeInternal(mimeType);
   }
 
 
   /**
    * Retrieves mime-type between the ones managed by application from given string
    */
-  public static String getMimeTypeInternal(Context mContext, String mimeType) {
+  public static String getMimeTypeInternal(String mimeType) {
     if (mimeType != null) {
       if (mimeType.contains("image/")) {
-        mimeType = Constants.MIME_TYPE_IMAGE;
+        mimeType = MIME_TYPE_IMAGE;
       } else if (mimeType.contains("audio/")) {
-        mimeType = Constants.MIME_TYPE_AUDIO;
+        mimeType = MIME_TYPE_AUDIO;
       } else if (mimeType.contains("video/")) {
-        mimeType = Constants.MIME_TYPE_VIDEO;
+        mimeType = MIME_TYPE_VIDEO;
       } else {
-        mimeType = Constants.MIME_TYPE_FILES;
+        mimeType = MIME_TYPE_FILES;
       }
     }
     return mimeType;

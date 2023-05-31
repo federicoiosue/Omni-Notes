@@ -59,6 +59,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.regex.Pattern;
@@ -642,7 +643,7 @@ public class DbHelper extends SQLiteOpenHelper {
   /**
    * Retrieves all attachments related to specific note
    */
-  public ArrayList<Attachment> getNoteAttachments(Note note) {
+  public List<Attachment> getNoteAttachments(Note note) {
     String whereCondition = " WHERE " + KEY_ATTACHMENT_NOTE_ID + " = " + note.get_id();
     return getAttachments(whereCondition);
   }
@@ -706,7 +707,7 @@ public class DbHelper extends SQLiteOpenHelper {
     List<Note> notesRetrieved = getNotes(whereCondition, true);
 
     for (Note noteRetrieved : notesRetrieved) {
-      HashMap<String, Integer> tagsRetrieved = TagsHelper.retrieveTags(noteRetrieved);
+      Map<String, Integer> tagsRetrieved = TagsHelper.retrieveTags(noteRetrieved);
       for (String s : tagsRetrieved.keySet()) {
         int count = tagsMap.get(s) == null ? 0 : tagsMap.get(s);
         tagsMap.put(s, ++count);
@@ -766,7 +767,7 @@ public class DbHelper extends SQLiteOpenHelper {
               }).toBlocking().single();
           return matches ? note : null;
         })
-        .filter(Objects::nonNull)
+        .filter(o -> o != null)
         .toList().toBlocking().single();
   }
 
@@ -817,7 +818,7 @@ public class DbHelper extends SQLiteOpenHelper {
         do {
           var attachment = new Attachment(cursor.getLong(0),
               Uri.parse(cursor.getString(1)), cursor.getString(2), cursor.getInt(3),
-              (long) cursor.getInt(4), cursor.getString(5));
+              cursor.getInt(4), cursor.getString(5));
           attachment.setNoteId(cursor.getLong(6));
           attachmentsList.add(attachment);
         } while (cursor.moveToNext());
@@ -991,7 +992,7 @@ public class DbHelper extends SQLiteOpenHelper {
     int chars;
     List<Note> notes = getAllNotes(false);
     for (Note note : notes) {
-      if (note.isTrashed()) {
+      if (Boolean.TRUE.equals(note.isTrashed())) {
         notesTrashed++;
       } else if (note.isArchived()) {
         notesArchived++;
@@ -1005,10 +1006,10 @@ public class DbHelper extends SQLiteOpenHelper {
           reminders++;
         }
       }
-      if (note.isChecklist()) {
+      if (Boolean.TRUE.equals(note.isChecklist())) {
         checklists++;
       }
-      if (note.isLocked()) {
+      if (Boolean.TRUE.equals(note.isLocked())) {
         notesMasked++;
       }
       tags += TagsHelper.retrieveTags(note).size();
