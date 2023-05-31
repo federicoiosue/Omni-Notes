@@ -96,7 +96,7 @@ public class BaseActivity extends AppCompatActivity {
 
     boolean askForPassword = false;
     for (Note note : notes) {
-      if (note.isLocked()) {
+      if (Boolean.TRUE.equals(note.isLocked())) {
         askForPassword = true;
         break;
       }

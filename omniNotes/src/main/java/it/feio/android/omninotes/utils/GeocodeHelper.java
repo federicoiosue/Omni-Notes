@@ -67,6 +67,7 @@ public class GeocodeHelper implements LocationListener {
 
 
   @Override
+  @Deprecated
   public void onStatusChanged(String provider, int status, Bundle extras) {
     // Nothing to do
   }

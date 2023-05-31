@@ -20,11 +20,11 @@ package it.feio.android.omninotes.models.views;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
-import android.widget.ImageView;
+import androidx.appcompat.widget.AppCompatImageView;
 import java.lang.ref.WeakReference;
 
 
-public class SquareImageView extends ImageView {
+public class SquareImageView extends AppCompatImageView {
 
   private WeakReference<AsyncTask<?, ?, ?>> mAsyncTaskReference;
 
@@ -53,7 +53,7 @@ public class SquareImageView extends ImageView {
 
 
   public void setAsyncTask(AsyncTask<?, ?, ?> mAsyncTask) {
-    this.mAsyncTaskReference = new WeakReference<AsyncTask<?, ?, ?>>(mAsyncTask);
+    this.mAsyncTaskReference = new WeakReference<>(mAsyncTask);
   }
 
 

@@ -26,6 +26,7 @@ import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -89,7 +90,7 @@ public class CategoryActivity extends AppCompatActivity implements
     Window window = getWindow();
     WindowManager.LayoutParams params = window.getAttributes();
     params.width = (int) (screen.x * 0.6);
-    params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+    params.height = LayoutParams.WRAP_CONTENT;
     window.setAttributes(params);
   }
 

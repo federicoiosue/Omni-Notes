@@ -122,31 +122,37 @@ public class Stats extends StatsSingleNote {
   }
 
 
+  @Override
   public int getTags() {
     return tags;
   }
 
 
+  @Override
   public void setTags(int tags) {
     this.tags = tags;
   }
 
 
+  @Override
   public int getWords() {
     return words;
   }
 
 
+  @Override
   public void setWords(int words) {
     this.words = words;
   }
 
 
+  @Override
   public int getChars() {
     return chars;
   }
 
 
+  @Override
   public void setChars(int chars) {
     this.chars = chars;
   }

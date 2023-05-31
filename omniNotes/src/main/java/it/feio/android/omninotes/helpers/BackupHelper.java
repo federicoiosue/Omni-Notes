@@ -261,7 +261,7 @@ public final class BackupHelper {
    *
    * @deprecated {@link BackupHelper#importNotes(DocumentFileCompat)}
    */
-  @Deprecated
+  @Deprecated(forRemoval = true)
   public static void importDB(Context context, File backupDir) throws IOException {
     File database = context.getDatabasePath(DATABASE_NAME);
     if (database.exists() && database.delete()) {

@@ -35,9 +35,7 @@ public class GeocodeProviderBaseFactory {
   }
 
   public static LocationProvider getProvider(Context context) {
-    if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
-        && android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.P
-        && checkHighAccuracyLocationProvider(context)) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P && checkHighAccuracyLocationProvider(context)) {
       Toast.makeText(context, R.string.location_set_high_accuracy, Toast.LENGTH_SHORT).show();
       context.startActivity((new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)));
     }

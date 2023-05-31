@@ -22,13 +22,14 @@ import android.os.AsyncTask;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
+import java.lang.ref.WeakReference;
 
 public class UpdateWidgetsTask extends AsyncTask<Void, Void, Void> {
 
-  private Context context;
+  private WeakReference<Context> context;
 
   public UpdateWidgetsTask(Context context) {
-    this.context = context;
+    this.context = new WeakReference<>(context);
   }
 
   @Override
@@ -44,7 +45,7 @@ public class UpdateWidgetsTask extends AsyncTask<Void, Void, Void> {
     }
 
     public void onEvent(NotesUpdatedEvent event) {
-      BaseActivity.notifyAppWidgets(context);
+      BaseActivity.notifyAppWidgets(context.get());
       EventBus.getDefault().unregister(this);
     }
   }

@@ -55,9 +55,9 @@ public class DynamicNavigationLookupTable {
       archived = trashed = uncategorized = reminders = 0;
       List<Note> notes = DbHelper.getInstance().getAllNotes(false);
       for (int i = 0; i < notes.size(); i++) {
-        if (notes.get(i).isTrashed()) {
+        if (Boolean.TRUE.equals(notes.get(i).isTrashed())) {
           trashed++;
-        } else if (notes.get(i).isArchived()) {
+        } else if (Boolean.TRUE.equals(notes.get(i).isArchived())) {
           archived++;
         } else if (notes.get(i).getAlarm() != null) {
           reminders++;
