@@ -18,6 +18,13 @@
 
   <changelogversion
     changeDate="May 31, 2023"
+    versionName="6.2.8">
+    <changelogtext>[i]Improved![/i] Better GPS errors management (thanks [a href='https://github.com/Dries04']Dries04[/a] </changelogtext>
+    <changelogtext>[u]Fix[/u] Disappearing main menu items from latest version</changelogtext>
+  </changelogversion>
+
+  <changelogversion
+    changeDate="May 31, 2023"
     versionName="6.2.7">
     <changelogtext>[u]Fix[/u] Security path traversal vulnerability</changelogtext>
     <changelogtext>[u]Fix[/u] Attachments' count in statistics (thanks to S.Vago)</changelogtext>
