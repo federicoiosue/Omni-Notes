@@ -384,7 +384,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
               + languageName.substring(1));
       lang.setOnPreferenceChangeListener((preference, value) -> {
         LanguageHelper.updateLanguage(getActivity(), value.toString());
-        SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+        SystemHelper.restartApp();
         return false;
       });
     }
@@ -528,7 +528,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
               File cacheDir = StorageHelper.getCacheDir(getActivity());
               StorageHelper.delete(getActivity(), cacheDir.getAbsolutePath());
               Prefs.edit().clear().apply();
-              SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
+              SystemHelper.restartApp();
             }).build().show();
 
         return false;

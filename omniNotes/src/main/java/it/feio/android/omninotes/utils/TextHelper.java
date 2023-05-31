@@ -37,13 +37,13 @@ import it.feio.android.omninotes.models.Note;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.experimental.UtilityClass;
 
 
+@UtilityClass
 public class TextHelper {
 
-  /**
-   *
-   */
+
   public static Spanned[] parseTitleAndContent(Context mContext, Note note) {
 
     final int CONTENT_SUBSTRING_LENGTH = 300;
@@ -52,7 +52,7 @@ public class TextHelper {
     String contentText = limit(note.getContent().trim(), CONTENT_SUBSTRING_LENGTH, false, true);
 
     // Masking title and content string if note is locked
-    if (note.isLocked() && !Prefs.getBoolean(
+    if (Boolean.TRUE.equals(note.isLocked()) && !Prefs.getBoolean(
         "settings_password_access", false)) {
       // This checks if a part of content is used as title and should be partially masked
       if (!note.getTitle().equals(titleText) && titleText.length() > 3) {
@@ -63,7 +63,7 @@ public class TextHelper {
 
     // Replacing checkmarks symbols with html entities
     Spanned contentSpanned;
-    if (note.isChecklist() && !TextUtils.isEmpty(contentText)) {
+    if (Boolean.TRUE.equals(Boolean.TRUE.equals(note.isChecklist())) && !TextUtils.isEmpty(contentText)) {
       contentSpanned = Html.fromHtml(contentText
           .replace(CHECKED_SYM, CHECKED_ENTITY)
           .replace(UNCHECKED_SYM, UNCHECKED_ENTITY)

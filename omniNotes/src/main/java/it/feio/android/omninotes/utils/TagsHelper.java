@@ -29,9 +29,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 
 
+@UtilityClass
 public class TagsHelper {
 
 
@@ -40,7 +43,7 @@ public class TagsHelper {
   }
 
 
-  public static HashMap<String, Integer> retrieveTags(Note note) {
+  public static Map<String, Integer> retrieveTags(Note note) {
     HashMap<String, Integer> tagsMap = new HashMap<>();
     String[] words = (note.getTitle() + " " + note.getContent()).replaceAll("\n", " ").trim()
         .split(" ");
@@ -58,7 +61,7 @@ public class TagsHelper {
       Note note) {
     StringBuilder sbTags = new StringBuilder();
     List<Tag> tagsToRemove = new ArrayList<>();
-    HashMap<String, Integer> tagsMap = retrieveTags(note);
+    Map<String, Integer> tagsMap = retrieveTags(note);
 
     List<Integer> selectedTagsList = Arrays.asList(selectedTags);
     for (int i = 0; i < tags.size(); i++) {
@@ -78,7 +81,7 @@ public class TagsHelper {
     return Pair.create(sbTags.toString(), tagsToRemove);
   }
 
-  private static boolean mapContainsTag(HashMap<String, Integer> tagsMap, Tag tag) {
+  private static boolean mapContainsTag(Map<String, Integer> tagsMap, Tag tag) {
     for (String tagsMapItem : tagsMap.keySet()) {
       if (tagsMapItem.equals(tag.getText())) {
         return true;

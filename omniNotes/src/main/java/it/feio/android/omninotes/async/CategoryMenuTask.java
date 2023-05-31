@@ -18,6 +18,7 @@
 package it.feio.android.omninotes.async;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -59,7 +60,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     super.onPreExecute();
     mDrawerList = mainActivity.findViewById(R.id.drawer_nav_list);
     LayoutInflater inflater = (LayoutInflater) mainActivity
-        .getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
     settingsView = mainActivity.findViewById(R.id.settings_view);
 
@@ -88,6 +89,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
 
 
   @Override
+  @Deprecated
   protected void onPostExecute(final List<Category> categories) {
     if (isAlive()) {
       mDrawerCategoriesList.setAdapter(new CategoryBaseAdapter(mainActivity, categories,

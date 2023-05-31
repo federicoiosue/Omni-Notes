@@ -17,29 +17,25 @@
 
 package it.feio.android.omninotes.utils;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+
 import android.app.Activity;
 import android.content.Context;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import java.io.Closeable;
 import java.io.IOException;
+import lombok.experimental.UtilityClass;
 
 /**
  * Various utility methods
  */
+@UtilityClass
 public class SystemHelper {
 
   /**
    * Performs a full app restart
    */
-  public static void restartApp(final Context mContext, Class activityClass) {
-//		Intent intent = new Intent(mContext, activityClass);
-//		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//		int mPendingIntentId = Long.valueOf(Calendar.getInstance().getTimeInMillis()).intValue();
-//		PendingIntent mPendingIntent = PendingIntent.getActivity(mContext, mPendingIntentId, intent,
-//				PendingIntent.FLAG_CANCEL_CURRENT);
-//		AlarmManager mgr = (AlarmManager) mContext.getSystemService(Context.ALARM_SERVICE);
-//		mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+  public static void restartApp() {
     System.exit(0);
   }
 
@@ -63,8 +59,7 @@ public class SystemHelper {
 
   public static void copyToClipboard(Context context, String text) {
     android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context
-        .getSystemService(
-            Activity.CLIPBOARD_SERVICE);
+        .getSystemService(CLIPBOARD_SERVICE);
     android.content.ClipData clip = android.content.ClipData.newPlainText("text label", text);
     clipboard.setPrimaryClip(clip);
   }

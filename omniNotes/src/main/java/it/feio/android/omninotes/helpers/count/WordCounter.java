@@ -27,7 +27,7 @@ public interface WordCounter {
   int countChars(Note note);
 
   default String sanitizeTextForWordsAndCharsCount(Note note, String field) {
-    if (note.isChecklist()) {
+    if (Boolean.TRUE.equals(note.isChecklist())) {
       String regex =
           "(" + Pattern.quote(it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM) + "|"
               + Pattern.quote(it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM)
