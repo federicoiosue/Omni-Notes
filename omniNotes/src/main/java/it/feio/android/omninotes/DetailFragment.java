@@ -954,6 +954,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
   }
 
+  public void onLocationNotEnabled(){
+    mainActivity.showMessage(R.string.location_not_enabled, ONStyle.ALERT);
+  }
   @Override
   public void onAddressResolved(String address) {
     if (TextUtils.isEmpty(address)) {
@@ -2219,7 +2222,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     public void onLocationUnavailable() {
       mainActivityWeakReference.get().showMessage(R.string.location_not_found, ONStyle.ALERT);
     }
-
+    @Override
+    public void onLocationNotEnabled(){
+      mainActivityWeakReference.get().showMessage(R.string.location_not_enabled,ONStyle.ALERT);
+    }
     @Override
     public void onLocationRetrieved(Location location) {
       if (!checkWeakReferences()) {
