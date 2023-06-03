@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2013-2023 Federico Iosue (federico@iosue.it)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+<resources>
+    <!-- Activities -->
+    <string name="title">ଆଖ୍ୟା</string>
+    <string name="search">ସନ୍ଧାନ</string>
+    <string name="undo">ପୂର୍ଵଵତ୍</string>
+    <string name="trash">ଆଵର୍ଜନ</string>
+    <string name="trash_action">ଆଵର୍ଜନ</string>
+    <string name="trashed">ଆଵର୍ଜନାରେ</string>
+    <string name="ok">ଠିକ୍ ଅଛି</string>
+    <string name="no">ନାହିଁ</string>
+    <string name="sort">ସଜାନ୍ତୁ</string>
+    <string name="select_sorting_column">ଏହା ଅନୁଯାୟୀ ସଜାନ୍ତୁ</string>
+    <string name="categories">ଵର୍ଗ</string>
+    <string name="edit_tag">ଵର୍ଗ ସମ୍ପାଦନା</string>
+    <string name="add_category">ଵର୍ଗ ଯୋଡ଼ନ୍ତୁ</string>
+    <string name="category_title">ଆଖ୍ୟା</string>
+    <string name="category_description">ଵର୍ଣ୍ଣନା</string>
+    <string name="category_color">ରଙ୍ଗ</string>
+    <string name="category">ଵର୍ଗ</string>
+    <string name="title_activity_category">ଵର୍ଗ ସମ୍ପାଦନା</string>
+    <string name="title_activity_about">ସୂଚନା</string>
+    <string name="not_now">ଏବେ ନୁହେଁ</string>
+    <string name="redo">ପୁନଃକରଣ</string>
+    <string name="today">ଆଜି</string>
+    <string name="tomorrow">ଆସନ୍ତାକାଲି</string>
+    <string name="image">ପ୍ରତିଛଵି</string>
+    <string name="error">ତ୍ରୁଟି</string>
+    <string name="empty_trash">ଆଵର୍ଜନା ପାତ୍ର ଖାଲି କରିବା</string>
+    <string name="help">ସହାୟତା</string>
+    <string name="filter">ଶୋଧନ</string>
+    <string name="photo">ଫଟୋ</string>
+    <string name="info">ସୂଚନା</string>
+    <!-- Settings -->
+    <string name="settings">ସେଟିଂ</string>
+    <string name="settings_about">ସୂଚନା</string>
+    <string name="settings_category_other">ଅନ୍ୟ</string>
+    <string name="action_settings">ସେଟିଂ</string>
+    <string name="settings_category_gestures">ଅଙ୍ଗଭଙ୍ଗୀ</string>
+    <string name="settings_screen_notifications">ଵିଜ୍ଞପ୍ତି</string>
+    <string name="settings_enable_vibration">କମ୍ପନ</string>
+    <string name="settings_password">ପାସ୍‌ୱର୍ଡ଼</string>
+    <string name="wrong_password">ଭୁଲ ପାସ୍‌ୱର୍ଡ଼</string>
+    <string name="settings_category_about">ଵିଷୟରେ</string>
+    <string name="settings_choose_language">ଭାଷା</string>
+    <string name="minutes">ମିନିଟ୍</string>
+    <string name="settings_first_day_of_week">ସପ୍ତାହର ପ୍ରଥମ ଵାର</string>
+    <string name="settings_password_question">ପ୍ରଶ୍ନ</string>
+    <string name="settings_password_answer">ଉତ୍ତର</string>
+    <string name="wrong_answer">ଭୁଲ ଉତ୍ତର</string>
+    <string name="settings_instant_search">ତତକ୍ଷଣାତ୍ ସନ୍ଧାନ</string>
+    <string name="settings_text_size">ପାଠ୍ୟ ଆକାର</string>
+    <string name="settings_screen_behaviors">ଆଚରଣ</string>
+    <string name="settings_swipe_to_trash">ସ୍ୱାଇପ୍ କଲେ ଆଵର୍ଜନାରେ ପକାଇବା</string>
+    <string name="settings_statistics">ପରିସଂଖ୍ୟାନ</string>
+    <!-- Stats -->
+    <string name="stats_reminders">ସ୍ମାରକ</string>
+    <string name="stats_categories">ଵର୍ଗ</string>
+    <string name="stats_images">ପ୍ରତିଛଵି</string>
+    <string name="stats_videos">ଵିଡ଼ିଓ</string>
+    <string name="stats_audio_recordings">ଅଡ଼ିଓ ରେକର୍ଡିଂ</string>
+    <string name="stats_words">ଶବ୍ଦ</string>
+    <string name="stats_max_words">ସର୍ଵାଧିକ ଶବ୍ଦ</string>
+    <!-- Instructions -->
+    <!-- Accessibility -->
+    <!-- Various -->
+    <string name="channel_reminders_name">ସ୍ମାରକ</string>
+</resources>
