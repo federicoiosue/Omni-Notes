@@ -17,6 +17,18 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="Jun 3, 2023"
+    versionName="6.2.10">
+    <changelogtext>[u]Fix[/u] Broken backup restore on Android version previous than 8</changelogtext>
+  </changelogversion>
+
+  <changelogversion
+    changeDate="Jun 1, 2023"
+    versionName="6.2.9">
+    <changelogtext>[u]Fix[/u] Broken F-Droid version build</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="May 31, 2023"
     versionName="6.2.8">
     <changelogtext>[i]Improved![/i] Better GPS errors management (thanks [a href='https://github.com/Dries04']Dries04[/a] </changelogtext>

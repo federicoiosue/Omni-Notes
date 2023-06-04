@@ -29,7 +29,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 public class AppVersionHelperTest extends BaseAndroidTestCase {
 
-  private static final String VERSION_NAME_REGEX = "\\d{1}(\\.\\d)*( Alpha| Beta)*( \\d+)*";
+  private static final String VERSION_NAME_REGEX = "\\d+(\\.\\d+){2}( Alpha| Beta)*( \\d+)*";
 
   @Test
   public void checkUtilityClassWellDefined() throws Exception {
