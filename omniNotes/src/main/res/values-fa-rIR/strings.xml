@@ -48,6 +48,8 @@
     <string name="note_updated">یادداشت به‌روز شد</string>
     <string name="empty_note_not_saved">نمی‌توان یک یادداشت خالی را ذخیره کرد</string>
     <string name="empty_note_not_shared">نمی‌توان یک یادداشت خالی را هم‌رسانی کرد</string>
+    <string name="attachment_not_found">پیوست یافت نشد</string>
+    <string name="note_doesnt_exist">این یادداشت دیگر  وجود ندارد</string>
     <string name="note_archived">یادداشت بایگانی شد</string>
     <string name="note_unarchived">یادداشت از بایگانی بازیابی شد</string>
     <string name="note">یادداشت</string>
@@ -66,6 +68,7 @@
     <string name="delete_all_attachments">همه پیوست‌ها حذف شوند؟</string>
     <string name="gallery">نگارخانه</string>
     <string name="location">مکان</string>
+    <string name="location_set_high_accuracy">برای ادامه لطفا حالت موقعیت مکانی را روی دقت بالا تنظیم کنید</string>
     <string name="timestamp">برچسب زمان</string>
     <string name="pushbullet">Pushbullet</string>
     <string name="remove_location">مکان حذف شود؟</string>
@@ -124,6 +127,7 @@
     <string name="no_items_in_list">اینجا چیزی نیست!</string>
     <string name="checklist_on">فعال کردن چک‌لیست</string>
     <string name="checklist_off">غیر فعال کردن چک‌لیست</string>
+    <string name="checklist_moveToBottom">انتقال موارد انتخابی به پایین</string>
     <string name="checklist_item_hint">مورد جدید</string>
     <string name="remove_checklist">چک‌لیست حذف شود؟</string>
     <string name="checklist_keep_checked">نگه داشتن موارد انتخاب شده</string>
@@ -153,6 +157,9 @@
     <string name="grid_view">نمای شبکه‌ای</string>
     <string name="add_shortcut">افزودن میان‌بر</string>
     <string name="shortcut_added">میان‌بر به صفحه اصلی اضافه شد</string>
+    <string name="shortcut_disabled">میان‌بر دیگر معتبر نیست</string>
+    <string name="pin_note">سنجاق کردن یادداشت</string>
+    <string name="pined_note">یادداشت به عنوان اعلان سنجاق شد</string>
     <string name="shortcut_note_deleted">میان‌بر به یادداشت حذف شده اشاره می‌کند</string>
     <string name="widget_simple_description">ابزارک ساده با دکمه</string>
     <string name="widget_list_description">پیمایش ابزارک سیاهه با دکمه</string>
@@ -207,6 +214,8 @@
     <string name="info">اطلاعات</string>
     <string name="completed">کامل شدند</string>
     <string name="undo_changes_note_confirmation">بازگرداندن تغییرات را تایید می‌کنید؟</string>
+    <string name="done">انجام شد</string>
+    <string name="nothing_selected">چیزی انتخاب نشده</string>
     <!-- Settings -->
     <string name="dashclock_description">برخی آمارها و یادآورهای درحال انقضا از Omni Notes را نمایش می‌دهد</string>
     <string name="settings">تنظیمات</string>
@@ -219,6 +228,8 @@
     <string name="settings_export">نسخه پشتیبان</string>
     <string name="settings_sync_import_export">همگام‌سازی و نسخه‌های پشتیبان</string>
     <string name="settings_import">بازیابی یا حذف نسخه‌های پشتیبان</string>
+    <string name="settings_import_summary">هشدار: گذرواژه‌ای تنظیم نشده است و به منظور مسائل امنیتی، یادداشت‌های حفاظت‌شده از نسخه پشتیبان بازگردانی نخواهند شد</string>
+    <string name="settings_change_backup_folder">تغییر پوشه پشتیبان‌گیری</string>
     <string name="settings_import_legacy">بازیابی نسخه پشتیبان قدیمی</string>
     <string name="settings_import_legacy_summary">اجازه می‌دهد نسخه‌های پشتیبان قدیمی که توسط نسخه‌های قدیمی‌تر از ۶ Omni Notes گرفته شده‌اند، بازیابی شوند</string>
     <string name="settings_import_from_springpad">وارد کردن یادداشت‌ها از Springpad</string>
@@ -270,6 +281,7 @@
     <string name="settings_enable_editor_links_summary">قابل کلیک کردن خودکار نشانی‌ها و رایانامه‌های نوشته شده</string>
     <string name="confirm_removing_backup">واقعا نسخه پشتیبان حذف شود؟</string>
     <string name="confirm_restoring_backup">واقعا نسخه پشتیبان بازیابی شود؟</string>
+    <string name="confirm_restoring_backup_warning">هشدار: از تنظیم گذرواژه در بخش تنظیمات اطمینان حاصل کنید در غیر این صورت، یادداشت‌های محافظت شده به دلایل امنیتی نادیده‌گرفته خواهند شد!</string>
     <string name="data_deletion_completed">پاک کردن اطلاعات کامل شد</string>
     <string name="settings_checked_items_behavior">چک‌لیست‌ها</string>
     <string name="settings_checked_items_behavior_summary">چه اتفاقی با علامت زدن یک مورد رخ دهد؟</string>
@@ -405,4 +417,6 @@
     <string name="channel_backups_description">اعلان‌ها برای نتایج و وضعیت نسخه‌های پشتیبان</string>
     <string name="channel_reminders_name">یادآورها</string>
     <string name="channel_reminders_description">اعلان‌ها برای یادآوری‌های یادداشت‌ها</string>
+    <string name="channel_pinned_name">سنجاق‌شده</string>
+    <string name="channel_pinned_description">اعلانات برای یادداشت‌های سنجاق‌شده</string>
 </resources>

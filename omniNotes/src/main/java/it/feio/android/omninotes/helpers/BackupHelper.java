@@ -321,13 +321,9 @@ public final class BackupHelper {
 //  }
 
   public static String getBackupFolderPath() {
-    if (VERSION.SDK_INT >= VERSION_CODES.O) {
-      var backupFolder = Prefs.getString(PREF_BACKUP_FOLDER_URI, "");
-      var paths =URI.create(backupFolder).getPath().split(":");
-      return paths[paths.length - 1];
-    } else {
-      return StorageHelper.getExternalStoragePublicDir().getAbsolutePath();
-    }
+    var backupFolder = Prefs.getString(PREF_BACKUP_FOLDER_URI, "");
+    var paths =URI.create(backupFolder).getPath().split(":");
+    return paths[paths.length - 1];
   }
 
   private static void addIntegrityCheckError(List<LinkedList<DiffMatchPatch.Diff>> errors,
