@@ -10,6 +10,7 @@ Omni-Notes
 [![Sonarcloud Maintainability](https://sonarcloud.io/api/project_badges/measure?project=omni-notes&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=omni-notes)
 [![Crowdin](https://d322cqt584bo4o.cloudfront.net/omni-notes/localized.png)](https://crowdin.com/project/omni-notes)
 [![GitHub release](https://badgen.net/github/release/federicoiosue/Omni-Notes)](https://github.com/federicoiosue/Omni-Notes/releases/latest)
+[![GitHub release](https://img.shields.io/github/downloads/federicoiosue/Omni-Notes/total?label=Github%20Downloads)](https://github.com/federicoiosue/Omni-Notes/releases)
 
 Omni-Notes is a note taking <b>open-source</b> application aimed to have both a <b>simple interface</b> while keeping <b>smart</b> behavior. This application expands on the generic note taking features of other basic applications and allows for users to attach image and video files, use a variety of widgets, tag and organize notes, search through notes, and customize the applications UI.
 
