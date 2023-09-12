@@ -216,6 +216,7 @@
     <string name="undo_changes_note_confirmation">确定要撤销更改吗？</string>
     <string name="done">完成</string>
     <string name="nothing_selected">未选择</string>
+    <string name="insecure_content_found">收到的内容有部分存在危险，已忽略。</string>
     <!-- Settings -->
     <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
     <string name="settings">设置</string>

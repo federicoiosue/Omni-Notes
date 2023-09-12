@@ -216,6 +216,7 @@
     <string name="undo_changes_note_confirmation">Realment voleu desfer els canvis?</string>
     <string name="done">Fet</string>
     <string name="nothing_selected">Cap selecció</string>
+    <string name="insecure_content_found">Part del contingut rebut era perillós i s\'ha ignorat</string>
     <!-- Settings -->
     <string name="dashclock_description">Mostra algunes estadístiques i recordatoris expirats de l\'Omni Notes</string>
     <string name="settings">Configuració</string>

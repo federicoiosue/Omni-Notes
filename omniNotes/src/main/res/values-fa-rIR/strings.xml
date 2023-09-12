@@ -216,6 +216,7 @@
     <string name="undo_changes_note_confirmation">بازگرداندن تغییرات را تایید می‌کنید؟</string>
     <string name="done">انجام شد</string>
     <string name="nothing_selected">چیزی انتخاب نشده</string>
+    <string name="insecure_content_found">برخی از محتواهای دریافت‌شده خطرناک بودند که در نظر گرفته نشدند </string>
     <!-- Settings -->
     <string name="dashclock_description">برخی آمارها و یادآورهای درحال انقضا از Omni Notes را نمایش می‌دهد</string>
     <string name="settings">تنظیمات</string>

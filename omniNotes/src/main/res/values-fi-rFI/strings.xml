@@ -216,6 +216,7 @@
     <string name="undo_changes_note_confirmation">Vahvistatko muutosten kumoamisen?</string>
     <string name="done">Valmis</string>
     <string name="nothing_selected">Mitään ei ole valittu</string>
+    <string name="insecure_content_found">Osa vastaanotetusta sisällöstä oli vaarallista, se on jätetty huomiotta</string>
     <!-- Settings -->
     <string name="dashclock_description">Näyttää joitain tilastotietoja ja vanhentuneita muistutuksia Omni Notesista</string>
     <string name="settings">Asetukset</string>

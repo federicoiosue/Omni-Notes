@@ -216,6 +216,7 @@
     <string name="undo_changes_note_confirmation">Bevestig het ongedaan maken van wijzigingen?</string>
     <string name="done">Gedaan</string>
     <string name="nothing_selected">Niets geselecteerd</string>
+    <string name="insecure_content_found">Sommige van de ontvangen inhoud was gevaarlijk en is genegeerd</string>
     <!-- Settings -->
     <string name="dashclock_description">Sommige statistieken en de naderende herinneringen van Omni notities worden weergegeven</string>
     <string name="settings">Instellingen</string>

@@ -43,7 +43,7 @@
     <string name="confirm">Confirmer</string>
     <string name="ok">OK</string>
     <string name="no">Non</string>
-    <string name="failed">a échoué</string>
+    <string name="failed">échec</string>
     <string name="cancel">Annuler</string>
     <string name="note_updated">Note mise à jour</string>
     <string name="empty_note_not_saved">Impossible d\'enregistrer une note vide</string>
@@ -216,6 +216,7 @@
     <string name="undo_changes_note_confirmation">Confirmer l\'annulation des modifications ?</string>
     <string name="done">Fait</string>
     <string name="nothing_selected">Rien de sélectionné</string>
+    <string name="insecure_content_found">Une partie du contenu reçu était dangereuse, elle a été ignorée</string>
     <!-- Settings -->
     <string name="dashclock_description">Affiche des statistiques et des rappels à venir de Omni Notes.</string>
     <string name="settings">Paramètres</string>
