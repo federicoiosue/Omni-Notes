@@ -17,6 +17,13 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="Sep 12, 2023"
+    versionName="6.3.0 Alpha">
+    <changelogtext>[b]New![/b] Adaptive and monochrome icons (thanks to [a href='https://github.com/rec0de']Rec0de[/a])</changelogtext>
+    <changelogtext>[b]New![/b] Context menu option when some text is selected in other apps (thanks to [a href='https://github.com/rahulpower2012']Rahul[/a])</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="Jun 3, 2023"
     versionName="6.2.10">
     <changelogtext>[u]Fix[/u] Broken backup restore on Android version previous than 8</changelogtext>
