@@ -521,7 +521,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     // Handles third party apps requests of sharing
     if (IntentChecker
-        .checkAction(i, Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE, INTENT_GOOGLE_NOW)
+        .checkAction(i, Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE, Intent.ACTION_PROCESS_TEXT, INTENT_GOOGLE_NOW)
         && i.getType() != null) {
 
       afterSavedReturnsToList = false;
@@ -537,7 +537,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
 
       // Text content
-      String content = i.getStringExtra(Intent.EXTRA_TEXT);
+      String content = null;
+      if (Intent.ACTION_PROCESS_TEXT.equals(i.getAction())){
+        content = i.getStringExtra(Intent.EXTRA_PROCESS_TEXT).toString();
+      } else {
+        content = i.getStringExtra(Intent.EXTRA_TEXT);
+      }
+
       if (content != null) {
         noteTmp.setContent(content);
       }
