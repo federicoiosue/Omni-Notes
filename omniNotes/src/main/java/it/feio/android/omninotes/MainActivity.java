@@ -57,6 +57,7 @@ import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.omninotes.async.UpdateWidgetsTask;
+import it.feio.android.omninotes.async.bus.NotificationsGrantedEvent;
 import it.feio.android.omninotes.async.bus.PasswordRemovedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
@@ -64,6 +65,7 @@ import it.feio.android.omninotes.databinding.ActivityMainBinding;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.NotesHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
@@ -107,6 +109,7 @@ public class MainActivity extends BaseActivity implements
 
     EventBus.getDefault().register(this);
     Prefs.getPreferences().registerOnSharedPreferenceChangeListener(this);
+    new NotificationsHelper(this).askToEnableNotifications(this);
 
     initUI();
   }
@@ -114,7 +117,6 @@ public class MainActivity extends BaseActivity implements
   @Override
   protected void onPostCreate(@Nullable Bundle savedInstanceState) {
     super.onPostCreate(savedInstanceState);
-
     if (!launchIntroIfRequired() && isAppUpdated(getApplicationContext()) && !isDebugBuild()) {
       showChangelogAndUpdateCurrentVersion();
     }
@@ -187,6 +189,11 @@ public class MainActivity extends BaseActivity implements
     init();
   }
 
+  public void onEvent(NotificationsGrantedEvent notificationsGrantedEvent) {
+    if (!notificationsGrantedEvent.granted) {
+      showToast(getString(R.string.denied_notifications_permission), Toast.LENGTH_LONG);
+    }
+  }
 
   private void init() {
     isPasswordAccepted = true;

@@ -19,6 +19,7 @@ package it.feio.android.omninotes.utils;
 
 import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 import static android.app.PendingIntent.FLAG_NO_CREATE;
+import static android.widget.Toast.LENGTH_LONG;
 import static it.feio.android.omninotes.helpers.IntentHelper.immutablePendingIntentFlag;
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
 
@@ -32,6 +33,7 @@ import android.widget.Toast;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.helpers.date.DateHelper;
+import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.utils.date.DateUtils;
@@ -89,13 +91,17 @@ public class ReminderHelper {
 
   public static void showReminderMessage(String reminderString) {
     if (reminderString != null) {
+      var context = OmniNotes.getAppContext();
       long reminder = Long.parseLong(reminderString);
       if (reminder > Calendar.getInstance().getTimeInMillis()) {
         new Handler(OmniNotes.getAppContext().getMainLooper()).post(() ->
-            Toast.makeText(OmniNotes.getAppContext(),
-                OmniNotes.getAppContext().getString(R.string.alarm_set_on) + " " + DateHelper
-                    .getDateTimeShort
-                        (OmniNotes.getAppContext(), reminder), Toast.LENGTH_LONG).show());
+            Toast.makeText(context,
+                context.getString(R.string.alarm_set_on) + " " + DateHelper
+                    .getDateTimeShort(context, reminder), LENGTH_LONG).show());
+
+        if (!new NotificationsHelper(context).checkNotificationsEnabled(context)) {
+          Toast.makeText(context, context.getString(R.string.denied_notifications_permission), LENGTH_LONG).show();
+        }
       }
     }
   }

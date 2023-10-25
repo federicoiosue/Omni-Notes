@@ -36,6 +36,7 @@
   <uses-permission android:name="com.pushbullet.android.permission.SEND_MESSAGES" />
   <uses-permission android:name="android.permission.WAKE_LOCK" />
   <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+  <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
   <uses-feature
     android:name="android.hardware.camera"
