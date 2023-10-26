@@ -36,7 +36,7 @@ if (signConfigExists) {
 }
 
 android {
-    compileSdkVersion Integer.parseInt(project.TARGET_SDK)
+    compileSdk Integer.parseInt(project.TARGET_SDK)
 
     defaultConfig {
         applicationId project.PACKAGE
@@ -85,7 +85,7 @@ android {
         }
     }
 
-    flavorDimensions "standard"
+    flavorDimensions = ["standard"]
     productFlavors {
         play {
             dimension "standard"
