@@ -19,6 +19,7 @@ package it.feio.android.omninotes.testutils;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+import static android.Manifest.permission.POST_NOTIFICATIONS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -33,7 +34,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -43,6 +44,7 @@ import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.exceptions.TestException;
+import it.feio.android.omninotes.helpers.BuildVersionHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
@@ -96,7 +98,7 @@ public class BaseAndroidTestCase {
 
   private static void grantPermissions() {
     GrantPermissionRule.grant(ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_EXTERNAL_STORAGE, RECORD_AUDIO);
-    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.Q) {
+    if (BuildVersionHelper.isBelowOrEqual(VERSION_CODES.Q)) {
       GrantPermissionRule.grant(WRITE_EXTERNAL_STORAGE);
     }
   }

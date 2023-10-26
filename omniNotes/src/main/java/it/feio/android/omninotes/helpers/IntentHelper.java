@@ -25,6 +25,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import it.feio.android.omninotes.models.Note;
@@ -59,7 +60,7 @@ public class IntentHelper {
 
   public static int immutablePendingIntentFlag(final int flag) {
     int pIntentFlags = flag;
-    if (android.os.Build.VERSION.SDK_INT >= 23) {
+    if (BuildVersionHelper.isAboveOrEqual(VERSION_CODES.M)) {
       pIntentFlags = pIntentFlags | FLAG_IMMUTABLE;
     }
     return pIntentFlags;
@@ -67,7 +68,7 @@ public class IntentHelper {
 
   public static int mutablePendingIntentFlag(final int flag) {
     int pIntentFlags = flag;
-    if (android.os.Build.VERSION.SDK_INT >= 31) {
+    if (BuildVersionHelper.isAboveOrEqual(VERSION_CODES.S)) {
       pIntentFlags = pIntentFlags | FLAG_MUTABLE;
     }
     return pIntentFlags;

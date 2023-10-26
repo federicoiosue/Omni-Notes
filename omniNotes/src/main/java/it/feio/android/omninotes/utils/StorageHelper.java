@@ -17,6 +17,7 @@
 package it.feio.android.omninotes.utils;
 
 import static android.os.Environment.DIRECTORY_DOWNLOADS;
+import static android.widget.Toast.LENGTH_SHORT;
 import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_AUDIO;
 import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_FILES;
 import static it.feio.android.omninotes.utils.ConstantsBase.MIME_TYPE_IMAGE;
@@ -115,7 +116,7 @@ public class StorageHelper {
 
     if (!checkStorage()) {
       Toast.makeText(mContext, mContext.getString(R.string.storage_not_available),
-          Toast.LENGTH_SHORT).show();
+          LENGTH_SHORT).show();
       return null;
     }
     File file = createNewAttachmentFile(mContext, extension);
@@ -200,18 +201,16 @@ public class StorageHelper {
     // Checks for external storage availability
     if (!checkStorage()) {
       Toast.makeText(mContext, mContext.getString(R.string.storage_not_available),
-          Toast.LENGTH_SHORT).show();
+          LENGTH_SHORT).show();
       return false;
     }
     File file = new File(mContext.getExternalFilesDir(null), name);
     return file.delete();
   }
 
-
   public static boolean delete(Context mContext, String path) {
     if (!checkStorage()) {
-      Toast.makeText(mContext, mContext.getString(R.string.storage_not_available),
-          Toast.LENGTH_SHORT).show();
+      Toast.makeText(mContext, mContext.getString(R.string.storage_not_available), LENGTH_SHORT).show();
       return false;
     }
     try {
@@ -222,7 +221,6 @@ public class StorageHelper {
     }
     return true;
   }
-
 
   public static String getRealPathFromURI(Context mContext, Uri contentUri) {
     String[] proj = {MediaStore.Images.Media.DATA};

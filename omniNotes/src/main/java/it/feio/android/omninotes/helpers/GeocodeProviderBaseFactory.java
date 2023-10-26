@@ -20,7 +20,7 @@ package it.feio.android.omninotes.helpers;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
-import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.provider.Settings;
 import android.widget.Toast;
 import io.nlopez.smartlocation.location.LocationProvider;
@@ -35,7 +35,7 @@ public class GeocodeProviderBaseFactory {
   }
 
   public static LocationProvider getProvider(Context context) {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P && checkHighAccuracyLocationProvider(context)) {
+    if (BuildVersionHelper.isBelow(VERSION_CODES.P) && checkHighAccuracyLocationProvider(context)) {
       Toast.makeText(context, R.string.location_set_high_accuracy, Toast.LENGTH_SHORT).show();
       context.startActivity((new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)));
     }
