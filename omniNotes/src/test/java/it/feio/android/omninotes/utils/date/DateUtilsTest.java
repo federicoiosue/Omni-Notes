@@ -28,16 +28,10 @@ import java.util.Date;
 import java.util.Locale;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({DateUtils.class})
-@PowerMockIgnore("jdk.internal.reflect.*")
 public class DateUtilsTest {
 
   @Test
@@ -65,9 +59,11 @@ public class DateUtilsTest {
   public void getPresetReminder() {
     long mockedNextMinute = 1497315847L;
     Long testReminder = null;
-    PowerMockito.stub(PowerMockito.method(DateUtils.class, "getNextMinute"))
-        .toReturn(mockedNextMinute);
-    assertEquals(mockedNextMinute, DateUtils.getPresetReminder(testReminder));
+    try (MockedStatic<DateUtils> dateUtils = Mockito.mockStatic(DateUtils.class)) {
+      dateUtils.when(DateUtils::getNextMinute).thenReturn(mockedNextMinute);
+
+      assertEquals(mockedNextMinute, DateUtils.getPresetReminder(testReminder));
+    }
   }
 
   @Test

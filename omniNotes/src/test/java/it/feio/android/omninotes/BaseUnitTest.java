@@ -105,7 +105,6 @@ public class BaseUnitTest {
     LocaleList localeList = mock(LocaleList.class);
     when(configuration.getLocales()).thenReturn(localeList);
     when(configuration.getLocales().get(0)).thenReturn(Locale.ITALY);
-//    doReturn(Locale.ITALY).when(configuration.locale);
     return configuration;
   }
 

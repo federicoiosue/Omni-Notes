@@ -121,9 +121,7 @@ android {
 
 dependencies {
     testImplementation 'junit:junit:4.13.2'
-    testImplementation 'org.powermock:powermock:1.6.6'
-    testImplementation 'org.powermock:powermock-module-junit4:2.0.9'
-    testImplementation 'org.powermock:powermock-api-mockito:1.7.4'
+    testImplementation 'org.mockito:mockito-core:5.6.0'
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test:rules:1.5.0'
@@ -173,7 +171,7 @@ dependencies {
         transitive = true
         exclude group: "com.android.support"
     }
-    implementation('org.mnode.ical4j:ical4j:3.0.11') {
+    implementation('org.mnode.ical4j:ical4j:3.2.13') {
         exclude group: 'commons.io'
     }
     implementation 'org.apache.commons:commons-lang3:3.9'

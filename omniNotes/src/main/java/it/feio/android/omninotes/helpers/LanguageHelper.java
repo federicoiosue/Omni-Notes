@@ -24,6 +24,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -96,7 +97,7 @@ public class LanguageHelper {
   }
 
   public static Locale getCurrentLocale(Context context) {
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+    if (BuildVersionHelper.isAboveOrEqual(VERSION_CODES.N)) {
       return context.getResources().getConfiguration().getLocales().get(0);
     } else {
       return context.getResources().getConfiguration().locale;

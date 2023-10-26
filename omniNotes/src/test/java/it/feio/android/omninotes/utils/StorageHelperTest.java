@@ -24,15 +24,9 @@ import it.feio.android.omninotes.BaseUnitTest;
 import java.io.File;
 import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.mockito.MockedStatic;
+import org.mockito.Mockito;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest(Environment.class)
-@PowerMockIgnore("jdk.internal.reflect.*")
 public class StorageHelperTest extends BaseUnitTest {
 
   private static final File EXTERNAL_STORAGE_DIRECTORY = new File("/tmp/" + StorageHelperTest.class.getSimpleName());
@@ -44,12 +38,13 @@ public class StorageHelperTest extends BaseUnitTest {
 
   @Test
   public void getOrCreateBackupDir() {
-    PowerMockito.stub(PowerMockito.method(Environment.class, "getExternalStorageDirectory"))
-        .toReturn(EXTERNAL_STORAGE_DIRECTORY);
+    try (MockedStatic<Environment> env = Mockito.mockStatic(Environment.class)) {
+      env.when(Environment::getExternalStorageDirectory).thenReturn(EXTERNAL_STORAGE_DIRECTORY);
 
-    File backupDir = StorageHelper.getOrCreateBackupDir("backup");
+      var backupDir = StorageHelper.getOrCreateBackupDir("backup");
 
-    assertTrue(backupDir.exists());
+      assertTrue(backupDir.exists());
+    }
   }
 
 

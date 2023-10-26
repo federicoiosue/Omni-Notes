@@ -128,7 +128,7 @@ public class NotesHelper {
   /**
    * Retrieves statistics data for a single note
    */
-  public static StatsSingleNote getNoteInfos(Note note) {
+  public static StatsSingleNote getNoteInfo(Note note) {
     StatsSingleNote infos = new StatsSingleNote();
 
     int words;

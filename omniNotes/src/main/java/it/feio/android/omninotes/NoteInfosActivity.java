@@ -48,7 +48,7 @@ public class NoteInfosActivity extends Activity {
   }
 
   private void populateViews(Note note) {
-    StatsSingleNote infos = NotesHelper.getNoteInfos(note);
+    StatsSingleNote infos = NotesHelper.getNoteInfo(note);
 
     populateView(binding.noteInfosCategory, infos.getCategoryName());
     populateView(binding.noteInfosTags, infos.getTags());

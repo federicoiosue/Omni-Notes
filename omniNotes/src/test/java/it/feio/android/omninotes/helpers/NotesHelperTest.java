@@ -17,34 +17,23 @@
 
 package it.feio.android.omninotes.helpers;
 
+import static it.feio.android.omninotes.utils.ConstantsBase.MERGED_NOTES_SEPARATOR;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mockStatic;
 
-import android.content.Context;
-import android.os.Build;
+import android.os.Build.VERSION_CODES;
 import it.feio.android.omninotes.BaseUnitTest;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.StatsSingleNote;
-import it.feio.android.omninotes.utils.Constants;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import org.junit.Assert;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.core.classloader.annotations.PowerMockIgnore;
-import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
+import org.mockito.MockedStatic;
 
-@RunWith(PowerMockRunner.class)
-@PrepareForTest({OmniNotes.class, Build.VERSION.class})
-@PowerMockIgnore("jdk.internal.reflect.*")
 public class NotesHelperTest extends BaseUnitTest {
 
   @Test
@@ -54,59 +43,66 @@ public class NotesHelperTest extends BaseUnitTest {
 
   @Test
   public void haveSameIdShouldFail() {
-    Note note1 = getNote(1L, "test title", "test content");
-    Note note2 = getNote(2L, "test title", "test content");
+    var note1 = getNote(1L, "test title", "test content");
+    var note2 = getNote(2L, "test title", "test content");
+
     assertFalse(NotesHelper.haveSameId(note1, note2));
   }
 
   @Test
   public void haveSameIdShouldSucceed() {
-    Note note1 = getNote(3L, "test title", "test content");
-    Note note2 = getNote(3L, "different test title", "different test content");
+    var note1 = getNote(3L, "test title", "test content");
+    var note2 = getNote(3L, "different test title", "different test content");
+
     assertTrue(NotesHelper.haveSameId(note1, note2));
   }
 
   @Test
   public void mergingNotesDoesntDuplicateFirstTitle() {
     final String FIRST_NOTE_TITLE = "test title 1";
-    Note note1 = getNote(4L, FIRST_NOTE_TITLE, "");
-    Note note2 = getNote(5L, "test title 2", "");
-    Note mergedNote = NotesHelper.mergeNotes(Arrays.asList(note1, note2), false);
+    var note1 = getNote(4L, FIRST_NOTE_TITLE, "");
+    var note2 = getNote(5L, "test title 2", "");
+    var mergedNote = NotesHelper.mergeNotes(Arrays.asList(note1, note2), false);
+
     assertFalse(mergedNote.getContent().contains(FIRST_NOTE_TITLE));
   }
 
   @Test
   public void mergeNotes() {
     int notesNumber = 3;
-    List<Note> notes = new ArrayList<>();
+    var notes = new ArrayList<Note>();
     for (int i = 0; i < notesNumber; i++) {
       Note note = new Note();
       note.setTitle("Merged note " + i + " title");
       note.setContent("Merged note " + i + " content");
       notes.add(note);
     }
-    Note mergeNote = NotesHelper.mergeNotes(notes, false);
+    var mergeNote = NotesHelper.mergeNotes(notes, false);
 
     assertNotNull(mergeNote);
-    Assert.assertEquals("Merged note 0 title", mergeNote.getTitle());
-    Assert.assertTrue(mergeNote.getContent().contains("Merged note 0 content"));
-    Assert.assertTrue(mergeNote.getContent().contains("Merged note 1 content"));
-    Assert.assertTrue(mergeNote.getContent().contains("Merged note 2 content"));
-    assertEquals(StringUtils.countMatches(mergeNote.getContent(), Constants.MERGED_NOTES_SEPARATOR),
-        2);
+    assertEquals("Merged note 0 title", mergeNote.getTitle());
+    assertTrue(mergeNote.getContent().contains("Merged note 0 content"));
+    assertTrue(mergeNote.getContent().contains("Merged note 1 content"));
+    assertTrue(mergeNote.getContent().contains("Merged note 2 content"));
+    assertEquals(StringUtils.countMatches(mergeNote.getContent(), MERGED_NOTES_SEPARATOR), 2);
   }
 
   @Test
-  public void getNoteInfos() {
-    Context contextMock = getContextMock();
-    Whitebox.setInternalState(Build.VERSION.class, "SDK_INT", 29);
-    PowerMockito.stub(PowerMockito.method(OmniNotes.class, "getAppContext")).toReturn(contextMock);
+  public void getNoteInfo() {
+    var contextMock = getContextMock();
+    try (
+        MockedStatic<OmniNotes> omniNotes = mockStatic(OmniNotes.class);
+        MockedStatic<BuildVersionHelper> buildVersionHelper = mockStatic(BuildVersionHelper.class);
+    ) {
+      omniNotes.when(OmniNotes::getAppContext).thenReturn(contextMock);
+      buildVersionHelper.when(() -> BuildVersionHelper.isAboveOrEqual(VERSION_CODES.N)).thenReturn(true);
 
-    StatsSingleNote info = NotesHelper.getNoteInfos(new Note());
+      var info = NotesHelper.getNoteInfo(new Note());
 
-    assertEquals(0, info.getChars());
-    assertEquals(0, info.getWords());
-    assertEquals(0, info.getChecklistCompletedItemsNumber());
+      assertEquals(0, info.getChars());
+      assertEquals(0, info.getWords());
+      assertEquals(0, info.getChecklistCompletedItemsNumber());
+    }
   }
 
 }
