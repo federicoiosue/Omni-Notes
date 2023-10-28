@@ -17,9 +17,9 @@
 
 package it.feio.android.omninotes;
 
-import static it.feio.android.omninotes.OmniNotes.isDebugBuild;
 import static it.feio.android.omninotes.helpers.AppVersionHelper.isAppUpdated;
 import static it.feio.android.omninotes.helpers.AppVersionHelper.updateAppVersionInPreferences;
+import static it.feio.android.omninotes.helpers.BuildHelper.isDebugBuild;
 import static it.feio.android.omninotes.helpers.ChangelogHelper.showChangelog;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_RESTART_APP;

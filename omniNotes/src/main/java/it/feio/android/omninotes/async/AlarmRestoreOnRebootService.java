@@ -25,7 +25,7 @@ import androidx.core.app.JobIntentService;
 import it.feio.android.omninotes.BaseActivity;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.db.DbHelper;
-import it.feio.android.omninotes.helpers.BuildVersionHelper;
+import it.feio.android.omninotes.helpers.BuildHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.ReminderHelper;
@@ -39,7 +39,7 @@ public class AlarmRestoreOnRebootService extends JobIntentService {
   public static final int JOB_ID = 0x01;
 
   public static void enqueueWork(Context context, Intent work) {
-    if (BuildVersionHelper.isAboveOrEqual(VERSION_CODES.O)) {
+    if (BuildHelper.isAboveOrEqual(VERSION_CODES.O)) {
       enqueueWork(context, AlarmRestoreOnRebootService.class, JOB_ID, work);
     } else {
       Intent jobIntent = new Intent(context, AlarmRestoreOnRebootService.class);

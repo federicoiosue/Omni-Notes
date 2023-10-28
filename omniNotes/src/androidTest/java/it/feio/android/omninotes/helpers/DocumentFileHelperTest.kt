@@ -78,7 +78,7 @@ class DocumentFileHelperTest : BaseAndroidTestCase() {
     }
 
     @Test
-    @Ignore("runned manually")
+    @Ignore("run manually")
     fun copyFileTo_performance() {
         for (i in 1..50) copyFileTo()
 

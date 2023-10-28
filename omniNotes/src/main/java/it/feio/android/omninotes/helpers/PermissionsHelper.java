@@ -23,7 +23,6 @@ import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH
 
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import android.view.View;
 import androidx.core.app.ActivityCompat;
@@ -65,7 +64,7 @@ public class PermissionsHelper {
   }
 
   private static boolean skipPermissionRequest(String permission) {
-    return BuildVersionHelper.isAbove(VERSION_CODES.Q) && permission.equals(WRITE_EXTERNAL_STORAGE);
+    return BuildHelper.isAbove(VERSION_CODES.Q) && permission.equals(WRITE_EXTERNAL_STORAGE);
   }
 
   private static void requestPermissionExecute(Activity activity, String permission,

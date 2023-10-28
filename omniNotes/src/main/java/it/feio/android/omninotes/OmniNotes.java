@@ -17,6 +17,7 @@
 
 package it.feio.android.omninotes;
 
+import static it.feio.android.omninotes.helpers.BuildHelper.isDebugBuild;
 import static it.feio.android.omninotes.utils.Constants.PACKAGE;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_LANG;
 
@@ -38,10 +39,6 @@ import org.acra.sender.HttpSender.Method;
 public class OmniNotes extends MultiDexApplication {
 
   private static Context mContext;
-
-  public static boolean isDebugBuild() {
-    return BuildConfig.BUILD_TYPE.equals("debug");
-  }
 
   public static Context getAppContext() {
     return OmniNotes.mContext;

@@ -97,7 +97,7 @@ public class LanguageHelper {
   }
 
   public static Locale getCurrentLocale(Context context) {
-    if (BuildVersionHelper.isAboveOrEqual(VERSION_CODES.N)) {
+    if (BuildHelper.isAboveOrEqual(VERSION_CODES.N)) {
       return context.getResources().getConfiguration().getLocales().get(0);
     } else {
       return context.getResources().getConfiguration().locale;

@@ -14,32 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package it.feio.android.omninotes.helpers
 
-import android.os.Build
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
+import org.junit.Test
 
-class BuildVersionHelper {
+class GeocodeProviderBaseFactoryTest : BaseAndroidTestCase() {
+    
+    @Test
+    @Throws(Exception::class)
+    fun checkUtilityClassWellDefined() {
+        assertUtilityClassWellDefined(GeocodeProviderBaseFactory::class.java, true, true)
+    }
 
-    companion object {
-        @JvmStatic
-        fun isAboveOrEqual(sdk: Int): Boolean {
-            return Build.VERSION.SDK_INT >= sdk
-        }
+    @Test
+    fun provider() {
+        assertNotNull(GeocodeProviderBaseFactory.getProvider(testContext))
+    }
 
-        @JvmStatic
-        fun isAbove(sdk: Int): Boolean {
-            return Build.VERSION.SDK_INT > sdk
-        }
-
-        @JvmStatic
-        fun isBelowOrEqual(sdk: Int): Boolean {
-            return Build.VERSION.SDK_INT <= sdk
-        }
-
-        @JvmStatic
-        fun isBelow(sdk: Int): Boolean {
-            return Build.VERSION.SDK_INT < sdk
-        }
+    @Test
+    fun checkHighAccuracyLocationProvider() {
+        assertTrue(GeocodeProviderBaseFactory.checkHighAccuracyLocationProvider(testContext))
     }
 }

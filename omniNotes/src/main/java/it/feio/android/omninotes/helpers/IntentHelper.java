@@ -60,7 +60,7 @@ public class IntentHelper {
 
   public static int immutablePendingIntentFlag(final int flag) {
     int pIntentFlags = flag;
-    if (BuildVersionHelper.isAboveOrEqual(VERSION_CODES.M)) {
+    if (BuildHelper.isAboveOrEqual(VERSION_CODES.M)) {
       pIntentFlags = pIntentFlags | FLAG_IMMUTABLE;
     }
     return pIntentFlags;
@@ -68,7 +68,7 @@ public class IntentHelper {
 
   public static int mutablePendingIntentFlag(final int flag) {
     int pIntentFlags = flag;
-    if (BuildVersionHelper.isAboveOrEqual(VERSION_CODES.S)) {
+    if (BuildHelper.isAboveOrEqual(VERSION_CODES.S)) {
       pIntentFlags = pIntentFlags | FLAG_MUTABLE;
     }
     return pIntentFlags;

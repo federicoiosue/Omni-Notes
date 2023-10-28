@@ -44,7 +44,7 @@ import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.exceptions.TestException;
-import it.feio.android.omninotes.helpers.BuildVersionHelper;
+import it.feio.android.omninotes.helpers.BuildHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Category;
 import it.feio.android.omninotes.models.Note;
@@ -98,8 +98,11 @@ public class BaseAndroidTestCase {
 
   private static void grantPermissions() {
     GrantPermissionRule.grant(ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_EXTERNAL_STORAGE, RECORD_AUDIO);
-    if (BuildVersionHelper.isBelowOrEqual(VERSION_CODES.Q)) {
+    if (BuildHelper.isBelowOrEqual(VERSION_CODES.Q)) {
       GrantPermissionRule.grant(WRITE_EXTERNAL_STORAGE);
+    }
+    if (BuildHelper.isAboveOrEqual(VERSION_CODES.TIRAMISU)) {
+      GrantPermissionRule.grant(POST_NOTIFICATIONS);
     }
   }
 

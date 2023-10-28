@@ -47,7 +47,7 @@ import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.bus.NotificationsGrantedEvent;
-import it.feio.android.omninotes.helpers.BuildVersionHelper;
+import it.feio.android.omninotes.helpers.BuildHelper;
 import lombok.NonNull;
 
 
@@ -71,7 +71,7 @@ public class NotificationsHelper {
    */
   @TargetApi(VERSION_CODES.O)
   public void initNotificationChannels() {
-    if (BuildVersionHelper.isAboveOrEqual(VERSION_CODES.O)) {
+    if (BuildHelper.isAboveOrEqual(VERSION_CODES.O)) {
 
       String soundFromPrefs = Prefs.getString("settings_notification_ringtone", null);
       Uri sound = soundFromPrefs != null ? Uri.parse(soundFromPrefs)
@@ -97,7 +97,7 @@ public class NotificationsHelper {
 
   @TargetApi(Build.VERSION_CODES.O)
   public void updateNotificationChannelsSound() {
-    if (BuildVersionHelper.isAboveOrEqual(VERSION_CODES.O)) {
+    if (BuildHelper.isAboveOrEqual(VERSION_CODES.O)) {
       Intent intent = new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS);
       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       intent.putExtra(Settings.EXTRA_APP_PACKAGE, mContext.getPackageName());
@@ -148,7 +148,7 @@ public class NotificationsHelper {
   }
 
   public NotificationsHelper setRingtone(String ringtone) {
-    if (ringtone != null && BuildVersionHelper.isBelow(VERSION_CODES.O)) {
+    if (ringtone != null && BuildHelper.isBelow(VERSION_CODES.O)) {
       mBuilder.setSound(Uri.parse(ringtone));
     }
     return this;
@@ -242,13 +242,14 @@ public class NotificationsHelper {
   }
 
   public boolean checkNotificationsEnabled(Context context) {
-    return BuildVersionHelper.isBelow(VERSION_CODES.TIRAMISU)
+    return BuildHelper.isBelow(VERSION_CODES.TIRAMISU)
+        || BuildHelper.isDebugBuild()
         || ContextCompat.checkSelfPermission(context, permission.POST_NOTIFICATIONS)
         == PackageManager.PERMISSION_GRANTED;
   }
 
   public void askToEnableNotifications(ComponentActivity activity) {
-    if (BuildVersionHelper.isAboveOrEqual(VERSION_CODES.TIRAMISU)) {
+    if (BuildHelper.isAboveOrEqual(VERSION_CODES.TIRAMISU)) {
       if (!checkNotificationsEnabled(activity)) {
         activity.registerForActivityResult(new RequestPermission(),
                 isGranted -> EventBus.getDefault().post(new NotificationsGrantedEvent(isGranted)))

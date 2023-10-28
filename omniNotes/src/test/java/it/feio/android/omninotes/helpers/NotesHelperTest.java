@@ -92,10 +92,10 @@ public class NotesHelperTest extends BaseUnitTest {
     var contextMock = getContextMock();
     try (
         MockedStatic<OmniNotes> omniNotes = mockStatic(OmniNotes.class);
-        MockedStatic<BuildVersionHelper> buildVersionHelper = mockStatic(BuildVersionHelper.class);
+        MockedStatic<BuildHelper> buildVersionHelper = mockStatic(BuildHelper.class);
     ) {
       omniNotes.when(OmniNotes::getAppContext).thenReturn(contextMock);
-      buildVersionHelper.when(() -> BuildVersionHelper.isAboveOrEqual(VERSION_CODES.N)).thenReturn(true);
+      buildVersionHelper.when(() -> BuildHelper.isAboveOrEqual(VERSION_CODES.N)).thenReturn(true);
 
       var info = NotesHelper.getNoteInfo(new Note());
 

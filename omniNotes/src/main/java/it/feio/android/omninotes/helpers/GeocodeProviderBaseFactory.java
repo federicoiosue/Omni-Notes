@@ -35,7 +35,7 @@ public class GeocodeProviderBaseFactory {
   }
 
   public static LocationProvider getProvider(Context context) {
-    if (BuildVersionHelper.isBelow(VERSION_CODES.P) && checkHighAccuracyLocationProvider(context)) {
+    if (BuildHelper.isBelow(VERSION_CODES.P) && checkHighAccuracyLocationProvider(context)) {
       Toast.makeText(context, R.string.location_set_high_accuracy, Toast.LENGTH_SHORT).show();
       context.startActivity((new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)));
     }

@@ -17,12 +17,12 @@
 
 package it.feio.android.omninotes.intro;
 
+import static it.feio.android.omninotes.helpers.BuildHelper.isDebugBuild;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_TOUR_COMPLETE;
 
 import android.os.Bundle;
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.pixplicity.easyprefs.library.Prefs;
-import it.feio.android.omninotes.OmniNotes;
 
 
 public class IntroActivity extends AppIntro2 {
@@ -44,7 +44,7 @@ public class IntroActivity extends AppIntro2 {
   }
 
   public static boolean mustRun() {
-    return !OmniNotes.isDebugBuild() && !Prefs.getBoolean(PREF_TOUR_COMPLETE, false);
+    return !isDebugBuild() && !Prefs.getBoolean(PREF_TOUR_COMPLETE, false);
   }
 
   @Override

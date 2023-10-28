@@ -19,6 +19,7 @@ package it.feio.android.omninotes;
 import static android.text.Html.fromHtml;
 import static android.text.TextUtils.isEmpty;
 import static androidx.core.view.ViewCompat.animate;
+import static it.feio.android.omninotes.helpers.BuildHelper.isDebugBuild;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_MERGE;
 import static it.feio.android.omninotes.utils.ConstantsBase.ACTION_POSTPONE;
@@ -1260,7 +1261,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   }
 
   private void animateListView() {
-    if (!OmniNotes.isDebugBuild()) {
+    if (!isDebugBuild()) {
       animate(binding.progressWheel)
           .setDuration(getResources().getInteger(R.integer.list_view_fade_anim)).alpha(0);
       animate(binding.list).setDuration(getResources().getInteger(R.integer.list_view_fade_anim))

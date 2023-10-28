@@ -35,7 +35,7 @@ import android.os.Build.VERSION_CODES;
 import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.MainActivity;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.helpers.BuildVersionHelper;
+import it.feio.android.omninotes.helpers.BuildHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.models.Note;
 import lombok.SneakyThrows;
@@ -54,7 +54,7 @@ public class ShortcutHelper {
                 .getCreation(),
             Prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
 
-    if (BuildVersionHelper.isBelow(VERSION_CODES.O)) {
+    if (BuildHelper.isBelow(VERSION_CODES.O)) {
       createShortcutPreOreo(context, note, shortcutTitle);
     } else {
       createShortcutPostOreo(context, note, shortcutTitle);
@@ -118,7 +118,7 @@ public class ShortcutHelper {
    * Removes note shortcut from home launcher
    */
   public static void removeShortcut(Context context, Note note) {
-    if (BuildVersionHelper.isBelow(VERSION_CODES.O)) {
+    if (BuildHelper.isBelow(VERSION_CODES.O)) {
       removeShortcutPreOreo(context, note);
     } else {
       removeShortcutPostOreo(context, note);
