@@ -1226,10 +1226,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   private void categorizeNote() {
     var currentCategory = noteTmp.getCategory() != null ? String.valueOf(noteTmp.getCategory().getId()) : null;
+    var  originalCategory = noteOriginal.getCategory() != null ? String.valueOf(noteOriginal.getCategory().getId()) : null;
     final var categories = Observable.from(DbHelper.getInstance().getCategories())
         .map(category -> {
-          if (String.valueOf(category.getId()).equals(currentCategory)) {
+          if (String.valueOf(category.getId()).equals(currentCategory) && currentCategory != originalCategory) {
             category.setCount(category.getCount() + 1);
+          }
+          if (String.valueOf(category.getId()).equals(originalCategory) && currentCategory != originalCategory) {
+            category.setCount(category.getCount() - 1);
           }
           return category;
         }).toList().toBlocking().single();
