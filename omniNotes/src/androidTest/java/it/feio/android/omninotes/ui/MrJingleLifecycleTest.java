@@ -38,7 +38,6 @@ import androidx.test.filters.LargeTest;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.testutils.NoRealDeviceTest;
-import java.io.IOException;
 import java.util.List;
 import org.hamcrest.core.IsInstanceOf;
 import org.junit.Test;
@@ -149,7 +148,7 @@ public class MrJingleLifecycleTest extends BaseEspressoTest {
 
       onView(withId(R.id.list)).perform(
               RecyclerViewActions.actionOnItemAtPosition(0, new GeneralSwipeAction(
-                      Swipe.SLOW, GeneralLocation.BOTTOM_RIGHT, GeneralLocation.BOTTOM_LEFT,
+                      Swipe.FAST, GeneralLocation.CENTER, GeneralLocation.CENTER_LEFT,
                       Press.FINGER)));
 
       onView(allOf(withId(R.id.empty_list), withText(R.string.no_items_in_list),
