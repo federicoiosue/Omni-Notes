@@ -17,8 +17,15 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="Oct 30, 2023"
+    versionName="6.3.0 Alpha 2">
+    <changelogtext>[i]Improved![/i] Managed runtime notifications permission on Tiramisu and above</changelogtext>
+    <changelogtext>[u]Fix[/u] Tags and categories related issues (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="Sep 12, 2023"
-    versionName="6.3.0 Alpha">
+    versionName="6.3.0 Alpha 1">
     <changelogtext>[b]New![/b] Targeting Android 13 API with improved performances and security updates</changelogtext>
     <changelogtext>[b]New![/b] Telegram channel (removed Facebook, never used...)</changelogtext>
     <changelogtext>[b]New![/b] Adaptive and monochrome icons (thanks to [a href='https://github.com/rec0de']Rec0de[/a])</changelogtext>
