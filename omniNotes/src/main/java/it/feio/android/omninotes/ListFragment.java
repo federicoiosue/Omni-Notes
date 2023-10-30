@@ -16,6 +16,7 @@
  */
 package it.feio.android.omninotes;
 
+import static android.content.DialogInterface.BUTTON_POSITIVE;
 import static android.text.Html.fromHtml;
 import static android.text.TextUtils.isEmpty;
 import static androidx.core.view.ViewCompat.animate;
@@ -68,6 +69,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
@@ -79,6 +81,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -1799,7 +1802,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   }
 
   private void filterByTags() {
-
     final List<Tag> tags = TagsHelper.getAllTags();
 
     if (tags.isEmpty()) {
@@ -1807,33 +1809,36 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       return;
     }
 
-    // Dialog and events creation
-    new MaterialDialog.Builder(mainActivity)
-        .title(R.string.select_tags)
-        .items(TagsHelper.getTagsArray(tags))
-        .positiveText(R.string.ok)
-        .itemsCallbackMultiChoice(new Integer[]{}, (dialog, which, text) -> {
-          // Retrieves selected tags
-          List<String> selectedTags = new ArrayList<>();
-          for (Integer aWhich : which) {
-            selectedTags.add(tags.get(aWhich).getText());
+    var tagsDialog = new MaterialAlertDialogBuilder(mainActivity)
+        .setTitle(R.string.select_tags)
+        .setPositiveButton(R.string.ok, (dialog, which) -> {
+          var items = ((AlertDialog) dialog).getListView().getCheckedItemPositions();
+          var selectedTags = new ArrayList<String>();
+          for(int i = 0; i < items.size(); i++) {
+            if (items.valueAt(i)) {
+              selectedTags.add(tags.get(i).getText());
+            }
           }
 
           // Saved here to allow persisting search
           searchTags = selectedTags.toString().substring(1, selectedTags.toString().length() - 1)
               .replace(" ", "");
-          Intent intent = mainActivity.getIntent();
 
           // Hides keyboard
           searchView.clearFocus();
           KeyboardUtils.hideKeyboard(searchView);
 
+          var intent = mainActivity.getIntent();
           intent.removeExtra(SearchManager.QUERY);
           initNotesList(intent);
-          return false;
-        }).build().show();
+        })
+        .setMultiChoiceItems(TagsHelper.getTagsArray(tags), null, (dialog, which, isChecked) ->
+            ((AlertDialog) dialog).getButton(BUTTON_POSITIVE)
+            .setEnabled(((AlertDialog) dialog).getListView().getCheckedItemCount() > 0)
+        ).create();
+    tagsDialog.show();
+    tagsDialog.getButton(BUTTON_POSITIVE).setEnabled(false);
   }
-
 
   public MenuItem getSearchMenuItem() {
     return searchMenuItem;
