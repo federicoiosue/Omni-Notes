@@ -161,8 +161,8 @@ dependencies {
     implementation 'de.greenrobot:eventbus:2.4.0'
     implementation 'com.pushbullet:android-extensions:1.0.4@aar'
     implementation 'com.getbase:floatingactionbutton:1.10.1'
-    implementation 'com.github.bumptech.glide:glide:4.16.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.16.0'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'   // To be modified with Gallery library
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0' // To be modified with Gallery library
     implementation('com.github.afollestad.material-dialogs:core:0.9.6.0') {
         transitive = true
         exclude group: "com.android.support"
