@@ -301,6 +301,7 @@
   <string name="confirm_restoring_backup">Proceed restoring from backup?</string>
   <string name="confirm_restoring_backup_warning">WARNING: Be sure to have set a password into settings or protected notes will be skipped for security reasons!</string>
   <string name="data_deletion_completed">Data erasing completed</string>
+  <string name="data_deletion_error">Data deletion encountered some errors</string>
   <string name="settings_checked_items_behavior">Checklists</string>
   <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>
   <string name="settings_category_preferences">Preferences</string>

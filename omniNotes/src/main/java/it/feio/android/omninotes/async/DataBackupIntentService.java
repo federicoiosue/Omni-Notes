@@ -28,7 +28,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import com.lazygeniouz.dfc.file.DocumentFileCompat;
 import com.pixplicity.easyprefs.library.Prefs;
@@ -37,6 +36,7 @@ import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.BackupHelper;
+import it.feio.android.omninotes.helpers.DocumentFileHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
@@ -47,6 +47,7 @@ import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import java.io.File;
+import java.io.IOException;
 import rx.Observable;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
@@ -132,11 +133,22 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
   private synchronized void deleteData(Intent intent) {
     String backupName = intent.getStringExtra(INTENT_BACKUP_NAME);
-    File backupDir = StorageHelper.getOrCreateBackupDir(backupName);
-
-    StorageHelper.delete(this, backupDir.getAbsolutePath());
-
-    mNotificationsHelper.finish(getString(R.string.data_deletion_completed), backupName + " " + getString(R.string.deleted));
+    var backupDir = Observable.from(DocumentFileCompat.Companion.fromTreeUri(getBaseContext(),
+            Uri.parse(Prefs.getString(PREF_BACKUP_FOLDER_URI, null))).listFiles())
+        .filter(f -> f.getName().equals(intent.getStringExtra(INTENT_BACKUP_NAME))).toBlocking()
+        .single();
+    try {
+      if (DocumentFileHelper.delete(backupDir)) {
+        mNotificationsHelper.finish(getString(R.string.data_deletion_completed),
+            backupName + " " + getString(R.string.deleted));
+      } else {
+        LogDelegate.e("Can't delete backup " + backupName);
+        mNotificationsHelper.finish(getString(R.string.data_deletion_error), backupName);
+      }
+    } catch (IOException e) {
+      LogDelegate.e("Can't delete backup " + backupName, e);
+      mNotificationsHelper.finish(getString(R.string.data_deletion_error), backupName);
+    }
   }
 
   private void createNotification(Intent intent, Context context, String title, String message) {

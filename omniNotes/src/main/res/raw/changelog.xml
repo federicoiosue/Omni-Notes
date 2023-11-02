@@ -17,6 +17,12 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="Nov 3, 2023"
+    versionName="6.3.0 Alpha 3">
+    <changelogtext>[u]Fix[/u] Fixed backups removal</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="Oct 30, 2023"
     versionName="6.3.0 Alpha 2">
     <changelogtext>[i]Improved![/i] Managed runtime notifications permission on Tiramisu and above</changelogtext>
