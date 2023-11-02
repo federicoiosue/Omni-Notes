@@ -171,7 +171,7 @@ dependencies {
         transitive = true
         exclude group: "com.android.support"
     }
-    implementation('org.mnode.ical4j:ical4j:3.2.13') {
+    implementation('org.mnode.ical4j:ical4j:3.0.11') {
         exclude group: 'commons.io'
     }
     implementation 'org.apache.commons:commons-lang3:3.9'
