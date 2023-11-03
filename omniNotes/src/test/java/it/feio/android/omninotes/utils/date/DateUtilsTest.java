@@ -28,8 +28,6 @@ import java.util.Date;
 import java.util.Locale;
 import org.junit.Assert;
 import org.junit.Test;
-import org.mockito.MockedStatic;
-import org.mockito.Mockito;
 
 
 public class DateUtilsTest {
@@ -56,14 +54,22 @@ public class DateUtilsTest {
   }
 
   @Test
-  public void getPresetReminder() {
-    long mockedNextMinute = 1497315847L;
-    Long testReminder = null;
-    try (MockedStatic<DateUtils> dateUtils = Mockito.mockStatic(DateUtils.class)) {
-      dateUtils.when(DateUtils::getNextMinute).thenReturn(mockedNextMinute);
+  public void getNextMinute() {
+    var nextMinute = DateUtils.getNextMinute();
 
-      assertEquals(mockedNextMinute, DateUtils.getPresetReminder(testReminder));
-    }
+    assertTrue(Calendar.getInstance().getTimeInMillis() < nextMinute);
+    assertTrue(nextMinute < Calendar.getInstance().getTimeInMillis() + 61 * 1000);
+  }
+
+  @Test
+  public void getPresetReminder() {
+    var nextHour = Calendar.getInstance().getTimeInMillis() + 60 * 60 * 1000;
+    assertEquals(nextHour, DateUtils.getPresetReminder(nextHour));
+
+    var previousMinute = Calendar.getInstance().getTimeInMillis() - 60 * 1000;
+    var nextMinute = Calendar.getInstance().getTimeInMillis() + 61 * 1000;
+    var presetReminder = DateUtils.getPresetReminder(previousMinute);
+    assertTrue(Calendar.getInstance().getTimeInMillis() < presetReminder && presetReminder < nextMinute);
   }
 
   @Test
