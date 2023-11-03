@@ -19,7 +19,8 @@
   <changelogversion
     changeDate="Nov 3, 2023"
     versionName="6.3.0 Alpha 3">
-    <changelogtext>[u]Fix[/u] Fixed backups removal</changelogtext>
+    <changelogtext>[u]Fix[/u] Backups removal</changelogtext>
+    <changelogtext>[u]Fix[/u] Committed trash/archive movements on search action to keep data consistency (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
   </changelogversion>
 
   <changelogversion

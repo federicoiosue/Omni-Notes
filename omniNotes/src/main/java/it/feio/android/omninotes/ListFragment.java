@@ -702,7 +702,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
           @Override
           public boolean onMenuItemActionExpand(MenuItem item) {
-
+            commitPending();
             searchView.setOnQueryTextListener(new OnQueryTextListener() {
               @Override
               public boolean onQueryTextSubmit(String arg0) {
