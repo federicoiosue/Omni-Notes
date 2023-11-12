@@ -90,7 +90,7 @@ class Security private constructor() {
         @JvmStatic
         @Throws(ContentSecurityException::class)
         fun validatePath(path: String?) {
-            val uri = Uri.parse(path).path
+            val uri = Uri.parse(path).path?.replace("/+".toRegex(), "/")
             if (uri?.startsWith("/data")!! || uri.contains("../")) {
                 throw ContentSecurityException("Invalid")
             }

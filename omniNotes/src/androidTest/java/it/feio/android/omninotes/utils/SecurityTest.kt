@@ -30,7 +30,8 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class SecurityTest : BaseAndroidTestCase() {
-    private val LOREM = ("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor"
+
+    private val exampleText = ("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor"
             + " incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco"
             + " laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit "
             + "esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa "
@@ -57,7 +58,7 @@ class SecurityTest : BaseAndroidTestCase() {
 
     @Test
     fun decryptUnencrypted() {
-        assertNotEquals(0, decrypt(LOREM, PASS)!!.length.toLong())
+        assertNotEquals(0, decrypt(exampleText, PASS)!!.length.toLong())
     }
 
     @Test
@@ -70,6 +71,13 @@ class SecurityTest : BaseAndroidTestCase() {
     @Test
     fun validatePath_pathTraversal() {
         val path = "file:///storage/emulated/0/../../../data/data/it.feio.android.omninotes.foss/shared_prefs/it.feio.android.omninotes.foss_preferences.xml"
+
+        assertThrows(ContentSecurityException::class.java) { validatePath(path) }
+    }
+
+    @Test
+    fun validatePath_pathTraversal2() {
+        val path = "file:////////data/data/it.feio.android.omninotes.foss/shared_prefs/it.feio.android.omninotes.foss_preferences.xml"
 
         assertThrows(ContentSecurityException::class.java) { validatePath(path) }
     }
