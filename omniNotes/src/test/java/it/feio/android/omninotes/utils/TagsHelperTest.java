@@ -36,11 +36,11 @@ import org.junit.Test;
 
 public class TagsHelperTest {
 
-  private static Tag TAG1 = new Tag("#mixed", 1);
-  private static Tag TAG2 = new Tag("#tags", 1);
-  private static Tag TAG3 = new Tag("#tag", 1);
-  private static Tag TAG4 = new Tag("#numberedAfter123", 1);
-  private static Tag TAG_INVALID = new Tag("#123numbered", 1);
+  private static final Tag TAG1 = new Tag("#mixed", 1);
+  private static final Tag TAG2 = new Tag("#tags", 1);
+  private static final Tag TAG3 = new Tag("#tag", 1);
+  private static final Tag TAG4 = new Tag("#numberedAfter123", 1);
+  private static final Tag TAG_INVALID = new Tag("#123numbered", 1);
 
   private Note note;
 
@@ -129,13 +129,23 @@ public class TagsHelperTest {
   }
 
   @Test
-  public void removeTags_specialCharsKeeped () {
+  public void removeTags_specialCharsKept () {
     String text = "<>[],-.(){}!?\n\t text";
     String testString = text + " " + TAG1.getText();
 
     String result = TagsHelper.removeTags(testString, singletonList(TAG1));
 
     assertEquals(text, result);
+  }
+
+  @Test
+  public void removeTags_mixedCarriageReturns () {
+    var text = "some text\n" + TAG1.getText() + " other following text ending with " + TAG2.getText();
+    var expected = "some text\n other following text ending with " + TAG2.getText();
+
+    var result = TagsHelper.removeTags(text, singletonList(TAG1));
+
+    assertEquals(expected, result);
   }
 
   @Test

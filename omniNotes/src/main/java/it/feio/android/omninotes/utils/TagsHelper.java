@@ -30,6 +30,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.StringUtils;
 
@@ -94,15 +95,20 @@ public class TagsHelper {
     if (StringUtils.isEmpty(text)) {
       return text;
     }
-    String[] textCopy = new String[]{text};
-    from(tagsToRemove).forEach(tagToRemove -> textCopy[0] = removeTag(textCopy[0], tagToRemove));
-    return textCopy[0];
+    var textCopy = new AtomicReference<>(text);
+    from(tagsToRemove).forEach(tagToRemove -> textCopy.set(removeTag(textCopy.get(), tagToRemove)));
+    return textCopy.get();
   }
 
   private static String removeTag(String textCopy, Tag tagToRemove) {
-    return from(textCopy.split(" "))
+    var spaceProcessed = tokenizeAndRemoveTag(textCopy, " ", tagToRemove);
+    return tokenizeAndRemoveTag(spaceProcessed, "\n", tagToRemove);
+  }
+
+  private static String tokenizeAndRemoveTag(String text, String separator, Tag tagToRemove) {
+    return from(text.split(separator))
         .map(word -> removeTagFromWord(word, tagToRemove))
-        .reduce((s, s2) -> s + " " + s2)
+        .reduce((s, s2) -> s + separator + s2)
         .toBlocking()
         .singleOrDefault("")
         .trim();
