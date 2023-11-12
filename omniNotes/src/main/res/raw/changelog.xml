@@ -17,6 +17,13 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="Nov 12, 2023"
+    versionName="6.3.0 Alpha 4">
+    <changelogtext>[u]Fix[/u] Security improvements</changelogtext>
+    <changelogtext>[u]Fix[/u] More bugs fixed (thanks to [a href='https://github.com/federicoiosue/Omni-Notes/issues?q=is%3Aissue+author%3AXYIheng+is%3Aclosed']Yiheng Xiong[/a])</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="Nov 3, 2023"
     versionName="6.3.0 Alpha 3">
     <changelogtext>[u]Fix[/u] Backups removal</changelogtext>
