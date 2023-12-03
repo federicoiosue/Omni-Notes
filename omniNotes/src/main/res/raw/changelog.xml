@@ -17,33 +17,18 @@
 <changelog bulletedList="true">
 
   <changelogversion
-    changeDate="Nov 12, 2023"
-    versionName="6.3.0 Alpha 4">
-    <changelogtext>[u]Fix[/u] Security improvements</changelogtext>
-    <changelogtext>[u]Fix[/u] More bugs fixed (thanks to [a href='https://github.com/federicoiosue/Omni-Notes/issues?q=is%3Aissue+author%3AXYIheng+is%3Aclosed']Yiheng Xiong[/a])</changelogtext>
-  </changelogversion>
-
-  <changelogversion
-    changeDate="Nov 3, 2023"
-    versionName="6.3.0 Alpha 3">
-    <changelogtext>[u]Fix[/u] Backups removal</changelogtext>
-    <changelogtext>[u]Fix[/u] Committed trash/archive movements on search action to keep data consistency (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
-  </changelogversion>
-
-  <changelogversion
-    changeDate="Oct 30, 2023"
-    versionName="6.3.0 Alpha 2">
-    <changelogtext>[i]Improved![/i] Managed runtime notifications permission on Tiramisu and above</changelogtext>
-    <changelogtext>[u]Fix[/u] Tags and categories related issues (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
-  </changelogversion>
-
-  <changelogversion
-    changeDate="Sep 12, 2023"
-    versionName="6.3.0 Alpha 1">
+    changeDate="Dec 3, 2023"
+    versionName="6.3.0">
     <changelogtext>[b]New![/b] Targeting Android 13 API with improved performances and security updates</changelogtext>
     <changelogtext>[b]New![/b] Telegram channel (removed Facebook, never used...)</changelogtext>
     <changelogtext>[b]New![/b] Adaptive and monochrome icons (thanks to [a href='https://github.com/rec0de']Rec0de[/a])</changelogtext>
     <changelogtext>[b]New![/b] Context menu option when some text is selected in other apps (thanks to [a href='https://github.com/rahulpower2012']Rahul[/a])</changelogtext>
+    <changelogtext>[u]Fix[/u] Backups removal</changelogtext>
+    <changelogtext>[u]Fix[/u] Security improvements</changelogtext>
+    <changelogtext>[u]Fix[/u] Committed trash/archive movements on search action to keep data consistency (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
+    <changelogtext>[i]Improved![/i] Managed runtime notifications permission on Tiramisu and above</changelogtext>
+    <changelogtext>[u]Fix[/u] Tags and categories related issues (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
+    <changelogtext>[u]Fix[/u] More bugs fixed (thanks to [a href='https://github.com/federicoiosue/Omni-Notes/issues?q=is%3Aissue+author%3AXYIheng+is%3Aclosed']Yiheng Xiong[/a])</changelogtext>
   </changelogversion>
 
   <changelogversion
