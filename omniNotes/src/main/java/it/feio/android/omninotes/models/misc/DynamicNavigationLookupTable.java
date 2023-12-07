@@ -18,6 +18,8 @@
 package it.feio.android.omninotes.models.misc;
 
 
+import static java.lang.Boolean.FALSE;
+
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.async.bus.DynamicNavigationReadyEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
@@ -25,15 +27,17 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Note;
 import java.util.List;
+import lombok.Getter;
 
 
+@Getter
 public class DynamicNavigationLookupTable {
 
   private static DynamicNavigationLookupTable instance;
-  int archived;
-  int trashed;
-  int uncategorized;
-  int reminders;
+  private int archived;
+  private int trashed;
+  private int uncategorized;
+  private int reminders;
 
 
   private DynamicNavigationLookupTable() {
@@ -51,49 +55,27 @@ public class DynamicNavigationLookupTable {
 
 
   public void update() {
-    ((Runnable) () -> {
-      archived = trashed = uncategorized = reminders = 0;
-      List<Note> notes = DbHelper.getInstance().getAllNotes(false);
-      for (int i = 0; i < notes.size(); i++) {
-        if (Boolean.TRUE.equals(notes.get(i).isTrashed())) {
-          trashed++;
-        } else if (Boolean.TRUE.equals(notes.get(i).isArchived())) {
-          archived++;
-        } else if (notes.get(i).getAlarm() != null) {
-          reminders++;
-        }
-        if (notes.get(i).getCategory() == null || notes.get(i).getCategory().getId().equals(0L)) {
-          uncategorized++;
-        }
+    archived = trashed = uncategorized = reminders = 0;
+    List<Note> notes = DbHelper.getInstance().getAllNotes(false);
+    for (int i = 0; i < notes.size(); i++) {
+      if (Boolean.TRUE.equals(notes.get(i).isTrashed())) {
+        trashed++;
+      } else if (Boolean.TRUE.equals(notes.get(i).isArchived())) {
+        archived++;
+      } else if (notes.get(i).getAlarm() != null) {
+        reminders++;
       }
-      EventBus.getDefault().post(new DynamicNavigationReadyEvent());
-      LogDelegate.d("Dynamic menu finished counting items");
-    }).run();
+      if ((notes.get(i).getCategory() == null || notes.get(i).getCategory().getId().equals(0L))
+          && FALSE.equals(notes.get(i).isTrashed())) {
+        uncategorized++;
+      }
+    }
+    EventBus.getDefault().post(new DynamicNavigationReadyEvent());
+    LogDelegate.d("Dynamic menu finished counting items");
   }
-
 
   public void onEventAsync(NotesUpdatedEvent event) {
     update();
-  }
-
-
-  public int getArchived() {
-    return archived;
-  }
-
-
-  public int getTrashed() {
-    return trashed;
-  }
-
-
-  public int getReminders() {
-    return reminders;
-  }
-
-
-  public int getUncategorized() {
-    return uncategorized;
   }
 
 }

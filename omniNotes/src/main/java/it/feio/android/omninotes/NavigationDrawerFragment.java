@@ -38,6 +38,7 @@ import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.DynamicNavigationReadyEvent;
 import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
 import it.feio.android.omninotes.async.bus.NavigationUpdatedNavDrawerClosedEvent;
+import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
 import it.feio.android.omninotes.async.bus.NotesLoadedEvent;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
@@ -64,13 +65,11 @@ public class NavigationDrawerFragment extends Fragment {
     setRetainInstance(true);
   }
 
-
   @Override
   public void onStart() {
     super.onStart();
     EventBus.getDefault().register(this);
   }
-
 
   @Override
   public void onStop() {
@@ -78,13 +77,11 @@ public class NavigationDrawerFragment extends Fragment {
     EventBus.getDefault().unregister(this);
   }
 
-
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     return inflater.inflate(R.layout.fragment_navigation_drawer, container, false);
   }
-
 
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
@@ -93,11 +90,9 @@ public class NavigationDrawerFragment extends Fragment {
     init();
   }
 
-
   private MainActivity getMainActivity() {
     return (MainActivity) getActivity();
   }
-
 
   public void onEventMainThread(DynamicNavigationReadyEvent event) {
     if (alreadyInitialized) {
@@ -107,22 +102,17 @@ public class NavigationDrawerFragment extends Fragment {
     }
   }
 
-
   public void onEvent(CategoriesUpdatedEvent event) {
     refreshMenus();
   }
-
 
   public void onEventAsync(NotesUpdatedEvent event) {
     alreadyInitialized = false;
   }
 
-
   public void onEvent(NotesLoadedEvent event) {
-    if (mDrawerLayout != null) {
-      if (!isDoublePanelActive()) {
+    if (mDrawerLayout != null && (!isDoublePanelActive())) {
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-      }
     }
     if (getMainActivity().getSupportFragmentManager().getBackStackEntryCount() == 0) {
       init();
@@ -131,7 +121,6 @@ public class NavigationDrawerFragment extends Fragment {
     alreadyInitialized = true;
   }
 
-
   public void onEvent(SwitchFragmentEvent event) {
     if (CHILDREN.equals(event.getDirection())) {
       animateBurger(ARROW);
@@ -139,7 +128,6 @@ public class NavigationDrawerFragment extends Fragment {
       animateBurger(BURGER);
     }
   }
-
 
   public void onEvent(NavigationUpdatedEvent navigationUpdatedEvent) {
     if (navigationUpdatedEvent.navigationItem.getClass().isAssignableFrom(NavigationItem.class)) {
@@ -159,6 +147,9 @@ public class NavigationDrawerFragment extends Fragment {
     }
   }
 
+  public void onEventAsync(NotesDeletedEvent event) {
+    refreshMenus();
+  }
 
   public void init() {
     LogDelegate.v("Started navigation drawer initialization");
@@ -180,11 +171,13 @@ public class NavigationDrawerFragment extends Fragment {
         R.string.drawer_open,
         R.string.drawer_close
     ) {
+
+      @Override
       public void onDrawerClosed(View view) {
         mActivity.supportInvalidateOptionsMenu();
       }
 
-
+      @Override
       public void onDrawerOpened(View drawerView) {
         mActivity.commitPending();
         mActivity.finishActionMode();
@@ -203,7 +196,6 @@ public class NavigationDrawerFragment extends Fragment {
     LogDelegate.v("Finished navigation drawer initialization");
   }
 
-
   private void refreshMenus() {
     buildMainMenu();
     LogDelegate.v("Finished main menu initialization");
@@ -212,18 +204,15 @@ public class NavigationDrawerFragment extends Fragment {
     mDrawerToggle.syncState();
   }
 
-
   private void buildCategoriesMenu() {
     CategoryMenuTask task = new CategoryMenuTask(this);
     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
 
-
   private void buildMainMenu() {
     MainMenuTask task = new MainMenuTask(this);
     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
   }
-
 
   void animateBurger(int targetShape) {
     if (mDrawerToggle != null) {
@@ -240,7 +229,6 @@ public class NavigationDrawerFragment extends Fragment {
       anim.start();
     }
   }
-
 
   public static boolean isDoublePanelActive() {
 //		Resources resources = OmniNotes.getAppContext().getResources();
