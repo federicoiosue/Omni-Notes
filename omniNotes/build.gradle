@@ -140,8 +140,8 @@ dependencies {
         exclude group: "com.android.support"
     }
 
-    compileOnly 'org.projectlombok:lombok:1.18.28'
-    annotationProcessor 'org.projectlombok:lombok:1.18.28'
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     annotationProcessor 'org.androidannotations:androidannotations:4.8.0'
     implementation 'org.androidannotations:androidannotations-api:4.8.0'
