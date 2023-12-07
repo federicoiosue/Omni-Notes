@@ -1,0 +1,7 @@
+6.3.0
+★ Targeting Android 13 API with improved performances and security updates
+★ Telegram channel https://t.me/omninotes
+★ Adaptive and monochrome icons
+★ Context menu to share easily with ON
+☆ Password required when restoring protected notes
+✓ Tons of bug fixes
