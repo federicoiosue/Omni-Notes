@@ -28,34 +28,29 @@ public class Category extends BaseCategory implements Parcelable {
     setName(in.readString());
     setDescription(in.readString());
     setColor(in.readString());
+    setCount(in.readInt());
   }
-
 
   public Category() {
     super();
   }
 
-
   public Category(BaseCategory category) {
     super(category.getId(), category.getName(), category.getDescription(), category.getColor());
   }
-
 
   public Category(Long id, String title, String description, String color) {
     super(id, title, description, color);
   }
 
-
   public Category(Long id, String title, String description, String color, int count) {
     super(id, title, description, color, count);
   }
-
 
   @Override
   public int describeContents() {
     return 0;
   }
-
 
   @Override
   public void writeToParcel(Parcel parcel, int flags) {
@@ -63,8 +58,8 @@ public class Category extends BaseCategory implements Parcelable {
     parcel.writeString(getName());
     parcel.writeString(getDescription());
     parcel.writeString(getColor());
+    parcel.writeInt(getCount());
   }
-
 
   @Override
   public String toString() {
@@ -76,12 +71,11 @@ public class Category extends BaseCategory implements Parcelable {
    * Parcelable interface must also have a static field called CREATOR, which is an object implementing the
    * Parcelable.Creator interface. Used to un-marshal or de-serialize object from Parcel.
    */
-  public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
+  public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<>() {
 
     public Category createFromParcel(Parcel in) {
       return new Category(in);
     }
-
 
     public Category[] newArray(int size) {
       return new Category[size];

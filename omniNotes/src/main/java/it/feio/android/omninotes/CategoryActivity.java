@@ -52,7 +52,7 @@ public class CategoryActivity extends AppCompatActivity implements
 
   private ActivityCategoryBinding binding;
 
-  Category category;
+  private Category category;
   private int selectedColor;
 
   @Override
@@ -100,7 +100,6 @@ public class CategoryActivity extends AppCompatActivity implements
   }
 
   public void showColorChooserCustomColors() {
-
     new ColorChooserDialog.Builder(this, R.string.colors)
         .dynamicButtonColor(false)
         .preselect(selectedColor)
@@ -167,10 +166,8 @@ public class CategoryActivity extends AppCompatActivity implements
   }
 
   public void deleteCategory() {
-
-    new MaterialDialog.Builder(this)
+    var dialogBuilder = new MaterialDialog.Builder(this)
         .title(R.string.delete_unused_category_confirmation)
-        .content(R.string.delete_category_confirmation)
         .positiveText(R.string.confirm)
         .positiveColorRes(R.color.colorAccent)
         .onPositive((dialog, which) -> {
@@ -180,16 +177,20 @@ public class CategoryActivity extends AppCompatActivity implements
           if (String.valueOf(category.getId()).equals(navigation)) {
             Prefs.edit().putString(PREF_NAVIGATION, navNotes).apply();
           }
-          // Removes category and edit notes associated with it
-          DbHelper db = DbHelper.getInstance();
-          db.deleteCategory(category);
+          DbHelper.getInstance().deleteCategory(category);
 
           EventBus.getDefault().post(new CategoriesUpdatedEvent());
           BaseActivity.notifyAppWidgets(OmniNotes.getAppContext());
 
           setResult(RESULT_FIRST_USER);
           finish();
-        }).build().show();
+        });
+
+    if (category.getCount() > 0) {
+      dialogBuilder.content(R.string.delete_category_confirmation);
+    }
+
+    dialogBuilder.build().show();
   }
 
 }
