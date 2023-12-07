@@ -240,9 +240,7 @@ apply plugin: 'jacoco'
 jacoco {
     toolVersion = jacocoVersion
 }
-tasks.register('jacocoTestReport', JacocoReport) {
-    dependsOn['testAlphaDebugUnitTest', 'createAlphaDebugCoverageReport', 'connectedPlayDebugAndroidTest']
-
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 'createAlphaDebugCoverageReport', 'connectedPlayDebugAndroidTest']) {
     reports {
         xml.required = true
         html.required = true
