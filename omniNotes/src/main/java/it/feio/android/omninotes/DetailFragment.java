@@ -154,7 +154,6 @@ import it.feio.android.omninotes.models.adapters.CategoryRecyclerViewAdapter;
 import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
-import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
 import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
@@ -183,7 +182,6 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
@@ -192,7 +190,7 @@ import rx.Observable;
 
 public class DetailFragment extends BaseFragment implements OnReminderPickedListener,
     OnTouchListener,
-    OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved,
+    OnAttachingFileListener, TextWatcher, CheckListChangedListener,
     OnGeoUtilResultListener {
 
   private static final int TAKE_PHOTO = 1;
@@ -383,7 +381,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     // Checks "goBack" value to avoid performing a double saving
     if (!goBack) {
-      saveNote(this);
+      saveNote();
     }
 
     if (toggleChecklistView != null) {
@@ -1136,7 +1134,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   private void navigateUp() {
     afterSavedReturnsToList = true;
-    saveAndExit(this);
+    saveAndExit();
   }
 
   private void toggleChecklist() {
@@ -1480,8 +1478,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           }
 
           if (noteOriginal.get_id() != null) {
-            new SaveNoteTask(mFragment, false)
-                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
+            new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteOriginal);
             BaseActivity.notifyAppWidgets(mainActivity);
           } else {
             goHome();
@@ -1501,7 +1498,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     goBack = true;
     exitMessage = archive ? getString(R.string.note_archived) : getString(R.string.note_unarchived);
     exitCroutonStyle = archive ? ONStyle.WARN : ONStyle.INFO;
-    saveNote(this);
+    saveNote();
   }
 
   @SuppressLint("NewApi")
@@ -1522,7 +1519,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     } else {
       ReminderHelper.addReminder(getAppContext(), note);
     }
-    saveNote(this);
+    saveNote();
   }
 
   private void deleteNote() {
@@ -1537,21 +1534,19 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         }).build().show();
   }
 
-  public void saveAndExit(OnNoteSaved mOnNoteSaved) {
+  public void saveAndExit() {
     if (isAdded()) {
       exitMessage = getString(R.string.note_updated);
       exitCroutonStyle = ONStyle.CONFIRM;
       goBack = true;
-      saveNote(mOnNoteSaved);
+      saveNote();
     }
   }
 
   /**
    * Save new notes, modify them or archive
    */
-  void saveNote(OnNoteSaved mOnNoteSaved) {
-
-    // Changed fields
+  void saveNote() {
     noteTmp.setTitle(getNoteTitle());
     noteTmp.setContent(getNoteContent());
 
@@ -1575,7 +1570,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     noteTmp.setAttachmentsListOld(note.getAttachmentsList());
 
-    new SaveNoteTask(mOnNoteSaved, lastModificationUpdatedNeeded()).executeOnExecutor(AsyncTask
+    new SaveNoteTask(lastModificationUpdatedNeeded()).executeOnExecutor(AsyncTask
         .THREAD_POOL_EXECUTOR, noteTmp);
   }
 
@@ -1600,21 +1595,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     note.setTrashed(noteTmp.isTrashed());
     note.setLocked(noteTmp.isLocked());
     return noteTmp.isChanged(note);
-  }
-
-  @Override
-  public void onNoteSaved(Note noteSaved) {
-    if (!activityPausing) {
-      EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(noteSaved)));
-      deleteMergedNotes(mergedNotesIds);
-      if (noteTmp.getAlarm() != null && !noteTmp.getAlarm().equals(note.getAlarm())) {
-        ReminderHelper.showReminderMessage(String.valueOf(noteTmp.getAlarm()));
-      }
-    }
-    note = new Note(noteSaved);
-    if (goBack) {
-      goHome();
-    }
   }
 
   private void deleteMergedNotes(List<String> mergedNotesIds) {
@@ -2188,6 +2168,19 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     String text =
         getNoteContent() + System.getProperty("line.separator") + pushbulletReplyEvent.getMessage();
     binding.fragmentDetailContent.detailContent.setText(text);
+  }
+
+  public void onEvent(NotesUpdatedEvent event) {
+    if (!activityPausing) {
+      deleteMergedNotes(mergedNotesIds);
+      if (noteTmp.getAlarm() != null && !noteTmp.getAlarm().equals(note.getAlarm())) {
+        ReminderHelper.showReminderMessage(String.valueOf(noteTmp.getAlarm()));
+      }
+    }
+    note = new Note(event.getNotes().get(0));
+    if (goBack) {
+      goHome();
+    }
   }
 
   private static class OnGeoUtilResultListenerImpl implements OnGeoUtilResultListener {

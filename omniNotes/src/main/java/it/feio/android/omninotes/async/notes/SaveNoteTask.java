@@ -19,12 +19,13 @@ package it.feio.android.omninotes.async.notes;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
-import it.feio.android.omninotes.models.listeners.OnNoteSaved;
 import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.date.DateUtils;
@@ -35,21 +36,12 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
 
   private Context context;
   private boolean updateLastModification = true;
-  private OnNoteSaved mOnNoteSaved;
-
 
   public SaveNoteTask(boolean updateLastModification) {
-    this(null, updateLastModification);
-  }
-
-
-  public SaveNoteTask(OnNoteSaved mOnNoteSaved, boolean updateLastModification) {
     super();
     this.context = OmniNotes.getAppContext();
-    this.mOnNoteSaved = mOnNoteSaved;
     this.updateLastModification = updateLastModification;
   }
-
 
   @Override
   protected Note doInBackground(Note... params) {
@@ -66,13 +58,12 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
     return note;
   }
 
-
   private void purgeRemovedAttachments(Note note) {
     List<Attachment> deletedAttachments = note.getAttachmentsListOld();
     for (Attachment attachment : note.getAttachmentsList()) {
       if (attachment.getId() != null) {
         // Workaround to prevent deleting attachments if instance is changed (app restart)
-        if (deletedAttachments.indexOf(attachment) == -1) {
+        if (!deletedAttachments.contains(attachment)) {
           attachment = getFixedAttachmentInstance(deletedAttachments, attachment);
         }
         deletedAttachments.remove(attachment);
@@ -85,7 +76,6 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
     }
   }
 
-
   private Attachment getFixedAttachmentInstance(List<Attachment> deletedAttachments,
       Attachment attachment) {
     for (Attachment deletedAttachment : deletedAttachments) {
@@ -96,12 +86,10 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
     return attachment;
   }
 
-
   @Override
   protected void onPostExecute(Note note) {
     super.onPostExecute(note);
-    if (this.mOnNoteSaved != null) {
-      mOnNoteSaved.onNoteSaved(note);
-    }
+    EventBus.getDefault().post(new NotesUpdatedEvent(List.of(note)));
   }
+
 }

@@ -295,7 +295,6 @@ public class MainActivity extends BaseActivity implements
 
   @Override
   public void onBackPressed() {
-
     // SketchFragment
     Fragment f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
     if (f != null) {
@@ -312,8 +311,9 @@ public class MainActivity extends BaseActivity implements
     // DetailFragment
     f = checkFragmentInstance(R.id.fragment_container, DetailFragment.class);
     if (f != null) {
-      ((DetailFragment) f).goBack = true;
-      ((DetailFragment) f).saveAndExit((DetailFragment) f);
+      var detailDragment = (DetailFragment) f;
+      detailDragment.goBack = true;
+      detailDragment.saveAndExit();
       return;
     }
 
