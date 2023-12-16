@@ -55,6 +55,7 @@
     <string name="settings_category_gestures">ଅଙ୍ଗଭଙ୍ଗୀ</string>
     <string name="settings_screen_notifications">ଵିଜ୍ଞପ୍ତି</string>
     <string name="settings_enable_vibration">କମ୍ପନ</string>
+    <string name="settings_screen_navigation">ଦିଗଚଳନ</string>
     <string name="settings_password">ପାସ୍‌ୱର୍ଡ଼</string>
     <string name="wrong_password">ଭୁଲ ପାସ୍‌ୱର୍ଡ଼</string>
     <string name="settings_category_about">ଵିଷୟରେ</string>
@@ -79,6 +80,8 @@
     <string name="stats_max_words">ସର୍ଵାଧିକ ଶବ୍ଦ</string>
     <!-- Instructions -->
     <!-- Accessibility -->
+    <string name="navigation_drawer_open">ଦିଗଚଳନ ଡ୍ରର୍ ଖୋଲିବା</string>
+    <string name="navigation_drawer_close">ଦିଗଚଳନ ଡ୍ରର୍ ବନ୍ଦ କରିବା</string>
     <!-- Various -->
     <string name="channel_reminders_name">ସ୍ମାରକ</string>
 </resources>
