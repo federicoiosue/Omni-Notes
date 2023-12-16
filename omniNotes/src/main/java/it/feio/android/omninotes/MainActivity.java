@@ -515,12 +515,6 @@ public class MainActivity extends BaseActivity implements
 
 
   public void shareNote(Note note) {
-    String titleText = note.getTitle();
-
-    String contentText = titleText
-        + System.getProperty("line.separator")
-        + note.getContent();
-
     Intent shareIntent = new Intent();
     // Prepare sharing intent with only text
     if (note.getAttachmentsList().isEmpty()) {
@@ -558,8 +552,8 @@ public class MainActivity extends BaseActivity implements
 
       shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uris);
     }
-    shareIntent.putExtra(Intent.EXTRA_SUBJECT, titleText);
-    shareIntent.putExtra(Intent.EXTRA_TEXT, contentText);
+    shareIntent.putExtra(Intent.EXTRA_SUBJECT, note.getTitle());
+    shareIntent.putExtra(Intent.EXTRA_TEXT, note.getContent());
 
     startActivity(Intent.createChooser(shareIntent, getResources().getString(R.string.share_message_chooser)));
   }
