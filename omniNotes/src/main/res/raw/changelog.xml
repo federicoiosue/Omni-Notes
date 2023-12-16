@@ -17,10 +17,13 @@
 <changelog bulletedList="true">
 
   <changelogversion
-    changeDate="Dec 9, 2023"
+    changeDate="Dec 16, 2023"
     versionName="6.3.1">
+    <changelogtext>[i]Improved![/i] Updated F-Droid resources and translations</changelogtext>
+    <changelogtext>[u]Fix[/u] Dynamic left menu items counting fixed (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
     <changelogtext>[u]Fix[/u] Dynamic left menu items counting fixed (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
     <changelogtext>[u]Fix[/u] Correct dialog text shown on category deletion (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
+    <changelogtext>[u]Fix[/u] Notes updated state correctly reflected into the notes list in real time (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
     <changelogtext>[u]Fix[/u] Notes updated state correctly reflected into the notes list in real time (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
   </changelogversion>
 
@@ -31,10 +34,10 @@
     <changelogtext>[b]New![/b] Telegram channel (removed Facebook, never used...)</changelogtext>
     <changelogtext>[b]New![/b] Adaptive and monochrome icons (thanks to [a href='https://github.com/rec0de']Rec0de[/a])</changelogtext>
     <changelogtext>[b]New![/b] Context menu option when some text is selected in other apps (thanks to [a href='https://github.com/rahulpower2012']Rahul[/a])</changelogtext>
+    <changelogtext>[i]Improved![/i] Managed runtime notifications permission on Tiramisu and above</changelogtext>
     <changelogtext>[u]Fix[/u] Backups removal</changelogtext>
     <changelogtext>[u]Fix[/u] Security improvements</changelogtext>
     <changelogtext>[u]Fix[/u] Committed trash/archive movements on search action to keep data consistency (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
-    <changelogtext>[i]Improved![/i] Managed runtime notifications permission on Tiramisu and above</changelogtext>
     <changelogtext>[u]Fix[/u] Tags and categories related issues (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
     <changelogtext>[u]Fix[/u] More bugs fixed (thanks to [a href='https://github.com/federicoiosue/Omni-Notes/issues?q=is%3Aissue+author%3AXYIheng+is%3Aclosed']Yiheng Xiong[/a])</changelogtext>
   </changelogversion>
