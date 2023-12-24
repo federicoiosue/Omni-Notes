@@ -72,6 +72,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -109,6 +110,10 @@ import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
@@ -200,7 +205,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   private static final int CATEGORY = 5;
   private static final int DETAIL = 6;
   private static final int FILES = 7;
-
+  private static final int CAMERA_PERMISSION_REQUEST_CODE =8 ;
   private FragmentDetailBinding binding;
 
   boolean goBack = false;
@@ -2278,20 +2283,38 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           && detailFragmentWeakReference.get() != null && noteTmpWeakReference.get() != null;
     }
   }
-
   /**
    * Manages clicks on attachment dialog
    */
+  private boolean checkCameraPermission() {
+    if (ContextCompat.checkSelfPermission(
+            requireActivity(),
+            Manifest.permission.CAMERA
+    ) == PackageManager.PERMISSION_GRANTED) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  private void requestCameraPermission() {
+    requestPermissions(
+            new String[]{Manifest.permission.CAMERA},
+            CAMERA_PERMISSION_REQUEST_CODE
+    );
+  }
   @SuppressLint("InlinedApi")
   private class AttachmentOnClickListener implements OnClickListener {
-
     @Override
     public void onClick(View v) {
 
       switch (v.getId()) {
         // Photo from camera
         case R.id.camera:
-          takePhoto();
+          if (!checkCameraPermission()) {
+            requestCameraPermission();
+          } else {
+            takePhoto();
+          }
           break;
         case R.id.recording:
           if (!isRecording) {
@@ -2307,7 +2330,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           }
           break;
         case R.id.video:
-          takeVideo();
+          if (!checkCameraPermission()) {
+            requestCameraPermission();
+          } else {
+            takeVideo();
+          }
           break;
         case R.id.files:
             startGetContentAction();
