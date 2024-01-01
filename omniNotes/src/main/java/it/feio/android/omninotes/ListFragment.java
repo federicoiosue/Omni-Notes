@@ -717,10 +717,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
               @Override
               public boolean onQueryTextChange(String pattern) {
-
                 if (Prefs.getBoolean("settings_instant_search", false)
-                    && binding.searchLayout != null &&
-                    searchPerformed && mFragment.isAdded()) {
+                    && searchPerformed && mFragment.isAdded()) {
                   searchTags = null;
                   searchQuery = pattern;
                   NoteLoaderTask.getInstance().execute("getNotesByPattern", pattern);
@@ -738,15 +736,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   private void setActionItemsVisibility(Menu menu, boolean searchViewHasFocus) {
-
-    boolean drawerOpen =
-        mainActivity.getDrawerLayout() != null && mainActivity.getDrawerLayout().isDrawerOpen
-            (GravityCompat.START);
+    boolean drawerOpen = mainActivity.getDrawerLayout() != null
+        && mainActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START);
     boolean expandedView = Prefs.getBoolean(PREF_EXPANDED_VIEW, true);
 
     int navigation = Navigation.getNavigation();
     boolean navigationReminders = navigation == Navigation.REMINDERS;
-    boolean navigationArchive = navigation == Navigation.ARCHIVE;
     boolean navigationTrash = navigation == Navigation.TRASH;
     boolean navigationCategory = navigation == Navigation.CATEGORY;
 
@@ -771,8 +766,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     menu.findItem(R.id.menu_filter_category).setVisible(!drawerOpen && !filterArchivedInCategory &&
         navigationCategory && !searchViewHasFocus);
     menu.findItem(R.id.menu_filter_category_remove)
-        .setVisible(!drawerOpen && filterArchivedInCategory &&
-            navigationCategory && !searchViewHasFocus);
+        .setVisible(!drawerOpen && filterArchivedInCategory && navigationCategory && !searchViewHasFocus);
     menu.findItem(R.id.menu_sort)
         .setVisible(!drawerOpen && !navigationReminders && !searchViewHasFocus);
     menu.findItem(R.id.menu_expanded_view)
@@ -805,7 +799,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Performs one of the ActionBar button's actions after checked notes protection
    */
   public void performAction(MenuItem item, ActionMode actionMode) {
-
     if (isOptionsItemFastClick()) {
       return;
     }

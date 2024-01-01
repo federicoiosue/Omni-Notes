@@ -31,7 +31,7 @@ public class Note extends BaseNote implements Parcelable {
    * Parcelable interface must also have a static field called CREATOR, which is an object implementing the
    * Parcelable.Creator interface. Used to un-marshal or de-serialize object from Parcel.
    */
-  public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<Note>() {
+  public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<>() {
 
     public Note createFromParcel(Parcel in) {
       return new Note(in);

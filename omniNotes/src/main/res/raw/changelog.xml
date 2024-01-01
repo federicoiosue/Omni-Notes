@@ -17,13 +17,17 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="Jan 2, 2024"
+    versionName="6.3.2">
+    <changelogtext>[u]Fix[/u] Protected notes are no more searchable nor their tags (from content) will appear anywhere content's secrecy (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="Dec 16, 2023"
     versionName="6.3.1">
     <changelogtext>[i]Improved![/i] Updated F-Droid resources and translations</changelogtext>
     <changelogtext>[u]Fix[/u] Dynamic left menu items counting fixed (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
-    <changelogtext>[u]Fix[/u] Dynamic left menu items counting fixed (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
     <changelogtext>[u]Fix[/u] Correct dialog text shown on category deletion (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
-    <changelogtext>[u]Fix[/u] Notes updated state correctly reflected into the notes list in real time (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
     <changelogtext>[u]Fix[/u] Notes updated state correctly reflected into the notes list in real time (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
   </changelogversion>
 
