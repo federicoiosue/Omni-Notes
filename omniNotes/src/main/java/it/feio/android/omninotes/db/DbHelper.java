@@ -906,7 +906,7 @@ public class DbHelper extends SQLiteOpenHelper {
     SQLiteDatabase db = getDatabase(true);
     // Un-categorize notes associated with this category
     ContentValues values = new ContentValues();
-    values.put(KEY_CATEGORY, "");
+    values.putNull(KEY_CATEGORY);
 
     // Updating row
     db.update(TABLE_NOTES, values, KEY_CATEGORY + " = ?",
