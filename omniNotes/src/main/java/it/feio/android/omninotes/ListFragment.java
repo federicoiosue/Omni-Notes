@@ -1821,8 +1821,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         .setPositiveButton(R.string.ok, (dialog, which) -> {
           var items = ((AlertDialog) dialog).getListView().getCheckedItemPositions();
           var selectedTags = new ArrayList<String>();
-          for(int i = 0; i < items.size(); i++) {
-            if (items.valueAt(i)) {
+          for(int i = 0; i < tags.size(); i++) {
+            if (items.get(i)) {
               selectedTags.add(tags.get(i).getText());
             }
           }
