@@ -17,8 +17,9 @@
 <changelog bulletedList="true">
 
   <changelogversion
-    changeDate="Jan 2, 2024"
+    changeDate="Mar 8, 2024"
     versionName="6.3.2">
+    <changelogtext>[b]Happy Women Day!![/b]</changelogtext>
     <changelogtext>[u]Fix[/u] Protected notes are no more searchable nor their tags (from content) will appear anywhere content's secrecy (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
   </changelogversion>
 
