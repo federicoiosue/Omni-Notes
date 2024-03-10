@@ -73,6 +73,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -86,6 +87,7 @@ import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -110,6 +112,9 @@ import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.core.content.ContextCompat;
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission;
 import androidx.core.util.Pair;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -119,6 +124,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.pushbullet.android.extension.MessagingExtension;
+import com.tbruyelle.rxpermissions.RxPermissions;
+
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
@@ -185,6 +192,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.collections4.CollectionUtils;
@@ -508,12 +516,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       // Sub-action is to take a photo
       if (IntentChecker.checkAction(i, ACTION_WIDGET_TAKE_PHOTO)) {
-        takePhoto();
+        checkAndRequestPermissions();
       }
     }
 
     if (IntentChecker.checkAction(i, ACTION_FAB_TAKE_PHOTO)) {
-      takePhoto();
+      checkAndRequestPermissions();
     }
 
     // Handles third party apps requests of sharing
@@ -1327,7 +1335,35 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
     intent.putExtra(MediaStore.EXTRA_OUTPUT,  FileProviderHelper.getFileProvider(f));
     startActivityForResult(intent, TAKE_PHOTO);
+
   }
+
+  private void checkAndRequestPermissions() {
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+      if (ContextCompat.checkSelfPermission(mainActivity, Manifest.permission.READ_EXTERNAL_STORAGE)
+          != PackageManager.PERMISSION_GRANTED) {
+        // Permission is not granted
+        requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE);
+
+      } else {
+        // Permission already granted
+        takePhoto();
+      }
+    } else {
+      // Runtime permissions not needed before Marshmallow
+      takePhoto();
+    }
+  }
+  private final ActivityResultLauncher<String> requestPermissionLauncher =
+      registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+        if (isGranted) {
+          // Permission granted
+          takePhoto();
+        } else {
+          // Permission denied
+          Toast.makeText(mainActivity,"Permission denied",Toast.LENGTH_SHORT).show();
+        }
+      });
 
   private void takeVideo() {
     Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
@@ -2318,7 +2354,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           takeVideo();
           break;
         case R.id.files:
-            startGetContentAction();
+          startGetContentAction();
           break;
         case R.id.sketch:
           takeSketch(null);
