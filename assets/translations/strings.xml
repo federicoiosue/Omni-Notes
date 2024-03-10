@@ -208,6 +208,7 @@
     <string name="permission_external_storage_detail_attachment">Permission to read on external storage is needed to allow attaching files from there</string>
     <string name="permission_audio_recording">Permission to use microphone is needed  to record audio notes</string>
     <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
+    <string name="permission_camera">Permission to use camera is required to take photos or videos</string>
     <string name="permission_not_granted">Permission not granted</string>
     <string name="checklist">Checklist</string>
     <string name="text_note">Text note</string>
@@ -219,6 +220,7 @@
     <string name="done">Done</string>
     <string name="nothing_selected">Nothing selected</string>
     <string name="insecure_content_found">Some of the received content was dangerous, it has been ignored</string>
+    <string name="denied_notifications_permission">Denying notification permission reminders will not be shown</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
@@ -287,6 +289,7 @@
     <string name="confirm_restoring_backup">Proceed restoring from backup?</string>
     <string name="confirm_restoring_backup_warning">WARNING: Be sure to have set a password into settings or protected notes will be skipped for security reasons!</string>
     <string name="data_deletion_completed">Data erasing completed</string>
+    <string name="data_deletion_error">Data deletion encountered some errors</string>
     <string name="settings_checked_items_behavior">Checklists</string>
     <string name="settings_checked_items_behavior_summary">What to do when an item is checked?</string>
     <string name="settings_category_preferences">Preferences</string>
@@ -427,5 +430,6 @@
     <string name="channel_reminders_description">Notifications for notes\' reminders</string>
     <string name="channel_pinned_name">Pinned</string>
     <string name="channel_pinned_description">Notifications for pinned notes</string>
+    <string name="location_not_enabled">Device location turned off</string>
 
 </resources>

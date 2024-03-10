@@ -207,6 +207,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
     <string name="permission_external_storage_detail_attachment">L\'autorizzazione alla lettura della memoria esterna è necessaria per consentire allegati caricati da lì</string>
     <string name="permission_audio_recording">È necessario il permesso di utilizzare il microfono per registrare note audio</string>
     <string name="permission_coarse_location">Il permesso di accesso alla geolocalizzazione è necessario per aggiungere informazioni di posizione per le note</string>
+    <string name="permission_camera">È necessario il permesso di utilizzare la fotocamera per scattare foto o video</string>
     <string name="permission_not_granted">Permesso non concesso</string>
     <string name="checklist">Lista di controllo</string>
     <string name="text_note">Nota testuale</string>
@@ -218,6 +219,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
     <string name="done">Fatto</string>
     <string name="nothing_selected">Nessuna selezione</string>
     <string name="insecure_content_found">Alcuni dei contenuti ricevuti era pericoloso ed è stato ignorato</string>
+    <string name="denied_notifications_permission">Negando il permesso per mostrare notifiche i promemoria non appariranno</string>
     <!-- Settings -->
     <string name="dashclock_description">Mostra alcune statistiche e i promemoria di Omni Notes</string>
     <string name="settings">Impostazioni</string>
@@ -285,6 +287,7 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
     <string name="confirm_restoring_backup">Confermare il ripristino del backup</string>
     <string name="confirm_restoring_backup_warning">ATTENZIONE: Assicurati di aver impostato la password dalle impostazioni o le note protette non verranno ripristinate per sicurezza!</string>
     <string name="data_deletion_completed">Cancellazione dei dati completata</string>
+    <string name="data_deletion_error">La cancellazione dei dati ha riscontrato alcuni errori</string>
     <string name="settings_checked_items_behavior">Liste di controllo</string>
     <string name="settings_checked_items_behavior_summary">Cosa fare quando un elemento delle liste di controllo viene selezionato?</string>
     <string name="settings_category_preferences">Preferenze</string>
@@ -421,4 +424,5 @@ Vuoi inviare una segnalazione allo sviluppatore?</string>
     <string name="channel_reminders_description">Notifiche promemoria</string>
     <string name="channel_pinned_name">Fissato</string>
     <string name="channel_pinned_description">Notifiche per note appuntate</string>
+    <string name="location_not_enabled">Posizione del dispositivo disattivata</string>
 </resources>
