@@ -18,11 +18,11 @@
 package it.feio.android.omninotes.helpers;
 
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_INDEFINITE;
 import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG;
 
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.os.Build.VERSION_CODES;
 import android.view.View;
 import androidx.core.app.ActivityCompat;
@@ -37,16 +37,14 @@ import lombok.experimental.UtilityClass;
 public class PermissionsHelper {
 
   public static void requestPermission(Activity activity, String permission,
-      int rationaleDescription, View
-      messageView, OnPermissionRequestedListener onPermissionRequestedListener) {
+      int rationaleDescription, View messageView, OnPermissionRequestedListener onPermissionRequestedListener) {
 
     if (skipPermissionRequest(permission)) {
       onPermissionRequestedListener.onPermissionGranted();
       return;
     }
 
-    if (ContextCompat.checkSelfPermission(activity, permission)
-        != PackageManager.PERMISSION_GRANTED) {
+    if (ContextCompat.checkSelfPermission(activity, permission) != PERMISSION_GRANTED) {
 
       if (ActivityCompat.shouldShowRequestPermissionRationale(activity, permission)) {
         Snackbar.make(messageView, rationaleDescription, LENGTH_INDEFINITE)
@@ -72,10 +70,10 @@ public class PermissionsHelper {
     RxPermissions.getInstance(activity)
         .request(permission)
         .subscribe(granted -> {
-          if (granted && onPermissionRequestedListener != null) {
+          if (Boolean.TRUE.equals(granted) && onPermissionRequestedListener != null) {
             onPermissionRequestedListener.onPermissionGranted();
           } else {
-            String msg = activity.getString(R.string.permission_not_granted) + ": " + permission;
+            var msg = activity.getString(R.string.permission_not_granted) + ": " + permission;
             Snackbar.make(messageView, msg, LENGTH_LONG).show();
           }
         });

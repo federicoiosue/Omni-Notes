@@ -76,6 +76,9 @@ public class BaseActivity extends AppCompatActivity {
     LogDelegate.d(Prefs.getAll().toString());
   }
 
+  protected void showToast(int resourceId, int duration) {
+    showToast(getResources().getString(resourceId), duration);
+  }
 
   protected void showToast(CharSequence text, int duration) {
     if (Prefs.getBoolean("settings_enable_info", true)) {

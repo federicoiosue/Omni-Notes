@@ -64,6 +64,7 @@ import org.apache.commons.io.IOUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 
 
 public class BaseAndroidTestCase {
@@ -95,6 +96,10 @@ public class BaseAndroidTestCase {
       testAttachment.delete();
     }
   }
+
+  @Rule
+  public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule
+      .grant(android.Manifest.permission.CAMERA);
 
   private static void grantPermissions() {
     GrantPermissionRule.grant(ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_EXTERNAL_STORAGE, RECORD_AUDIO);
@@ -188,7 +193,7 @@ public class BaseAndroidTestCase {
    * @param clazz utility class to verify.
    */
   protected static void assertUtilityClassWellDefined(final Class<?> clazz)
-      throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException {
+      throws NoSuchMethodException, InstantiationException, IllegalAccessException {
     assertUtilityClassWellDefined(clazz, false, false);
   }
 

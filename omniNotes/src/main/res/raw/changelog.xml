@@ -20,6 +20,7 @@
     changeDate="Mar 8, 2024"
     versionName="6.3.2">
     <changelogtext>[b]Happy Women Day!![/b]</changelogtext>
+    <changelogtext>[i]Improved![/i] Ask for camera permission at runtime (thanks to [a href='https://github.com/pratistha-05']Pratistha Sinha[/a] and [a href='https://github.com/akashs056']Akash Subramanian[/a])</changelogtext>
     <changelogtext>[i]Improved![/i] When trying to pin a note without notifications permissions enabled a message will be shown</changelogtext>
     <changelogtext>[i]Improved![/i] Updated Gradle build tools to 8.3.0</changelogtext>
     <changelogtext>[u]Fix[/u] Protected notes are no more searchable nor their tags (from content) will appear anywhere content's secrecy (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
