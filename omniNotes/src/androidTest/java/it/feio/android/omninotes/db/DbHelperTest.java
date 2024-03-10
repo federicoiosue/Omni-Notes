@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2023 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2024 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -48,6 +48,27 @@ public class DbHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
+  public void testGetNotesByTag_excludeLocked() {
+    var titleTag = "#titleTag";
+    var contentTag = "#tag";
+
+    var note1 = new Note();
+    note1.setTitle("simple note with " + titleTag);
+    note1.setContent("content with " + contentTag);
+    dbHelper.updateNote(note1, true);
+    var note2 = new Note();
+    note2.setTitle("protected note with " + titleTag);
+    note2.setContent("content with same tag " + contentTag);
+    note2.setLocked(true);
+    dbHelper.updateNote(note2, true);
+
+    var result = dbHelper.getNotesByTag(contentTag);
+    assertEquals(1, result.size());
+    assertEquals(note1.getTitle(), result.get(0).getTitle());
+    assertEquals(2, dbHelper.getNotesByTag(titleTag).size());
+  }
+
+  @Test
   public void getNotesByPatternEscaped() {
     Note note1 = new Note();
     note1.setTitle("title one");
@@ -63,6 +84,42 @@ public class DbHelperTest extends BaseAndroidTestCase {
     dbHelper.updateNote(note3, true);
     assertEquals(1, dbHelper.getNotesByPattern("_").size());
     assertEquals(1, dbHelper.getNotesByPattern("%").size());
+  }
+
+  @Test
+  public void getNotesByPattern_excludeLocked() {
+    var note1 = new Note();
+    note1.setTitle("title one");
+    note1.setContent("This note is clear");
+    dbHelper.updateNote(note1, true);
+    var note2 = new Note();
+    note2.setTitle("title two");
+    note2.setContent("This note is protected");
+    note2.setLocked(true);
+    dbHelper.updateNote(note2, true);
+
+    var result = dbHelper.getNotesByPattern("This note is ");
+
+    assertEquals(1, result.size());
+    assertEquals(note1.getTitle(), result.get(0).getTitle());
+  }
+
+  @Test
+  public void getTags() {
+    var note1 = new Note();
+    note1.setTitle("title1");
+    note1.setContent("#tag1");
+    dbHelper.updateNote(note1, true);
+    var note2 = new Note();
+    note2.setTitle("title2#");
+    note2.setContent("#tag2");
+    note2.setLocked(true);
+    dbHelper.updateNote(note2, true);
+
+    var tags = dbHelper.getTags();
+
+    assertEquals(1, tags.size());
+    assertEquals(note1.getContent(), tags.get(0).getText());
   }
 
 }

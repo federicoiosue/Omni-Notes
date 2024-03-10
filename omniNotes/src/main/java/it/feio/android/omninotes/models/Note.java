@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2023 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2024 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ public class Note extends BaseNote implements Parcelable {
    * Parcelable interface must also have a static field called CREATOR, which is an object implementing the
    * Parcelable.Creator interface. Used to un-marshal or de-serialize object from Parcel.
    */
-  public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<Note>() {
+  public static final Parcelable.Creator<Note> CREATOR = new Parcelable.Creator<>() {
 
     public Note createFromParcel(Parcel in) {
       return new Note(in);

@@ -139,7 +139,7 @@ Notice that in this case I specified a single flavor to run tests on. This could
 ## License
 
 
-    Copyright 2013-2022 Federico Iosue
+    Copyright 2013-2024 Federico Iosue
     
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

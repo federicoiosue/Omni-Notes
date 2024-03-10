@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2023 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2024 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,6 +29,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_FILTER_PAST_REM
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_PASSWORD;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SORTING_COLUMN;
 import static it.feio.android.omninotes.utils.ConstantsBase.TIMESTAMP_UNIX_EPOCH;
+import static it.feio.android.omninotes.utils.Navigation.checkNavigation;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -399,7 +400,7 @@ public class DbHelper extends SQLiteOpenHelper {
     String sortOrder = "";
 
     // Getting sorting criteria from preferences. Reminder screen forces sorting.
-    if (Navigation.checkNavigation(Navigation.REMINDERS)) {
+    if (checkNavigation(Navigation.REMINDERS)) {
       sortColumn = KEY_REMINDER;
     } else {
       sortColumn = Prefs.getString(PREF_SORTING_COLUMN, KEY_TITLE);
@@ -569,7 +570,7 @@ public class DbHelper extends SQLiteOpenHelper {
         + (navigation == Navigation.UNCATEGORIZED ? " AND (" + KEY_CATEGORY + " IS NULL OR "
         + KEY_CATEGORY_ID
         + " == 0) " : "")
-        + (Navigation.checkNavigation(Navigation.REMINDERS) ? " AND " + KEY_REMINDER
+        + (checkNavigation(Navigation.REMINDERS) ? " AND " + KEY_REMINDER
         + " IS NOT NULL" : "")
         + " AND ("
         + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + escapedPattern
@@ -702,8 +703,8 @@ public class DbHelper extends SQLiteOpenHelper {
     String whereCondition = " WHERE "
         + (note != null ? KEY_ID + " = " + note.get_id() + " AND " : "")
         + "(" + KEY_CONTENT + " LIKE '%#%' OR " + KEY_TITLE + " LIKE '%#%' " + ")"
-        + " AND " + KEY_TRASHED + " IS " + (Navigation.checkNavigation(Navigation.TRASH) ? ""
-        : " NOT ") + " 1";
+        + " AND " + KEY_TRASHED + " IS " + (checkNavigation(Navigation.TRASH) ? "1" : " NOT 1")
+        + " AND " + KEY_LOCKED + " IS NOT 1";
     List<Note> notesRetrieved = getNotes(whereCondition, true);
 
     for (Note noteRetrieved : notesRetrieved) {
@@ -728,11 +729,9 @@ public class DbHelper extends SQLiteOpenHelper {
    * Retrieves all notes related to category it passed as parameter
    */
   public List<Note> getNotesByTag(String tag) {
-    if (tag.contains(",")) {
-      return getNotesByTag(tag.split(","));
-    } else {
-      return getNotesByTag(new String[]{tag});
-    }
+    return tag.contains(",")
+      ? getNotesByTag(tag.split(","))
+      : getNotesByTag(new String[]{tag});
   }
 
 
@@ -740,21 +739,18 @@ public class DbHelper extends SQLiteOpenHelper {
    * Retrieves all notes with specified tags
    */
   public List<Note> getNotesByTag(String[] tags) {
-    StringBuilder whereCondition = new StringBuilder();
+    var whereCondition = new StringBuilder();
     whereCondition.append(" WHERE ");
     for (int i = 0; i < tags.length; i++) {
       if (i != 0) {
         whereCondition.append(" AND ");
       }
-      whereCondition.append("(" + KEY_CONTENT + " LIKE '%").append(tags[i]).append("%' OR ")
-          .append(KEY_TITLE)
-          .append(" LIKE '%").append(tags[i]).append("%')");
+      whereCondition.append(String.format("((%s IS 1 AND %s LIKE '%%%s%%') OR (%s is NOT 1 AND (%s LIKE '%%%s%%' OR %s LIKE '%%%s%%')))"
+          , KEY_LOCKED, KEY_TITLE, tags[i], KEY_LOCKED, KEY_CONTENT, tags[i], KEY_TITLE, tags[i]));
     }
     // Trashed notes must be included in search results only if search if performed from trash
     whereCondition.append(" AND " + KEY_TRASHED + " IS ")
-        .append(Navigation.checkNavigation(Navigation.TRASH) ?
-            "" : "" +
-            " NOT ").append(" 1");
+        .append(checkNavigation(Navigation.TRASH) ? "" : "NOT ").append("1");
 
     return rx.Observable.from(getNotes(whereCondition.toString(), true))
         .map(note -> {
@@ -777,7 +773,7 @@ public class DbHelper extends SQLiteOpenHelper {
   public List<Note> getNotesByUncompleteChecklist() {
     String whereCondition =
         " WHERE " + KEY_CHECKLIST + " = 1 AND " + KEY_CONTENT + " LIKE '%" + UNCHECKED_SYM + "%' AND "
-    + KEY_TRASHED + (Navigation.checkNavigation(Navigation.TRASH) ? " IS 1" : " IS NOT 1");
+    + KEY_TRASHED + (checkNavigation(Navigation.TRASH) ? " IS 1" : " IS NOT 1");
     return getNotes(whereCondition, true);
   }
 
@@ -910,7 +906,7 @@ public class DbHelper extends SQLiteOpenHelper {
     SQLiteDatabase db = getDatabase(true);
     // Un-categorize notes associated with this category
     ContentValues values = new ContentValues();
-    values.put(KEY_CATEGORY, "");
+    values.putNull(KEY_CATEGORY);
 
     // Updating row
     db.update(TABLE_NOTES, values, KEY_CATEGORY + " = ?",

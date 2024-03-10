@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2023 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2024 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -717,10 +717,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
               @Override
               public boolean onQueryTextChange(String pattern) {
-
                 if (Prefs.getBoolean("settings_instant_search", false)
-                    && binding.searchLayout != null &&
-                    searchPerformed && mFragment.isAdded()) {
+                    && searchPerformed && mFragment.isAdded()) {
                   searchTags = null;
                   searchQuery = pattern;
                   NoteLoaderTask.getInstance().execute("getNotesByPattern", pattern);
@@ -738,15 +736,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   private void setActionItemsVisibility(Menu menu, boolean searchViewHasFocus) {
-
-    boolean drawerOpen =
-        mainActivity.getDrawerLayout() != null && mainActivity.getDrawerLayout().isDrawerOpen
-            (GravityCompat.START);
+    boolean drawerOpen = mainActivity.getDrawerLayout() != null
+        && mainActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START);
     boolean expandedView = Prefs.getBoolean(PREF_EXPANDED_VIEW, true);
 
     int navigation = Navigation.getNavigation();
     boolean navigationReminders = navigation == Navigation.REMINDERS;
-    boolean navigationArchive = navigation == Navigation.ARCHIVE;
     boolean navigationTrash = navigation == Navigation.TRASH;
     boolean navigationCategory = navigation == Navigation.CATEGORY;
 
@@ -771,8 +766,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     menu.findItem(R.id.menu_filter_category).setVisible(!drawerOpen && !filterArchivedInCategory &&
         navigationCategory && !searchViewHasFocus);
     menu.findItem(R.id.menu_filter_category_remove)
-        .setVisible(!drawerOpen && filterArchivedInCategory &&
-            navigationCategory && !searchViewHasFocus);
+        .setVisible(!drawerOpen && filterArchivedInCategory && navigationCategory && !searchViewHasFocus);
     menu.findItem(R.id.menu_sort)
         .setVisible(!drawerOpen && !navigationReminders && !searchViewHasFocus);
     menu.findItem(R.id.menu_expanded_view)
@@ -805,7 +799,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Performs one of the ActionBar button's actions after checked notes protection
    */
   public void performAction(MenuItem item, ActionMode actionMode) {
-
     if (isOptionsItemFastClick()) {
       return;
     }
@@ -1828,8 +1821,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         .setPositiveButton(R.string.ok, (dialog, which) -> {
           var items = ((AlertDialog) dialog).getListView().getCheckedItemPositions();
           var selectedTags = new ArrayList<String>();
-          for(int i = 0; i < items.size(); i++) {
-            if (items.valueAt(i)) {
+          for(int i = 0; i < tags.size(); i++) {
+            if (items.get(i)) {
               selectedTags.add(tags.get(i).getText());
             }
           }

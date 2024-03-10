@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2023 Federico Iosue (federico@iosue.it)
+  ~ Copyright (C) 2013-2024 Federico Iosue (federico@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -17,13 +17,20 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="Mar 8, 2024"
+    versionName="6.3.2">
+    <changelogtext>[b]Happy Women Day!![/b]</changelogtext>
+    <changelogtext>[i]Improved![/i] When trying to pin a note without notifications permissions enabled a message will be shown</changelogtext>
+    <changelogtext>[i]Improved![/i] Updated Gradle build tools to 8.3.0</changelogtext>
+    <changelogtext>[u]Fix[/u] Protected notes are no more searchable nor their tags (from content) will appear anywhere content's secrecy (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="Dec 16, 2023"
     versionName="6.3.1">
     <changelogtext>[i]Improved![/i] Updated F-Droid resources and translations</changelogtext>
     <changelogtext>[u]Fix[/u] Dynamic left menu items counting fixed (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
-    <changelogtext>[u]Fix[/u] Dynamic left menu items counting fixed (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
     <changelogtext>[u]Fix[/u] Correct dialog text shown on category deletion (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
-    <changelogtext>[u]Fix[/u] Notes updated state correctly reflected into the notes list in real time (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
     <changelogtext>[u]Fix[/u] Notes updated state correctly reflected into the notes list in real time (thanks to [a href='https://github.com/XYIheng']Yiheng Xiong[/a])</changelogtext>
   </changelogversion>
 

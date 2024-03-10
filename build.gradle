@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2024 Federico Iosue (federico@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@ buildscript {
         maven { url "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.1'
+        classpath 'com.android.tools.build:gradle:8.3.0'
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.2.0"
         classpath 'com.adarshr:gradle-test-logger-plugin:2.1.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
