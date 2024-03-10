@@ -66,6 +66,7 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 
 import android.Manifest;
+import android.Manifest.permission;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -109,6 +110,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission;
 import androidx.core.util.Pair;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
@@ -126,6 +128,7 @@ import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.checklistview.models.ChecklistManager;
 import it.feio.android.omninotes.async.AttachmentTask;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
+import it.feio.android.omninotes.async.bus.NotificationsGrantedEvent;
 import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
 import it.feio.android.omninotes.async.notes.NoteProcessorDelete;
@@ -1864,6 +1867,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    * Pin note as ongoing notifications
    */
   private void pinNote() {
+    if (!new NotificationsHelper(getAppContext()).checkNotificationsEnabled(getAppContext())) {
+      mainActivity.showToast(getText(R.string.denied_notifications_permission), Toast.LENGTH_LONG);
+      return;
+    }
+    
     PendingIntent notifyIntent = IntentHelper
         .getNotePendingIntent(getContext(), SnoozeActivity.class, ACTION_PINNED, note);
 
