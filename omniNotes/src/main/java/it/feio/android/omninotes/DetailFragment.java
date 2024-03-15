@@ -944,7 +944,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   @Override
   public void onLocationRetrieved(Location location) {
     if (location == null) {
-      mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
+      mainActivity.showMessage(R.string.device_position_warning, ONStyle.ALERT);
     }
     if (location != null) {
       noteTmp.setLatitude(location.getLatitude());
@@ -960,7 +960,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   @Override
   public void onLocationUnavailable() {
-    mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
+    mainActivity.showMessage(R.string.device_position_warning, ONStyle.ALERT);
   }
 
   public void onLocationNotEnabled(){
@@ -970,7 +970,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   public void onAddressResolved(String address) {
     if (TextUtils.isEmpty(address)) {
       if (!isNoteLocationValid()) {
-        mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
+        mainActivity.showMessage(R.string.device_position_warning, ONStyle.ALERT);
         return;
       }
       address = noteTmp.getLatitude() + ", " + noteTmp.getLongitude();
@@ -993,7 +993,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       binding.fragmentDetailContent.location.setText(address);
       fade(binding.fragmentDetailContent.location, true);
     } else {
-      mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
+      mainActivity.showMessage(R.string.device_position_warning, ONStyle.ALERT);
     }
   }
 
@@ -2232,7 +2232,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     @Override
     public void onLocationUnavailable() {
-      mainActivityWeakReference.get().showMessage(R.string.location_not_found, ONStyle.ALERT);
+      mainActivityWeakReference.get().showMessage(R.string.device_position_warning, ONStyle.ALERT);
     }
     @Override
     public void onLocationNotEnabled(){
