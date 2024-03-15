@@ -35,7 +35,9 @@ public class ONStyle {
   public static final int DURATION_MEDIUM = 1650;
   public static final int DURATION_LONG = 2300;
 
-  public static final Configuration CONFIGURATION;
+  public static final Configuration CONFIGURATION_DURATION_SHORT;
+  public static final Configuration CONFIGURATION_DURATION_MEDIUM;
+  public static final Configuration CONFIGURATION_DURATION_LONG;
   public static final Style ALERT;
   public static final Style WARN;
   public static final Style CONFIRM;
@@ -48,38 +50,48 @@ public class ONStyle {
 
 
   static {
-    CONFIGURATION = new Configuration.Builder()
+    CONFIGURATION_DURATION_SHORT = new Configuration.Builder()
         .setDuration(DURATION_SHORT)
         .setInAnimation(R.animator.fade_in_support)
         .setOutAnimation(R.animator.fade_out_support)
         .build();
+    CONFIGURATION_DURATION_MEDIUM = new Configuration.Builder()
+            .setDuration(DURATION_MEDIUM)
+            .setInAnimation(R.animator.fade_in_support)
+            .setOutAnimation(R.animator.fade_out_support)
+            .build();
+    CONFIGURATION_DURATION_LONG = new Configuration.Builder()
+            .setDuration(DURATION_LONG)
+            .setInAnimation(R.animator.fade_in_support)
+            .setOutAnimation(R.animator.fade_out_support)
+            .build();
     ALERT = new Style.Builder()
         .setBackgroundColor(ALERT_COLOR)
         .setHeight(LayoutParams.MATCH_PARENT)
         .setGravity(Gravity.CENTER)
         .setTextAppearance(R.style.crouton_text)
-        .setConfiguration(CONFIGURATION)
+        .setConfiguration(CONFIGURATION_DURATION_SHORT)
         .build();
     WARN = new Style.Builder()
         .setBackgroundColor(WARN_COLOR)
         .setHeight(LayoutParams.MATCH_PARENT)
         .setGravity(Gravity.CENTER)
         .setTextAppearance(R.style.crouton_text)
-        .setConfiguration(CONFIGURATION)
+        .setConfiguration(CONFIGURATION_DURATION_MEDIUM)
         .build();
     CONFIRM = new Style.Builder()
         .setBackgroundColor(CONFIRM_COLOR)
         .setHeight(LayoutParams.MATCH_PARENT)
         .setGravity(Gravity.CENTER)
         .setTextAppearance(R.style.crouton_text)
-        .setConfiguration(CONFIGURATION)
+        .setConfiguration(CONFIGURATION_DURATION_SHORT)
         .build();
     INFO = new Style.Builder()
         .setBackgroundColor(INFO_COLOR)
         .setHeight(LayoutParams.MATCH_PARENT)
         .setGravity(Gravity.CENTER)
         .setTextAppearance(R.style.crouton_text)
-        .setConfiguration(CONFIGURATION)
+        .setConfiguration(CONFIGURATION_DURATION_SHORT)
         .build();
   }
 }
