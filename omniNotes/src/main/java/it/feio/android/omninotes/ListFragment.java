@@ -36,6 +36,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_EXPANDED_VIEW;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_FAB_EXPANSION_BEHAVIOR;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_FILTER_PAST_REMINDERS;
+import static it.feio.android.omninotes.utils.ConstantsBase.PREF_MINIMAL_VIEW;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SORTING_COLUMN;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_WIDGET_PREFIX;
@@ -739,6 +740,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     boolean drawerOpen = mainActivity.getDrawerLayout() != null
         && mainActivity.getDrawerLayout().isDrawerOpen(GravityCompat.START);
     boolean expandedView = Prefs.getBoolean(PREF_EXPANDED_VIEW, true);
+    boolean minimalView = Prefs.getBoolean(PREF_MINIMAL_VIEW, true);
 
     int navigation = Navigation.getNavigation();
     boolean navigationReminders = navigation == Navigation.REMINDERS;
@@ -772,7 +774,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     menu.findItem(R.id.menu_expanded_view)
         .setVisible(!drawerOpen && !expandedView && !searchViewHasFocus);
     menu.findItem(R.id.menu_contracted_view)
-        .setVisible(!drawerOpen && expandedView && !searchViewHasFocus);
+        .setVisible(!drawerOpen && (expandedView || minimalView) && !searchViewHasFocus);
+    menu.findItem(R.id.menu_minimal_view)
+        .setVisible(!drawerOpen && (expandedView || !minimalView) && !searchViewHasFocus);
     menu.findItem(R.id.menu_empty_trash).setVisible(!drawerOpen && navigationTrash);
     menu.findItem(R.id.menu_uncomplete_checklists).setVisible(searchViewHasFocus);
     menu.findItem(R.id.menu_tags).setVisible(searchViewHasFocus);
@@ -834,10 +838,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
           initSortingSubmenu();
           break;
         case R.id.menu_expanded_view:
-          switchNotesView();
+          switchNotesView(1);
+          break;
+        case R.id.menu_minimal_view:
+          switchNotesView(2);
           break;
         case R.id.menu_contracted_view:
-          switchNotesView();
+          switchNotesView(3);
           break;
         case R.id.menu_empty_trash:
           emptyTrash();
@@ -904,15 +911,25 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   }
 
 
-  private void switchNotesView() {
-    boolean expandedView = Prefs.getBoolean(PREF_EXPANDED_VIEW, true);
-    Prefs.edit().putBoolean(PREF_EXPANDED_VIEW, !expandedView).apply();
+  private void switchNotesView(int flag) {
+    if (flag == 1){
+      Prefs.edit().putBoolean(PREF_EXPANDED_VIEW, true).apply();
+      Prefs.edit().putBoolean(PREF_MINIMAL_VIEW, false).apply();
+    }
+    else if (flag == 2){
+      Prefs.edit().putBoolean(PREF_MINIMAL_VIEW, true).apply();
+      Prefs.edit().putBoolean(PREF_EXPANDED_VIEW, false).apply();
+    }
+    else{
+      Prefs.edit().putBoolean(PREF_EXPANDED_VIEW, false).apply();
+      Prefs.edit().putBoolean(PREF_MINIMAL_VIEW, false).apply();
+    }
+
     // Change list view
     initNotesList(mainActivity.getIntent());
     // Called to switch menu voices
     mainActivity.supportInvalidateOptionsMenu();
   }
-
 
   void editNote(final Note note, final View view) {
     if (note.isLocked() && !Prefs.getBoolean("settings_password_access", false)) {
@@ -1166,7 +1183,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   public void onEvent(NotesLoadedEvent notesLoadedEvent) {
-    listAdapter = new NoteAdapter(mainActivity, Prefs.getBoolean(PREF_EXPANDED_VIEW, true),
+    listAdapter = new NoteAdapter(mainActivity, Prefs.getBoolean(PREF_EXPANDED_VIEW, true), Prefs.getBoolean(PREF_MINIMAL_VIEW, false),
         notesLoadedEvent.getNotes());
 
     initSwipeGesture();

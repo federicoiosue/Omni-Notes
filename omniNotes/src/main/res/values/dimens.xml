@@ -59,6 +59,7 @@
   <dimen name="note_item_min_height">102dp</dimen>
   <dimen name="note_item_min_height_inner">100dp</dimen>
   <dimen name="note_item_min_height_reduced">71dp</dimen>
+  <dimen name="note_item_min_height_minimal">42dp</dimen>
 
   <!-- Attachment dialog -->
   <dimen name="attachment_dialog_text_size">16sp</dimen>
