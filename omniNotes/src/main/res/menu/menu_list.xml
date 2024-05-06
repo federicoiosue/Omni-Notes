@@ -157,6 +157,13 @@
     android:title="@string/contracted_view"
     android:visible="false" />
   <item
+      android:id="@+id/menu_minimal_view"
+      android:orderInCategory="800"
+      app:showAsAction="never"
+      android:title="@string/minimal_view"
+      android:visible="false" />
+
+  <item
     android:id="@+id/menu_synchronize"
     android:orderInCategory="850"
     app:showAsAction="never"

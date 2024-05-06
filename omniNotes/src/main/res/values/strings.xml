@@ -169,6 +169,7 @@
   <string name="proceed">Proceed</string>
   <string name="contracted_view">Reduced view</string>
   <string name="expanded_view">Expanded view</string>
+  <string name="minimal_view">Minimal view</string>
   <string name="grid_view">Grid view</string>
   <string name="add_shortcut">Add shortcut</string>
   <string name="shortcut_added">Shortcut added to home screen</string>

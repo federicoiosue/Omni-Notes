@@ -55,14 +55,16 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
   private final List<Note> notes;
   private final SparseBooleanArray selectedItems = new SparseBooleanArray();
   private final boolean expandedView;
+  private final boolean minimalView;
   private long closestNoteReminder = Long.parseLong(TIMESTAMP_UNIX_EPOCH_FAR);
   private int closestNotePosition;
 
 
-  public NoteAdapter(Activity activity, boolean expandedView, List<Note> notes) {
+  public NoteAdapter(Activity activity, boolean expandedView, boolean minimalView, List<Note> notes) {
     this.mActivity = activity;
     this.notes = notes;
     this.expandedView = expandedView;
+    this.minimalView = minimalView;
     navigation = Navigation.getNavigation();
     manageCloserNote(notes, navigation);
   }
@@ -127,7 +129,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     // ...the locked with password state
     holder.lockedIcon.setVisibility(note.isLocked() ? View.VISIBLE : View.GONE);
     // ...the attachment icon for contracted view
-    if (!expandedView) {
+    if (!expandedView && !minimalView) {
       holder.attachmentIcon
           .setVisibility(!note.getAttachmentsList().isEmpty() ? View.VISIBLE : View.GONE);
     }
@@ -304,12 +306,17 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     View view;
     if (expandedView) {
       view = LayoutInflater.from(parent.getContext())
-          .inflate(R.layout.note_layout_expanded, parent, false);
-    } else {
+              .inflate(R.layout.note_layout_expanded, parent, false);
+    }
+    else if (minimalView){
+      view = LayoutInflater.from(parent.getContext())
+              .inflate(R.layout.note_layout_minimal, parent, false);
+    }
+    else {
       view = LayoutInflater.from(parent.getContext()).inflate(R.layout.note_layout, parent, false);
     }
 
-    return new NoteViewHolder(view, expandedView);
+    return new NoteViewHolder(view, expandedView, minimalView);
   }
 
   @Override
