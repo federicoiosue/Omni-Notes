@@ -39,13 +39,13 @@ import it.feio.android.omninotes.exceptions.BackupException;
 import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.helpers.DocumentFileHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
-import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.utils.ReminderHelper;
+
 import java.io.IOException;
 
 public class DataBackupIntentService extends IntentService implements OnAttachingFileListener {
@@ -78,19 +78,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
       exportData(intent);
     } else if (ACTION_DATA_IMPORT.equals(intent.getAction())) {
       importData(intent);
-    } else if (SpringImportHelper.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
-      importDataFromSpringpad(intent, mNotificationsHelper);
     } else if (ACTION_DATA_DELETE.equals(intent.getAction())) {
       deleteData(intent);
     }
-  }
-
-  private void importDataFromSpringpad(Intent intent, NotificationsHelper mNotificationsHelper) {
-    new SpringImportHelper(OmniNotes.getAppContext())
-        .importDataFromSpringpad(intent, mNotificationsHelper);
-    String title = getString(R.string.data_import_completed);
-    String text = getString(R.string.click_to_refresh_application);
-    createNotification(intent, this, title, text);
   }
 
   private void exportData(Intent intent) {
@@ -157,8 +147,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
   private void createNotification(Intent intent, Context context, String title, String message) {
     Intent intentLaunch;
-    if (DataBackupIntentService.ACTION_DATA_IMPORT.equals(intent.getAction())
-        || SpringImportHelper.ACTION_DATA_IMPORT_SPRINGPAD.equals(intent.getAction())) {
+    if (DataBackupIntentService.ACTION_DATA_IMPORT.equals(intent.getAction())) {
       intentLaunch = new Intent(context, MainActivity.class);
       intentLaunch.setAction(ACTION_RESTART_APP);
     } else {

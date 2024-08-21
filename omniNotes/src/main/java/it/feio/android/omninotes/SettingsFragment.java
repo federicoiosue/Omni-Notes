@@ -68,12 +68,10 @@ import it.feio.android.omninotes.helpers.ChangelogHelper;
 import it.feio.android.omninotes.helpers.LanguageHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
-import it.feio.android.omninotes.helpers.SpringImportHelper;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator.Result;
-import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.PasswordHelper;
 import it.feio.android.omninotes.utils.ResourcesUtils;
@@ -89,7 +87,6 @@ import org.apache.commons.lang3.StringUtils;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
-  private static final int SPRINGPAD_IMPORT = 0;
   private static final int RINGTONE_REQUEST_CODE = 100;
   private static final int ACCESS_DATA_FOR_EXPORT = 200;
   private static final int ACCESS_DATA_FOR_IMPORT = 210;
@@ -244,23 +241,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 //				return false;
 //			});
 //		}
-
-    Preference importFromSpringpad = findPreference("settings_import_from_springpad");
-    if (importFromSpringpad != null) {
-      importFromSpringpad.setOnPreferenceClickListener(arg0 -> {
-        Intent intent;
-        intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/zip");
-        if (!IntentChecker.isAvailable(getActivity(), intent, null)) {
-          Toast.makeText(getActivity(), R.string.feature_not_available_on_this_device,
-              Toast.LENGTH_SHORT).show();
-          return false;
-        }
-        startActivityForResult(intent, SPRINGPAD_IMPORT);
-        return false;
-      });
-    }
 
 //		Preference syncWithDrive = findPreference("settings_backup_drive");
 //		importFromSpringpad.setOnPreferenceClickListener(new OnPreferenceClickListener() {
@@ -693,16 +673,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
   public void onActivityResult(int requestCode, int resultCode, Intent intent) {
     if (resultCode == Activity.RESULT_OK) {
       switch (requestCode) {
-        case SPRINGPAD_IMPORT:
-          Uri filesUri = intent.getData();
-          String path = FileHelper.getPath(getActivity(), filesUri);
-          // An IntentService will be launched to accomplish the import task
-          Intent service = new Intent(getActivity(), DataBackupIntentService.class);
-          service.setAction(SpringImportHelper.ACTION_DATA_IMPORT_SPRINGPAD);
-          service.putExtra(SpringImportHelper.EXTRA_SPRINGPAD_BACKUP, path);
-          getActivity().startService(service);
-          break;
-
         case RINGTONE_REQUEST_CODE:
           Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
           String notificationSound = uri == null ? null : uri.toString();
