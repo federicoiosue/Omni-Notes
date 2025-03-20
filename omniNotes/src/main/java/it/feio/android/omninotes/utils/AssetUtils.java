@@ -20,7 +20,6 @@ import android.content.res.AssetManager;
 import java.io.IOException;
 import java.util.Arrays;
 
-
 public class AssetUtils {
 
   private AssetUtils() {
@@ -29,9 +28,16 @@ public class AssetUtils {
 
   public static boolean exists(String fileName, String path,
       AssetManager assetManager) throws IOException {
-    for (String currentFileName : assetManager.list(path)) {
-      if (currentFileName.equals(fileName)) {
-        return true;
+    if (fileName == null || path == null || assetManager == null) {
+      throw new IllegalArgumentException("Arguments cannot be null.");
+    }
+
+    String[] fileList = assetManager.list(path);
+    if (fileList != null) {
+      for (String currentFileName : fileList) {
+        if (fileName.equals(currentFileName)) {
+          return true;
+        }
       }
     }
     return false;
@@ -39,9 +45,15 @@ public class AssetUtils {
 
   public static String[] list(String path, AssetManager assetManager)
       throws IOException {
+    if (path == null || assetManager == null) {
+      throw new IllegalArgumentException("Arguments cannot be null.");
+    }
+
     String[] files = assetManager.list(path);
+    if (files == null) {
+      return new String[0]; // Retorna um array vazio se o diretório não existir ou estiver vazio
+    }
     Arrays.sort(files);
     return files;
   }
-
 }
