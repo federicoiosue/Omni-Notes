@@ -1047,76 +1047,82 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     binding.progressWheel.setAlpha(1);
     binding.list.setAlpha(0);
 
-    // Search for a tag
-    // A workaround to simplify it's to simulate normal search
-    if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getCategories() != null
-        && intent.getCategories().contains(Intent.CATEGORY_BROWSABLE)) {
-      searchTags = intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, "");
-      goBackOnToggleSearchLabel = true;
+    if (Intent.ACTION_VIEW.equals(intent.getAction()) {
+      handleTagSearch(intent);
     }
 
     if (ACTION_SHORTCUT_WIDGET.equals(intent.getAction())) {
       return;
     }
 
-    // Searching
+    handleSearchAndFilters(intent);
+  }
+
+  private void handleTagSearch(Intent intent) {
+    if (intent.getCategories() != null && intent.getCategories().contains(Intent.CATEGORY_BROWSABLE)) {
+      searchTags = intent.getDataString().replace(UrlCompleter.HASHTAG_SCHEME, "");
+      goBackOnToggleSearchLabel = true;
+    }
+  }
+
+  private void handleSearchAndFilters(Intent intent) {
     searchQuery = searchQueryInstant;
     searchQueryInstant = null;
-    if (searchTags != null || searchQuery != null || searchUncompleteChecklists
-        || IntentChecker
-        .checkAction(intent, Intent.ACTION_SEARCH, ACTION_SEARCH_UNCOMPLETE_CHECKLISTS)) {
 
-      // Using tags
-      if (searchTags != null && intent.getStringExtra(SearchManager.QUERY) == null) {
-        searchQuery = searchTags;
-        NoteLoaderTask.getInstance()
-            .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByTag",
-                searchQuery);
-      } else if (searchUncompleteChecklists || ACTION_SEARCH_UNCOMPLETE_CHECKLISTS.equals(
-          intent.getAction())) {
-        searchQuery = getContext().getResources().getString(R.string.uncompleted_checklists);
-        searchUncompleteChecklists = true;
-        NoteLoaderTask.getInstance()
-            .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByUncompleteChecklist");
-      } else {
-        // Get the intent, verify the action and get the query
-        if (intent.getStringExtra(SearchManager.QUERY) != null) {
-          searchQuery = intent.getStringExtra(SearchManager.QUERY);
-          searchTags = null;
-        }
-        NoteLoaderTask.getInstance()
-            .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByPattern",
-                searchQuery);
-      }
-
-      toggleSearchLabel(true);
-
+    if (shouldPerformSearch(intent)) {
+      performSearch(intent);
     } else {
-      // Check if is launched from a widget with categories
-      if ((ACTION_WIDGET_SHOW_LIST.equals(intent.getAction()) && intent.hasExtra(INTENT_WIDGET))
-          || !isEmpty(mainActivity.navigationTmp)) {
-        String widgetId =
-            intent.hasExtra(INTENT_WIDGET) ? intent.getExtras().get(INTENT_WIDGET).toString()
-                : null;
-        if (widgetId != null) {
-          String sqlCondition = Prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
-          String categoryId = TextHelper.checkIntentCategory(sqlCondition);
-          mainActivity.navigationTmp = !isEmpty(categoryId) ? categoryId : null;
-        }
-        intent.removeExtra(INTENT_WIDGET);
-        if (mainActivity.navigationTmp != null) {
-          Long categoryId = Long.parseLong(mainActivity.navigationTmp);
-          NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
-              "getNotesByCategory", categoryId);
-        } else {
-          NoteLoaderTask.getInstance()
-              .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
-        }
+      loadNotesFromWidgetOrNavigation(intent);
+    }
+  }
 
+  private boolean shouldPerformSearch(Intent intent) {
+    return searchTags != null || searchQuery != null || searchUncompleteChecklists
+            || IntentChecker.checkAction(intent, Intent.ACTION_SEARCH, ACTION_SEARCH_UNCOMPLETE_CHECKLISTS);
+  }
+
+  private void performSearch(Intent intent) {
+    if (searchTags != null && intent.getStringExtra(SearchManager.QUERY) == null) {
+      searchQuery = searchTags;
+      NoteLoaderTask.getInstance()
+              .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByTag", searchQuery);
+    } else if (searchUncompleteChecklists || ACTION_SEARCH_UNCOMPLETE_CHECKLISTS.equals(intent.getAction())) {
+      searchQuery = getContext().getResources().getString(R.string.uncompleted_checklists);
+      searchUncompleteChecklists = true;
+      NoteLoaderTask.getInstance()
+              .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByUncompleteChecklist");
+    } else {
+      if (intent.getStringExtra(SearchManager.QUERY) != null) {
+        searchQuery = intent.getStringExtra(SearchManager.QUERY);
+        searchTags = null;
+      }
+      NoteLoaderTask.getInstance()
+              .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByPattern", searchQuery);
+    }
+
+    toggleSearchLabel(true);
+  }
+
+  private void loadNotesFromWidgetOrNavigation(Intent intent) {
+    if ((ACTION_WIDGET_SHOW_LIST.equals(intent.getAction()) && intent.hasExtra(INTENT_WIDGET))
+            || !isEmpty(mainActivity.navigationTmp)) {
+      String widgetId = intent.hasExtra(INTENT_WIDGET) ? intent.getExtras().get(INTENT_WIDGET).toString() : null;
+      if (widgetId != null) {
+        String sqlCondition = Prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
+        String categoryId = TextHelper.checkIntentCategory(sqlCondition);
+        mainActivity.navigationTmp = !isEmpty(categoryId) ? categoryId : null;
+      }
+      intent.removeExtra(INTENT_WIDGET);
+      if (mainActivity.navigationTmp != null) {
+        Long categoryId = Long.parseLong(mainActivity.navigationTmp);
+        NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByCategory", categoryId);
       } else {
         NoteLoaderTask.getInstance()
-            .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
+                .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
       }
+    } else {
+      NoteLoaderTask.getInstance()
+              .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getAllNotes", true);
     }
   }
 
