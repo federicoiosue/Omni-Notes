@@ -16,7 +16,7 @@
  */
 package it.feio.android.omninotes.utils;
 
-public final class ConstantsBase {
+public class ConstantsBase { // Removed "final" keyword
 
   public static final String DATABASE_NAME = "omni-notes";
   public static final String APP_STORAGE_DIRECTORY_SB_SYNC = "db_sync";
@@ -120,8 +120,7 @@ public final class ConstantsBase {
 
   public static final String AUTO_BACKUP_DIR = "_autobackup";
 
-  private ConstantsBase() {
-    // Private constructor to prevent instantiation of this utility class
-    throw new AssertionError("Cannot be instantiated");
+  protected ConstantsBase() { // Changed from private to protected
+    // Constructor to allow subclassing
   }
 }
