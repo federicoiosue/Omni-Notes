@@ -45,54 +45,50 @@ public class SqlParser {
     return splitSqlScript(script, ';');
   }
 
-
   private static String removeComments(InputStream is) throws IOException {
-
-    StringBuilder sql = new StringBuilder();
-
-    InputStreamReader isReader = new InputStreamReader(is);
-    try {
-      BufferedReader buffReader = new BufferedReader(isReader);
-      try {
-        String line;
-        String multiLineComment = null;
-        while ((line = buffReader.readLine()) != null) {
-          line = line.trim();
-
-          if (multiLineComment == null) {
-            if (line.startsWith("/*")) {
-              if (!line.endsWith("}")) {
-                multiLineComment = "/*";
+      StringBuilder sql = new StringBuilder();
+      try (BufferedReader buffReader = new BufferedReader(new InputStreamReader(is))) {
+          String line;
+          String multiLineComment = null;
+          
+          while ((line = buffReader.readLine()) != null) {
+              line = line.trim();
+              
+              if (multiLineComment != null) {
+                  multiLineComment = checkMultiLineCommentEnd(multiLineComment, line);
+                  continue;
               }
-            } else if (line.startsWith("{")) {
-              if (!line.endsWith("}")) {
-                multiLineComment = "{";
+              
+              if (isStartOfMultiLineComment(line)) {
+                  multiLineComment = getMultiLineCommentStart(line);
+                  continue;
               }
-            } else if (!line.startsWith("--") && !line.equals("")) {
-              sql.append(" ").append(line);
-            }
-          } else if (multiLineComment.equals("/*")) {
-            if (line.endsWith("*/")) {
-              multiLineComment = null;
-            }
-          } else if (multiLineComment.equals("{")) {
-            if (line.endsWith("}")) {
-              multiLineComment = null;
-            }
+              
+              if (!isSingleLineComment(line) && !line.isEmpty()) {
+                  sql.append(" ").append(line);
+              }
           }
-
-        }
-      } finally {
-        buffReader.close();
       }
-
-    } finally {
-      isReader.close();
-    }
-
-    return sql.toString();
+      return sql.toString();
   }
 
+  private static boolean isSingleLineComment(String line) {
+      return line.startsWith("--");
+  }
+
+  private static boolean isStartOfMultiLineComment(String line) {
+      return line.startsWith("/*") || line.startsWith("{");
+  }
+
+  private static String getMultiLineCommentStart(String line) {
+      return (!line.endsWith("}")) ? (line.startsWith("/*") ? "/*" : "{") : null;
+  }
+
+  private static String checkMultiLineCommentEnd(String multiLineComment, String line) {
+      return (multiLineComment.equals("/*") && line.endsWith("*/")) || (multiLineComment.equals("{") && line.endsWith("}")) 
+              ? null 
+              : multiLineComment;
+  }
 
   private static List<String> splitSqlScript(String script, char delim) {
     List<String> statements = new ArrayList<>();
@@ -117,5 +113,4 @@ public class SqlParser {
     }
     return statements;
   }
-
 }

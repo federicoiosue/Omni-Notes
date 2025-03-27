@@ -466,104 +466,119 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   private void handleIntents() {
-    Intent i = mainActivity.getIntent();
+    Intent intent = mainActivity.getIntent();
 
-    if (IntentChecker.checkAction(i, ACTION_MERGE)) {
-      noteOriginal = new Note();
+    handleMergeIntent(intent);
+    handleShortcutIntent(intent);
+    handleWidgetIntents(intent);
+    handleFabTakePhoto(intent);
+    handleSendIntents(intent);
+    handleMainIntents(intent);
+
+    intent.setAction(null);
+  }
+
+  private void handleMergeIntent(Intent intent) {
+    if (!IntentChecker.checkAction(intent, ACTION_MERGE)) return;
+
+    noteOriginal = new Note();
+    note = new Note(noteOriginal);
+    noteTmp = getArguments().getParcelable(INTENT_NOTE);
+    if (intent.getStringArrayListExtra("merged_notes") != null) {
+      mergedNotesIds = intent.getStringArrayListExtra("merged_notes");
+    }
+  }
+
+  private void handleShortcutIntent(Intent intent) {
+    if (!IntentChecker.checkAction(intent, ACTION_SHORTCUT, ACTION_NOTIFICATION_CLICK)) return;
+
+    afterSavedReturnsToList = false;
+    noteOriginal = DbHelper.getInstance().getNote(intent.getLongExtra(INTENT_KEY, 0));
+
+    try {
       note = new Note(noteOriginal);
-      noteTmp = getArguments().getParcelable(INTENT_NOTE);
-      if (i.getStringArrayListExtra("merged_notes") != null) {
-        mergedNotesIds = i.getStringArrayListExtra("merged_notes");
-      }
+      noteTmp = new Note(noteOriginal);
+    } catch (NullPointerException e) {
+      mainActivity.showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
+      mainActivity.finish();
     }
+  }
 
-    // Action called from home shortcut
-    if (IntentChecker.checkAction(i, ACTION_SHORTCUT, ACTION_NOTIFICATION_CLICK)) {
-      afterSavedReturnsToList = false;
-      noteOriginal = DbHelper.getInstance().getNote(i.getLongExtra(INTENT_KEY, 0));
-      // Checks if the note pointed from the shortcut has been deleted
-      try {
-        note = new Note(noteOriginal);
-        noteTmp = new Note(noteOriginal);
-      } catch (NullPointerException e) {
-        mainActivity.showToast(getText(R.string.shortcut_note_deleted), Toast.LENGTH_LONG);
-        mainActivity.finish();
-      }
+  private void handleWidgetIntents(Intent intent) {
+    if (!IntentChecker.checkAction(intent, ACTION_WIDGET, ACTION_WIDGET_TAKE_PHOTO)) return;
+
+    afterSavedReturnsToList = false;
+    showKeyboard = true;
+
+    handleWidgetExtra(intent);
+    handleWidgetPhotoAction(intent);
+  }
+
+  private void handleWidgetExtra(Intent intent) {
+    if (!intent.hasExtra(INTENT_WIDGET)) return;
+
+    String widgetId = intent.getExtras().get(INTENT_WIDGET).toString();
+    String sqlCondition = Prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
+    String categoryId = TextHelper.checkIntentCategory(sqlCondition);
+
+    if (categoryId == null) return;
+
+    try {
+      Category category = DbHelper.getInstance().getCategory(parseLong(categoryId));
+      noteTmp = new Note();
+      noteTmp.setCategory(category);
+    } catch (NumberFormatException e) {
+      LogDelegate.e("Category with not-numeric value!", e);
     }
+  }
 
-    // Check if is launched from a widget
-    if (IntentChecker.checkAction(i, ACTION_WIDGET, ACTION_WIDGET_TAKE_PHOTO)) {
-
-      afterSavedReturnsToList = false;
-      showKeyboard = true;
-
-      //  with tags to set tag
-      if (i.hasExtra(INTENT_WIDGET)) {
-        String widgetId = i.getExtras().get(INTENT_WIDGET).toString();
-        String sqlCondition = Prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
-        String categoryId = TextHelper.checkIntentCategory(sqlCondition);
-        if (categoryId != null) {
-          Category category;
-          try {
-            category = DbHelper.getInstance().getCategory(parseLong(categoryId));
-            noteTmp = new Note();
-            noteTmp.setCategory(category);
-          } catch (NumberFormatException e) {
-            LogDelegate.e("Category with not-numeric value!", e);
-          }
-        }
-      }
-
-      // Sub-action is to take a photo
-      if (IntentChecker.checkAction(i, ACTION_WIDGET_TAKE_PHOTO)) {
-        takePhoto();
-      }
-    }
-
-    if (IntentChecker.checkAction(i, ACTION_FAB_TAKE_PHOTO)) {
+  private void handleWidgetPhotoAction(Intent intent) {
+    if (IntentChecker.checkAction(intent, ACTION_WIDGET_TAKE_PHOTO)) {
       takePhoto();
     }
+  }
 
-    // Handles third party apps requests of sharing
-    if (IntentChecker
-        .checkAction(i, Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE, Intent.ACTION_PROCESS_TEXT, INTENT_GOOGLE_NOW)
-        && i.getType() != null) {
+  private void handleFabTakePhoto(Intent intent) {
+    if (IntentChecker.checkAction(intent, ACTION_FAB_TAKE_PHOTO)) {
+      takePhoto();
+    }
+  }
 
-      afterSavedReturnsToList = false;
+  private void handleSendIntents(Intent intent) {
+    if (!IntentChecker.checkAction(intent, Intent.ACTION_SEND, Intent.ACTION_SEND_MULTIPLE,
+            Intent.ACTION_PROCESS_TEXT, INTENT_GOOGLE_NOW) || intent.getType() == null) return;
 
-      if (noteTmp == null) {
-        noteTmp = new Note();
-      }
+    afterSavedReturnsToList = false;
+    noteTmp = noteTmp != null ? noteTmp : new Note();
 
-      // Text title
-      String title = i.getStringExtra(Intent.EXTRA_SUBJECT);
-      if (title != null) {
-        noteTmp.setTitle(title);
-      }
+    setNoteContentFromIntent(intent);
+    importAttachments(intent);
+  }
 
-      // Text content
-      String content = null;
-      if (Intent.ACTION_PROCESS_TEXT.equals(i.getAction())){
-        content = i.getStringExtra(Intent.EXTRA_PROCESS_TEXT).toString();
-      } else {
-        content = i.getStringExtra(Intent.EXTRA_TEXT);
-      }
-
-      if (content != null) {
-        noteTmp.setContent(content);
-      }
-
-      importAttachments(i);
-
+  private void setNoteContentFromIntent(Intent intent) {
+    String title = intent.getStringExtra(Intent.EXTRA_SUBJECT);
+    if (title != null) {
+      noteTmp.setTitle(title);
     }
 
-    if (IntentChecker
-        .checkAction(i, Intent.ACTION_MAIN, ACTION_WIDGET_SHOW_LIST, ACTION_SHORTCUT_WIDGET,
-            ACTION_WIDGET)) {
+    String content = getContentFromIntent(intent);
+    if (content != null) {
+      noteTmp.setContent(content);
+    }
+  }
+
+  private String getContentFromIntent(Intent intent) {
+    if (Intent.ACTION_PROCESS_TEXT.equals(intent.getAction())) {
+      return intent.getStringExtra(Intent.EXTRA_PROCESS_TEXT);
+    }
+    return intent.getStringExtra(Intent.EXTRA_TEXT);
+  }
+
+  private void handleMainIntents(Intent intent) {
+    if (IntentChecker.checkAction(intent, Intent.ACTION_MAIN, ACTION_WIDGET_SHOW_LIST,
+            ACTION_SHORTCUT_WIDGET, ACTION_WIDGET)) {
       showKeyboard = true;
     }
-
-    i.setAction(null);
   }
 
   private void importAttachments(Intent i) {
