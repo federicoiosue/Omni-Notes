@@ -16,14 +16,17 @@
  */
 package it.feio.android.omninotes.utils;
 
-public interface Constants extends ConstantsBase {
+public final class Constants extends ConstantsBase {
 
-  String TAG = "Omni Notes FOSS";
-  String EXTERNAL_STORAGE_FOLDER = "Omni Notes Foss";
-  String PACKAGE = "it.feio.android.omninotes.foss";
+  public static final String TAG = "Omni Notes FOSS";
+  public static final String EXTERNAL_STORAGE_FOLDER = "Omni Notes Foss";
+  public static final String PACKAGE = "it.feio.android.omninotes.foss";
 
-  String CHANNEL_BACKUPS_ID = PACKAGE + ".backups";
-  String CHANNEL_REMINDERS_ID = PACKAGE + ".reminders";
-  String CHANNEL_PINNED_ID = PACKAGE + ".pinned";
+  public static final String CHANNEL_BACKUPS_ID = PACKAGE + ".backups";
+  public static final String CHANNEL_REMINDERS_ID = PACKAGE + ".reminders";
+  public static final String CHANNEL_PINNED_ID = PACKAGE + ".pinned";
 
+  private Constants() {
+    throw new AssertionError("Cannot be instantiated");
+  }
 }
