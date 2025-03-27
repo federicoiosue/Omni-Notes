@@ -27,7 +27,6 @@ public final class Constants extends ConstantsBase {
   public static final String CHANNEL_PINNED_ID = PACKAGE + ".pinned";
 
   private Constants() {
-    // Private constructor to prevent instantiation of this utility class
     throw new AssertionError("Cannot be instantiated");
   }
 }

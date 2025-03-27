@@ -16,20 +16,17 @@
  */
 package it.feio.android.omninotes.utils;
 
-public class ConstantsBase { // Removed "final" keyword
+public class ConstantsBase {
 
   public static final String DATABASE_NAME = "omni-notes";
   public static final String APP_STORAGE_DIRECTORY_SB_SYNC = "db_sync";
   public static final String COMMUNITY_LINK = "https://t.me/omninotes";
 
-  // Notes swipe
   public static final int SWIPE_MARGIN = 30;
   public static final int SWIPE_OFFSET = 100;
 
-  // Floating action button
   public static final int FAB_ANIMATION_TIME = 250;
 
-  // Notes content masking
   public static final String MASK_CHAR = "*";
 
   public static final int THUMBNAIL_SIZE = 300;
@@ -48,7 +45,6 @@ public class ConstantsBase { // Removed "final" keyword
   public static final String INTENT_WIDGET = "widget_id";
   public static final String INTENT_UPDATE_DASHCLOCK = "update_dashclock";
 
-  // Custom intent actions
   public static final String ACTION_START_APP = "action_start_app";
   public static final String ACTION_RESTART_APP = "action_restart_app";
   public static final String ACTION_DISMISS = "action_dismiss";
@@ -120,7 +116,6 @@ public class ConstantsBase { // Removed "final" keyword
 
   public static final String AUTO_BACKUP_DIR = "_autobackup";
 
-  protected ConstantsBase() { // Changed from private to protected
-    // Constructor to allow subclassing
+  protected ConstantsBase() {
   }
 }
