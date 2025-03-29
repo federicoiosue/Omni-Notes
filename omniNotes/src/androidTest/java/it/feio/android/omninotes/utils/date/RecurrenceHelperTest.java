@@ -25,6 +25,11 @@ import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
+
 @RunWith(AndroidJUnit4.class)
 public class RecurrenceHelperTest extends BaseAndroidTestCase {
 
@@ -32,11 +37,25 @@ public class RecurrenceHelperTest extends BaseAndroidTestCase {
   public void getNoteRecurrentReminderText() {
     long reminder = 1577369824425L;
     String rrule = "FREQ=WEEKLY;WKST=MO;BYDAY=MO,TU,TH";
-    String expectedRegex = "Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 2019 [2|3]:17 PM";
-    String alarmText = RecurrenceHelper.getNoteRecurrentReminderText(reminder, rrule);
-    String errorMsg = String.format("%s not matching %s", alarmText, expectedRegex);
 
-    assertTrue(errorMsg, alarmText.matches(expectedRegex));
+    String alarmText = RecurrenceHelper.getNoteRecurrentReminderText(reminder, rrule);
+    alarmText = alarmText.replace("\u202F", " ");
+    String expectedText = getExpectedText(reminder);
+    String errorMsg = String.format("%s not matching %s", alarmText, expectedText);
+
+    assertTrue(errorMsg, alarmText.matches(expectedText));
+  }
+
+  private String getExpectedText(long reminder) {
+    TimeZone localTimeZone = TimeZone.getDefault();
+    Calendar calendar = Calendar.getInstance(localTimeZone);
+    calendar.setTimeInMillis(reminder);
+
+    SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM dd, yyyy hh:mm a", Locale.getDefault());
+    sdf.setTimeZone(localTimeZone);
+    String formattedDate = sdf.format(calendar.getTime());
+
+    return "Weekly on Mon, Tue, Thu starting from " + formattedDate;
   }
 
 }

@@ -145,7 +145,7 @@ public class DbHelper extends SQLiteOpenHelper {
   public static synchronized DbHelper getInstance(boolean forcedNewInstance) {
     if (instance == null || forcedNewInstance) {
       Context context = (instance == null || instance.mContext == null) ? OmniNotes.getAppContext()
-          : instance.mContext;
+              : instance.mContext;
       instance = new DbHelper(context);
     }
     return instance;
@@ -202,7 +202,7 @@ public class DbHelper extends SQLiteOpenHelper {
       for (String sqlFile : AssetUtils.list(SQL_DIR, mContext.getAssets())) {
         if (sqlFile.startsWith(UPGRADE_QUERY_PREFIX)) {
           int fileVersion = Integer.parseInt(sqlFile.substring(UPGRADE_QUERY_PREFIX.length(),
-              sqlFile.length() - UPGRADE_QUERY_SUFFIX.length()));
+                  sqlFile.length() - UPGRADE_QUERY_SUFFIX.length()));
           if (fileVersion > oldVersion && fileVersion <= newVersion) {
             execSqlFile(sqlFile, db);
           }
@@ -220,8 +220,8 @@ public class DbHelper extends SQLiteOpenHelper {
     db = getDatabase(true);
 
     String content = Boolean.TRUE.equals(note.isLocked())
-        ? Security.encrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, ""))
-        : note.getContent();
+            ? Security.encrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, ""))
+            : note.getContent();
 
     // To ensure note and attachments insertions are atomic and boost performances transaction are used
     db.beginTransaction();
@@ -230,10 +230,10 @@ public class DbHelper extends SQLiteOpenHelper {
     values.put(KEY_TITLE, note.getTitle());
     values.put(KEY_CONTENT, content);
     values.put(KEY_CREATION,
-        note.getCreation() != null ? note.getCreation() : Calendar.getInstance().getTimeInMillis());
+            note.getCreation() != null ? note.getCreation() : Calendar.getInstance().getTimeInMillis());
     long lastModification = note.getLastModification() != null && !updateLastModification
-        ? note.getLastModification()
-        : Calendar.getInstance().getTimeInMillis();
+            ? note.getLastModification()
+            : Calendar.getInstance().getTimeInMillis();
     values.put(KEY_LAST_MODIFICATION, lastModification);
     values.put(KEY_ARCHIVED, note.isArchived());
     values.put(KEY_TRASHED, note.isTrashed());
@@ -254,13 +254,13 @@ public class DbHelper extends SQLiteOpenHelper {
     List<Attachment> deletedAttachments = note.getAttachmentsListOld();
     for (Attachment attachment : note.getAttachmentsList()) {
       updateAttachment(note.get_id() != null ? note.get_id() : values.getAsLong(KEY_CREATION),
-          attachment, db);
+              attachment, db);
       deletedAttachments.remove(attachment);
     }
     // Remove from database deleted attachments
     for (Attachment attachmentDeleted : deletedAttachments) {
       db.delete(TABLE_ATTACHMENTS, KEY_ATTACHMENT_ID + " = ?",
-          new String[]{String.valueOf(attachmentDeleted.getId())});
+              new String[]{String.valueOf(attachmentDeleted.getId())});
     }
 
     db.setTransactionSuccessful();
@@ -268,7 +268,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     // Fill the note with correct data before returning it
     note.setCreation(
-        note.getCreation() != null ? note.getCreation() : values.getAsLong(KEY_CREATION));
+            note.getCreation() != null ? note.getCreation() : values.getAsLong(KEY_CREATION));
     note.setLastModification(values.getAsLong(KEY_LAST_MODIFICATION));
 
     return note;
@@ -278,7 +278,7 @@ public class DbHelper extends SQLiteOpenHelper {
   private void execSqlFile(String sqlFile, SQLiteDatabase db) throws SQLException, IOException {
     LogDelegate.i("  exec sql file: {}" + sqlFile);
     for (String sqlInstruction : SqlParser
-        .parseSqlFile(SQL_DIR + "/" + sqlFile, mContext.getAssets())) {
+            .parseSqlFile(SQL_DIR + "/" + sqlFile, mContext.getAssets())) {
       LogDelegate.v("    sql: {}" + sqlInstruction);
       try {
         db.execSQL(sqlInstruction);
@@ -304,7 +304,7 @@ public class DbHelper extends SQLiteOpenHelper {
   public Attachment updateAttachment(long noteId, Attachment attachment, SQLiteDatabase db) {
     var valuesAttachments = new ContentValues();
     valuesAttachments.put(KEY_ATTACHMENT_ID,
-        attachment.getId() != null ? attachment.getId() : Calendar.getInstance().getTimeInMillis());
+            attachment.getId() != null ? attachment.getId() : Calendar.getInstance().getTimeInMillis());
     valuesAttachments.put(KEY_ATTACHMENT_NOTE_ID, noteId);
     valuesAttachments.put(KEY_ATTACHMENT_URI, attachment.getUri().toString());
     valuesAttachments.put(KEY_ATTACHMENT_MIME_TYPE, attachment.getMime_type());
@@ -361,7 +361,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
   public List<Note> getNotesActive() {
     String whereCondition =
-        " WHERE " + KEY_ARCHIVED + " IS NOT 1 AND " + KEY_TRASHED + " IS NOT 1 ";
+            " WHERE " + KEY_ARCHIVED + " IS NOT 1 AND " + KEY_TRASHED + " IS NOT 1 ";
     return getNotes(whereCondition, true);
   }
 
@@ -380,15 +380,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
   public List<Note> getNotesUncategorized() {
     String whereCondition = " WHERE "
-        + "(" + KEY_CATEGORY_ID + " IS NULL OR " + KEY_CATEGORY_ID + " == 0) "
-        + "AND " + KEY_TRASHED + " IS NOT 1";
+            + "(" + KEY_CATEGORY_ID + " IS NULL OR " + KEY_CATEGORY_ID + " == 0) "
+            + "AND " + KEY_TRASHED + " IS NOT 1";
     return getNotes(whereCondition, true);
   }
 
 
   public List<Note> getNotesWithLocation() {
     String whereCondition = " WHERE " + KEY_LONGITUDE + " IS NOT NULL "
-        + "AND " + KEY_LONGITUDE + " != 0 ";
+            + "AND " + KEY_LONGITUDE + " != 0 ";
     return getNotes(whereCondition, true);
   }
 
@@ -410,7 +410,7 @@ public class DbHelper extends SQLiteOpenHelper {
     }
     if (order) {
       sortOrder =
-          KEY_TITLE.equals(sortColumn) || KEY_REMINDER.equals(sortColumn) ? " ASC " : " DESC ";
+              KEY_TITLE.equals(sortColumn) || KEY_REMINDER.equals(sortColumn) ? " ASC " : " DESC ";
     }
 
     // In case of title sorting criteria it must be handled empty title by concatenating content
@@ -418,32 +418,32 @@ public class DbHelper extends SQLiteOpenHelper {
 
     // In case of reminder sorting criteria the empty reminder notes must be moved on bottom of results
     sortColumn = KEY_REMINDER.equals(sortColumn) ? "IFNULL(" + KEY_REMINDER + ", " +
-        "" + TIMESTAMP_UNIX_EPOCH + ")" : sortColumn;
+            "" + TIMESTAMP_UNIX_EPOCH + ")" : sortColumn;
 
     // Generic query to be specialized with conditions passed as parameter
     String query = "SELECT "
-        + KEY_CREATION + ","
-        + KEY_LAST_MODIFICATION + ","
-        + KEY_TITLE + ","
-        + KEY_CONTENT + ","
-        + KEY_ARCHIVED + ","
-        + KEY_TRASHED + ","
-        + KEY_REMINDER + ","
-        + KEY_REMINDER_FIRED + ","
-        + KEY_RECURRENCE_RULE + ","
-        + KEY_LATITUDE + ","
-        + KEY_LONGITUDE + ","
-        + KEY_ADDRESS + ","
-        + KEY_LOCKED + ","
-        + KEY_CHECKLIST + ","
-        + KEY_CATEGORY + ","
-        + KEY_CATEGORY_NAME + ","
-        + KEY_CATEGORY_DESCRIPTION + ","
-        + KEY_CATEGORY_COLOR
-        + " FROM " + TABLE_NOTES
-        + " LEFT JOIN " + TABLE_CATEGORY + " USING( " + KEY_CATEGORY + ") "
-        + whereCondition
-        + (order ? " ORDER BY " + sortColumn + " COLLATE NOCASE " + sortOrder : "");
+            + KEY_CREATION + ","
+            + KEY_LAST_MODIFICATION + ","
+            + KEY_TITLE + ","
+            + KEY_CONTENT + ","
+            + KEY_ARCHIVED + ","
+            + KEY_TRASHED + ","
+            + KEY_REMINDER + ","
+            + KEY_REMINDER_FIRED + ","
+            + KEY_RECURRENCE_RULE + ","
+            + KEY_LATITUDE + ","
+            + KEY_LONGITUDE + ","
+            + KEY_ADDRESS + ","
+            + KEY_LOCKED + ","
+            + KEY_CHECKLIST + ","
+            + KEY_CATEGORY + ","
+            + KEY_CATEGORY_NAME + ","
+            + KEY_CATEGORY_DESCRIPTION + ","
+            + KEY_CATEGORY_COLOR
+            + " FROM " + TABLE_NOTES
+            + " LEFT JOIN " + TABLE_CATEGORY + " USING( " + KEY_CATEGORY + ") "
+            + whereCondition
+            + (order ? " ORDER BY " + sortColumn + " COLLATE NOCASE " + sortOrder : "");
 
     LogDelegate.v("Query: " + query);
 
@@ -471,14 +471,14 @@ public class DbHelper extends SQLiteOpenHelper {
           // Eventual decryption of content
           if (Boolean.TRUE.equals(note.isLocked())) {
             note.setContent(
-                Security.decrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
+                    Security.decrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
           }
 
           // Set category
           long categoryId = cursor.getLong(i++);
           if (categoryId != 0) {
             Category category = new Category(categoryId, cursor.getString(i++),
-                cursor.getString(i++), cursor.getString(i));
+                    cursor.getString(i++), cursor.getString(i));
             note.setCategory(category);
           }
 
@@ -540,7 +540,7 @@ public class DbHelper extends SQLiteOpenHelper {
     db.delete(TABLE_NOTES, KEY_ID + " = ?", new String[]{String.valueOf(noteId)});
     if (!keepAttachments) {
       db.delete(TABLE_ATTACHMENTS, KEY_ATTACHMENT_NOTE_ID + " = ?",
-          new String[]{String.valueOf(noteId)});
+              new String[]{String.valueOf(noteId)});
     }
     return true;
   }
@@ -566,30 +566,30 @@ public class DbHelper extends SQLiteOpenHelper {
     String escapedPattern = escapeSql(pattern);
     int navigation = Navigation.getNavigation();
     String whereCondition = " WHERE "
-        + KEY_TRASHED + (navigation == Navigation.TRASH ? " IS 1" : " IS NOT 1")
-        + (navigation == Navigation.ARCHIVE ? " AND " + KEY_ARCHIVED + " IS 1" : "")
-        + (navigation == Navigation.CATEGORY ? " AND " + KEY_CATEGORY + " = " + Navigation
-        .getCategory() : "")
-        + (navigation == Navigation.UNCATEGORIZED ? " AND (" + KEY_CATEGORY + " IS NULL OR "
-        + KEY_CATEGORY_ID
-        + " == 0) " : "")
-        + (checkNavigation(Navigation.REMINDERS) ? " AND " + KEY_REMINDER
-        + " IS NOT NULL" : "")
-        + " AND ("
-        + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + escapedPattern
-        + "%' ESCAPE '\\' " + " OR "
-        +
-        KEY_CONTENT + " LIKE '%" + escapedPattern + "%' ESCAPE '\\' ))"
-        + " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + escapedPattern
-        + "%' ESCAPE '\\' )"
-        + ")";
+            + KEY_TRASHED + (navigation == Navigation.TRASH ? " IS 1" : " IS NOT 1")
+            + (navigation == Navigation.ARCHIVE ? " AND " + KEY_ARCHIVED + " IS 1" : "")
+            + (navigation == Navigation.CATEGORY ? " AND " + KEY_CATEGORY + " = " + Navigation
+            .getCategory() : "")
+            + (navigation == Navigation.UNCATEGORIZED ? " AND (" + KEY_CATEGORY + " IS NULL OR "
+            + KEY_CATEGORY_ID
+            + " == 0) " : "")
+            + (checkNavigation(Navigation.REMINDERS) ? " AND " + KEY_REMINDER
+            + " IS NOT NULL" : "")
+            + " AND ("
+            + " ( " + KEY_LOCKED + " IS NOT 1 AND (" + KEY_TITLE + " LIKE '%" + escapedPattern
+            + "%' ESCAPE '\\' " + " OR "
+            +
+            KEY_CONTENT + " LIKE '%" + escapedPattern + "%' ESCAPE '\\' ))"
+            + " OR ( " + KEY_LOCKED + " = 1 AND " + KEY_TITLE + " LIKE '%" + escapedPattern
+            + "%' ESCAPE '\\' )"
+            + ")";
     return getNotes(whereCondition, true);
   }
 
   static String escapeSql(String pattern) {
     return StringUtils.replace(pattern, "'", "''")
-        .replace("%", "\\%")
-        .replace("_", "\\_");
+            .replace("%", "\\%")
+            .replace("_", "\\_");
   }
 
 
@@ -601,9 +601,9 @@ public class DbHelper extends SQLiteOpenHelper {
    */
   public List<Note> getNotesWithReminder(boolean filterPastReminders) {
     String whereCondition = " WHERE " + KEY_REMINDER
-        + (filterPastReminders ? " >= " + Calendar.getInstance().getTimeInMillis() : " IS NOT NULL")
-        + " AND " + KEY_ARCHIVED + " IS NOT 1"
-        + " AND " + KEY_TRASHED + " IS NOT 1";
+            + (filterPastReminders ? " >= " + Calendar.getInstance().getTimeInMillis() : " IS NOT NULL")
+            + " AND " + KEY_ARCHIVED + " IS NOT 1"
+            + " AND " + KEY_TRASHED + " IS NOT 1";
     return getNotes(whereCondition, true);
   }
 
@@ -615,9 +615,9 @@ public class DbHelper extends SQLiteOpenHelper {
    */
   public List<Note> getNotesWithReminderNotFired() {
     String whereCondition = " WHERE " + KEY_REMINDER + " IS NOT NULL"
-        + " AND " + KEY_REMINDER_FIRED + " IS NOT 1"
-        + " AND " + KEY_ARCHIVED + " IS NOT 1"
-        + " AND " + KEY_TRASHED + " IS NOT 1";
+            + " AND " + KEY_REMINDER_FIRED + " IS NOT 1"
+            + " AND " + KEY_ARCHIVED + " IS NOT 1"
+            + " AND " + KEY_TRASHED + " IS NOT 1";
     return getNotes(whereCondition, true);
   }
 
@@ -638,8 +638,8 @@ public class DbHelper extends SQLiteOpenHelper {
    */
   public List<Note> getTodayReminders() {
     String whereCondition =
-        " WHERE DATE(" + KEY_REMINDER + "/1000, 'unixepoch') = DATE('now') AND " +
-            KEY_TRASHED + " IS NOT 1";
+            " WHERE DATE(" + KEY_REMINDER + "/1000, 'unixepoch') = DATE('now') AND " +
+                    KEY_TRASHED + " IS NOT 1";
     return getNotes(whereCondition, false);
   }
 
@@ -674,12 +674,12 @@ public class DbHelper extends SQLiteOpenHelper {
   public List<Note> getNotesByCategory(Long categoryId) {
     List<Note> notes;
     boolean filterArchived = Prefs
-        .getBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
+            .getBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
     try {
       String whereCondition = " WHERE "
-          + KEY_CATEGORY_ID + " = " + categoryId
-          + " AND " + KEY_TRASHED + " IS NOT 1"
-          + (filterArchived ? " AND " + KEY_ARCHIVED + " IS NOT 1" : "");
+              + KEY_CATEGORY_ID + " = " + categoryId
+              + " AND " + KEY_TRASHED + " IS NOT 1"
+              + (filterArchived ? " AND " + KEY_ARCHIVED + " IS NOT 1" : "");
       notes = getNotes(whereCondition, true);
     } catch (NumberFormatException e) {
       notes = getAllNotes(true);
@@ -704,10 +704,10 @@ public class DbHelper extends SQLiteOpenHelper {
     HashMap<String, Integer> tagsMap = new HashMap<>();
 
     String whereCondition = " WHERE "
-        + (note != null ? KEY_ID + " = " + note.get_id() + " AND " : "")
-        + "(" + KEY_CONTENT + " LIKE '%#%' OR " + KEY_TITLE + " LIKE '%#%' " + ")"
-        + " AND " + KEY_TRASHED + " IS " + (checkNavigation(Navigation.TRASH) ? "1" : " NOT 1")
-        + " AND " + KEY_LOCKED + " IS NOT 1";
+            + (note != null ? KEY_ID + " = " + note.get_id() + " AND " : "")
+            + "(" + KEY_CONTENT + " LIKE '%#%' OR " + KEY_TITLE + " LIKE '%#%' " + ")"
+            + " AND " + KEY_TRASHED + " IS " + (checkNavigation(Navigation.TRASH) ? "1" : " NOT 1")
+            + " AND " + KEY_LOCKED + " IS NOT 1";
     List<Note> notesRetrieved = getNotes(whereCondition, true);
 
     for (Note noteRetrieved : notesRetrieved) {
@@ -733,8 +733,8 @@ public class DbHelper extends SQLiteOpenHelper {
    */
   public List<Note> getNotesByTag(String tag) {
     return tag.contains(",")
-      ? getNotesByTag(tag.split(","))
-      : getNotesByTag(new String[]{tag});
+            ? getNotesByTag(tag.split(","))
+            : getNotesByTag(new String[]{tag});
   }
 
 
@@ -749,23 +749,23 @@ public class DbHelper extends SQLiteOpenHelper {
         whereCondition.append(" AND ");
       }
       whereCondition.append(String.format("((%s IS 1 AND %s LIKE '%%%s%%') OR (%s is NOT 1 AND (%s LIKE '%%%s%%' OR %s LIKE '%%%s%%')))"
-          , KEY_LOCKED, KEY_TITLE, tags[i], KEY_LOCKED, KEY_CONTENT, tags[i], KEY_TITLE, tags[i]));
+              , KEY_LOCKED, KEY_TITLE, tags[i], KEY_LOCKED, KEY_CONTENT, tags[i], KEY_TITLE, tags[i]));
     }
     // Trashed notes must be included in search results only if search if performed from trash
     whereCondition.append(" AND " + KEY_TRASHED + " IS ")
-        .append(checkNavigation(Navigation.TRASH) ? "" : "NOT ").append("1");
+            .append(checkNavigation(Navigation.TRASH) ? "" : "NOT ").append("1");
 
     return getNotes(whereCondition.toString(), true).stream()
-        .map(note -> {
-          boolean matches = Arrays.stream(tags)
-              .allMatch(tag -> {
-                var p = Pattern.compile(".*(\\s|^)" + tag + "(\\s|$).*", MULTILINE);
-                return p.matcher((note.getTitle() + " " + note.getContent())).find();
-              });
-          return matches ? note : null;
-        })
-        .filter(Objects::nonNull)
-        .collect(toList());
+            .map(note -> {
+              boolean matches = Arrays.stream(tags)
+                      .allMatch(tag -> {
+                        var p = Pattern.compile(".*(\\s|^)" + tag + "(\\s|$).*", MULTILINE);
+                        return p.matcher((note.getTitle() + " " + note.getContent())).find();
+                      });
+              return matches ? note : null;
+            })
+            .filter(Objects::nonNull)
+            .collect(toList());
   }
 
   /**
@@ -773,8 +773,8 @@ public class DbHelper extends SQLiteOpenHelper {
    */
   public List<Note> getNotesByUncompleteChecklist() {
     String whereCondition =
-        " WHERE " + KEY_CHECKLIST + " = 1 AND " + KEY_CONTENT + " LIKE '%" + UNCHECKED_SYM + "%' AND "
-    + KEY_TRASHED + (checkNavigation(Navigation.TRASH) ? " IS 1" : " IS NOT 1");
+            " WHERE " + KEY_CHECKLIST + " = 1 AND " + KEY_CONTENT + " LIKE '%" + UNCHECKED_SYM + "%' AND "
+                    + KEY_TRASHED + (checkNavigation(Navigation.TRASH) ? " IS 1" : " IS NOT 1");
     return getNotes(whereCondition, true);
   }
 
@@ -795,15 +795,15 @@ public class DbHelper extends SQLiteOpenHelper {
   public ArrayList<Attachment> getAttachments(String whereCondition) {
     ArrayList<Attachment> attachmentsList = new ArrayList<>();
     String sql = "SELECT "
-        + KEY_ATTACHMENT_ID + ","
-        + KEY_ATTACHMENT_URI + ","
-        + KEY_ATTACHMENT_NAME + ","
-        + KEY_ATTACHMENT_SIZE + ","
-        + KEY_ATTACHMENT_LENGTH + ","
-        + KEY_ATTACHMENT_MIME_TYPE + ","
-        + KEY_ATTACHMENT_NOTE_ID
-        + " FROM " + TABLE_ATTACHMENTS
-        + whereCondition;
+            + KEY_ATTACHMENT_ID + ","
+            + KEY_ATTACHMENT_URI + ","
+            + KEY_ATTACHMENT_NAME + ","
+            + KEY_ATTACHMENT_SIZE + ","
+            + KEY_ATTACHMENT_LENGTH + ","
+            + KEY_ATTACHMENT_MIME_TYPE + ","
+            + KEY_ATTACHMENT_NOTE_ID
+            + " FROM " + TABLE_ATTACHMENTS
+            + whereCondition;
 
     Cursor cursor = null;
 
@@ -814,8 +814,8 @@ public class DbHelper extends SQLiteOpenHelper {
       if (cursor.moveToFirst()) {
         do {
           var attachment = new Attachment(cursor.getLong(0),
-              Uri.parse(cursor.getString(1)), cursor.getString(2), cursor.getInt(3),
-              cursor.getInt(4), cursor.getString(5));
+                  Uri.parse(cursor.getString(1)), cursor.getString(2), cursor.getInt(3),
+                  cursor.getInt(4), cursor.getString(5));
           attachment.setNoteId(cursor.getLong(6));
           attachmentsList.add(attachment);
         } while (cursor.moveToNext());
@@ -838,23 +838,23 @@ public class DbHelper extends SQLiteOpenHelper {
   public ArrayList<Category> getCategories() {
     ArrayList<Category> categoriesList = new ArrayList<>();
     String sql = "SELECT "
-        + KEY_CATEGORY_ID + ","
-        + KEY_CATEGORY_NAME + ","
-        + KEY_CATEGORY_DESCRIPTION + ","
-        + KEY_CATEGORY_COLOR + ","
-        + " COUNT(" + KEY_ID + ") count"
-        + " FROM " + TABLE_CATEGORY
-        + " LEFT JOIN ("
-        + " SELECT " + KEY_ID + ", " + KEY_CATEGORY
-        + " FROM " + TABLE_NOTES
-        + " WHERE " + KEY_TRASHED + " IS NOT 1"
-        + ") USING( " + KEY_CATEGORY + ") "
-        + " GROUP BY "
-        + KEY_CATEGORY_ID + ","
-        + KEY_CATEGORY_NAME + ","
-        + KEY_CATEGORY_DESCRIPTION + ","
-        + KEY_CATEGORY_COLOR
-        + " ORDER BY IFNULL(NULLIF(" + KEY_CATEGORY_NAME + ", ''),'zzzzzzzz') ";
+            + KEY_CATEGORY_ID + ","
+            + KEY_CATEGORY_NAME + ","
+            + KEY_CATEGORY_DESCRIPTION + ","
+            + KEY_CATEGORY_COLOR + ","
+            + " COUNT(" + KEY_ID + ") count"
+            + " FROM " + TABLE_CATEGORY
+            + " LEFT JOIN ("
+            + " SELECT " + KEY_ID + ", " + KEY_CATEGORY
+            + " FROM " + TABLE_NOTES
+            + " WHERE " + KEY_TRASHED + " IS NOT 1"
+            + ") USING( " + KEY_CATEGORY + ") "
+            + " GROUP BY "
+            + KEY_CATEGORY_ID + ","
+            + KEY_CATEGORY_NAME + ","
+            + KEY_CATEGORY_DESCRIPTION + ","
+            + KEY_CATEGORY_COLOR
+            + " ORDER BY IFNULL(NULLIF(" + KEY_CATEGORY_NAME + ", ''),'zzzzzzzz') ";
 
     Cursor cursor = null;
     try {
@@ -863,8 +863,8 @@ public class DbHelper extends SQLiteOpenHelper {
       if (cursor.moveToFirst()) {
         do {
           categoriesList.add(new Category(cursor.getLong(0),
-              cursor.getString(1), cursor.getString(2), cursor
-              .getString(3), cursor.getInt(4)));
+                  cursor.getString(1), cursor.getString(2), cursor
+                  .getString(3), cursor.getInt(4)));
         } while (cursor.moveToNext());
       }
 
@@ -886,7 +886,7 @@ public class DbHelper extends SQLiteOpenHelper {
   public Category updateCategory(Category category) {
     ContentValues values = new ContentValues();
     values.put(KEY_CATEGORY_ID, category.getId() != null ? category.getId() : Calendar.getInstance()
-        .getTimeInMillis());
+            .getTimeInMillis());
     values.put(KEY_CATEGORY_NAME, category.getName());
     values.put(KEY_CATEGORY_DESCRIPTION, category.getDescription());
     values.put(KEY_CATEGORY_COLOR, category.getColor());
@@ -911,11 +911,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
     // Updating row
     db.update(TABLE_NOTES, values, KEY_CATEGORY + " = ?",
-        new String[]{String.valueOf(category.getId())});
+            new String[]{String.valueOf(category.getId())});
 
     // Delete category
     deleted = db.delete(TABLE_CATEGORY, KEY_CATEGORY_ID + " = ?",
-        new String[]{String.valueOf(category.getId())});
+            new String[]{String.valueOf(category.getId())});
     return deleted;
   }
 
@@ -926,18 +926,18 @@ public class DbHelper extends SQLiteOpenHelper {
   public Category getCategory(Long id) {
     Category category = null;
     String sql = "SELECT "
-        + KEY_CATEGORY_ID + ","
-        + KEY_CATEGORY_NAME + ","
-        + KEY_CATEGORY_DESCRIPTION + ","
-        + KEY_CATEGORY_COLOR
-        + " FROM " + TABLE_CATEGORY
-        + " WHERE " + KEY_CATEGORY_ID + " = " + id;
+            + KEY_CATEGORY_ID + ","
+            + KEY_CATEGORY_NAME + ","
+            + KEY_CATEGORY_DESCRIPTION + ","
+            + KEY_CATEGORY_COLOR
+            + " FROM " + TABLE_CATEGORY
+            + " WHERE " + KEY_CATEGORY_ID + " = " + id;
 
     try (Cursor cursor = getDatabase().rawQuery(sql, null)) {
 
       if (cursor.moveToFirst()) {
         category = new Category(cursor.getLong(0), cursor.getString(1),
-            cursor.getString(2), cursor.getString(3));
+                cursor.getString(2), cursor.getString(3));
       }
 
     }
@@ -948,8 +948,8 @@ public class DbHelper extends SQLiteOpenHelper {
   public int getCategorizedCount(Category category) {
     int count = 0;
     String sql = "SELECT COUNT(*)"
-        + " FROM " + TABLE_NOTES
-        + " WHERE " + KEY_CATEGORY + " = " + category.getId();
+            + " FROM " + TABLE_NOTES
+            + " WHERE " + KEY_CATEGORY + " = " + category.getId();
 
     try (Cursor cursor = getDatabase().rawQuery(sql, null)) {
       if (cursor.moveToFirst()) {
@@ -969,7 +969,7 @@ public class DbHelper extends SQLiteOpenHelper {
     // Categories
     mStats.setCategories(getCategories().size());
 
-    // Everything about notes and their text stats
+    // Initialize counters
     int notesActive = 0;
     int notesArchived = 0;
     int notesTrashed = 0;
@@ -983,12 +983,10 @@ public class DbHelper extends SQLiteOpenHelper {
     int totalChars = 0;
     int maxWords = 0;
     int maxChars = 0;
-    int avgWords;
-    int avgChars;
-    int words;
-    int chars;
+
     List<Note> notes = getAllNotes(false);
     for (Note note : notes) {
+      // Process note statistics
       if (Boolean.TRUE.equals(note.isTrashed())) {
         notesTrashed++;
       } else if (note.isArchived()) {
@@ -996,6 +994,7 @@ public class DbHelper extends SQLiteOpenHelper {
       } else {
         notesActive++;
       }
+
       if (note.getAlarm() != null && Long.parseLong(note.getAlarm()) > 0) {
         if (Long.parseLong(note.getAlarm()) > Calendar.getInstance().getTimeInMillis()) {
           remindersFuture++;
@@ -1003,27 +1002,33 @@ public class DbHelper extends SQLiteOpenHelper {
           reminders++;
         }
       }
+
       if (Boolean.TRUE.equals(note.isChecklist())) {
         checklists++;
       }
+
       if (Boolean.TRUE.equals(note.isLocked())) {
         notesMasked++;
       }
+
       tags += TagsHelper.retrieveTags(note).size();
+
       if (note.getLongitude() != null && note.getLongitude() != 0) {
         locations++;
       }
-      words = NotesHelper.getWords(note);
-      chars = NotesHelper.getChars(note);
-      if (words > maxWords) {
-        maxWords = words;
-      }
-      if (chars > maxChars) {
-        maxChars = chars;
-      }
+
+      // Word and character statistics
+      int words = NotesHelper.getWords(note);
+      int chars = NotesHelper.getChars(note);
+
+      maxWords = Math.max(maxWords, words);
+      maxChars = Math.max(maxChars, chars);
+
       totalWords += words;
       totalChars += chars;
     }
+
+    // Set statistics in Stats object
     mStats.setNotesActive(notesActive);
     mStats.setNotesArchived(notesArchived);
     mStats.setNotesTrashed(notesTrashed);
@@ -1033,54 +1038,57 @@ public class DbHelper extends SQLiteOpenHelper {
     mStats.setNotesMasked(notesMasked);
     mStats.setTags(tags);
     mStats.setLocation(locations);
-    avgWords = totalWords / (!notes.isEmpty() ? notes.size() : 1);
-    avgChars = totalChars / (!notes.isEmpty() ? notes.size() : 1);
 
+    int noteCount = notes.size();
     mStats.setWords(totalWords);
     mStats.setWordsMax(maxWords);
-    mStats.setWordsAvg(avgWords);
+    mStats.setWordsAvg(noteCount > 0 ? totalWords / noteCount : 0);
     mStats.setChars(totalChars);
     mStats.setCharsMax(maxChars);
-    mStats.setCharsAvg(avgChars);
+    mStats.setCharsAvg(noteCount > 0 ? totalChars / noteCount : 0);
 
-    // Everything about attachments
-    int images = 0;
-    int videos = 0;
-    int audioRecordings = 0;
-    int sketches = 0;
-    int files = 0;
+    // Process attachments
+    processAttachments(mStats);
 
+    return mStats;
+  }
+
+  private void processAttachments(Stats mStats) {
     List<Attachment> attachments = getAllAttachments();
+
+    int images = 0, videos = 0, audioRecordings = 0, sketches = 0, files = 0;
+
     for (Attachment attachment : attachments) {
-      if (MIME_TYPE_IMAGE.equals(attachment.getMime_type())) {
-        images++;
-      } else if (MIME_TYPE_VIDEO.equals(attachment.getMime_type())) {
-        videos++;
-      } else if (MIME_TYPE_AUDIO.equals(attachment.getMime_type())) {
-        audioRecordings++;
-      } else if (MIME_TYPE_SKETCH.equals(attachment.getMime_type())) {
-        sketches++;
-      } else if (MIME_TYPE_FILES.equals(attachment.getMime_type())) {
-        files++;
+      switch (attachment.getMime_type()) {
+        case MIME_TYPE_IMAGE:
+          images++;
+          break;
+        case MIME_TYPE_VIDEO:
+          videos++;
+          break;
+        case MIME_TYPE_AUDIO:
+          audioRecordings++;
+          break;
+        case MIME_TYPE_SKETCH:
+          sketches++;
+          break;
+        case MIME_TYPE_FILES:
+          files++;
+          break;
       }
     }
+
     mStats.setAttachments(attachments.size());
     mStats.setImages(images);
     mStats.setVideos(videos);
     mStats.setAudioRecordings(audioRecordings);
     mStats.setSketches(sketches);
     mStats.setFiles(files);
-
-    return mStats;
   }
-
-
   public void setReminderFired(long noteId, boolean fired) {
     ContentValues values = new ContentValues();
     values.put(KEY_REMINDER_FIRED, fired);
     getDatabase(true)
-        .update(TABLE_NOTES, values, KEY_ID + " = ?", new String[]{String.valueOf(noteId)});
+            .update(TABLE_NOTES, values, KEY_ID + " = ?", new String[]{String.valueOf(noteId)});
   }
-
-
 }
