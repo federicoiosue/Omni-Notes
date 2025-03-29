@@ -140,6 +140,9 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
           skippable = true;
         }
         break;
+      default:
+        skippable = false;
+        break;
     }
     return skippable;
   }
