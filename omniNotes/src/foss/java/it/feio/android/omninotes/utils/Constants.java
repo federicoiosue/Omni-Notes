@@ -26,4 +26,6 @@ public interface Constants extends ConstantsBase {
   String CHANNEL_REMINDERS_ID = PACKAGE + ".reminders";
   String CHANNEL_PINNED_ID = PACKAGE + ".pinned";
 
+  String MAPS_API = "https://www.openstreetmap.org/search?lat=%s&lon=%s";
+
 }

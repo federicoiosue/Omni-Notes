@@ -16,40 +16,50 @@
  */
 package it.feio.android.omninotes.helpers.location
 
-import com.google.android.gms.location.LocationServices
+import android.content.Context
+import android.location.LocationManager
+import android.os.Looper
+import androidx.core.location.LocationListenerCompat
+import androidx.core.location.LocationManagerCompat
+import androidx.core.location.LocationRequestCompat
 import it.feio.android.omninotes.OmniNotes
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener
 
-class FuseLocationProviderLocationManagerLocationProvider : LocationProvider {
+class LocationManagerLocationProvider : LocationProvider {
+
+    private var locationManager: LocationManager? = null
+    private var listener: LocationListenerCompat? = null
+
+    override fun instantiate() {
+        locationManager = OmniNotes.getAppContext().getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+    }
 
     @kotlin.Throws(SecurityException::class)
     override fun getLocation(onGeoUtilResultListener: OnGeoUtilResultListener?) {
-        val lastKnownLocationByGps =
-            locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-        lastKnownLocationByGps?.let {
-            locationByGps = lastKnownLocationByGps
+        if (locationManager == null) {
+            instantiate()
         }
-
-        val lastKnownLocationByNetwork =
-            locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-        lastKnownLocationByNetwork?.let {
-            locationByNetwork = lastKnownLocationByNetwork
-        }
-
-        if (locationByGps != null && locationByNetwork != null) {
-            if (locationByGps.accuracy > locationByNetwork!!.accuracy) {
-                currentLocation = locationByGps
-                latitude = currentLocation.latitude
-                longitude = currentLocation.longitude
-                // use latitude and longitude as per your need
-            } else {
-                currentLocation = locationByNetwork
-                latitude = currentLocation.latitude
-                longitude = currentLocation.longitude
-                // use latitude and longitude as per your need
+        listener = object : LocationListenerCompat {
+            override fun onLocationChanged(location: android.location.Location) {
+                onGeoUtilResultListener?.onLocationRetrieved(location)
+                locationManager?.removeUpdates(this)
             }
+            override fun onProviderEnabled(provider: String) {}
+            override fun onProviderDisabled(provider: String) {}
         }
-
+        locationManager?.let {
+            val locationRequest = LocationRequestCompat.Builder(5000L)
+                .setMinUpdateDistanceMeters(10f)
+                .setQuality(LocationRequestCompat.QUALITY_HIGH_ACCURACY)
+                .build()
+            LocationManagerCompat.requestLocationUpdates(
+                it,
+                LocationManager.GPS_PROVIDER,
+                locationRequest,
+                listener!!,
+                Looper.getMainLooper()
+            )
+        }
     }
 
 }
