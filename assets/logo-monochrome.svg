@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
-  - Copyright (C) 2013-2024 Federico Iosue (federico@iosue.it)
+  - Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License as published by
@@ -18,26 +18,13 @@
 
 <!-- Creator: CorelDRAW -->
 
-<svg
-   sodipodi:docname="logo-monochrome.svg"
-   inkscape:version="1.3 (0e150ed6c4, 2023-07-21)"
-   version="1.1"
-   id="svg2"
-   viewBox="0 0 34.648427 34.655266"
-   style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
-   height="49.210503mm"
-   width="49.20079mm"
-   xml:space="preserve"
-   inkscape:export-filename="/home/fede/Immagini/ON/omninote_icon_notification.png"
-   inkscape:export-xdpi="36.155212"
-   inkscape:export-ydpi="36.155212"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:dc="http://purl.org/dc/elements/1.1/"><sodipodi:namedview
+<svg sodipodi:docname="logo-monochrome.svg" inkscape:version="1.3 (0e150ed6c4, 2023-07-21)" version="1.1"
+  id="svg2" viewBox="0 0 34.648427 34.655266" style="clip-rule:evenodd;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+  height="49.210503mm" width="49.20079mm" xml:space="preserve" inkscape:export-filename="/home/fede/Immagini/ON/omninote_icon_notification.png"
+  inkscape:export-xdpi="36.155212" inkscape:export-ydpi="36.155212" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+  xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns="http://www.w3.org/2000/svg"
+  xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:cc="http://creativecommons.org/ns#"
+  xmlns:dc="http://purl.org/dc/elements/1.1/"><sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1"

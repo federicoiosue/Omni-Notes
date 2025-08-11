@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
-  - Copyright (C) 2013-2024 Federico Iosue (federico@iosue.it)
+  - Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
   -
   - This program is free software: you can redistribute it and/or modify
   - it under the terms of the GNU General Public License as published by
@@ -18,27 +18,13 @@
 
 <!-- Creator: CorelDRAW -->
 
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   sodipodi:docname="logo.svg"
-   inkscape:version="0.92.2 2405546, 2018-03-11"
-   version="1.1"
-   id="svg2"
-   viewBox="0 0 70.4225 70.4225"
-   style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
-   height="100mm"
-   width="100mm"
-   xml:space="preserve"
-   inkscape:export-filename="/home/fede/Immagini/ON/omninote_icon_notification.png"
-   inkscape:export-xdpi="36.155212"
-   inkscape:export-ydpi="36.155212"><sodipodi:namedview
+<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+  xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" sodipodi:docname="logo.svg"
+  inkscape:version="0.92.2 2405546, 2018-03-11" version="1.1" id="svg2" viewBox="0 0 70.4225 70.4225"
+  style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+  height="100mm" width="100mm" xml:space="preserve" inkscape:export-filename="/home/fede/Immagini/ON/omninote_icon_notification.png"
+  inkscape:export-xdpi="36.155212" inkscape:export-ydpi="36.155212"><sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1"
