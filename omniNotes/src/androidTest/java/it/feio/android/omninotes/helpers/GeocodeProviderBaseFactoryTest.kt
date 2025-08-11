@@ -31,7 +31,7 @@ class LocationProviderFactoryTest : BaseAndroidTestCase() {
 
     @Test
     fun provider() {
-        assertNotNull(LocationProviderFactory.provider)
+        assertNotNull(LocationProviderFactory.getProvider())
     }
 
 }

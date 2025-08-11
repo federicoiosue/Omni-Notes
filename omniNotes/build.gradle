@@ -231,7 +231,6 @@ android.productFlavors.each { flavor ->
     flavor.buildConfigField 'String', 'CRASH_REPORTING_LOGIN', '"' + CRASH_REPORTING_LOGIN + '"'
     flavor.buildConfigField 'String', 'CRASH_REPORTING_PASSWORD', '"' + CRASH_REPORTING_PASSWORD + '"'
     flavor.buildConfigField 'String', 'VERSION_CHECK_URL', '"' + VERSION_CHECK_URL + '"'
-    flavor.buildConfigField 'String', 'MAPS_API_KEY', '"' + MAPS_API_KEY + '"'
 }
 
 apply plugin: 'jacoco'

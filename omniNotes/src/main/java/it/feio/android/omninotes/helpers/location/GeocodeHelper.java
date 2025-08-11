@@ -18,44 +18,23 @@
 package it.feio.android.omninotes.helpers.location;
 
 import static android.os.Build.VERSION_CODES.TIRAMISU;
-import static it.feio.android.omninotes.BuildConfig.MAPS_API_KEY;
 
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.text.TextUtils;
-
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.helpers.BuildHelper;
-import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
-import it.feio.android.omninotes.utils.SystemHelper;
-import lombok.experimental.UtilityClass;
-
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import lombok.experimental.UtilityClass;
 
 
 @UtilityClass
 public class GeocodeHelper {
-
-  private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
-  private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
-  private static final String OUT_JSON = "/json";
 
   public String getAddressFromCoordinates(Context mContext, double latitude,
       double longitude) throws IOException {
@@ -95,64 +74,6 @@ public class GeocodeHelper {
     } catch (IOException e) {
       listener.onCoordinatesUnresolved(e);
     }
-  }
-
-  public static List<String> autocomplete(String input) {
-    if (TextUtils.isEmpty(MAPS_API_KEY)) {
-      return Collections.emptyList();
-    }
-
-    ArrayList<String> resultList = null;
-
-    HttpURLConnection conn = null;
-    InputStreamReader in = null;
-    StringBuilder jsonResults = new StringBuilder();
-    try {
-      var url = new URL(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON + "?key="
-          + MAPS_API_KEY + "&input=" + URLEncoder.encode(input, "utf8"));
-      conn = (HttpURLConnection) url.openConnection();
-      in = new InputStreamReader(conn.getInputStream());
-      // Load the results into a StringBuilder
-      int read;
-      char[] buff = new char[1024];
-      while ((read = in.read(buff)) != -1) {
-        jsonResults.append(buff, 0, read);
-      }
-    } catch (MalformedURLException e) {
-      LogDelegate.e("Error processing Places API URL");
-      return Collections.emptyList();
-    } catch (IOException e) {
-      LogDelegate.e("Error connecting to Places API");
-      return Collections.emptyList();
-    } finally {
-      if (conn != null) {
-        conn.disconnect();
-      }
-      if (in != null) {
-        try {
-          in.close();
-        } catch (IOException e) {
-          LogDelegate.e("Error closing address autocompletion InputStream");
-        }
-      }
-    }
-
-    try {
-      // Create a JSON object hierarchy from the results
-      JSONObject jsonObj = new JSONObject(jsonResults.toString());
-      JSONArray predsJsonArray = jsonObj.getJSONArray("predictions");
-      // Extract the Place descriptions from the results
-      resultList = new ArrayList<>(predsJsonArray.length());
-      for (int i = 0; i < predsJsonArray.length(); i++) {
-        resultList.add(predsJsonArray.getJSONObject(i).getString("description"));
-      }
-    } catch (JSONException e) {
-      LogDelegate.e("Cannot process JSON results", e);
-    } finally {
-      conn.disconnect();
-      SystemHelper.closeCloseable(in);
-    }
-    return resultList;
   }
 
   public static boolean areCoordinates(String string) {

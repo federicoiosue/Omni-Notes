@@ -16,15 +16,33 @@
  */
 package it.feio.android.omninotes.helpers.location
 
+import android.content.Context
 import com.google.android.gms.location.LocationServices
 import it.feio.android.omninotes.OmniNotes
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener
 
 class FuseLocationProvider : LocationProvider {
 
+    companion object {
+        @Volatile
+        private var fusedLocationProviderClient: com.google.android.gms.location.FusedLocationProviderClient? = null
+
+        fun getFusedLocationProviderClient(context: Context): com.google.android.gms.location.FusedLocationProviderClient {
+            return fusedLocationProviderClient ?: synchronized(this) {
+                fusedLocationProviderClient ?: LocationServices.getFusedLocationProviderClient(context).also {
+                    fusedLocationProviderClient = it
+                }
+            }
+        }
+    }
+
+    override fun instantiate() {
+        getFusedLocationProviderClient(OmniNotes.getAppContext())
+    }
+
     @kotlin.Throws(SecurityException::class)
     override fun getLocation(onGeoUtilResultListener: OnGeoUtilResultListener?) {
-        LocationServices.getFusedLocationProviderClient(OmniNotes.getAppContext()).getLastLocation()
+        getFusedLocationProviderClient(OmniNotes.getAppContext()).getLastLocation()
             .addOnSuccessListener { location ->
                 if (location == null) {
                     onGeoUtilResultListener?.onLocationUnavailable(null)

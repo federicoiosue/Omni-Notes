@@ -108,20 +108,16 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
-import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.core.util.Pair;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.pushbullet.android.extension.MessagingExtension;
-
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import it.feio.android.checklistview.exceptions.ViewNotSupportedException;
@@ -146,6 +142,7 @@ import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.TagOpenerHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
+import it.feio.android.omninotes.helpers.location.GeocodeHelper;
 import it.feio.android.omninotes.helpers.location.LocationProviderFactory;
 import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
@@ -157,7 +154,6 @@ import it.feio.android.omninotes.models.PasswordValidator.Result;
 import it.feio.android.omninotes.models.Tag;
 import it.feio.android.omninotes.models.adapters.AttachmentAdapter;
 import it.feio.android.omninotes.models.adapters.CategoryRecyclerViewAdapter;
-import it.feio.android.omninotes.models.adapters.PlacesAutoCompleteAdapter;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
 import it.feio.android.omninotes.models.listeners.OnReminderPickedListener;
@@ -165,10 +161,10 @@ import it.feio.android.omninotes.models.listeners.RecyclerViewItemClickSupport;
 import it.feio.android.omninotes.models.views.ExpandableHeightGridView;
 import it.feio.android.omninotes.utils.AlphaManager;
 import it.feio.android.omninotes.utils.BitmapHelper;
+import it.feio.android.omninotes.utils.Constants;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.FileProviderHelper;
-import it.feio.android.omninotes.helpers.location.GeocodeHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.PasswordHelper;
@@ -183,7 +179,6 @@ import it.feio.android.omninotes.utils.date.ReminderPickers;
 import it.feio.android.pixlui.links.TextLinkClickListener;
 import java.io.File;
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -661,13 +656,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   private void initViewLocation() {
-
-    DetailFragment detailFragment = this;
+    var detailFragment = this;
 
     if (isNoteLocationValid()) {
       if (TextUtils.isEmpty(noteTmp.getAddress())) {
-        //FIXME: What's this "sasd"?
-        GeocodeHelper.getAddressFromCoordinates(new Location("sasd"), detailFragment);
+        noteTmp.setAddress(noteTmp.getLatitude() + ", " + noteTmp.getLongitude());
       } else {
         binding.fragmentDetailContent.location.setText(noteTmp.getAddress());
         binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
@@ -684,8 +677,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           + "?q=" + noteTmp.getLatitude() + ',' + noteTmp.getLongitude();
       Intent locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
       if (!IntentChecker.isAvailable(mainActivity, locationIntent, null)) {
-        uriString = "http://maps.google.com/maps?q=" + noteTmp.getLatitude() + ',' + noteTmp
-            .getLongitude();
+        uriString = String.format(Constants.MAPS_API, noteTmp.getLatitude(), noteTmp
+            .getLongitude());
         locationIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uriString));
       }
       startActivity(locationIntent);
@@ -709,7 +702,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     PermissionsHelper
         .requestPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION, R.string
                 .permission_coarse_location, binding.snackbarPlaceholder,
-            () -> LocationProviderFactory.INSTANCE.getProvider().getLocation(onGeoUtilResultListener));
+            () -> {
+          LocationProviderFactory.INSTANCE.getProvider().instantiate();
+          LocationProviderFactory.INSTANCE.getProvider().getLocation(onGeoUtilResultListener);
+        });
   }
 
   private void initViewAttachments() {
@@ -927,7 +923,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   private void displayLocationDialog() {
-    getLocation(new OnGeoUtilResultListenerImpl(mainActivity, mFragment, noteTmp));
+    getLocation(this);
   }
 
   @Override
@@ -942,7 +938,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
         binding.fragmentDetailContent.location.setText(noteTmp.getAddress());
       } else {
-        GeocodeHelper.getAddressFromCoordinates(location, mFragment);
+        // Bypassing reverse geolocation. From now on coordinates only will be used
+        // GeocodeHelper.getAddressFromCoordinates(location, mFragment);
+        onAddressResolved(null);
       }
     }
   }
@@ -2208,107 +2206,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     note = new Note(event.getNotes().get(0));
     if (goBack) {
       goHome();
-    }
-  }
-
-  private static class OnGeoUtilResultListenerImpl implements OnGeoUtilResultListener {
-
-    private final WeakReference<MainActivity> mainActivityWeakReference;
-    private final WeakReference<DetailFragment> detailFragmentWeakReference;
-    private final WeakReference<Note> noteTmpWeakReference;
-
-    OnGeoUtilResultListenerImpl(MainActivity activity, DetailFragment mFragment, Note noteTmp) {
-      mainActivityWeakReference = new WeakReference<>(activity);
-      detailFragmentWeakReference = new WeakReference<>(mFragment);
-      noteTmpWeakReference = new WeakReference<>(noteTmp);
-    }
-
-    @Override
-    public void onAddressResolved(String address) {
-      // Nothing to do
-    }
-
-    @Override
-    public void onCoordinatesResolved(Address address) {
-      // Nothing to do
-    }
-
-    @Override
-    public void onCoordinatesUnresolved(Exception e) {
-      // Nothing to do
-    }
-
-    @Override
-    public void onLocationUnavailable(Exception e) {
-      mainActivityWeakReference.get().showMessage(R.string.location_not_found + ": " + e.getMessage(), ONStyle.ALERT);
-    }
-    @Override
-    public void onLocationNotEnabled(){
-      mainActivityWeakReference.get().showMessage(R.string.location_not_enabled,ONStyle.ALERT);
-    }
-    @Override
-    public void onLocationRetrieved(Location location) {
-      if (!checkWeakReferences()) {
-        return;
-      }
-
-      if (location == null) {
-        return;
-      }
-      LayoutInflater inflater = mainActivityWeakReference.get().getLayoutInflater();
-      View v = inflater.inflate(R.layout.dialog_location, null);
-      final AutoCompleteTextView autoCompView = v.findViewById(R.id
-          .auto_complete_location);
-      autoCompView.setHint(mainActivityWeakReference.get().getString(R.string.search_location));
-      autoCompView
-          .setAdapter(new PlacesAutoCompleteAdapter(mainActivityWeakReference.get(), R.layout
-              .simple_text_layout));
-      final MaterialDialog dialog = new MaterialDialog.Builder(mainActivityWeakReference.get())
-          .customView(autoCompView, false)
-          .positiveText(R.string.use_current_location)
-          .onPositive((dialog1, which) -> {
-            if (TextUtils.isEmpty(autoCompView.getText().toString())) {
-              noteTmpWeakReference.get().setLatitude(location.getLatitude());
-              noteTmpWeakReference.get().setLongitude(location.getLongitude());
-              GeocodeHelper.getAddressFromCoordinates(location, detailFragmentWeakReference.get());
-            } else {
-              GeocodeHelper.getCoordinatesFromAddress(autoCompView.getText().toString(),
-                  detailFragmentWeakReference.get());
-            }
-          })
-          .build();
-      autoCompView.addTextChangedListener(new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-          // Nothing to do
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-          if (s.length() != 0) {
-            dialog
-                .setActionButton(DialogAction.POSITIVE, mainActivityWeakReference.get().getString(R
-                    .string.confirm));
-          } else {
-            dialog
-                .setActionButton(DialogAction.POSITIVE, mainActivityWeakReference.get().getString(R
-                    .string
-                    .use_current_location));
-          }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-          // Nothing to do
-        }
-      });
-      dialog.show();
-    }
-
-    private boolean checkWeakReferences() {
-      return mainActivityWeakReference.get() != null && !mainActivityWeakReference.get()
-          .isFinishing()
-          && detailFragmentWeakReference.get() != null && noteTmpWeakReference.get() != null;
     }
   }
 
