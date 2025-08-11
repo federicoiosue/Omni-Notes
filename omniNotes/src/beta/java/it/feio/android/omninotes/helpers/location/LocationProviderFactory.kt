@@ -14,20 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package it.feio.android.omninotes.helpers.location
 
-package it.feio.android.omninotes.helpers;
+import lombok.experimental.UtilityClass
 
-import android.content.Context;
-import io.nlopez.smartlocation.location.LocationProvider;
-import io.nlopez.smartlocation.location.providers.LocationGooglePlayServicesWithFallbackProvider;
+@UtilityClass
+object LocationProviderFactory {
 
-public class GeocodeProviderFactory {
-
-  private GeocodeProviderFactory() {
-    // hides public constructor
-  }
-
-  public static LocationProvider getProvider(Context context) {
-    return new LocationGooglePlayServicesWithFallbackProvider(context);
-  }
+    @Override
+    fun getProvider(): LocationProvider {
+        return FuseLocationProvider()
+    }
 }

@@ -16,26 +16,22 @@
  */
 package it.feio.android.omninotes.helpers
 
+import it.feio.android.omninotes.helpers.location.LocationProviderFactory
 import it.feio.android.omninotes.testutils.BaseAndroidTestCase
 import org.junit.Assert.assertNotNull
-import org.junit.Assert.assertTrue
 import org.junit.Test
 
-class GeocodeProviderBaseFactoryTest : BaseAndroidTestCase() {
-    
+class LocationProviderFactoryTest : BaseAndroidTestCase() {
+
     @Test
     @Throws(Exception::class)
     fun checkUtilityClassWellDefined() {
-        assertUtilityClassWellDefined(GeocodeProviderBaseFactory::class.java, true, true)
+        assertUtilityClassWellDefined(LocationProviderFactory::class.java, true, true)
     }
 
     @Test
     fun provider() {
-        assertNotNull(GeocodeProviderBaseFactory.getProvider(testContext))
+        assertNotNull(LocationProviderFactory.provider)
     }
 
-    @Test
-    fun checkHighAccuracyLocationProvider() {
-        assertTrue(GeocodeProviderBaseFactory.checkHighAccuracyLocationProvider(testContext))
-    }
 }

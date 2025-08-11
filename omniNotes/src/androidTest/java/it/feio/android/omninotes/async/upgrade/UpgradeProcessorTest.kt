@@ -23,7 +23,6 @@ import it.feio.android.omninotes.utils.FileProviderHelper.getShareableUri
 import it.feio.android.omninotes.utils.StorageHelper.createAttachmentFromUri
 import org.junit.Assert.*
 import org.junit.Test
-import java.util.stream.Stream
 
 class UpgradeProcessorTest : BaseAndroidTestCase() {
 
@@ -32,7 +31,7 @@ class UpgradeProcessorTest : BaseAndroidTestCase() {
         // Preparation of database state existent pre-612 version.
         // Attachment used to be stored with "content://" scheme that allowed sharing but broke backups.
         val note = createTestNote("t", "c", 1)
-        var attachment = createAttachmentFromUri(testContext, note.attachmentsList[0].uri)
+        val attachment = createAttachmentFromUri(testContext, note.attachmentsList[0].uri)
         attachment?.uri = getShareableUri(attachment)
         note.attachmentsList[0] = attachment
         dbHelper.updateNote(note, false)

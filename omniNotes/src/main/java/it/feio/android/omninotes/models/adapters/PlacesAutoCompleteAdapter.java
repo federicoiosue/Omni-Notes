@@ -21,7 +21,7 @@ import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
-import it.feio.android.omninotes.utils.GeocodeHelper;
+import it.feio.android.omninotes.helpers.location.GeocodeHelper;
 import java.util.List;
 
 

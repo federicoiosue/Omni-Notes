@@ -21,6 +21,8 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.FlakyTest;
 import it.feio.android.omninotes.testutils.BaseAndroidTestCase;
 import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.helpers.location.GeocodeHelper;
+
 import java.io.IOException;
 import org.junit.Assert;
 import org.junit.Test;

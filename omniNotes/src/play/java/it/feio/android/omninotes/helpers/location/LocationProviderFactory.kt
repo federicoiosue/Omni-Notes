@@ -14,21 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package it.feio.android.omninotes.helpers.location
 
-package it.feio.android.omninotes.models.listeners;
+import lombok.experimental.UtilityClass
 
+@UtilityClass
+object LocationProviderFactory {
 
-import android.location.Location;
-
-
-public interface OnGeoUtilResultListener {
-
-  void onAddressResolved(String address);
-
-  void onCoordinatesResolved(Location location, String address);
-
-  void onLocationRetrieved(Location location);
-
-  void onLocationUnavailable();
-  void onLocationNotEnabled();
+    @JvmStatic
+    val provider: LocationProvider
+        get() = FuseLocationProvider()
 }

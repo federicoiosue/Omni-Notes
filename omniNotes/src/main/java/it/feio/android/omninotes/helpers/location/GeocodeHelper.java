@@ -15,25 +15,25 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package it.feio.android.omninotes.utils;
+package it.feio.android.omninotes.helpers.location;
 
+import static android.os.Build.VERSION_CODES.TIRAMISU;
 import static it.feio.android.omninotes.BuildConfig.MAPS_API_KEY;
-import static it.feio.android.omninotes.helpers.GeocodeProviderBaseFactory.checkHighAccuracyLocationProvider;
-import static it.feio.android.omninotes.helpers.GeocodeProviderBaseFactory.getProvider;
 
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Bundle;
 import android.text.TextUtils;
-import io.nlopez.smartlocation.SmartLocation;
-import io.nlopez.smartlocation.location.config.LocationParams;
+
 import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.helpers.BuildHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.models.listeners.OnGeoUtilResultListener;
+import it.feio.android.omninotes.utils.SystemHelper;
+import lombok.experimental.UtilityClass;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -50,131 +50,66 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class GeocodeHelper implements LocationListener {
+@UtilityClass
+public class GeocodeHelper {
 
   private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
   private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
   private static final String OUT_JSON = "/json";
 
-  @Override
-  public void onLocationChanged(Location newLocation) {
-    // Nothing to do
-  }
-
-
-  @Override
-  @Deprecated
-  public void onStatusChanged(String provider, int status, Bundle extras) {
-    // Nothing to do
-  }
-
-
-  @Override
-  public void onProviderEnabled(String provider) {
-    // Nothing to do
-  }
-
-
-  @Override
-  public void onProviderDisabled(String provider) {
-    // Nothing to do
-  }
-
-
-  public static void getLocation(OnGeoUtilResultListener onGeoUtilResultListener) {
-    SmartLocation.LocationControl bod = SmartLocation.with(OmniNotes.getAppContext())
-        .location(getProvider(OmniNotes.getAppContext()))
-        .config(LocationParams.NAVIGATION).oneFix();
-
-    var location = bod.oneFix().getLastLocation();
-
-    if (location != null) {
-      onGeoUtilResultListener.onLocationRetrieved(location);
-    } else {
-      if (checkHighAccuracyLocationProvider(OmniNotes.getAppContext())) {
-        onGeoUtilResultListener.onLocationUnavailable();
-      } else {
-        onGeoUtilResultListener.onLocationNotEnabled();
-      }
-    }
-  }
-
-
-  public static void stop() {
-    SmartLocation.with(OmniNotes.getAppContext()).location().stop();
-    if (Geocoder.isPresent()) {
-      SmartLocation.with(OmniNotes.getAppContext()).geocoding().stop();
-    }
-  }
-
-
-  static String getAddressFromCoordinates(Context mContext, double latitude,
+  public String getAddressFromCoordinates(Context mContext, double latitude,
       double longitude) throws IOException {
-    String addressString = "";
-    Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
-    List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
-    if (!addresses.isEmpty()) {
+    var geocoder = new Geocoder(mContext, Locale.getDefault());
+    var addresses = geocoder.getFromLocation(latitude, longitude, 1);
+    if (addresses != null && !addresses.isEmpty()) {
       Address address = addresses.get(0);
       if (address != null) {
-        addressString = address.getThoroughfare() + ", " + address.getLocality();
+        return address.getThoroughfare() + ", " + address.getLocality();
       }
     }
-    return addressString;
+    return "";
   }
 
-
-  public static void getAddressFromCoordinates(Location location,
+  public void getAddressFromCoordinates(Location location,
       final OnGeoUtilResultListener onGeoUtilResultListener) {
-    if (!Geocoder.isPresent()) {
-      onGeoUtilResultListener.onAddressResolved("");
-    } else {
-      SmartLocation.with(OmniNotes.getAppContext()).geocoding()
-          .reverse(location, (location1, list) -> {
-            String address = !list.isEmpty() ? list.get(0).getAddressLine(0) : null;
-            onGeoUtilResultListener.onAddressResolved(address);
-          });
+    try {
+      var address= getAddressFromCoordinates(OmniNotes.getAppContext(), location.getLatitude(),
+          location.getLongitude());
+      onGeoUtilResultListener.onAddressResolved(address);
+    } catch (IOException e) {
+      onGeoUtilResultListener.onLocationUnavailable(e);
     }
   }
 
-
-  public static double[] getCoordinatesFromAddress(Context mContext, String address)
-      throws IOException {
-    double[] result = new double[2];
-    Geocoder geocoder = new Geocoder(mContext, Locale.getDefault());
-    List<Address> addresses = geocoder.getFromLocationName(address, 1);
-    if (!addresses.isEmpty()) {
-      double latitude = addresses.get(0).getLatitude();
-      double longitude = addresses.get(0).getLongitude();
-      result[0] = latitude;
-      result[1] = longitude;
-    }
-    return result;
-  }
-
-
-  public static void getCoordinatesFromAddress(String address, final OnGeoUtilResultListener
-      listener) {
-    SmartLocation.with(OmniNotes.getAppContext()).geocoding().direct(address, (name, results) -> {
-      if (!results.isEmpty()) {
-        listener.onCoordinatesResolved(results.get(0).getLocation(), address);
+  public void getCoordinatesFromAddress(String address, final OnGeoUtilResultListener listener) {
+    try {
+      var geocoder = new Geocoder(OmniNotes.getAppContext(), Locale.getDefault());
+      if (BuildHelper.isAboveOrEqual(TIRAMISU)) {
+        geocoder.getFromLocationName(address, 1, addresses -> listener.onCoordinatesResolved(addresses.get(0)));
+      } else {
+        var addresses = geocoder.getFromLocationName(address, 1);
+        if (addresses != null && !addresses.isEmpty()) {
+          listener.onCoordinatesResolved(addresses.get(0));
+        }
       }
-    });
+    } catch (IOException e) {
+      listener.onCoordinatesUnresolved(e);
+    }
   }
-
 
   public static List<String> autocomplete(String input) {
     if (TextUtils.isEmpty(MAPS_API_KEY)) {
       return Collections.emptyList();
     }
+
     ArrayList<String> resultList = null;
 
     HttpURLConnection conn = null;
     InputStreamReader in = null;
     StringBuilder jsonResults = new StringBuilder();
     try {
-      URL url = new URL(
-          PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON + "?key=" + MAPS_API_KEY + "&input=" +
-              URLEncoder.encode(input, "utf8"));
+      var url = new URL(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON + "?key="
+          + MAPS_API_KEY + "&input=" + URLEncoder.encode(input, "utf8"));
       conn = (HttpURLConnection) url.openConnection();
       in = new InputStreamReader(conn.getInputStream());
       // Load the results into a StringBuilder
@@ -219,7 +154,6 @@ public class GeocodeHelper implements LocationListener {
     }
     return resultList;
   }
-
 
   public static boolean areCoordinates(String string) {
     var p = Pattern.compile(

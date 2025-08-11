@@ -20,7 +20,6 @@ import static android.Manifest.permission.CAMERA;
 import static android.content.Context.CLIPBOARD_SERVICE;
 import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static android.content.pm.PackageManager.FEATURE_CAMERA;
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 import static android.widget.Toast.LENGTH_SHORT;
 import static androidx.core.view.ViewCompat.animate;
 import static it.feio.android.omninotes.BaseActivity.TRANSITION_HORIZONTAL;
@@ -69,7 +68,6 @@ import static java.lang.Integer.parseInt;
 import static java.lang.Long.parseLong;
 
 import android.Manifest;
-import android.Manifest.permission;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.PendingIntent;
@@ -83,13 +81,13 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Address;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -114,10 +112,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Toast;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.core.content.ContextCompat;
+
 import androidx.core.util.Pair;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
@@ -145,13 +140,13 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.exceptions.checked.ContentSecurityException;
 import it.feio.android.omninotes.exceptions.checked.UnhandledIntentException;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
-import it.feio.android.omninotes.helpers.BuildHelper;
 import it.feio.android.omninotes.helpers.IntentHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.TagOpenerHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.helpers.date.RecurrenceHelper;
+import it.feio.android.omninotes.helpers.location.LocationProviderFactory;
 import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
@@ -173,7 +168,7 @@ import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.Display;
 import it.feio.android.omninotes.utils.FileHelper;
 import it.feio.android.omninotes.utils.FileProviderHelper;
-import it.feio.android.omninotes.utils.GeocodeHelper;
+import it.feio.android.omninotes.helpers.location.GeocodeHelper;
 import it.feio.android.omninotes.utils.IntentChecker;
 import it.feio.android.omninotes.utils.KeyboardUtils;
 import it.feio.android.omninotes.utils.PasswordHelper;
@@ -295,12 +290,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   public void onAttach(Context context) {
     super.onAttach(context);
     EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
-  }
-
-  @Override
-  public void onStop() {
-    super.onStop();
-    GeocodeHelper.stop();
   }
 
   @Override
@@ -718,9 +707,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   private void getLocation(OnGeoUtilResultListener onGeoUtilResultListener) {
     PermissionsHelper
-        .requestPermission(this, Manifest.permission.ACCESS_FINE_LOCATION, R.string
+        .requestPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION, R.string
                 .permission_coarse_location, binding.snackbarPlaceholder,
-            () -> GeocodeHelper.getLocation(onGeoUtilResultListener));
+            () -> LocationProviderFactory.INSTANCE.getProvider().getLocation(onGeoUtilResultListener));
   }
 
   private void initViewAttachments() {
@@ -959,8 +948,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @Override
-  public void onLocationUnavailable() {
-    mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
+  public void onLocationUnavailable(Exception e) {
+    mainActivity.showMessage(R.string.location_not_found + ": " + e.getMessage(), ONStyle.ALERT);
   }
 
   public void onLocationNotEnabled(){
@@ -984,13 +973,18 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
   }
 
   @Override
-  public void onCoordinatesResolved(Location location, String address) {
-    if (location != null) {
-      noteTmp.setLatitude(location.getLatitude());
-      noteTmp.setLongitude(location.getLongitude());
-      noteTmp.setAddress(address);
+  public void onCoordinatesUnresolved(Exception e) {
+    mainActivity.showMessage(R.string.location_not_found + ": " + e.getMessage(), ONStyle.ALERT);
+  }
+
+  @Override
+  public void onCoordinatesResolved(Address address) {
+    if (address != null) {
+      noteTmp.setLatitude(address.getLatitude());
+      noteTmp.setLongitude(address.getLongitude());
+      noteTmp.setAddress(address.getAddressLine(0));
       binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
-      binding.fragmentDetailContent.location.setText(address);
+      binding.fragmentDetailContent.location.setText(address.getAddressLine(0));
       fade(binding.fragmentDetailContent.location, true);
     } else {
       mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
@@ -2235,13 +2229,18 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     }
 
     @Override
-    public void onCoordinatesResolved(Location location, String address) {
+    public void onCoordinatesResolved(Address address) {
       // Nothing to do
     }
 
     @Override
-    public void onLocationUnavailable() {
-      mainActivityWeakReference.get().showMessage(R.string.location_not_found, ONStyle.ALERT);
+    public void onCoordinatesUnresolved(Exception e) {
+      // Nothing to do
+    }
+
+    @Override
+    public void onLocationUnavailable(Exception e) {
+      mainActivityWeakReference.get().showMessage(R.string.location_not_found + ": " + e.getMessage(), ONStyle.ALERT);
     }
     @Override
     public void onLocationNotEnabled(){

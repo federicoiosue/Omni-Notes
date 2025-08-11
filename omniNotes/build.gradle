@@ -157,6 +157,7 @@ dependencies {
     implementation 'com.google.android.apps.dashclock:dashclock-api:2.0.0'
     implementation 'ch.acra:acra-http:5.11.2'
     implementation 'ch.acra:acra-toast:5.11.2'
+    implementation 'commons-io:commons-io:2.16.1'
     implementation 'com.github.gabrielemariotti.changeloglib:changelog:2.1.0'
     implementation 'com.github.vikramkakkar:SublimePicker:8c4de22db1'
     implementation 'androidx.preference:preference-ktx:1.2.1'
@@ -202,11 +203,10 @@ dependencies {
     implementation 'com.github.federicoiosue:pixlui:3.0.1'
 
     // Flavors specific dependencies
-    playImplementation 'io.nlopez.smartlocation:library:3.2.4'
-    betaImplementation 'io.nlopez.smartlocation:library:3.2.4'
-    alphaImplementation 'io.nlopez.smartlocation:library:3.2.4'
-    fossImplementation 'com.github.federicoiosue:smart-location-lib:3.2.6'
-    fossImplementation 'com.jakewharton.timber:timber:5.0.1'
+    playImplementation 'com.google.android.gms:play-services-location:21.3.0'
+    betaImplementation 'com.google.android.gms:play-services-location:21.3.0'
+    alphaImplementation 'com.google.android.gms:play-services-location:21.3.0'
+//    fossImplementation 'com.jakewharton.timber:timber:5.0.1'
 }
 
 def jacocoVersion = "0.8.7"
@@ -266,6 +266,8 @@ tasks.withType(Test).configureEach {
         exceptionFormat "full"
     }
 }
-repositories {
-    mavenCentral()
+
+tasks.register('wrapper', Wrapper) {
+    gradleVersion = '8.7'
+    validateDistributionUrl = false
 }

@@ -14,9 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package it.feio.android.omninotes.helpers.location
 
-package it.feio.android.omninotes.helpers;
+import lombok.experimental.UtilityClass
 
-public class GeocodeProviderFactory extends GeocodeProviderBaseFactory {
+@UtilityClass
+object LocationProviderFactory {
 
+    @Override
+    fun getProvider(): LocationProvider {
+        return FuseLocationProvider()
+    }
 }

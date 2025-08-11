@@ -18,7 +18,6 @@
 package it.feio.android.omninotes.testutils;
 
 import static android.Manifest.permission.ACCESS_COARSE_LOCATION;
-import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.Manifest.permission.POST_NOTIFICATIONS;
 import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
 import static android.Manifest.permission.RECORD_AUDIO;
@@ -102,7 +101,7 @@ public class BaseAndroidTestCase {
       .grant(android.Manifest.permission.CAMERA);
 
   private static void grantPermissions() {
-    GrantPermissionRule.grant(ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION, READ_EXTERNAL_STORAGE, RECORD_AUDIO);
+    GrantPermissionRule.grant(ACCESS_COARSE_LOCATION, READ_EXTERNAL_STORAGE, RECORD_AUDIO);
     if (BuildHelper.isBelowOrEqual(VERSION_CODES.Q)) {
       GrantPermissionRule.grant(WRITE_EXTERNAL_STORAGE);
     }
