@@ -24,6 +24,7 @@ import lombok.experimental.UtilityClass
 import org.apache.commons.io.IOUtils
 import java.io.File
 import java.io.IOException
+import java.nio.charset.Charset
 
 /*
 * Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
@@ -50,7 +51,7 @@ class DocumentFileHelper {
         @Throws(IOException::class)
         fun readContent(context: Context, documentFile: DocumentFileCompat): String {
             context.contentResolver.openInputStream(documentFile.uri).use { `is` ->
-                return IOUtils.toString(`is`)
+                return IOUtils.toString(`is`, Charset.defaultCharset())
             }
         }
 
@@ -90,7 +91,7 @@ class DocumentFileHelper {
         @Throws(IOException::class)
         fun write(context: Context, file: DocumentFileCompat, content: String?) {
             val contentResolver = context.contentResolver
-            contentResolver.openOutputStream(file.uri).use { os -> IOUtils.write(content, os) }
+            contentResolver.openOutputStream(file.uri).use { os -> IOUtils.write(content, os, Charset.defaultCharset()) }
         }
 
         @JvmStatic
