@@ -55,5 +55,6 @@ sonarqube {
         sonar.coverage.jacoco.xmlReportPaths = "**/build/reports/coverage/**/debug/report.xml"
         sonar.exclusions = '**/src/main/assets/**/*.*'
         sonar.test.exclusions = '**/src/test/**/*.*,**/src/androidTest/**/*.*'
+        sonar.gradle.skipCompile = true
     }
 }
