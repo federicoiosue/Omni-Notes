@@ -48,6 +48,7 @@
     <string name="note_updated">Jegyzet frissítve</string>
     <string name="empty_note_not_saved">Nem lehet menteni egy üres jegyzetet</string>
     <string name="empty_note_not_shared">Nem lehet megosztani egy üres jegyzetet</string>
+    <string name="attachment_not_found">Nem található melléklet:</string>
     <string name="note_doesnt_exist">A jegyzet már nem létezik</string>
     <string name="note_archived">Jegyzet archiválva</string>
     <string name="note_unarchived">Jegyzet visszaállítva az archívumból</string>
@@ -210,6 +211,8 @@
     <string name="info">Információ</string>
     <string name="completed">Kész</string>
     <string name="undo_changes_note_confirmation">Megerősíti a változtatások visszaállítását?</string>
+    <string name="done">Kész</string>
+    <string name="nothing_selected">Semmi sincs kiválasztva</string>
     <!-- Settings -->
     <string name="dashclock_description">Statisztikák és lejáró emlékeztetők megjelenítése az Omni Notes-ból</string>
     <string name="settings">Beállítások</string>

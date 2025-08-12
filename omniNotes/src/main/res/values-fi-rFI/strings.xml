@@ -206,6 +206,7 @@
     <string name="permission_external_storage_detail_attachment">Ulkoisen muistin lukulupa tarvitaan, jotta voidaan liittää tiedostoja sieltä</string>
     <string name="permission_audio_recording">Mikrofonin käyttölupa tarvitaan, jotta voidaan äänittää äänimerkintöjä</string>
     <string name="permission_coarse_location">Sijaintitietojen käyttöoikeus tarvitaan, jotta voidaan lisätä sijaintitietoja merkintöihisi</string>
+    <string name="permission_camera">Lupa kameran käyttöön tarvitaan valokuvien tai videoiden ottamiseen</string>
     <string name="permission_not_granted">Oikeuksia ei myönnetty</string>
     <string name="checklist">Muistilista</string>
     <string name="text_note">Tekstimerkintä</string>
@@ -217,6 +218,7 @@
     <string name="done">Valmis</string>
     <string name="nothing_selected">Mitään ei ole valittu</string>
     <string name="insecure_content_found">Osa vastaanotetusta sisällöstä oli vaarallista, se on jätetty huomiotta</string>
+    <string name="denied_notifications_permission">Ilmoituslupamuistutuksia ei näytetä</string>
     <!-- Settings -->
     <string name="dashclock_description">Näyttää joitain tilastotietoja ja vanhentuneita muistutuksia Omni Notesista</string>
     <string name="settings">Asetukset</string>
@@ -284,6 +286,7 @@
     <string name="confirm_restoring_backup">Haluatko varmasti palauttaa varmuuskopiosta?</string>
     <string name="confirm_restoring_backup_warning">VAROITUS: Muista asettaa salasana asetuksiin tai suojatut muistiinpanot ohitetaan turvallisuussyistä!</string>
     <string name="data_deletion_completed">Tietojen poistaminen valmis</string>
+    <string name="data_deletion_error">Tietojen poisto kohtasi joitakin virheitä</string>
     <string name="settings_checked_items_behavior">Muistilistat</string>
     <string name="settings_checked_items_behavior_summary">Mitä tehdä, kun kohde on valittu?</string>
     <string name="settings_category_preferences">Ominaisuudet</string>
@@ -420,4 +423,5 @@
     <string name="channel_reminders_description">Muistiinpanojen muistutusten ilmoitukset</string>
     <string name="channel_pinned_name">Kiinnitetty</string>
     <string name="channel_pinned_description">Ilmoitukset kiinnitetyistä merkinnöistä</string>
+    <string name="location_not_enabled">Laitteen sijainti poistettu käytöstä</string>
 </resources>

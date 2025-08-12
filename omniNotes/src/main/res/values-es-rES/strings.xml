@@ -207,6 +207,7 @@
     <string name="permission_external_storage_detail_attachment">Se necesita permiso para leer en almacenamiento externo para permitir adjuntar archivos desde allí</string>
     <string name="permission_audio_recording">El permiso para usar el micrófono es necesario para grabar notas de audio</string>
     <string name="permission_coarse_location">El permiso para acceder a la localización es necesario para agregar la ubicación a tus notas</string>
+    <string name="permission_camera">El permiso para usar la cámara es requerido para tomar fotos o videos</string>
     <string name="permission_not_granted">Permiso no concedido</string>
     <string name="checklist">Lista de comprobación</string>
     <string name="text_note">Nota de texto</string>
@@ -217,6 +218,7 @@
     <string name="undo_changes_note_confirmation">¿Confirmar deshaciendo cambios?</string>
     <string name="done">Aceptar</string>
     <string name="nothing_selected">Nada seleccionado</string>
+    <string name="insecure_content_found">Parte del contenido recibido era peligroso, ha sido ignorado</string>
     <!-- Settings -->
     <string name="dashclock_description">Muestra algunas estadísticas y recordatorios cercanos de Omni Notes</string>
     <string name="settings">Configuración</string>
@@ -284,6 +286,7 @@
     <string name="confirm_restoring_backup">Confirmar restaurar copia de seguridad</string>
     <string name="confirm_restoring_backup_warning">ADVERTENCIA: Asegúrate de haber configurado una contraseña en ajustes o las notas protegidas se omitirán por razones de seguridad!</string>
     <string name="data_deletion_completed">Borrado de datos completado</string>
+    <string name="data_deletion_error">La eliminación de los datos encontró algunos errores</string>
     <string name="settings_checked_items_behavior">Listas de comprobación</string>
     <string name="settings_checked_items_behavior_summary">¿Qué desea hacer cuando se selecciona un elemento?</string>
     <string name="settings_category_preferences">Preferencias</string>
@@ -420,4 +423,5 @@
     <string name="channel_reminders_description">Notificaciones para recordatorios de notas</string>
     <string name="channel_pinned_name">Fijado</string>
     <string name="channel_pinned_description">Notificaciones para notas fijadas</string>
+    <string name="location_not_enabled">Ubicación del dispositivo desactivada</string>
 </resources>

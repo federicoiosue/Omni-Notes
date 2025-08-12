@@ -206,6 +206,7 @@
     <string name="permission_external_storage_detail_attachment">برای امکان پیوست کردن پرونده‌ها، مجوز برای خواندن از ذخیره‌سازی خارجی لازم است</string>
     <string name="permission_audio_recording">برای ضبط یادداشت‌های صوتی، اجازه استفاده از میکروفون نیاز است</string>
     <string name="permission_coarse_location">برای امکان افزودن اطلاعات موقعیت به یادداشت، مجوز دسترسی به موقعیت مکانی لازم است</string>
+    <string name="permission_camera">برای گرفتن عکس و فیلم، مجوز دسترسی به دوربین نیاز است.</string>
     <string name="permission_not_granted">مجوز اعطا نشده است</string>
     <string name="checklist">چک‌لیست</string>
     <string name="text_note">یادداشت متنی</string>
@@ -217,6 +218,7 @@
     <string name="done">انجام شد</string>
     <string name="nothing_selected">چیزی انتخاب نشده</string>
     <string name="insecure_content_found">برخی از محتواهای دریافت‌شده خطرناک بودند که در نظر گرفته نشدند </string>
+    <string name="denied_notifications_permission">یادآوری‌های مجوز رد اعلان نشان داده نخواهد شد</string>
     <!-- Settings -->
     <string name="dashclock_description">برخی آمارها و یادآورهای درحال انقضا از Omni Notes را نمایش می‌دهد</string>
     <string name="settings">تنظیمات</string>
@@ -284,6 +286,7 @@
     <string name="confirm_restoring_backup">واقعا نسخه پشتیبان بازیابی شود؟</string>
     <string name="confirm_restoring_backup_warning">هشدار: از تنظیم گذرواژه در بخش تنظیمات اطمینان حاصل کنید در غیر این صورت، یادداشت‌های محافظت شده به دلایل امنیتی نادیده‌گرفته خواهند شد!</string>
     <string name="data_deletion_completed">پاک کردن اطلاعات کامل شد</string>
+    <string name="data_deletion_error">پاک کردن داده‌ها دچار خطاهایی شد</string>
     <string name="settings_checked_items_behavior">چک‌لیست‌ها</string>
     <string name="settings_checked_items_behavior_summary">چه اتفاقی با علامت زدن یک مورد رخ دهد؟</string>
     <string name="settings_category_preferences">ترجیحات</string>
@@ -420,4 +423,5 @@
     <string name="channel_reminders_description">اعلان‌ها برای یادآوری‌های یادداشت‌ها</string>
     <string name="channel_pinned_name">سنجاق‌شده</string>
     <string name="channel_pinned_description">اعلانات برای یادداشت‌های سنجاق‌شده</string>
+    <string name="location_not_enabled">موقعیت دستگاه خاموش شد</string>
 </resources>

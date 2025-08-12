@@ -206,6 +206,7 @@
     <string name="permission_external_storage_detail_attachment">Cal permís per a llegir l\'emmagatzematge extern per a permetre adjuntar fitxers des d\'aquí</string>
     <string name="permission_audio_recording">Cal permís d\'ús del micròfon per a enregistrar notes d\'àudio</string>
     <string name="permission_coarse_location">Cal permís d\'accés a la ubicació per afegir la informació de la posició a les notes</string>
+    <string name="permission_camera">Es requereixen permisos de la càmera per fer fotos o vídeos</string>
     <string name="permission_not_granted">No s\'ha concedit el permís</string>
     <string name="checklist">Llista de verificació</string>
     <string name="text_note">Nota de text</string>
@@ -217,6 +218,7 @@
     <string name="done">Fet</string>
     <string name="nothing_selected">Cap selecció</string>
     <string name="insecure_content_found">Part del contingut rebut era perillós i s\'ha ignorat</string>
+    <string name="denied_notifications_permission">En rebutjar la notificació de permisos, no es tornarà a mostrar cap recordatori</string>
     <!-- Settings -->
     <string name="dashclock_description">Mostra algunes estadístiques i recordatoris expirats de l\'Omni Notes</string>
     <string name="settings">Configuració</string>
@@ -284,6 +286,7 @@
     <string name="confirm_restoring_backup">Segur que voleu recuperar la còpia de seguretat?</string>
     <string name="confirm_restoring_backup_warning">ATENCIÓ: Assegureu-vos que heu definit una contrasenya a la configuració o, per seguretat, no es restauraran les notes protegides!</string>
     <string name="data_deletion_completed">Ha finalitzat la supressió de dades</string>
+    <string name="data_deletion_error">S\'ha produït un error durant la supressió de dades</string>
     <string name="settings_checked_items_behavior">Llistes de comprovació</string>
     <string name="settings_checked_items_behavior_summary">Què cal fer en marcar un element?</string>
     <string name="settings_category_preferences">Preferències</string>
@@ -420,4 +423,5 @@
     <string name="channel_reminders_description">Notificacions dels recordatoris</string>
     <string name="channel_pinned_name">Fixada</string>
     <string name="channel_pinned_description">Notificacions de notes fixades</string>
+    <string name="location_not_enabled">S\'ha desactivat la ubicació del dispositiu</string>
 </resources>

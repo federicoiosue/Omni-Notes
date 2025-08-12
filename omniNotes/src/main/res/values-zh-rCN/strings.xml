@@ -112,7 +112,7 @@
     <string name="delete_category_confirmation">该分类已被用于某些笔记。\n确定要将这些笔记从该分类中移除，并删除该分类？</string>
     <string name="discard">取消</string>
     <string name="remove_category">移除类别</string>
-    <string name="no_tags_created">没有可用的标签\n请先为您的笔记添加一些标签。</string>
+    <string name="no_tags_created">没有可用的标签\n请先为您的笔记添加一些以“#”开头的标签。</string>
     <string name="no_categories_created">尚未创建类别</string>
     <string name="notes_category_removed">已为笔记移除分类</string>
     <string name="notes_categorized_as">记事已分类为</string>
@@ -206,6 +206,7 @@
     <string name="permission_external_storage_detail_attachment">需要获取读取外部存储权限，以便为笔记添加附件</string>
     <string name="permission_audio_recording">麦克风权限用于录制音频笔记</string>
     <string name="permission_coarse_location">位置权限用于为您的笔记添加位置信息</string>
+    <string name="permission_camera">拍照或录像功能需要允许相机使用权限</string>
     <string name="permission_not_granted">权限未被授予</string>
     <string name="checklist">待办事项列表</string>
     <string name="text_note">文本注释</string>
@@ -217,6 +218,7 @@
     <string name="done">完成</string>
     <string name="nothing_selected">未选择</string>
     <string name="insecure_content_found">收到的内容有部分存在危险，已忽略。</string>
+    <string name="denied_notifications_permission">拒绝通知权限的提醒将不会显示</string>
     <!-- Settings -->
     <string name="dashclock_description">显示Omni Notes统计数据及最近提醒</string>
     <string name="settings">设置</string>
@@ -284,6 +286,7 @@
     <string name="confirm_restoring_backup">真的要还原备份吗？</string>
     <string name="confirm_restoring_backup_warning">警告：一定要在设置中设置密码，否则受保护的笔记会因安全原因而跳过！</string>
     <string name="data_deletion_completed">数据删除完成</string>
+    <string name="data_deletion_error">数据删除时遇到错误</string>
     <string name="settings_checked_items_behavior">待办事项列表</string>
     <string name="settings_checked_items_behavior_summary">选中一条事项时进行何种操作？</string>
     <string name="settings_category_preferences">首选项</string>
@@ -420,4 +423,5 @@
     <string name="channel_reminders_description">笔记提醒通知</string>
     <string name="channel_pinned_name">固定的</string>
     <string name="channel_pinned_description">置顶笔记通知</string>
+    <string name="location_not_enabled">设备位置已关闭</string>
 </resources>
