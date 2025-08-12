@@ -19,7 +19,15 @@
   <changelogversion
     changeDate="Aug 14, 2025"
     versionName="6.4.0">
+    <changelogtext>[b]New![/b] Updated code to latest Android 15 changes</changelogtext>
+    <changelogtext>[b]New![/b] Reduced app's size of about 10%</changelogtext>
+    <changelogtext>[b]New![/b] When position is retrieved the coordinates are set but no more converted to an address</changelogtext>
+    <changelogtext>[b]New![/b] FOSS version of the app now redirects to OSM instead of Google Maps</changelogtext>
     <changelogtext>[i]Improved![/i] Updated Gradle to 8.13 and its build tools to 8.11.1</changelogtext>
+    <changelogtext>[i]Improved![/i] Removed outdated Springpad importer to make the app lighter</changelogtext>
+    <changelogtext>[u]Fix[/u] Search issue (thanks to [a href='https://github.com/XYIheng']Dustin Kong[/a])</changelogtext>
+    <changelogtext>[u]Fix[/u] Alarm permissions (thanks to [a href='https://github.com/pratistha-05']Pratistha Sinha[/a])</changelogtext>
+    <changelogtext>[u]Fix[/u] Past reminders (thanks to [a href='https://github.com/eren8204']Aditya Kumar[/a])</changelogtext>
   </changelogversion>
 
   <changelogversion
