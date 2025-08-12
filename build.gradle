@@ -20,13 +20,13 @@ buildscript {
         mavenLocal()
         google()
         mavenCentral()
-        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url = "https://plugins.gradle.org/m2/" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.11.1'
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:3.2.0"
-        classpath 'com.adarshr:gradle-test-logger-plugin:2.1.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.4.1.3373"
+        classpath 'com.adarshr:gradle-test-logger-plugin:4.0.0'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.20"
     }
     // Exclude the version that the android plugin depends on.
     configurations.classpath.exclude group: 'com.android.tools.external.lombok'
@@ -36,8 +36,8 @@ allprojects {
     repositories {
         mavenLocal()
         mavenCentral()
-        maven { url "https://jitpack.io" }
-        maven { url "https://plugins.gradle.org/m2/" }
+        maven { url = "https://jitpack.io" }
+        maven { url = "https://plugins.gradle.org/m2/" }
         google()
     }
 }
