@@ -17,6 +17,12 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="Aug 14, 2025"
+    versionName="6.4.0">
+    <changelogtext>[i]Improved![/i] Updated Gradle to 8.13 and its build tools to 8.11.1</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="Mar 8, 2024"
     versionName="6.3.2">
     <changelogtext>[b]Happy Women Day!![/b]</changelogtext>

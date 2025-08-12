@@ -41,15 +41,15 @@ android {
     compileSdk Integer.parseInt(project.TARGET_SDK)
 
     defaultConfig {
-        applicationId project.PACKAGE
-        minSdkVersion project.MIN_SDK
-        targetSdkVersion project.TARGET_SDK
-        compileSdkVersion Integer.parseInt(project.COMPILE_SDK)
-        versionName project.VERSION_NAME
-        versionCode Integer.parseInt(project.VERSION_CODE)
+        applicationId = project.PACKAGE
+        minSdkVersion = project.MIN_SDK
+        targetSdkVersion = project.TARGET_SDK
+        compileSdkVersion = Integer.parseInt(project.COMPILE_SDK)
+        versionName = project.VERSION_NAME
+        versionCode = Integer.parseInt(project.VERSION_CODE)
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
-        multiDexEnabled true
+        testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
+        multiDexEnabled = true
     }
 
     buildFeatures {
@@ -70,12 +70,12 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled true
-            shrinkResources false
-            multiDexEnabled false
+            minifyEnabled = true
+            shrinkResources = false
+            multiDexEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            enableUnitTestCoverage false
-            enableAndroidTestCoverage false
+            enableUnitTestCoverage = false
+            enableAndroidTestCoverage = false
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
                     outputFileName = "OmniNotes-${variant.name}-${variant.versionName}.apk"
@@ -86,8 +86,8 @@ android {
             }
         }
         debug {
-            enableUnitTestCoverage true
-            enableAndroidTestCoverage true
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
         }
     }
 
@@ -118,10 +118,10 @@ android {
         jvmTarget = JavaVersion.VERSION_17
     }
     lint {
-        abortOnError false
-        disable 'MissingTranslation'
+        abortOnError = false
+        disable = ['MissingTranslation']
     }
-    namespace 'it.feio.android.omninotes'
+    namespace = 'it.feio.android.omninotes'
 }
 
 dependencies {
