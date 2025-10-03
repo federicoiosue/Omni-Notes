@@ -881,7 +881,7 @@ public class DbHelper extends SQLiteOpenHelper {
    * Updates or insert a new a category
    *
    * @param category Category to be updated or inserted
-   * @return Rows affected or new inserted category ID
+   * @return Rows affected or new inserted category ID. If a new category has the same name as another, return the other category
    */
   public Category updateCategory(Category category) {
     ContentValues values = new ContentValues();
@@ -890,6 +890,15 @@ public class DbHelper extends SQLiteOpenHelper {
     values.put(KEY_CATEGORY_NAME, category.getName());
     values.put(KEY_CATEGORY_DESCRIPTION, category.getDescription());
     values.put(KEY_CATEGORY_COLOR, category.getColor());
+
+    // Need to check if the category name already exists
+    // If it does then return getCategory(ID of the one with that name)
+    ArrayList<Category> categoriesList = getCategories();
+    for (Category cat : categoriesList) {
+      if (cat.getName() == category.getName()) return cat;
+    }
+    
+    
     getDatabase(true).insertWithOnConflict(TABLE_CATEGORY, KEY_CATEGORY_ID, values, CONFLICT_REPLACE);
     return category;
   }
