@@ -23,10 +23,10 @@ buildscript {
         maven { url = "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.11.1'
+        classpath 'com.android.tools.build:gradle:8.13.2'
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.4.1.3373"
         classpath 'com.adarshr:gradle-test-logger-plugin:4.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.20"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21"
     }
     // Exclude the version that the android plugin depends on.
     configurations.classpath.exclude group: 'com.android.tools.external.lombok'
