@@ -702,10 +702,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     PermissionsHelper
         .requestPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION, R.string
                 .permission_coarse_location, binding.snackbarPlaceholder,
-            () -> {
-          LocationProviderFactory.INSTANCE.getProvider().instantiate();
-          LocationProviderFactory.INSTANCE.getProvider().getLocation(onGeoUtilResultListener);
-        });
+            () -> LocationProviderFactory.getProvider().getLocation(onGeoUtilResultListener));
   }
 
   private void initViewAttachments() {

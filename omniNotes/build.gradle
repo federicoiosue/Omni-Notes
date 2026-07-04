@@ -196,9 +196,6 @@ dependencies {
     implementation 'com.github.federicoiosue:pixlui:3.0.1'
 
     // Flavors specific dependencies
-    playImplementation 'com.google.android.gms:play-services-location:21.3.0'
-    betaImplementation 'com.google.android.gms:play-services-location:21.3.0'
-    alphaImplementation 'com.google.android.gms:play-services-location:21.3.0'
 }
 
 def jacocoVersion = "0.8.15"

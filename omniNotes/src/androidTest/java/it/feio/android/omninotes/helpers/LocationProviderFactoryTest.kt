@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2024 Federico Iosue (federico@iosue.it)
+ * Copyright (C) 2013-2026 Federico Iosue (developer@omninotes.app)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -14,16 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package it.feio.android.omninotes.helpers.location
+package it.feio.android.omninotes.helpers
 
-import lombok.experimental.UtilityClass
-import java.lang.Override
+import it.feio.android.omninotes.helpers.location.LocationProviderFactory
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase
+import org.junit.Assert.assertNotNull
+import org.junit.Test
 
-@UtilityClass
-object LocationProviderFactory {
+class LocationProviderFactoryTest : BaseAndroidTestCase() {
 
-    @Override
-    fun getProvider(): LocationProvider? {
-        return LocationManagerLocationProvider()
+    @Test
+    @Throws(Exception::class)
+    fun checkUtilityClassWellDefined() {
+        assertUtilityClassWellDefined(LocationProviderFactory::class.java, false, true)
     }
+
+    @Test
+    fun provider() {
+        assertNotNull(LocationProviderFactory.getProvider())
+    }
+
 }

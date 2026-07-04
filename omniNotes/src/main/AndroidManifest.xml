@@ -59,9 +59,6 @@
     <meta-data
       android:name="android.app.default_searchable"
       android:value=".ListActivity" />
-    <meta-data
-      android:name="com.google.android.gms.version"
-      android:value="@integer/google_play_services_version" />
 
     <!-- List and Detail -->
     <activity
