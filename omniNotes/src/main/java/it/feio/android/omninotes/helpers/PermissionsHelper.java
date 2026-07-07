@@ -23,6 +23,7 @@ import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH
 import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG;
 
 import android.os.Build.VERSION_CODES;
+import android.text.TextUtils;
 import android.view.View;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -39,20 +40,27 @@ public class PermissionsHelper {
   public static void requestPermission(Fragment fragment, String permission,
       int rationaleDescription, View messageView,
       OnPermissionRequestedListener onPermissionRequestedListener) {
+    requestPermissions(fragment, new String[]{permission}, rationaleDescription, messageView,
+        onPermissionRequestedListener);
+  }
 
-    if (skipPermissionRequest(permission)) {
+  public static void requestPermissions(Fragment fragment, String[] permissions,
+      int rationaleDescription, View messageView,
+      OnPermissionRequestedListener onPermissionRequestedListener) {
+
+    if (skipPermissionRequest(permissions)) {
       onPermissionRequestedListener.onPermissionGranted();
       return;
     }
 
-    if (ContextCompat.checkSelfPermission(fragment.getActivity(), permission) != PERMISSION_GRANTED) {
-      if (ActivityCompat.shouldShowRequestPermissionRationale(fragment.getActivity(), permission)) {
+    if (!areAllPermissionsGranted(fragment, permissions)) {
+      if (shouldShowRequestPermissionRationale(fragment, permissions)) {
         Snackbar.make(messageView, rationaleDescription, LENGTH_INDEFINITE)
-            .setAction(R.string.ok, view -> requestPermissionExecute(fragment, permission,
+            .setAction(R.string.ok, view -> requestPermissionsExecute(fragment, permissions,
                 onPermissionRequestedListener, messageView))
             .show();
       } else {
-        requestPermissionExecute(fragment, permission, onPermissionRequestedListener, messageView);
+        requestPermissionsExecute(fragment, permissions, onPermissionRequestedListener, messageView);
       }
     } else {
       if (onPermissionRequestedListener != null) {
@@ -61,19 +69,41 @@ public class PermissionsHelper {
     }
   }
 
-  private static boolean skipPermissionRequest(String permission) {
-    return BuildHelper.isAbove(VERSION_CODES.Q) && permission.equals(WRITE_EXTERNAL_STORAGE);
+  private static boolean areAllPermissionsGranted(Fragment fragment, String[] permissions) {
+    boolean allGranted = true;
+    for (String permission : permissions) {
+      allGranted &= ContextCompat.checkSelfPermission(fragment.requireActivity(), permission)
+          == PERMISSION_GRANTED;
+    }
+    return allGranted;
   }
 
-  private static void requestPermissionExecute(Fragment fragment, String permission,
+  private static boolean shouldShowRequestPermissionRationale(Fragment fragment,
+      String[] permissions) {
+    for (String permission : permissions) {
+      if (ActivityCompat.shouldShowRequestPermissionRationale(fragment.requireActivity(),
+          permission)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean skipPermissionRequest(String[] permissions) {
+    return BuildHelper.isAbove(VERSION_CODES.Q) && permissions.length == 1
+        && permissions[0].equals(WRITE_EXTERNAL_STORAGE);
+  }
+
+  private static void requestPermissionsExecute(Fragment fragment, String[] permissions,
       OnPermissionRequestedListener onPermissionRequestedListener, View messageView) {
     PermissionX.init(fragment)
-        .permissions(permission)
+        .permissions(permissions)
         .request((allGranted, grantedList, deniedList) -> {
           if (allGranted) {
             onPermissionRequestedListener.onPermissionGranted();
           } else {
-            var msg = fragment.getString(R.string.permission_not_granted) + ": " + permission;
+            var msg = fragment.getString(R.string.permission_not_granted) + ": "
+                + TextUtils.join(", ", deniedList);
             Snackbar.make(messageView, msg, LENGTH_LONG).show();
           }
         });

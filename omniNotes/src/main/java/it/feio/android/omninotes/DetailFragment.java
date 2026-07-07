@@ -700,7 +700,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   private void getLocation(OnGeoUtilResultListener onGeoUtilResultListener) {
     PermissionsHelper
-        .requestPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION, R.string
+        .requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION}, R.string
                 .permission_coarse_location, binding.snackbarPlaceholder,
             () -> LocationProviderFactory.getProvider().getLocation(onGeoUtilResultListener));
   }
