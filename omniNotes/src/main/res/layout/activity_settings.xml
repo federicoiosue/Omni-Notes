@@ -20,7 +20,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:clipToPadding="true"
-  android:fitsSystemWindows="false">
+  android:fitsSystemWindows="true">
 
   <include
     android:id="@+id/toolbar"
