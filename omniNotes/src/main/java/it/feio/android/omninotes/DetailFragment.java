@@ -945,7 +945,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   @Override
   public void onLocationUnavailable(Exception e) {
-    mainActivity.showMessage(R.string.location_not_found + ": " + e.getMessage(), ONStyle.ALERT);
+    var message = e != null && e.getMessage() != null ? ": " + e.getMessage() : "";
+    mainActivity.showMessage(getString(R.string.location_not_found) + message, ONStyle.ALERT);
   }
 
   public void onLocationNotEnabled(){
@@ -970,7 +971,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   @Override
   public void onCoordinatesUnresolved(Exception e) {
-    mainActivity.showMessage(R.string.location_not_found + ": " + e.getMessage(), ONStyle.ALERT);
+    var message = e != null && e.getMessage() != null ? ": " + e.getMessage() : "";
+    mainActivity.showMessage(getString(R.string.location_not_found) + message, ONStyle.ALERT);
   }
 
   @Override
