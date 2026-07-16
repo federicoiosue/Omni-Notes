@@ -17,6 +17,9 @@ jobs:
           java-version: '17'
           cache: 'gradle'
 
+      - name: Build all flavors to check the whole codebase compiles
+        run: ./gradlew assembleFossDebug assemblePlayDebug assembleAlphaDebug assembleBetaDebug --stacktrace
+
       - name: Run unit/instrumentation tests and coverage generation
         uses: reactivecircus/android-emulator-runner@v2
         with:
