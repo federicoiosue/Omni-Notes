@@ -32,7 +32,8 @@ public class RecurrenceHelperTest extends BaseAndroidTestCase {
   public void getNoteRecurrentReminderText() {
     long reminder = 1577369824425L;
     String rrule = "FREQ=WEEKLY;WKST=MO;BYDAY=MO,TU,TH";
-    String expectedRegex = "Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 2019 [2|3]:17 PM";
+    // Newer Android ICU data uses narrow no-break spaces between time and meridiem
+    String expectedRegex = "Weekly on Mon, Tue, Thu starting from Thu, Dec 26, 2019 [2|3]:17[ \\u00A0\\u202F]PM";
     String alarmText = RecurrenceHelper.getNoteRecurrentReminderText(reminder, rrule);
     String errorMsg = String.format("%s not matching %s", alarmText, expectedRegex);
 

@@ -45,6 +45,7 @@ import androidx.test.espresso.action.Press;
 import androidx.test.espresso.action.Swipe;
 import androidx.test.espresso.action.Tap;
 import androidx.test.espresso.action.ViewActions;
+import androidx.test.espresso.contrib.DrawerActions;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.espresso.util.HumanReadables;
 import androidx.test.espresso.util.TreeIterables;
@@ -187,15 +188,56 @@ public class BaseEspressoTest extends BaseAndroidTestCase {
             Press.FINGER));
   }
 
+  /**
+   * Perform action of waiting for a specific view to become visible.
+   *
+   * @param viewId The id of the view to wait for.
+   * @param millis The timeout of until when to wait.
+   */
+  public static ViewAction waitVisible(final int viewId, final long millis) {
+    return new ViewAction() {
+      @Override
+      public Matcher<View> getConstraints() {
+        return isRoot();
+      }
+
+      @Override
+      public String getDescription() {
+        return "wait for a specific visible view with id <" + viewId + "> during " + millis
+            + " millis.";
+      }
+
+      @Override
+      public void perform(final UiController uiController, final View view) {
+        uiController.loopMainThreadUntilIdle();
+        final long startTime = System.currentTimeMillis();
+        final long endTime = startTime + millis;
+        final Matcher<View> viewMatcher = allOf(withId(viewId), isDisplayed());
+
+        do {
+          for (View child : TreeIterables.breadthFirstViewTraversal(view)) {
+            if (viewMatcher.matches(child)) {
+              return;
+            }
+          }
+
+          uiController.loopMainThreadForAtLeast(50);
+        }
+        while (System.currentTimeMillis() < endTime);
+
+        throw new PerformException.Builder()
+            .withActionDescription(this.getDescription())
+            .withViewDescription(HumanReadables.describe(view))
+            .withCause(new TimeoutException())
+            .build();
+      }
+    };
+  }
+
   protected void openDrawer() {
-    onView(allOf(withContentDescription("drawer open"),
-        childAtPosition(
-            allOf(withId(R.id.toolbar),
-                childAtPosition(
-                    withClassName(is("android.widget.RelativeLayout")),
-                    0)),
-            1),
-        isDisplayed())).perform(click());
+    onView(withId(R.id.drawer_layout)).perform(DrawerActions.open());
+    // Waiting for the drawer to be actually open to avoid flakiness on the following assertions
+    onView(isRoot()).perform(waitVisible(R.id.navigation_drawer, 5000));
   }
 
   protected void navigateTo(int menuPosition) {
