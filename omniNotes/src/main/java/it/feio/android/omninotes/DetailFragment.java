@@ -659,12 +659,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     var detailFragment = this;
 
     if (isNoteLocationValid()) {
-      if (TextUtils.isEmpty(noteTmp.getAddress())) {
-        noteTmp.setAddress(noteTmp.getLatitude() + ", " + noteTmp.getLongitude());
-      } else {
-        binding.fragmentDetailContent.location.setText(noteTmp.getAddress());
-        binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
+      var address = noteTmp.getAddress();
+      if (TextUtils.isEmpty(address)) {
+        // No address is stored for notes saved with coordinates only
+        address = noteTmp.getLatitude() + ", " + noteTmp.getLongitude();
       }
+      binding.fragmentDetailContent.location.setText(address);
+      binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
     }
 
     // Automatic location insertion
