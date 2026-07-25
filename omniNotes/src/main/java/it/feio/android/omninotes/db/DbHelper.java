@@ -462,8 +462,10 @@ public class DbHelper extends SQLiteOpenHelper {
           note.setAlarm(cursor.getString(i++));
           note.setReminderFired(cursor.getInt(i++));
           note.setRecurrenceRule(cursor.getString(i++));
-          note.setLatitude(cursor.getString(i++));
-          note.setLongitude(cursor.getString(i++));
+          note.setLatitude(cursor.isNull(i) ? null : cursor.getDouble(i));
+          i++;
+          note.setLongitude(cursor.isNull(i) ? null : cursor.getDouble(i));
+          i++;
           note.setAddress(cursor.getString(i++));
           note.setLocked("1".equals(cursor.getString(i++)));
           note.setChecklist("1".equals(cursor.getString(i++)));
