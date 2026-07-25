@@ -19,13 +19,11 @@
   <changelogversion
     changeDate="Oct 13, 2026"
     versionName="6.5.0">
-    <changelogtext>[b]New![/b] Location is now natively retrieved on all the app versions using only open source AOSP components</changelogtext>
-    <changelogtext>[b]New![/b] Unified behavior between FOSS and Play Store builds</changelogtext>
-    <changelogtext>[i]Improved![/i] Updated target and compile SDK to Android 16 (36)</changelogtext>
-    <changelogtext>[i]Improved![/i] UI adapted to Android 15+ edge-to-edge system bars</changelogtext>
-    <changelogtext>[i]Improved![/i] Updated Gradle build tools to 8.13.2 and Kotlin to 2.4.21</changelogtext>
-    <changelogtext>[i]Improved![/i] Removed proprietary Google Play Services location library</changelogtext>
-    <changelogtext>[u]Fix[/u] Location permission request now properly asks for fine location</changelogtext>
+    <changelogtext>[b]New![/b] Location is now retrieved without Google proprietary services, with the same behavior on all app versions</changelogtext>
+    <changelogtext>[i]Improved![/i] Updated code to latest Android 16 changes</changelogtext>
+    <changelogtext>[i]Improved![/i] Interface improvements for Android 15 and newer devices</changelogtext>
+    <changelogtext>[u]Fix[/u] Note position was not displayed when reopening a note</changelogtext>
+    <changelogtext>[u]Fix[/u] Location coordinates were shown with reduced precision</changelogtext>
   </changelogversion>
 
   <changelogversion
