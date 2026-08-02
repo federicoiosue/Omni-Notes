@@ -254,8 +254,3 @@ tasks.withType(Test).configureEach {
         exceptionFormat "full"
     }
 }
-
-tasks.register('wrapper', Wrapper) {
-    gradleVersion = '8.7'
-    validateDistributionUrl = false
-}
