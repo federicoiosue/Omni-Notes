@@ -24,7 +24,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:8.13.2'
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.4.1.3373"
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:7.5.0.8588"
         classpath 'com.adarshr:gradle-test-logger-plugin:4.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21"
     }
