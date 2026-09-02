@@ -251,6 +251,6 @@ tasks.withType(Test).configureEach {
 
     testLogging {
         events "standardOut", "standardError", "started", "passed", "skipped", "failed"
-        exceptionFormat "full"
+        exceptionFormat = "full"
     }
 }
