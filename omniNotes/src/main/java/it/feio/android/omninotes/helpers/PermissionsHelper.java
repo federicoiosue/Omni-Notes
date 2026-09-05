@@ -47,20 +47,34 @@ public class PermissionsHelper {
   public static void requestPermissions(Fragment fragment, String[] permissions,
       int rationaleDescription, View messageView,
       OnPermissionRequestedListener onPermissionRequestedListener) {
+    requestPermissions(fragment, permissions, rationaleDescription, messageView,
+        onPermissionRequestedListener, false);
+  }
+
+  /**
+   * Requests a set of permissions.
+   *
+   * @param anyGranted true when the requested permissions are alternatives and a single granted
+   *                   permission is enough to proceed (e.g. fine OR coarse location)
+   */
+  public static void requestPermissions(Fragment fragment, String[] permissions,
+      int rationaleDescription, View messageView,
+      OnPermissionRequestedListener onPermissionRequestedListener, boolean anyGranted) {
 
     if (skipPermissionRequest(permissions)) {
       onPermissionRequestedListener.onPermissionGranted();
       return;
     }
 
-    if (!areAllPermissionsGranted(fragment, permissions)) {
+    if (!arePermissionsGranted(fragment, permissions, anyGranted)) {
       if (shouldShowRequestPermissionRationale(fragment, permissions)) {
         Snackbar.make(messageView, rationaleDescription, LENGTH_INDEFINITE)
             .setAction(R.string.ok, view -> requestPermissionsExecute(fragment, permissions,
-                onPermissionRequestedListener, messageView))
+                onPermissionRequestedListener, messageView, anyGranted))
             .show();
       } else {
-        requestPermissionsExecute(fragment, permissions, onPermissionRequestedListener, messageView);
+        requestPermissionsExecute(fragment, permissions, onPermissionRequestedListener, messageView,
+            anyGranted);
       }
     } else {
       if (onPermissionRequestedListener != null) {
@@ -69,13 +83,16 @@ public class PermissionsHelper {
     }
   }
 
-  private static boolean areAllPermissionsGranted(Fragment fragment, String[] permissions) {
-    boolean allGranted = true;
+  private static boolean arePermissionsGranted(Fragment fragment, String[] permissions,
+      boolean anyGranted) {
+    boolean granted = !anyGranted;
     for (String permission : permissions) {
-      allGranted &= ContextCompat.checkSelfPermission(fragment.requireActivity(), permission)
-          == PERMISSION_GRANTED;
+      boolean singleGranted =
+          ContextCompat.checkSelfPermission(fragment.requireActivity(), permission)
+              == PERMISSION_GRANTED;
+      granted = anyGranted ? (granted || singleGranted) : (granted && singleGranted);
     }
-    return allGranted;
+    return granted;
   }
 
   private static boolean shouldShowRequestPermissionRationale(Fragment fragment,
@@ -95,11 +112,12 @@ public class PermissionsHelper {
   }
 
   private static void requestPermissionsExecute(Fragment fragment, String[] permissions,
-      OnPermissionRequestedListener onPermissionRequestedListener, View messageView) {
+      OnPermissionRequestedListener onPermissionRequestedListener, View messageView,
+      boolean anyGranted) {
     PermissionX.init(fragment)
         .permissions(permissions)
         .request((allGranted, grantedList, deniedList) -> {
-          if (allGranted) {
+          if (allGranted || (anyGranted && !grantedList.isEmpty())) {
             onPermissionRequestedListener.onPermissionGranted();
           } else {
             var msg = fragment.getString(R.string.permission_not_granted) + ": "

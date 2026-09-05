@@ -19,6 +19,7 @@ package it.feio.android.omninotes.helpers.location;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -87,9 +88,17 @@ public class LocationManagerLocationProvider implements LocationProvider {
         Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
   }
 
+  private boolean isFineLocationGranted() {
+    return ContextCompat.checkSelfPermission(OmniNotes.getAppContext(),
+        Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+  }
+
   private String getBestProvider() {
-    var criteria = new android.location.Criteria();
-    criteria.setAccuracy(android.location.Criteria.ACCURACY_FINE);
+    // GPS is usable only with the fine location permission: with coarse only, rely on network
+    var criteria = new Criteria();
+    criteria.setAccuracy(isFineLocationGranted()
+        ? Criteria.ACCURACY_FINE
+        : Criteria.ACCURACY_COARSE);
     var provider = locationManager.getBestProvider(criteria, true);
     if (provider == null) {
       provider = LocationManager.PASSIVE_PROVIDER;
