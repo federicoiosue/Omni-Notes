@@ -44,6 +44,7 @@ import android.os.Handler;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -110,6 +111,18 @@ public class MainActivity extends BaseActivity implements
     EventBus.getDefault().register(this);
     Prefs.getPreferences().registerOnSharedPreferenceChangeListener(this);
     new NotificationsHelper(this).askToEnableNotifications(this);
+
+    getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+      @Override
+      public void handleOnBackPressed() {
+        if (!handleBackPressed()) {
+          // Fall through to the default behavior (fragment back stack, activity finish)
+          setEnabled(false);
+          getOnBackPressedDispatcher().onBackPressed();
+          setEnabled(true);
+        }
+      }
+    });
 
     initUI();
   }
@@ -293,8 +306,11 @@ public class MainActivity extends BaseActivity implements
     return result;
   }
 
-  @Override
-  public void onBackPressed() {
+  /**
+   * Handles the back navigation logic. Returns {@code false} when the event must be dispatched
+   * to the default dispatcher behavior (fragment back stack, activity finish).
+   */
+  private boolean handleBackPressed() {
     // SketchFragment
     Fragment f = checkFragmentInstance(R.id.fragment_container, SketchFragment.class);
     if (f != null) {
@@ -305,7 +321,7 @@ public class MainActivity extends BaseActivity implements
           ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
 
       getFragmentManagerInstance().popBackStack();
-      return;
+      return true;
     }
 
     // DetailFragment
@@ -314,7 +330,7 @@ public class MainActivity extends BaseActivity implements
       var detailDragment = (DetailFragment) f;
       detailDragment.goBack = true;
       detailDragment.saveAndExit();
-      return;
+      return true;
     }
 
     // ListFragment
@@ -331,12 +347,12 @@ public class MainActivity extends BaseActivity implements
       } else {
         if (!((ListFragment) f).closeFab()) {
           isPasswordAccepted = false;
-          super.onBackPressed();
+          return false;
         }
       }
-      return;
+      return true;
     }
-    super.onBackPressed();
+    return false;
   }
 
 
