@@ -928,6 +928,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   @Override
   public void onLocationRetrieved(Location location) {
+    if (!isAdded()) {
+      return;
+    }
     if (location == null) {
       mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
     }
@@ -947,15 +950,25 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   @Override
   public void onLocationUnavailable(Exception e) {
+    if (!isAdded()) {
+      return;
+    }
     var message = e != null && e.getMessage() != null ? ": " + e.getMessage() : "";
     mainActivity.showMessage(getString(R.string.location_not_found) + message, ONStyle.ALERT);
   }
 
-  public void onLocationNotEnabled(){
+  public void onLocationNotEnabled() {
+    if (!isAdded()) {
+      return;
+    }
     mainActivity.showMessage(R.string.location_not_enabled, ONStyle.ALERT);
   }
+
   @Override
   public void onAddressResolved(String address) {
+    if (!isAdded()) {
+      return;
+    }
     if (TextUtils.isEmpty(address)) {
       if (!isNoteLocationValid()) {
         mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
