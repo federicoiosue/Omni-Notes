@@ -131,6 +131,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:paddingStart="@dimen/horizontal_margin"
+        android:paddingEnd="@dimen/horizontal_margin"
         android:paddingBottom="3dp"
         android:paddingTop="3dp">
 
