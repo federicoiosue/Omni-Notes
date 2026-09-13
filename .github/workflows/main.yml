@@ -4,6 +4,10 @@ jobs:
   build-and-test:
     name: Build and run tests
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [36, 33]
     env:
       GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
     steps:
@@ -31,15 +35,21 @@ jobs:
       - name: Run unit/instrumentation tests and coverage generation
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 36
+          api-level: ${{ matrix.api-level }}
           target: google_apis
           arch: x86_64
           force-avd-creation: false
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           disable-animations: true
-          script: ./gradlew -Pandroid.testInstrumentationRunnerArguments.notAnnotation=androidx.test.filters.FlakyTest,androidx.test.filters.LargeTest jacocoTestReport --stacktrace
+          script: |
+            # Warm-up launch to avoid the first instrumentation test timing out on cold start
+            adb shell am start -n it.feio.android.omninotes/.MainActivity || true
+            sleep 10
+            adb shell am force-stop it.feio.android.omninotes
+            ./gradlew -Pandroid.testInstrumentationRunnerArguments.notAnnotation=androidx.test.filters.FlakyTest,androidx.test.filters.LargeTest jacocoTestReport --stacktrace
 
       - name: SonarCloud static code and coverage analysis
+        if: matrix['api-level'] == 36
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
