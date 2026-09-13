@@ -29,7 +29,6 @@ import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.not;
 
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.filters.LargeTest;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.bus.CategoriesUpdatedEvent;
@@ -39,7 +38,6 @@ import java.util.Collections;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-@LargeTest
 @RunWith(AndroidJUnit4.class)
 public class NoteLocationTest extends BaseEspressoTest {
 
