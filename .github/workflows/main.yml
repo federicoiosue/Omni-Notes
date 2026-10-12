@@ -1,5 +1,8 @@
 name: CI
 on: [push, pull_request]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
 jobs:
   build-and-test:
     name: Build and run tests
@@ -39,13 +42,21 @@ jobs:
           target: google_apis
           arch: x86_64
           force-avd-creation: false
+          cores: 4
+          ram-size: 3072M
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           disable-animations: true
           script: |
-            # Warm-up launch to avoid the first instrumentation test timing out on cold start
-            adb shell am start -n it.feio.android.omninotes/.MainActivity || true
-            sleep 10
-            adb shell am force-stop it.feio.android.omninotes
+            # Warm-up: install every tested flavor and compile/launch it once, so the first
+            # instrumentation test does not time out on cold start
+            ./gradlew :omniNotes:installPlayDebug :omniNotes:installAlphaDebug --stacktrace
+            for pkg in it.feio.android.omninotes it.feio.android.omninotes.alpha; do
+              adb shell cmd package compile -m speed -f "$pkg" || true
+              adb shell am start -W -n "$pkg/it.feio.android.omninotes.MainActivity" || true
+            done
+            sleep 15
+            adb shell am force-stop it.feio.android.omninotes || true
+            adb shell am force-stop it.feio.android.omninotes.alpha || true
             ./gradlew -Pandroid.testInstrumentationRunnerArguments.notAnnotation=androidx.test.filters.FlakyTest,androidx.test.filters.LargeTest jacocoTestReport --stacktrace
 
       - name: SonarCloud static code and coverage analysis
