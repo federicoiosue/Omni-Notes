@@ -47,13 +47,12 @@ jobs:
           emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           disable-animations: true
           script: |
-            # Warm-up: install every tested flavor and compile/launch it once, so the first
-            # instrumentation test does not time out on cold start
+            # Warm-up: install and precompile both tested flavors so the first instrumentation test does not time out on cold start
             ./gradlew :omniNotes:installPlayDebug :omniNotes:installAlphaDebug --stacktrace
-            for pkg in it.feio.android.omninotes it.feio.android.omninotes.alpha; do
-              adb shell cmd package compile -m speed -f "$pkg" || true
-              adb shell am start -W -n "$pkg/it.feio.android.omninotes.MainActivity" || true
-            done
+            adb shell cmd package compile -m speed -f it.feio.android.omninotes || true
+            adb shell cmd package compile -m speed -f it.feio.android.omninotes.alpha || true
+            adb shell am start -W -n it.feio.android.omninotes/it.feio.android.omninotes.MainActivity || true
+            adb shell am start -W -n it.feio.android.omninotes.alpha/it.feio.android.omninotes.MainActivity || true
             sleep 15
             adb shell am force-stop it.feio.android.omninotes || true
             adb shell am force-stop it.feio.android.omninotes.alpha || true
