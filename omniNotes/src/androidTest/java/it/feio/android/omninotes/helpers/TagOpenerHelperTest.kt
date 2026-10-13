@@ -16,16 +16,38 @@
  */
 package it.feio.android.omninotes.helpers
 
+import android.app.Instrumentation.ActivityResult
+import android.content.Intent
+import androidx.test.espresso.intent.Intents
+import androidx.test.espresso.intent.Intents.intending
+import androidx.test.espresso.intent.matcher.IntentMatchers.hasAction
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import it.feio.android.omninotes.testutils.BaseAndroidTestCase
 import it.feio.android.omninotes.helpers.TagOpenerHelper.Companion.openOrGetIntent
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase
+import org.junit.After
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class TagOpenerHelperTest : BaseAndroidTestCase() {
+
+    @Before
+    fun setUpIntents() {
+        Intents.init()
+        // External apps must never be really launched: stubbing keeps the tests hermetic and
+        // avoids stealing the window focus from the tests running after these ones
+        intending(hasAction(Intent.ACTION_SENDTO)).respondWith(ActivityResult(0, null))
+        intending(hasAction(Intent.ACTION_DIAL)).respondWith(ActivityResult(0, null))
+        intending(hasAction(Intent.ACTION_VIEW)).respondWith(ActivityResult(0, null))
+    }
+
+    @After
+    fun tearDownIntents() {
+        Intents.release()
+    }
 
     @Test
     fun openOrGetIntent_mailto() =
