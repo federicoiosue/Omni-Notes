@@ -22,6 +22,7 @@
     <changelogtext>[b]New![/b] Location is now retrieved without Google proprietary services, with the same behavior on all app versions</changelogtext>
     <changelogtext>[i]Improved![/i] Updated code to latest Android 16 changes</changelogtext>
     <changelogtext>[i]Improved![/i] Interface improvements for Android 15 and newer devices</changelogtext>
+    <changelogtext>[i]Improved![/i] Photos and videos permission is no more needed thanks to the system picker</changelogtext>
     <changelogtext>[u]Fix[/u] Note position was not displayed when reopening a note</changelogtext>
     <changelogtext>[u]Fix[/u] Location coordinates were shown with reduced precision</changelogtext>
   </changelogversion>
