@@ -106,8 +106,10 @@ public class BaseAndroidTestCase {
    */
   private static GrantPermissionRule buildGrantPermissionRule() {
     var permissions = new ArrayList<>(Arrays.asList(
-        android.Manifest.permission.CAMERA, ACCESS_COARSE_LOCATION, READ_EXTERNAL_STORAGE,
-        RECORD_AUDIO));
+        android.Manifest.permission.CAMERA, ACCESS_COARSE_LOCATION, RECORD_AUDIO));
+    if (BuildHelper.isBelowOrEqual(VERSION_CODES.S_V2)) {
+      permissions.add(READ_EXTERNAL_STORAGE);
+    }
     if (BuildHelper.isBelowOrEqual(VERSION_CODES.Q)) {
       permissions.add(WRITE_EXTERNAL_STORAGE);
     }
