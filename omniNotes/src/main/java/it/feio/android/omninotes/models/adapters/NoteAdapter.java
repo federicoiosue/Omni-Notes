@@ -29,6 +29,9 @@ import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
@@ -57,6 +60,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
   private final boolean expandedView;
   private long closestNoteReminder = Long.parseLong(TIMESTAMP_UNIX_EPOCH_FAR);
   private int closestNotePosition;
+  private int lastPos = -1;
 
 
   public NoteAdapter(Activity activity, boolean expandedView, List<Note> notes) {
@@ -133,6 +137,13 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     }
   }
 
+  private void initAnimation(View itemView, int position) {
+    if (position > lastPos) {
+      Animation animation = AnimationUtils.loadAnimation(mActivity.getApplicationContext(), android.R.anim.slide_in_left);
+      itemView.setAnimation(animation);
+      lastPos = position;
+    }
+  }
 
   private void initText(Note note, NoteViewHolder holder) {
     try {
@@ -319,6 +330,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     initIcons(note, holder);
     initDates(note, holder);
     initThumbnail(note, holder);
+    initAnimation(holder.itemView,position);
     manageSelectionColor(position, note, holder);
   }
 
