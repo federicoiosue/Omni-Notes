@@ -212,12 +212,9 @@ configurations.configureEach {
 }
 
 android.productFlavors.each { flavor ->
-    String analyticsUrl = flavor.name == 'foss' && ANALYTICS_PARAMS_FOSS?.trim() ? ANALYTICS_PARAMS_FOSS : ANALYTICS_PARAMS
-    flavor.buildConfigField 'String', 'ANALYTICS_PARAMS', '"' + analyticsUrl + '"'
     flavor.buildConfigField 'String', 'CRASH_REPORTING_URL', '"' + CRASH_REPORTING_URL + '"'
     flavor.buildConfigField 'String', 'CRASH_REPORTING_LOGIN', '"' + CRASH_REPORTING_LOGIN + '"'
     flavor.buildConfigField 'String', 'CRASH_REPORTING_PASSWORD', '"' + CRASH_REPORTING_PASSWORD + '"'
-    flavor.buildConfigField 'String', 'VERSION_CHECK_URL', '"' + VERSION_CHECK_URL + '"'
 }
 
 apply plugin: 'jacoco'
