@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+ * Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@ buildscript {
         maven { url = "https://plugins.gradle.org/m2/" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.11.1'
-        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:4.4.1.3373"
+        classpath 'com.android.tools.build:gradle:8.13.2'
+        classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:7.5.0.8588"
         classpath 'com.adarshr:gradle-test-logger-plugin:4.0.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.20"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:2.4.21"
     }
     // Exclude the version that the android plugin depends on.
     configurations.classpath.exclude group: 'com.android.tools.external.lombok'
@@ -43,18 +43,16 @@ allprojects {
 }
 
 apply plugin: 'org.sonarqube'
-sonarqube {
+sonar {
     properties {
-        sonar.projectName = "Omni Notes"
-        sonar.projectKey = "omni-notes"
-        sonar.organization = "federicoiosue-github"
-        sonar.projectVersion = project.VERSION_NAME
-        sonar.host.url = "https://sonarcloud.io"
-        sonar.sourceEncoding = 'UTF-8'
-        sonar.language = 'java'
-        sonar.coverage.jacoco.xmlReportPaths = "**/build/reports/coverage/**/debug/report.xml"
-        sonar.exclusions = '**/src/main/assets/**/*.*'
-        sonar.test.exclusions = '**/src/test/**/*.*,**/src/androidTest/**/*.*'
-        sonar.gradle.skipCompile = true
+        property "sonar.projectName", "Omni Notes"
+        property "sonar.projectKey", "omni-notes"
+        property "sonar.organization", "federicoiosue-github"
+        property "sonar.projectVersion", project.VERSION_NAME
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.coverage.jacoco.xmlReportPaths", "**/build/reports/coverage/**/debug/report.xml"
+        property "sonar.exclusions", "**/src/main/assets/**/*.*"
+        property "sonar.test.exclusions", "**/src/test/**/*.*,**/src/androidTest/**/*.*"
     }
 }

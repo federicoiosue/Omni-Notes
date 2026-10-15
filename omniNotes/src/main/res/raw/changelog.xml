@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?><!--
-  ~ Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+  ~ Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
   ~
   ~ This program is free software: you can redistribute it and/or modify
   ~ it under the terms of the GNU General Public License as published by
@@ -15,6 +15,17 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 <changelog bulletedList="true">
+
+  <changelogversion
+    changeDate="Oct 13, 2026"
+    versionName="6.5.0">
+    <changelogtext>[b]New![/b] Location is now retrieved without Google proprietary services, with the same behavior on all app versions</changelogtext>
+    <changelogtext>[i]Improved![/i] Updated code to latest Android 16 changes</changelogtext>
+    <changelogtext>[i]Improved![/i] Interface improvements for Android 15 and newer devices</changelogtext>
+    <changelogtext>[i]Improved![/i] Photos and videos permission is no more needed thanks to the system picker</changelogtext>
+    <changelogtext>[u]Fix[/u] Note position was not displayed when reopening a note</changelogtext>
+    <changelogtext>[u]Fix[/u] Location coordinates were shown with reduced precision</changelogtext>
+  </changelogversion>
 
   <changelogversion
     changeDate="Aug 14, 2025"

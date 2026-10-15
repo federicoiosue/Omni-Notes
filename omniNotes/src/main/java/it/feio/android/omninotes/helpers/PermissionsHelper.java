@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+ * Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -23,6 +23,7 @@ import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH
 import static com.google.android.material.snackbar.BaseTransientBottomBar.LENGTH_LONG;
 
 import android.os.Build.VERSION_CODES;
+import android.text.TextUtils;
 import android.view.View;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -39,20 +40,41 @@ public class PermissionsHelper {
   public static void requestPermission(Fragment fragment, String permission,
       int rationaleDescription, View messageView,
       OnPermissionRequestedListener onPermissionRequestedListener) {
+    requestPermissions(fragment, new String[]{permission}, rationaleDescription, messageView,
+        onPermissionRequestedListener);
+  }
 
-    if (skipPermissionRequest(permission)) {
+  public static void requestPermissions(Fragment fragment, String[] permissions,
+      int rationaleDescription, View messageView,
+      OnPermissionRequestedListener onPermissionRequestedListener) {
+    requestPermissions(fragment, permissions, rationaleDescription, messageView,
+        onPermissionRequestedListener, false);
+  }
+
+  /**
+   * Requests a set of permissions.
+   *
+   * @param anyGranted true when the requested permissions are alternatives and a single granted
+   *                   permission is enough to proceed (e.g. fine OR coarse location)
+   */
+  public static void requestPermissions(Fragment fragment, String[] permissions,
+      int rationaleDescription, View messageView,
+      OnPermissionRequestedListener onPermissionRequestedListener, boolean anyGranted) {
+
+    if (skipPermissionRequest(permissions)) {
       onPermissionRequestedListener.onPermissionGranted();
       return;
     }
 
-    if (ContextCompat.checkSelfPermission(fragment.getActivity(), permission) != PERMISSION_GRANTED) {
-      if (ActivityCompat.shouldShowRequestPermissionRationale(fragment.getActivity(), permission)) {
+    if (!arePermissionsGranted(fragment, permissions, anyGranted)) {
+      if (shouldShowRequestPermissionRationale(fragment, permissions)) {
         Snackbar.make(messageView, rationaleDescription, LENGTH_INDEFINITE)
-            .setAction(R.string.ok, view -> requestPermissionExecute(fragment, permission,
-                onPermissionRequestedListener, messageView))
+            .setAction(R.string.ok, view -> requestPermissionsExecute(fragment, permissions,
+                onPermissionRequestedListener, messageView, anyGranted))
             .show();
       } else {
-        requestPermissionExecute(fragment, permission, onPermissionRequestedListener, messageView);
+        requestPermissionsExecute(fragment, permissions, onPermissionRequestedListener, messageView,
+            anyGranted);
       }
     } else {
       if (onPermissionRequestedListener != null) {
@@ -61,19 +83,45 @@ public class PermissionsHelper {
     }
   }
 
-  private static boolean skipPermissionRequest(String permission) {
-    return BuildHelper.isAbove(VERSION_CODES.Q) && permission.equals(WRITE_EXTERNAL_STORAGE);
+  private static boolean arePermissionsGranted(Fragment fragment, String[] permissions,
+      boolean anyGranted) {
+    boolean granted = !anyGranted;
+    for (String permission : permissions) {
+      boolean singleGranted =
+          ContextCompat.checkSelfPermission(fragment.requireActivity(), permission)
+              == PERMISSION_GRANTED;
+      granted = anyGranted ? (granted || singleGranted) : (granted && singleGranted);
+    }
+    return granted;
   }
 
-  private static void requestPermissionExecute(Fragment fragment, String permission,
-      OnPermissionRequestedListener onPermissionRequestedListener, View messageView) {
+  private static boolean shouldShowRequestPermissionRationale(Fragment fragment,
+      String[] permissions) {
+    for (String permission : permissions) {
+      if (ActivityCompat.shouldShowRequestPermissionRationale(fragment.requireActivity(),
+          permission)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean skipPermissionRequest(String[] permissions) {
+    return BuildHelper.isAbove(VERSION_CODES.Q) && permissions.length == 1
+        && permissions[0].equals(WRITE_EXTERNAL_STORAGE);
+  }
+
+  private static void requestPermissionsExecute(Fragment fragment, String[] permissions,
+      OnPermissionRequestedListener onPermissionRequestedListener, View messageView,
+      boolean anyGranted) {
     PermissionX.init(fragment)
-        .permissions(permission)
+        .permissions(permissions)
         .request((allGranted, grantedList, deniedList) -> {
-          if (allGranted) {
+          if (allGranted || (anyGranted && !grantedList.isEmpty())) {
             onPermissionRequestedListener.onPermissionGranted();
           } else {
-            var msg = fragment.getString(R.string.permission_not_granted) + ": " + permission;
+            var msg = fragment.getString(R.string.permission_not_granted) + ": "
+                + TextUtils.join(", ", deniedList);
             Snackbar.make(messageView, msg, LENGTH_LONG).show();
           }
         });

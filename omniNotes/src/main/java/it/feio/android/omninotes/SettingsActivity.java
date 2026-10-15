@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+ * Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@ package it.feio.android.omninotes;
 
 import android.os.Bundle;
 import android.view.View;
+import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.preference.Preference;
@@ -46,6 +47,20 @@ public class SettingsActivity extends AppCompatActivity implements
     View view = binding.getRoot();
     setContentView(view);
 
+    getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+      @Override
+      public void handleOnBackPressed() {
+        if (!backStack.isEmpty()) {
+          replaceFragment(backStack.remove(backStack.size() - 1));
+        } else {
+          // Fall through to the default behavior (support fragment back stack, activity finish)
+          setEnabled(false);
+          getOnBackPressedDispatcher().onBackPressed();
+          setEnabled(true);
+        }
+      }
+    });
+
     initUI();
     getSupportFragmentManager().beginTransaction()
         .replace(R.id.content_frame, new SettingsFragment()).commit();
@@ -64,16 +79,6 @@ public class SettingsActivity extends AppCompatActivity implements
     getSupportFragmentManager().beginTransaction()
         .setCustomAnimations(R.animator.fade_in, R.animator.fade_out,
             R.animator.fade_in, R.animator.fade_out).replace(R.id.content_frame, sf).commit();
-  }
-
-
-  @Override
-  public void onBackPressed() {
-    if (!backStack.isEmpty()) {
-      replaceFragment(backStack.remove(backStack.size() - 1));
-    } else {
-      super.onBackPressed();
-    }
   }
 
 

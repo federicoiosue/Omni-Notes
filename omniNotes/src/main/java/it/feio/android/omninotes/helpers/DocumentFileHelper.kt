@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+ * Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@ import java.io.IOException
 import java.nio.charset.Charset
 
 /*
-* Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+* Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
 *
 * This program is free software: you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by

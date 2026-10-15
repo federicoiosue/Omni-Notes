@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+ * Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,6 +55,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -77,7 +79,6 @@ public class BaseAndroidTestCase {
   @BeforeClass
   public static void setUpBeforeClass() {
     setContextForTests();
-    grantPermissions();
     setSharedPreferencesForTests();
     setDbHelperForTests();
   }
@@ -97,17 +98,25 @@ public class BaseAndroidTestCase {
   }
 
   @Rule
-  public GrantPermissionRule mRuntimePermissionRule = GrantPermissionRule
-      .grant(android.Manifest.permission.CAMERA);
+  public GrantPermissionRule mRuntimePermissionRule = buildGrantPermissionRule();
 
-  private static void grantPermissions() {
-    GrantPermissionRule.grant(ACCESS_COARSE_LOCATION, READ_EXTERNAL_STORAGE, RECORD_AUDIO);
+  /**
+   * Builds the grant rule with every runtime permission the tests may need, based on the device
+   * API level. The returned rule must be assigned to a {@code @Rule} field to be effective.
+   */
+  private static GrantPermissionRule buildGrantPermissionRule() {
+    var permissions = new ArrayList<>(Arrays.asList(
+        android.Manifest.permission.CAMERA, ACCESS_COARSE_LOCATION, RECORD_AUDIO));
+    if (BuildHelper.isBelowOrEqual(VERSION_CODES.S_V2)) {
+      permissions.add(READ_EXTERNAL_STORAGE);
+    }
     if (BuildHelper.isBelowOrEqual(VERSION_CODES.Q)) {
-      GrantPermissionRule.grant(WRITE_EXTERNAL_STORAGE);
+      permissions.add(WRITE_EXTERNAL_STORAGE);
     }
     if (BuildHelper.isAboveOrEqual(VERSION_CODES.TIRAMISU)) {
-      GrantPermissionRule.grant(POST_NOTIFICATIONS);
+      permissions.add(POST_NOTIFICATIONS);
     }
+    return GrantPermissionRule.grant(permissions.toArray(new String[0]));
   }
 
   private void preparePreferences() {

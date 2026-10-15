@@ -1,35 +1,66 @@
 name: CI
 on: [push, pull_request]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
 jobs:
   build-and-test:
     name: Build and run tests
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        api-level: [36, 33, 26]
     env:
       GRADLE_OPTS: -Dorg.gradle.jvmargs="-XX:MaxMetaspaceSize=1g"
     steps:
-      - name: Checkout current develop branch
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v6
 
       - name: Setup JDK
-        uses: actions/setup-java@v3.11.0
+        uses: actions/setup-java@v6
         with:
           distribution: 'temurin'
-          java-version: '17'
-          cache: 'gradle'
+          java-version: '21'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v6
+
+      - name: Build all flavors to check the whole codebase compiles
+        run: ./gradlew assembleFossDebug assemblePlayDebug assembleAlphaDebug assembleBetaDebug --stacktrace
+
+      - name: Enable KVM group perms
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
 
       - name: Run unit/instrumentation tests and coverage generation
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 30
+          api-level: ${{ matrix.api-level }}
           target: google_apis
-          arch: arm64-v8a
+          arch: x86_64
           force-avd-creation: false
-          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -accel qemu
+          cores: 4
+          ram-size: 3072M
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim
           disable-animations: true
-          script: ./gradlew -Pandroid.testInstrumentationRunnerArguments.notAnnotation=androidx.test.filters.FlakyTest,androidx.test.filters.LargeTest jacocoTestReport --stacktrace
+          script: |
+            # Warm-up: install and precompile both tested flavors so the first instrumentation test does not time out on cold start
+            ./gradlew :omniNotes:installPlayDebug :omniNotes:installAlphaDebug --stacktrace
+            adb shell cmd package compile -m speed -f it.feio.android.omninotes || true
+            adb shell cmd package compile -m speed -f it.feio.android.omninotes.alpha || true
+            adb shell am start -W -n it.feio.android.omninotes/it.feio.android.omninotes.MainActivity || true
+            adb shell am start -W -n it.feio.android.omninotes.alpha/it.feio.android.omninotes.MainActivity || true
+            sleep 15
+            adb shell am force-stop it.feio.android.omninotes || true
+            adb shell am force-stop it.feio.android.omninotes.alpha || true
+            ./gradlew -Pandroid.testInstrumentationRunnerArguments.notAnnotation=androidx.test.filters.FlakyTest,androidx.test.filters.LargeTest jacocoTestReport --stacktrace
 
       - name: SonarCloud static code and coverage analysis
+        if: matrix['api-level'] == 36
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew sonarqube -Dsonar.login="$SONAR_TOKEN"
+        run: ./gradlew sonar -Dsonar.token="$SONAR_TOKEN"

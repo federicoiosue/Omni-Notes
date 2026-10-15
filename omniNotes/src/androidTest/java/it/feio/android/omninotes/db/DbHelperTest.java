@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+ * Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -120,6 +120,21 @@ public class DbHelperTest extends BaseAndroidTestCase {
 
     assertEquals(1, tags.size());
     assertEquals(note1.getContent(), tags.get(0).getText());
+  }
+
+  @Test
+  public void updateNoteKeepsCoordinatesPrecision() {
+    var note = new Note();
+    note.setTitle("note with location");
+    note.setContent("a content");
+    note.setLatitude(43.799328);
+    note.setLongitude(11.171552);
+    dbHelper.updateNote(note, false);
+
+    var reloaded = dbHelper.getAllNotes(false).get(0);
+
+    assertEquals(43.799328, reloaded.getLatitude(), 0.0);
+    assertEquals(11.171552, reloaded.getLongitude(), 0.0);
   }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+ * Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +21,7 @@ import static it.feio.android.omninotes.helpers.BuildHelper.isDebugBuild;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_TOUR_COMPLETE;
 
 import android.os.Bundle;
+import androidx.activity.OnBackPressedCallback;
 import com.github.paolorotolo.appintro.AppIntro2;
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -29,6 +30,12 @@ public class IntroActivity extends AppIntro2 {
 
   @Override
   public void init(Bundle savedInstanceState) {
+    getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+      @Override
+      public void handleOnBackPressed() {
+        // Does nothing, you HAVE TO SEE THE INTRO!
+      }
+    });
     addSlide(new IntroSlide1(), getApplicationContext());
     addSlide(new IntroSlide2(), getApplicationContext());
     addSlide(new IntroSlide3(), getApplicationContext());
@@ -45,11 +52,6 @@ public class IntroActivity extends AppIntro2 {
 
   public static boolean mustRun() {
     return !isDebugBuild() && !Prefs.getBoolean(PREF_TOUR_COMPLETE, false);
-  }
-
-  @Override
-  public void onBackPressed() {
-    // Does nothing, you HAVE TO SEE THE INTRO!
   }
 
 }

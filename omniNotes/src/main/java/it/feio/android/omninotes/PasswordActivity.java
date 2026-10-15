@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+ * Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import androidx.activity.OnBackPressedCallback;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
@@ -59,6 +60,13 @@ public class PasswordActivity extends BaseActivity {
     setContentView(R.layout.activity_password);
     getWindow().setLayout(screenWidth, screenHeight);
     mActivity = this;
+    getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+      @Override
+      public void handleOnBackPressed() {
+        setResult(RESULT_OK);
+        finish();
+      }
+    });
     setActionBarTitle(getString(R.string.title_activity_password));
     initViews();
   }
@@ -230,13 +238,6 @@ public class PasswordActivity extends BaseActivity {
       }
     }
     return res;
-  }
-
-
-  @Override
-  public void onBackPressed() {
-    setResult(RESULT_OK);
-    finish();
   }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+ * Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -462,8 +462,10 @@ public class DbHelper extends SQLiteOpenHelper {
           note.setAlarm(cursor.getString(i++));
           note.setReminderFired(cursor.getInt(i++));
           note.setRecurrenceRule(cursor.getString(i++));
-          note.setLatitude(cursor.getString(i++));
-          note.setLongitude(cursor.getString(i++));
+          note.setLatitude(cursor.isNull(i) ? null : cursor.getDouble(i));
+          i++;
+          note.setLongitude(cursor.isNull(i) ? null : cursor.getDouble(i));
+          i++;
           note.setAddress(cursor.getString(i++));
           note.setLocked("1".equals(cursor.getString(i++)));
           note.setChecklist("1".equals(cursor.getString(i++)));

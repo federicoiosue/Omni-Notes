@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+ * Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -25,5 +25,7 @@ public interface Constants extends ConstantsBase {
   String CHANNEL_BACKUPS_ID = PACKAGE + ".backups";
   String CHANNEL_REMINDERS_ID = PACKAGE + ".reminders";
   String CHANNEL_PINNED_ID = PACKAGE + ".pinned";
+
+  String MAPS_API = "https://www.google.com/maps/search/?api=1&query=%s,%s";
 
 }

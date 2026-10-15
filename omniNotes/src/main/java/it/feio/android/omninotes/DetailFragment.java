@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2025 Federico Iosue (developer@omninotes.app)
+ * Copyright (C) 2013-2026 Federico Iosue (omninotes@iosue.it)
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -659,12 +659,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     var detailFragment = this;
 
     if (isNoteLocationValid()) {
-      if (TextUtils.isEmpty(noteTmp.getAddress())) {
-        noteTmp.setAddress(noteTmp.getLatitude() + ", " + noteTmp.getLongitude());
-      } else {
-        binding.fragmentDetailContent.location.setText(noteTmp.getAddress());
-        binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
+      var address = noteTmp.getAddress();
+      if (TextUtils.isEmpty(address)) {
+        // No address is stored for notes saved with coordinates only
+        address = noteTmp.getLatitude() + ", " + noteTmp.getLongitude();
       }
+      binding.fragmentDetailContent.location.setText(address);
+      binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
     }
 
     // Automatic location insertion
@@ -700,12 +701,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   private void getLocation(OnGeoUtilResultListener onGeoUtilResultListener) {
     PermissionsHelper
-        .requestPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION, R.string
+        .requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION}, R.string
                 .permission_coarse_location, binding.snackbarPlaceholder,
-            () -> {
-          LocationProviderFactory.INSTANCE.getProvider().instantiate();
-          LocationProviderFactory.INSTANCE.getProvider().getLocation(onGeoUtilResultListener);
-        });
+            () -> LocationProviderFactory.getProvider().getLocation(onGeoUtilResultListener),
+            true);
   }
 
   private void initViewAttachments() {
@@ -928,6 +928,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   @Override
   public void onLocationRetrieved(Location location) {
+    if (!isAdded()) {
+      return;
+    }
     if (location == null) {
       mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
     }
@@ -947,14 +950,25 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   @Override
   public void onLocationUnavailable(Exception e) {
-    mainActivity.showMessage(R.string.location_not_found + ": " + e.getMessage(), ONStyle.ALERT);
+    if (!isAdded()) {
+      return;
+    }
+    var message = e != null && e.getMessage() != null ? ": " + e.getMessage() : "";
+    mainActivity.showMessage(getString(R.string.location_not_found) + message, ONStyle.ALERT);
   }
 
-  public void onLocationNotEnabled(){
+  public void onLocationNotEnabled() {
+    if (!isAdded()) {
+      return;
+    }
     mainActivity.showMessage(R.string.location_not_enabled, ONStyle.ALERT);
   }
+
   @Override
   public void onAddressResolved(String address) {
+    if (!isAdded()) {
+      return;
+    }
     if (TextUtils.isEmpty(address)) {
       if (!isNoteLocationValid()) {
         mainActivity.showMessage(R.string.location_not_found, ONStyle.ALERT);
@@ -972,7 +986,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
   @Override
   public void onCoordinatesUnresolved(Exception e) {
-    mainActivity.showMessage(R.string.location_not_found + ": " + e.getMessage(), ONStyle.ALERT);
+    var message = e != null && e.getMessage() != null ? ": " + e.getMessage() : "";
+    mainActivity.showMessage(getString(R.string.location_not_found) + message, ONStyle.ALERT);
   }
 
   @Override
