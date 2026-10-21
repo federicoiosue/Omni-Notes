@@ -31,8 +31,10 @@ public class RecyclerViewItemClickSupport {
     @Override
     public void onClick(View v) {
       if (mOnItemClickListener != null) {
-        var holder = mRecyclerView.getChildViewHolder(v);
-        mOnItemClickListener.onItemClicked(mRecyclerView, holder.getAdapterPosition(), v);
+        int position = getAdapterPosition(v);
+        if (position != RecyclerView.NO_POSITION) {
+          mOnItemClickListener.onItemClicked(mRecyclerView, position, v);
+        }
       }
     }
   };
@@ -40,9 +42,10 @@ public class RecyclerViewItemClickSupport {
     @Override
     public boolean onLongClick(View v) {
       if (mOnItemLongClickListener != null) {
-        var holder = mRecyclerView.getChildViewHolder(v);
-        return mOnItemLongClickListener
-            .onItemLongClicked(mRecyclerView, holder.getAdapterPosition(), v);
+        int position = getAdapterPosition(v);
+        if (position != RecyclerView.NO_POSITION) {
+          return mOnItemLongClickListener.onItemLongClicked(mRecyclerView, position, v);
+        }
       }
       return false;
     }
@@ -65,6 +68,11 @@ public class RecyclerViewItemClickSupport {
     }
 
   };
+
+  private int getAdapterPosition(View v) {
+    var holder = mRecyclerView.findContainingViewHolder(v);
+    return holder == null ? RecyclerView.NO_POSITION : holder.getBindingAdapterPosition();
+  }
 
   private RecyclerViewItemClickSupport(RecyclerView recyclerView) {
     mRecyclerView = recyclerView;
