@@ -193,7 +193,7 @@ dependencies {
     implementation('com.github.federicoiosue:checklistview:4.1.0') {
         transitive = false
     }
-    implementation 'com.github.federicoiosue:pixlui:3.0.1'
+    implementation 'com.github.federicoiosue:pixlui:3.1.0'
 
     // Flavors specific dependencies
 }
