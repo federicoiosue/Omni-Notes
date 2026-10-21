@@ -52,7 +52,9 @@ public class SaveNoteTask extends AsyncTask<Note, Void, Note> {
       note.setReminderFired(false);
     }
     note = DbHelper.getInstance().updateNote(note, updateLastModification);
-    if (reminderMustBeSet) {
+    if (Boolean.TRUE.equals(note.isTrashed())) {
+      ReminderHelper.removeReminder(context, note);
+    } else if (reminderMustBeSet) {
       ReminderHelper.addReminder(context, note);
     }
     return note;
