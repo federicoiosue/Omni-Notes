@@ -1707,7 +1707,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       mainActivity.showMessage(R.string.password_not_set, ONStyle.WARN);
       return;
     }
-    mainActivity.showMessage(R.string.save_note_to_lock_it, ONStyle.INFO);
+    mainActivity.showMessage(
+        noteTmp.isLocked()
+            ? R.string.save_note_to_unlock_it
+            : R.string.save_note_to_lock_it,
+        ONStyle.INFO);
     mainActivity.supportInvalidateOptionsMenu();
     noteTmp.setLocked(!noteTmp.isLocked());
     noteTmp.setPasswordChecked(true);
