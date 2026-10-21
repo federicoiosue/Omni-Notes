@@ -237,6 +237,10 @@ public class NotificationsHelper {
     mNotificationManager.cancel(0);
   }
 
+  public void cancelAll() {
+    mNotificationManager.cancelAll();
+  }
+
   public void cancel(int id) {
     mNotificationManager.cancel(id);
   }

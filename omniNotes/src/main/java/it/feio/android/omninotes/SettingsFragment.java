@@ -73,6 +73,7 @@ import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator.Result;
 import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.ResourcesUtils;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
@@ -482,6 +483,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             .content(R.string.reset_all_data_confirmation)
             .positiveText(R.string.confirm)
             .onPositive((dialog, which) -> {
+              ReminderHelper.removeAllReminders(getActivity());
               Prefs.edit().clear().apply();
               File db = getActivity().getDatabasePath(DATABASE_NAME);
               StorageHelper.delete(getActivity(), db.getAbsolutePath());

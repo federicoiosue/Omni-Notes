@@ -625,6 +625,16 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
   /**
+   * Returns all notes with a reminder, regardless of their navigation state
+   *
+   * @return Notes list
+   */
+  public List<Note> getAllNotesWithReminder() {
+    return getNotes(" WHERE " + KEY_REMINDER + " IS NOT NULL", false);
+  }
+
+
+  /**
    * Retrieves locked or unlocked notes
    */
   public List<Note> getNotesWithLock(boolean locked) {
