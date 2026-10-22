@@ -126,6 +126,7 @@ import it.feio.android.checklistview.models.CheckListView;
 import it.feio.android.checklistview.models.CheckListViewItem;
 import it.feio.android.checklistview.models.ChecklistManager;
 import it.feio.android.omninotes.async.AttachmentTask;
+import it.feio.android.omninotes.async.ReverseGeocodeTask;
 import it.feio.android.omninotes.async.bus.NotesUpdatedEvent;
 import it.feio.android.omninotes.async.bus.PushbulletReplyEvent;
 import it.feio.android.omninotes.async.bus.SwitchFragmentEvent;
@@ -138,6 +139,7 @@ import it.feio.android.omninotes.exceptions.checked.UnhandledIntentException;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.helpers.IntentHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.helpers.NumberHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.TagOpenerHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
@@ -659,7 +661,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     var detailFragment = this;
 
     if (isNoteLocationValid()) {
-      var address = noteTmp.getAddress();
+      String address = noteTmp.getAddress();
       if (TextUtils.isEmpty(address)) {
         // No address is stored for notes saved with coordinates only
         address = noteTmp.getLatitude() + ", " + noteTmp.getLongitude();
@@ -941,9 +943,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
         binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
         binding.fragmentDetailContent.location.setText(noteTmp.getAddress());
       } else {
-        // Bypassing reverse geolocation. From now on coordinates only will be used
-        // GeocodeHelper.getAddressFromCoordinates(location, mFragment);
-        onAddressResolved(null);
+        // Address lookup is done in background to avoid blocking the UI thread
+        new ReverseGeocodeTask(this::onAddressResolved, location.getLatitude(),
+            location.getLongitude())
+            .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
       }
     }
   }
@@ -1367,9 +1370,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           attachmentUri = Uri.fromFile(f);
           takeVideoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
           takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProviderHelper.getFileProvider(f));
-          var maxVideoSizeStr = "".equals(Prefs.getString("settings_max_video_size", ""))
-              ? "0" : Prefs.getString("settings_max_video_size", "");
-          long maxVideoSize = parseLong(maxVideoSizeStr) * 1024L * 1024L;
+          var maxVideoSizeStr = Prefs.getString("settings_max_video_size", "");
+          long maxVideoSize = NumberHelper.megabytesToBytes(maxVideoSizeStr);
           takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, maxVideoSize);
           startActivityForResult(takeVideoIntent, TAKE_VIDEO);
         });
@@ -1707,7 +1709,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       mainActivity.showMessage(R.string.password_not_set, ONStyle.WARN);
       return;
     }
-    mainActivity.showMessage(R.string.save_note_to_lock_it, ONStyle.INFO);
+    mainActivity.showMessage(
+        noteTmp.isLocked()
+            ? R.string.save_note_to_unlock_it
+            : R.string.save_note_to_lock_it,
+        ONStyle.INFO);
     mainActivity.supportInvalidateOptionsMenu();
     noteTmp.setLocked(!noteTmp.isLocked());
     noteTmp.setPasswordChecked(true);

@@ -23,6 +23,7 @@ import it.feio.android.omninotes.async.bus.NotesDeletedEvent;
 import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.StorageHelper;
 import java.util.List;
 
@@ -47,6 +48,7 @@ public class NoteProcessorDelete extends NoteProcessor {
   @Override
   protected void processNote(Note note) {
     DbHelper db = DbHelper.getInstance();
+    ReminderHelper.removeReminder(OmniNotes.getAppContext(), note);
     if (db.deleteNote(note) && !keepAttachments) {
       for (Attachment mAttachment : note.getAttachmentsList()) {
         StorageHelper

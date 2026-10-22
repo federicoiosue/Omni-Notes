@@ -34,6 +34,7 @@ import android.text.TextUtils;
 import android.widget.Toast;
 import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
+import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Note;
@@ -105,6 +106,16 @@ public class ReminderHelper {
       am.cancel(p);
       p.cancel();
     }
+  }
+
+  /**
+   * Removes all pending reminders and clears notifications already shown
+   */
+  public static void removeAllReminders(Context context) {
+    for (Note note : DbHelper.getInstance().getAllNotesWithReminder()) {
+      removeReminder(context, note);
+    }
+    new NotificationsHelper(context).cancelAll();
   }
 
   public static void showReminderMessage(String reminderString) {

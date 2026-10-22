@@ -24,12 +24,13 @@ import static org.junit.Assert.assertEquals;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import it.feio.android.omninotes.models.Note;
+import it.feio.android.omninotes.testutils.BaseAndroidTestCase;
 import java.util.Calendar;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class ReminderHelperTest {
+public class ReminderHelperTest extends BaseAndroidTestCase {
 
   @Test
   public void shouldGetRequestCode() {
@@ -78,11 +79,38 @@ public class ReminderHelperTest {
     assertFalse(reminderRemoved);
   }
 
+  @Test
+  public void shouldRemoveAllReminders() {
+    var context = InstrumentationRegistry.getInstrumentation().getTargetContext();
+    Note activeNote = buildStoredNote("active");
+    Note trashedNote = buildStoredNote("trashed");
+    trashedNote.setTrashed(true);
+    dbHelper.updateNote(trashedNote, false);
+
+    ReminderHelper.addReminder(context, activeNote);
+    ReminderHelper.addReminder(context, trashedNote);
+    assertTrue(ReminderHelper.checkReminder(context, activeNote));
+    assertTrue(ReminderHelper.checkReminder(context, trashedNote));
+
+    ReminderHelper.removeAllReminders(context);
+
+    assertFalse(ReminderHelper.checkReminder(context, activeNote));
+    assertFalse(ReminderHelper.checkReminder(context, trashedNote));
+  }
+
   private Note buildNote() {
     long now = Calendar.getInstance().getTimeInMillis();
     Note note = new Note();
     note.setCreation(now);
     note.setAlarm(now + 1000);
     return note;
+  }
+
+  private Note buildStoredNote(String title) {
+    Note note = buildNote();
+    note.setTitle(title);
+    note.setContent("content");
+    note.setAlarm(Calendar.getInstance().getTimeInMillis() + 60_000);
+    return dbHelper.updateNote(note, false);
   }
 }

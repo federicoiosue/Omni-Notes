@@ -136,7 +136,7 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     mDrawerCategoriesList.setOnItemLongClickListener((arg0, view, position, arg3) -> {
       if (mDrawerCategoriesList.getAdapter() != null) {
         Object item = mDrawerCategoriesList.getAdapter().getItem(position);
-        // Ensuring that clicked item is not the ListView header
+        // Ensuring that clicked item is not the ListView footer
         if (item != null) {
           mainActivity.editTag((Category) item);
         }
@@ -151,6 +151,10 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
     mDrawerCategoriesList.setOnItemClickListener((arg0, arg1, position, arg3) -> {
 
       Object item = mDrawerCategoriesList.getAdapter().getItem(position);
+      // Ensuring that clicked item is not the ListView footer
+      if (item == null) {
+        return;
+      }
       if (mainActivity.updateNavigation(String.valueOf(((Category) item).getId()))) {
         mDrawerCategoriesList.setItemChecked(position, true);
         // Forces redraw
