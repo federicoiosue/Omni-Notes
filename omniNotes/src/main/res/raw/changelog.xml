@@ -17,6 +17,17 @@
 <changelog bulletedList="true">
 
   <changelogversion
+    changeDate="Oct 22, 2026"
+    versionName="6.5.1">
+    <changelogtext>[u]Fix[/u] Tapping a note in the list could close the app</changelogtext>
+    <changelogtext>[u]Fix[/u] The bottom of the categories menu could close the app</changelogtext>
+    <changelogtext>[u]Fix[/u] Wrong message shown when unlocking a note</changelogtext>
+    <changelogtext>[u]Fix[/u] Reminders survived note deletion and could bring erased notes back</changelogtext>
+    <changelogtext>[u]Fix[/u] Some numbers in notes were turned into phone numbers</changelogtext>
+    <changelogtext>[u]Fix[/u] An invalid maximum video size could close the app</changelogtext>
+  </changelogversion>
+
+  <changelogversion
     changeDate="Oct 13, 2026"
     versionName="6.5.0">
     <changelogtext>[b]New![/b] Location is now retrieved without Google proprietary services, with the same behavior on all app versions</changelogtext>

@@ -44,6 +44,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -73,6 +74,7 @@ import it.feio.android.omninotes.intro.IntroActivity;
 import it.feio.android.omninotes.models.ONStyle;
 import it.feio.android.omninotes.models.PasswordValidator.Result;
 import it.feio.android.omninotes.utils.PasswordHelper;
+import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.ResourcesUtils;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.SystemHelper;
@@ -300,6 +302,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     if (maxVideoSize != null) {
       maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": "
           + Prefs.getString("settings_max_video_size", getString(R.string.not_set)));
+      // Keyboard, paste and autofill can only produce digits
+      maxVideoSize.setOnBindEditTextListener(
+          editText -> editText.setKeyListener(new DigitsKeyListener(false, false)));
       maxVideoSize.setOnPreferenceChangeListener((preference, newValue) -> {
         maxVideoSize
             .setSummary(getString(R.string.settings_max_video_size_summary) + ": " + newValue);
@@ -482,6 +487,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             .content(R.string.reset_all_data_confirmation)
             .positiveText(R.string.confirm)
             .onPositive((dialog, which) -> {
+              ReminderHelper.removeAllReminders(getActivity());
               Prefs.edit().clear().apply();
               File db = getActivity().getDatabasePath(DATABASE_NAME);
               StorageHelper.delete(getActivity(), db.getAbsolutePath());
