@@ -1,0 +1,7 @@
+6.5.1
+✓ Tapping a note in the list could close the app
+✓ The bottom of the categories menu could close the app
+✓ Wrong message shown when unlocking a note
+✓ Reminders survived note deletion and could bring erased notes back
+✓ Some numbers in notes were turned into phone numbers
+✓ An invalid maximum video size could close the app
