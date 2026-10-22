@@ -663,12 +663,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     if (isNoteLocationValid()) {
       String address = noteTmp.getAddress();
       if (TextUtils.isEmpty(address)) {
-        // No address is stored for notes saved with coordinates only: coordinates are shown
-        // immediately, then replaced by the resolved address when available
+        // No address is stored for notes saved with coordinates only
         address = noteTmp.getLatitude() + ", " + noteTmp.getLongitude();
-        new ReverseGeocodeTask(resolvedAddress -> displayResolvedAddress(resolvedAddress),
-            noteTmp.getLatitude(), noteTmp.getLongitude())
-            .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR);
       }
       binding.fragmentDetailContent.location.setText(address);
       binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
@@ -989,18 +985,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
     binding.fragmentDetailContent.location.setText(address);
     fade(binding.fragmentDetailContent.location, true);
-  }
-
-  /**
-   * Shows the address resolved in background for a note that only stores coordinates. The address
-   * is not persisted so that opening a note never alters its last modification date.
-   */
-  private void displayResolvedAddress(String address) {
-    if (!isAdded() || TextUtils.isEmpty(address)) {
-      return;
-    }
-    binding.fragmentDetailContent.location.setText(address);
-    binding.fragmentDetailContent.location.setVisibility(View.VISIBLE);
   }
 
   @Override
