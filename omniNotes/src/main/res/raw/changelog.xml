@@ -24,6 +24,7 @@
     <changelogtext>[u]Fix[/u] Wrong message shown when unlocking a note</changelogtext>
     <changelogtext>[u]Fix[/u] Reminders survived note deletion and could bring erased notes back</changelogtext>
     <changelogtext>[u]Fix[/u] Some numbers in notes were turned into phone numbers</changelogtext>
+    <changelogtext>[u]Fix[/u] An invalid maximum video size could close the app</changelogtext>
   </changelogversion>
 
   <changelogversion

@@ -139,6 +139,7 @@ import it.feio.android.omninotes.exceptions.checked.UnhandledIntentException;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
 import it.feio.android.omninotes.helpers.IntentHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
+import it.feio.android.omninotes.helpers.NumberHelper;
 import it.feio.android.omninotes.helpers.PermissionsHelper;
 import it.feio.android.omninotes.helpers.TagOpenerHelper;
 import it.feio.android.omninotes.helpers.date.DateHelper;
@@ -1385,9 +1386,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
           attachmentUri = Uri.fromFile(f);
           takeVideoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
           takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProviderHelper.getFileProvider(f));
-          var maxVideoSizeStr = "".equals(Prefs.getString("settings_max_video_size", ""))
-              ? "0" : Prefs.getString("settings_max_video_size", "");
-          long maxVideoSize = parseLong(maxVideoSizeStr) * 1024L * 1024L;
+          var maxVideoSizeStr = Prefs.getString("settings_max_video_size", "");
+          long maxVideoSize = NumberHelper.megabytesToBytes(maxVideoSizeStr);
           takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, maxVideoSize);
           startActivityForResult(takeVideoIntent, TAKE_VIDEO);
         });
