@@ -221,20 +221,25 @@ apply plugin: 'jacoco'
 jacoco {
     toolVersion = jacocoVersion
 }
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 'createAlphaDebugCoverageReport', 'connectedPlayDebugAndroidTest']) {
+// createAlphaDebugCoverageReport already runs connectedAlphaDebugAndroidTest,
+// so coverage data and classes both come from the alpha flavor
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 'createAlphaDebugCoverageReport']) {
     reports {
+        // Path kept in sync with the SonarCloud glob in the root build.gradle
         xml.required = true
+        xml.outputLocation = file("${buildDir}/reports/coverage/alpha/debug/report.xml")
         html.required = true
+        html.outputLocation = file("${buildDir}/reports/coverage/alpha/debug/html")
     }
 
     def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
-    def debugTree = fileTree(dir: "${buildDir}/intermediates/classes/debug", excludes: fileFilter)
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/javac/alphaDebug/compileAlphaDebugJavaWithJavac/classes", excludes: fileFilter)
     def mainSrc = "${project.projectDir}/src/main/java"
 
     sourceDirectories.from = files([mainSrc])
     classDirectories.from = files([debugTree])
     executionData.from = fileTree(dir: "$buildDir", includes: [
-            "jacoco/testAlphaDebugUnitTest.exec",
+            "outputs/unit_test_code_coverage/alphaDebugUnitTest/*.exec",
             "outputs/code_coverage/alphaDebugAndroidTest/connected/*coverage.ec"
     ])
 }
