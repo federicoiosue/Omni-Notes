@@ -22,9 +22,11 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
+import it.feio.android.omninotes.NavigationDrawerFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.SettingsActivity;
 import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
@@ -164,6 +166,8 @@ public class CategoryMenuTask extends AsyncTask<Void, Void, List<Category>> {
               .post(new NavigationUpdatedEvent(mDrawerCategoriesList.getItemAtPosition
                   (position)));
         }
+      } else if (!NavigationDrawerFragment.isDoublePanelActive()) {
+        mainActivity.getDrawerLayout().closeDrawer(GravityCompat.START);
       }
     });
   }

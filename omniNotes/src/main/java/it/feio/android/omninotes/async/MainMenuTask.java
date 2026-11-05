@@ -23,10 +23,12 @@ import static it.feio.android.omninotes.utils.ConstantsBase.PREF_SHOW_UNCATEGORI
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
 import it.feio.android.omninotes.MainActivity;
+import it.feio.android.omninotes.NavigationDrawerFragment;
 import it.feio.android.omninotes.R;
 import it.feio.android.omninotes.async.bus.NavigationUpdatedEvent;
 import it.feio.android.omninotes.models.NavigationItem;
@@ -77,6 +79,8 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
       mainActivity.get().getIntent().setAction(Intent.ACTION_MAIN);
       EventBus.getDefault()
           .post(new NavigationUpdatedEvent(navDrawer.getItemAtPosition(position)));
+    } else if (!NavigationDrawerFragment.isDoublePanelActive()) {
+      mainActivity.get().getDrawerLayout().closeDrawer(GravityCompat.START);
     }
   }
 
