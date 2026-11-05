@@ -42,6 +42,7 @@ import it.feio.android.omninotes.utils.BitmapHelper;
 import it.feio.android.omninotes.utils.ParcelableUtil;
 import it.feio.android.omninotes.utils.TextHelper;
 import java.util.List;
+import java.util.Objects;
 
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -57,8 +58,8 @@ public class AlarmReceiver extends BroadcastReceiver {
           LogDelegate.d("Reminder fired for a note that no longer exists, skipping");
           return;
         }
-        if (currentNote.getAlarm() == null) {
-          LogDelegate.d("Reminder fired for a note that has no reminder anymore, skipping");
+        if (!Objects.equals(currentNote.getAlarm(), note.getAlarm())) {
+          LogDelegate.d("Reminder fired for a reminder that was changed or removed, skipping");
           return;
         }
         createNotification(mContext, currentNote);

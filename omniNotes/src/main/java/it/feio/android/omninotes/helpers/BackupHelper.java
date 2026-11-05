@@ -151,7 +151,7 @@ public final class BackupHelper {
     }
   }
 
-  public static List<Note> importNotes(DocumentFileCompat backupDir) {
+  private static List<Note> importNotes(DocumentFileCompat backupDir) {
     return backupDir.listFiles().stream()
         .filter(f -> f.getName().matches("\\d{13}.json"))
         .map(BackupHelper::importNote)
@@ -162,12 +162,13 @@ public final class BackupHelper {
   /**
    * Restores notes from a backup, discarding reminders scheduled before the import. Without
    * cancelling first, an alarm whose reminder is not in the backup would fire later and overwrite
-   * the restored note (see issue #1034). Reminders must be scheduled again after the import, once
-   * attachments have been restored too.
+   * the restored note (see issue #1034). Callers must schedule reminders again afterwards (see
+   * {@link ReminderHelper#scheduleAllReminders(Context)}), even when the import fails, or every
+   * reminder would be left unscheduled.
    */
-  public static List<Note> restoreNotes(DocumentFileCompat backupDir) {
+  public static void restoreNotes(DocumentFileCompat backupDir) {
     ReminderHelper.cancelAllReminders(getAppContext());
-    return importNotes(backupDir);
+    importNotes(backupDir);
   }
 
   @Nullable

@@ -23,13 +23,9 @@ import android.os.Build.VERSION_CODES;
 import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 import it.feio.android.omninotes.BaseActivity;
-import it.feio.android.omninotes.OmniNotes;
-import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.helpers.BuildHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
-import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.ReminderHelper;
-import java.util.List;
 
 /**
  * Verify version code and add wake lock in manifest is important to avoid crash
@@ -54,11 +50,7 @@ public class AlarmRestoreOnRebootService extends JobIntentService {
 
     BaseActivity.notifyAppWidgets(mContext);
 
-    List<Note> notes = DbHelper.getInstance().getNotesWithReminderNotFired();
-    LogDelegate.d("Found " + notes.size() + " reminders");
-    for (Note note : notes) {
-      ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
-    }
+    ReminderHelper.scheduleAllReminders(mContext);
   }
 
 }

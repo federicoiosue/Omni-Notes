@@ -106,7 +106,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
       BackupHelper.restoreNotes(backupDir.get());
       BackupHelper.importAttachments(backupDir.get(), mNotificationsHelper);
     } finally {
-      ReminderHelper.scheduleAllReminders(getBaseContext());
+      rescheduleReminders();
     }
 
     mNotificationsHelper.cancel();
@@ -171,15 +171,21 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
   }
 
 
-  @Override
-  public void onAttachingFileErrorOccurred(Attachment mAttachment) {
-    // TODO Auto-generated method stub
+  private void rescheduleReminders() {
+    try {
+      ReminderHelper.scheduleAllReminders(getBaseContext());
+    } catch (Exception e) {
+      LogDelegate.e("Error rescheduling reminders after a data import", e);
+    }
   }
 
 
   @Override
+  public void onAttachingFileErrorOccurred(Attachment mAttachment) {
+  }
+
+  @Override
   public void onAttachingFileFinished(Attachment mAttachment) {
-    // TODO Auto-generated method stub
   }
 
 }

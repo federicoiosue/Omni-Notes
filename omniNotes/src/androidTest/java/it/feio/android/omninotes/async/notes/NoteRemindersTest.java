@@ -154,6 +154,21 @@ public class NoteRemindersTest extends BaseAndroidTestCase {
     assertNull(currentNote.getAlarm());
   }
 
+  @Test
+  public void firedAlarmOfExistingReminderIsApplied() {
+    var note = createRemindedNote("Legitimate fire");
+    note.setArchived(true);
+    dbHelper.updateNote(note, false);
+
+    var intent = new Intent(OmniNotes.getAppContext(), AlarmReceiver.class);
+    intent.putExtra(INTENT_NOTE, ParcelableUtil.marshall(note));
+    new AlarmReceiver().onReceive(OmniNotes.getAppContext(), intent);
+
+    var currentNote = dbHelper.getNote(note.get_id());
+    assertFalse(currentNote.isArchived());
+    assertEquals(note.getAlarm(), currentNote.getAlarm());
+  }
+
   private Note createRemindedNote(String title) {
     var note = new Note();
     note.setTitle(title);
