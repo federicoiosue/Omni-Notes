@@ -73,6 +73,16 @@ public class DateUtilsTest {
   }
 
   @Test
+  public void getPresetReminderManagesInvalidAlarms() {
+    var nextMinute = Calendar.getInstance().getTimeInMillis() + 61 * 1000;
+
+    for (String invalidAlarm : new String[]{null, "", "invalid", "99999999999999999999"}) {
+      var presetReminder = DateUtils.getPresetReminder(invalidAlarm);
+      assertTrue(Calendar.getInstance().getTimeInMillis() < presetReminder && presetReminder < nextMinute);
+    }
+  }
+
+  @Test
   public void isFuture() {
     String nextMinute = String.valueOf(Calendar.getInstance().getTimeInMillis() + 60000);
     String previousMinute = String.valueOf(Calendar.getInstance().getTimeInMillis() - 60000);

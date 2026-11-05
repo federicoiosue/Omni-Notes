@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.ocpsoft.prettytime.PrettyTime;
 
 
@@ -162,7 +163,7 @@ public class DateUtils {
   }
 
   public static Long getPresetReminder(String alarm) {
-    long alarmChecked = alarm == null ? 0 : Long.parseLong(alarm);
+    long alarmChecked = NumberUtils.toLong(alarm, 0L);
     return getPresetReminder(alarmChecked);
   }
 
