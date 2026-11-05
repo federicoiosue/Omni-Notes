@@ -42,6 +42,7 @@ import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.utils.Constants;
+import it.feio.android.omninotes.utils.ReminderHelper;
 import it.feio.android.omninotes.utils.Security;
 import it.feio.android.omninotes.utils.StorageHelper;
 import it.feio.android.omninotes.utils.TextHelper;
@@ -156,6 +157,17 @@ public final class BackupHelper {
         .map(BackupHelper::importNote)
         .filter(Objects::nonNull)
         .collect(toList());
+  }
+
+  /**
+   * Restores notes from a backup, discarding reminders scheduled before the import. Without
+   * cancelling first, an alarm whose reminder is not in the backup would fire later and overwrite
+   * the restored note (see issue #1034). Reminders must be scheduled again after the import, once
+   * attachments have been restored too.
+   */
+  public static List<Note> restoreNotes(DocumentFileCompat backupDir) {
+    ReminderHelper.cancelAllReminders(getAppContext());
+    return importNotes(backupDir);
   }
 
   @Nullable

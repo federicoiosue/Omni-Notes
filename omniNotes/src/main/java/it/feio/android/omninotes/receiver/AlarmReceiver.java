@@ -52,13 +52,18 @@ public class AlarmReceiver extends BroadcastReceiver {
       if (intent.hasExtra(INTENT_NOTE)) {
         Note note = ParcelableUtil.unmarshall(intent.getExtras().getByteArray(INTENT_NOTE), Note
             .CREATOR);
-        if (isNoteGone(note)) {
+        Note currentNote = reloadNote(note);
+        if (currentNote == null) {
           LogDelegate.d("Reminder fired for a note that no longer exists, skipping");
           return;
         }
-        createNotification(mContext, note);
-        SnoozeActivity.setNextRecurrentReminder(note);
-        updateNote(note);
+        if (currentNote.getAlarm() == null) {
+          LogDelegate.d("Reminder fired for a note that has no reminder anymore, skipping");
+          return;
+        }
+        createNotification(mContext, currentNote);
+        SnoozeActivity.setNextRecurrentReminder(currentNote);
+        updateNote(currentNote);
       }
     } catch (Exception e) {
       LogDelegate.e("Error on receiving reminder", e);
@@ -66,11 +71,14 @@ public class AlarmReceiver extends BroadcastReceiver {
   }
 
   /**
-   * Prevents a note deleted after the reminder was scheduled from being restored by a still
-   * queued alarm
+   * Reloads the note the alarm was scheduled for, so that a still queued alarm can't overwrite it
+   * with the copy stored when the reminder was set
    */
-  private boolean isNoteGone(Note note) {
-    return note.getCreation() != null && DbHelper.getInstance().getNote(note.getCreation()) == null;
+  private Note reloadNote(Note note) {
+    if (note.getCreation() == null) {
+      return note;
+    }
+    return DbHelper.getInstance().getNote(note.getCreation());
   }
 
   private void updateNote(Note note) {

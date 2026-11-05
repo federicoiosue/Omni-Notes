@@ -18,18 +18,23 @@
 package it.feio.android.omninotes.async.notes;
 
 import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_NOTE;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Intent;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import com.lazygeniouz.dfc.file.DocumentFileCompat;
 import it.feio.android.omninotes.OmniNotes;
+import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.receiver.AlarmReceiver;
 import it.feio.android.omninotes.testutils.BaseAndroidTestCase;
 import it.feio.android.omninotes.utils.ParcelableUtil;
 import it.feio.android.omninotes.utils.ReminderHelper;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Calendar;
 import java.util.List;
 import org.junit.Test;
@@ -90,6 +95,63 @@ public class NoteRemindersTest extends BaseAndroidTestCase {
     new AlarmReceiver().onReceive(OmniNotes.getAppContext(), intent);
 
     assertNull(dbHelper.getNote(note.get_id()));
+  }
+
+  @Test
+  public void restoringBackupCancelsAlarmsOfRemindersNotInBackup() throws IOException {
+    var context = OmniNotes.getAppContext();
+    var backupDir = DocumentFileCompat.Companion.fromFile(testContext,
+        Files.createTempDirectory("restoreBackup").toFile());
+
+    var note = createTestNote("Import note", "backup body", 0);
+    BackupHelper.exportNote(backupDir, note);
+
+    note.setAlarm(Calendar.getInstance().getTimeInMillis() + 60_000);
+    dbHelper.updateNote(note, false);
+    ReminderHelper.addReminder(context, note);
+    assertTrue(ReminderHelper.checkReminder(context, note));
+
+    BackupHelper.restoreNotes(backupDir);
+    ReminderHelper.scheduleAllReminders(context);
+
+    assertNull(dbHelper.getNote(note.get_id()).getAlarm());
+    assertFalse(ReminderHelper.checkReminder(context, note));
+  }
+
+  @Test
+  public void restoringBackupSchedulesRemindersFoundInBackup() throws IOException {
+    var context = OmniNotes.getAppContext();
+    var backupDir = DocumentFileCompat.Companion.fromFile(testContext,
+        Files.createTempDirectory("restoreBackupWithReminder").toFile());
+
+    var note = createRemindedNote("Import note");
+    BackupHelper.exportNote(backupDir, note);
+    ReminderHelper.removeReminder(context, note);
+    assertFalse(ReminderHelper.checkReminder(context, note));
+
+    BackupHelper.restoreNotes(backupDir);
+    ReminderHelper.scheduleAllReminders(context);
+
+    assertTrue(ReminderHelper.checkReminder(context, note));
+  }
+
+  @Test
+  public void killedAlarmOfRestoredNoteDoesNotOverwriteIt() {
+    var note = createRemindedNote("Import note");
+    var staleCopy = ParcelableUtil.unmarshall(ParcelableUtil.marshall(note), Note.CREATOR);
+
+    var restored = dbHelper.getNote(note.get_id());
+    restored.setAlarm(null);
+    restored.setContent("backup body edited after restore");
+    dbHelper.updateNote(restored, false);
+
+    var intent = new Intent(OmniNotes.getAppContext(), AlarmReceiver.class);
+    intent.putExtra(INTENT_NOTE, ParcelableUtil.marshall(staleCopy));
+    new AlarmReceiver().onReceive(OmniNotes.getAppContext(), intent);
+
+    var currentNote = dbHelper.getNote(note.get_id());
+    assertEquals("backup body edited after restore", currentNote.getContent());
+    assertNull(currentNote.getAlarm());
   }
 
   private Note createRemindedNote(String title) {

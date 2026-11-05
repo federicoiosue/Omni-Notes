@@ -112,10 +112,26 @@ public class ReminderHelper {
    * Removes all pending reminders and clears notifications already shown
    */
   public static void removeAllReminders(Context context) {
+    cancelAllReminders(context);
+    new NotificationsHelper(context).cancelAll();
+  }
+
+  /**
+   * Cancels every pending reminder without dismissing notifications already shown
+   */
+  public static void cancelAllReminders(Context context) {
     for (Note note : DbHelper.getInstance().getAllNotesWithReminder()) {
       removeReminder(context, note);
     }
-    new NotificationsHelper(context).cancelAll();
+  }
+
+  /**
+   * Schedules a reminder for every note that has one that hasn't been fired yet
+   */
+  public static void scheduleAllReminders(Context context) {
+    for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
+      addReminder(context, note);
+    }
   }
 
   public static void showReminderMessage(String reminderString) {

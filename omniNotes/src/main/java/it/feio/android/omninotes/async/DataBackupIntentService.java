@@ -32,9 +32,7 @@ import android.os.Build.VERSION_CODES;
 import com.lazygeniouz.dfc.file.DocumentFileCompat;
 import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.omninotes.MainActivity;
-import it.feio.android.omninotes.OmniNotes;
 import it.feio.android.omninotes.R;
-import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.exceptions.BackupException;
 import it.feio.android.omninotes.helpers.BackupHelper;
 import it.feio.android.omninotes.helpers.DocumentFileHelper;
@@ -42,7 +40,6 @@ import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.notifications.NotificationChannels.NotificationChannelNames;
 import it.feio.android.omninotes.helpers.notifications.NotificationsHelper;
 import it.feio.android.omninotes.models.Attachment;
-import it.feio.android.omninotes.models.Note;
 import it.feio.android.omninotes.models.listeners.OnAttachingFileListener;
 import it.feio.android.omninotes.utils.ReminderHelper;
 
@@ -105,10 +102,13 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
       throw new BackupException("Backup folder not found", new RuntimeException());
     }
 
-    BackupHelper.importNotes(backupDir.get());
-    BackupHelper.importAttachments(backupDir.get(), mNotificationsHelper);
+    try {
+      BackupHelper.restoreNotes(backupDir.get());
+      BackupHelper.importAttachments(backupDir.get(), mNotificationsHelper);
+    } finally {
+      ReminderHelper.scheduleAllReminders(getBaseContext());
+    }
 
-    resetReminders();
     mNotificationsHelper.cancel();
 
     createNotification(intent, this, getString(R.string.data_import_completed),
@@ -168,17 +168,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
       notificationsHelper.setVibration();
     }
     notificationsHelper.show();
-  }
-
-
-  /**
-   * Schedules reminders
-   */
-  private void resetReminders() {
-    LogDelegate.d("Resetting reminders");
-    for (Note note : DbHelper.getInstance().getNotesWithReminderNotFired()) {
-      ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
-    }
   }
 
 
