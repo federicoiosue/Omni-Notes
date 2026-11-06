@@ -21,6 +21,7 @@ import static it.feio.android.omninotes.utils.ConstantsBase.INTENT_CATEGORY;
 import static it.feio.android.omninotes.utils.ConstantsBase.PREF_NAVIGATION;
 import static java.lang.Integer.parseInt;
 
+import android.app.Dialog;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -49,6 +50,8 @@ import java.util.Calendar;
 
 public class CategoryActivity extends AppCompatActivity implements
     ColorChooserDialog.ColorCallback {
+
+  private static final String TOP_INDEX = "top_index";
 
   private ActivityCategoryBinding binding;
 
@@ -108,8 +111,36 @@ public class CategoryActivity extends AppCompatActivity implements
 
   @Override
   public void onColorSelection(@NonNull ColorChooserDialog colorChooserDialog, int color) {
+    if (!shouldApplyColor(isCustomTabVisible(colorChooserDialog),
+        getTopIndex(colorChooserDialog))) {
+      LogDelegate.d("No color selected, keeping the current one");
+      return;
+    }
     BitmapUtils.changeImageViewDrawableColor(binding.colorChooser, color);
     selectedColor = color;
+  }
+
+  /**
+   * Mirrors the internal state of MaterialDialogs 0.9.6.0 {@code ColorChooserDialog}: it reports a
+   * color on DONE even when the user only browsed the CUSTOM and PRESETS tabs, falling back to the
+   * theme accent. Re-check both fields if that dependency is ever upgraded.
+   */
+  static boolean shouldApplyColor(boolean customTabVisible, int topIndex) {
+    return customTabVisible || topIndex > -1;
+  }
+
+  private static boolean isCustomTabVisible(ColorChooserDialog colorChooserDialog) {
+    Dialog dialog = colorChooserDialog.getDialog();
+    if (dialog == null) {
+      return false;
+    }
+    View customFrame = dialog.findViewById(R.id.md_colorChooserCustomFrame);
+    return customFrame != null && customFrame.getVisibility() == View.VISIBLE;
+  }
+
+  private static int getTopIndex(ColorChooserDialog colorChooserDialog) {
+    Bundle arguments = colorChooserDialog.getArguments();
+    return arguments == null ? -1 : arguments.getInt(TOP_INDEX, -1);
   }
 
   @Override
