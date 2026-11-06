@@ -1931,7 +1931,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     notificationsHelper.getBuilder()
         .addAction(R.drawable.ic_material_reminder_time_light, getContext().getString(R.string.done), unpinIntent);
 
-    notificationsHelper.show(note.get_id());
+    notificationsHelper.show(getNotificationId(note));
+  }
+
+  private long getNotificationId(Note note) {
+    return note.get_id() != null ? note.get_id() : System.currentTimeMillis();
   }
 
   /**

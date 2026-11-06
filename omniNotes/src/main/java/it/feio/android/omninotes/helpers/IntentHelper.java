@@ -29,6 +29,7 @@ import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import it.feio.android.omninotes.models.Note;
+import java.util.Calendar;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -75,7 +76,9 @@ public class IntentHelper {
   }
 
   static int getUniqueRequestCode(Note note) {
-    return note.get_id().intValue();
+    long longCode = note.get_id() != null ? note.get_id()
+        : Calendar.getInstance().getTimeInMillis() / 1000L;
+    return (int) longCode;
   }
 
 }

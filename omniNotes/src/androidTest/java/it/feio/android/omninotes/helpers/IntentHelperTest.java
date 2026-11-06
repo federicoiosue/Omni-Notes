@@ -70,4 +70,21 @@ public class IntentHelperTest extends BaseAndroidTestCase {
     assertEquals(now.intValue(), uniqueRequestCode);
   }
 
+  @Test
+  public void getUniqueRequestCodeForNoteWithoutId() {
+    Note note = new Note();
+
+    int requestCode = IntentHelper.getUniqueRequestCode(note);
+
+    assertTrue(requestCode > 0);
+  }
+
+  @Test
+  public void getNotePendingIntentForNoteWithoutId() {
+    Note note = new Note();
+    note.setTitle(NOTE_TITLE);
+
+    IntentHelper.getNotePendingIntent(testContext, SnoozeActivity.class, ACTION, note);
+  }
+
 }
