@@ -1017,20 +1017,20 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         .content(R.string.empty_trash_confirmation)
         .positiveText(R.string.ok)
         .onPositive((dialog, which) -> {
+          List<Note> notesToDelete = new ArrayList<>(listAdapter.getNotes());
           boolean mustDeleteLockedNotes = false;
-          for (int i = 0; i < listAdapter.getItemCount(); i++) {
-            selectedNotes.add(listAdapter.getItem(i));
-            mustDeleteLockedNotes = mustDeleteLockedNotes || listAdapter.getItem(i).isLocked();
+          for (Note note : notesToDelete) {
+            mustDeleteLockedNotes = mustDeleteLockedNotes || note.isLocked();
           }
           if (mustDeleteLockedNotes) {
-            mainActivity.requestPassword(mainActivity, getSelectedNotes(),
+            mainActivity.requestPassword(mainActivity, notesToDelete,
                 passwordConfirmed -> {
                   if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
-                    deleteNotesExecute();
+                    deleteNotesExecute(notesToDelete);
                   }
                 });
           } else {
-            deleteNotesExecute();
+            deleteNotesExecute(notesToDelete);
           }
         }).build().show();
   }
@@ -1392,9 +1392,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Performs notes permanent deletion after confirmation by the user
    */
   private void deleteNotesExecute() {
-    listAdapter.remove(getSelectedNotes());
-    new NoteProcessorDelete(getSelectedNotes()).process();
+    deleteNotesExecute(getSelectedNotes());
     selectedNotes.clear();
+  }
+
+
+  private void deleteNotesExecute(List<Note> notesToDelete) {
+    listAdapter.remove(notesToDelete);
+    new NoteProcessorDelete(notesToDelete).process();
     finishActionMode();
     mainActivity.showMessage(R.string.note_deleted, ONStyle.ALERT);
   }
