@@ -137,6 +137,7 @@ import it.feio.android.omninotes.db.DbHelper;
 import it.feio.android.omninotes.exceptions.checked.ContentSecurityException;
 import it.feio.android.omninotes.exceptions.checked.UnhandledIntentException;
 import it.feio.android.omninotes.helpers.AttachmentsHelper;
+import it.feio.android.omninotes.helpers.ChecklistDragListenerGuard;
 import it.feio.android.omninotes.helpers.IntentHelper;
 import it.feio.android.omninotes.helpers.LogDelegate;
 import it.feio.android.omninotes.helpers.NumberHelper;
@@ -1231,6 +1232,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     // Switches the views
     if (newView != null) {
       mChecklistManager.replaceViews(toggleChecklistView, newView);
+      if (newView instanceof CheckListView) {
+        ChecklistDragListenerGuard.install((CheckListView) newView);
+      }
       toggleChecklistView = newView;
       animate(toggleChecklistView).alpha(1).scaleXBy(0).scaleX(1).scaleYBy(0).scaleY(1);
       noteTmp.setChecklist(!noteTmp.isChecklist());
