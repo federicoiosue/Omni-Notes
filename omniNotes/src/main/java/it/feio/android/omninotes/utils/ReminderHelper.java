@@ -62,6 +62,7 @@ public class ReminderHelper {
 
         if (!alarmManager.canScheduleExactAlarms()) {
           Intent intent = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
           context.startActivity(intent);
           return;
         }

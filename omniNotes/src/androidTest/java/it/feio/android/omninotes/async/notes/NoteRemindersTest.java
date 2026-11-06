@@ -74,6 +74,32 @@ public class NoteRemindersTest extends BaseAndroidTestCase {
   }
 
   @Test
+  public void restoringFromTrashNavigationReArmsReminder() {
+    var context = OmniNotes.getAppContext();
+    var note = createRemindedNote("Restore navigation rearm");
+    ReminderHelper.removeReminder(context, note);
+    assertFalse(ReminderHelper.checkReminder(context, note));
+
+    new NoteProcessorTrash(List.of(note), false).processNote(note);
+
+    assertTrue(ReminderHelper.checkReminder(context, note));
+  }
+
+  @Test
+  public void reArmingAnExpiredReminderIsANoOp() {
+    var context = OmniNotes.getAppContext();
+    var note = createRemindedNote("Expired rearm");
+    note.setAlarm(Calendar.getInstance().getTimeInMillis() - 60_000);
+    dbHelper.updateNote(note, false);
+    ReminderHelper.removeReminder(context, note);
+    assertFalse(ReminderHelper.checkReminder(context, note));
+
+    ReminderHelper.addReminder(context, note);
+
+    assertFalse(ReminderHelper.checkReminder(context, note));
+  }
+
+  @Test
   public void deletingNoteCancelsItsReminder() {
     var note = createRemindedNote("Delete rearm");
     var context = OmniNotes.getAppContext();

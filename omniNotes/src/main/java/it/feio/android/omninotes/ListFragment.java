@@ -1677,6 +1677,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       }
     }
 
+    if (undoTrash) {
+      for (Note note : undoNotesMap.values()) {
+        ReminderHelper.addReminder(OmniNotes.getAppContext(), note);
+      }
+    }
+
     listAdapter.notifyDataSetChanged();
 
     selectedNotes.clear();
