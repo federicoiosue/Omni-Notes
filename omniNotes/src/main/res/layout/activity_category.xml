@@ -29,7 +29,7 @@
     android:layout_marginTop="10dp"
     android:gravity="center_horizontal"
     android:hint="@string/category_title"
-    android:inputType="textCapSentences"
+    android:inputType="textCapSentences|textNoSuggestions"
     android:textAppearance="@style/Text.Big"
     android:textColorHint="@color/text_color_lighter"
     android:textColor="@color/text_color"
