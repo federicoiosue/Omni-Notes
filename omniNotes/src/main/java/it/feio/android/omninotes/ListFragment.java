@@ -1188,7 +1188,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   public void onEvent(NotesUpdatedEvent notesUpdatedEvent) {
     notesUpdatedEvent.getNotes().stream().forEach(updatedNote ->
-        IntStream.range(0, listAdapter.getNotes().size() - 1)
+        IntStream.range(0, listAdapter.getNotes().size())
             .filter(i -> listAdapter.getItem(i).get_id().equals(updatedNote.get_id()))
             .forEach(i -> {
               listAdapter.getNotes().set(i, updatedNote);
